@@ -32,7 +32,8 @@ namespace ArabErp.DAL
             {
 
                 string sql = @"select O.*,SalesInvoiceRefNo,SalesInvoiceDate,CustomerName Customer,Concat(C.DoorNo,',',C.Street,',',C.Phone)CustomerAddress,S.CustomerOrderRef,
-                                SI.PaymentTerms,V.RegistrationNo,J.JobCardNo,D.DeliveryChallanRefNo,SI.TotalAmount,ORR.CountryName,CU.CurrencyName 
+                                SI.PaymentTerms,V.RegistrationNo,J.JobCardNo,D.DeliveryChallanRefNo,SI.TotalAmount,ORR.CountryName,CU.CurrencyName,
+								 U.UserName,U.Signature,UI.UserName,UI.Signature
 								 from SalesInvoice SI
                                 inner join SaleOrder S on S.SaleOrderId=SI.SaleOrderId
                                 inner join Customer C ON C.CustomerId=S.CustomerId
@@ -42,6 +43,8 @@ namespace ArabErp.DAL
 								left JOIN Currency CU ON CU.CurrencyId=O.CurrencyId
                                 left join VehicleInPass V ON V.VehicleInPassId=J.InPassId
 								left join DeliveryChallan D ON D.JobCardId=J.JobCardId 
+								left join [User] U ON U.UserId=SI.IsApprovedBy
+									left join [User] UI ON U.UserId=SI.CreatedBy
                                 where SalesInvoiceId=@SalesInvoiceId";
 
                 var objSalesInvoice = connection.Query<SalesInvoice>(sql, new
@@ -502,6 +505,41 @@ namespace ArabErp.DAL
                 var objInvoiceItem = connection.Query<SalesInvoiceItem>(sql, new { Id = Id }).ToList<SalesInvoiceItem>();
 
                 return objInvoiceItem;
+            }
+        }
+
+        public IList<SalesInvoice> ApprovalList( int OrganizationId)
+        { 
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                INV.SalesInvoiceId,
+	                                INV.SalesInvoiceRefNo,
+	                                INV.SalesInvoiceDate,
+	                                SO.SaleOrderRefNo,
+	                                SO.SaleOrderDate,
+	                                ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
+                                FROM SalesInvoice INV
+                                LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
+                                WHERE 
+								 INV.OrganizationId=@OrganizationId and INV.IsApproved=0
+                                ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
+
+                return connection.Query<SalesInvoice>(query, new
+                {
+                    OrganizationId = OrganizationId
+                   
+
+                }).ToList();
+            }
+        }
+        public int UpdateSIApproval(int id,DateTime date,int user)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Update SalesInvoice set IsApproved=1,IsApprovedDate=@date,IsApprovedBy=@user  WHERE SalesInvoiceId=@id";
+                return connection.Execute(sql, new { id = id, date = date, user = user });
+
             }
         }
     }

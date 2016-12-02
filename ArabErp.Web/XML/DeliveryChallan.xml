@@ -10,14 +10,29 @@
                 <xs:element name="DeliveryChallanRefNo" type="xs:string" minOccurs="0" />
                 <xs:element name="DeliveryChallanDate" type="xs:string" minOccurs="0" />
                 <xs:element name="Customer" type="xs:string" minOccurs="0" />
+                <xs:element name="CDoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="CStreet" type="xs:string" minOccurs="0" />
+                <xs:element name="CCountry" type="xs:string" minOccurs="0" />
+                <xs:element name="SaleRefNo" type="xs:string" minOccurs="0" />
                 <xs:element name="SONoDate" type="xs:string" minOccurs="0" />
-                <xs:element name="JCNoDate" type="xs:string" minOccurs="0" />
+                <xs:element name="JobcardNo" type="xs:string" minOccurs="0" />
+                <xs:element name="JCDate" type="xs:string" minOccurs="0" />
                 <xs:element name="RegistrationNo" type="xs:string" minOccurs="0" />
+                <xs:element name="ChassisNo" type="xs:string" minOccurs="0" />
                 <xs:element name="WorkDesc" type="xs:string" minOccurs="0" />
                 <xs:element name="VehicleModel" type="xs:string" minOccurs="0" />
                 <xs:element name="Employee" type="xs:string" minOccurs="0" />
                 <xs:element name="PaymentTerms" type="xs:string" minOccurs="0" />
                 <xs:element name="SpecialRemarks" type="xs:string" minOccurs="0" />
+                <xs:element name="QuotationRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="FreezerName" type="xs:string" minOccurs="0" />
+                <xs:element name="FreezerPartNo" type="xs:string" minOccurs="0" />
+                <xs:element name="BoxName" type="xs:string" minOccurs="0" />
+                <xs:element name="BoxPartNo" type="xs:string" minOccurs="0" />
+                <xs:element name="FreezerId" type="xs:string" minOccurs="0" />
+                <xs:element name="BoxId" type="xs:string" minOccurs="0" />
+                <xs:element name="SupplyOrderNo" type="xs:string" minOccurs="0" />
+                <xs:element name="SupplyOrderDate" type="xs:string" minOccurs="0" />
                 <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
                 <xs:element name="Street" type="xs:string" minOccurs="0" />
                 <xs:element name="State" type="xs:string" minOccurs="0" />
@@ -29,16 +44,19 @@
                 <xs:element name="Zip" type="xs:string" minOccurs="0" />
                 <xs:element name="Image1" type="xs:string" minOccurs="0" />
                 <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="LPONo" type="xs:string" minOccurs="0" />
+                <xs:element name="LPODate" type="xs:string" minOccurs="0" />
+                <xs:element name="CreatedUser" type="xs:string" minOccurs="0" />
+                <xs:element name="CreateSignature" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
           <xs:element name="Items">
             <xs:complexType>
               <xs:sequence>
-                <xs:element name="SerialNo" type="xs:string" minOccurs="0" />
                 <xs:element name="ItemName" type="xs:string" minOccurs="0" />
-                <xs:element name="WarrantyStartDate" type="xs:string" minOccurs="0" />
-                <xs:element name="WarrantyExpireDate" type="xs:string" minOccurs="0" />
+                <xs:element name="Unit" type="xs:string" minOccurs="0" />
+                <xs:element name="Quantity" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -47,16 +65,55 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC/4</DeliveryChallanRefNo>
-    <DeliveryChallanDate>16-Nov-2016</DeliveryChallanDate>
-    <Customer>Abdul Asiz Trading Est</Customer>
-    <SONoDate>SO/5 - 15 Nov 2016</SONoDate>
-    <JCNoDate>JC/2539 - 15 Nov 2016</JCNoDate>
-    <RegistrationNo>KL-36 B 7199</RegistrationNo>
-    <WorkDesc>Thermoking T600-R + 100mm 3300x2000x2100mm- MITS</WorkDesc>
-    <Employee>RAJESH</Employee>
+    <DeliveryChallanRefNo>DC/3</DeliveryChallanRefNo>
+    <DeliveryChallanDate>30-Nov-2016</DeliveryChallanDate>
+    <Customer>Al Nafaihi Ice  Factory, Shamal</Customer>
+    <CDoorNo>Doha, Qatar</CDoorNo>
+    <CCountry>INDIA</CCountry>
+    <SaleRefNo>SO/1</SaleRefNo>
+    <SONoDate>28 Nov 2016</SONoDate>
+    <JobcardNo>JC/2</JobcardNo>
+    <JCDate>28-Nov-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>134</RegistrationNo>
+    <ChassisNo>45</ChassisNo>
+    <WorkDesc>itmas + itm4</WorkDesc>
+    <VehicleModel>JAC HFC 1251 Truck -6x4 Chassis</VehicleModel>
+    <Employee>Giriesh Gopi</Employee>
+    <SpecialRemarks>dgdfg</SpecialRemarks>
+    <QuotationRefNo>SQ/1</QuotationRefNo>
+    <FreezerName>itmas</FreezerName>
+    <FreezerPartNo>sads</FreezerPartNo>
+    <BoxName>itm4</BoxName>
+    <BoxPartNo>rtr</BoxPartNo>
+    <FreezerId>1383</FreezerId>
+    <BoxId>1384</BoxId>
+    <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <Country>UAE</Country>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+    <LPONo>YTY45</LPONo>
+    <LPODate>28-Nov-2016</LPODate>
+    <CreatedUser>ihits</CreatedUser>
+    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\a0e7a4f0-3793-4f73-9574-e33e48be78a9.png</CreateSignature>
   </Head>
+  <Items>
+    <ItemName>itm4</ItemName>
+    <Unit>Nos</Unit>
+    <Quantity>1.00</Quantity>
+  </Items>
+  <Items>
+    <ItemName>itmas</ItemName>
+    <Unit>Nos</Unit>
+    <Quantity>1.00</Quantity>
+  </Items>
+  <Items>
+    <ItemName>100mm 2300x1700x1700mm- ISUZU</ItemName>
+    <Unit>Nos</Unit>
+    <Quantity>30.00</Quantity>
+  </Items>
+  <Items>
+    <ItemName>100mm 2300x1700x1700mm- ISUZU</ItemName>
+    <Unit>Nos</Unit>
+    <Quantity>50.00</Quantity>
+  </Items>
 </NewDataSet>

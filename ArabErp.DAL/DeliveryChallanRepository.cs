@@ -246,27 +246,62 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @"  SELECT DISTINCT O.*,ORR.CountryName,DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,C.CustomerName Customer,
-                                ISNULL(SO.SaleOrderRefNo,'')+ ' - '  +CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
-                                ISNULL(JC.JobCardNo,'') + ' - ' +CONVERT(varchar,JC.JobCardDate,106)JobCardNo,VI. RegistrationNo,
-                                WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeName,SO.PaymentTerms,DC.Remarks
-                                FROM DeliveryChallan DC
-                                INNER JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
-                                INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
-                                INNER JOIN SaleOrderItem SOI ON SOI.SaleOrderId=SOI.SaleOrderId AND JC.SaleOrderItemId=SOI.SaleOrderItemId
-                                INNER JOIN Customer C ON C.CustomerId=SO.CustomerId 
-                                INNER JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
+                string sql = @"
+								
+								SELECT DISTINCT O.*,
+								ORR.CountryName,
+								DC.DeliveryChallanId,
+								DeliveryChallanRefNo,
+								DeliveryChallanDate,
+								C.CustomerName Customer,
+								C.DoorNo CDoorNo,
+								C.Street CStreet,
+								CCC.CountryName CCountry,
+								ISNULL(SO.SaleOrderRefNo,'')SaleRefNo,CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
+								ISNULL(JC.JobCardNo,'')JobcardNo,CONVERT(varchar,JC.JobCardDate,106)JobCardDate,
+								VI. RegistrationNo,VI.ChassisNo,
+								WI.WorkDescr,
+								VM.VehicleModelName VehicleModel,
+								E.EmployeeName,
+								SO.PaymentTerms,
+								DC.Remarks,
+								SQ.QuotationRefNo,
+								I.[ItemName] FreezerName,I.ItemId FreezerId,
+								ISNULL(I.PartNo,'') FreezerPartNo,
+								II.ItemName BoxName, II.ItemId BoxId,
+								ISNULL(II.PartNo, '') BoxPartNo,
+								LPO.SupplyOrderNo,
+								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig,
+								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate
+	                            FROM DeliveryChallan DC
+                                left JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
+                                left JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
+								left JOIN SalesQuotation SQ ON SQ.SalesQuotationId=SO.SalesQuotationId
+                                left JOIN SaleOrderItem SOI ON JC.SaleOrderItemId=SOI.SaleOrderItemId
+                                left JOIN Customer C ON C.CustomerId=SO.CustomerId 
+								left join Country CCC ON CCC.CountryId=c.Country
+                                left JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
                                 LEFT JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
-                                INNER JOIN Employee E ON E.EmployeeId=DC.EmployeeId
-                                inner join Organization O ON  DC.OrganizationId=O.OrganizationId
-								 LEFT  JOIN Country ORR ON ORR.CountryId=O.Country
+                                left JOIN Employee E ON E.EmployeeId=DC.EmployeeId
+                                left join Organization O ON  DC.OrganizationId=O.OrganizationId
+								LEFT  JOIN Country ORR ON ORR.CountryId=O.Country
                                 LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
-                                WHERE  DeliveryChallanId=@DeliveryChallanId";
+								LEFT join WorkShopRequest W ON W.SaleOrderId=SO.SaleOrderId
+								LEFT join PurchaseRequest PR ON PR.WorkShopRequestId=w.WorkShopRequestId
+								LEFT join PurchaseRequestItem PRI ON pRI.PurchaseRequestId=PR.PurchaseRequestId
+								left join SupplyOrderItem LPOI ON PRI.PurchaseRequestItemId = LPOI.PurchaseRequestItemId
+								LEFT JOIN SupplyOrder LPO ON LPOI.SupplyOrderId = LPO.SupplyOrderId
+								left join [User] U ON U.UserId=DC.CreatedBy
+							    left join Item I ON I.ItemId=JC.[FreezerUnitId]
+								left join Item II ON II.ItemId=JC.[BoxId]
+								WHERE DC.DeliveryChallanId=@DeliveryChallanId";
 
                 var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new
                 {
                     DeliveryChallanId = DeliveryChallanId,
-                    OrganizationId = OrganizationId
+                    OrganizationId = OrganizationId,
+                   
+                    
                 }).First<DeliveryChallan>();
 
                 return objDeliveryChallan;
@@ -355,18 +390,25 @@ namespace ArabErp.DAL
                 }
             }
         }
-        public List<ItemBatch> GetDeliveryChallanDTPrint(int DeliveryChallanId)
+        public List<ItemVsBom> GetDeliveryChallanDTPrint(int FreezerId,int BoxId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT DISTINCT ItemBatchId,SerialNo,ItemName,WarrantyStartDate,WarrantyExpireDate 
-                                     FROM ItemBatch IB 
-                                     LEFT JOIN GRNItem GI ON GI.GRNItemId=IB.GRNItemId
-                LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
-                                     INNER JOIN Item I ON (I.ItemId=GI.ItemId OR OS.ItemId = I.ItemId)
-                                     WHERE DeliveryChallanId = @DeliveryChallanId";
+                string sql = @"select I.itemname ItemName, 'Nos' UnitName, 1 Quantity from item I where itemid=@BoxId
+						union All 
+						select I.itemname, 'Nos', 1 from Item I where ItemId=@FreezerId
+						union All				
+						select I.[ItemName],U.UnitName ,IB.Quantity from [dbo].[ItemVsBom] IB
+						inner join Item I ON I.ItemId=IB.BomItemId 
+						inner join unit U ON U.UnitId=I.ItemUnitId
+						where IB.itemId=@FreezerId
+						UNION ALL
+						select I.[ItemName],U.UnitName,IB.Quantity from [dbo].[ItemVsBom] IB
+						inner join Item I ON I.ItemId=IB.BomItemId 
+						inner join unit U ON U.UnitId=I.ItemUnitId
+						where IB.itemId=@BoxId";
 
-                return connection.Query<ItemBatch>(sql, new { DeliveryChallanId = DeliveryChallanId }).ToList();
+                return connection.Query<ItemVsBom>(sql, new { FreezerId = FreezerId, BoxId = BoxId }).ToList();
             }
         }
 

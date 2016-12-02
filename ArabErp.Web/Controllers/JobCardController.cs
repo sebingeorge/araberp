@@ -47,10 +47,10 @@ namespace ArabErp.Web.Controllers
             }
         }
         public ActionResult Create(int? Id, int? isProjectBased)//SaleOrderItemId is received here
-        {
+         {
             try
             {
-                FillBay();
+               
                 FillEmployee();
 
                 JobCardRepository repo = new JobCardRepository();
@@ -63,6 +63,7 @@ namespace ArabErp.Web.Controllers
                 model.JobCardTasks.Add(new JobCardTask() { TaskDate = DateTime.Now });
                 model.JobCardDate = DateTime.Now;
                 model.RequiredDate = DateTime.Now;
+                FillBay(model.isService);
 
                 if (model.isService == 1)
                     FillTaks(model.WorkDescriptionId);
@@ -149,10 +150,10 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-        public void FillBay()
+        public void FillBay(int isService)
         {
             JobCardRepository repo = new JobCardRepository();
-            var result = repo.GetBayList();
+            var result = repo.GetBayList(isService);
             ViewBag.BayList = new SelectList(result, "BayId", "BayName");
         }
         public void FillBay1(int JobCardId)
@@ -260,6 +261,12 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
             ds.Tables["Head"].Columns.Add("Box");
+            ds.Tables["Head"].Columns.Add("Complaints");
+            ds.Tables["Head"].Columns.Add("BoxMake");
+            ds.Tables["Head"].Columns.Add("BoxNo");
+            ds.Tables["Head"].Columns.Add("FreezerMake");
+            ds.Tables["Head"].Columns.Add("FreezerModel");
+            ds.Tables["Head"].Columns.Add("VehicleMake");
             
             //-------DT
             ds.Tables["Items"].Columns.Add("TaskDate");
@@ -297,7 +304,13 @@ namespace ArabErp.Web.Controllers
             dr["Zip"] = Head.Zip;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
-            dr["Box"] =Head.BoxName; 
+            dr["Box"] = Head.BoxName;
+            dr["Complaints"] = Head.Complaints;
+            dr["BoxMake"] = Head.BoxMake;
+            dr["BoxNo"] = Head.BoxNo;
+            dr["FreezerMake"] = Head.FreezerMake;
+            dr["FreezerModel"] = Head.FreezerModel;
+            dr["VehicleMake"] = Head.VehicleMake; 
             ds.Tables["Head"].Rows.Add(dr);
 
             JobCardTaskRepository repo1 = new JobCardTaskRepository();
@@ -322,6 +335,23 @@ namespace ArabErp.Web.Controllers
                 //dri["EndTime"] = JCItem.EndTime;
                 dri["Hours"] = JCItem.Hours;
                 ds.Tables["Items"].Rows.Add(dri);
+            }
+            if (Items.Count >= 0)
+            {
+                int n =23-Items.Count;
+
+                for (int i = 0; i <= n; i++)
+                {
+
+                    DataRow dri = ds.Tables["Items"].NewRow();
+                    dri["TaskDate"] = "";
+                    dri["Employee"] = "";
+                    dri["Description"] = "";
+                    //dri["StartTime"] = JCItem.StartTime;
+                    //dri["EndTime"] = JCItem.EndTime;
+                    dri["Hours"] = "";
+                    ds.Tables["Items"].Rows.Add(dri);
+                }
             }
 
             ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "JobCard.xml"), XmlWriteMode.WriteSchema);

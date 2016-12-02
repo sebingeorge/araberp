@@ -418,6 +418,8 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("SupFax");
             ds.Tables["Head"].Columns.Add("SupEmail");
             ds.Tables["Head"].Columns.Add("SupPostBoxNo");
+            ds.Tables["Head"].Columns.Add("CreatedDes");
+            ds.Tables["Head"].Columns.Add("ApproveDes");
 
 
 
@@ -452,6 +454,8 @@ namespace ArabErp.Web.Controllers
             dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
             dr["ApprovedUser"] = Head.ApprovedUser;
             dr["ApproveSignature"] = Server.MapPath("~/App_Images/") + Head.ApprovedUsersig;
+            dr["CreatedDes"] = Head.CreatedDes;
+            dr["ApproveDes"] = Head.ApprovedDes;
             dr["CountryName"] = Head.CountryName;
            // dr["CurrencyName"] = Head.CurrencyName;
 

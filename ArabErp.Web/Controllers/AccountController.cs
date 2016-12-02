@@ -289,6 +289,7 @@ namespace ArabErp.Web.Controllers
                 {
                     model.Companies.Add(item);
                 }
+                FillModulesDropdown(model.Module);
                 return View(model);
             }
             else
@@ -296,7 +297,6 @@ namespace ArabErp.Web.Controllers
                 //var users = (new UserRepository().GetUsers());
                 //User model = (from a in users where a.UserId == Id select a).Single();
                 FillDesignation();
-                
                 User model = new UserRepository().GetUserInfo(Id);
                // model.DesignationId = System.Collections.Generic.List< DropdownRepository().Designation(), "Id", "Name");
                 model.Module = new System.Collections.Generic.List<ModuleVsUser>();
@@ -326,9 +326,20 @@ namespace ArabErp.Web.Controllers
                 {
                     model.Companies.Add(item);
                 }
+                FillModulesDropdown(model.Module);
                 return View(model);
             }
 
+        }
+
+        private void FillModulesDropdown(List<ModuleVsUser> list)
+        {
+            List<Dropdown> moduleNames = new List<Dropdown>();
+            foreach (var item in list)
+            {
+                moduleNames.Add(new Dropdown { Id = item.ModuleId, Name = item.ModuleName });
+            }
+            ViewBag.moduleList = new SelectList(moduleNames, "Id", "Name");
         }
 
         //

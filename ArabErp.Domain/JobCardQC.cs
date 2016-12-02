@@ -35,6 +35,8 @@ namespace ArabErp.Domain
         public bool isActive { get; set; }
         public string QCStatus { get; set; }
         public string ChassisNo { get; set; }
+        public string Remarks { get; set; }
+
 
         public string DoorNo { get; set; }
 

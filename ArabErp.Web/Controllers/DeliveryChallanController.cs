@@ -205,14 +205,29 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("DeliveryChallanRefNo");
             ds.Tables["Head"].Columns.Add("DeliveryChallanDate");
             ds.Tables["Head"].Columns.Add("Customer");
+            ds.Tables["Head"].Columns.Add("CDoorNo");
+            ds.Tables["Head"].Columns.Add("CStreet");
+            ds.Tables["Head"].Columns.Add("CCountry");
+            ds.Tables["Head"].Columns.Add("SaleRefNo");
             ds.Tables["Head"].Columns.Add("SONoDate");
-            ds.Tables["Head"].Columns.Add("JCNoDate");
+            ds.Tables["Head"].Columns.Add("JobcardNo");
+            ds.Tables["Head"].Columns.Add("JCDate");
             ds.Tables["Head"].Columns.Add("RegistrationNo");
+            ds.Tables["Head"].Columns.Add("ChassisNo");
             ds.Tables["Head"].Columns.Add("WorkDesc");
             ds.Tables["Head"].Columns.Add("VehicleModel");
             ds.Tables["Head"].Columns.Add("Employee");
             ds.Tables["Head"].Columns.Add("PaymentTerms");
             ds.Tables["Head"].Columns.Add("SpecialRemarks");
+            ds.Tables["Head"].Columns.Add("QuotationRefNo");
+            ds.Tables["Head"].Columns.Add("FreezerName");
+            ds.Tables["Head"].Columns.Add("FreezerPartNo");
+            ds.Tables["Head"].Columns.Add("BoxName");
+            ds.Tables["Head"].Columns.Add("BoxPartNo");
+            ds.Tables["Head"].Columns.Add("FreezerId");
+            ds.Tables["Head"].Columns.Add("BoxId");
+            ds.Tables["Head"].Columns.Add("SupplyOrderNo");
+            ds.Tables["Head"].Columns.Add("SupplyOrderDate");
             ds.Tables["Head"].Columns.Add("DoorNo");
             ds.Tables["Head"].Columns.Add("Street");
             ds.Tables["Head"].Columns.Add("State");
@@ -224,12 +239,16 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Zip");
             ds.Tables["Head"].Columns.Add("Image1");
             ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("LPONo");
+            ds.Tables["Head"].Columns.Add("LPODate");
+            ds.Tables["Head"].Columns.Add("CreatedUser");
+            ds.Tables["Head"].Columns.Add("CreateSignature");
             //ds.Tables["Head"].Columns.Add("TransportWarrantyExpiryDate");
             //-------DT
-            ds.Tables["Items"].Columns.Add("SerialNo");
             ds.Tables["Items"].Columns.Add("ItemName");
-            ds.Tables["Items"].Columns.Add("WarrantyStartDate");
-            ds.Tables["Items"].Columns.Add("WarrantyExpireDate");
+            ds.Tables["Items"].Columns.Add("Unit");
+            ds.Tables["Items"].Columns.Add("Quantity");
+       
 
             DeliveryChallanRepository repo = new DeliveryChallanRepository();
             var Head = repo.GetDeliveryChallanHD(Id, OrganizationId);
@@ -238,13 +257,29 @@ namespace ArabErp.Web.Controllers
             dr["DeliveryChallanRefNo"] = Head.DeliveryChallanRefNo;
             dr["DeliveryChallanDate"] = Head.DeliveryChallanDate.ToString("dd-MMM-yyyy");
             dr["Customer"] = Head.Customer;
+            dr["CDoorNo"] = Head.CDoorNo;
+            dr["CStreet"] = Head.CStreet;
+            dr["CCountry"] = Head.CCountry;
+            dr["SaleRefNo"] = Head.SaleRefNo;
             dr["SONoDate"] = Head.SONODATE;
-            dr["JCNoDate"] = Head.JobCardNo;
+            dr["JobcardNo"] = Head.JobCardNo;
+            dr["JCDate"] = Head.JobCardDate;
             dr["RegistrationNo"] = Head.RegistrationNo;
+            dr["ChassisNo"] = Head.ChassisNo;
             dr["WorkDesc"] = Head.WorkDescr;
             dr["VehicleModel"] = Head.VehicleModel;
             dr["Employee"] = Head.EmployeeName;
             dr["PaymentTerms"] = Head.PaymentTerms;
+            dr["SpecialRemarks"] = Head.Remarks;
+            dr["QuotationRefNo"] = Head.QuotationRefNo;
+            dr["FreezerName"] = Head.FreezerName;
+            dr["FreezerId"] = Head.FreezerId;
+            dr["FreezerPartNo"] = Head.FreezerPartNo;
+            dr["BoxId"] = Head.BoxId;
+            dr["BoxName"] = Head.BoxName;
+            dr["BoxPartNo"] = Head.BoxPartNo;
+            dr["SupplyOrderNo"] = Head.SupplyOrderNo;
+            dr["SupplyOrderDate"] = Head.SupplyOrderDate.ToString("dd/MMM/yyyy");
             dr["SpecialRemarks"] = Head.Remarks;
             dr["DoorNo"] = Head.DoorNo;
             dr["Street"] = Head.Street;
@@ -258,26 +293,29 @@ namespace ArabErp.Web.Controllers
             dr["OrganizationName"] = Head.OrganizationName;
             //dr["TransportWarrantyExpiryDate"] = Head.tra;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            dr["LPONo"] = Head.LPONo;
+            dr["LPODate"] = Head.LPODate.ToString("dd/MMM/yyyy");
+            dr["CreatedUser"] = Head.CreatedUser;
+            dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
             ds.Tables["Head"].Rows.Add(dr);
 
 
             DeliveryChallanRepository repo1 = new DeliveryChallanRepository();
-            var Items = repo1.GetDeliveryChallanDTPrint(Id);
+            var Items = repo1.GetDeliveryChallanDTPrint(Head.FreezerId,Head.BoxId);
             foreach (var item in Items)
             {
-                var DCItem = new ItemBatch
+                var DCItem = new ItemVsBom
                 {
-                    SerialNo = item.SerialNo,
                     ItemName = item.ItemName,
-                    WarrantyStartDate = item.WarrantyStartDate,
-                    WarrantyExpireDate = item.WarrantyExpireDate
+                    UnitName = item.UnitName,
+                    Quantity = item.Quantity
+                  
                 };
 
                 DataRow dri = ds.Tables["Items"].NewRow();
-                dri["SerialNo"] = DCItem.SerialNo;
                 dri["ItemName"] = DCItem.ItemName;
-                dri["WarrantyStartDate"] = DCItem.WarrantyStartDate.ToString("dd-MMM-yyyy");
-                dri["WarrantyExpireDate"] = DCItem.WarrantyExpireDate.ToString("dd-MMM-yyyy");
+                dri["Unit"] = DCItem.UnitName;
+                dri["Quantity"] = DCItem.Quantity;
                 ds.Tables["Items"].Rows.Add(dri);
             }
 

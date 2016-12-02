@@ -50,26 +50,27 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>SLI/3</SalesInvoiceRefNo>
-    <SalesInvoiceDate>04-Nov-2016</SalesInvoiceDate>
-    <VehicleOutPassNo>DC/3</VehicleOutPassNo>
-    <CustomerName>Al Ajjaj Limited  Company</CustomerName>
-    <Address> Doha, Qatar,,0</Address>
-    <CustomerOrderRef>SQ/9 - AJJAJ</CustomerOrderRef>
-    <PaymentTerms>40% Advance</PaymentTerms>
-    <RegistrationNo>KL 59 B 7614</RegistrationNo>
-    <JobCardNo>JC/5</JobCardNo>
-    <TotalAmount>54080.00</TotalAmount>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\</Image1>
+    <SalesInvoiceRefNo>SI/1</SalesInvoiceRefNo>
+    <SalesInvoiceDate>29-Nov-2016</SalesInvoiceDate>
+    <VehicleOutPassNo>DC/2</VehicleOutPassNo>
+    <CustomerName>Abdul Asiz Trading Est</CustomerName>
+    <Address>Salwa road, Doha -Qatar,Doha,-</Address>
+    <CustomerOrderRef>1234</CustomerOrderRef>
+    <PaymentTerms>ffg</PaymentTerms>
+    <RegistrationNo>232</RegistrationNo>
+    <JobCardNo>JC/3</JobCardNo>
+    <TotalAmount>110.00</TotalAmount>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
+    <Country>UAE</Country>
     <Currency>QAR</Currency>
   </Head>
   <Items>
     <Quantity>1</Quantity>
-    <WorkDescription>Transportation Work</WorkDescription>
+    <WorkDescription>itmas + itm4</WorkDescription>
     <WorkDescriptionRefNo>WD/6</WorkDescriptionRefNo>
-    <Rate>56000.00</Rate>
-    <Amount>54000.00</Amount>
+    <Rate>110.00</Rate>
+    <Amount>110.00</Amount>
   </Items>
 </NewDataSet>

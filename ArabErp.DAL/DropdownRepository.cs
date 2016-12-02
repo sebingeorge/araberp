@@ -139,6 +139,21 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("select VehicleModelId Id,VehicleModelName Name from VehicleModel WHERE isActive=1").ToList();
             }
         }
+
+        /// <summary>
+        /// Return all part no of items that are in stock (in [StockUpdateTable])
+        /// </summary>
+        /// <param name="stockPointId"></param>
+        /// <param name="organizationId"></param>
+        /// <returns></returns>
+        public IEnumerable PartNoInStockDropdown(int stockPointId, int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"select ItemId Id, PartNo Name from item where ItemId in(select DISTINCT ItemId from StockUpdate where StockPointId=@StockPointId) AND ISNULL(LTRIM(RTRIM(PartNo)), '') <> ''", new { StockPointId = stockPointId }).ToList();
+            }
+        }
+
         /// <summary>
         /// Return all active Customers which in Sales Invoice
         /// </summary>
@@ -187,6 +202,18 @@ namespace ArabErp.DAL
                     DROP TABLE #CUS;").ToList();
             }
         }
+        /// <summary>
+        /// Return all part no from item table where not freezer and box
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable PartNoDropdown2()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT ItemId Id, PartNo Name FROM Item WHERE ISNULL(LTRIM(RTRIM(PartNo)), '') <> '' AND ISNULL(FreezerUnit, 0) = 0 AND ISNULL(Box, 0) = 0").ToList();
+            }
+        }
+
         /// <summary>
         /// Return all customers who have incomplete sale order
         /// </summary>
@@ -376,8 +403,8 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Dropdown>(@"SELECT QuerySheetId Id, QuerySheetRefNo Name FROM QuerySheet WHERE ISNULL(isActive, 1) = 1 
-                 and QuerySheetId not in (select QuerySheetId from SalesQuotation where QuerySheetId is not null) 
-				 and [Type] = 'Costing' and OrganizationId= " + OrganizationId.ToString() + "").ToList();
+                 and QuerySheetId not in (select QuerySheetId from SalesQuotation where QuerySheetId is not null  and [Type] = 'Costing' ) 
+				and OrganizationId= " + OrganizationId.ToString() + "").ToList();
             }
         }
 

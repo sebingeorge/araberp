@@ -70,6 +70,8 @@ namespace ArabErp.Web.Controllers
 
             for (int i = 0; i < model.Items.Count; i++)
             {
+                model.Items[i].Discount = model.Items[i].Discount / model.Items[i].Quantity;
+                model.Items[i].Amount = model.Items[i].Rate - model.Items[i].Discount ?? 0;
                 while (model.Items[i].Quantity > 1)
                 {
                     model.Items.Insert(i + 1, model.Items[i]);
@@ -386,7 +388,16 @@ namespace ArabErp.Web.Controllers
             var res = (new SaleOrderRepository()).GetCurrencyIdByCustKey(cusKey);
             string address = (new SaleOrderRepository()).GetCusomerAddressByKey(cusKey);
             string ContactPerson = (new SaleOrderRepository()).GetContactPerson(cusKey);
-            return Json(new { Success = true, CurrencyName = res.Name, CurrencyId = res.Id, Address = address, ContactPerson = ContactPerson }, JsonRequestBehavior.AllowGet);
+            string Telephone = new SaleOrderRepository().GetCustomerTelephone(cusKey);
+            return Json(new
+            {
+                Success = true,
+                CurrencyName = res.Name,
+                CurrencyId = res.Id,
+                Address = address,
+                ContactPerson = ContactPerson,
+                Telephone = Telephone
+            }, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public JsonResult GetQuationDetailsByKey(int quoKey)
@@ -808,7 +819,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables.Add("Items");
 
             //-------HEAD
-         
+
             ds.Tables["Head"].Columns.Add("SaleOrderNoDate");
             ds.Tables["Head"].Columns.Add("QuotationNoDate");
             ds.Tables["Head"].Columns.Add("CustomerName");
@@ -848,7 +859,7 @@ namespace ArabErp.Web.Controllers
             var Head = repo.GetSaleOrderHD(Id, OrganizationId);
 
             DataRow dr = ds.Tables["Head"].NewRow();
-      
+
             dr["SaleOrderNoDate"] = Head.SaleOrderNoDate;
             dr["QuotationNoDate"] = Head.QuotationNoDate;
             dr["CustomerName"] = Head.CustomerName;
@@ -887,7 +898,7 @@ namespace ArabErp.Web.Controllers
                     Rate = item.Rate,
                     Discount = item.Discount,
                     Amount = item.Amount,
-                 
+
                 };
 
 
@@ -897,7 +908,7 @@ namespace ArabErp.Web.Controllers
                 dri["Rate"] = pritem.Rate;
                 dri["Discount"] = pritem.Discount;
                 dri["Amount"] = pritem.Amount;
-            
+
                 ds.Tables["Items"].Rows.Add(dri);
             }
 
@@ -922,33 +933,97 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-        public ActionResult ServiceEstimate()
+        public ActionResult ServiceOrder(int id = 0)//ServiceEnquiryId is received here
         {
-            FillCustomer();
-            FillCurrency();
-            FillServiceWorkDescription();
-            List<SaleOrderItem> item = new List<SaleOrderItem>();
-            item.Add(new SaleOrderItem { UnitName = "Nos", Quantity = 1 });
-            return View(new SaleOrder { 
-                SaleOrderRefNo = DatabaseCommonRepository.GetNextDocNo(33, OrganizationId),
-                SaleOrderDate = DateTime.Today, 
-                Items = item,
-                isProjectBased = 0,
-                isAfterSales = 1,
-                isService = 1
-            });
+            try
+            {
+                if (id == 0)
+                {
+                    TempData["error"] = "That was an invalid request. Please try again.";
+                    RedirectToAction("Index", "Home");
+                }
+                FillVehicle();
+                FillCustomer();
+                FillServiceWorkDescription();
+                ServiceEnquiry model = new SaleOrderRepository().GetServiceEnquiryDetails(id, OrganizationId);
+                model.SaleOrderRefNo = DatabaseCommonRepository.GetNextDocNo(35, OrganizationId);
+                model.SaleOrderDate = DateTime.Today;
+                model.isProjectBased = 0;
+                model.isService = 1;
+                model.IsConfirmed = 1;
+                model.Items = new List<SaleOrderItem>();
+                model.Items.Add(new SaleOrderItem());
+                return View("ServiceEnquiry", model);
+            }
+            catch (InvalidOperationException)
+            {
+                TempData["error"] = "Requested data could not be found. Please try again.";
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+            return RedirectToAction("PendingEnquiries");
         }
 
         [HttpPost]
-        public ActionResult ServiceEstimate(SaleOrder model)
+        public ActionResult ServiceOrder(ServiceEnquiry model)
         {
             try
             {
                 model.OrganizationId = OrganizationId;
                 model.CreatedBy = UserID.ToString();
-                string ref_no = new SaleOrderRepository().InsertServiceEstimate(model);
+                string ref_no = new SaleOrderRepository().InsertServiceOrder(model);
                 TempData["success"] = "Saved Successfully. Reference No. is " + ref_no;
-                return RedirectToAction("ServiceEstimate");
+                return RedirectToAction("PendingEnquiries");
+            }
+            catch (Exception)
+            {
+                FillVehicle();
+                FillCustomer();
+                FillServiceWorkDescription();
+                TempData["error"] = "Some error occurred while saving. Please try again.";
+                return View("ServiceEnquiry", model);
+            }
+        }
+
+        private void FillServiceWorkDescription()
+        {
+            ViewBag.workDescList = new SelectList(
+                new DropdownRepository().FillWorkDescForAfterSales(), "Id", "Name");
+        }
+
+        public ActionResult ServiceEnquiry()
+        {
+            FillCustomer();
+            FillCurrency();
+            FillServiceWorkDescription();
+            return View(new ServiceEnquiry
+            {
+                ServiceEnquiryRefNo = DatabaseCommonRepository.GetNextDocNo(33, OrganizationId),
+                ServiceEnquiryDate = DateTime.Today,
+                isProjectBased = 0,
+                isService = 1,
+                IsConfirmed = 0
+            });
+        }
+
+        [HttpPost]
+        public ActionResult ServiceEnquiry(ServiceEnquiry model)
+        {
+            try
+            {
+                model.OrganizationId = OrganizationId;
+                model.CreatedBy = UserID.ToString(); ;
+                model.CreatedDate = System.DateTime.Now;
+                model.IsConfirmed = 0;
+                string ref_no = new SaleOrderRepository().InsertServiceEnquiry(model);
+                if (ref_no.Length > 0)
+                {
+                    TempData["success"] = "Saved Successfully. Reference No. is " + ref_no;
+                    return RedirectToAction("ServiceEnquiry");
+                }
+                else throw new Exception();
             }
             catch (Exception)
             {
@@ -959,10 +1034,167 @@ namespace ArabErp.Web.Controllers
                 return View(model);
             }
         }
-        private void FillServiceWorkDescription()
+
+        public ActionResult PendingEnquiries()
         {
-            ViewBag.workDescList = new SelectList(
-                new DropdownRepository().FillWorkDescForAfterSales(), "Id", "Name");
+            return View(new SaleOrderRepository().GetPendingServiceEnquiries(OrganizationId));
+        }
+
+
+        public ActionResult PrintJob(int id)//ServiceEnquiryId is received here
+        {
+
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "JobRepairOrder.rpt"));
+
+            DataSet ds = new DataSet();
+            ds.Tables.Add("Head");
+
+            ds.Tables.Add("Items");
+
+            //-------HEAD
+            ds.Tables["Head"].Columns.Add("ServiceEnquiryRefNo");
+            ds.Tables["Head"].Columns.Add("ServiceEnquiryDate");
+            ds.Tables["Head"].Columns.Add("CustomerName");
+            ds.Tables["Head"].Columns.Add("CDoorNo");
+            ds.Tables["Head"].Columns.Add("CStreet");
+            ds.Tables["Head"].Columns.Add("CPhone");
+            ds.Tables["Head"].Columns.Add("CZip");
+            ds.Tables["Head"].Columns.Add("CState");
+            ds.Tables["Head"].Columns.Add("CContactPerson");
+            ds.Tables["Head"].Columns.Add("VehicleMake");
+            ds.Tables["Head"].Columns.Add("VehicleRegNo");
+            ds.Tables["Head"].Columns.Add("VehicleChassisNo");
+            ds.Tables["Head"].Columns.Add("VehicleKm");
+            ds.Tables["Head"].Columns.Add("BoxMake");
+            ds.Tables["Head"].Columns.Add("BoxNo");
+            ds.Tables["Head"].Columns.Add("BoxSize");
+            ds.Tables["Head"].Columns.Add("FreezerMake");
+            ds.Tables["Head"].Columns.Add("FreezerModel");
+            ds.Tables["Head"].Columns.Add("FreezerSerialNo");
+            ds.Tables["Head"].Columns.Add("FreezerHours");
+            ds.Tables["Head"].Columns.Add("TailLiftMake");
+            ds.Tables["Head"].Columns.Add("TailLiftModel");
+            ds.Tables["Head"].Columns.Add("TailLiftSerialNo");
+            ds.Tables["Head"].Columns.Add("Complaints");
+            ds.Tables["Head"].Columns.Add("DoorNo");
+            ds.Tables["Head"].Columns.Add("Street");
+            ds.Tables["Head"].Columns.Add("State");
+            ds.Tables["Head"].Columns.Add("CountryName");
+            ds.Tables["Head"].Columns.Add("Zip");
+            ds.Tables["Head"].Columns.Add("Fax");
+            ds.Tables["Head"].Columns.Add("Email");
+            ds.Tables["Head"].Columns.Add("Phone");
+            ds.Tables["Head"].Columns.Add("ContactPerson");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("Image1");
+
+            //-------DT
+            ds.Tables["Items"].Columns.Add("Date");
+            ds.Tables["Items"].Columns.Add("Description");
+            ds.Tables["Items"].Columns.Add("TotalHours");
+
+
+            SaleOrderRepository repo = new SaleOrderRepository();
+            ServiceEnquiry se = new ServiceEnquiry();
+            var Head = repo.GetJobPrintHD(id, OrganizationId);
+
+            DataRow dr = ds.Tables["Head"].NewRow();
+            dr["ServiceEnquiryRefNo"] = Head.ServiceEnquiryRefNo;
+            dr["ServiceEnquiryDate"] = Head.ServiceEnquiryDate.ToString("dd-MMM-yyyy");
+            dr["CustomerName"] = Head.CustomerName;
+            dr["CDoorNo"] = Head.CDoorNo;
+            dr["CStreet"] = Head.CStreet;
+            dr["CPhone"] = Head.CPhone;
+            dr["CZip"] = Head.CZip;
+            dr["CState"] = Head.CState;
+            dr["CContactPerson"] = Head.CContactPerson;
+            dr["VehicleMake"] = Head.VehicleMake;
+            dr["VehicleRegNo"] = Head.VehicleRegNo;
+            dr["VehicleChassisNo"] = Head.VehicleChassisNo;
+            dr["VehicleKm"] = Head.VehicleKm;
+            dr["BoxMake"] = Head.BoxMake;
+            dr["BoxNo"] = Head.BoxNo;
+            //dr["TaskDate"] = Head.TaskDate;
+            dr["BoxSize"] = Head.BoxSize;
+            dr["FreezerMake"] = Head.FreezerMake;
+            dr["FreezerModel"] = Head.FreezerModel;
+            dr["FreezerSerialNo"] = Head.FreezerSerialNo;
+            dr["FreezerHours"] = Head.FreezerHours;
+            dr["TailLiftMake"] = Head.TailLiftMake;
+            dr["TailLiftModel"] = Head.TailLiftModel;
+            dr["TailLiftSerialNo"] = Head.TailLiftSerialNo;
+            dr["Complaints"] = Head.Complaints;
+            dr["DoorNo"] = Head.DoorNo;
+            dr["Street"] = Head.Street;
+            dr["State"] = Head.State;
+            dr["CountryName"] = Head.CountryName;
+            dr["Zip"] = Head.Zip;
+            dr["Fax"] = Head.Fax;
+            dr["Email"] = Head.Email;
+            dr["Phone"] = Head.Phone;
+            dr["ContactPerson"] = Head.ContactPerson;
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            ds.Tables["Head"].Rows.Add(dr);
+
+            //JobCardTaskRepository repo1 = new JobCardTaskRepository();
+            //var Items = repo1.GetJobCardDT(Id);
+            //foreach (var item in Items)
+            //{
+            //    var JCItem = new JobCardTask
+            //    {
+            //        TaskDate = item.TaskDate,
+            //        Employee = item.Employee,
+            //        JobCardTaskName = item.JobCardTaskName,
+            //        //StartTime = item.StartTime,
+            //        //EndTime = item.EndTime,
+            //        Hours = item.Hours
+            //    };
+
+            //    DataRow dri = ds.Tables["Items"].NewRow();
+            //    dri["TaskDate"] = JCItem.TaskDate.ToString("dd-MMM-yyyy");
+            //    dri["Employee"] = JCItem.Employee;
+            //    dri["Description"] = JCItem.JobCardTaskName;
+            //    //dri["StartTime"] = JCItem.StartTime;
+            //    //dri["EndTime"] = JCItem.EndTime;
+            //    dri["Hours"] = JCItem.Hours;
+            //    ds.Tables["Items"].Rows.Add(dri);
+            //}
+
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "JobRepairOrder.xml"), XmlWriteMode.WriteSchema);
+
+            rd.SetDataSource(ds);
+
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", String.Format("JobRepairOrder{0}.pdf", id.ToString()));
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+        public ActionResult EnquiryList()
+        {
+            return View(new SaleOrderRepository().GetPendingServiceEnquiryList(OrganizationId));
+        }
+
+        public ActionResult EditEnquiry(int id)//ServiceEnquiryId is received here
+        {
+            FillCustomer();
+            FillCurrency();
+            FillServiceWorkDescription();
+            ServiceEnquiry model = new SaleOrderRepository().GetServiceEnquiryDetails(id, OrganizationId);
+            model.IsConfirmed = 0;
+            return View("ServiceEnquiry", model);
         }
     }
 }

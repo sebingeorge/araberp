@@ -42,7 +42,8 @@ namespace ArabErp.Domain
         public string RegistrationNo { get; set; }
         public string JobCardNo { get; set; }
         public string VehicleOutPassNo { get; set; }
-
+        public DateTime IsApprovedDate { get; set; }
+        public int IsApprovedBy { get; set; }
         public string OrganizationName { get; set; }
         public string Image1 { get; set; }
          public string OrganizationRefNo { get; set; }

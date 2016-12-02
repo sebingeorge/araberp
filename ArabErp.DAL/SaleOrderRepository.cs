@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using Dapper;
 using ArabErp.Domain;
 using System.Data;
+using System.Collections;
 
 namespace ArabErp.DAL
 {
@@ -38,13 +39,14 @@ namespace ArabErp.DAL
 
                     objSaleOrder.SaleOrderRefNo = internalId;
 
-                    if (objSaleOrder.isAfterSales == 1)
+                    //if (objSaleOrder.isAfterSales == 1)
+                    if (objSaleOrder.Materials != null && objSaleOrder.Materials.Count > 0)
                     {
 
-                        MaterialAmt = objSaleOrder.Materials.Sum(m => m.Amount??0);
+                        MaterialAmt = objSaleOrder.Materials.Sum(m => m.Amount ?? 0);
                     }
                     objSaleOrder.TotalAmount = objSaleOrder.Items.Sum(m => m.Amount) + MaterialAmt;
-                    objSaleOrder.TotalDiscount = objSaleOrder.Items.Sum(m => m.Discount);
+                    //objSaleOrder.TotalDiscount = objSaleOrder.Items.Sum(m => m.Discount);
 
 
                     string sql = @"
@@ -61,7 +63,7 @@ namespace ArabErp.DAL
                         item.SaleOrderId = id;
                         new SaleOrderItemRepository().InsertSaleOrderItem(item, connection, txn);
                     }
-                    if (objSaleOrder.Materials!=null && objSaleOrder.Materials.Count > 0)
+                    if (objSaleOrder.Materials != null && objSaleOrder.Materials.Count > 0)
                     {
                         foreach (SalesQuotationMaterial item in objSaleOrder.Materials)
                         {
@@ -435,7 +437,7 @@ namespace ArabErp.DAL
                 Customer customer = connection.Query<Customer>("select * from Customer where CustomerId = " + cusId).FirstOrDefault();
 
                 string ContactPerson = "";
-                if (ContactPerson != null)
+                if (customer.ContactPerson != null)
                 {
                     ContactPerson = customer.ContactPerson;
                 }
@@ -727,7 +729,7 @@ namespace ArabErp.DAL
                                     C.CustomerId,
 	                                CustomerName,
 	                                isnull(O.DoorNo,'') +','+ isnull(O.Street,'')+','+isnull(O.State,'') CustomerAddress,
-	                                CustomerOrderRef, S.CurrencyId,SpecialRemarks, S.PaymentTerms,DeliveryTerms,CA.CommissionAgentName,
+	                                CustomerOrderRef, S.CurrencyId,SpecialRemarks, S.PaymentTerms,S.DeliveryTerms,CA.CommissionAgentName,
 									CommissionAmount,TotalAmount,TotalDiscount,EDateArrival, EDateDelivery, SaleOrderApproveStatus,
 								    SaleOrderHoldStatus,SaleOrderHoldReason,SaleOrderHoldDate,SaleOrderReleaseDate,S.SalesQuotationId,SaleOrderClosed, 
 									S.isProjectBased, CUR.CurrencyName,S.isAfterSales, ORR.CountryName,E.EmployeeName SalesExecutiveName
@@ -768,27 +770,26 @@ namespace ArabErp.DAL
                 }).ToList();
             }
         }
-        /// 
 
-        public string InsertServiceEstimate(SaleOrder model)
+        public string InsertServiceOrder(ServiceEnquiry model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    model.SaleOrderRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 33, true, txn);
-                    model.TotalAmount = model.Items.Sum(m => m.Amount);
-                    model.TotalDiscount = model.Items.Sum(m => m.Discount);
+                    model.SaleOrderRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 35, true, txn);
+                    //model.TotalAmount = model.Items.Sum(m => m.Amount);
+                    //model.TotalDiscount = model.Items.Sum(m => m.Discount);
                     if (model.CustomerOrderRef == null || model.CustomerOrderRef == String.Empty) model.CustomerOrderRef = " ";
                     string query = @"insert  into SaleOrder 
-                                    (SaleOrderRefNo, SaleOrderDate, CustomerId, CustomerOrderRef, CurrencyId, SpecialRemarks, PaymentTerms, DeliveryTerms, CommissionAgentId,
-                                    CommissionAmount, CommissionPerc, TotalAmount, TotalDiscount, SalesExecutiveId, EDateArrival, EDateDelivery, CreatedBy, CreatedDate,
-                                    OrganizationId, SaleOrderApproveStatus, isProjectBased, isAfterSales, SalesQuotationId, isActive, isService)
+                                    (SaleOrderRefNo, SaleOrderDate, CustomerId, CustomerOrderRef, CurrencyId, SpecialRemarks,
+                                    EDateArrival, EDateDelivery, CreatedBy, CreatedDate,
+                                    OrganizationId, SaleOrderApproveStatus, isProjectBased, isAfterSales, isActive, isService, ServiceEnquiryId)
                                     Values
-                                    (@SaleOrderRefNo, @SaleOrderDate, @CustomerId, @CustomerOrderRef, @CurrencyId, @SpecialRemarks, @PaymentTerms, @DeliveryTerms, NULL,
-                                    0, 0, @TotalAmount, @TotalDiscount, NULL, GETDATE(), GETDATE(), @CreatedBy, GETDATE(),
-                                    @OrganizationId, 1, @isProjectBased, @isAfterSales, NULL, 1, @isService)
+                                    (@SaleOrderRefNo, @SaleOrderDate, @CustomerId, @CustomerOrderRef, (SELECT CurrencyId FROM Customer WHERE CustomerId = @CustomerId), @Complaints, 
+                                    GETDATE(), GETDATE(), @CreatedBy, GETDATE(),
+                                    @OrganizationId, 1, @isProjectBased, @isService, 1, @isService, @ServiceEnquiryId);
                                     SELECT CAST(SCOPE_IDENTITY() as int) SaleOrderId";
                     int id = connection.Query<int>(query, model, txn).FirstOrDefault();
                     if (id > 0)
@@ -798,7 +799,11 @@ namespace ArabErp.DAL
                             item.SaleOrderId = id;
                             new SaleOrderItemRepository().InsertSaleOrderItem(item, connection, txn);
                         }
-                        txn.Commit();
+                        query = @"UPDATE ServiceEnquiry SET isConfirmed = 1 WHERE ServiceEnquiryId = " + model.ServiceEnquiryId;
+                        if (connection.Execute(query, transaction: txn) > 0)
+                            txn.Commit();
+                        else
+                            throw new Exception();
                         return model.SaleOrderRefNo;
                     }
                     else
@@ -811,6 +816,161 @@ namespace ArabErp.DAL
                     txn.Rollback();
                     throw;
                 }
+            }
+        }
+
+        public string GetCustomerTelephone(int cusKey)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    var param = new DynamicParameters();
+                    return connection.Query<string>("select ISNULL(Phone, '') from Customer where CustomerId = " + cusKey).FirstOrDefault();
+                }
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+
+
+
+        //        public ServiceEnquiry InsertServiceEnquiry(ServiceEnquiry objServiceEnquiry)
+        //        {
+        //            using (IDbConnection connection = OpenConnection(dataConnection))
+        //            {
+        //                var result = new ServiceEnquiry();
+
+        //                IDbTransaction trn = connection.BeginTransaction();
+
+        //                string sql = @"insert into ServiceEnquiry(ServiceEnquiryRefNo,CustomerId,VehicleMake,VehicleRegNo,VehicleChassisNo,VehicleKm,BoxMake,BoxNo,BoxSize
+        //			,FreezerMake,FreezerModel,FreezerSerialNo,FreezerHours,TailLiftMake,TailLiftModel,TailLiftSerialNo,OrganizationId,IsConfirmed
+        //			,CreatedBy,CreatedDate) values (@ServiceEnquiryRefNo,@CustomerId,@VehicleMake,@VehicleRegNo,@VehicleChassisNo,@VehicleKm,@BoxMake,@BoxNo,@BoxSize
+        //			,@FreezerMake,@FreezerModel,@FreezerSerialNo,@FreezerHours,@TailLiftMake,@TailLiftModel,@TailLiftSerialNo,@OrganizationId,@IsConfirmed
+        //			,@CreatedBy,@CreatedDate);
+        //                               SELECT CAST(SCOPE_IDENTITY() as int)";
+        //                try
+        //                {
+        //                    int internalid = DatabaseCommonRepository.GetInternalIDFromDatabase(connection, trn, typeof(ServiceEnquiry).Name, "0", 1);
+        //                  //  objServiceEnquiry.DesignationRefNo = "D/" + internalid;
+
+        //                    int id = connection.Query<int>(sql, objServiceEnquiry, trn).Single();
+        //                    objServiceEnquiry.ServiceEnquiryId = id;
+        //                    //connection.Dispose();
+        //                    InsertLoginHistory(dataConnection, objServiceEnquiry.CreatedBy.ToString(), "Create", "ServiceEnquiry", id.ToString(), "0");
+        //                    trn.Commit();
+        //                }
+        //                catch (Exception ex)
+        //                {
+        //                    trn.Rollback();
+        //                    objServiceEnquiry.ServiceEnquiryId = 0;
+        //                   // objServiceEnquiry.DesignationRefNo = null;
+
+        //                }
+        //                return objServiceEnquiry;
+        //            }
+        //        }
+
+        public string InsertServiceEnquiry(ServiceEnquiry model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    model.ServiceEnquiryRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 33, true, txn);
+                    #region query
+                    string query = @"insert into ServiceEnquiry(ServiceEnquiryRefNo,CustomerId,VehicleMake,VehicleRegNo,VehicleChassisNo,VehicleKm,BoxMake,BoxNo,BoxSize
+			                        ,FreezerMake,FreezerModel,FreezerSerialNo,FreezerHours,TailLiftMake,TailLiftModel,TailLiftSerialNo,OrganizationId,IsConfirmed
+			                        ,CreatedBy,CreatedDate, ServiceEnquiryDate, Complaints) 
+                                    OUTPUT inserted.ServiceEnquiryRefNo
+                                    values
+                                    (@ServiceEnquiryRefNo,@CustomerId,@VehicleMake,@VehicleRegNo,@VehicleChassisNo,@VehicleKm,@BoxMake,@BoxNo,@BoxSize
+			                       ,@FreezerMake,@FreezerModel,@FreezerSerialNo,@FreezerHours,@TailLiftMake,@TailLiftModel,@TailLiftSerialNo,@OrganizationId,@IsConfirmed
+			                       ,@CreatedBy,@CreatedDate, @ServiceEnquiryDate, @Complaints);";
+                    #endregion
+                    string output = connection.Query<string>(query, model, txn).FirstOrDefault();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception)
+                {
+                    return "";
+                }
+            }
+        }
+
+        public IList<ServiceEnquiry> GetPendingServiceEnquiries(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT ServiceEnquiryId, ServiceEnquiryRefNo, ServiceEnquiryDate, VehicleMake, BoxMake, FreezerMake, TailLiftMake, C.CustomerName 
+                                FROM ServiceEnquiry SE INNER JOIN Customer C ON SE.CustomerId = C.CustomerId
+                                WHERE SE.OrganizationId = @org AND ISNULL(isCancelled, 0) = 0 AND ISNULL(isConfirmed, 0) = 0";
+                return connection.Query<ServiceEnquiry>(query, new { org = OrganizationId }).ToList();
+            }
+        }
+
+        /// <summary>
+        /// Get all details of a Service Enquiry
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ServiceEnquiry GetServiceEnquiryDetails(int id, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string query = @"SELECT * FROM ServiceEnquiry SE WHERE ServiceEnquiryId = @id AND OrganizationId = @org";
+                    return connection.Query<ServiceEnquiry>(query, new { id = id, org = OrganizationId }).FirstOrDefault();
+                }
+                catch (InvalidOperationException)
+                {
+                    throw;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public ServiceEnquiry GetJobPrintHD(int ServiceEnquiryId, int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+
+                string sql = @"   select S.*,O.*,C.CustomerName,C.DoorNo CDoorNo,C.State CState,C.Street CStreet,C.ContactPerson CContactPerson,C.Phone CPhone,C.Zip CZip,
+                                  CU.CountryName from ServiceEnquiry S
+                                  inner join Customer C ON C.CustomerId=S.CustomerId
+                                  inner join Organization O ON O.OrganizationId=S.OrganizationId
+                                  inner join Country CU ON CU.CountryId=O.Country
+                                  where ServiceEnquiryId=@ServiceEnquiryId ";
+
+                var objServiceEnquiry = connection.Query<ServiceEnquiry>(sql, new
+                {
+                    ServiceEnquiryId = ServiceEnquiryId,
+                    organizationId = organizationId
+                }).First<ServiceEnquiry>();
+
+                return objServiceEnquiry;
+            }
+        }
+
+
+        public IList<ServiceEnquiry> GetPendingServiceEnquiryList(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT ServiceEnquiryId, ServiceEnquiryRefNo, ServiceEnquiryDate, VehicleMake, BoxMake, FreezerMake, TailLiftMake, C.CustomerName,
+                                VehicleRegNo+'-' + VehicleChassisNo RegNo,FreezerModel
+                                FROM ServiceEnquiry SE INNER JOIN Customer C ON SE.CustomerId = C.CustomerId
+                                WHERE SE.OrganizationId= @OrganizationId";
+                return connection.Query<ServiceEnquiry>(query, new { OrganizationId = OrganizationId }).ToList();
             }
         }
     }

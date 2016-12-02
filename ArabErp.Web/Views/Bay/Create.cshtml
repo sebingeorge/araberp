@@ -65,6 +65,11 @@
                             <label for="BayType">Type</label>
                             @Html.DropDownListFor(m => Model.BayType, (SelectList)ViewBag.baytype, "Select Bay Type", new { @class = "form_input" })
                         </div>
+                        <div class="part4">
+                          
+                            @Html.CheckBoxFor(model =>Model.IsService, new { @class = "check_box", @onclick = "Checked(this)" })
+                            <label for="@Html.NameFor(x => x.IsService)">Service</label>
+                        </div>
 
                     </div>
 

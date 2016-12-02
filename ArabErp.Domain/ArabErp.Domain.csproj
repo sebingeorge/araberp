@@ -65,6 +65,7 @@
     <Compile Include="CustomerVsWorkDescriptionRate.cs" />
     <Compile Include="Dashboard.cs" />
     <Compile Include="DashboardMonthlySalesOrders.cs" />
+    <Compile Include="DCReport.cs" />
     <Compile Include="Designation.cs" />
     <Compile Include="Dropdown.cs" />
     <Compile Include="Employee.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="GRNDeduction.cs" />
     <Compile Include="ItemSellingPrice.cs" />
     <Compile Include="ItemSellingPriceList.cs" />
+    <Compile Include="ItemVsBom.cs" />
     <Compile Include="OpeningStockReport.cs" />
     <Compile Include="PendingTasksForCompletion.cs" />
     <Compile Include="PrefixSettingsVsOrganization.cs" />
@@ -159,6 +161,7 @@
     <Compile Include="SalesQuotationMaterial.cs" />
     <Compile Include="SalesRegister.cs" />
     <Compile Include="SalesTarget.cs" />
+    <Compile Include="ServiceEnquiry.cs" />
     <Compile Include="StockCreation.cs" />
     <Compile Include="StockCreationConsumedItem.cs" />
     <Compile Include="StockCreationFinishedGood.cs" />

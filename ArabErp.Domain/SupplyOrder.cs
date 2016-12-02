@@ -71,6 +71,8 @@ namespace ArabErp.Domain
         public string SupPhone { get; set; }
         public string SupFax { get; set; }
         public string SupEmail { get; set; }
+        public string CreatedDes { get; set; }
+        public string ApprovedDes { get; set; }
       
         public List<SupplyOrderItem> SupplyOrderItems { get; set; }
         public bool isUsed { get; set; }

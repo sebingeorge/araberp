@@ -198,8 +198,50 @@ namespace ArabErp.Web.Controllers
             }
             return View(model);
         }
+        public ActionResult PendingApproval()
+        {
+            return View("PendingApproval", new SalesInvoiceRepository().ApprovalList(OrganizationId: OrganizationId));
+        }
+        public ActionResult Approval(int? id, string type)
+        {
+        //    FillCustomer();
+        //    FillCurrency();
+        //    FillCommissionAgent();
+        //    FillUnit();
+        //    FillEmployee();
 
-        public ActionResult Print(int Id)
+        //    FillVehicle();
+            var repo = new SalesInvoiceRepository();
+            SalesInvoice model = repo.GetInvoiceHd(id ?? 0, type);
+            model.SaleInvoiceItems = repo.GetInvoiceItems(id ?? 0);
+
+             //var saleinvoice = new SalesInvoiceRepository().GetInvoiceHd(id, type);
+            //model.Items = repo.GetSaleOrderItem(SaleOrderId ?? 0);
+
+            //FillWrkDesc();
+            return View("Approval", model);
+        }
+
+        //public ActionResult UpdateApprovalStatus(int? id, string type)
+        //{
+        //    var repo = new SalesInvoiceRepository();
+        //    SalesInvoice si = (new SalesInvoiceRepository()).GetInvoiceHd(id ?? 0, type);
+        //    new SalesInvoiceRepository().UpdateSIApproval(id ?? 0);
+        //    return RedirectToAction("PendingApproval");
+        //}
+
+        public ActionResult UpdateApprovalStatus(int? id, string type)
+        {
+            SalesInvoice model = new SalesInvoice();
+            model.IsApprovedDate = System.DateTime.Now;
+            model.IsApprovedBy = UserID;
+            var repo = new SalesInvoiceRepository();
+            SalesInvoice si = (new SalesInvoiceRepository()).GetInvoiceHd(id ?? 0, type);
+            new SalesInvoiceRepository().UpdateSIApproval(id ?? 0, model.IsApprovedDate, model.IsApprovedBy);
+            return RedirectToAction("PendingApproval");
+        }
+
+        public ActionResult Print(int Id)                                                                                                           
         {
             
             ReportDocument rd = new ReportDocument();

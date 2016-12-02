@@ -1,0 +1,392 @@
+﻿@model  ArabErp.Domain.SalesInvoice
+@{
+    string actionName = ViewContext.RouteData.GetRequiredString("action");
+    ViewData["action"] = actionName;
+    string postActionName = "UpdateApprovalStatus";
+    if (ViewData["action"].ToString() == "Approval")
+    {
+        ViewBag.Title = "Sales Invoice Approval";
+    }
+}
+@{
+    var totalQuantity = Model.SaleInvoiceItems.Sum(a => a.QuantityTxt);
+    var totalDiscount = Model.SaleInvoiceItems.Sum(a => a.Discount);
+    var totalAmount = Model.SaleInvoiceItems.Sum(a => a.Amount);
+    //var totalAmount = Model.TotalAmount;
+    //Model.TotalAmount = totalAmount??0;
+}
+<script>
+
+    function Exit() {
+        location.href = '@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = Model.InvoiceType })';
+    }
+
+    $(function () {
+        $("#SalesInvoiceDate").datepicker({ dateFormat: "dd/MM/yy" });
+        $("#SalesInvoiceDueDate").datepicker({ dateFormat: "dd/MM/yy" });
+    });
+
+
+    @*function Back() {
+        location.href = '@Url.Action("PendingSalesInvoice")';
+    }*@
+    $(document).ready(function () {
+
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != "" && '@TempData["SalesInvoiceRefNo"]' != "") {
+            toastr.success('@TempData["success"]' + '   Sales Order No. is : ' + '@TempData["SalesInvoiceRefNo"]');
+        }
+        else if ('@TempData["error"]' != "") {
+            toastr.error('@TempData["error"]');
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+
+        $("#Addition").keyup(function () {
+
+            var TotalAmt = '@Model.SaleInvoiceItems.Sum(a => a.Amount)';
+            var Total = parseFloat("0");
+
+            Total = parseFloat(TotalAmt)
+            if (isNaN(Total)) {
+                Total = parseFloat("0");
+            }
+            var AdditonAmt = parseFloat("0");
+            AdditonAmt = $("#Addition").val();
+
+            AdditonAmt = parseFloat(AdditonAmt);
+            if (isNaN(AdditonAmt)) {
+                AdditonAmt = parseFloat("0");
+            }
+            var DeductionAmt = parseFloat("0");
+            DeductionAmt = $("#Deduction").val();
+
+            DeductionAmt = parseFloat(DeductionAmt);
+            if (isNaN(DeductionAmt)) {
+                DeductionAmt = parseFloat("0");
+            }
+            var Tot = Total + AdditonAmt - DeductionAmt;
+            $("#TotalAmount").val(Tot.toFixed(2));
+            $("#lblTotalAmount").text(Tot.toFixed(2));
+        });
+
+        $("#Deduction").keyup(function () {
+
+            var TotalAmt = '@Model.SaleInvoiceItems.Sum(a => a.Amount)';
+            var Total = parseFloat("0");
+
+            Total = parseFloat(TotalAmt)
+            if (isNaN(Total)) {
+                Total = parseFloat("0");
+            }
+            var AdditonAmt = parseFloat("0");
+            AdditonAmt = $("#Addition").val();
+
+            AdditonAmt = parseFloat(AdditonAmt);
+            if (isNaN(AdditonAmt)) {
+                AdditonAmt = parseFloat("0");
+            }
+            var DeductionAmt = parseFloat("0");
+            DeductionAmt = $("#Deduction").val();
+
+            DeductionAmt = parseFloat(DeductionAmt);
+            if (isNaN(DeductionAmt)) {
+                DeductionAmt = parseFloat("0");
+            }
+            var Tot = Total + AdditonAmt - DeductionAmt;
+            $("#TotalAmount").val(Tot.toFixed(2));
+            $("#lblTotalAmount").text(Tot.toFixed(2));
+        });
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        });
+    });
+
+    function Amountchanged() {
+        var qty = 0;
+        var rate = 0;
+        var discount = 0;
+        var amount = 0;
+        var total = 0;
+        var addition = 0;
+        var deduction = 0;
+        var TotalQty = 0;
+
+        $('.Amount').each(function (i, obj) {
+            console.log(obj);
+            qty = qty + eval($("#SaleInvoiceItems_" + i + "__QuantityTxt").val());
+            rate = rate + eval($("#SaleInvoiceItems_" + i + "__Rate").val());
+            discount = discount + eval($("#SaleInvoiceItems_" + i + "__Discount").val());
+            //alert(qty);
+            TotalQty += qty;
+            amount = (qty * rate) - discount;
+            total = total + amount;
+            $("#SaleInvoiceItems_" + i + "__Amount").val(amount);
+        });
+        $("#gridTotal").text(total);
+        addition = eval($("#Addition").val());
+        deduction = eval($("#Deduction").val());
+
+        var net = total + addition - deduction;
+        $("#TotalAmount").val(total.toFixed(2));
+        $("#lblTotalAmount").text(total.toFixed(2));
+        $('#TotalQty').text(TotalQty);
+    }
+
+    function DateChanged(Date) {
+        var d = $(Date).val();
+        var sup = $("#SaleOrderId").val();
+
+        $.ajax({
+            url: "@Url.Action("GetDueDate", "SalesInvoice")",
+            data: { date: d, SaleOrderId: sup },
+            cache: false,
+            type: "GET",
+            timeout: 10000,
+            dataType: "json",
+            success: function (duedate) {
+
+                $("#SalesInvoiceDueDate").val(duedate);
+            }
+        });
+
+    }
+
+    function formValidation() {
+        var total = Number($("#lblTotalAmount").text());
+        if (total <= 0) {
+            toastr.info("Total amount should be greater than 0");
+            return false;
+        }
+        return true;
+    }
+    function Delete(id, type) {
+        var url = '@Url.Action("Delete")';
+        url += "?id=" + id + "&type=" + type;
+        window.location = url;
+
+    }
+    function GoToPrint(id) {
+
+        var url = '@Url.Action("Print")';
+        url += "?Id=" + id;
+        window.location = url;
+        
+    }
+
+    function Approve(id, type) {
+        @*location.href = '@Url.Action("UpdateApprovalStatus", "SalesInvoice")';*@
+        var url = '@Url.Action("UpdateApprovalStatus")';
+        url += "?id=" + id + "&type=" + type;
+        window.location = url;
+        alert
+        ("*********")
+    }
+
+</script>
+
+
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Sales Invoice</h4>
+    </div>
+    <div class="main-part pad1">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", @onsubmit = "return formValidation()" }))
+        {
+            <div class="row form-group ">
+                <div class="col-md-2">
+                    <label for="SaleOrderRefNo">Invoice No.</label>
+                    @Html.HiddenFor(m => Model.SalesInvoiceId)
+                    @Html.HiddenFor(m => Model.SaleOrderId)
+                    @Html.HiddenFor(m => Model.InvoiceType)
+                    @Html.HiddenFor(m => Model.isProjectBased)
+                    @Html.TextBoxFor(m => m.SalesInvoiceRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                </div>
+                <div class="col-md-2">
+                    <label for="SalesInvoiceDate">Date</label>
+                    @Html.TextBoxFor(m => m.SalesInvoiceDate, Model.SalesInvoiceDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @onchange = "DateChanged(this)" })
+
+                </div>
+                <div class="col-md-2">
+                    <label for="BillDueDate">Bill Due Date</label>
+                    @Html.TextBoxFor(m => m.SalesInvoiceDueDate, Model.SalesInvoiceDueDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label for="selectCustomer">Customer</label>
+                    @Html.TextBoxFor(m => Model.Customer, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                </div>
+                <div class="col-md-4">
+                    <label for="CustomerOrderRef">Customer Address</label>
+                    @Html.TextBoxFor(m => m.CustomerAddress, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                </div>
+                <div class="col-md-2">
+                    <label for="CustomerOrderRef">Customer Order Ref.</label>
+                    @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                </div>
+
+            </div>
+            <div class="row form-group">
+
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered" id="tab_logic">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th width="2%" class="text-center"><h1>#</h1></th>
+                            <th width="35%"><h1>Work Description</h1></th>
+                            @if (Model.InvoiceType == "Final")
+                            {
+                                <th width="15%"><h1>Vehicle Model</h1></th>
+                            }
+                            <th width="5%" class="text-right"><h1>Qty</h1></th>
+                            <th width="5%"><h1>UoM</h1></th>
+                            <th width="8%" class="text-right"><h1>Rate</h1></th>
+                            <th width="8%" class="text-right"><h1>Discount</h1></th>
+                            <th width="10%" class="text-right"><h1>Amount</h1></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.SaleInvoiceItems.Count; i++)
+                        {
+                            <tr id="Row_@i">
+                                <td align="center">@(i + 1) </td>
+                                @Html.HiddenFor(m => Model.SaleInvoiceItems[i].SaleOrderItemId)
+                                @Html.HiddenFor(m => Model.SaleInvoiceItems[i].SaleOrderId)
+                                @Html.HiddenFor(m => Model.SaleInvoiceItems[i].JobCardId)
+                                <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "WorkDescription", @readonly = "readonly" })</td>
+                                @if (Model.InvoiceType == "Final")
+                                {
+                                    <td>
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "VehicleModel", @readonly = "readonly" })
+                                    </td>
+                                }
+                                <td>
+                                    @if (Model.InvoiceType == "Inter" || Model.InvoiceType == "Final")
+                                    {
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input Amount", autocomplete = "off", @style = "text-align:right", placeholder = "Qty", @onchange = "Amountchanged()" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Qty", @readonly = "readonly" })
+                                    }
+                                </td>
+                                <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Unit, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "Unit", @readonly = "readonly" })</td>
+                                <td>
+                                    @if (Model.InvoiceType == "Inter" || Model.InvoiceType == "Final")
+                                    {
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @readonly = "readonly", @onchange = "Amountchanged()" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @readonly = "readonly" })
+                                    }
+                                </td>
+                                <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Discount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @readonly = "readonly" })</td>
+                                <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
+                            </tr>
+                        }
+                        @*<tr id='addr1'></tr>*@
+                    </tbody>
+                    <tfoot>
+                        <tr class="grid_heading">
+                            <th class="text-center"><h1></h1></th>
+                            <th class="text-center"><h1>Total</h1></th>
+                            @if (Model.InvoiceType == "Final")
+                            {
+                                <th class="text-center"><h1></h1></th>
+                            }
+                            <th class="text-right"></th>
+                            <th></th>
+                            <th class="text-right"><h1>Total</h1></th>
+                            <th class="text-right">@totalDiscount</th>
+                            <th class="text-right"><span id="gridTotal">@totalAmount</span></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-12">
+
+
+                    <label class="tamount"><b>@(Model.CurrencySymbol)&nbsp;<span id="lblTotalAmount">@Model.TotalAmount</span></b></label>
+                    @Html.HiddenFor(m => m.TotalAmount)
+                </div>
+            </div>
+
+
+
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <div class="part1">
+                        <label for="SpecialRemarks">Special Remarks</label>
+                        @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <div class="part1">
+                        <label for="PaymentTerms">Payment Terms</label>
+                        @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row form-group">
+
+                <div class="col-md-2">
+                    <label for="PaymentTerms">Additional Amount</label>
+                    @Html.TextBoxFor(m => m.Addition, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off" })
+                </div>
+                <div class="col-md-10">
+                    <label for="PaymentTerms">Remarks</label>
+                    @Html.TextBoxFor(m => m.AdditionRemarks, new { @class = "form_input clAmount", autocomplete = "off" })
+                </div>
+
+            </div>
+            <div class="row form-group">
+
+                <div class="col-md-2">
+                    <label for="PaymentTerms">Deduction Amount</label>
+                    @Html.TextBoxFor(m => m.Deduction, new { @class = "form_input numbers-only clAmount", @style = "text-align:right", autocomplete = "off" })
+                </div>
+                <div class="col-md-10">
+                    <label for="PaymentTerms">Remarks</label>
+                    @Html.TextBoxFor(m => m.DeductionRemarks, new { @class = "form_input", autocomplete = "off" })
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                    @*<button type="submit" class="form-button right">Approve</button>*@
+                    <button type="button" class="form-button right" onclick="Approve('@Model.SalesInvoiceId','@Model.InvoiceType')">Approve</button>
+                    @*<button type="button" class="form-button right" onclick="GoToPrint(@Model.SalesInvoiceId)">Print</button>
+                    <button type="button" class="form-button left" onclick="Delete('@Model.SalesInvoiceId','@Model.InvoiceType')">Delete</button>*@
+                </div>
+
+            </div>
+
+        }
+    </div>
+</div>
+

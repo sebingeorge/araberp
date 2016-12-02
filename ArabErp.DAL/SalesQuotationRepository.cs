@@ -22,7 +22,7 @@ namespace ArabErp.DAL
                                inner join SalesQuotationStatus RR on RR.SalesQuotationStatusId=q.SalesQuotationStatusId
 							   LEFT JOIN SaleOrder SO ON Q.SalesQuotationId = SO.SalesQuotationId
 							   LEFT JOIN VehicleInPass VIP ON SO.SaleOrderId = VIP.SaleOrderId
-                               where Q.isActive = 1 AND VIP.VehicleInPassId IS NULL and Q.isProjectBased =" + isProjectBased;
+                               where Q.isActive = 1 AND VIP.VehicleInPassId IS NULL and Q.isProjectBased =" + isProjectBased + @" AND SO.SaleOrderId IS NULL AND ISNULL(Q.IsQuotationApproved, 0) = 1";
 
                 return connection.Query<SalesQuotationList>(sql);
             }
@@ -34,12 +34,13 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    model.TotalWorkAmount = model.SalesQuotationItems.Sum(m => (m.TotalAmount));
+                    model.TotalWorkAmount = model.SalesQuotationItems.Sum(m => ((m.Rate * m.Quantity) - m.Discount));
 
-                    if (model.isAfterSales)
+                    //if (model.isAfterSales)
+                    if (model.Materials != null && model.Materials.Count > 0)
                     {
 
-                        model.TotalMaterialAmount = model.Materials.Sum(m => (m.Amount??0));
+                        model.TotalMaterialAmount = model.Materials.Sum(m => (m.Rate ?? 0 * m.Quantity ?? 0));
 
                     }
                     model.GrandTotal = (model.TotalWorkAmount + model.TotalMaterialAmount);
@@ -97,14 +98,14 @@ namespace ArabErp.DAL
                         }
                     }
 
-                    if (model.isAfterSales)
-                    {
-                        foreach (var item in model.Materials)
-                        {
-                            item.SalesQuotationId = model.SalesQuotationId;
-                            saleorderitemrepo.InsertSalesQuotationMaterial(item, connection, trn);
-                        }
-                    }
+                    //if (model.isAfterSales)
+                    //{
+                    //    foreach (var item in model.Materials)
+                    //    {
+                    //        item.SalesQuotationId = model.SalesQuotationId;
+                    //        saleorderitemrepo.InsertSalesQuotationMaterial(item, connection, trn);
+                    //    }
+                    //}
                     InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Sales Quotation", model.SalesQuotationId.ToString(), "0");
                     trn.Commit();
                 }
@@ -126,11 +127,12 @@ namespace ArabErp.DAL
             {
                 string sql = string.Empty;
                 IDbTransaction trn = connection.BeginTransaction();
-                model.TotalWorkAmount = model.SalesQuotationItems.Sum(m => (m.Amount));
+                model.TotalWorkAmount = model.SalesQuotationItems.Sum(m => ((m.Rate * m.Quantity) - m.Discount));
 
-                if (model.isAfterSales)
+                //if (model.isAfterSales)
+                if (model.Materials != null && model.Materials.Count > 0)
                 {
-                    model.TotalMaterialAmount = model.Materials.Sum(m => (m.Amount??0));
+                    model.TotalMaterialAmount = model.Materials.Sum(m => (m.Rate ?? 0 * m.Quantity ?? 0));
                 }
                 model.GrandTotal = (model.TotalWorkAmount + model.TotalMaterialAmount);
                 try
@@ -165,14 +167,23 @@ namespace ArabErp.DAL
                         item.VehicleModelId = model.VehicleModelId;
                         saleorderitemrepo.InsertSalesQuotationItem(item, connection, trn);
                     }
-                    if (model.isAfterSales)
+                    if (model.Materials != null && model.Materials.Count > 0)
                     {
                         foreach (var item in model.Materials)
                         {
+                            if (item.ItemId == null) continue;
                             item.SalesQuotationId = model.SalesQuotationId;
                             saleorderitemrepo.InsertSalesQuotationMaterial(item, connection, trn);
                         }
                     }
+                    //if (model.isAfterSales)
+                    //{
+                    //    foreach (var item in model.Materials)
+                    //    {
+                    //        item.SalesQuotationId = model.SalesQuotationId;
+                    //        saleorderitemrepo.InsertSalesQuotationMaterial(item, connection, trn);
+                    //    }
+                    //}
                     InsertLoginHistory(dataConnection, model.CreatedBy, "Revision", "Sales Quotation", model.SalesQuotationId.ToString(), "0");
                     trn.Commit();
                 }
@@ -413,14 +424,18 @@ namespace ArabErp.DAL
                 string sql = string.Empty;
                 IDbTransaction txn = connection.BeginTransaction();
 
-                objSalesQtn.TotalWorkAmount = objSalesQtn.SalesQuotationItems.Sum(m => (m.TotalAmount));
+                objSalesQtn.TotalWorkAmount = objSalesQtn.SalesQuotationItems.Sum(m => ((m.Rate * m.Quantity) - m.Discount));
+                if (objSalesQtn.Materials != null && objSalesQtn.Materials.Count > 0)
+                {
+                    objSalesQtn.TotalMaterialAmount = objSalesQtn.Materials.Sum(m => (m.Rate ?? 0 * m.Quantity ?? 0));
+                }
 
                 #region query to delete from [SalesQuotationMaterial] table if after sales is true
-                if (objSalesQtn.isAfterSales)
-                {
-                    objSalesQtn.TotalMaterialAmount = objSalesQtn.Materials.Sum(m => (m.Amount??0));
-                    sql = "DELETE FROM SalesQuotationMaterial WHERE SalesQuotationId = @SalesQuotationId;";
-                }
+                //if (objSalesQtn.isAfterSales)
+                //{
+                //    objSalesQtn.TotalMaterialAmount = objSalesQtn.Materials.Sum(m => (m.Amount ?? 0));
+                //    sql = "DELETE FROM SalesQuotationMaterial WHERE SalesQuotationId = @SalesQuotationId;";
+                //}
                 #endregion
 
                 objSalesQtn.GrandTotal = (objSalesQtn.TotalWorkAmount + objSalesQtn.TotalMaterialAmount);

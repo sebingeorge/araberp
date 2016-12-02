@@ -65,6 +65,12 @@ namespace ArabErp.Domain
         public List<JobCardTask> JobCardTasks { get; set; }
 
         public string BoxName { get; set; }
+        public string Complaints { get; set; }
+        public string BoxMake { get; set; }
+        public string BoxNo { get; set; }
+        public string FreezerMake { get; set; }
+        public string FreezerModel { get; set; }
+        public string VehicleMake { get; set; }
         public bool IsUsed { get; set; }
         public bool IsTaskUsed { get; set; }
         public int isService { get; set; }

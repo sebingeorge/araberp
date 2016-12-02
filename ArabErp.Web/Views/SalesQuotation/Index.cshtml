@@ -21,17 +21,15 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-        if ('@TempData["success"]' != "")
-        {
+        if ('@TempData["success"]' != "") {
             if ('@TempData["success"]' != "" && '@TempData["QuotationRefNo"]' != "") {
                 toastr.success('@TempData["success"]' + '   Sales Quotation No. is : ' + '@TempData["QuotationRefNo"]');
             }
-            else
-            {
+            else {
                 toastr.success('@TempData["success"]');
             }
         }
-        @*if ('@TempData["success"]' != "" && '@TempData["QuotationRefNo"]' != "") {
+            @*if ('@TempData["success"]' != "" && '@TempData["QuotationRefNo"]' != "") {
             toastr.success('@TempData["success"]' + '   Sales Quotation No. is : ' + '@TempData["QuotationRefNo"]');
         }*@
         else if ('@TempData["error"]' != "") {
@@ -47,10 +45,8 @@
         });
     });
 
-    function Revise()
-    {
-        if ($('#HiddenFieldSalesQuotationId').val() == '' || $('#HiddenFieldSalesQuotationId').val() == 0)
-        {
+    function Revise() {
+        if ($('#HiddenFieldSalesQuotationId').val() == '' || $('#HiddenFieldSalesQuotationId').val() == 0) {
             toastr.warning("Please Select Any Sales Quotation !!")
         }
         else {
@@ -65,16 +61,16 @@
             toastr.warning("Please Select Any Sales Quotation !!")
         }
         else {
-         
+
             var url = '@Url.Action("StatusUpdate")';
             url = url + "?Id=" + $('#HiddenFieldSalesQuotationId').val();
-           
+
             console.log(url);
             window.location.href = url;
         }
     }
     function Delete() {
-      
+
         if ($('#HiddenFieldSalesQuotationId').val() == '' || $('#HiddenFieldSalesQuotationId').val() == 0) {
             toastr.warning("Please Select Any Sales Quotation !!")
         }
@@ -83,7 +79,7 @@
             url = url + "?Id=" + $('#HiddenFieldSalesQuotationId').val();
             console.log(url);
             window.location.href = url;
-          
+
         }
     }
     function Create() {
@@ -93,36 +89,40 @@
 
 </script>
 <style>
-   table tr.active {border:3px solid #0094ff;}
+    table tr.active {
+        border: 3px solid #0094ff;
+    }
 </style>
 
-    <div class="row">
-        <div class="form-head1">
-            <h4>Sales Quotations</h4>
-        </div>
-        <div class="main-part pad1">
-            <div class="main-grid main-grid-top scroll1">
-                <div class=" table-responsive">
-                    <input type="hidden" id="HiddenFieldSalesQuotationId" />
-                    <table class="table table-bordered" id="QuotationTable" >
-                        <thead>
-                            <tr class="grid_heading">
-                               
-                                <th width="16%"><h1>Quotation Ref. No</h1></th>
-                                <th width="13%"><h1>Quotation Date</h1></th>
-                                <th width="23%"><h1>Customer</h1></th>
-                                <th width="16%"><h1>Sales Executive</h1></th>
-                                <th width="12%" class="text-right"><h1>Amount</h1></th>
-                                <th width="16%"><h1>Status</h1></th>
-                                @*<th><h1>Revise</h1></th>
+<div class="row">
+    <div class="form-head1">
+        <h4>Sales Quotations</h4>
+    </div>
+    <div class="main-part pad1">
+        <div class="main-grid main-grid-top scroll1">
+            <div class=" table-responsive">
+                <input type="hidden" id="HiddenFieldSalesQuotationId" />
+                <table class="table table-bordered" id="QuotationTable">
+                    <thead>
+                        <tr class="grid_heading">
+
+                            <th width="16%"><h1>Quotation Ref. No</h1></th>
+                            <th width="13%"><h1>Quotation Date</h1></th>
+                            <th width="23%"><h1>Customer</h1></th>
+                            <th width="16%"><h1>Sales Executive</h1></th>
+                            <th width="12%" class="text-right"><h1>Amount</h1></th>
+                            <th width="16%"><h1>Status</h1></th>
+                            @*<th><h1>Revise</h1></th>
                                 <th><h1>Cancel</h1></th>*@
-                            </tr>
-                        </thead>
-                        @foreach (var item in Model)
+                        </tr>
+                    </thead>
+                    <tbody class="grid_row">
+                        @if (Model.Count() > 0)
                         {
-                            <tbody class="grid_row">
+                            foreach (var item in Model)
+                            {
                                 <tr id="@item.SalesQuotationId">
-                                   
+
                                     <td class="grid-cell">@item.QuotationRefNo</td>
                                     <td class="grid-cell">@item.QuotationDate.ToString("dd-MMMM-yyyy")</td>
                                     <td class="grid-cell">@item.CustomerName</td>
@@ -130,29 +130,38 @@
                                     <td class="grid-cell" style="text-align:right">@item.GrandTotal</td>
                                     <td class="grid-cell">@item.Description</td>
                                     @*<td><center><button class="form-button4" onclick="Revise(@item.SalesQuotationId)">Revise</button></center></td>
-                                    <td><center><button class="form-button4" onclick="Delete(@item.SalesQuotationId)">Cancel</button></center></td>*@
+                                        <td><center><button class="form-button4" onclick="Delete(@item.SalesQuotationId)">Cancel</button></center></td>*@
                                 </tr>
-                            </tbody>
+                            }
                         }
-                    </table>
-                </div>                
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" align="center">
+                                    <em>No items to show!</em>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
+        </div>
 
-            <br/>
-            <div class="row-count1">
-                <h5>Row Count:- @Model.Count()</h5>
-            </div>
+        <br />
+        <div class="row-count1">
+            <h5>Row Count:- @Model.Count()</h5>
+        </div>
 
-            <div class="row">
-                <div class="col-md-12 hrpart">
-                    @*<button class="form-button right" onclick="StatusUpdate()">Status Update</button>*@
-                    <button class="form-button right" onclick="Revise()">Revise</button>
-                    <button class="form-button right " onclick="Cancel()">Cancel</button>
-                    <button type="button" class="form-button right" onclick="Create()">Create</button>
-                </div>
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                @*<button class="form-button right" onclick="StatusUpdate()">Status Update</button>*@
+                <button class="form-button right" onclick="Revise()">Revise</button>
+                <button class="form-button right " onclick="Cancel()">Cancel</button>
+                <button type="button" class="form-button right" onclick="Create()">Create</button>
             </div>
         </div>
     </div>
+</div>
 
 
 
