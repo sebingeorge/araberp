@@ -150,7 +150,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>(@"select ItemId Id, PartNo Name from item where ItemId in(select DISTINCT ItemId from StockUpdate where StockPointId=@StockPointId) AND ISNULL(LTRIM(RTRIM(PartNo)), '') <> ''", new { StockPointId = stockPointId }).ToList();
+                //old query --- select ItemId Id, PartNo Name from item where ItemId in(select DISTINCT ItemId from StockUpdate where StockPointId=@StockPointId) AND ISNULL(LTRIM(RTRIM(PartNo)), '') <> ''
+                return connection.Query<Dropdown>(@"select ItemId Id, PartNo Name from item where ISNULL(LTRIM(RTRIM(PartNo)), '') <> ''", new { StockPointId = stockPointId }).ToList();
             }
         }
 
@@ -289,7 +290,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>(@"select ItemId Id,ItemName Name from item where ItemId in(select DISTINCT ItemId from StockUpdate where StockPointId=@StockPointId)", new { StockPointId = StockPointId }).ToList();
+                //old string --- select ItemId Id,ItemName Name from item where ItemId in(select DISTINCT ItemId from StockUpdate where StockPointId=@StockPointId)
+                return connection.Query<Dropdown>(@"SELECT ItemId Id, ItemName Name FROM Item", new { StockPointId = StockPointId }).ToList();
             }
         }
 

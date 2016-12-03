@@ -192,7 +192,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IList<DirectPurchaseRequest> GetPreviousList()
+        public IList<DirectPurchaseRequest> GetPreviousList(int organizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -218,7 +218,7 @@ namespace ArabErp.DAL
                                 WHERE DP.OrganizationId = @OrganizationId
                                 AND DP.isActive = 1
                                 ORDER BY DP.PurchaseRequestDate DESC, DP.CreatedDate DESC";
-                return connection.Query<DirectPurchaseRequest>(query, new { OrganizationId = 1 }).ToList();
+                return connection.Query<DirectPurchaseRequest>(query, new { OrganizationId = organizationId }).ToList();
             }
         }
 
@@ -270,6 +270,25 @@ namespace ArabErp.DAL
                 var objDirectPurchaseRequestItems = connection.Query<DirectPurchaseRequestItem>(sql, new { DirectPurchaseRequestId = DirectPurchaseRequestId }).ToList<DirectPurchaseRequestItem>();
 
                 return objDirectPurchaseRequestItems;
+            }
+        }
+
+        public object GetPurchaseIndentList(int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //the model used for Purchase Indent is DirectPurchaseRequest
+                string query = @"SELECT
+	                                PurchaseRequestId DirectPurchaseRequestId,
+	                                PurchaseRequestNo,
+	                                CONVERT(VARCHAR, PurchaseRequestDate, 106) PurchaseRequestDate,
+	                                SpecialRemarks,
+	                                CONVERT(VARCHAR, RequiredDate, 106) RequiredDate
+                                FROM PurchaseRequest PR
+                                WHERE PR.OrganizationId = @org
+                                AND WorkShopRequestId IS NULL
+                                ORDER BY PurchaseRequestDate DESC, PurchaseRequestNo DESC";
+                return connection.Query<DirectPurchaseRequest>(query, new { org = organizationId }).ToList();
             }
         }
 
