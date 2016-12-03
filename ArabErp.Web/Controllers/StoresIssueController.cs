@@ -122,9 +122,9 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public PartialViewResult PendingWorkshopRequests(string Request = "", string Jobcard = "", string Customer = "")
+        public PartialViewResult PendingWorkshopRequests(string Request = "", string Jobcard = "", string Customer = "", string jcno = "")
         {
-            return PartialView("_PendingWorkshopRequests", new WorkShopRequestRepository().PendingWorkshopRequests(Request, Jobcard, Customer));
+            return PartialView("_PendingWorkshopRequests", new WorkShopRequestRepository().PendingWorkshopRequests(Request, Jobcard, Customer, jcno));
         }
         public PartialViewResult PendingWorkshopRequestDetails()
         {

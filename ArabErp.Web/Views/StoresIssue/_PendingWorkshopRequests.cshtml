@@ -18,10 +18,11 @@
                         <th width="33%"><h1>Customer</h1></th>
                         <th width="15%"><h1>WR No. &amp; Date</h1></th>
                         <th width="15%"><h1>SO No. &amp; Date</h1></th>
+                        <th width="15%"><h1>JC No. &amp; Date</h1></th>
                         <th width="10%" nowrap><h1>Required Date</h1></th>
                         <th width="5%" nowrap><h1>Days Left</h1></th>
                         <th width="5%" nowrap><h1>Ageing</h1></th>
-                        <th width="10%"><center><h1></h1></center></th>
+                        <th width="1%"><center><h1></h1></center></th>
                     </tr>
                 </thead>
                 <tbody id="table-body" class="grid_row">
@@ -36,19 +37,26 @@
                                 </td>
                                 <td>
                                     @* Workshop request number and date is received from db as a single string into 'WorkShopRequestRefNo' *@
-                                    @Html.TextBoxFor(m => m[i].WorkShopRequestRefNo, new { @class = "form_input", @disabled = "true" })
+                                    @Model[i].WorkShopRequestRefNo
                                 </td>
                                 <td>
-                                    <input class="form_input" type="text" value="@Model[i].SoNoWithDate" disabled />
+                                    @Model[i].SoNoWithDate
                                 </td>
                                 <td>
-                                    <input class="form_input" type="text" value="@Model[i].RequiredDate.ToString("dd/MMM/yyyy")" disabled />
+                                    @Model[i].JobCardNo -
+                                    @if (Model[i].JobCardNo != "" && Model[i].JobCardNo != null)
+                                    {
+                                        @:@Model[i].JobCardDate.ToString("dd/MMM/yyyy")
+                                    }
                                 </td>
                                 <td>
-                                    <input class="form_input" type="text" value="@Model[i].DaysLeft" disabled />
+                                    @Model[i].RequiredDate.ToString("dd/MMM/yyyy")
                                 </td>
                                 <td>
-                                    <input class="form_input" type="text" value="@Model[i].Ageing" disabled />
+                                    @Model[i].DaysLeft
+                                </td>
+                                <td>
+                                    @Model[i].Ageing
                                 </td>
                                 <td align="center">
                                     <center><input type="button" class="form-button4" onclick="Open('@Model[i].WorkShopRequestId')" value="Select" /></center>
@@ -60,7 +68,7 @@
                     else
                     {
                         <tr>
-                            <td align="center" colspan="7">
+                            <td align="center" colspan="8">
                                 <em>No items to show!</em>
                             </td>
                         </tr>
@@ -69,9 +77,9 @@
                 </tbody>
             </table>
         </div>
-        </div>
-
-        <div class="row-count1">
-            <h5>Row Count:- @Model.Count()</h5>
-        </div>
     </div>
+
+    <div class="row-count1">
+        <h5>Row Count:- @Model.Count()</h5>
+    </div>
+</div>

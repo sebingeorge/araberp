@@ -27,14 +27,14 @@ namespace ArabErp.DAL
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                   var  internalId = "";
-                    if(objWorkShopRequest.isProjectBased==0)
+                    var internalId = "";
+                    if (objWorkShopRequest.isProjectBased == 0)
                     {
-                       internalId = DatabaseCommonRepository.GetNewDocNo(connection, objWorkShopRequest.OrganizationId, 19, true, trn);
+                        internalId = DatabaseCommonRepository.GetNewDocNo(connection, objWorkShopRequest.OrganizationId, 19, true, trn);
                     }
                     else
                     {
-                         internalId = DatabaseCommonRepository.GetNewDocNo(connection, objWorkShopRequest.OrganizationId, 31, true, trn);
+                        internalId = DatabaseCommonRepository.GetNewDocNo(connection, objWorkShopRequest.OrganizationId, 31, true, trn);
                     }
 
                     objWorkShopRequest.WorkShopRequestRefNo = internalId;
@@ -50,7 +50,7 @@ namespace ArabErp.DAL
                         item.WorkShopRequestId = id;
                         new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, trn);
                     }
-                  
+
                     InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Create", "Workshop Request", id.ToString(), "0");
                     trn.Commit();
 
@@ -69,36 +69,36 @@ namespace ArabErp.DAL
             {
 
                 #region old query 12.11.2016
-//                string query = @"SELECT I.ItemName,I.ItemId,I.PartNo,SUM(WI.Quantity)Quantity,UnitName 
-//                                       FROM WorkDescription W 
-//                                       INNER JOIN  WorkVsItem WI on W.WorkDescriptionId=WI.WorkDescriptionId
-//                                       INNER JOIN Item I ON WI.ItemId=I.ItemId 
-//                                       INNER JOIN Unit U on U.UnitId =I.ItemUnitId  
-//                                       INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId
-//                                       WHERE SI.SaleOrderId=@SaleOrderId GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName 
-//                                       UNION ALL SELECT I.ItemName,I.ItemId,I.PartNo,SUM(S.Quantity)Quantity,UnitName 
-//                                       FROM SaleOrderMaterial S INNER JOIN Item I ON I.ItemId=S.ItemId
-//                                       INNER JOIN Unit U on U.UnitId =I.ItemUnitId  
-//                                       WHERE S.SaleOrderId=@SaleOrderId 
-//                                       GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName
-//                                       ----------------------------Freezer Unit Set-----------------------------------
-//                                       UNION ALL 
-//                                       SELECT FU.ItemName,FU.ItemId,FU.PartNo,COUNT(ItemId) Quantity,UnitName 
-//                                       from WorkDescription W 
-//                                       INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId
-//                                       LEFT JOIN Item FU ON FU.ItemId=W.FreezerUnitId
-//                                       LEFT JOIN Unit U on U.UnitId =FU.ItemUnitId 
-//                                       WHERE SI.SaleOrderId=@SaleOrderId AND FU.FreezerUnit=1
-//                					   GROUP BY FU.ItemName,FU.ItemId,FU.PartNo,UnitName
-//                                       ------------------------------------Box Set-------------------------------------
-//                                       UNION ALL 
-//                                       SELECT B.ItemName,B.ItemId,B.PartNo,COUNT(ItemId) Quantity,UnitName 
-//                                       from WorkDescription W 
-//                                       INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId
-//                                       LEFT JOIN Item B ON B.ItemId=W.BoxId
-//                                       LEFT JOIN Unit U on U.UnitId =B.ItemUnitId
-//                                       WHERE SI.SaleOrderId=@SaleOrderId AND B.Box=1
-//                					   GROUP BY B.ItemName,B.ItemId,B.PartNo, UnitName"; 
+                //                string query = @"SELECT I.ItemName,I.ItemId,I.PartNo,SUM(WI.Quantity)Quantity,UnitName 
+                //                                       FROM WorkDescription W 
+                //                                       INNER JOIN  WorkVsItem WI on W.WorkDescriptionId=WI.WorkDescriptionId
+                //                                       INNER JOIN Item I ON WI.ItemId=I.ItemId 
+                //                                       INNER JOIN Unit U on U.UnitId =I.ItemUnitId  
+                //                                       INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId
+                //                                       WHERE SI.SaleOrderId=@SaleOrderId GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName 
+                //                                       UNION ALL SELECT I.ItemName,I.ItemId,I.PartNo,SUM(S.Quantity)Quantity,UnitName 
+                //                                       FROM SaleOrderMaterial S INNER JOIN Item I ON I.ItemId=S.ItemId
+                //                                       INNER JOIN Unit U on U.UnitId =I.ItemUnitId  
+                //                                       WHERE S.SaleOrderId=@SaleOrderId 
+                //                                       GROUP BY I.ItemName,I.ItemId,I.PartNo,UnitName
+                //                                       ----------------------------Freezer Unit Set-----------------------------------
+                //                                       UNION ALL 
+                //                                       SELECT FU.ItemName,FU.ItemId,FU.PartNo,COUNT(ItemId) Quantity,UnitName 
+                //                                       from WorkDescription W 
+                //                                       INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId
+                //                                       LEFT JOIN Item FU ON FU.ItemId=W.FreezerUnitId
+                //                                       LEFT JOIN Unit U on U.UnitId =FU.ItemUnitId 
+                //                                       WHERE SI.SaleOrderId=@SaleOrderId AND FU.FreezerUnit=1
+                //                					   GROUP BY FU.ItemName,FU.ItemId,FU.PartNo,UnitName
+                //                                       ------------------------------------Box Set-------------------------------------
+                //                                       UNION ALL 
+                //                                       SELECT B.ItemName,B.ItemId,B.PartNo,COUNT(ItemId) Quantity,UnitName 
+                //                                       from WorkDescription W 
+                //                                       INNER JOIN SaleOrderItem SI ON SI.WorkDescriptionId = W.WorkDescriptionId
+                //                                       LEFT JOIN Item B ON B.ItemId=W.BoxId
+                //                                       LEFT JOIN Unit U on U.UnitId =B.ItemUnitId
+                //                                       WHERE SI.SaleOrderId=@SaleOrderId AND B.Box=1
+                //                					   GROUP BY B.ItemName,B.ItemId,B.PartNo, UnitName"; 
                 #endregion
 
                 string query = @"SELECT T1.* 
@@ -269,30 +269,30 @@ namespace ArabErp.DAL
                 }
             }
         }
-//        public int UpdateWorkShopRequest(WorkShopRequest objWorkShopRequest)
-//        {
-//            using (IDbConnection connection = OpenConnection(dataConnection))
-//            {
-//                IDbTransaction txn = connection.BeginTransaction();
-//                string sql = @"UPDATE WorkShopRequest SET WorkShopRequestRefNo = @WorkShopRequestRefNo ,WorkShopRequestDate = @WorkShopRequestDate ,SaleOrderId = @SaleOrderId ,CustomerId = @CustomerId,CustomerOrderRef = @CustomerOrderRef,SpecialRemarks = @SpecialRemarks,RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.WorkShopRequestId  WHERE WorkShopRequestId = @WorkShopRequestId;
-//
-//                  DELETE FROM WorkShopRequestItem WHERE WorkShopRequestId = @WorkShopRequestId;";
+        //        public int UpdateWorkShopRequest(WorkShopRequest objWorkShopRequest)
+        //        {
+        //            using (IDbConnection connection = OpenConnection(dataConnection))
+        //            {
+        //                IDbTransaction txn = connection.BeginTransaction();
+        //                string sql = @"UPDATE WorkShopRequest SET WorkShopRequestRefNo = @WorkShopRequestRefNo ,WorkShopRequestDate = @WorkShopRequestDate ,SaleOrderId = @SaleOrderId ,CustomerId = @CustomerId,CustomerOrderRef = @CustomerOrderRef,SpecialRemarks = @SpecialRemarks,RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate  OUTPUT INSERTED.WorkShopRequestId  WHERE WorkShopRequestId = @WorkShopRequestId;
+        //
+        //                  DELETE FROM WorkShopRequestItem WHERE WorkShopRequestId = @WorkShopRequestId;";
 
-//                var id = connection.Query<int>(sql, objWorkShopRequest, txn).Single();
+        //                var id = connection.Query<int>(sql, objWorkShopRequest, txn).Single();
 
-//                foreach (WorkShopRequestItem item in objWorkShopRequest.Items)
-//                {
-//                    item.WorkShopRequestId = id;
-//                    new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, txn);
-//                }
-                  
-             
-//                InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Update", "Workshop Request", id.ToString(), "0");
-//                return id;
-//            }
-//        }
+        //                foreach (WorkShopRequestItem item in objWorkShopRequest.Items)
+        //                {
+        //                    item.WorkShopRequestId = id;
+        //                    new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, txn);
+        //                }
 
-   
+
+        //                InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Update", "Workshop Request", id.ToString(), "0");
+        //                return id;
+        //            }
+        //        }
+
+
         public string DeleteWorkShopRequest(int WorkShopRequestId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -414,7 +414,7 @@ namespace ArabErp.DAL
         /// Returns all pending workshop requests
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<WorkShopRequest> PendingWorkshopRequests(string Request = "", string Jobcard = "", string Customer = "")
+        public IEnumerable<WorkShopRequest> PendingWorkshopRequests(string Request = "", string Jobcard = "", string Customer = "", string jcno = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -424,17 +424,20 @@ namespace ArabErp.DAL
 				SELECT SaleOrderId, ISNULL(SaleOrderRefNo, '')+' - '+CONVERT(VARCHAR, SaleOrderDate, 106) SoNoWithDate INTO #SALE FROM SaleOrder;
                 SELECT W.WorkShopRequestId, ISNULL(WR.WorkShopRequestRefNo, '')+' - '+CAST(CONVERT(VARCHAR, WR.WorkShopRequestDate, 106) AS VARCHAR) WorkShopRequestRefNo, ISNULL(CONVERT(DATETIME, WR.RequiredDate, 106), '01 Jan 1900') RequiredDate, C.CustomerName, S.SoNoWithDate,
 				DATEDIFF(day, WR.WorkShopRequestDate, GETDATE()) Ageing,
-				DATEDIFF(day, GETDATE(), WR.RequiredDate) DaysLeft
+				DATEDIFF(day, GETDATE(), WR.RequiredDate) DaysLeft,
+				JC.JobCardNo, CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate
                 FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId INNER JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId INNER JOIN #SALE S ON WR.SaleOrderId = S.SaleOrderId 
+                LEFT JOIN JobCard JC ON WR.JobCardId = JC.JobCardId
                 WHERE ISNULL(IssuedQuantity,0) < Quantity 
                 AND  WorkShopRequestRefNo LIKE '%'+@Request+'%'
 				AND SoNoWithDate LIKE '%'+@Jobcard+'%'
 				AND CustomerName LIKE '%'+@Customer+'%'
-                ORDER BY WR.WorkShopRequestDate DESC, CreatedDate DESC;
+				AND ISNULL(JC.JobCardNo, '') LIKE '%'+@jcno+'%'
+                ORDER BY WR.WorkShopRequestDate DESC, WR.CreatedDate DESC;
                 DROP TABLE #ISSUE;
                 DROP TABLE #WORK;
                 DROP TABLE #CUSTOMER;
-				DROP TABLE #SALE;", new { Request = Request, Jobcard = Jobcard, Customer = Customer }).ToList();
+				DROP TABLE #SALE;", new { Request = Request, Jobcard = Jobcard, Customer = Customer, @jcno = jcno }).ToList();
             }
         }
         public IEnumerable<WorkShopRequest> GetPrevious(int isProjectBased, DateTime? from, DateTime? to, string workshop, string customer, int OrganizationId)
@@ -477,7 +480,7 @@ namespace ArabErp.DAL
                 catch
                 {
                     objWrkshopRequests.Isused = false;
-                  
+
                 }
                 try
                 {
@@ -487,7 +490,7 @@ namespace ArabErp.DAL
                 }
                 catch
                 {
-                   
+
                     objWrkshopRequests.IsStoreused = false;
                 }
 
@@ -500,19 +503,19 @@ namespace ArabErp.DAL
             {
 
                 #region old query - doesnt show the actual quantity given in work description
-//                string query = @"select 
-//                                    I.ItemId,
-//                                    I.ItemName,
-//                                    I.PartNo,
-//                                    WI.Remarks,
-//                                    WI.Quantity,
-//                                    UnitName,
-//                                    WI.isAddtionalMaterialRequest,
-//                                    WI.Quantity ActualQuantity
-//                                    from WorkShopRequestItem WI 
-//                                    INNER JOIN Item I ON WI.ItemId=I.ItemId
-//                                    INNER JOIN Unit U on U.UnitId =I.ItemUnitId
-//                                    where WorkShopRequestId = @WorkShopRequestId"; 
+                //                string query = @"select 
+                //                                    I.ItemId,
+                //                                    I.ItemName,
+                //                                    I.PartNo,
+                //                                    WI.Remarks,
+                //                                    WI.Quantity,
+                //                                    UnitName,
+                //                                    WI.isAddtionalMaterialRequest,
+                //                                    WI.Quantity ActualQuantity
+                //                                    from WorkShopRequestItem WI 
+                //                                    INNER JOIN Item I ON WI.ItemId=I.ItemId
+                //                                    INNER JOIN Unit U on U.UnitId =I.ItemUnitId
+                //                                    where WorkShopRequestId = @WorkShopRequestId"; 
                 #endregion
 
                 string query = @"SELECT * INTO #TABLE1 FROM(
@@ -569,7 +572,7 @@ namespace ArabErp.DAL
                 new { WorkShopRequestId = WorkShopRequestId }).ToList();
             }
         }
-      
+
 
 
         public IEnumerable<WorkShopRequest> PreviousList(int OrganizationId, DateTime? from, DateTime? to, int id = 0, int customer = 0, int jobcard = 0)
@@ -677,11 +680,11 @@ namespace ArabErp.DAL
                 return objWrkshopRequests;
             }
         }
-       public List<WorkShopRequestItem> GetWorkShopRequestDtDataPrint(int WorkShopRequestId)
+        public List<WorkShopRequestItem> GetWorkShopRequestDtDataPrint(int WorkShopRequestId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-        string query = @"		select 
+                string query = @"		select 
                                     I.ItemId,
                                     I.ItemName,
                                     I.PartNo,
@@ -692,8 +695,8 @@ namespace ArabErp.DAL
 							        INNER JOIN Item I ON WI.ItemId=I.ItemId
                                     INNER JOIN Unit U on U.UnitId =I.ItemUnitId
                                     where WorkShopRequestId = @WorkShopRequestId";
-        return connection.Query<WorkShopRequestItem>(query,
-        new { WorkShopRequestId = WorkShopRequestId }).ToList();
+                return connection.Query<WorkShopRequestItem>(query,
+                new { WorkShopRequestId = WorkShopRequestId }).ToList();
             }
         }
     }
