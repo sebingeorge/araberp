@@ -14,7 +14,7 @@ namespace ArabErp.Web.Controllers
         // GET: LocalPurchase
         public ActionResult Index()
         {
-            return View(new DirectPurchaseRepository().GetPreviousList());
+            return View(new DirectPurchaseRepository().GetPreviousList(OrganizationId));
         }
         public ActionResult CreateRequest()
         {
@@ -309,6 +309,11 @@ namespace ArabErp.Web.Controllers
         public void FillPartNo()
         {
             ViewBag.partNoList = new SelectList(new DropdownRepository().PartNoDropdown1(), "Id", "Name");
+        }
+
+        public ActionResult PurchaseIndents()
+        {
+            return View(new DirectPurchaseRepository().GetPurchaseIndentList(OrganizationId));
         }
     }
 }
