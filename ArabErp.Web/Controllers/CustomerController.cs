@@ -14,16 +14,24 @@ namespace ArabErp.Web.Controllers
         // GET: Customer
         public ActionResult Index()
         {
+            FillCustomer();
             return View();
         }
-
-        public ActionResult CustomerList(int?page)
+        public void FillCustomer()
         {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.CustomersDropdown();
+            ViewBag.CustomerList1 = new SelectList(result, "Id", "Name");
+
+        }
+        public ActionResult CustomerList(int? page, int customer)
+        {
+            
             int itemsPerPage = 10;
             int pageNumber = page ?? 1;
             var repo = new CustomerRepository();
-            var List = repo.GetCustomers();
-            return PartialView("_CustomerListView",List);
+            var List = repo.GetCustomers(customer);
+            return View("_CustomerListView",List);
         }
 
      

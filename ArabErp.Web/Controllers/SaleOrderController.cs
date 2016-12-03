@@ -1088,6 +1088,9 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("ContactPerson");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("CreatedUser");
+            ds.Tables["Head"].Columns.Add("CreatedUsersig");
+            ds.Tables["Head"].Columns.Add("CreatedDes");
 
             //-------DT
             ds.Tables["Items"].Columns.Add("Date");
@@ -1136,6 +1139,9 @@ namespace ArabErp.Web.Controllers
             dr["ContactPerson"] = Head.ContactPerson;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            dr["CreatedUser"] = Head.CreatedUser;
+            dr["CreatedUsersig"] = Server.MapPath("~/App_images/") + Head.CreatedUsersig;
+            dr["CreatedDes"] = Head.CreatedDes;
             ds.Tables["Head"].Rows.Add(dr);
 
             //JobCardTaskRepository repo1 = new JobCardTaskRepository();

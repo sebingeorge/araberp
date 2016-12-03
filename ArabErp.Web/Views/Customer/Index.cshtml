@@ -12,33 +12,55 @@
         location.href = '@Url.Action("Index","Home")';
     }
 
+
+
+    function Filter() {
+        //$("#so_Reg").addClass("fade");
+        var customer = $("#cboCustomer").val();
+       
+        //var itmid = $("#cboItem").val();
+        //var from = $("#txtFrom").val();
+        //var to = $("#txtTo").val();
+        var url = '@Url.Action("CustomerList")';
+        url += "?customer=" + customer;
+        window.location = url;
+    }
+
 </script>
 
 
 
 
-    <div class="row">
+<div class="row">
 
-        <div class="form-head  form-head3">
-            <h4>Customer List</h4>
+    <div class="form-head  form-head3">
+        <h4>Customer List</h4>
+    </div>
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="col-md-2">
+                <label>Customer</label>
+                @Html.DropDownList("cboCustomer", (SelectList)ViewBag.CustomerList1, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+        </div>
+        <div class="row">
+            @*<div class="table-responsive" id="customer">*@
+            @Html.Action("CustomerList")
         </div>
 
-        <div class="main-part pad1 white">
+        <br />
 
-            <div class="row">
-                @Html.Action("CustomerList")
+        <div class="row">
+            <div class="col-md-12 hrpart1">
+                <button type="submit" class="form-button" onclick="openPop();">Create</button>
+                <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+
+                @*<button type="button" onclick="openPop();" class="form-button top5">Create</button>*@
             </div>
-
-            <div class="row">
-                <div class="col-md-12 hrpart1">
-                    <button type="submit" class="form-button" onclick="openPop();">Create</button>
-                    <button type="button" class="form-button right" onclick="Exit();">Exit</button>
-                    
-                    @*<button type="button" onclick="openPop();" class="form-button top5">Create</button>*@
-                </div>
-            </div>
-
-
         </div>
-            </div>
-    
+
+    </div>
+
+
+</div>
+        

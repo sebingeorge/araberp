@@ -944,11 +944,13 @@ namespace ArabErp.DAL
             {
 
 
-                string sql = @"   select S.*,O.*,C.CustomerName,C.DoorNo CDoorNo,C.State CState,C.Street CStreet,C.ContactPerson CContactPerson,C.Phone CPhone,C.Zip CZip,
-                                  CU.CountryName from ServiceEnquiry S
-                                  inner join Customer C ON C.CustomerId=S.CustomerId
-                                  inner join Organization O ON O.OrganizationId=S.OrganizationId
-                                  inner join Country CU ON CU.CountryId=O.Country
+                string sql = @"  select S.*,O.*,C.CustomerName,C.DoorNo CDoorNo,C.State CState,C.Street CStreet,C.ContactPerson CContactPerson,C.Phone CPhone,C.Zip CZip,
+                                  CU.CountryName,U.UserName CreatedUser,U.Signature CreatedUsersig,D.DesignationName CreatedDes from ServiceEnquiry S
+                                  left join Customer C ON C.CustomerId=S.CustomerId
+                                  left  join Organization O ON O.OrganizationId=S.OrganizationId
+                                  left join Country CU ON CU.CountryId=O.Country
+								  left join [User] U ON U.UserId=S.CreatedBy
+								  left join [Designation] D ON D.DesignationId=U.DesignationId
                                   where ServiceEnquiryId=@ServiceEnquiryId ";
 
                 var objServiceEnquiry = connection.Query<ServiceEnquiry>(sql, new
@@ -967,7 +969,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = @"SELECT ServiceEnquiryId, ServiceEnquiryRefNo, ServiceEnquiryDate, VehicleMake, BoxMake, FreezerMake, TailLiftMake, C.CustomerName,
-                                VehicleRegNo+'-' + VehicleChassisNo RegNo,FreezerModel
+                               ISNULL([VehicleRegNo],'')+''+ISNULL( [VehicleChassisNo],'') RegNo,FreezerModel
                                 FROM ServiceEnquiry SE INNER JOIN Customer C ON SE.CustomerId = C.CustomerId
                                 WHERE SE.OrganizationId= @OrganizationId";
                 return connection.Query<ServiceEnquiry>(query, new { OrganizationId = OrganizationId }).ToList();
