@@ -21,6 +21,7 @@ namespace ArabErp.Web.Controllers
             FillSO();
             FillJC();
             GetMaterials();
+            FillPartNo();
             List<DirectPurchaseRequestItem> list = new List<DirectPurchaseRequestItem>();
             list.Add(new DirectPurchaseRequestItem());
             return View("Create", new DirectPurchaseRequest
@@ -270,6 +271,7 @@ namespace ArabErp.Web.Controllers
         
         public ActionResult PurchaseIndent()
         {
+            FillPartNo();
             GetMaterials(); List<DirectPurchaseRequestItem> list = new List<DirectPurchaseRequestItem>();
             list.Add(new DirectPurchaseRequestItem());
             return View(new DirectPurchaseRequest
@@ -302,6 +304,11 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occurred while saving. Please try again.";
                 return View(model);
             }
+        }
+
+        public void FillPartNo()
+        {
+            ViewBag.partNoList = new SelectList(new DropdownRepository().PartNoDropdown1(), "Id", "Name");
         }
     }
 }

@@ -4,10 +4,12 @@
     $(document).ready(function () {
         $("#items_0__SlNo").val('1');
        
-
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
         });
+
+        $('#table-grid select[id$="__ItemId"]').combobox();
+        $('#table-grid select[id^="cboPartNo"]').combobox();
     });
 
     function validateGrid() {
@@ -44,11 +46,24 @@
             clone.html($(clone).html().replace(/txtUoM0/, 'txtUoM' + i + ''));
             clone.html($(clone).html().replace(/txtPartNo0/, 'txtPartNo' + i + ''));
             clone.html($(clone).html().replace(/this, 0/g, 'this, ' + i + ''));
+            clone.html($(clone).html().replace(/this,0/g, 'this,' + i + ''));
+            clone.html($(clone).html().replace(/cboPartNo0/g, 'cboPartNo' + i + ''));
             $("#table-grid").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
             $("#slno" + (i + 1)).html((i + 1));
             $("#items_" + i + "__SlNo").val((i + 1));
-            $("#txtUoM" + i).html('');
-            $("#txtPartNo" + i).html('');
+            //$("#txtUoM" + i).html('');
+            //$("#txtPartNo" + i).html('');
+
+            $("#" + i).find('span[class="custom-combobox"]').remove();
+            $("#items_" + i + "__Remarks").val('');
+            $("#items_" + i + "__Quantity").val('');
+            $("#items_" + i + "__Rate").val('');
+            $("#items_" + i + "__Amount").val('');
+            $("#items_" + i + "__Amount").val('');
+            $("#items_" + i + "__ItemId").val('');
+            $("#items_" + i + "__ItemId").combobox();
+            $("#cboPartNo" + i).val('');
+            $("#cboPartNo" + i).combobox();
 
             //bind keypress event for new row inputs.
             $(".numbers-only").keypress(function (e) {
@@ -93,12 +108,18 @@
                 clone.html($(clone).html().replace("items_" + j + "__UoM", "items_" + (j - 1) + "__UoM"));
                 clone.html($(clone).html().replace("items_" + j + "__PartNo", "items_" + (j - 1) + "__PartNo"));
                 clone.html($(clone).html().replace(new RegExp("this, " + j, "g"), "this, " + (j - 1)));
+                clone.html($(clone).html().replace(new RegExp("this," + j, "g"), "this," + (j - 1)));
+                clone.html($(clone).html().replace(new RegExp("cboPartNo" + j, "g"), "cboPartNo" + (j - 1)));
                 $("#" + j).html(clone.html());
                 $("#items_" + (j - 1) + "__SlNo").val(j);
                 $("#" + (j)).attr('id', (j - 1));
+                $("#" + (j - 1)).find('span[class="custom-combobox"]').remove();
                 $("#items_" + (j - 1) + "__ItemId").val(item);
+                $("#items_" + (j - 1) + "__ItemId").combobox();
                 $("#items_" + (j - 1) + "__Remarks").val(remarks);
-                $("#items_" + (j - 1) + "__PartNo").val(partno);
+                //$("#items_" + (j - 1) + "__PartNo").val(partno);
+                $("#cboPartNo" + (j - 1)).val(item);
+                $("#cboPartNo" + (j - 1)).combobox();
                 $("#items_" + (j - 1) + "__UoM").val(uom);
                 $("#items_" + (j - 1) + "__Quantity").val(qty);
                 $("#items_" + (j - 1) + "__Rate").val(rate);
@@ -128,12 +149,18 @@
             $.getJSON(url, { itemId: id },
                 function (data) {
                     var arr = data.split('|');
-                    $("#items_" + index + "__PartNo").val(arr[0]);
+                    //$("#items_" + index + "__PartNo").val(arr[0]);
+                    $("#cboPartNo" + index).combobox("destroy");
+                    $("#cboPartNo" + index).val(id);
+                    $("#cboPartNo" + index).combobox();
                     $("#items_" + index + "__UoM").val(arr[1]);
                 });
         }
         else {
-            $("#items_" + index + "__PartNo").val('');
+            //$("#items_" + index + "__PartNo").val('');
+            $("#cboPartNo" + index).combobox("destroy");
+            $("#cboPartNo" + index).val('');
+            $("#cboPartNo" + index).combobox();
             $("#items_" + index + "__UoM").val('');
         }
     }
@@ -159,21 +186,36 @@
         $("#items_" + index + "__Amount").val((qty * rate).toFixed(2));
         calculateTotal();
     }
+    
+    function OnPartNoChanged(sender, row) {
+        var id = $(sender).val();
+        if (id != '' && id != 0) {
+            $("#items_" + row + "__ItemId").combobox("destroy");
+            $("#items_" + row + "__ItemId").val(id);
+            $("#items_" + row + "__ItemId").combobox();
+        }
+        else {
+            $("#items_" + row + "__ItemId").combobox("destroy");
+            $("#items_" + row + "__ItemId").val('');
+            $("#items_" + row + "__ItemId").combobox();
+        }
+        OnMaterialChange($("#items_" + row + "__ItemId"), row);
+    }
 </script>
 
 <table class="table table-bordered" id="table-grid">
     <thead>
         <tr class="grid_heading">
-            <th width="2%"></th>
+            <th width="1%"></th>
             <th width="1%" class="text-center">#</th>
             <th width="20%">Material/Spares</th>
             <th width="10%">Part No</th>
             <th width="25%">Remarks</th>
             <th width="5%" class="text-right ">Qty.</th>
             <th width="5%">UoM</th>
-            <th width="10%" class="text-right ">Rate</th>
-            <th width="10%" class="text-right ">Amount</th>
-            <th width="2%">&nbsp;</th>
+            <th width="8%" class="text-right ">Rate</th>
+            <th width="8%" class="text-right ">Amount</th>
+            <th width="1%">&nbsp;</th>
         </tr>
     </thead>
     <tbody>
@@ -194,7 +236,8 @@
                         <input type="text" class="form_input" id="txtPartNo@(i)" disabled />
                     </td>*@
                 <td>
-                    @Html.TextBoxFor(m => m.items[i].PartNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    @Html.DropDownList("cboPartNo" + i, new SelectList(ViewBag.partNoList, "Value", "Text", Model.items[i].ItemId), "Select Part No.", new { @class = "form_input", @onchange = "OnPartNoChanged(this," + i + ")" })
+                    @*@Html.TextBoxFor(m => m.items[i].PartNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
                 </td>
                 <td>
                     @Html.TextBoxFor(m => m.items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })
