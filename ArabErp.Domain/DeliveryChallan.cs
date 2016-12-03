@@ -69,5 +69,7 @@ namespace ArabErp.Domain
 
         public string SaleOrderRefNo { get; set; }
         public DateTime SaleOrderDate { get; set; }
+
+        public string PrintDescription { get; set; }
     }
 }

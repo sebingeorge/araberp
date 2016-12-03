@@ -32,8 +32,6 @@
                 $("#txtRegNo").val(data.RegistrationNo);
                 $("#txtPaymentTerms").val(data.PaymentTerms);
             });
-
-        $("#DeliveryChallanRefNo").tooltip();
     });
 
     function formValidation() {
@@ -71,7 +69,7 @@
                     <label>Delivery Challan No.</label>
                     @Html.HiddenFor(m => m.JobCardId)
                     @Html.HiddenFor(m => m.DeliveryChallanId)
-                    @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true", @title = "This number may change after saving" })
+                    @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                 </div>
                 <div class="col-md-2">
                     <label>Challan Date</label>
@@ -184,18 +182,24 @@
                 </table>
             </div>
 
-            <div class="row form-group">
-                <div class="col-md-12">
-                    <label>Payment Terms</label>
-                    @Html.TextAreaFor(m => m.PaymentTerms, new { @class = "form_input form_input-h" })
-                    @*<input id="txtPaymentTerms" class="form_input" readonly="readonly" />*@
+            <div class="row">
+                <div class="col-md-5">
+                    <label for="PrintDescription">Print Description</label>
+                    @Html.TextAreaFor(m => m.PrintDescription, new { @class = "form_input", @style = "height: 109px" })
                 </div>
-            </div>
-
-            <div class="row form-group">
-                <div class="col-md-12">
-                    <label>Special Remarks</label>
-                    @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
+                <div class="col-md-7">
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label>Payment Terms</label>
+                            <textarea id="txtPaymentTerms" class="form_input form_input-h" readonly="readonly" tabindex="-1"></textarea>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label>Special Remarks</label>
+                            @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
+                        </div>
+                    </div>
                 </div>
             </div>
 

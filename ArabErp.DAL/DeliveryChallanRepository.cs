@@ -21,8 +21,8 @@ namespace ArabErp.DAL
                 {
                     objDeliveryChallan.DeliveryChallanRefNo = DatabaseCommonRepository.GetNewDocNo(connection, objDeliveryChallan.OrganizationId, 18, true, txn);
 
-                    string sql = @"insert into DeliveryChallan(JobCardId,DeliveryChallanRefNo,DeliveryChallanDate,EmployeeId,Remarks,CreatedBy,CreatedDate,OrganizationId,isActive, TransportWarrantyExpiryDate) 
-                                   Values (@JobCardId,@DeliveryChallanRefNo,@DeliveryChallanDate,@EmployeeId,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId,1, @TransportWarrantyExpiryDate);
+                    string sql = @"insert into DeliveryChallan(JobCardId,DeliveryChallanRefNo,DeliveryChallanDate,EmployeeId,Remarks,CreatedBy,CreatedDate,OrganizationId,isActive, TransportWarrantyExpiryDate, PrintDescription) 
+                                   Values (@JobCardId,@DeliveryChallanRefNo,@DeliveryChallanDate,@EmployeeId,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId,1, @TransportWarrantyExpiryDate, @PrintDescription);
                                 SELECT CAST(SCOPE_IDENTITY() as int);";
 
                     var id = connection.Query<int>(sql, objDeliveryChallan, txn).Single();
@@ -100,9 +100,9 @@ namespace ArabErp.DAL
                 try
                 {
 
-                string query = @"Delete ItemBatch  OUTPUT DELETED.DeliveryChallanId WHERE DeliveryChallanId=@DeliveryChallanId";
+                    string query = @"Delete ItemBatch  OUTPUT DELETED.DeliveryChallanId WHERE DeliveryChallanId=@DeliveryChallanId";
 
-                string output = connection.Query<string>(query, new { DeliveryChallanId = DeliveryChallanId }, txn).First();
+                    string output = connection.Query<string>(query, new { DeliveryChallanId = DeliveryChallanId }, txn).First();
                     txn.Commit();
                     return output;
                 }
@@ -219,7 +219,8 @@ namespace ArabErp.DAL
                 string sql = @" SELECT DISTINCT DC.DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,C.CustomerName Customer,SO.CustomerOrderRef,
                                 ISNULL(SO.SaleOrderRefNo,'')+ ' - '  +CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
                                 ISNULL(JC.JobCardNo,'') + ' - ' +CONVERT(varchar,JC.JobCardDate,106)JobCardNo,VI. RegistrationNo,
-                                WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeId,SO.PaymentTerms,DC.Remarks,ISNULL(SQ.DeliveryChallanId,0)IsUsed, TransportWarrantyExpiryDate
+                                WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeId,SO.PaymentTerms,DC.Remarks,ISNULL(SQ.DeliveryChallanId,0)IsUsed, TransportWarrantyExpiryDate,
+                                DC.PrintDescription
                                 FROM DeliveryChallan DC
                                 INNER JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
@@ -300,8 +301,8 @@ namespace ArabErp.DAL
                 {
                     DeliveryChallanId = DeliveryChallanId,
                     OrganizationId = OrganizationId,
-                   
-                    
+
+
                 }).First<DeliveryChallan>();
 
                 return objDeliveryChallan;
@@ -318,7 +319,7 @@ namespace ArabErp.DAL
                 LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId
                                      INNER JOIN Item I ON (I.ItemId=GI.ItemId OR OS.ItemId = I.ItemId)
                                      WHERE DeliveryChallanId = @DeliveryChallanId";
-               
+
                 return connection.Query<ItemBatch>(sql, new { DeliveryChallanId = DeliveryChallanId }).ToList();
             }
         }
@@ -330,10 +331,11 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                string sql = @"UPDATE
+                    string sql = @"UPDATE
                                 DeliveryChallan SET DeliveryChallanRefNo=@DeliveryChallanRefNo,
                                 DeliveryChallanDate=@DeliveryChallanDate,EmployeeId=@EmployeeId,Remarks=@Remarks,
-                                CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId, TransportWarrantyExpiryDate = @TransportWarrantyExpiryDate
+                                CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId, TransportWarrantyExpiryDate = @TransportWarrantyExpiryDate,
+                                PrintDescription = @PrintDescription
                                 WHERE DeliveryChallanId = @DeliveryChallanId;";
                     var id = connection.Execute(sql, objDeliveryChallan, txn);
 
@@ -390,7 +392,7 @@ namespace ArabErp.DAL
                 }
             }
         }
-        public List<ItemVsBom> GetDeliveryChallanDTPrint(int FreezerId,int BoxId)
+        public List<ItemVsBom> GetDeliveryChallanDTPrint(int FreezerId, int BoxId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
