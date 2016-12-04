@@ -8,12 +8,12 @@
 <script type="text/javascript">
 
     function OnItemSelected(id) {
-        var url = '@Url.Action("Edit")';
+        var url = '@Url.Action("EditPurchaseIndent")';
         url += "?id=" + id;
         window.location = url;
     }
     function Exit() {
-        var url = '@Url.Action("CreateRequest")';
+        var url = '@Url.Action("PurchaseIndent")';
         window.location = url;
     }
 </script>

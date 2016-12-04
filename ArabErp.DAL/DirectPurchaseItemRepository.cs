@@ -39,7 +39,7 @@ namespace ArabErp.DAL
 	                                1
                                 );
                             SELECT CAST(SCOPE_IDENTITY() AS INT)";
-               return connection.Query<int>(query, item, txn).First();
+                return connection.Query<int>(query, item, txn).First();
             }
             catch (Exception)
             {
@@ -59,6 +59,26 @@ namespace ArabErp.DAL
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        internal int UpdatePurchaseIndentItem(DirectPurchaseRequest model, IDbConnection connection, IDbTransaction txn)
+        {
+            try
+            {
+                string sql = @"DELETE FROM PurchaseRequestItem WHERE PurchaseRequestId = @id";
+                var id = connection.Execute(sql, new { id = model.DirectPurchaseRequestId }, txn);
+                if (id <= 0) throw new Exception();
+                foreach(var item in model.items)
+                {
+                    item.DirectPurchaseRequestId = model.DirectPurchaseRequestId;
+                    InsertPurchaseIndentItem(item, connection, txn);
+                }
+                return id;
+            }
+            catch (Exception)
+            {
+                return 0;
             }
         }
     }
