@@ -88,29 +88,29 @@
             <div class="row form-group">
                 <div class="col-md-4">
                     <label for="CustomerName">Customer</label>
-                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
                 </div>
                 <div class="col-md-2">
                     <label for="CustomerOrderRef">Customer Order Ref.</label>
-                    @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
                 </div>
                 <div class="col-md-2">
                     <label for="SaleOrderRefNo">SO.No.& Date</label>
-                    @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
                 </div>
                 <div class="col-md-2">
                     <label for="SaleOrderRefNo">EDA</label>
-                    @Html.TextBoxFor(m => m.EDateArrival, Model.EDateArrival.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
+                    @Html.TextBoxFor(m => m.EDateArrival, Model.EDateArrival.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true", @tabindex = "-1" })
                 </div>
                 <div class="col-md-2">
                     <label for="SaleOrderRefNo">EDD</label>
-                    @Html.TextBoxFor(m => m.EDateDelivery, Model.EDateDelivery.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
+                    @Html.TextBoxFor(m => m.EDateDelivery, Model.EDateDelivery.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true", @tabindex = "-1" })
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col-md-12">
                     <label for="WorkDescription">Work Description</label>
-                    @Html.TextAreaFor(m => m.WorkDescription, new { @class = "form_input form_input-h1", autocomplete = "off", @readonly = "true" })
+                    @Html.TextAreaFor(m => m.WorkDescription, new { @class = "form_input form_input-h1", autocomplete = "off", @readonly = "true", @tabindex = "-1" })
                 </div>
 
             </div>
@@ -131,7 +131,7 @@
             <div class="row">
                 <div class="col-md-2">
                     <label for="RequiredDate">Required Date</label>
-                    @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
                 </div>
 
 

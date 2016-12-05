@@ -292,6 +292,58 @@ namespace ArabErp.DAL
             }
         }
 
+        public DirectPurchaseRequest GetPurchaseIndent(int id, int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //the model used for Purchase Indent is DirectPurchaseRequest
+                string query = @"SELECT
+	                                PurchaseRequestId DirectPurchaseRequestId, *
+                                FROM PurchaseRequest
+                                WHERE PurchaseRequestId = @id
+                                AND OrganizationId = @org";
+                DirectPurchaseRequest model = connection.Query<DirectPurchaseRequest>(query, new { org = organizationId, @id = id }).FirstOrDefault();
+                string sql = @"SELECT
+	                                PRI.PurchaseRequestItemId DirectPurchaseRequestItemId, PRI.*,
+									U.UnitName UoM
+                                FROM PurchaseRequestItem PRI
+								INNER JOIN Item I ON PRI.ItemId = I.ItemId
+								INNER JOIN Unit U ON I.ItemUnitId = U.UnitId
+                                WHERE PurchaseRequestId = @id";
+                model.items = connection.Query<DirectPurchaseRequestItem>(sql, new { id = id }).ToList();
+                return model;
+            }
+        }
+
+        public int UpdatePurchaseIndent(DirectPurchaseRequest model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"UPDATE PurchaseRequest SET
+                                PurchaseRequestDate = @PurchaseRequestDate,
+                                SpecialRemarks = @SpecialRemarks,
+                                RequiredDate = @RequiredDate,
+                                CreatedBy = @CreatedBy,
+                                CreatedDate = @CreatedDate
+                                WHERE PurchaseRequestId = @DirectPurchaseRequestId";
+                    int id = connection.Execute(query, model, txn);
+                    if (id <= 0) throw new Exception();
+                    id = new DirectPurchaseItemRepository().UpdatePurchaseIndentItem(model, connection, txn);
+                    if (id <= 0) throw new Exception();
+                    txn.Commit();
+                    return id;
+                }
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    throw;
+                }
+            }
+        }
+
         public int CHECK(int DirectPurchaseRequestId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

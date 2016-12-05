@@ -151,7 +151,7 @@ namespace ArabErp.Web.Controllers
                     DirectPurchaseRequest DirectPurchaseRequest = new DirectPurchaseRequest();
                     DirectPurchaseRequest = new DirectPurchaseRepository().GetDirectPurchaseRequest(id);
                     DirectPurchaseRequest.items = new DirectPurchaseRepository().GetDirectPurchaseRequestItems(id);
-                   
+
                     return View(DirectPurchaseRequest);
                 }
                 else
@@ -268,7 +268,7 @@ namespace ArabErp.Web.Controllers
             }
 
         }
-        
+
         public ActionResult PurchaseIndent()
         {
             FillPartNo();
@@ -314,6 +314,53 @@ namespace ArabErp.Web.Controllers
         public ActionResult PurchaseIndents()
         {
             return View(new DirectPurchaseRepository().GetPurchaseIndentList(OrganizationId));
+        }
+
+        public ActionResult EditPurchaseIndent(int id = 0)
+        {
+            try
+            {
+                if (id == 0)
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    return RedirectToAction("Index", "Home");
+                }
+                var model = new DirectPurchaseRepository().GetPurchaseIndent(id, OrganizationId);
+                if (model == null)
+                {
+                    TempData["error"] = "Could not find the requested Purchase Indent. Please try again.";
+                    return RedirectToAction("Index", "Home");
+                }
+                FillPartNo();
+                GetMaterials();
+                return View("PurchaseIndent", model);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured. Please try again.";
+                return RedirectToAction("PurchaseIndents");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditPurchaseIndent(DirectPurchaseRequest model)
+        {
+            try
+            {
+                model.CreatedBy = UserID.ToString();
+                model.CreatedDate = DateTime.Today;
+                var success = new DirectPurchaseRepository().UpdatePurchaseIndent(model);
+                if (success <= 0) throw new Exception();
+                TempData["success"] = "Updated successfully (" + model.PurchaseRequestNo + ")";
+                return RedirectToAction("PurchaseIndents");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while saving. Please try again.";
+                FillPartNo();
+                GetMaterials();
+                return View("PurchaseIndent", model);
+            }
         }
     }
 }

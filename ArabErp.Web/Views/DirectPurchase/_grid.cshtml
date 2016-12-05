@@ -1,9 +1,13 @@
 ﻿@model ArabErp.Domain.DirectPurchaseRequest
 
+@{
+    string actionName = ViewContext.RouteData.GetRequiredString("action");
+}
+
 <script type="text/javascript">
     $(document).ready(function () {
         $("#items_0__SlNo").val('1');
-       
+
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
         });
@@ -186,7 +190,7 @@
         $("#items_" + index + "__Amount").val((qty * rate).toFixed(2));
         calculateTotal();
     }
-    
+
     function OnPartNoChanged(sender, row) {
         var id = $(sender).val();
         if (id != '' && id != 0) {
@@ -211,10 +215,13 @@
             <th width="20%">Material/Spares</th>
             <th width="10%">Part No</th>
             <th width="25%">Remarks</th>
-            <th width="5%" class="text-right ">Qty.</th>
+            <th width="5%" class="text-right ">Qty</th>
             <th width="5%">UoM</th>
-            <th width="8%" class="text-right ">Rate</th>
-            <th width="8%" class="text-right ">Amount</th>
+            @if (!new string[] { "EditPurchaseIndent", "PurchaseIndent" }.Contains(actionName))
+            {
+                <th width="8%" class="text-right ">Rate</th>
+                <th width="8%" class="text-right ">Amount</th>
+            }
             <th width="1%">&nbsp;</th>
         </tr>
     </thead>
@@ -232,7 +239,8 @@
 
                     @Html.DropDownListFor(m => m.items[i].ItemId, new SelectList(ViewBag.materialList, "Value", "Text", Model.items[i].ItemId), "Select Material/Spare", new { @class = "form_input", @onchange = "OnMaterialChange(this, " + i + ")", @required = "true" })
                 </td>
-                @*<td>
+                @*
+                    <td>
                         <input type="text" class="form_input" id="txtPartNo@(i)" disabled />
                     </td>*@
                 <td>
@@ -246,17 +254,21 @@
                     @Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "OnQtyChange(this, " + i + ")", @required = "true" })
                 </td>
 
-                <td>@Html.TextBoxFor(m => m.items[i].UoM, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly" })</td>
+                <td>@Html.TextBoxFor(m => m.items[i].UoM, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
 
-                @*<td>
+                @*
+                    <td>
                         <input type="text" id="txtUoM@(i)" class="form_input" disabled />
                     </td>*@
-                <td>
-                    @Html.TextBoxFor(m => m.items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Rate", @onkeyup = "OnRateChange(this, " + i + ")", @required = "true" })
-                </td>
-                <td>
-                    @Html.TextBoxFor(m => m.items[i].Amount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })
-                </td>
+                @if (!new string[] { "EditPurchaseIndent", "PurchaseIndent" }.Contains(actionName))
+                {
+                    <td>
+                        @Html.TextBoxFor(m => m.items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Rate", @onkeyup = "OnRateChange(this, " + i + ")", @required = "true" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.items[i].Amount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })
+                    </td>
+                }
                 <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0" onclick="AddRow()"></a></td>
             </tr>
         }
@@ -272,16 +284,18 @@
             <th></th>
             <th></th>
             <th></th>
-            <th class="text-right">Total</th>
-            <th class="text-right">
-                <strong>
-                    <span id="total">
+            @if (!new string[] { "EditPurchaseIndent", "PurchaseIndent" }.Contains(actionName))
+            {
+                <th class="text-right">Total</th>
+                <th class="text-right">
+                    <strong>
+                        <span id="total">
 
-                    </span>
-                </strong>
-            </th>
+                        </span>
+                    </strong>
+                </th>
+            }
             <th></th>
         </tr>
     </tfoot>
 </table>
-

@@ -185,7 +185,7 @@
                       }            
                         @Html.HiddenFor(m => m.Items[row].ItemId)                      
                     </td>
-                    <td id="partno@(row)">@Html.TextBoxFor(m => m.Items[row].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly" })</td>
+                    <td id="partno@(row)">@Html.TextBoxFor(m => m.Items[row].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly", @tabindex = "-1" })</td>
                     <td>@Html.TextBoxFor(m => m.Items[row].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                   
                      <td>
@@ -202,7 +202,7 @@
                       }
                     </td>
                   
-                    <td id="unitname@(row)">@Html.TextBoxFor(m => m.Items[row].UnitName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                    <td id="unitname@(row)">@Html.TextBoxFor(m => m.Items[row].UnitName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
                     @Html.HiddenFor(m => m.Items[row].isAddtionalMaterialRequest)
                     
                     <td>
