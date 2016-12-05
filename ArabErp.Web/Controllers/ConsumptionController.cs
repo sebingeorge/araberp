@@ -157,7 +157,7 @@ namespace ArabErp.Web.Controllers
         }
         public void JobCardDropdown()
         {
-            ViewBag.jobcardList = new SelectList(new DropdownRepository().JobCardDropdown(), "Id", "Name");
+            ViewBag.jobcardList = new SelectList(new DropdownRepository().JobCardDropdown(organizationId:OrganizationId), "Id", "Name");
         }
         public void FillConsumption()
         {
