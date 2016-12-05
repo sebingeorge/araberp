@@ -207,6 +207,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Zip");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("JobCardNo");
 
 
             //-------DT
@@ -217,6 +218,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("StockQuantity");
             ds.Tables["Items"].Columns.Add("CurrentIssuedQuantity");
             ds.Tables["Items"].Columns.Add("UnitName");
+            ds.Tables["Items"].Columns.Add("PartNo");
 
 
 
@@ -243,6 +245,7 @@ namespace ArabErp.Web.Controllers
             dr["ContactPerson"] = Head.ContactPerson;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Head.Image1;
+            dr["JobCardNo"] = Head.JobCardNo;
 
             ds.Tables["Head"].Rows.Add(dr);
 
@@ -259,6 +262,8 @@ namespace ArabErp.Web.Controllers
                     StockQuantity = item.StockQuantity,
                     CurrentIssuedQuantity = item.CurrentIssuedQuantity,
                     UnitName = item.UnitName,
+                    PartNo=item.PartNo
+                    
 
                 };
 
@@ -271,6 +276,7 @@ namespace ArabErp.Web.Controllers
                 dri["StockQuantity"] = pritem.StockQuantity;
                 dri["CurrentIssuedQuantity"] = pritem.CurrentIssuedQuantity;
                 dri["UnitName"] = pritem.UnitName;
+                dri["PartNo"] = pritem.PartNo;
 
                 ds.Tables["Items"].Rows.Add(dri);
             }

@@ -243,6 +243,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("LPODate");
             ds.Tables["Head"].Columns.Add("CreatedUser");
             ds.Tables["Head"].Columns.Add("CreateSignature");
+            ds.Tables["Head"].Columns.Add("Printdescr");
             //ds.Tables["Head"].Columns.Add("TransportWarrantyExpiryDate");
             //-------DT
             ds.Tables["Items"].Columns.Add("ItemName");
@@ -297,6 +298,7 @@ namespace ArabErp.Web.Controllers
             dr["LPODate"] = Head.LPODate.ToString("dd/MMM/yyyy");
             dr["CreatedUser"] = Head.CreatedUser;
             dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
+            dr["Printdescr"] = Head.printdes;
             ds.Tables["Head"].Rows.Add(dr);
 
 

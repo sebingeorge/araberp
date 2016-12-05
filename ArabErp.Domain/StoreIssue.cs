@@ -42,6 +42,7 @@ namespace ArabErp.Domain
         public string ContactPerson { get; set; }
         public string OrganizationName { get; set; }
         public string Image1 { get; set; }
+        public string JobCardNo { get; set; }
         public List<StoreIssueItem> Items { get; set; }
     }
 }

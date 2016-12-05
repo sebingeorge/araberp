@@ -16,6 +16,7 @@ namespace ArabErp.Domain
         public string ItemName { get; set; }
         public int ItemId { get; set; }
         public string UnitName { get; set; }
+        public string PartNo { get; set; }
         public decimal RequiredQuantity { get; set; }
         public decimal CurrentIssuedQuantity { get; set; }
         public decimal PendingQuantity { get; set; }

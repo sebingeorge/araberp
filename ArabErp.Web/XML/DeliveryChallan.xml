@@ -48,6 +48,7 @@
                 <xs:element name="LPODate" type="xs:string" minOccurs="0" />
                 <xs:element name="CreatedUser" type="xs:string" minOccurs="0" />
                 <xs:element name="CreateSignature" type="xs:string" minOccurs="0" />
+                <xs:element name="Printdescr" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -96,6 +97,16 @@
     <LPONo xml:space="preserve"> </LPONo>
     <LPODate>30-Nov-2016</LPODate>
     <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\04afd3ad-2a31-4acb-9199-cd6b400d1e34.png</CreateSignature>
+    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <Printdescr>Replace Evaporator Fan Motor Bearing
+Evaporator Fan Motor Repair
+Electrical Check-up
+Labor Charges
+
+Oil Service of Oasis 250-MT:
+Replace Engine Oil, Oil Filter, Fuel Filter, Air Filter,
+Top-up Refrigerant &amp; Coolant Water
+General Check-up &amp; Maintenance
+</Printdescr>
   </Head>
 </NewDataSet>

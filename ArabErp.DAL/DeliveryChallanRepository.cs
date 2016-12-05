@@ -273,7 +273,8 @@ namespace ArabErp.DAL
 								ISNULL(II.PartNo, '') BoxPartNo,
 								LPO.SupplyOrderNo,
 								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig,
-								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate
+								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate,
+                                DC.PrintDescription printdes
 	                            FROM DeliveryChallan DC
                                 left JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
                                 left JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
