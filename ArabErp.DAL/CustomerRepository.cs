@@ -106,14 +106,14 @@ namespace ArabErp.DAL
             }
         }
 
-        public List<Customer> GetCustomers(int customer)
+        public List<Customer> GetCustomers(string customer)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @" SELECT CustomerId,CustomerRefNo,CustomerName,CusCategoryName,CountryName FROM Customer C
                                 INNER JOIN CustomerCategory ON CusCategoryId=C.CategoryId
                                 INNER JOIN Country ON CountryId=C.Country
-                                WHERE C.isActive=1 and CustomerId= ISNULL(NULLIF(@customer, 0),CustomerId)";
+                                WHERE C.isActive=1 and CustomerName LIKE '%'+@customer+'%'";
 
                 var objCustomers = connection.Query<Customer>(sql, new
                 {
