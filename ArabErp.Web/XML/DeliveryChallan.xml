@@ -70,50 +70,32 @@
     <Customer>Ali Bin Ali:Ali Bin Ali- IA</Customer>
     <CDoorNo>Doha ,Qatar</CDoorNo>
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>SO/1</SaleRefNo>
-    <SONoDate>28 Nov 2016</SONoDate>
+    <SaleRefNo>AARC/SER/2</SaleRefNo>
+    <SONoDate>30 Nov 2016</SONoDate>
     <JobcardNo>JC/2</JobcardNo>
-    <JCDate>28-Nov-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>134</RegistrationNo>
-    <ChassisNo>45</ChassisNo>
-    <WorkDesc>itmas + itm4</WorkDesc>
-    <VehicleModel>JAC HFC 1251 Truck -6x4 Chassis</VehicleModel>
-    <Employee>Giriesh Gopi</Employee>
-    <SpecialRemarks>dgdfg</SpecialRemarks>
-    <QuotationRefNo>SQ/1</QuotationRefNo>
-    <FreezerName>itmas</FreezerName>
-    <FreezerPartNo>sads</FreezerPartNo>
-    <BoxName>itm4</BoxName>
-    <BoxPartNo>rtr</BoxPartNo>
-    <FreezerId>1383</FreezerId>
-    <BoxId>1384</BoxId>
+    <JCDate>30-Nov-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>291973</RegistrationNo>
+    <WorkDesc>General Checkup &amp; Repair</WorkDesc>
+    <VehicleModel>MITSUBISHI FUSO CANTER 4.3 TON (SINGLE CABIN)</VehicleModel>
+    <Employee>Mohammed Safiq</Employee>
+    <FreezerPartNo />
+    <BoxPartNo />
+    <FreezerId>0</FreezerId>
+    <BoxId>0</BoxId>
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
-    <Country>UAE</Country>
+    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
+    <Street>Hiteen Street, Muntazah </Street>
+    <State>Doha</State>
+    <Country>QATAR</Country>
+    <Phone>974 4435 7216</Phone>
+    <Fax>974 4414 2910</Fax>
+    <Email>info@arabrefrigeration.com</Email>
+    <Zip>13037</Zip>
     <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
-    <LPONo>YTY45</LPONo>
-    <LPODate>28-Nov-2016</LPODate>
-    <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\a0e7a4f0-3793-4f73-9574-e33e48be78a9.png</CreateSignature>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <LPONo xml:space="preserve"> </LPONo>
+    <LPODate>30-Nov-2016</LPODate>
+    <CreatedUser>safiq</CreatedUser>
+    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\04afd3ad-2a31-4acb-9199-cd6b400d1e34.png</CreateSignature>
   </Head>
-  <Items>
-    <ItemName>itm4</ItemName>
-    <Unit>Nos</Unit>
-    <Quantity>1.00</Quantity>
-  </Items>
-  <Items>
-    <ItemName>itmas</ItemName>
-    <Unit>Nos</Unit>
-    <Quantity>1.00</Quantity>
-  </Items>
-  <Items>
-    <ItemName>100mm 2300x1700x1700mm- ISUZU</ItemName>
-    <Unit>Nos</Unit>
-    <Quantity>30.00</Quantity>
-  </Items>
-  <Items>
-    <ItemName>100mm 2300x1700x1700mm- ISUZU</ItemName>
-    <Unit>Nos</Unit>
-    <Quantity>50.00</Quantity>
-  </Items>
 </NewDataSet>
