@@ -525,8 +525,8 @@ namespace ArabErp.DAL
 								LEFT JOIN JobCard JC ON SI.SaleOrderItemId = JC.SaleOrderItemId
                                 inner join Customer C on C.CustomerId = SH.CustomerId 
                                 inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId 
-								inner join Item I on I.ItemId=W.FreezerUnitId
-								inner join Item II on II.ItemId=W.BoxId
+								left join Item I on I.ItemId=W.FreezerUnitId
+								left join Item II on II.ItemId=W.BoxId
 								left join JobCardQC JQC ON JQC.JobCardId=JC.JobCardId
                                 WHERE SH.OrganizationId = @OrganizationId
 								order by SH.SaleOrderDate, C.CustomerName";

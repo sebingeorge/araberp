@@ -50,6 +50,7 @@ namespace ArabErp.DAL
                         VehicleInpass =  case when VI.VehicleInPassId is null then NULL else  VehicleInPassNo +','+ CONVERT (VARCHAR(15),VehicleInPassDate,106)  end, 
                         JobCard = cast('' as varchar(max)), 
                         JobCardComplete = cast('' as varchar(max)), 
+                        DeliveryChellan = cast('' as varchar(max)), 
                         WorkShopRequest = cast('' as varchar(max)), 
                         PurchaseRequest = cast('' as varchar(max)), 
                         SuppyOrder =  cast('' as varchar(max)), 
@@ -85,6 +86,10 @@ namespace ArabErp.DAL
                         from JobCard J, #RESULT R
                         where J.SaleOrderId = R.SaleOrderId and R.SaleOrderItemId = J.SaleOrderItemId
                         and J.JodCardCompleteStatus = 1;
+
+                        update R set R.DeliveryChellan = D.DeliveryChallanRefNo +', '+ CONVERT (VARCHAR(15),D.DeliveryChallanDate,106) 
+                        from DeliveryChallan D,JobCard J, #RESULT R
+                        where D.JobCardId = J.JobCardId and  J.SaleOrderId = R.SaleOrderId and R.SaleOrderItemId = J.SaleOrderItemId;
 
                         update #RESULT set WorkShopRequest = (STUFF((SELECT ', ' + CAST(T.WorkShopRequestRefNo AS VARCHAR(MAX))
                         FROM WorkShopRequest T where T.SaleOrderId = #RESULT.SaleOrderId
@@ -125,6 +130,7 @@ namespace ArabErp.DAL
                         VehicleInpass =  case when VI.VehicleInPassId is null then NULL else  VehicleInPassNo +','+ CONVERT (VARCHAR(15),VehicleInPassDate,106)  end, 
                         JobCard = cast('' as varchar(max)), 
                         JobCardComplete = cast('' as varchar(max)), 
+                        DeliveryChellan = cast('' as varchar(max)), 
                         WorkShopRequest = cast('' as varchar(max)), 
                         PurchaseRequest = cast('' as varchar(max)), 
                         SuppyOrder =  cast('' as varchar(max)), 
@@ -160,6 +166,10 @@ namespace ArabErp.DAL
                         from JobCard J, #RESULT R
                         where J.SaleOrderId = R.SaleOrderId and R.SaleOrderItemId = J.SaleOrderItemId
                         and J.JodCardCompleteStatus = 1;
+
+                        update R set R.DeliveryChellan = D.DeliveryChallanRefNo +', '+ CONVERT (VARCHAR(15),D.DeliveryChallanDate,106) 
+                        from DeliveryChallan D,JobCard J, #RESULT R
+                        where D.JobCardId = J.JobCardId and  J.SaleOrderId = R.SaleOrderId and R.SaleOrderItemId = J.SaleOrderItemId;
 
                         update #RESULT set WorkShopRequest = (STUFF((SELECT ', ' + CAST(T.WorkShopRequestRefNo AS VARCHAR(MAX))
                         FROM WorkShopRequest T where T.SaleOrderId = #RESULT.SaleOrderId

@@ -54,6 +54,8 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("ChassisNo");
             ds.Tables["Items"].Columns.Add("Jobcardnodate");
             ds.Tables["Items"].Columns.Add("JobcardComp");
+            ds.Tables["Items"].Columns.Add("DeliveryChellan");
+            ds.Tables["Items"].Columns.Add("Invoice");
            
             OrganizationRepository repo = new OrganizationRepository();
             var Head = repo.GetOrganization(OrganizationId);
@@ -84,7 +86,9 @@ namespace ArabErp.Web.Controllers
                     VehicleInpass = item.VehicleInpass,
                     JobCard = item.JobCard,
                     JobCardComplete = item.JobCardComplete,
-                    RegistrationNo = item.RegistrationNo
+                    RegistrationNo = item.RegistrationNo,
+                    DeliveryChellan = item.DeliveryChellan,
+                    SalesInvoice = item.SalesInvoice
 
                 };
 
@@ -103,6 +107,8 @@ namespace ArabErp.Web.Controllers
                 dri["Jobcardnodate"] = SupplyOrderRegItem.JobCard;
                 dri["ChassisNo"] = SupplyOrderRegItem.RegistrationNo;
                 dri["JobcardComp"] = SupplyOrderRegItem.JobCardComplete;
+                dri["DeliveryChellan"] = SupplyOrderRegItem.DeliveryChellan;
+                dri["Invoice"] = SupplyOrderRegItem.SalesInvoice;
                 ds.Tables["Items"].Rows.Add(dri);
             }
 

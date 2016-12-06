@@ -55,7 +55,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT * INTO #JobCard FROM JobCard WHERE JodCardCompleteStatus=1;
+                string sql = @"SELECT * INTO #JobCard FROM JobCard WHERE JodCardCompleteStatus=1 and isService=0;
                                SELECT JC.JobCardId JobCardId,JC.JobCardNo JobCardNo,JC.JobCardDate JobCardDate,JC.SaleOrderId SaleOrderId,JC.SaleOrderItemId SaleOrderItemId INTO #JOBCARDvsQC 
                                FROM #JobCard JC WHERE JC.JobCardId NOT IN (SELECT JobCardId FROM JobCardQC);
                                SELECT JCQ.JobCardId JobCardId,JCQ.JobCardNo JobCardNo,JCQ.JobCardDate JobCardDate,JCQ.SaleOrderId SaleOrderId,JCQ.SaleOrderItemId SaleOrderItemId,SO.CustomerId CustomerId,SOI.VehicleModelId VehicleModelId INTO #JOBCARD_vs_SALERORDER
