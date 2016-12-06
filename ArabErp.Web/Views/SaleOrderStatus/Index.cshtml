@@ -48,6 +48,7 @@
                                 <th style="width:10%;">GRN</th>
                                 <th style="width:10%;">Batch Alloc.</th>
                                 <th style="width:10%;">Inpass No. & Date</th>
+                                <th style="width:10%;">Registration No./Chassis No.</th>
                                 <th style="width:10%;">Job Card No. & Date</th>
                                 <th style="width:2%;">Job Card Comp.</th>
                                 @*<td style="width:2%;">Sales Inv.</td>*@
@@ -74,6 +75,7 @@
                                 @*<td class="grid-cell"><img src="~/Images/@(item.SuppyOrder == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
                                     <td class="grid-cell"><img src="~/Images/@(item.GRN == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
                                 <td class="grid-cell">@item.VehicleInpass</td>
+                                <td class="grid-cell">@item.RegistrationNo</td>
                                 <td class="grid-cell">@item.JobCard</td>
                                 @*<td class="grid-cell"><img src="~/Images/@(item.VehicleInpass == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
                                 @*<td class="grid-cell"><img src="~/Images/@(item.JobCard == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
