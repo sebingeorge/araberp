@@ -26,18 +26,13 @@ namespace ArabErp.Web.Controllers
         public ActionResult CustomerList(int? page, string customer = "")
         {
             int pageNumber = page ?? 1;
-            var repo = new CustomerRepository();
-            var List = repo.GetCustomers(customer);
-            return View("_CustomerListView", List);
+            return PartialView("_CustomerListView", new CustomerRepository().GetCustomers(customer));
         }
-
-
         public void FillCategoryDropdown()
         {
             var cus = rep.FillCategoryDropdown();
             ViewBag.CustomerCategory = new SelectList(cus, "Id", "Name");
         }
-
         public void FillCountryDropdown()
         {
             var cus = rep.FillCountryDropdown();
