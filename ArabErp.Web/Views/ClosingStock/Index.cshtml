@@ -28,7 +28,7 @@
         $("#Closing_stock").addClass("fade");
         var stkid = $("#cboStockpoint").val();
         var itmcatid = $("#itmCatId").val();
-        var itmid = $("#ItemId").val();
+        var itmid = $("#ItemId").val().trim();
         var Ason = $("#txtAsOn").val();
         var url = '@Url.Action("ClosingStockRegister")';
         url += "?Ason=" + Ason + "&stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid;
@@ -46,8 +46,8 @@
         var Spid = $("#cboStockpoint").val();
         var ItmCatid = $("#itmCatId").val();
         var ItmCatname = $("#itmCatId option:selected").text();
-        var Itmid = $("#ItemId").val();
-        var Itmname = $("#ItemId option:selected").text();
+        var Itmid = $("#ItemId").val().trim();
+        //var Itmname = $("#ItemId option:selected").text();
         var url = '@Url.Action("Print")';
         url += "?date="+date+"&Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmname=" + (Itmname == '' ? 0 : Itmname) + "&Itmid=" + Itmid;
         window.location = url;
@@ -82,6 +82,12 @@
 
                 </div>
             </div>
+
+            <div class="col-md-3">
+                <label for="ItemId">Material/Spares</label>
+                <input id="ItemId" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
+            </div>
+
         </div>
         <br />
         <div class="row">
