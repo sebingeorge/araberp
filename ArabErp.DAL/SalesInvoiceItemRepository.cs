@@ -69,7 +69,7 @@ namespace ArabErp.DAL
                 try
                 {
                     string sql = @"SELECT * INTO #SaleOrderItem FROM SaleOrderItem WHERE SaleOrderId=@SaleOrderId AND SaleOrderItemId IN @SaleOrderItemIdList
-                               SELECT s.SaleOrderId SaleOrderId,S.SaleOrderItemId SaleOrderItemId, W.WorkDescr WorkDescription,CONCAT(V.VehicleModelName,' ',v.VehicleModelDescription) VehicleModelName,S.Quantity QuantityTxt,U.UnitName Unit,S.Rate Rate,S.Discount Discount,S.Amount Amount,j.JobCardId JobCardId
+                               SELECT s.SaleOrderId SaleOrderId,S.SaleOrderItemId SaleOrderItemId, W.WorkDescr WorkDescription, V.VehicleModelName, S.Quantity QuantityTxt,U.UnitName Unit,S.Rate Rate,S.Discount Discount,S.Amount Amount,j.JobCardId JobCardId
                                FROM #SaleOrderItem S LEFT JOIN Unit U on S.UnitId=U.UnitId
                                LEFT JOIN WorkDescription W on S.WorkDescriptionId=W.WorkDescriptionId
                                Left JOIN VehicleModel V on S.VehicleModelId=V.VehicleModelId
