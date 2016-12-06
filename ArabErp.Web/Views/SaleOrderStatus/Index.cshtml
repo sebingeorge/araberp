@@ -35,23 +35,24 @@
                             <tr class="grid_heading">
                                 <th width="10%">Customer</th>
                                 <th width="5%">S.O. No.</th>
-                                <th style="width:7%;">S.O Date</th>
+                                <th style="width:5%;">S.O Date</th>
                                 <th width="15%">Vehicle Model & Reg.No.</th>
                                 <th style="width:7%;">EDD</th>
                                 <th style="width:3%;">S.O. Age Days</th>
                                 <th style="width:3%;">ODD.</th>
 
                                 @*<th style="width:3%;">Sale Ord. App.</th>*@
-                                <th style="width:10%;">WR No. & Due Date</th>
-                                <th style="width:10%;">Pur.Req.No & Date</th>
-                                <th style="width:10%;">LPO No. & Due Date</th>
-                                <th style="width:10%;">GRN</th>
-                                <th style="width:10%;">Batch Alloc.</th>
-                                <th style="width:10%;">Inpass No. & Date</th>
-                                <th style="width:10%;">Registration No./Chassis No.</th>
-                                <th style="width:10%;">Job Card No. & Date</th>
+                                <th style="width:5%;">WR No. & Due Date</th>
+                                <th style="width:5%;">Pur.Req.No & Date</th>
+                                <th style="width:5%;">LPO No. & Due Date</th>
+                                <th style="width:5%;">GRN</th>
+                                <th style="width:5%;">Batch Alloc.</th>
+                                <th style="width:5%;">Inpass No. & Date</th>
+                                <th style="width:5%;">Registration No./Chassis No.</th>
+                                <th style="width:5%;">Job Card No. & Date</th>
                                 <th style="width:2%;">Job Card Comp.</th>
-                                @*<td style="width:2%;">Sales Inv.</td>*@
+                                <td style="width:5%;">DC No.& Date </td>
+                                <td style="width:5%;">Sales Inv No.& Date </td>
                             </tr>
                         </thead>
                         @foreach (var item in Model)
@@ -80,6 +81,8 @@
                                 @*<td class="grid-cell"><img src="~/Images/@(item.VehicleInpass == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
                                 @*<td class="grid-cell"><img src="~/Images/@(item.JobCard == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
                                 <td class="grid-cell">@item.JobCardComplete</td>
+                                <td class="grid-cell">@item.DeliveryChellan</td>
+                                <td class="grid-cell">@item.SalesInvoice</td>
                                 @*<td class="grid-cell"><img src="~/Images/@(item.SalesInvoice == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
                             </tr>
                         }
