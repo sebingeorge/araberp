@@ -430,5 +430,14 @@ namespace ArabErp.DAL
                 }
             }
         }
+
+        public decimal GetStockQuantity(int itemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"select sum(ISNULL(Quantity,0)) StockQuantity from StockUpdate where ItemId=@ItemId group by ItemId";
+                return connection.Query<decimal>(query, new { ItemId = itemId }).FirstOrDefault();
+            }
+        }
     }
 }

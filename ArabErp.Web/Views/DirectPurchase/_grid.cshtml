@@ -52,6 +52,7 @@
             clone.html($(clone).html().replace(/this, 0/g, 'this, ' + i + ''));
             clone.html($(clone).html().replace(/this,0/g, 'this,' + i + ''));
             clone.html($(clone).html().replace(/cboPartNo0/g, 'cboPartNo' + i + ''));
+            clone.html($(clone).html().replace(/stockQuantity_0/g, 'stockQuantity_' + i + ''));
             $("#table-grid").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
             $("#slno" + (i + 1)).html((i + 1));
             $("#items_" + i + "__SlNo").val((i + 1));
@@ -114,6 +115,7 @@
                 clone.html($(clone).html().replace(new RegExp("this, " + j, "g"), "this, " + (j - 1)));
                 clone.html($(clone).html().replace(new RegExp("this," + j, "g"), "this," + (j - 1)));
                 clone.html($(clone).html().replace(new RegExp("cboPartNo" + j, "g"), "cboPartNo" + (j - 1)));
+                clone.html($(clone).html().replace(new RegExp("stockQuantity_" + j, "g"), "stockQuantity_" + (j - 1)));
                 $("#" + j).html(clone.html());
                 $("#items_" + (j - 1) + "__SlNo").val(j);
                 $("#" + (j)).attr('id', (j - 1));
@@ -159,6 +161,10 @@
                     $("#cboPartNo" + index).combobox();
                     $("#items_" + index + "__UoM").val(arr[1]);
                 });
+            url = '@Url.Action("GetStockQuantity")';
+            $.getJSON(url, { itemId: id }, function (data) {
+                $('#stockQuantity_' + index).text(data);
+            })
         }
         else {
             //$("#items_" + index + "__PartNo").val('');
@@ -166,6 +172,7 @@
             $("#cboPartNo" + index).val('');
             $("#cboPartNo" + index).combobox();
             $("#items_" + index + "__UoM").val('');
+            $('#stockQuantity').text(0);
         }
     }
 
@@ -215,7 +222,8 @@
             <th width="20%">Material/Spares</th>
             <th width="10%">Part No</th>
             <th width="25%">Remarks</th>
-            <th width="5%" class="text-right ">Qty</th>
+            <th width="5%" class="text-right">Stock Qty</th>
+            <th width="5%" class="text-right">Qty</th>
             <th width="5%">UoM</th>
             @if (!new string[] { "EditPurchaseIndent", "PurchaseIndent" }.Contains(actionName))
             {
@@ -250,6 +258,11 @@
                 <td>
                     @Html.TextBoxFor(m => m.items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })
                 </td>
+                <td align="right">
+                    <span id="stockQuantity_@i">
+
+                    </span>
+                </td>
                 <td>
                     @Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "OnQtyChange(this, " + i + ")", @required = "true" })
                 </td>
@@ -277,6 +290,7 @@
     <tfoot>
         <tr class="grid_heading">
 
+            <th></th>
             <th></th>
             <th></th>
             <th></th>
