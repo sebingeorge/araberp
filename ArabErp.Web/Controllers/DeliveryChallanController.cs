@@ -48,7 +48,8 @@ namespace ArabErp.Web.Controllers
                     DeliveryChallanRefNo = DatabaseCommonRepository.GetNextDocNo(18, OrganizationId),
                     DeliveryChallanDate = DateTime.Now,
                     TransportWarrantyExpiryDate = DateTime.Today.AddYears(1).AddDays(-1),
-                    ItemBatches = new DeliveryChallanRepository().GetSerialNos(id).ToList()
+                    ItemBatches = new DeliveryChallanRepository().GetSerialNos(id).ToList(),
+                    PrintDescriptions = new List<PrintDescription>()
                 });
             }
             return RedirectToAction("Index");
@@ -249,78 +250,82 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("ItemName");
             ds.Tables["Items"].Columns.Add("Unit");
             ds.Tables["Items"].Columns.Add("Quantity");
-       
-
-            DeliveryChallanRepository repo = new DeliveryChallanRepository();
-            var Head = repo.GetDeliveryChallanHD(Id, OrganizationId);
-
-            DataRow dr = ds.Tables["Head"].NewRow();
-            dr["DeliveryChallanRefNo"] = Head.DeliveryChallanRefNo;
-            dr["DeliveryChallanDate"] = Head.DeliveryChallanDate.ToString("dd-MMM-yyyy");
-            dr["Customer"] = Head.Customer;
-            dr["CDoorNo"] = Head.CDoorNo;
-            dr["CStreet"] = Head.CStreet;
-            dr["CCountry"] = Head.CCountry;
-            dr["SaleRefNo"] = Head.SaleRefNo;
-            dr["SONoDate"] = Head.SONODATE;
-            dr["JobcardNo"] = Head.JobCardNo;
-            dr["JCDate"] = Head.JobCardDate;
-            dr["RegistrationNo"] = Head.RegistrationNo;
-            dr["ChassisNo"] = Head.ChassisNo;
-            dr["WorkDesc"] = Head.WorkDescr;
-            dr["VehicleModel"] = Head.VehicleModel;
-            dr["Employee"] = Head.EmployeeName;
-            dr["PaymentTerms"] = Head.PaymentTerms;
-            dr["SpecialRemarks"] = Head.Remarks;
-            dr["QuotationRefNo"] = Head.QuotationRefNo;
-            dr["FreezerName"] = Head.FreezerName;
-            dr["FreezerId"] = Head.FreezerId;
-            dr["FreezerPartNo"] = Head.FreezerPartNo;
-            dr["BoxId"] = Head.BoxId;
-            dr["BoxName"] = Head.BoxName;
-            dr["BoxPartNo"] = Head.BoxPartNo;
-            dr["SupplyOrderNo"] = Head.SupplyOrderNo;
-            dr["SupplyOrderDate"] = Head.SupplyOrderDate.ToString("dd/MMM/yyyy");
-            dr["SpecialRemarks"] = Head.Remarks;
-            dr["DoorNo"] = Head.DoorNo;
-            dr["Street"] = Head.Street;
-            dr["State"] = Head.State;
-            dr["Country"] = Head.CountryName;
-            dr["Phone"] = Head.Phone;
-            dr["Fax"] = Head.Fax;
-            dr["Email"] = Head.Email;
-            dr["ContactPerson"] = Head.ContactPerson;
-            dr["Zip"] = Head.Zip;
-            dr["OrganizationName"] = Head.OrganizationName;
-            //dr["TransportWarrantyExpiryDate"] = Head.tra;
-            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
-            dr["LPONo"] = Head.LPONo;
-            dr["LPODate"] = Head.LPODate.ToString("dd/MMM/yyyy");
-            dr["CreatedUser"] = Head.CreatedUser;
-            dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
-            dr["Printdescr"] = Head.printdes;
-            ds.Tables["Head"].Rows.Add(dr);
+            //DeliveryChallanRepository model = new DeliveryChallanRepository();
+            //var s = model.Get(Id);
+            //if (s.isService == 0)
+            //{
+                DeliveryChallanRepository repo = new DeliveryChallanRepository();
+                var Head = repo.GetDeliveryChallanHD(Id, OrganizationId);
 
 
-            DeliveryChallanRepository repo1 = new DeliveryChallanRepository();
-            var Items = repo1.GetDeliveryChallanDTPrint(Head.FreezerId,Head.BoxId);
-            foreach (var item in Items)
-            {
-                var DCItem = new ItemVsBom
+                DataRow dr = ds.Tables["Head"].NewRow();
+                dr["DeliveryChallanRefNo"] = Head.DeliveryChallanRefNo;
+                dr["DeliveryChallanDate"] = Head.DeliveryChallanDate.ToString("dd-MMM-yyyy");
+                dr["Customer"] = Head.Customer;
+                dr["CDoorNo"] = Head.CDoorNo;
+                dr["CStreet"] = Head.CStreet;
+                dr["CCountry"] = Head.CCountry;
+                dr["SaleRefNo"] = Head.SaleRefNo;
+                dr["SONoDate"] = Head.SONODATE;
+                dr["JobcardNo"] = Head.JobCardNo;
+                dr["JCDate"] = Head.JobCardDate;
+                dr["RegistrationNo"] = Head.RegistrationNo;
+                dr["ChassisNo"] = Head.ChassisNo;
+                dr["WorkDesc"] = Head.WorkDescr;
+                dr["VehicleModel"] = Head.VehicleModel;
+                dr["Employee"] = Head.EmployeeName;
+                dr["PaymentTerms"] = Head.PaymentTerms;
+                dr["SpecialRemarks"] = Head.Remarks;
+                dr["QuotationRefNo"] = Head.QuotationRefNo;
+                dr["FreezerName"] = Head.FreezerName;
+                dr["FreezerId"] = Head.ReeferId;
+                dr["FreezerPartNo"] = Head.FreezerPartNo;
+                dr["BoxId"] = Head.Box;
+                dr["BoxName"] = Head.BoxName;
+                dr["BoxPartNo"] = Head.BoxPartNo;
+                dr["SupplyOrderNo"] = Head.SupplyOrderNo;
+                dr["SupplyOrderDate"] = Head.SupplyOrderDate.ToString("dd/MMM/yyyy");
+                dr["SpecialRemarks"] = Head.Remarks;
+                dr["DoorNo"] = Head.DoorNo;
+                dr["Street"] = Head.Street;
+                dr["State"] = Head.State;
+                dr["Country"] = Head.CountryName;
+                dr["Phone"] = Head.Phone;
+                dr["Fax"] = Head.Fax;
+                dr["Email"] = Head.Email;
+                dr["ContactPerson"] = Head.ContactPerson;
+                dr["Zip"] = Head.Zip;
+                dr["OrganizationName"] = Head.OrganizationName;
+                //dr["TransportWarrantyExpiryDate"] = Head.tra;
+                dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+                dr["LPONo"] = Head.LPONo;
+                dr["LPODate"] = Head.LPODate.ToString("dd/MMM/yyyy");
+                dr["CreatedUser"] = Head.CreatedUser;
+                dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
+                dr["Printdescr"] = Head.printdes;
+                ds.Tables["Head"].Rows.Add(dr);
+
+
+                DeliveryChallanRepository repo1 = new DeliveryChallanRepository();
+                var Items = repo1.GetDeliveryChallanDTPrint(Head.FreezerId, Head.BoxId);
+                foreach (var item in Items)
                 {
-                    ItemName = item.ItemName,
-                    UnitName = item.UnitName,
-                    Quantity = item.Quantity
-                  
-                };
+                    var DCItem = new ItemVsBom
+                    {
+                        ItemName = item.ItemName,
+                        UnitName = item.UnitName,
+                        Quantity = item.Quantity
 
-                DataRow dri = ds.Tables["Items"].NewRow();
-                dri["ItemName"] = DCItem.ItemName;
-                dri["Unit"] = DCItem.UnitName;
-                dri["Quantity"] = DCItem.Quantity;
-                ds.Tables["Items"].Rows.Add(dri);
-            }
+                    };
 
+                    DataRow dri = ds.Tables["Items"].NewRow();
+                    dri["ItemName"] = DCItem.ItemName;
+                    dri["Unit"] = DCItem.UnitName;
+                    dri["Quantity"] = DCItem.Quantity;
+                    ds.Tables["Items"].Rows.Add(dri);
+                }
+            //}
+       
             ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "DeliveryChallan.xml"), XmlWriteMode.WriteSchema);
 
             rd.SetDataSource(ds);

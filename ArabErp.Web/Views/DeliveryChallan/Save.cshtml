@@ -62,7 +62,7 @@
                 <div class="col-md-2">
                     <label>Delivery Challan No.</label>
                     @Html.HiddenFor(m => m.JobCardId)
-                    @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true", @title = "This number may change after saving" })
+                    @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                 </div>
                 <div class="col-md-2">
                     <label>Challan Date</label>
@@ -70,7 +70,7 @@
                     @*@Html.TextBoxFor(m => m.DeliveryChallanDate, new { @class = "form_input", @type = "date" })*@
                 </div>
                 <div class="col-md-2">
-                    <label for="TransportWarrantyExpiryDate">Warranty Expiry Date</label>
+                    <label for="TransportWarrantyExpiryDate">Service Warranty Expiry Date</label>
                     @Html.TextBoxFor(m => m.TransportWarrantyExpiryDate, Model.TransportWarrantyExpiryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
                 </div>
             </div>
@@ -92,7 +92,7 @@
                     <input type="text" class="form_input" id="txtJCNoDate" readonly />
                 </div>
                 <div class="col-md-2">
-                    <label>Chasis No./Reg No.</label>
+                    <label>Chassis No./Reg. No.</label>
                     <input type="text" class="form_input" id="txtRegNo" readonly />
                 </div>
 
@@ -102,7 +102,8 @@
 
                 <div class="col-md-12">
                     <label>Work Description</label>
-                    <textarea class="form_input form_input-h1" id="txtWork" readonly></textarea>
+                    <input type="text" class="form_input" id="txtWork" readonly />
+                    @*<textarea class="form_input form_input-h1" id="txtWork" readonly></textarea>*@
                 </div>
             </div>
             <div class="row form-group">
@@ -169,11 +170,12 @@
             </div>
 
             <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-7">
                     <label for="PrintDescription">Print Description</label>
                     @Html.TextAreaFor(m=>m.PrintDescription, new { @class = "form_input", @style = "height: 109px" })
+                    @*@Html.Partial("_PrintDescriptionGrid", Model)*@
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-5">
                     <div class="row form-group">
                         <div class="col-md-12">
                             <label>Payment Terms</label>

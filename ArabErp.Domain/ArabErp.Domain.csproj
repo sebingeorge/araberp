@@ -89,6 +89,7 @@
     <Compile Include="OpeningStockReport.cs" />
     <Compile Include="PendingTasksForCompletion.cs" />
     <Compile Include="PrefixSettingsVsOrganization.cs" />
+    <Compile Include="PrintDescription.cs" />
     <Compile Include="ProjectCompletion.cs" />
     <Compile Include="PurchaseRequestRegister.cs" />
     <Compile Include="QCParameters.cs" />
