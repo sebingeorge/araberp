@@ -24,7 +24,7 @@
         $("#Current_stock").addClass("fade");
         var stkid = $("#cboStockpoint").val();
         var itmcatid = $("#itmCatId").val();
-        var itmid = $("#ItemId").val();
+        var itmid = $("#filter-Material").val().trim();
         var url = '@Url.Action("CurrentStockRegister")';
         url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid;
         $("#Current_stock").load(url, function () {
@@ -40,10 +40,10 @@
         var Spid = $("#cboStockpoint").val();
         var ItmCatid = $("#itmCatId").val();
         var ItmCatname = $("#itmCatId option:selected").text();
-        var Itmid = $("#ItemId").val();
-        var Itmname = $("#ItemId option:selected").text();
+        var Itmid = $("#filter-Material").val().trim();
+        //var Itmname = $("#filter-Material").val().trim();
         var url = '@Url.Action("Print")';
-        url += "?Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmname=" + (Itmname == '' ? 0 : Itmname) + "&Itmid=" + Itmid;
+        url += "?Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmid=" + Itmid;
         window.location = url;
     }
 </script>
@@ -55,22 +55,23 @@
 
     <div class="main-part pad1">
         <div class="row">
+
             <div class="col-md-3">
-                <label for="cboStockpoint">Stock Point</label>
-                @Html.DropDownList("cboStockpoint", (SelectList)ViewBag.WarehouseList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                <label for="filter-Material">Material/Spares</label>
+                <input id="filter-Material" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
             </div>
+
+           
             <div class="col-md-3">
                 <label for="cboItemCat">Item Category</label>
                 @Html.DropDownListFor(m => Model.itmCatId, (SelectList)ViewBag.ItemCatList, "Any", new { @class = "form_input", @onchange = "FillItem();Filter()" })
                 @Html.HiddenFor(m => Model.itmCatId)
             </div>
             <div class="col-md-3">
-                <label for="cboItem">Material/Spares</label>
-                <div id="DivItem">
-                    @Html.Action("Item", "ClosingStock", new { Code = Model.itmCatId })
-
-                </div>
+                <label for="cboStockpoint">Stock Point</label>
+                @Html.DropDownList("cboStockpoint", (SelectList)ViewBag.WarehouseList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
+
         </div>
         <br />
         <div class="row">
@@ -80,6 +81,9 @@
                 </div>
             </div>
         </div>
+
+
+
 
         <div class="row">
             <div class="col-md-12 hrpart">
