@@ -362,5 +362,10 @@ namespace ArabErp.Web.Controllers
                 return View("PurchaseIndent", model);
             }
         }
+
+        public JsonResult GetStockQuantity(int itemId)
+        {
+            return Json(new DirectPurchaseRepository().GetStockQuantity(itemId), JsonRequestBehavior.AllowGet);
+        }
     }
 }
