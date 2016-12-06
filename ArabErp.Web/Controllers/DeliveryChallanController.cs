@@ -48,7 +48,8 @@ namespace ArabErp.Web.Controllers
                     DeliveryChallanRefNo = DatabaseCommonRepository.GetNextDocNo(18, OrganizationId),
                     DeliveryChallanDate = DateTime.Now,
                     TransportWarrantyExpiryDate = DateTime.Today.AddYears(1).AddDays(-1),
-                    ItemBatches = new DeliveryChallanRepository().GetSerialNos(id).ToList()
+                    ItemBatches = new DeliveryChallanRepository().GetSerialNos(id).ToList(),
+                    PrintDescriptions = new List<PrintDescription>()
                 });
             }
             return RedirectToAction("Index");

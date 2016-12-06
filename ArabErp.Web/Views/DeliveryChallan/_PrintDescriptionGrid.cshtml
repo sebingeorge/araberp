@@ -1,0 +1,43 @@
+﻿@model ArabErp.Domain.DeliveryChallan
+
+<table class="table-responsive" id="print-description-table">
+    <thead>
+        <tr class="grid_heading">
+            <th width="1%"></th>
+            <th width="2%">#</th>
+            <th width="76%" nowrap>Print Description</th>
+            <th width="10%">UoM</th>
+            <th width="10%">Quantity</th>
+            <th width="1%"></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @{
+            for (int i = 0; i < Model.PrintDescriptions.Count; i++)
+            {
+                <tr id="@(i)_printdesc_row">
+                    <td style="vertical-align:middle">
+                        <a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeletePrintDescRow(@i)"></a>
+                    </td>
+                    <td>
+                        <span id="@(i)_printdesc_serialno">
+                            @(i + 1)
+                        </span>
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(m => m.PrintDescriptions[i].Description, new { @class = "form_input form_input-h1" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.PrintDescriptions[i].UoM, new { @class = "form_input" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m.PrintDescriptions[i].Quantity, new { @class = "form_input" })
+                    </td>
+                    <td style="vertical-align:middle">
+                        <a class="glyphicon glyphicon-plus" style="top:0px" onclick="AddPrintDescRow()"></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
