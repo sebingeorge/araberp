@@ -45,7 +45,8 @@ namespace ArabErp.DAL
                 //sql += " order by S.SaleOrderDate, S.SaleOrderId";
 
                 sql = @"select distinct SI.SaleOrderItemId, S.SaleOrderId, C.CustomerName, S.SaleOrderRefNo, S.SaleOrderDate,S.EDateDelivery, 
-                        VI.RegistrationNo, V.VehicleModelName,
+                        isnull(VI.RegistrationNo,isnull(VI.ChassisNo,''))RegistrationNo,
+                        V.VehicleModelName,
                         VehicleInpass =  case when VI.VehicleInPassId is null then NULL else  VehicleInPassNo +','+ CONVERT (VARCHAR(15),VehicleInPassDate,106)  end, 
                         JobCard = cast('' as varchar(max)), 
                         JobCardComplete = cast('' as varchar(max)), 
@@ -120,6 +121,7 @@ namespace ArabErp.DAL
 						CONCAT(VehicleModelName,' - ',CONVERT (VARCHAR(15),RegistrationNo,106))VehicleMdlNameReg,
 						DATEDIFF(DAY,SaleOrderDate,GETDATE()) AS SOAgeDays,
 						DATEDIFF(DAY,EDateDelivery,GETDATE()) AS EDD,
+                        isnull(VI.RegistrationNo,isnull(VI.ChassisNo,''))RegistrationNo,
                         VehicleInpass =  case when VI.VehicleInPassId is null then NULL else  VehicleInPassNo +','+ CONVERT (VARCHAR(15),VehicleInPassDate,106)  end, 
                         JobCard = cast('' as varchar(max)), 
                         JobCardComplete = cast('' as varchar(max)), 

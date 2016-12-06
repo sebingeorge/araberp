@@ -581,5 +581,8 @@ namespace ArabErp
                 return connection.Query<JobCardTaskMaster>(query, new { id = SaleOrderItemId }).ToList();
             }
         }
+
+
+       
     }
 }

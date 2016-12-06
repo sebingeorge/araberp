@@ -51,6 +51,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("GRN");
             ds.Tables["Items"].Columns.Add("BatchAlloc");
             ds.Tables["Items"].Columns.Add("Inpassdate");
+            ds.Tables["Items"].Columns.Add("ChassisNo");
             ds.Tables["Items"].Columns.Add("Jobcardnodate");
             ds.Tables["Items"].Columns.Add("JobcardComp");
            
@@ -83,7 +84,7 @@ namespace ArabErp.Web.Controllers
                     VehicleInpass = item.VehicleInpass,
                     JobCard = item.JobCard,
                     JobCardComplete = item.JobCardComplete,
-                
+                    RegistrationNo = item.RegistrationNo
 
                 };
 
@@ -100,6 +101,7 @@ namespace ArabErp.Web.Controllers
                 dri["BatchAlloc"] = SupplyOrderRegItem.Allocation;
                 dri["Inpassdate"] = SupplyOrderRegItem.VehicleInpass;
                 dri["Jobcardnodate"] = SupplyOrderRegItem.JobCard;
+                dri["ChassisNo"] = SupplyOrderRegItem.RegistrationNo;
                 dri["JobcardComp"] = SupplyOrderRegItem.JobCardComplete;
                 ds.Tables["Items"].Rows.Add(dri);
             }
@@ -117,7 +119,8 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("SaleOrderStatusReport.pdf"));
+                return File(stream, "application/pdf");
+                //return File(stream, "application/pdf", String.Format("SaleOrderStatusReport.pdf"));
             }
             catch (Exception ex)
             {
