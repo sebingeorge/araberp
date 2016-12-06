@@ -66,25 +66,20 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC/4</DeliveryChallanRefNo>
+    <DeliveryChallanRefNo>DC/6</DeliveryChallanRefNo>
     <DeliveryChallanDate>06-Dec-2016</DeliveryChallanDate>
-    <Customer>Al Danah Trading &amp; Contracting Co.</Customer>
-    <CDoorNo>Doha- Qatar</CDoorNo>
+    <Customer>Salam Studio &amp; Stores</Customer>
+    <CDoorNo>Doha-Qatar</CDoorNo>
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SER/8</SaleRefNo>
-    <SONoDate>06 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC-S/5</JobcardNo>
-    <JCDate>06-Dec-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>54657</RegistrationNo>
-    <ChassisNo>7879</ChassisNo>
-    <WorkDesc>service1</WorkDesc>
-    <VehicleModel>Isuzu NPR </VehicleModel>
-    <Employee>Mohamed Akthab Mohamed Rafee</Employee>
-    <SpecialRemarks>gggggggggggggggggggggggggggggggg</SpecialRemarks>
-    <FreezerName>model1</FreezerName>
-    <BoxName>bxmake1</BoxName>
-    <FreezerId>tailkifNo1</FreezerId>
-    <BoxId>BxNo</BoxId>
+    <SaleRefNo>AARC/SER/6</SaleRefNo>
+    <SONoDate>03 Dec 2016</SONoDate>
+    <JobcardNo>AARC/JC-S/4</JobcardNo>
+    <JCDate>04-Dec-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>151366</RegistrationNo>
+    <WorkDesc>General Checkup &amp; Repair</WorkDesc>
+    <VehicleModel>MITSUBISHI FUSO CANTER 4.3 TON (SINGLE CABIN)</VehicleModel>
+    <Employee>Mohammed Safiq</Employee>
+    <SpecialRemarks>qwertyuiop;lkdscvbnm,</SpecialRemarks>
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -96,10 +91,9 @@
     <Zip>13037</Zip>
     <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo>68798</LPONo>
-    <LPODate>06-Dec-2016</LPODate>
+    <LPONo xml:space="preserve"> </LPONo>
+    <LPODate>03-Dec-2016</LPODate>
     <CreatedUser>ihits</CreatedUser>
     <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
-    <Printdescr>print description 1print description 1print description 1print description 1print description 1print description 1print description 1print description 1print description 1print description 1print description 1print description 1print description 1print description 1print description 1</Printdescr>
   </Head>
 </NewDataSet>

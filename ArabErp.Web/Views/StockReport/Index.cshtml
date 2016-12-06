@@ -4,6 +4,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script type="text/javascript">
+    function Filter() {
+        $("#Opening_stock").addClass("fade");
+        var itmid = $("#filter-Material").val().trim();
+        //var Ason = $("#txtAsOn").val();
+        var url = '@Url.Action("OpeningStockRegister")';
+        url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid + "&itmGroup=" + itmGroup + "&itmSubGroup="+itmSubGroup;
+        $("#Opening_stock").load(url, function () {
+            $("#Opening_stock").removeClass("fade");
+        });
+    }
+
+    </script>
 
     <div class="row">
         <div class="form-head1">
@@ -13,6 +26,11 @@
         <div class="main-part pad1 ">
 
             <div class="row">
+                <div class="col-md-3">
+                    <label for="filter-Material">Material/Spares</label>
+                    <input id="filter-Material" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
+                </div>
+            </div>
                 <div class="main-grid main-grid-top scroll1">
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -23,13 +41,13 @@
         <td style="width:10%;"><h1>Balance</h1></td>
     </tr>
 
-    @foreach (var item in Model)
+                        @foreach (var item in Model)
     {
 
         <tbody class="grid_row">
-            <tr @if (item.Balance < 0) 
+            <tr @if (item.Balance < 0)
                 { @: class="report-highlight"
-                 
+
                 }>
                 <td class="grid-cell">
                     <a style="cursor:pointer;" onclick="OpenDetail(@item.ItemId)">@item.ItemName</a>
@@ -64,10 +82,10 @@
                     var url = '@Url.Action("DrillDown")';
                     url += "?itemId=" + id;
                     window.open(url);
-                }
+                    }
 
                 function GoToPrint() {
                     var url = '@Url.Action("Print")';
                     window.location = url;
-                }
-            </script>
+                    }
+</script>

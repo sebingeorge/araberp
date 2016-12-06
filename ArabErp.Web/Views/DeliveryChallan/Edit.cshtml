@@ -39,7 +39,7 @@
     }
 
     function Back() {
-        var url = '@Url.Action("Index")';
+        var url = '@Url.Action("DeliveryChallanList")';
         window.location = url;
     }
 
@@ -183,39 +183,40 @@
             </div>
 
             <div class="row">
-                <div class="col-md-5">
-                    <label for="PrintDescription">Print Description</label>
-                    @Html.TextAreaFor(m => m.PrintDescription, new { @class = "form_input", @style = "height: 109px" })
-                </div>
-                <div class="col-md-7">
-                    <div class="row form-group">
-                        <div class="col-md-12">
-                            <label>Payment Terms</label>
-                            <textarea id="txtPaymentTerms" class="form_input form_input-h" readonly="readonly" tabindex="-1"></textarea>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-md-12">
-                            <label>Special Remarks</label>
-                            @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
-                        </div>
-                    </div>
+                <div class="col-md-12">
+                    @*<label for="PrintDescription">Print Description</label>
+                        @Html.TextAreaFor(m=>m.PrintDescription, new { @class = "form_input", @style = "height: 109px" })*@
+                    @Html.Partial("_PrintDescriptionGrid", Model)
                 </div>
             </div>
+            @*<div class="col-md-12">*@
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <label>Payment Terms</label>
+                    <textarea id="txtPaymentTerms" class="form_input form_input-h" readonly="readonly" tabindex="-1"></textarea>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <label>Special Remarks</label>
+                    @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
+                </div>
+            </div>
+            @*</div>*@
 
             <div class="row">
                 <div class="col-md-12 col-md hrpart">
                     <input class="form-button right" type="button" value="Exit" onclick="Back()" />
-                    @if(Model.IsUsed)
+                    @if (Model.IsUsed)
                     {
-                     <span class="perm">
+                        <span class="perm">
                             <em>**Cannot edit/delete this Delivery Challan, because it is either used in another process or completed.</em>
-                     </span>
+                        </span>
                     }
                     else
                     {
-                   <button type="submit" class="form-button right">Edit</button>
-                   <input type="button" class="form-button left" value="Delete"  onclick="Delete()" />
+                        <button type="submit" class="form-button right">Edit</button>
+                        <input type="button" class="form-button left" value="Delete" onclick="Delete()" />
                     }
                     <input type="button" class="form-button right" value="Print" onclick="GoToPrint()" />
                 </div>
