@@ -242,73 +242,136 @@ namespace ArabErp.DAL
             }
         }
 
-        public DeliveryChallan GetDeliveryChallanHD(int DeliveryChallanId, int OrganizationId)
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-
-                string sql = @"
-								
-								SELECT DISTINCT O.*,
-								ORR.CountryName,
-								DC.DeliveryChallanId,
-								DeliveryChallanRefNo,
-								DeliveryChallanDate,
-								C.CustomerName Customer,
-								C.DoorNo CDoorNo,
-								C.Street CStreet,
-								CCC.CountryName CCountry,
-								ISNULL(SO.SaleOrderRefNo,'')SaleRefNo,CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
-								ISNULL(JC.JobCardNo,'')JobcardNo,CONVERT(varchar,JC.JobCardDate,106)JobCardDate,
-								VI. RegistrationNo,VI.ChassisNo,
-								WI.WorkDescr,
-								VM.VehicleModelName VehicleModel,
-								E.EmployeeName,
-								SO.PaymentTerms,
-								DC.Remarks,
-								SQ.QuotationRefNo,
-								I.[ItemName] FreezerName,I.ItemId FreezerId,
-								ISNULL(I.PartNo,'') FreezerPartNo,
-								II.ItemName BoxName, II.ItemId BoxId,
-								ISNULL(II.PartNo, '') BoxPartNo,
-								LPO.SupplyOrderNo,
-								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig,
-								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate,
-                                DC.PrintDescription printdes
-	                            FROM DeliveryChallan DC
-                                left JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
-                                left JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
-								left JOIN SalesQuotation SQ ON SQ.SalesQuotationId=SO.SalesQuotationId
-                                left JOIN SaleOrderItem SOI ON JC.SaleOrderItemId=SOI.SaleOrderItemId
-                                left JOIN Customer C ON C.CustomerId=SO.CustomerId 
-								left join Country CCC ON CCC.CountryId=c.Country
-                                left JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
-                                LEFT JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
-                                left JOIN Employee E ON E.EmployeeId=DC.EmployeeId
-                                left join Organization O ON  DC.OrganizationId=O.OrganizationId
-								LEFT  JOIN Country ORR ON ORR.CountryId=O.Country
-                                LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
-								LEFT join WorkShopRequest W ON W.SaleOrderId=SO.SaleOrderId
-								LEFT join PurchaseRequest PR ON PR.WorkShopRequestId=w.WorkShopRequestId
-								LEFT join PurchaseRequestItem PRI ON pRI.PurchaseRequestId=PR.PurchaseRequestId
-								left join SupplyOrderItem LPOI ON PRI.PurchaseRequestItemId = LPOI.PurchaseRequestItemId
-								LEFT JOIN SupplyOrder LPO ON LPOI.SupplyOrderId = LPO.SupplyOrderId
-								left join [User] U ON U.UserId=DC.CreatedBy
-							    left join Item I ON I.ItemId=JC.[FreezerUnitId]
-								left join Item II ON II.ItemId=JC.[BoxId]
-								WHERE DC.DeliveryChallanId=@DeliveryChallanId";
-
-                var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new
-                {
-                    DeliveryChallanId = DeliveryChallanId,
-                    OrganizationId = OrganizationId,
+//        public DeliveryChallan GetDeliveryChallanHD(int DeliveryChallanId, int OrganizationId,int isService)
+//        {
+//            using (IDbConnection connection = OpenConnection(dataConnection))
+//            {
+//                if (isService==0)
+//                {
+//                    string sql = @"
+//								
+//								SELECT DISTINCT O.*,
+//								ORR.CountryName,
+//								DC.DeliveryChallanId,
+//								DeliveryChallanRefNo,
+//								DeliveryChallanDate,
+//								C.CustomerName Customer,
+//								C.DoorNo CDoorNo,
+//								C.Street CStreet,
+//								CCC.CountryName CCountry,
+//								ISNULL(SO.SaleOrderRefNo,'')SaleRefNo,CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
+//								ISNULL(JC.JobCardNo,'')JobcardNo,CONVERT(varchar,JC.JobCardDate,106)JobCardDate,
+//								VI. RegistrationNo,VI.ChassisNo,
+//								WI.WorkDescr,
+//								VM.VehicleModelName VehicleModel,
+//								E.EmployeeName,
+//								SO.PaymentTerms,
+//								DC.Remarks,
+//								SQ.QuotationRefNo,
+//								I.[ItemName] FreezerName,I.ItemId FreezerId,
+//								ISNULL(I.PartNo,'') FreezerPartNo,
+//								II.ItemName BoxName, II.ItemId BoxId,
+//								ISNULL(II.PartNo, '') BoxPartNo,
+//								LPO.SupplyOrderNo,
+//								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig,
+//								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate,
+//                                DC.PrintDescription printdes
+//	                            FROM DeliveryChallan DC
+//                                left JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
+//                                left JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
+//								left JOIN SalesQuotation SQ ON SQ.SalesQuotationId=SO.SalesQuotationId
+//                                left JOIN SaleOrderItem SOI ON JC.SaleOrderItemId=SOI.SaleOrderItemId
+//                                left JOIN Customer C ON C.CustomerId=SO.CustomerId 
+//								left join Country CCC ON CCC.CountryId=c.Country
+//                                left JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
+//                                LEFT JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
+//                                left JOIN Employee E ON E.EmployeeId=DC.EmployeeId
+//                                left join Organization O ON  DC.OrganizationId=O.OrganizationId
+//								LEFT  JOIN Country ORR ON ORR.CountryId=O.Country
+//                                LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
+//								LEFT join WorkShopRequest W ON W.SaleOrderId=SO.SaleOrderId
+//								LEFT join PurchaseRequest PR ON PR.WorkShopRequestId=w.WorkShopRequestId
+//								LEFT join PurchaseRequestItem PRI ON pRI.PurchaseRequestId=PR.PurchaseRequestId
+//								left join SupplyOrderItem LPOI ON PRI.PurchaseRequestItemId = LPOI.PurchaseRequestItemId
+//								LEFT JOIN SupplyOrder LPO ON LPOI.SupplyOrderId = LPO.SupplyOrderId
+//								left join [User] U ON U.UserId=DC.CreatedBy
+//							    left join Item I ON I.ItemId=JC.[FreezerUnitId]
+//								left join Item II ON II.ItemId=JC.[BoxId]
+//								WHERE DC.DeliveryChallanId=@DeliveryChallanId";
 
 
-                }).First<DeliveryChallan>();
+//                    var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new
+//                    {
+//                        DeliveryChallanId = DeliveryChallanId,
+//                        OrganizationId = OrganizationId,
+//                        isService=isService
 
-                return objDeliveryChallan;
-            }
-        }
+
+//                    }).First<DeliveryChallan>();
+
+//                    return objDeliveryChallan;
+//                }
+//                else
+//                {
+//                    string sql = @"  SELECT DISTINCT O.*,SO.SaleOrderId,
+//								ORR.CountryName,
+//								DC.DeliveryChallanId,
+//								DeliveryChallanRefNo,
+//								DeliveryChallanDate,
+//								C.CustomerName Customer,
+//								C.DoorNo CDoorNo,
+//								C.Street CStreet,
+//								CCC.CountryName CCountry,
+//								ISNULL(SO.SaleOrderRefNo,'')SaleRefNo,CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
+//								ISNULL(JC.JobCardNo,'')JobcardNo,CONVERT(varchar,JC.JobCardDate,106)JobCardDate,
+//								VI. RegistrationNo,VI.ChassisNo,
+//								WI.WorkDescr,
+//								VM.VehicleModelName VehicleModel,
+//								E.EmployeeName,
+//								SO.PaymentTerms,
+//								DC.Remarks,
+//								SQ.QuotationRefNo,
+//								LPO.SupplyOrderNo,
+//								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig,
+//								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate,
+//                                DC.PrintDescription printdes,
+//								JC.isService,SE.TailLiftModel FreezerName,SE.TailLiftSerialNo FreezerId,SE.BoxNo BoxId,SE.BoxMake BoxName
+//	                            FROM DeliveryChallan DC
+//                                left JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
+//                                left JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
+//								left JOIN SalesQuotation SQ ON SQ.SalesQuotationId=SO.SalesQuotationId
+//                                left JOIN SaleOrderItem SOI ON JC.SaleOrderItemId=SOI.SaleOrderItemId
+//                                left JOIN Customer C ON C.CustomerId=SO.CustomerId 
+//								left join Country CCC ON CCC.CountryId=c.Country
+//                                left JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
+//                                LEFT JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
+//                                left JOIN Employee E ON E.EmployeeId=DC.EmployeeId
+//                                left join Organization O ON  DC.OrganizationId=O.OrganizationId
+//								LEFT  JOIN Country ORR ON ORR.CountryId=O.Country
+//                                LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
+//								LEFT join WorkShopRequest W ON W.SaleOrderId=SO.SaleOrderId
+//								LEFT join PurchaseRequest PR ON PR.WorkShopRequestId=w.WorkShopRequestId
+//								LEFT join PurchaseRequestItem PRI ON pRI.PurchaseRequestId=PR.PurchaseRequestId
+//								left join SupplyOrderItem LPOI ON PRI.PurchaseRequestItemId = LPOI.PurchaseRequestItemId
+//								LEFT JOIN SupplyOrder LPO ON LPOI.SupplyOrderId = LPO.SupplyOrderId
+//								left join [User] U ON U.UserId=DC.CreatedBy
+//								left join ServiceEnquiry SE On SE.ServiceEnquiryId=SO.ServiceEnquiryId
+//								WHERE DC.DeliveryChallanId@DeliveryChallanId";
+
+
+//                    var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new
+//                    {
+//                        DeliveryChallanId = DeliveryChallanId,
+//                        OrganizationId = OrganizationId,
+
+
+//                    }).First<DeliveryChallan>();
+
+//                    return objDeliveryChallan;
+                
+//                }
+//            }
+//        }
 
         public List<ItemBatch> GetDeliveryChallanDT(int DeliveryChallanId)
         {
@@ -412,6 +475,137 @@ namespace ArabErp.DAL
 						where IB.itemId=@BoxId";
 
                 return connection.Query<ItemVsBom>(sql, new { FreezerId = FreezerId, BoxId = BoxId }).ToList();
+            }
+        }
+        public DeliveryChallan GetDeliveryChallanHD(int DeliveryChallanId, int OrganizationId)
+        {
+         
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sq;
+                string qu;
+                string sql = @"select isService from DeliveryChallan D inner join JobCard J ON J.JobCardId=D.JobCardId where D.DeliveryChallanId=@DeliveryChallanId";
+                var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new { OrganizationId = OrganizationId, DeliveryChallanId = DeliveryChallanId }).First<DeliveryChallan>();
+                if (objDeliveryChallan.isService == 0)
+                {
+                    sq = @"
+								
+								SELECT DISTINCT O.*,
+								ORR.CountryName,
+								DC.DeliveryChallanId,
+								DeliveryChallanRefNo,
+								DeliveryChallanDate,
+								C.CustomerName Customer,
+								C.DoorNo CDoorNo,
+								C.Street CStreet,
+								CCC.CountryName CCountry,
+								ISNULL(SO.SaleOrderRefNo,'')SaleRefNo,CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
+								ISNULL(JC.JobCardNo,'')JobcardNo,CONVERT(varchar,JC.JobCardDate,106)JobCardDate,
+								VI. RegistrationNo,VI.ChassisNo,
+								WI.WorkDescr,
+								VM.VehicleModelName VehicleModel,
+								E.EmployeeName,
+								SO.PaymentTerms,
+								DC.Remarks,
+								SQ.QuotationRefNo,
+								I.[ItemName] FreezerName,I.ItemId ReeferId,
+								ISNULL(I.PartNo,'') FreezerPartNo,
+								II.ItemName Box, II.ItemId Box,
+								ISNULL(II.PartNo, '') BoxPartNo,
+								LPO.SupplyOrderNo,
+								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig,
+								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate,
+                                DC.PrintDescription printdes
+	                            FROM DeliveryChallan DC
+                                left JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
+                                left JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
+								left JOIN SalesQuotation SQ ON SQ.SalesQuotationId=SO.SalesQuotationId
+                                left JOIN SaleOrderItem SOI ON JC.SaleOrderItemId=SOI.SaleOrderItemId
+                                left JOIN Customer C ON C.CustomerId=SO.CustomerId 
+								left join Country CCC ON CCC.CountryId=c.Country
+                                left JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
+                                LEFT JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
+                                left JOIN Employee E ON E.EmployeeId=DC.EmployeeId
+                                left join Organization O ON  DC.OrganizationId=O.OrganizationId
+								LEFT  JOIN Country ORR ON ORR.CountryId=O.Country
+                                LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
+								LEFT join WorkShopRequest W ON W.SaleOrderId=SO.SaleOrderId
+								LEFT join PurchaseRequest PR ON PR.WorkShopRequestId=w.WorkShopRequestId
+								LEFT join PurchaseRequestItem PRI ON pRI.PurchaseRequestId=PR.PurchaseRequestId
+								left join SupplyOrderItem LPOI ON PRI.PurchaseRequestItemId = LPOI.PurchaseRequestItemId
+								LEFT JOIN SupplyOrder LPO ON LPOI.SupplyOrderId = LPO.SupplyOrderId
+								left join [User] U ON U.UserId=DC.CreatedBy
+							    left join Item I ON I.ItemId=JC.[FreezerUnitId]
+								left join Item II ON II.ItemId=JC.[BoxId]
+								WHERE DC.DeliveryChallanId=@DeliveryChallanId";
+
+
+                    var objDeliveryChalla = connection.Query<DeliveryChallan>(sq, new
+                    {
+                        DeliveryChallanId = DeliveryChallanId,
+                        OrganizationId = OrganizationId,
+                      
+
+                    }).First<DeliveryChallan>();
+
+                    return objDeliveryChalla;
+                }
+                else
+                {
+                     qu = @"  SELECT DISTINCT O.*,SO.SaleOrderId,
+								ORR.CountryName,
+								DC.DeliveryChallanId,
+								DeliveryChallanRefNo,
+								DeliveryChallanDate,
+								C.CustomerName Customer,
+								C.DoorNo CDoorNo,
+								C.Street CStreet,
+								CCC.CountryName CCountry,
+								ISNULL(SO.SaleOrderRefNo,'')SaleRefNo,CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
+								ISNULL(JC.JobCardNo,'')JobcardNo,CONVERT(varchar,JC.JobCardDate,106)JobCardDate,
+								VI. RegistrationNo,VI.ChassisNo,
+								WI.WorkDescr,
+								VM.VehicleModelName VehicleModel,
+								E.EmployeeName,
+								SO.PaymentTerms,
+								DC.Remarks,
+								SQ.QuotationRefNo,
+								LPO.SupplyOrderNo,
+								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig,
+								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate,
+                                DC.PrintDescription printdes,
+								JC.isService,SE.TailLiftModel FreezerName,SE.TailLiftSerialNo ReeferId,SE.BoxNo Box,SE.BoxMake BoxName
+	                            FROM DeliveryChallan DC
+                                left JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
+                                left JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
+								left JOIN SalesQuotation SQ ON SQ.SalesQuotationId=SO.SalesQuotationId
+                                left JOIN SaleOrderItem SOI ON JC.SaleOrderItemId=SOI.SaleOrderItemId
+                                left JOIN Customer C ON C.CustomerId=SO.CustomerId 
+								left join Country CCC ON CCC.CountryId=c.Country
+                                left JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
+                                LEFT JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
+                                left JOIN Employee E ON E.EmployeeId=DC.EmployeeId
+                                left join Organization O ON  DC.OrganizationId=O.OrganizationId
+								LEFT  JOIN Country ORR ON ORR.CountryId=O.Country
+                                LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
+								LEFT join WorkShopRequest W ON W.SaleOrderId=SO.SaleOrderId
+								LEFT join PurchaseRequest PR ON PR.WorkShopRequestId=w.WorkShopRequestId
+								LEFT join PurchaseRequestItem PRI ON pRI.PurchaseRequestId=PR.PurchaseRequestId
+								left join SupplyOrderItem LPOI ON PRI.PurchaseRequestItemId = LPOI.PurchaseRequestItemId
+								LEFT JOIN SupplyOrder LPO ON LPOI.SupplyOrderId = LPO.SupplyOrderId
+								left join [User] U ON U.UserId=DC.CreatedBy
+								left join ServiceEnquiry SE On SE.ServiceEnquiryId=SO.ServiceEnquiryId
+								WHERE DC.DeliveryChallanId=@DeliveryChallanId";
+                }
+
+                var objDeliveryChal = connection.Query<DeliveryChallan>(qu, new
+                {
+                    DeliveryChallanId = DeliveryChallanId,
+                    OrganizationId = OrganizationId
+
+                }).First<DeliveryChallan>();
+
+                return objDeliveryChal;
             }
         }
 
