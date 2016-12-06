@@ -63,21 +63,29 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Save(VehicleInPass model)
         {
-            model.OrganizationId = OrganizationId;
-            model.CreatedDate = System.DateTime.Now;
-            model.CreatedBy = UserID.ToString();
-            if (new VehicleInPassRepository().InsertVehicleInPass(model) > 0)
+            try
             {
-                TempData["Success"] = "Saved Successfully! Vehicle In-Pass No. is " + model.VehicleInPassNo;
-                //TempData["VehicleInPassNo"] = model.VehicleInPassNo;
-                return RedirectToAction("Index");
+                model.OrganizationId = OrganizationId;
+                model.CreatedDate = System.DateTime.Now;
+                model.CreatedBy = UserID.ToString();
+                if (new VehicleInPassRepository().InsertVehicleInPass(model) > 0)
+                {
+                    TempData["Success"] = "Saved Successfully! Vehicle In-Pass No. is " + model.VehicleInPassNo;
+                    //TempData["VehicleInPassNo"] = model.VehicleInPassNo;
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["error"] = "Some error occurred. Please try again.";
+                    //TempData["VehicleInPassNo"] = null;
+                    EmployeeDropdown();
+                    return View(new VehicleInPass { SaleOrderItemId = model.SaleOrderItemId });
+                }
             }
-            else
+            catch (DuplicateNameException)
             {
-                TempData["error"] = "Some error occurred. Please try again.";
-                //TempData["VehicleInPassNo"] = null;
-                EmployeeDropdown();
-                return View(new VehicleInPass { SaleOrderItemId = model.SaleOrderItemId });
+                TempData["error"] = "One vehicle inpass already exists for this Sale Order";
+                return RedirectToAction("Index");
             }
 
         }
