@@ -18,13 +18,15 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
+                    string sql = @"SELECT SaleOrderItemId FROM VehicleInPass WHERE SaleOrderItemId = @id";
+                    if (connection.Query<int>(sql, new { id = objVehicleInPass.SaleOrderItemId }, txn).FirstOrDefault() != 0)
+                        throw new DuplicateNameException();
+
                     var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objVehicleInPass.OrganizationId, 15, true, txn);
 
                     objVehicleInPass.VehicleInPassNo = internalId;
 
-
-
-                string sql = @"INSERT INTO VehicleInPass(
+                    sql = @"INSERT INTO VehicleInPass(
                             VehicleInPassNo,
                             SaleOrderItemId,
                             SaleOrderId,
@@ -53,13 +55,18 @@ namespace ArabErp.DAL
                         );
                         SELECT CAST(SCOPE_IDENTITY() AS INT)VehicleInPassId";
 
-               
-                var id = connection.Query<int>(sql, objVehicleInPass,txn).Single();
 
-                 InsertLoginHistory(dataConnection, objVehicleInPass.CreatedBy, "Create", "Vehicle Inpass", id.ToString(), "0");
+                    var id = connection.Query<int>(sql, objVehicleInPass, txn).Single();
+
+                    InsertLoginHistory(dataConnection, objVehicleInPass.CreatedBy, "Create", "Vehicle Inpass", id.ToString(), "0");
                     txn.Commit();
 
                     return id;
+                }
+                catch (DuplicateNameException)
+                {
+                    txn.Rollback();
+                    throw;
                 }
                 catch (Exception)
                 {
@@ -181,7 +188,7 @@ namespace ArabErp.DAL
                     DROP TABLE #VEHICLE_INPASS;
                     DROP TABLE #MODEL;
                     DROP TABLE #WORK;
-                    DROP TABLE #SALE;", new { customerId = customerId}).ToList();
+                    DROP TABLE #SALE;", new { customerId = customerId }).ToList();
             }
         }
         public PendingSO GetSaleOrderItemDetails(int saleOrderItemId)
