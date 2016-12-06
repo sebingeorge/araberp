@@ -10,11 +10,11 @@ namespace ArabErp.Domain
     {
         public int PrintDescriptionId { get; set; }
         public int DeliveryChallanId { get; set; }
-        public int SerialNo { get; set; }
         public string Description { get; set; }
         public string UoM { get; set; }
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
+        public int OrganizationId { get; set; }
     }
 }

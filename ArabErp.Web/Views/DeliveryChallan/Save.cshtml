@@ -138,7 +138,7 @@
                                 <tr>
                                     <td align="center">
                                         @Html.HiddenFor(m => m.ItemBatches[i].ItemBatchId)
-                                        @*<input class="form_input" value="*@@(i+1)@*" disabled />*@
+                                        @*<input class="form_input" value="*@@(i + 1)@*" disabled />*@
                                     </td>
                                     <td>
                                         @Html.TextBoxFor(m => m.ItemBatches[i].SerialNo, new { @class = "form_input", @readonly = "true" })
@@ -170,27 +170,27 @@
             </div>
 
             <div class="row">
-                <div class="col-md-7">
-                    <label for="PrintDescription">Print Description</label>
-                    @Html.TextAreaFor(m=>m.PrintDescription, new { @class = "form_input", @style = "height: 109px" })
-                    @*@Html.Partial("_PrintDescriptionGrid", Model)*@
-                </div>
-                <div class="col-md-5">
-                    <div class="row form-group">
-                        <div class="col-md-12">
-                            <label>Payment Terms</label>
-                            <textarea id="txtPaymentTerms" class="form_input form_input-h" readonly="readonly" tabindex="-1"></textarea>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-md-12">
-                            <label>Special Remarks</label>
-                            @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
-                        </div>
-                    </div>
+                <div class="col-md-12">
+                    @*<label for="PrintDescription">Print Description</label>
+                        @Html.TextAreaFor(m=>m.PrintDescription, new { @class = "form_input", @style = "height: 109px" })*@
+                    @Html.Partial("_PrintDescriptionGrid", Model)
                 </div>
             </div>
-            
+            @*<div class="col-md-12">*@
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <label>Payment Terms</label>
+                    <textarea id="txtPaymentTerms" class="form_input form_input-h" readonly="readonly" tabindex="-1"></textarea>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <label>Special Remarks</label>
+                    @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
+                </div>
+            </div>
+            @*</div>*@
+
             <div class="row">
                 <div class="col-md-12 col-md hrpart">
                     <input class="form-button right" type="button" value="Exit" onclick="Back()" />
@@ -202,4 +202,3 @@
 
     </div>
 </div>
-
