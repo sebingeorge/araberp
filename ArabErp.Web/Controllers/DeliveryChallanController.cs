@@ -129,7 +129,8 @@ namespace ArabErp.Web.Controllers
                     DeliveryChallan = new DeliveryChallanRepository().ViewDeliveryChallanHD(id);
                     DeliveryChallan.ItemBatches = new DeliveryChallanRepository().GetDeliveryChallanDT(id);
                     DeliveryChallan.PrintDescriptions = new DeliveryChallanRepository().GetPrintDescriptions(id);
-                    if (DeliveryChallan.PrintDescriptions == null) DeliveryChallan.PrintDescriptions.Add(new PrintDescription());
+                    if (DeliveryChallan.PrintDescriptions == null || DeliveryChallan.PrintDescriptions.Count == 0) 
+                        DeliveryChallan.PrintDescriptions.Add(new PrintDescription());
                     return View(DeliveryChallan);
                 }
                 else
