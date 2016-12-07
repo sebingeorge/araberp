@@ -21,9 +21,9 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public ActionResult DCReportGrid(int? month, int? year)
+        public ActionResult DCReportGrid(int? month, int? year, string ChassisNo = "", string UnitSlNo = "")
         {
-            return PartialView("_DCReportGrid", new MISReportsRepository().GetDCReport(month, year, OrganizationId));
+            return PartialView("_DCReportGrid", new MISReportsRepository().GetDCReport(OrganizationId,month, year, ChassisNo, UnitSlNo));
         }
     }
 }

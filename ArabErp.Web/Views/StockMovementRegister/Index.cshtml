@@ -71,7 +71,7 @@
             </div>
             <div class="col-md-2">
                 <label for="cboItemCat">Item Category</label>
-                @Html.DropDownListFor(m => Model.itmCatId, (SelectList)ViewBag.ItemCatList, "Any", new { @class = "form_input", @onchange = "FillItem()" })
+                @Html.DropDownListFor(m => Model.itmCatId, (SelectList)ViewBag.ItemCatList, new { @class = "form_input", @onchange = "FillItem()" })
                 @Html.HiddenFor(m => Model.itmCatId)
              
             </div>

@@ -489,25 +489,13 @@ namespace ArabErp.DAL
                 }
             }
         }
-        public List<ItemVsBom> GetDeliveryChallanDTPrint(int FreezerId, int BoxId)
+        public List<PrintDescription> GetDeliveryChallanDTPrint(int Id)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select I.itemname ItemName, 'Nos' UnitName, 1 Quantity from item I where itemid=@BoxId
-						union All 
-						select I.itemname, 'Nos', 1 from Item I where ItemId=@FreezerId
-						union All				
-						select I.[ItemName],U.UnitName ,IB.Quantity from [dbo].[ItemVsBom] IB
-						inner join Item I ON I.ItemId=IB.BomItemId 
-						inner join unit U ON U.UnitId=I.ItemUnitId
-						where IB.itemId=@FreezerId
-						UNION ALL
-						select I.[ItemName],U.UnitName,IB.Quantity from [dbo].[ItemVsBom] IB
-						inner join Item I ON I.ItemId=IB.BomItemId 
-						inner join unit U ON U.UnitId=I.ItemUnitId
-						where IB.itemId=@BoxId";
+                string sql = @"  select [Description],UoM,cast(Quantity as int) Quantity from [dbo].[PrintDescription] where [DeliveryChallanId]=@Id";
 
-                return connection.Query<ItemVsBom>(sql, new { FreezerId = FreezerId, BoxId = BoxId }).ToList();
+                return connection.Query<PrintDescription>(sql, new { Id = Id }).ToList();
             }
         }
         public DeliveryChallan GetDeliveryChallanHD(int DeliveryChallanId, int OrganizationId)

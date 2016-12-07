@@ -9,25 +9,25 @@
     function Filter() {
         var month = Number($("#month-filter").val()) + 1;
         var year = Number($("#year-filter").val());
+        var ChassisNo= $("#chassisno").val().trim();
+        var UnitSlNo = $("#unitserialno").val().trim();
         var url = '@Url.Action("DCReportGrid")';
-        $("#dc_report_table").addClass("fade");
-        $("#dc_report_table").load(url, { month: month, year: year }, function () {
+        url += "?month=" + month + "&year=" + year + "&ChassisNo=" + encodeURIComponent(ChassisNo) + "&UnitSlNo=" + encodeURIComponent(UnitSlNo);
+        $("#dc_report_table").load(url, function () {
             $("#dc_report_table").removeClass("fade");
+        //$("#dc_report_table").addClass("fade");
+        //$("#dc_report_table").load(url, { month: month, year: year, ChassisNo: encodeURIComponent(ChassisNo), UnitSlNo: encodeURIComponent(UnitSlNo) }, function () {
+        //    $("#dc_report_table").removeClass("fade");
         });
     }
-
 </script>
-
 <div class="row">
-
     <div class="form-head1">
         <h4>DC Report</h4>
     </div>
-
     <div class="main-part pad1">
         <div class="row">
             <div class="main-grid main-grid-top scroll1">
-
                 <div class="row form-group">
                 <div class="col-md-2">
                     <label for="">Month</label>
@@ -59,6 +59,14 @@
                   "value",
                   "text", ViewBag.Year), "Select Year", new { @class = "form_input", @onchange = "Filter()" })
                 </div>
+                    <div class="col-md-2">
+                        <label>Vehicle No./Chassis No.</label>
+                        <input id="chassisno" class="form_input" placeholder="Search for Vehicle/Chassis No." onkeyup="Filter()" />
+                    </div>
+                    <div class="col-md-2">
+                        <label>Unit Sl.No.</label>
+                        <input id="unitserialno" class="form_input" placeholder="Search for Unit Sl.No" onkeyup="Filter()" />
+                    </div>
             </div>
 
                 <div class="table-responsive" id="dc_report_table">
