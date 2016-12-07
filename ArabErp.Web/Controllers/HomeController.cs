@@ -89,6 +89,7 @@ namespace ArabErp.Web.Controllers
             view.PendingTransSaleOrdersForJobCard = true;
             view.MaterialStockBelowMinLevel = true;
             view.PendingVechicleInpass = true;
+            view.PendingWRForStoreIssue = true;
             if (view.PendingProjectQuotations)
             {
                 SalesQuotationRepository repo = new SalesQuotationRepository();
@@ -139,7 +140,11 @@ namespace ArabErp.Web.Controllers
                 var list = new VehicleInPassRepository().PendingVehicleInpassforAlert(OrganizationId);
                 view.NoOfVechicleInpass = list.Count();
             }
-
+            if (view.PendingWRForStoreIssue)
+            {
+                var list = new WorkShopRequestRepository().PendingWorkshopRequests("","","","");
+                view.NoOfWRForStoreIssue = list.Count();
+            }
             IEnumerable<ERPAlerts> Alerts;
             if (Session["alertpermissions"] == null)
             {
@@ -186,6 +191,9 @@ namespace ArabErp.Web.Controllers
                             break;
                         case 7:
                             alertpermission.PendingVechicleInpass = true;
+                            break;
+                        case 8:
+                            alertpermission.PendingWRForStoreIssue = true;
                             break;
                         default:
                             break;

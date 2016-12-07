@@ -40,6 +40,10 @@
                {
                    total += Model.NoOfVechicleInpass;
                }
+               if (Model.PendingWRForStoreIssue && alertPermissions.PendingWRForStoreIssue)
+               {
+                   total += Model.NoOfWRForStoreIssue;
+               }
            }
 <ul class="nav navbar-nav">
     <li class="top6"> 
@@ -106,6 +110,17 @@
                             @Model.NoOfVechicleInpass
                         </span>
                         Pending Vehicle Inpass
+                    </a>
+                </li>
+            }
+            @if (Model.PendingWRForStoreIssue && alertPermissions.PendingWRForStoreIssue)
+            {
+                <li>
+                    <a href="@Url.Action("Pending", "StoresIssue")" class="form_input">
+                        <span class="badge pull-right">
+                            @Model.NoOfWRForStoreIssue
+                        </span>
+                        Pending WR For Store Issue
                     </a>
                 </li>
             }

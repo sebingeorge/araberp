@@ -26,6 +26,8 @@ namespace ArabErp.Domain
         public int NoOfMaterialStockBelowMinLevel { get; set; }
         public bool PendingVechicleInpass { get; set; }
         public int NoOfVechicleInpass { get; set; }
+        public bool PendingWRForStoreIssue { get; set; }
+        public int NoOfWRForStoreIssue { get; set; }
 
 
     }
