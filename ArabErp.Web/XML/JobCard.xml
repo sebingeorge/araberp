@@ -37,6 +37,9 @@
                 <xs:element name="FreezerMake" type="xs:string" minOccurs="0" />
                 <xs:element name="FreezerModel" type="xs:string" minOccurs="0" />
                 <xs:element name="VehicleMake" type="xs:string" minOccurs="0" />
+                <xs:element name="CreatedUser" type="xs:string" minOccurs="0" />
+                <xs:element name="CreateSignature" type="xs:string" minOccurs="0" />
+                <xs:element name="CreatedDes" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -57,8 +60,8 @@
   <Head>
     <JobCardNo>AARC/JC-S/12</JobCardNo>
     <JobCardDate>07-Dec-2016</JobCardDate>
-    <Customer>Abdul Asiz Trading Est</Customer>
-    <ChasisNo>aaaa</ChasisNo>
+    <Customer>Yacoob Trading &amp; Contracting Co.</Customer>
+    <ChasisNo>qqqq</ChasisNo>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -67,19 +70,22 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Complaints>aaaaa</Complaints>
-    <BoxMake>a</BoxMake>
-    <BoxNo>a</BoxNo>
-    <FreezerMake>a</FreezerMake>
-    <FreezerModel>a</FreezerModel>
-    <VehicleMake>a</VehicleMake>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Complaints>qqqqqqqqq</Complaints>
+    <BoxMake>q</BoxMake>
+    <BoxNo>q</BoxNo>
+    <FreezerMake>q</FreezerMake>
+    <FreezerModel>q</FreezerModel>
+    <VehicleMake>q</VehicleMake>
+    <CreatedUser>ihits</CreatedUser>
+    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\ce726bad-ce03-4f56-b2c0-0c4ce4a394ea.png</CreateSignature>
+    <CreatedDes>Asst.Sales Manager</CreatedDes>
   </Head>
   <Items>
     <TaskDate>07-Dec-2016</TaskDate>
-    <Employee>Nuwan Thilina Vanhoff</Employee>
+    <Employee>Jagath Kumara Kotuwegoda Guruge</Employee>
     <Description>General Maintenance </Description>
-    <Hours>1.00</Hours>
+    <Hours>10.00</Hours>
   </Items>
   <Items>
     <TaskDate />

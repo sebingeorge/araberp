@@ -230,7 +230,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("BoxName");
             ds.Tables["Head"].Columns.Add("BoxPartNo");
             ds.Tables["Head"].Columns.Add("FreezerId");
-            ds.Tables["Head"].Columns.Add("BoxId");
+            ds.Tables["Head"].Columns.Add("Box");
             ds.Tables["Head"].Columns.Add("SupplyOrderNo");
             ds.Tables["Head"].Columns.Add("SupplyOrderDate");
             ds.Tables["Head"].Columns.Add("DoorNo");
@@ -248,6 +248,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("LPODate");
             ds.Tables["Head"].Columns.Add("CreatedUser");
             ds.Tables["Head"].Columns.Add("CreateSignature");
+            ds.Tables["Head"].Columns.Add("ApprovedUsersig");
             ds.Tables["Head"].Columns.Add("Printdescr");
             //ds.Tables["Head"].Columns.Add("TransportWarrantyExpiryDate");
             //-------DT
@@ -283,9 +284,9 @@ namespace ArabErp.Web.Controllers
             dr["QuotationRefNo"] = Head.QuotationRefNo;
             dr["FreezerName"] = Head.FreezerName;
             dr["FreezerId"] = Head.ReeferId;
-            dr["FreezerPartNo"] = Head.FreezerPartNo;
-            dr["BoxId"] = Head.Box;
-            dr["BoxName"] = Head.BoxName;
+            dr["FreezerPartNo"] = Head.ReeferId;
+            dr["Box"] = Head.Box;
+            dr["BoxName"] = Head.BoxPartNo;
             dr["BoxPartNo"] = Head.BoxPartNo;
             dr["SupplyOrderNo"] = Head.SupplyOrderNo;
             dr["SupplyOrderDate"] = Head.SupplyOrderDate.ToString("dd/MMM/yyyy");
@@ -306,6 +307,7 @@ namespace ArabErp.Web.Controllers
             dr["LPODate"] = Head.LPODate.ToString("dd/MMM/yyyy");
             dr["CreatedUser"] = Head.CreatedUser;
             dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
+            dr["ApprovedUsersig"] = Server.MapPath("~/App_Images/") + Head.ApprovedUsersig;
             dr["Printdescr"] = Head.printdes;
             ds.Tables["Head"].Rows.Add(dr);
 

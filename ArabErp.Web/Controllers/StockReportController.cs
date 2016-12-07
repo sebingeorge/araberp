@@ -19,8 +19,15 @@ namespace ArabErp.Web.Controllers
         // GET: StockReport
         public ActionResult Index()
         {
-            StockReportRepository repo = new StockReportRepository();
-            return View(repo.GetStockReport());
+            //StockReportRepository repo = new StockReportRepository();
+            //return View(repo.GetStockReport());
+            return View();
+        }
+
+        public ActionResult Stockreport(string itmid = "")
+        {
+
+            return PartialView("_StockReportRegister", new StockReportRepository().GetStockData(itmid));
         }
         public ActionResult DrillDown(int itemId)
         {

@@ -67,6 +67,7 @@ namespace ArabErp.Domain
         public DateTime LPODate { get; set; }
         public string CreatedUser { get; set; }
         public string CreatedUsersig { get; set; }
+        public string ApprovedUsersig { get; set; }
         public string printdes { get; set; }
     
         public List<ItemBatch> ItemBatches { get; set; }

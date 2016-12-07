@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ArabErp.Domain.SaleOrderStatus>
+
+<table class="table table-b table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="10%">Customer</th>
+            <th width="5%">SO No.</th>
+            <th style="width:5%;">SO Date</th>
+            @*//Customer Order Referance from so->Lpo No//*@
+            <th width="14%">LPO No.</th>
+            @*<th width="15%">Vehicle Model & Reg.No.</th>*@
+            <th style="width:7%;">EDD</th>
+            <th style="width:3%;">S.O. Age Days</th>
+            <th style="width:3%;">ODD.</th>
+
+            @*<th style="width:3%;">Sale Ord. App.</th>*@
+            <th style="width:5%;">WR No. & Due Date</th>
+            <th style="width:5%;">Pur.Req.No & Date</th>
+            <th style="width:6%;">Supply Order No. & Due Date</th>
+            <th style="width:5%;">GRN</th>
+            <th style="width:5%;">Batch Alloc.</th>
+            <th style="width:5%;">Inpass No. & Date</th>
+            <th style="width:5%;">Registration No./Chassis No.</th>
+            <th style="width:5%;">Job Card No. & Date</th>
+            <th style="width:2%;">Job Card Comp.</th>
+            <td style="width:5%;">DC No.& Date </td>
+            <td style="width:5%;">Sales Inv No.& Date </td>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr class="grid-row">
+            <td class="grid-cell">@item.CustomerName</td>
+            <td class="grid-cell">@item.SaleOrderRefNo</td>
+            <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+            <td class="grid-cell">@item.CustomerOrderRef</td>
+            @*<td class="grid-cell">@item.VehicleModelName - @item.RegistrationNo</td>*@
+            <td class="grid-cell">@item.EDateDelivery.ToString("dd/MMM/yyyy")</td>
+            <td class="grid-cell">@((DateTime.Now - item.SaleOrderDate).Days)</td>
+            <td class="grid-cell">@((DateTime.Now - item.EDateDelivery).Days)</td>
+            @*<td class="grid-cell"><img src="~/Images/x.png" )" height="10" width="10" /></td>*@
+            @*<td class="grid-cell"><img src="~/Images/@(item.WorkShopRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
+            <td class="grid-cell">@item.WorkShopRequest</td>
+            <td class="grid-cell">@item.PurchaseRequest</td>
+            <td class="grid-cell">@item.SuppyOrder</td>
+            <td class="grid-cell">@item.GRN</td>
+            <td class="grid-cell">@item.Allocation</td>
+            @*<td class="grid-cell"><img src="~/Images/@(item.PurchaseRequest == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
+            @*<td class="grid-cell"><img src="~/Images/@(item.SuppyOrder == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>
+                <td class="grid-cell"><img src="~/Images/@(item.GRN == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
+            <td class="grid-cell">@item.VehicleInpass</td>
+            <td class="grid-cell">@item.RegistrationNo</td>
+            <td class="grid-cell">@item.JobCard</td>
+            @*<td class="grid-cell"><img src="~/Images/@(item.VehicleInpass == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
+            @*<td class="grid-cell"><img src="~/Images/@(item.JobCard == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
+            <td class="grid-cell">@item.JobCardComplete</td>
+            <td class="grid-cell">@item.DeliveryChellan</td>
+            <td class="grid-cell">@item.SalesInvoice</td>
+            @*<td class="grid-cell"><img src="~/Images/@(item.SalesInvoice == "Yes" ? "tick.png" : "x.png")" height="10" width="10" /></td>*@
+        </tr>
+    }
+</table>
+

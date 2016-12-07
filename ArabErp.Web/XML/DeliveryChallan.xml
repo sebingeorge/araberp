@@ -30,7 +30,7 @@
                 <xs:element name="BoxName" type="xs:string" minOccurs="0" />
                 <xs:element name="BoxPartNo" type="xs:string" minOccurs="0" />
                 <xs:element name="FreezerId" type="xs:string" minOccurs="0" />
-                <xs:element name="BoxId" type="xs:string" minOccurs="0" />
+                <xs:element name="Box" type="xs:string" minOccurs="0" />
                 <xs:element name="SupplyOrderNo" type="xs:string" minOccurs="0" />
                 <xs:element name="SupplyOrderDate" type="xs:string" minOccurs="0" />
                 <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
@@ -48,6 +48,7 @@
                 <xs:element name="LPODate" type="xs:string" minOccurs="0" />
                 <xs:element name="CreatedUser" type="xs:string" minOccurs="0" />
                 <xs:element name="CreateSignature" type="xs:string" minOccurs="0" />
+                <xs:element name="ApprovedUsersig" type="xs:string" minOccurs="0" />
                 <xs:element name="Printdescr" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
@@ -79,10 +80,12 @@
     <WorkDesc>General Checkup &amp; Repair</WorkDesc>
     <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
     <Employee>Mohammed Safiq</Employee>
-    <FreezerName>TL89767</FreezerName>
+    <FreezerName>TL89767 / V 500</FreezerName>
+    <FreezerPartNo>8766656 / PL78767656</FreezerPartNo>
     <BoxName>gggggg</BoxName>
-    <FreezerId>8766656</FreezerId>
-    <BoxId>BX344</BoxId>
+    <BoxPartNo>gggggg</BoxPartNo>
+    <FreezerId>8766656 / PL78767656</FreezerId>
+    <Box>BX344</Box>
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -92,12 +95,13 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo xml:space="preserve"> </LPONo>
+    <LPONo>SQ/5656754</LPONo>
     <LPODate>06-Dec-2016</LPODate>
     <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <ApprovedUsersig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
     <Printdescr>Consumables – Pressure Testing, Vacuuming &amp; Gas Charging
 
 General Service of TK V500 Max 10:
