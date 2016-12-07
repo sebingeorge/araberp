@@ -55,8 +55,8 @@
           <xs:element name="Items">
             <xs:complexType>
               <xs:sequence>
-                <xs:element name="ItemName" type="xs:string" minOccurs="0" />
-                <xs:element name="Unit" type="xs:string" minOccurs="0" />
+                <xs:element name="Description" type="xs:string" minOccurs="0" />
+                <xs:element name="UoM" type="xs:string" minOccurs="0" />
                 <xs:element name="Quantity" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
@@ -96,4 +96,18 @@
     <CreatedUser>ihits</CreatedUser>
     <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
   </Head>
+  <Items>
+    <Description>qwertyuiop</Description>
+    <UoM>ea</UoM>
+    <Quantity>1</Quantity>
+  </Items>
+  <Items>
+    <Description>asdfghjklzxcvbnm12
+ghjghjhgjghghj
+gjgjgjghjghghjghj
+ghkghkhkhjkhjkhjkhj
+ghjghghkhkhjkhk</Description>
+    <UoM>ea</UoM>
+    <Quantity>1</Quantity>
+  </Items>
 </NewDataSet>

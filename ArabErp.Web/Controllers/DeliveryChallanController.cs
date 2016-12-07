@@ -251,8 +251,8 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Printdescr");
             //ds.Tables["Head"].Columns.Add("TransportWarrantyExpiryDate");
             //-------DT
-            ds.Tables["Items"].Columns.Add("ItemName");
-            ds.Tables["Items"].Columns.Add("Unit");
+            ds.Tables["Items"].Columns.Add("Description");
+            ds.Tables["Items"].Columns.Add("UoM");
             ds.Tables["Items"].Columns.Add("Quantity");
             //DeliveryChallanRepository model = new DeliveryChallanRepository();
             //var s = model.Get(Id);
@@ -311,20 +311,20 @@ namespace ArabErp.Web.Controllers
 
 
             DeliveryChallanRepository repo1 = new DeliveryChallanRepository();
-            var Items = repo1.GetDeliveryChallanDTPrint(Head.FreezerId, Head.BoxId);
+            var Items = repo1.GetDeliveryChallanDTPrint(Id);
             foreach (var item in Items)
             {
-                var DCItem = new ItemVsBom
+                var DCItem = new PrintDescription
                 {
-                    ItemName = item.ItemName,
-                    UnitName = item.UnitName,
+                    Description = item.Description,
+                    UoM = item.UoM,
                     Quantity = item.Quantity
 
                 };
 
                 DataRow dri = ds.Tables["Items"].NewRow();
-                dri["ItemName"] = DCItem.ItemName;
-                dri["Unit"] = DCItem.UnitName;
+                dri["Description"] = DCItem.Description;
+                dri["UoM"] = DCItem.UoM;
                 dri["Quantity"] = DCItem.Quantity;
                 ds.Tables["Items"].Rows.Add(dri);
             }
