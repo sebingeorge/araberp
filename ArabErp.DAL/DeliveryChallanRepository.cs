@@ -21,8 +21,8 @@ namespace ArabErp.DAL
                 {
                     objDeliveryChallan.DeliveryChallanRefNo = DatabaseCommonRepository.GetNewDocNo(connection, objDeliveryChallan.OrganizationId, 18, true, txn);
 
-                    string sql = @"insert into DeliveryChallan(JobCardId,DeliveryChallanRefNo,DeliveryChallanDate,EmployeeId,Remarks,CreatedBy,CreatedDate,OrganizationId,isActive, TransportWarrantyExpiryDate, PrintDescription) 
-                                   Values (@JobCardId,@DeliveryChallanRefNo,@DeliveryChallanDate,@EmployeeId,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId,1, @TransportWarrantyExpiryDate, @PrintDescription);
+                    string sql = @"insert into DeliveryChallan(JobCardId,DeliveryChallanRefNo,DeliveryChallanDate,EmployeeId,Remarks,CreatedBy,CreatedDate,OrganizationId,isActive, TransportWarrantyExpiryDate, QuotationRefNo) 
+                                   Values (@JobCardId,@DeliveryChallanRefNo,@DeliveryChallanDate,@EmployeeId,@Remarks,@CreatedBy,@CreatedDate,@OrganizationId,1, @TransportWarrantyExpiryDate, @QuotationRefNo);
                                 SELECT CAST(SCOPE_IDENTITY() as int);";
 
                     var id = connection.Query<int>(sql, objDeliveryChallan, txn).Single();
@@ -236,7 +236,7 @@ namespace ArabErp.DAL
                                 ISNULL(SO.SaleOrderRefNo,'')+ ' - '  +CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
                                 ISNULL(JC.JobCardNo,'') + ' - ' +CONVERT(varchar,JC.JobCardDate,106)JobCardNo,VI. RegistrationNo,
                                 WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeId,SO.PaymentTerms,DC.Remarks,ISNULL(SQ.DeliveryChallanId,0)IsUsed, TransportWarrantyExpiryDate,
-                                DC.PrintDescription
+                                DC.PrintDescription, DC.QuotationRefNo
                                 FROM DeliveryChallan DC
                                 INNER JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
@@ -415,7 +415,7 @@ namespace ArabErp.DAL
                                 DeliveryChallan SET DeliveryChallanRefNo=@DeliveryChallanRefNo,
                                 DeliveryChallanDate=@DeliveryChallanDate,EmployeeId=@EmployeeId,Remarks=@Remarks,
                                 CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId, TransportWarrantyExpiryDate = @TransportWarrantyExpiryDate,
-                                PrintDescription = @PrintDescription
+                                PrintDescription = @PrintDescription, QuotationRefNo = @QuotationRefNo
                                 WHERE DeliveryChallanId = @DeliveryChallanId;";
                     var id = connection.Execute(sql, objDeliveryChallan, txn);
 

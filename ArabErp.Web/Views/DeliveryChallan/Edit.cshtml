@@ -112,18 +112,21 @@
 
             <div class="row form-group">
 
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <label>Work Description</label>
-                    @Html.TextAreaFor(m => Model.WorkDescr, new { @class = "form_input form_input-h1", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextAreaFor(m => Model.WorkDescr, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     @*<textarea class="form_input form_input-h1" id="txtWork" readonly></textarea>*@
                 </div>
-            </div>
-            <div class="row form-group">
-
                 <div class="col-md-4">
                     <label>Vehicle Model</label>
                     @Html.TextBoxFor(m => Model.VehicleModel, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     @*<input type="text" class="form_input" id="txtVehicleModel" readonly />*@
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="QuotationRefNo">Quotation Ref. No.</label>
+                    @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input" })
                 </div>
                 <div class="col-md-3">
                     <label>Employee</label>
