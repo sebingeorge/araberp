@@ -30,20 +30,22 @@
         if (i > 1) {
             $('#' + index + '_printdesc_row').remove();
             for (var j = index + 1; j < i; j++) {
-                //
+                var description = $('#PrintDescriptions_' + j + '__Description').val();
+                var uom = $('#PrintDescriptions_' + j + '__UoM').val();
+                var quantity = $('#PrintDescriptions_' + j + '__Quantity').val();
+                //clone and replace indices
                 var clone = $('#' + j + '_printdesc_row').clone(true, true);
-                //clone.html($(clone).html().replace(new RegExp("PrintDescriptions_" + j + "__", "g"), 'PrintDescriptions_' + (j - 1) + '__'));
-                $("#PrintDescriptions_" + j + "__Description").attr("id", "PrintDescriptions_" + (j - 1) + "__Description");
-                $("#PrintDescriptions_" + (j - 1) + "__Description").attr("name", "PrintDescriptions[" + (j - 1) + "].Description");
-                $("#PrintDescriptions_" + j + "__UoM").attr("id", "PrintDescriptions_" + (j - 1) + "__UoM");
-                $("#PrintDescriptions_" + (j - 1) + "__UoM").attr("name", "PrintDescriptions[" + (j - 1) + "].UoM");
-                $("#PrintDescriptions_" + j + "__Quantity").attr("id", "PrintDescriptions_" + (j - 1) + "__Quantity");
-                $("#PrintDescriptions_" + (j - 1) + "__Quantity").attr("name", "PrintDescriptions[" + (j - 1) + "].Quantity");
-                $("#" + j + "_printdesc_serialno").attr("id", (j - 1) + "_printdesc_serialno");
-                $("#" + (j - 1) + "_printdesc_serialno").text(j);
-                $("#" + j + "_printdesc_row").attr("id", (j - 1) + "_printdesc_row");
-                //$("#" + j + "_printdesc_row > .glyphicon-minus").attr("onclick", "DeletePrintDescRow(" + (j - 1) + ")");
-                //clone.html($(clone).html().replace(new RegExp("PrintDescriptions\[" + j + "].", "g"), "PrintDescriptions[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace(new RegExp('PrintDescriptions_' + j + '__', 'g'), 'PrintDescriptions_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp('PrintDescriptions\\[' + j + '].', 'g'), 'PrintDescriptions[' + (j - 1) + '].'));
+                clone.html($(clone).html().replace(new RegExp(j + '_printdesc_serialno', 'g'), (j - 1) + '_printdesc_serialno'));
+                clone.html($(clone).html().replace('DeletePrintDescRow(' + j + ')', 'DeletePrintDescRow(' + (j - 1) + ')'));
+                $('#' + j + '_printdesc_row').html(clone.html());
+                $('#' + j + '_printdesc_row').attr('id', (j - 1) + '_printdesc_row');
+                //----------------------end
+                $('#' + (j - 1) + '_printdesc_serialno').text(j);
+                $('#PrintDescriptions_' + (j - 1) + '__Description').val(description);
+                $('#PrintDescriptions_' + (j - 1) + '__UoM').val(uom);
+                $('#PrintDescriptions_' + (j - 1) + '__Quantity').val(quantity);
             }
         }
     }
@@ -83,7 +85,7 @@
                             @Html.TextBoxFor(m => m.PrintDescriptions[i].UoM, new { @class = "form_input" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Quantity, new { @class = "form_input" })
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Quantity, new { @class = "form_input numbers-only" })
                         </td>
                         <td style="vertical-align:middle">
                             <a class="glyphicon glyphicon-plus" style="top:0px" onclick="AddPrintDescRow()"></a>
