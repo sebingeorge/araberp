@@ -170,7 +170,7 @@
         {
             <div class="row form-group ">
                 <div class="col-md-2">
-                    <label for="SaleOrderRefNo">Invoice No.</label>
+                    <label for="SalesInvoiceRefNo">Invoice No.</label>
                     @Html.HiddenFor(m => Model.SaleOrderId)
                     @Html.HiddenFor(m => Model.InvoiceType)
                     @Html.HiddenFor(m => Model.isProjectBased)
@@ -182,19 +182,19 @@
                     @*@Html.TextBoxFor(m => m.SalesInvoiceDate, String.Format("{0:dd/MM/yyyy}", Model.SalesInvoiceDate), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })*@
                 </div>
                 <div class="col-md-2">
-                    <label for="BillDueDate">Bill Due Date</label>
+                    <label for="SalesInvoiceDueDate">Bill Due Date</label>
                     @Html.TextBoxFor(m => m.SalesInvoiceDueDate, Model.SalesInvoiceDueDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col-md-4">
-                    <label for="selectCustomer">Customer</label>
+                    <label for="Customer">Customer</label>
                     @*@Html.DropDownListFor(m => Model.Customer, (SelectList)ViewBag.customerlist, "Select Customer", new { @class = "form_input", autocomplete = "off", @onchange = "CustomerChanged(this);" })*@
                     @Html.TextBoxFor(m => Model.Customer, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                 </div>
 
                 <div class="col-md-4">
-                    <label for="CustomerOrderRef">Customer Address</label>
+                    <label for="CustomerAddress">Customer Address</label>
                     @Html.TextBoxFor(m => m.CustomerAddress, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     @*<input type="text" id="CustomerAddress" class="form_input" autocomplete="off" />*@
                 </div>
