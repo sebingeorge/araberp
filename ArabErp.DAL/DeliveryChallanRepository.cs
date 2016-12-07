@@ -38,6 +38,7 @@ namespace ArabErp.DAL
                         }
                     }
                     catch (NullReferenceException) { }
+                    #region inserting print description
                     try
                     {
                         sql = @"INSERT INTO PrintDescription (DeliveryChallanId, Description, UoM, Quantity, CreatedBy, CreatedDate, OrganizationId)
@@ -51,6 +52,7 @@ namespace ArabErp.DAL
                         }
                     }
                     catch (Exception) { throw new Exception(); }
+                    #endregion
                     InsertLoginHistory(dataConnection, objDeliveryChallan.CreatedBy, "Create", "Delivery Challan", id.ToString(), "0");
                     txn.Commit();
                     return objDeliveryChallan.DeliveryChallanRefNo;
@@ -436,6 +438,24 @@ namespace ArabErp.DAL
                         }
                     }
                     catch (NullReferenceException) { }
+
+                    #region delete and insert print description
+                    try
+                    {
+                        sql = @"DELETE FROM PrintDescription WHERE DeliveryChallanId = @id";
+                        connection.Execute(sql, new { @id = objDeliveryChallan.DeliveryChallanId }, txn);
+                        sql = @"INSERT INTO PrintDescription (DeliveryChallanId, Description, UoM, Quantity, CreatedBy, CreatedDate, OrganizationId)
+                                VALUES (@DeliveryChallanId, @Description, @UoM, @Quantity, @CreatedBy, GETDATE(), @OrganizationId)";
+                        foreach (var item in objDeliveryChallan.PrintDescriptions)
+                        {
+                            item.DeliveryChallanId = objDeliveryChallan.DeliveryChallanId;
+                            item.CreatedBy = int.Parse(objDeliveryChallan.CreatedBy);
+                            item.OrganizationId = objDeliveryChallan.OrganizationId;
+                            if (connection.Execute(sql, item, txn) <= 0) throw new Exception();
+                        }
+                    }
+                    catch (Exception) { throw new Exception(); }
+                    #endregion
 
                     InsertLoginHistory(dataConnection, objDeliveryChallan.CreatedBy, "Update", "Delivery Challan", objDeliveryChallan.DeliveryChallanId.ToString(), objDeliveryChallan.OrganizationId.ToString());
                     txn.Commit();
