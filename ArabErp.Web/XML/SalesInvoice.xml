@@ -54,31 +54,36 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>SI/1</SalesInvoiceRefNo>
-    <SalesInvoiceDate>29-Nov-2016</SalesInvoiceDate>
-    <VehicleOutPassNo>DC/2</VehicleOutPassNo>
-    <CustomerName>Abdul Asiz Trading Est</CustomerName>
-    <Address>Salwa road, Doha -Qatar,Doha,-</Address>
-    <CustomerOrderRef>1234</CustomerOrderRef>
-    <PaymentTerms>ffg</PaymentTerms>
-    <RegistrationNo>232</RegistrationNo>
-    <JobCardNo>JC/3</JobCardNo>
-    <TotalAmount>110.00</TotalAmount>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+    <SalesInvoiceRefNo>AARC/SI/1</SalesInvoiceRefNo>
+    <SalesInvoiceDate>05-Dec-2016</SalesInvoiceDate>
+    <VehicleOutPassNo>DC/1</VehicleOutPassNo>
+    <CustomerName>Ali Bin Ali:Ali Bin Ali- IA</CustomerName>
+    <Address>Doha ,Qatar,,0</Address>
+    <CustomerOrderRef xml:space="preserve"> </CustomerOrderRef>
+    <PaymentTerms>asdfdsasfdhdrhftfj</PaymentTerms>
+    <RegistrationNo>291973</RegistrationNo>
+    <JobCardNo>JC/2</JobCardNo>
+    <TotalAmount>13000.00</TotalAmount>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
-    <Country>UAE</Country>
+    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
+    <Street>Hiteen Street, Muntazah </Street>
+    <State>Doha</State>
+    <Country>QATAR</Country>
     <Currency>QAR</Currency>
-    <CreateUser>ihits</CreateUser>
-    <CreateSig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\a0e7a4f0-3793-4f73-9574-e33e48be78a9.png</CreateSig>
-    <ApproveUser>Benny</ApproveUser>
-    <ApproveSig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\df96766b-8f72-4eaf-8b19-f91ba19646c5.png</ApproveSig>
+    <Phone>974 4435 7216</Phone>
+    <Fax>974 4414 2910</Fax>
+    <Email>info@arabrefrigeration.com</Email>
+    <Zip>13037</Zip>
+    <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</CreateSig>
+    <ApproveSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</ApproveSig>
   </Head>
   <Items>
     <Quantity>1</Quantity>
-    <WorkDescription>itmas + itm4</WorkDescription>
-    <WorkDescriptionRefNo>WD/6</WorkDescriptionRefNo>
-    <Rate>110.00</Rate>
-    <Amount>110.00</Amount>
+    <WorkDescription>General Checkup &amp; Repair</WorkDescription>
+    <WorkDescriptionRefNo>WD/5</WorkDescriptionRefNo>
+    <Rate>12345.00</Rate>
+    <Amount>12000.00</Amount>
   </Items>
 </NewDataSet>
