@@ -45,6 +45,7 @@ namespace ArabErp.DAL
                                 VALUES (@DeliveryChallanId, @Description, @UoM, @Quantity, @CreatedBy, GETDATE(), @OrganizationId)";
                         foreach (var item in objDeliveryChallan.PrintDescriptions)
                         {
+                            if (item.Description == null) continue;
                             item.DeliveryChallanId = id;
                             item.CreatedBy = int.Parse(objDeliveryChallan.CreatedBy);
                             item.OrganizationId = objDeliveryChallan.OrganizationId;
