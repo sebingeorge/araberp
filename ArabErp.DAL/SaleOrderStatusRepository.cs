@@ -11,7 +11,7 @@ namespace ArabErp.DAL
     public class SaleOrderStatusRepository:BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<SaleOrderStatus> GetSaleOrderStatus()
+        public IEnumerable<SaleOrderStatus> GetSaleOrderStatus(string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -44,7 +44,7 @@ namespace ArabErp.DAL
                 //sql += " left join VehicleInPass VI on VI.VehicleInPassId = J.InPassId";
                 //sql += " order by S.SaleOrderDate, S.SaleOrderId";
 
-                sql = @"select distinct SI.SaleOrderItemId, S.SaleOrderId, C.CustomerName, S.SaleOrderRefNo, S.SaleOrderDate,S.EDateDelivery, 
+                sql = @"select distinct SI.SaleOrderItemId, S.SaleOrderId, C.CustomerName, S.SaleOrderRefNo, S.SaleOrderDate,S.EDateDelivery,S.CustomerOrderRef, 
                         isnull(VI.RegistrationNo,isnull(VI.ChassisNo,''))RegistrationNo,
                         V.VehicleModelName,
                         VehicleInpass =  case when VI.VehicleInPassId is null then NULL else  VehicleInPassNo +','+ CONVERT (VARCHAR(15),VehicleInPassDate,106)  end, 
@@ -107,21 +107,25 @@ namespace ArabErp.DAL
                         where W.SaleOrderId = #RESULT.SaleOrderId
                         FOR XML PATH('')),1,1,''))
 
-                        select * from #RESULT;
+                        select * from #RESULT where  CustomerName LIKE '%'+@customer+'%'
+                        AND SaleOrderRefNo  LIKE '%'+@sono+'%'
+                        AND isnull(CustomerOrderRef,'')  LIKE '%'+@lpoNo+'%'
+                        AND isnull(RegistrationNo,'')  LIKE '%'+@ChassisNo+'%'
+
 
                         drop table #RESULT;";
 
-                return connection.Query<SaleOrderStatus>(sql);
+                return connection.Query<SaleOrderStatus>(sql, new { customer = customer, sono = sono, lpoNo = lpoNo, ChassisNo = ChassisNo });
             }
         }
-        public IEnumerable<SaleOrderStatus> GetSaleOrderStatusDTPrint()
+        public IEnumerable<SaleOrderStatus> GetSaleOrderStatusDTPrint(string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = string.Empty;
 
 
-                sql = @"select distinct SI.SaleOrderItemId, S.SaleOrderId, C.CustomerName, S.SaleOrderRefNo, S.SaleOrderDate,
+                sql = @"select distinct SI.SaleOrderItemId, S.SaleOrderId, C.CustomerName, S.SaleOrderRefNo, S.SaleOrderDate,S.CustomerOrderRef, 
                         --VI.RegistrationNo, V.VehicleModelName,
 						CONCAT(VehicleModelName,' - ',CONVERT (VARCHAR(15),RegistrationNo,106))VehicleMdlNameReg,
 						DATEDIFF(DAY,SaleOrderDate,GETDATE()) AS SOAgeDays,
@@ -187,11 +191,14 @@ namespace ArabErp.DAL
                         where W.SaleOrderId = #RESULT.SaleOrderId
                         FOR XML PATH('')),1,1,''))
 
-                        select * from #RESULT;
+                        select * from #RESULT where  CustomerName LIKE '%'+@customer+'%'
+                        AND SaleOrderRefNo  LIKE '%'+@sono+'%'
+                        AND isnull(CustomerOrderRef,'')  LIKE '%'+@lpoNo+'%'
+                        AND isnull(RegistrationNo,'')  LIKE '%'+@ChassisNo+'%';
 
                         drop table #RESULT;";
 
-                return connection.Query<SaleOrderStatus>(sql);
+                return connection.Query<SaleOrderStatus>(sql, new { customer = customer, sono = sono, lpoNo = lpoNo, ChassisNo = ChassisNo });
             }
         }
     }

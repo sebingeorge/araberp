@@ -15,9 +15,7 @@
         url += "?month=" + month + "&year=" + year + "&ChassisNo=" + encodeURIComponent(ChassisNo) + "&UnitSlNo=" + encodeURIComponent(UnitSlNo);
         $("#dc_report_table").load(url, function () {
             $("#dc_report_table").removeClass("fade");
-        //$("#dc_report_table").addClass("fade");
-        //$("#dc_report_table").load(url, { month: month, year: year, ChassisNo: encodeURIComponent(ChassisNo), UnitSlNo: encodeURIComponent(UnitSlNo) }, function () {
-        //    $("#dc_report_table").removeClass("fade");
+        
         });
     }
 </script>

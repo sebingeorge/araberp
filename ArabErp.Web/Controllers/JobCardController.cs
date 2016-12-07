@@ -125,6 +125,7 @@ namespace ArabErp.Web.Controllers
             try
             {
                 model.OrganizationId = OrganizationId;
+                model.CreatedBy = UserID.ToString();
                 var data = new JobCardRepository().SaveJobCard(model);
                 if (data.Length > 0)
                 {
