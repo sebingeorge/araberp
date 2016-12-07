@@ -24,5 +24,11 @@ namespace ArabErp.Domain
         public int NoOfTransSaleOrdersForJobCard { get; set; }
         public bool MaterialStockBelowMinLevel { get; set; }
         public int NoOfMaterialStockBelowMinLevel { get; set; }
+        public bool PendingVechicleInpass { get; set; }
+        public int NoOfVechicleInpass { get; set; }
+        public bool PendingWRForStoreIssue { get; set; }
+        public int NoOfWRForStoreIssue { get; set; }
+
+
     }
 }

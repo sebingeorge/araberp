@@ -88,7 +88,8 @@ namespace ArabErp.Web.Controllers
             view.PendingProjectSaleOrdersForJobCard = true;
             view.PendingTransSaleOrdersForJobCard = true;
             view.MaterialStockBelowMinLevel = true;
-
+            view.PendingVechicleInpass = true;
+            view.PendingWRForStoreIssue = true;
             if (view.PendingProjectQuotations)
             {
                 SalesQuotationRepository repo = new SalesQuotationRepository();
@@ -130,9 +131,20 @@ namespace ArabErp.Web.Controllers
             }
             if (view.MaterialStockBelowMinLevel)
             {
-                view.NoOfMaterialStockBelowMinLevel = new ItemRepository().GetCriticalMaterialsBelowMinStock(OrganizationId);
+                var list = new ItemRepository().GetCriticalMaterialsBelowMinStock(OrganizationId);
+                view.NoOfMaterialStockBelowMinLevel = list.Count();
+                //view.NoOfMaterialStockBelowMinLevel = new ItemRepository().GetCriticalMaterialsBelowMinStock(OrganizationId);
             }
-
+            if (view.PendingVechicleInpass)
+            {
+                var list = new VehicleInPassRepository().PendingVehicleInpassforAlert(OrganizationId);
+                view.NoOfVechicleInpass = list.Count();
+            }
+            if (view.PendingWRForStoreIssue)
+            {
+                var list = new WorkShopRequestRepository().PendingWorkshopRequests("","","","");
+                view.NoOfWRForStoreIssue = list.Count();
+            }
             IEnumerable<ERPAlerts> Alerts;
             if (Session["alertpermissions"] == null)
             {
@@ -176,6 +188,12 @@ namespace ArabErp.Web.Controllers
                         //    break;
                         case 6:
                             alertpermission.MaterialStockBelowMinLevel = true;
+                            break;
+                        case 7:
+                            alertpermission.PendingVechicleInpass = true;
+                            break;
+                        case 8:
+                            alertpermission.PendingWRForStoreIssue = true;
                             break;
                         default:
                             break;

@@ -394,16 +394,17 @@ namespace ArabErp.DAL
             }
         }
 
-        public int GetCriticalMaterialsBelowMinStock(int OrganizationId)
+ 
+        public IEnumerable<Item> GetCriticalMaterialsBelowMinStock(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 #region query
-                string sql = @"select I.ItemId,ItemName,isnull(MinLevel,0)MinLevel
+                string sql = @"select I.ItemRefNo,I.PartNo,I.ItemId,ItemName,isnull(MinLevel,0)MinLevel
                 ,ISNULL(sum(S.Quantity),0)CurrentStock,0WRQTY,0 WRPndIssQty ,0TotalQty,0InTransitQty,0PendingPRQty,0ShortorExcess,CriticalItem INTO #TEMP FROM item I
                 LEFT JOIN StockUpdate S ON I.ItemId=S.ItemId AND S.OrganizationId = @OrganizationId
                 WHERE  CriticalItem=1
-                GROUP BY I.ItemId,ItemName,MinLevel,CriticalItem;
+                GROUP BY I.ItemId,ItemName,MinLevel,CriticalItem,I.ItemRefNo,I.PartNo;
                            
                 with W as (
                 select ItemId, sum(Quantity)Quantity from WorkShopRequestItem group by ItemId
@@ -441,14 +442,14 @@ namespace ArabErp.DAL
 
                 update T set T.ShortorExcess = (T.CurrentStock+T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
 
-                SELECT COUNT(ItemId) FROM #TEMP WHERE ShortorExcess < 1
+                SELECT * FROM #TEMP WHERE ShortorExcess < 1
 				--ItemId = ISNULL(NULLIF(CAST(0 AS INT), 0),ItemId) and  PartNo = ISNULL(NULLIF('', ''),PartNo) and BatchRequired = ISNULL(NULL,BatchRequired);
 
                 drop table #TEMP;
                 DROP TABLE #TEMP1;
                 DROP TABLE #TEMP2;";
                 #endregion
-                return connection.Query<int>(sql, new { OrganizationId = OrganizationId }).FirstOrDefault();
+                return connection.Query<Item>(sql, new { OrganizationId = OrganizationId });
             }
         }
     }
