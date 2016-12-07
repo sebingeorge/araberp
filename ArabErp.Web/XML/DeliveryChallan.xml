@@ -67,25 +67,22 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC/6</DeliveryChallanRefNo>
-    <DeliveryChallanDate>06-Dec-2016</DeliveryChallanDate>
-    <Customer>Amwaj Catering Services</Customer>
-    <CDoorNo>Doha ,Qatar</CDoorNo>
+    <DeliveryChallanRefNo>DC/7</DeliveryChallanRefNo>
+    <DeliveryChallanDate>07-Dec-2016</DeliveryChallanDate>
+    <Customer>Garage Grand Mart Trading</Customer>
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SER/12</SaleRefNo>
-    <SONoDate>06 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC-S/9</JobcardNo>
-    <JCDate>30-Nov-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>225799</RegistrationNo>
+    <SaleRefNo>AARC/SER/7</SaleRefNo>
+    <SONoDate>05 Dec 2016</SONoDate>
+    <JobcardNo>AARC/JC-S/5</JobcardNo>
+    <JCDate>05-Dec-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>231455</RegistrationNo>
     <WorkDesc>General Checkup &amp; Repair</WorkDesc>
     <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
-    <Employee>Mohammed Safiq</Employee>
-    <FreezerName>TL89767 / V 500</FreezerName>
-    <FreezerPartNo>8766656 / PL78767656</FreezerPartNo>
-    <BoxName>gggggg</BoxName>
-    <BoxPartNo>gggggg</BoxPartNo>
-    <FreezerId>8766656 / PL78767656</FreezerId>
-    <Box>BX344</Box>
+    <Employee>MOHAMMAD NEYAJUDDIN MOHAMMAD ISHA MIYA</Employee>
+    <QuotationRefNo>123123123</QuotationRefNo>
+    <FreezerName> / T600-R</FreezerName>
+    <FreezerPartNo> / 5001206262</FreezerPartNo>
+    <FreezerId> / 5001206262</FreezerId>
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -95,19 +92,17 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo>SQ/5656754</LPONo>
-    <LPODate>06-Dec-2016</LPODate>
-    <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
-    <ApprovedUsersig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
-    <Printdescr>Consumables – Pressure Testing, Vacuuming &amp; Gas Charging
-
-General Service of TK V500 Max 10:
-Compressor Belt Tension Check-up &amp; Bracket Checking
-General Check-up &amp; Check Cooling
-Electrical Connection Check-up &amp; Adjustments
-</Printdescr>
+    <LPONo xml:space="preserve"> </LPONo>
+    <LPODate>05-Dec-2016</LPODate>
+    <CreatedUser>ihits</CreatedUser>
+    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\2572b3a2-2148-42fb-af31-473f88bd475b.png</CreateSignature>
+    <ApprovedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\2572b3a2-2148-42fb-af31-473f88bd475b.png</ApprovedUsersig>
   </Head>
+  <Items>
+    <Description>ewtgdrgdsgdfg</Description>
+    <UoM>fdgf</UoM>
+    <Quantity>2222</Quantity>
+  </Items>
 </NewDataSet>

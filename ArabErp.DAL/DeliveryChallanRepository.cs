@@ -597,7 +597,7 @@ namespace ArabErp.DAL
 								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig,U.Signature ApprovedUsersig,
 								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate,
                                 DC.PrintDescription printdes,
-								JC.isService,concat(SE.TailLiftModel,' / ',SE.FreezerModel )FreezerName,concat(SE.TailLiftSerialNo,' / ',SE.FreezerSerialNo) ReeferId,SE.BoxNo Box,SE.BoxMake BoxPartNo
+								JC.isService,concat(SE.TailLiftModel,' / ',SE.FreezerModel )FreezerName,concat(SE.TailLiftSerialNo,' / ',SE.FreezerSerialNo) ReeferId,SE.BoxNo Box,SE.BoxMake BoxPartNo, DC.QuotationRefNo
 	                            FROM DeliveryChallan DC
                                 left JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
                                 left JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
