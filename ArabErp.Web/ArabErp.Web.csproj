@@ -1271,6 +1271,7 @@
     <Content Include="Views\OpeningStock\OpeningStockList - Copy.cshtml" />
     <Content Include="Views\DeliveryChallan\_PrintDescriptionGrid.cshtml" />
     <Content Include="Views\Item\ReorderLevelList.cshtml" />
+    <Content Include="Views\SaleOrderStatus\_SaleOrderStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

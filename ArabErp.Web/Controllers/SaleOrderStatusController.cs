@@ -18,11 +18,14 @@ namespace ArabErp.Web.Controllers
         // GET: SaleOrderStatus
         public ActionResult Index()
         {
-            SaleOrderStatusRepository repo = new SaleOrderStatusRepository();
-            return View(repo.GetSaleOrderStatus());
+           return View();
         }
 
-        public ActionResult Print()
+        public ActionResult SaleOrderStatus(string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "")
+        {
+            return PartialView("_SaleOrderStatus", new SaleOrderStatusRepository().GetSaleOrderStatus(customer, sono, lpoNo, ChassisNo));
+        }
+        public ActionResult Print(string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "")
         {
 
             ReportDocument rd = new ReportDocument();
@@ -43,6 +46,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("CustomerName");
             ds.Tables["Items"].Columns.Add("SaleOrderRefNo");
             ds.Tables["Items"].Columns.Add("SaleOrderDate");
+            ds.Tables["Items"].Columns.Add("LPONo");
             ds.Tables["Items"].Columns.Add("VehicleMdlNameReg");
             ds.Tables["Items"].Columns.Add("SOAgeDays");
             ds.Tables["Items"].Columns.Add("WRNodue");
@@ -67,7 +71,7 @@ namespace ArabErp.Web.Controllers
 
 
             SaleOrderStatusRepository repo1 = new SaleOrderStatusRepository();
-            var Items = repo1.GetSaleOrderStatusDTPrint();
+            var Items = repo1.GetSaleOrderStatusDTPrint(customer, sono, lpoNo, ChassisNo);
 
             foreach (var item in Items)
             {
@@ -76,6 +80,7 @@ namespace ArabErp.Web.Controllers
                     CustomerName = item.CustomerName,
                     SaleOrderRefNo = item.SaleOrderRefNo,
                     SaleOrderDate = item.SaleOrderDate,
+                    CustomerOrderRef = item.CustomerOrderRef,
                     VehicleMdlNameReg = item.VehicleMdlNameReg,
                     SOAgeDays = item.SOAgeDays,
                     WorkShopRequest = item.WorkShopRequest,
@@ -96,6 +101,7 @@ namespace ArabErp.Web.Controllers
                 dri["CustomerName"] = SupplyOrderRegItem.CustomerName;
                 dri["SaleOrderRefNo"] = SupplyOrderRegItem.SaleOrderRefNo;
                 dri["SaleOrderDate"] = SupplyOrderRegItem.SaleOrderDate.ToString("dd-MMM-yyyy");
+                dri["LPONo"] = SupplyOrderRegItem.CustomerOrderRef;
                 dri["VehicleMdlNameReg"] = SupplyOrderRegItem.VehicleMdlNameReg;
                 dri["SOAgeDays"] = SupplyOrderRegItem.SOAgeDays;
                 dri["WRNodue"] = SupplyOrderRegItem.WorkShopRequest;

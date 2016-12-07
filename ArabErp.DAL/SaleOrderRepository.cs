@@ -971,7 +971,7 @@ namespace ArabErp.DAL
                 string query = @"SELECT ServiceEnquiryId, ServiceEnquiryRefNo, ServiceEnquiryDate, VehicleMake, BoxMake, FreezerMake, TailLiftMake, C.CustomerName,
                                ISNULL([VehicleRegNo],'')+''+ISNULL( [VehicleChassisNo],'') RegNo,FreezerModel
                                 FROM ServiceEnquiry SE INNER JOIN Customer C ON SE.CustomerId = C.CustomerId
-                                WHERE SE.OrganizationId= @OrganizationId";
+                                WHERE SE.OrganizationId= @OrganizationId order by ServiceEnquiryDate desc";
                 return connection.Query<ServiceEnquiry>(query, new { OrganizationId = OrganizationId }).ToList();
             }
         }
