@@ -42,7 +42,7 @@ namespace ArabErp.Domain
         public string Customer { get; set; }
         public string Technician { get; set; }
         public string EmployeeName { get; set; }
-
+      
         public int CurrencyId { get; set; }
         public string CurrencyName { get; set; }
        // public string OrganizationRefNo { get; set; }
@@ -61,7 +61,9 @@ namespace ArabErp.Domain
         public DateTime TaskDate { get; set; }
         public string ChasisNo { get; set; }
         public string VehicleName { get; set; }
-
+        public string CreatedUsersig { get; set; }
+        public string CreatedUser { get; set; }
+        public string CreatedDes { get; set; }
         public List<JobCardTask> JobCardTasks { get; set; }
 
         public string BoxName { get; set; }
@@ -71,9 +73,12 @@ namespace ArabErp.Domain
         public string FreezerMake { get; set; }
         public string FreezerModel { get; set; }
         public string VehicleMake { get; set; }
+     
+       
         public bool IsUsed { get; set; }
         public bool IsTaskUsed { get; set; }
         public int isService { get; set; }
+
         public string SaleOrderRefNo { get; set; }
     }
     public class JobCardForDailyActivity

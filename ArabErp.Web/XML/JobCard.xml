@@ -37,6 +37,9 @@
                 <xs:element name="FreezerMake" type="xs:string" minOccurs="0" />
                 <xs:element name="FreezerModel" type="xs:string" minOccurs="0" />
                 <xs:element name="VehicleMake" type="xs:string" minOccurs="0" />
+                <xs:element name="CreatedUser" type="xs:string" minOccurs="0" />
+                <xs:element name="CreateSignature" type="xs:string" minOccurs="0" />
+                <xs:element name="CreatedDes" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -55,11 +58,10 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC/3</JobCardNo>
-    <JobCardDate>06-Dec-2016</JobCardDate>
-    <Customer>Qatar Automobiles Company</Customer>
-    <ChasisNo>GK019756</ChasisNo>
-    <VModel>MITSUBISHI FUSO CANTER 4.3 TON (SINGLE CABIN)</VModel>
+    <JobCardNo>AARC/JC-S/12</JobCardNo>
+    <JobCardDate>07-Dec-2016</JobCardDate>
+    <Customer>Yacoob Trading &amp; Contracting Co.</Customer>
+    <ChasisNo>qqqq</ChasisNo>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -69,12 +71,20 @@
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Box>40mm4300x2100x2100mm- MITS</Box>
+    <Complaints>qqqqqqqqq</Complaints>
+    <BoxMake>q</BoxMake>
+    <BoxNo>q</BoxNo>
+    <FreezerMake>q</FreezerMake>
+    <FreezerModel>q</FreezerModel>
+    <VehicleMake>q</VehicleMake>
+    <CreatedUser>ihits</CreatedUser>
+    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\ce726bad-ce03-4f56-b2c0-0c4ce4a394ea.png</CreateSignature>
+    <CreatedDes>Asst.Sales Manager</CreatedDes>
   </Head>
   <Items>
-    <TaskDate>06-Dec-2016</TaskDate>
-    <Employee>Mohamed Madum Mohamed Munsif</Employee>
-    <Description>Box Fixing</Description>
+    <TaskDate>07-Dec-2016</TaskDate>
+    <Employee>Jagath Kumara Kotuwegoda Guruge</Employee>
+    <Description>General Maintenance </Description>
     <Hours>10.00</Hours>
   </Items>
   <Items>

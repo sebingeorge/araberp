@@ -573,7 +573,7 @@ namespace ArabErp.DAL
                 }
                 else
                 {
-                    qu = @"  SELECT DISTINCT O.*,SO.SaleOrderId,
+                    qu = @"    SELECT DISTINCT O.*,SO.SaleOrderId,
 								ORR.CountryName,
 								DC.DeliveryChallanId,
 								DeliveryChallanRefNo,
@@ -592,10 +592,10 @@ namespace ArabErp.DAL
 								DC.Remarks,
 								SQ.QuotationRefNo,
 								LPO.SupplyOrderNo,
-								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig,
+								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig,U.Signature ApprovedUsersig,
 								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate,
                                 DC.PrintDescription printdes,
-								JC.isService,SE.TailLiftModel FreezerName,SE.TailLiftSerialNo ReeferId,SE.BoxNo Box,SE.BoxMake BoxName
+								JC.isService,concat(SE.TailLiftModel,' / ',SE.FreezerModel )FreezerName,concat(SE.TailLiftSerialNo,' / ',SE.FreezerSerialNo) ReeferId,SE.BoxNo Box,SE.BoxMake BoxPartNo
 	                            FROM DeliveryChallan DC
                                 left JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
                                 left JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
