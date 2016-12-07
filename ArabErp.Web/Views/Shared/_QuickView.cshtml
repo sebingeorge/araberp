@@ -36,6 +36,10 @@
                {
                    total += Model.NoOfMaterialStockBelowMinLevel;
                }
+               if (Model.PendingVechicleInpass && alertPermissions.PendingVechicleInpass)
+               {
+                   total += Model.NoOfVechicleInpass;
+               }
            }
 <ul class="nav navbar-nav">
     <li class="top6"> 
@@ -86,11 +90,22 @@
             @if (Model.MaterialStockBelowMinLevel && alertPermissions.MaterialStockBelowMinLevel)
             {
                 <li>
-                    <a href="#" class="form_input">
+                    <a href="@Url.Action("ReorderLevelList", "Item")" class="form_input">
                         <span class="badge pull-right">
                             @Model.NoOfMaterialStockBelowMinLevel
                         </span>
                         Material Stock Below Min. Level
+                    </a>
+                </li>
+            }
+            @if (Model.PendingVechicleInpass && alertPermissions.PendingVechicleInpass)
+            {
+                <li>
+                    <a href="@Url.Action("Index", "VehicleInPass")" class="form_input">
+                        <span class="badge pull-right">
+                            @Model.NoOfVechicleInpass
+                        </span>
+                        Pending Vehicle Inpass
                     </a>
                 </li>
             }

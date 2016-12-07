@@ -88,7 +88,7 @@ namespace ArabErp.Web.Controllers
             view.PendingProjectSaleOrdersForJobCard = true;
             view.PendingTransSaleOrdersForJobCard = true;
             view.MaterialStockBelowMinLevel = true;
-
+            view.PendingVechicleInpass = true;
             if (view.PendingProjectQuotations)
             {
                 SalesQuotationRepository repo = new SalesQuotationRepository();
@@ -130,7 +130,14 @@ namespace ArabErp.Web.Controllers
             }
             if (view.MaterialStockBelowMinLevel)
             {
-                view.NoOfMaterialStockBelowMinLevel = new ItemRepository().GetCriticalMaterialsBelowMinStock(OrganizationId);
+                var list = new ItemRepository().GetCriticalMaterialsBelowMinStock(OrganizationId);
+                view.NoOfMaterialStockBelowMinLevel = list.Count();
+                //view.NoOfMaterialStockBelowMinLevel = new ItemRepository().GetCriticalMaterialsBelowMinStock(OrganizationId);
+            }
+            if (view.PendingVechicleInpass)
+            {
+                var list = new VehicleInPassRepository().PendingVehicleInpassforAlert(OrganizationId);
+                view.NoOfVechicleInpass = list.Count();
             }
 
             IEnumerable<ERPAlerts> Alerts;
@@ -176,6 +183,9 @@ namespace ArabErp.Web.Controllers
                         //    break;
                         case 6:
                             alertpermission.MaterialStockBelowMinLevel = true;
+                            break;
+                        case 7:
+                            alertpermission.PendingVechicleInpass = true;
                             break;
                         default:
                             break;

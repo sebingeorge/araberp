@@ -191,6 +191,30 @@ namespace ArabErp.DAL
                     DROP TABLE #SALE;", new { customerId = customerId }).ToList();
             }
         }
+        public IEnumerable<PendingSO> PendingVehicleInpassforAlert(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<PendingSO>(@"SELECT SaleOrderId, SaleOrderRefNo, CustomerId, SaleOrderDate INTO #SALE FROM SaleOrder WHERE  ISNULL(isActive, 1) = 1 AND ISNULL(SaleOrderApproveStatus, 0) = 1 AND isProjectBased=0 and OrganizationId=@OrganizationId
+                    SELECT SaleOrderId, SaleOrderItemId, WorkDescriptionId, VehicleModelId INTO #SALE_ITEM FROM SaleOrderItem WHERE ISNULL(isActive, 1) = 1;
+                    SELECT SaleOrderItemId INTO #VEHICLE_INPASS FROM VehicleInPass WHERE ISNULL(isActive, 1) = 1;
+                    SELECT WorkDescriptionId, WorkDescr  INTO #WORK FROM WorkDescription WHERE ISNULL(isActive, 1) = 1;
+                    SELECT VehicleModelId, VehicleModelName, VehicleModelDescription INTO #MODEL FROM VehicleModel WHERE ISNULL(isActive, 1) = 1;
+
+                    SELECT SO.SaleOrderId, SO.SaleOrderRefNo + ' - ' + CONVERT(VARCHAR, SaleOrderDate, 106) SaleOrderRefNo, SOI.SaleOrderItemId, WorkDescr WorkDescription, VehicleModelName+' - '+VehicleModelDescription VehicleModelName FROM #SALE SO
+                    LEFT JOIN #SALE_ITEM SOI ON SO.SaleOrderId = SOI.SaleOrderId
+                    LEFT JOIN #VEHICLE_INPASS VI ON SOI.SaleOrderItemId = VI.SaleOrderItemId
+                    LEFT JOIN #WORK W ON SOI.WorkDescriptionId = W.WorkDescriptionId
+                    LEFT JOIN #MODEL M ON SOI.VehicleModelId = M.VehicleModelId
+                    WHERE VI.SaleOrderItemId IS NULL;
+
+                    DROP TABLE #SALE_ITEM;
+                    DROP TABLE #VEHICLE_INPASS;
+                    DROP TABLE #MODEL;
+                    DROP TABLE #WORK;
+                    DROP TABLE #SALE;", new {OrganizationId = OrganizationId}).ToList();
+            }
+        }
         public PendingSO GetSaleOrderItemDetails(int saleOrderItemId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
