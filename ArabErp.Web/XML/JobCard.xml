@@ -55,11 +55,10 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC/3</JobCardNo>
-    <JobCardDate>06-Dec-2016</JobCardDate>
-    <Customer>Qatar Automobiles Company</Customer>
-    <ChasisNo>GK019756</ChasisNo>
-    <VModel>MITSUBISHI FUSO CANTER 4.3 TON (SINGLE CABIN)</VModel>
+    <JobCardNo>AARC/JC-S/12</JobCardNo>
+    <JobCardDate>07-Dec-2016</JobCardDate>
+    <Customer>Abdul Asiz Trading Est</Customer>
+    <ChasisNo>aaaa</ChasisNo>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -68,14 +67,19 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Box>40mm4300x2100x2100mm- MITS</Box>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Complaints>aaaaa</Complaints>
+    <BoxMake>a</BoxMake>
+    <BoxNo>a</BoxNo>
+    <FreezerMake>a</FreezerMake>
+    <FreezerModel>a</FreezerModel>
+    <VehicleMake>a</VehicleMake>
   </Head>
   <Items>
-    <TaskDate>06-Dec-2016</TaskDate>
-    <Employee>Mohamed Madum Mohamed Munsif</Employee>
-    <Description>Box Fixing</Description>
-    <Hours>10.00</Hours>
+    <TaskDate>07-Dec-2016</TaskDate>
+    <Employee>Nuwan Thilina Vanhoff</Employee>
+    <Description>General Maintenance </Description>
+    <Hours>1.00</Hours>
   </Items>
   <Items>
     <TaskDate />
