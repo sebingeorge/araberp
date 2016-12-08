@@ -11,7 +11,7 @@ namespace ArabErp.DAL
     public class StoresLedgerRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<ClosingStock> GetStoresLedgerData(DateTime? from, DateTime? to, int stkid, int itmcatid, int itmid, int OrganizationId)
+        public IEnumerable<ClosingStock> GetStoresLedgerData(DateTime? from, DateTime? to, int stkid, int itmcatid, string itmid, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -19,7 +19,7 @@ namespace ArabErp.DAL
                 string qry = @"SELECT StockPointId,stocktrnDate,StockUpdateId,StockUserId,StockType,StockInOut,0 INQTY, 0 OUTQTY  INTO #TEMP  
                                FROM StockUpdate S  inner join Item I on I.ItemId=S.ItemId
                                WHERE stocktrnDate >= @from AND stocktrnDate <= @to AND S.StockPointId=ISNULL(NULLIF(@stkid,0),S.StockPointId)
-                               AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) AND S.ItemId=ISNULL(NULLIF(@itmid, 0), S.ItemId) 
+                               AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) AND  I.ItemName LIKE '%'+@itmid+'%'  
                                AND S.OrganizationId=@OrganizationId ;
                  
                 with A as (
