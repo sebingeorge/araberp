@@ -1273,6 +1273,7 @@
     <Content Include="Views\Item\ReorderLevelList.cshtml" />
     <Content Include="Views\SaleOrderStatus\_SaleOrderStatus.cshtml" />
     <Content Include="Views\StockReport\_StockReportRegister.cshtml" />
+    <Content Include="Views\SalesInvoice\_PrintDescriptionGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

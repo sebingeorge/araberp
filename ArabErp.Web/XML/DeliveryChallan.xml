@@ -67,23 +67,22 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC/2</DeliveryChallanRefNo>
-    <DeliveryChallanDate>05-Dec-2016</DeliveryChallanDate>
-    <Customer>Zubarah Hotels</Customer>
-    <CDoorNo>Doha - Qatar</CDoorNo>
-    <CCountry>QATAR</CCountry>
-    <SaleRefNo>AARC/SER/8</SaleRefNo>
-    <SONoDate>05 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC-S/6</JobcardNo>
-    <JCDate>05-Dec-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>95795</RegistrationNo>
-    <ChassisNo>GK006686</ChassisNo>
+    <DeliveryChallanRefNo>DC/7</DeliveryChallanRefNo>
+    <DeliveryChallanDate>06-Dec-2016</DeliveryChallanDate>
+    <Customer>Well Care Trading</Customer>
+    <CDoorNo>Doha Qatar.</CDoorNo>
+    <CCountry>INDIA</CCountry>
+    <SaleRefNo>AARC/SER/11</SaleRefNo>
+    <SONoDate>06 Dec 2016</SONoDate>
+    <JobcardNo>AARC/JC-S/10</JobcardNo>
+    <JCDate>06-Dec-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>300543</RegistrationNo>
     <WorkDesc>General Checkup &amp; Repair</WorkDesc>
     <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
     <Employee>Mohammed Safiq</Employee>
-    <FreezerName>T2500 / Z1.5 TL</FreezerName>
-    <FreezerPartNo>TH-29-PP-04</FreezerPartNo>
-    <FreezerId>TH-29-PP-04</FreezerId>
+    <FreezerName />
+    <FreezerPartNo />
+    <FreezerId />
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -93,27 +92,20 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <LPONo xml:space="preserve"> </LPONo>
-    <LPODate>05-Dec-2016</LPODate>
+    <LPODate>06-Dec-2016</LPODate>
     <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
-    <ApprovedUsersig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\</ApprovedUsersig>
-    <Printdescr>General Service of TM T2500:
-Compressor Belt Tension Check-up &amp; Bracket Checking
-General Check-up &amp; Check Cooling
-Electrical Connection Check-up &amp; Adjustments
-</Printdescr>
+    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <ApprovedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
   </Head>
   <Items>
-    <Description>reeasseesstctg kljkjk uigyutyrtds rsderssersrt ojojopj</Description>
+    <Description>Supply &amp; Fixing of Plastic Curtain with SS Rail &amp; Strips
+Box Light Repair
+Labor Charges
+</Description>
     <UoM>ea</UoM>
     <Quantity>1</Quantity>
-  </Items>
-  <Items>
-    <Description>hjvbjhhj yjffdghfsgf </Description>
-    <UoM>ea</UoM>
-    <Quantity>2</Quantity>
   </Items>
 </NewDataSet>

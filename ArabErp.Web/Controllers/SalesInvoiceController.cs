@@ -85,9 +85,8 @@ namespace ArabErp.Web.Controllers
 
                 //SalesInvoiceRepository SalesInvoiceRepo = new SalesInvoiceRepository();
                 //SalesInvoice saleinvoice = SalesInvoiceRepo.GetSelectedSalesInvoiceHD(SelectedSaleOrderItemId);
-
-
-
+                //int deliveryChallanId = new DeliveryChallanRepository().GetDeliveryChallanIdFromJobCardId()
+                saleinvoice.PrintDescriptions = new DeliveryChallanRepository().GetPrintDescriptions(0);
             }
             if (saleinvoice.InvoiceType == "Inter" || saleinvoice.InvoiceType == "Final")
             {

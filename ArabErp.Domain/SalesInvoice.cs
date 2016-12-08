@@ -62,7 +62,7 @@ namespace ArabErp.Domain
         public string ApproveUser { get; set; }
         public string ApproveSig { get; set; }
 
-     
+        public List<PrintDescription> PrintDescriptions { get; set; }
         public List<SalesInvoiceItem> SaleInvoiceItems { get; set; }
     }
 }
