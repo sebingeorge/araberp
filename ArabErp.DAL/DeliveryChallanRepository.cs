@@ -605,7 +605,8 @@ namespace ArabErp.DAL
 								CCC.CountryName CCountry,
 								ISNULL(SO.SaleOrderRefNo,'')SaleRefNo,CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
 								ISNULL(JC.JobCardNo,'')JobcardNo,CONVERT(varchar,JC.JobCardDate,106)JobCardDate,
-								VI. RegistrationNo,VI.ChassisNo,
+								--VI. RegistrationNo,VI.ChassisNo,
+                                SE.VehicleRegNo RegistrationNo,SE.VehicleChassisNo ChassisNo,
 								WI.WorkDescr,
 								VM.VehicleModelName VehicleModel,
 								E.EmployeeName,
@@ -616,7 +617,10 @@ namespace ArabErp.DAL
 								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig, U1.Signature ApprovedUsersig,
 								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate,
                                 DC.PrintDescription printdes,
-								JC.isService,concat(SE.TailLiftModel,' / ',SE.FreezerModel )FreezerName,concat(SE.TailLiftSerialNo,' / ',SE.FreezerSerialNo) ReeferId,SE.BoxNo Box,SE.BoxMake BoxPartNo, DC.QuotationRefNo
+								JC.isService,
+								concat(SE.FreezerModel,CASE WHEN (ISNULL(LTRIM(RTRIM(SE.FreezerModel)),'') = '' OR ISNULL(LTRIM(RTRIM(SE.TailLiftModel)), '') = '') THEN '' ELSE ' / ' END,SE.TailLiftModel)FreezerName,
+								concat(SE.FreezerSerialNo,CASE WHEN (ISNULL(LTRIM(RTRIM(SE.FreezerSerialNo)),'') = '' OR ISNULL(LTRIM(RTRIM(SE.TailLiftSerialNo)), '') = '') THEN '' ELSE ' / ' END,SE.TailLiftSerialNo)ReeferId,
+								SE.BoxNo Box,SE.BoxMake BoxPartNo, DC.QuotationRefNo
 	                            FROM DeliveryChallan DC
                                 left JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
                                 left JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId

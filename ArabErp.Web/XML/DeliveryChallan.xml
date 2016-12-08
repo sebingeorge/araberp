@@ -67,28 +67,23 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC/8</DeliveryChallanRefNo>
-    <DeliveryChallanDate>08-Dec-2016</DeliveryChallanDate>
-    <Customer>Abdul Asiz Trading Est</Customer>
-    <CDoorNo>Salwa road, Doha -Qatar</CDoorNo>
-    <CStreet>Doha</CStreet>
+    <DeliveryChallanRefNo>DC/2</DeliveryChallanRefNo>
+    <DeliveryChallanDate>05-Dec-2016</DeliveryChallanDate>
+    <Customer>Zubarah Hotels</Customer>
+    <CDoorNo>Doha - Qatar</CDoorNo>
     <CCountry>QATAR</CCountry>
-    <SaleRefNo>AARC/SER/15</SaleRefNo>
-    <SONoDate>08 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC-S/13</JobcardNo>
-    <JCDate>08-Dec-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>123214345345</RegistrationNo>
-    <ChassisNo>456567768768</ChassisNo>
+    <SaleRefNo>AARC/SER/8</SaleRefNo>
+    <SONoDate>05 Dec 2016</SONoDate>
+    <JobcardNo>AARC/JC-S/6</JobcardNo>
+    <JCDate>05-Dec-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>95795</RegistrationNo>
+    <ChassisNo>GK006686</ChassisNo>
     <WorkDesc>General Checkup &amp; Repair</WorkDesc>
-    <VehicleModel>Isuzu NPR </VehicleModel>
-    <Employee>MOHAMMAD NEYAJUDDIN MOHAMMAD ISHA MIYA</Employee>
-    <QuotationRefNo>aaaaaaaaaaaa</QuotationRefNo>
-    <FreezerName>qqqqqqqqqqqqqqq / qqqqqqqqqqqqqqq</FreezerName>
-    <FreezerPartNo>qqqqqqq / qqqqqqqqqqq</FreezerPartNo>
-    <BoxName>qqqqqqqqqqqqqqqq</BoxName>
-    <BoxPartNo>qqqqqqqqqqqqqqqq</BoxPartNo>
-    <FreezerId>qqqqqqq / qqqqqqqqqqq</FreezerId>
-    <Box>qqqqqqqqqqqqqqqq</Box>
+    <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
+    <Employee>Mohammed Safiq</Employee>
+    <FreezerName>T2500 / Z1.5 TL</FreezerName>
+    <FreezerPartNo>TH-29-PP-04</FreezerPartNo>
+    <FreezerId>TH-29-PP-04</FreezerId>
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -98,22 +93,17 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo>AARC/SER/15</LPONo>
-    <LPODate>08-Dec-2016</LPODate>
-    <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\2c2234fc-0347-4a47-addc-8f39db6e4398.jpg</CreateSignature>
-    <ApprovedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\2c2234fc-0347-4a47-addc-8f39db6e4398.jpg</ApprovedUsersig>
+    <LPONo xml:space="preserve"> </LPONo>
+    <LPODate>05-Dec-2016</LPODate>
+    <CreatedUser>safiq</CreatedUser>
+    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <ApprovedUsersig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\</ApprovedUsersig>
+    <Printdescr>General Service of TM T2500:
+Compressor Belt Tension Check-up &amp; Bracket Checking
+General Check-up &amp; Check Cooling
+Electrical Connection Check-up &amp; Adjustments
+</Printdescr>
   </Head>
-  <Items>
-    <Description>reeasseesstctg kljkjk uigyutyrtds rsderssersrt ojojopj</Description>
-    <UoM>ea</UoM>
-    <Quantity>1</Quantity>
-  </Items>
-  <Items>
-    <Description>hjvbjhhj yjffdghfsgf </Description>
-    <UoM>ea</UoM>
-    <Quantity>2</Quantity>
-  </Items>
 </NewDataSet>

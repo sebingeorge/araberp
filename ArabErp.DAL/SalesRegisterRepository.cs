@@ -387,7 +387,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<GINRegister> GetGINRegisterData(int id, int OrganizationId)
+        public IEnumerable<GINRegister> GetGINRegisterData(string id, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -399,7 +399,7 @@ namespace ArabErp.DAL
 		                        INNER JOIN Item I ON I.ItemId=WI.ItemId
 		                        INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
 		                        LEFT JOIN StoreIssueItem SI ON SI.WorkShopRequestItemId=WI.WorkShopRequestItemId
-                                WHERE WI.ItemId=ISNULL(NULLIF(@id, 0),WI.ItemId) and W.OrganizationId=@OrganizationId	
+                                WHERE I.ItemName LIKE '%'+@id+'%' and W.OrganizationId=@OrganizationId	
 		                        group by I.ItemRefNo,I.ItemName,I.PartNo,WI.Quantity,U.UnitName,W.WorkShopRequestRefNo,I.ItemId";
 
                 return connection.Query<GINRegister>(qry, new { OrganizationId = OrganizationId, id = id}).ToList();
@@ -782,7 +782,7 @@ namespace ArabErp.DAL
                 return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, id = id, FYStartdate = FYStartdate, FYEnddate = FYEnddate }).ToList();
             }
         }
-        public IEnumerable<GINRegister> GetGINRegisterDataDetailsPrint(int id, int OrganizationId)
+        public IEnumerable<GINRegister> GetGINRegisterDataDetailsPrint(string id, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -794,7 +794,7 @@ namespace ArabErp.DAL
 		                        INNER JOIN Item I ON I.ItemId=WI.ItemId
 		                        INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
 		                        LEFT JOIN StoreIssueItem SI ON SI.WorkShopRequestItemId=WI.WorkShopRequestItemId
-                                WHERE WI.ItemId=ISNULL(NULLIF(@id, 0),WI.ItemId) and W.OrganizationId=@OrganizationId	
+                                WHERE I.ItemName LIKE '%'+@id+'%' and W.OrganizationId=@OrganizationId	
 		                        group by I.ItemRefNo,I.ItemName,I.PartNo,WI.Quantity,U.UnitName,W.WorkShopRequestRefNo,I.ItemId";
 
                 return connection.Query<GINRegister>(qry, new { OrganizationId = OrganizationId, id = id }).ToList();
