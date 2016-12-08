@@ -62,6 +62,7 @@
                 <div class="col-md-2">
                     <label>Delivery Challan No.</label>
                     @Html.HiddenFor(m => m.JobCardId)
+                    @Html.HiddenFor(m => m.isService)
                     @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                 </div>
                 <div class="col-md-2">
@@ -82,10 +83,6 @@
                 <div class="col-md-2" title="Sale Order Ref. No. and Date">
                     <label>Sale Order Ref. No. &amp; Date</label>
                     <input type="text" class="form_input" id="txtSONoDate" readonly />
-                </div>
-                <div class="col-md-2">
-                    <label>Customer Order Ref No.</label>
-                    <input type="text" class="form_input" id="txtCustomerOrderRef" readonly />
                 </div>
                 <div class="col-md-2" title="Job Card Ref. No. and Date">
                     <label>Job Card Ref. No. &amp; Date</label>
@@ -111,10 +108,31 @@
                 </div>
             </div>
             <div class="row form-group">
-                <div class="col-md-2">
-                    <label for="QuotationRefNo">Quotation Ref. No.</label>
-                    @Html.TextBoxFor(m => m.QuotationRefNo, new { @class="form_input" })
-                </div>
+                @if (Model.isService == 1)
+                {
+                    <div class="col-md-2">
+                        <label for="QuotationRefNo">Quotation Ref. No.</label>
+                        @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Customer Order Ref No.</label>
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input" })
+                        @*<input type="text" class="form_input" id="txtCustomerOrderRef" readonly />*@
+                    </div>
+                }
+                else
+                {
+
+                    <div class="col-md-2">
+                        <label for="QuotationRefNo">Quotation Ref. No.</label>
+                        @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input", @readonly = "true" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Customer Order Ref No.</label>
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", @readonly = "true" })
+                        @*<input type="text" class="form_input" id="txtCustomerOrderRef" readonly />*@
+                    </div>
+                }
                 <div class="col-md-3">
                     <label>Employee</label>
                     @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input", @required = "true" })
@@ -133,7 +151,7 @@
                         </tr>
                     </thead>
                     <tbody class="grid_row">
-                        @if (Model.ItemBatches.Count > 0)
+                        @if (Model.ItemBatches != null && Model.ItemBatches.Count > 0)
                         {
                             int i = 0;
                             foreach (var item in Model.ItemBatches)

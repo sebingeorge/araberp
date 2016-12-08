@@ -25,7 +25,7 @@
             function (data) {
                 $("#txtJCNoDate").val(data.JobCardNoDate);
                 $("#txtSONoDate").val(data.SaleOrderNoDate);
-                $("#txtCustomerOrderRef").val(data.CustomerOrderRef);
+                //$("#txtCustomerOrderRef").val(data.CustomerOrderRef);
                 $("#txtVehicleModel").val(data.VehicleModel);
                 $("#txtWork").val(data.WorkDescr);
                 $("#txtCustomer").val(data.CustomerName);
@@ -45,7 +45,7 @@
 
     function GoToPrint() {
         var url = '@Url.Action("Print", new { Id = Model.DeliveryChallanId })';
-        window.location = url;
+        window.open(url);
     }
 
     function Delete() {
@@ -68,6 +68,7 @@
                 <div class="col-md-2">
                     <label>Delivery Challan No.</label>
                     @Html.HiddenFor(m => m.JobCardId)
+                    @Html.HiddenFor(m => m.isService)
                     @Html.HiddenFor(m => m.DeliveryChallanId)
                     @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                 </div>
@@ -91,11 +92,6 @@
                     <label>SO. No. &amp; Date</label>
                     @Html.TextBoxFor(m => Model.SONODATE, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     @*<input type="text" class="form_input" id="txtSONoDate" readonly />*@
-                </div>
-                <div class="col-md-2">
-                    <label>Customer Order Ref No.</label>
-                    @Html.TextBoxFor(m => Model.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                    @*<input type="text" class="form_input" id="txtCustomerOrderRef" readonly />*@
                 </div>
                 <div class="col-md-2" title="Job Card Ref. No. and Date">
                     <label>JC. No. &amp; Date</label>
@@ -124,10 +120,34 @@
                 </div>
             </div>
             <div class="row form-group">
-                <div class="col-md-2">
+                @*<div class="col-md-2">
                     <label for="QuotationRefNo">Quotation Ref. No.</label>
                     @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input" })
-                </div>
+                </div>*@
+                @if (Model.isService == 1)
+                {
+                    <div class="col-md-2">
+                        <label for="QuotationRefNo">Quotation Ref. No.</label>
+                        @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Customer Order Ref No.</label>
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input" })
+                        @*<input type="text" class="form_input" id="txtCustomerOrderRef" readonly />*@
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-2">
+                        <label for="QuotationRefNo">Quotation Ref. No.</label>
+                        @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input", @readonly = "true" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Customer Order Ref No.</label>
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", @readonly = "true" })
+                        @*<input type="text" class="form_input" id="txtCustomerOrderRef" readonly />*@
+                    </div>
+                }
                 <div class="col-md-3">
                     <label>Employee</label>
                     @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input", @required = "true" })
@@ -146,7 +166,7 @@
                         </tr>
                     </thead>
                     <tbody class="grid_row">
-                        @if (Model.ItemBatches.Count > 0)
+                        @if (Model.ItemBatches != null && Model.ItemBatches.Count > 0)
                         {
                             int i = 0;
                             foreach (var item in Model.ItemBatches)
