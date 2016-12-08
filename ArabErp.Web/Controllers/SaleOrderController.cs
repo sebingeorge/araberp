@@ -500,7 +500,7 @@ namespace ArabErp.Web.Controllers
             var view = "PendingSaleOrderApprovalDEL";
             if (item.IsPaymentApprovedForDelivery == true)
             {
-                item.PaymentApprovedForDeliveryCreatedBy = UserName;
+                item.PaymentApprovedForDeliveryCreatedBy = UserID.ToString();
                 item.PaymentApprovedForDeliveryCreatedDate = DateTime.Now;
                 repo.UpdateSaleOrderItemStatus(item, "DELIVERY_CHALLAN");
             }

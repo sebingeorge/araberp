@@ -41,18 +41,30 @@ namespace ArabErp.Web.Controllers
         {
             if (id != 0)
             {
-                EmployeeDropdown();
-                List<PrintDescription> list = new List<PrintDescription>();
-                list.Add(new PrintDescription());
-                return View(new DeliveryChallan
+
+                try
                 {
-                    JobCardId = id,
-                    DeliveryChallanRefNo = DatabaseCommonRepository.GetNextDocNo(18, OrganizationId),
-                    DeliveryChallanDate = DateTime.Now,
-                    TransportWarrantyExpiryDate = DateTime.Today.AddYears(1).AddDays(-1),
-                    ItemBatches = new DeliveryChallanRepository().GetSerialNos(id).ToList(),
-                    PrintDescriptions = list
-                });
+                    EmployeeDropdown();
+                    List<PrintDescription> list = new List<PrintDescription>();
+                    list.Add(new PrintDescription());
+                    DeliveryChallan model = new DeliveryChallanRepository().GetDetailsFromJobCard(id, OrganizationId);
+                    if (model == null) throw new NullReferenceException();
+                    model.JobCardId = id;
+                    model.DeliveryChallanRefNo = DatabaseCommonRepository.GetNextDocNo(18, OrganizationId);
+                    model.DeliveryChallanDate = DateTime.Now;
+                    model.TransportWarrantyExpiryDate = DateTime.Today.AddYears(1).AddDays(-1);
+                    model.ItemBatches = new DeliveryChallanRepository().GetSerialNos(id).ToList();
+                    model.PrintDescriptions = list;
+                    return View(model);
+                }
+                catch (NullReferenceException)
+                {
+                    TempData["error"] = "Could not find the requested Delivery Challan. Please try again.";
+                }
+                catch (Exception)
+                {
+                    TempData["error"] = "Some error occurred. Please try again.";
+                }
             }
             return RedirectToAction("Index");
         }
@@ -129,7 +141,7 @@ namespace ArabErp.Web.Controllers
                     DeliveryChallan = new DeliveryChallanRepository().ViewDeliveryChallanHD(id);
                     DeliveryChallan.ItemBatches = new DeliveryChallanRepository().GetDeliveryChallanDT(id);
                     DeliveryChallan.PrintDescriptions = new DeliveryChallanRepository().GetPrintDescriptions(id);
-                    if (DeliveryChallan.PrintDescriptions == null || DeliveryChallan.PrintDescriptions.Count == 0) 
+                    if (DeliveryChallan.PrintDescriptions == null || DeliveryChallan.PrintDescriptions.Count == 0)
                         DeliveryChallan.PrintDescriptions.Add(new PrintDescription());
                     return View(DeliveryChallan);
                 }
@@ -345,7 +357,7 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("DeliveryChallan{0}.pdf", Id.ToString()));
+                return File(stream, "application/pdf");//, String.Format("DeliveryChallan{0}.pdf", Id.ToString()));
             }
             catch (Exception ex)
             {

@@ -67,22 +67,28 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC/7</DeliveryChallanRefNo>
-    <DeliveryChallanDate>07-Dec-2016</DeliveryChallanDate>
-    <Customer>Garage Grand Mart Trading</Customer>
-    <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SER/7</SaleRefNo>
-    <SONoDate>05 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC-S/5</JobcardNo>
-    <JCDate>05-Dec-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>231455</RegistrationNo>
+    <DeliveryChallanRefNo>DC/8</DeliveryChallanRefNo>
+    <DeliveryChallanDate>08-Dec-2016</DeliveryChallanDate>
+    <Customer>Abdul Asiz Trading Est</Customer>
+    <CDoorNo>Salwa road, Doha -Qatar</CDoorNo>
+    <CStreet>Doha</CStreet>
+    <CCountry>QATAR</CCountry>
+    <SaleRefNo>AARC/SER/15</SaleRefNo>
+    <SONoDate>08 Dec 2016</SONoDate>
+    <JobcardNo>AARC/JC-S/13</JobcardNo>
+    <JCDate>08-Dec-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>123214345345</RegistrationNo>
+    <ChassisNo>456567768768</ChassisNo>
     <WorkDesc>General Checkup &amp; Repair</WorkDesc>
-    <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
+    <VehicleModel>Isuzu NPR </VehicleModel>
     <Employee>MOHAMMAD NEYAJUDDIN MOHAMMAD ISHA MIYA</Employee>
-    <QuotationRefNo>123123123</QuotationRefNo>
-    <FreezerName> / T600-R</FreezerName>
-    <FreezerPartNo> / 5001206262</FreezerPartNo>
-    <FreezerId> / 5001206262</FreezerId>
+    <QuotationRefNo>aaaaaaaaaaaa</QuotationRefNo>
+    <FreezerName>qqqqqqqqqqqqqqq / qqqqqqqqqqqqqqq</FreezerName>
+    <FreezerPartNo>qqqqqqq / qqqqqqqqqqq</FreezerPartNo>
+    <BoxName>qqqqqqqqqqqqqqqq</BoxName>
+    <BoxPartNo>qqqqqqqqqqqqqqqq</BoxPartNo>
+    <FreezerId>qqqqqqq / qqqqqqqqqqq</FreezerId>
+    <Box>qqqqqqqqqqqqqqqq</Box>
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -94,15 +100,20 @@
     <Zip>13037</Zip>
     <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo xml:space="preserve"> </LPONo>
-    <LPODate>05-Dec-2016</LPODate>
+    <LPONo>AARC/SER/15</LPONo>
+    <LPODate>08-Dec-2016</LPODate>
     <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\2572b3a2-2148-42fb-af31-473f88bd475b.png</CreateSignature>
-    <ApprovedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\2572b3a2-2148-42fb-af31-473f88bd475b.png</ApprovedUsersig>
+    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\2c2234fc-0347-4a47-addc-8f39db6e4398.jpg</CreateSignature>
+    <ApprovedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\2c2234fc-0347-4a47-addc-8f39db6e4398.jpg</ApprovedUsersig>
   </Head>
   <Items>
-    <Description>ewtgdrgdsgdfg</Description>
-    <UoM>fdgf</UoM>
-    <Quantity>2222</Quantity>
+    <Description>reeasseesstctg kljkjk uigyutyrtds rsderssersrt ojojopj</Description>
+    <UoM>ea</UoM>
+    <Quantity>1</Quantity>
+  </Items>
+  <Items>
+    <Description>hjvbjhhj yjffdghfsgf </Description>
+    <UoM>ea</UoM>
+    <Quantity>2</Quantity>
   </Items>
 </NewDataSet>

@@ -27,6 +27,15 @@ namespace ArabErp.DAL
 
                     var id = connection.Query<int>(sql, objDeliveryChallan, txn).Single();
 
+                    #region update customer order ref to [SaleOrder] if isService = 1
+                    if (objDeliveryChallan.isService == 1)
+                    {
+                        sql = @"UPDATE SaleOrder SET CustomerOrderRef = '" + objDeliveryChallan.CustomerOrderRef + @"'
+                                WHERE SaleOrderId = (SELECT SaleOrderId FROM JobCard WHERE JobCardId = " + objDeliveryChallan.JobCardId + @")";
+                        if (connection.Execute(sql, transaction: txn) <= 0) throw new Exception();
+                    } 
+                    #endregion
+
                     try
                     {
                         foreach (var item in objDeliveryChallan.ItemBatches)
@@ -236,7 +245,7 @@ namespace ArabErp.DAL
                                 ISNULL(SO.SaleOrderRefNo,'')+ ' - '  +CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
                                 ISNULL(JC.JobCardNo,'') + ' - ' +CONVERT(varchar,JC.JobCardDate,106)JobCardNo,VI. RegistrationNo,
                                 WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeId,SO.PaymentTerms,DC.Remarks,ISNULL(SQ.DeliveryChallanId,0)IsUsed, TransportWarrantyExpiryDate,
-                                DC.PrintDescription, DC.QuotationRefNo
+                                DC.PrintDescription, DC.QuotationRefNo, JC.isService, JC.JobCardId
                                 FROM DeliveryChallan DC
                                 INNER JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
@@ -422,6 +431,15 @@ namespace ArabErp.DAL
                     sql = @"UPDATE ItemBatch SET DeliveryChallanId = NULL WHERE DeliveryChallanId = @DeliveryChallanId";
                     id = connection.Execute(sql, objDeliveryChallan, txn);
 
+                    #region update customer order ref to [SaleOrder] if isService = 1
+                    if (objDeliveryChallan.isService == 1)
+                    {
+                        sql = @"UPDATE SaleOrder SET CustomerOrderRef = '" + objDeliveryChallan.CustomerOrderRef + @"'
+                                WHERE SaleOrderId = (SELECT SaleOrderId FROM JobCard WHERE JobCardId = " + objDeliveryChallan.JobCardId + @")";
+                        if (connection.Execute(sql, transaction: txn) <= 0) throw new Exception();
+                    }
+                    #endregion
+
                     try
                     {
                         if (objDeliveryChallan.ItemBatches != null && objDeliveryChallan.ItemBatches.Count > 0)
@@ -536,7 +554,7 @@ namespace ArabErp.DAL
 								II.ItemName Box, II.ItemId Box,
 								ISNULL(II.PartNo, '') BoxPartNo,
 								LPO.SupplyOrderNo,
-								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig,
+								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig, U1.Signature ApprovedUsersig,
 								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate,
                                 DC.PrintDescription printdes
 	                            FROM DeliveryChallan DC
@@ -558,6 +576,7 @@ namespace ArabErp.DAL
 								left join SupplyOrderItem LPOI ON PRI.PurchaseRequestItemId = LPOI.PurchaseRequestItemId
 								LEFT JOIN SupplyOrder LPO ON LPOI.SupplyOrderId = LPO.SupplyOrderId
 								left join [User] U ON U.UserId=DC.CreatedBy
+								left join [User] U1 ON U1.UserId=SOI.PaymentApprovedForDeliveryCreatedBy
 							    left join Item I ON I.ItemId=JC.[FreezerUnitId]
 								left join Item II ON II.ItemId=JC.[BoxId]
 								WHERE DC.DeliveryChallanId=@DeliveryChallanId";
@@ -594,7 +613,7 @@ namespace ArabErp.DAL
 								DC.Remarks,
 								SQ.QuotationRefNo,
 								LPO.SupplyOrderNo,
-								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig,U.Signature ApprovedUsersig,
+								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig, U1.Signature ApprovedUsersig,
 								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate,
                                 DC.PrintDescription printdes,
 								JC.isService,concat(SE.TailLiftModel,' / ',SE.FreezerModel )FreezerName,concat(SE.TailLiftSerialNo,' / ',SE.FreezerSerialNo) ReeferId,SE.BoxNo Box,SE.BoxMake BoxPartNo, DC.QuotationRefNo
@@ -617,6 +636,7 @@ namespace ArabErp.DAL
 								left join SupplyOrderItem LPOI ON PRI.PurchaseRequestItemId = LPOI.PurchaseRequestItemId
 								LEFT JOIN SupplyOrder LPO ON LPOI.SupplyOrderId = LPO.SupplyOrderId
 								left join [User] U ON U.UserId=DC.CreatedBy
+								left join [User] U1 ON U1.UserId=SOI.PaymentApprovedForDeliveryCreatedBy
 								left join ServiceEnquiry SE On SE.ServiceEnquiryId=SO.ServiceEnquiryId
 								WHERE DC.DeliveryChallanId=@DeliveryChallanId";
                 }
@@ -649,6 +669,34 @@ namespace ArabErp.DAL
                 catch (Exception)
                 {
                     throw new Exception("Error occurred while fetching print descriptions");
+                }
+            }
+        }
+        /// <summary>
+        /// Get quotation number, customer order reference and isService from jobcard id
+        /// </summary>
+        /// <param name="id">JobCardId</param>
+        /// <param name="OrganizationId">OrganizationId</param>
+        /// <returns></returns>
+        public DeliveryChallan GetDetailsFromJobCard(int id, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string sql = @"SELECT
+	                                    JC.isService,
+	                                    SQ.QuotationRefNo,
+	                                    SO.CustomerOrderRef
+                                    FROM JobCard JC
+                                    LEFT JOIN SaleOrder SO ON JC.SaleOrderId = SO.SaleOrderId
+                                    LEFT JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
+                                    WHERE JobCardId = " + id + @"AND JC.OrganizationId = " + OrganizationId;
+                    return connection.Query<DeliveryChallan>(sql).FirstOrDefault();
+                }
+                catch (Exception)
+                {
+                    throw;
                 }
             }
         }
