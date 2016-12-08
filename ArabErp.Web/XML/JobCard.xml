@@ -58,10 +58,12 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>AARC/JC-S/12</JobCardNo>
-    <JobCardDate>07-Dec-2016</JobCardDate>
-    <Customer>Yacoob Trading &amp; Contracting Co.</Customer>
-    <ChasisNo>qqqq</ChasisNo>
+    <JobCardNo>JC/3</JobCardNo>
+    <JobCardDate>29-Nov-2016</JobCardDate>
+    <Unit>Thermal Matser T2500</Unit>
+    <Customer>Qatar Automobiles Company</Customer>
+    <ChasisNo>GK018384</ChasisNo>
+    <VModel>Mitsubishi Canter 2016 Model 4.25Ton</VModel>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -70,52 +72,47 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Complaints>qqqqqqqqq</Complaints>
-    <BoxMake>q</BoxMake>
-    <BoxNo>q</BoxNo>
-    <FreezerMake>q</FreezerMake>
-    <FreezerModel>q</FreezerModel>
-    <VehicleMake>q</VehicleMake>
-    <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\ce726bad-ce03-4f56-b2c0-0c4ce4a394ea.png</CreateSignature>
-    <CreatedDes>Asst.Sales Manager</CreatedDes>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Box>100mm 4400x2100x2100 PUB Mit - BAM</Box>
+    <CreatedUser>safiq</CreatedUser>
+    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <CreatedDes>Workshop Controller</CreatedDes>
   </Head>
   <Items>
-    <TaskDate>07-Dec-2016</TaskDate>
-    <Employee>Jagath Kumara Kotuwegoda Guruge</Employee>
-    <Description>General Maintenance </Description>
-    <Hours>10.00</Hours>
+    <TaskDate>30-Nov-2016</TaskDate>
+    <Employee>Aung Tun Oo</Employee>
+    <Description>Box Fixing</Description>
+    <Hours>6.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>30-Nov-2016</TaskDate>
+    <Employee>TUN TUN WIN</Employee>
+    <Description>Box Fixing</Description>
+    <Hours>8.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>30-Nov-2016</TaskDate>
+    <Employee>Jitendra Kumar</Employee>
+    <Description>Unit Fixing</Description>
+    <Hours>6.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>01-Dec-2016</TaskDate>
+    <Employee>TUN TUN WIN</Employee>
+    <Description>Box Fixing</Description>
+    <Hours>6.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>01-Dec-2016</TaskDate>
+    <Employee>Jitendra Kumar</Employee>
+    <Description>Unit Fixing</Description>
+    <Hours>6.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>03-Dec-2016</TaskDate>
+    <Employee>TUN TUN WIN</Employee>
+    <Description>Box Fixing</Description>
+    <Hours>8.00</Hours>
   </Items>
   <Items>
     <TaskDate />
