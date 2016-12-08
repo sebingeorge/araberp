@@ -8,10 +8,9 @@
     function Filter() {
 
         $("#gin_reg").addClass("fade");
-
-        var itmid = $("#cboItem").val();
+        var itmid = $("#filter-Material").val().trim();
         var url = '@Url.Action("GINRegisterReport")';
-        url += "?itmid=" + itmid;
+        url += "?itmid=" + encodeURIComponent(itmid);
         $("#gin_reg").load(url, function () {
             $("#gin_reg").removeClass("fade");
         });
@@ -23,12 +22,12 @@
     }
     function GoToPrint() {
        
-        var Itmid = $("#cboItem").val();
-        var Itmname = $("#cboItem option:selected").text();
+        var Itmid = $("#filter-Material").val().trim();
+        //var Itmname = $("#cboItem option:selected").text();
         var url = '@Url.Action("Print")';
-        url += "?Itmname=" + (Itmname == '' ? 0 : Itmname) + "&Itmid=" + Itmid;
-        alert(url)
+        url += "?&Itmid=" + encodeURIComponent(Itmid);
         window.location = url;
+
     }
 </script>
 <div class="row">
@@ -37,9 +36,13 @@
     </div>
     <div class="main-part pad1">
         <div class="row">
-        <div class="col-md-3">
+        @*<div class="col-md-3">
                 <label for="cboItem">Material/Spares</label>
                 @Html.DropDownList("cboItem", (SelectList)ViewBag.ItmList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>*@
+            <div class="col-md-3">
+                <label for="filter-Material">Material/Spares</label>
+                <input id="filter-Material" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
             </div>
         </div>
         <br />

@@ -457,7 +457,9 @@ namespace ArabErp
                     qu = @"SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,
                               C.CustomerName Customer,U.ItemName FreezerUnitName,
 								v.RegistrationNo ChasisNo,VM.VehicleModelName,UI.ItemName BoxName,
-								SE.Complaints,concat(SE.BoxMake,' / ',SE.BoxNo) BoxName,concat(SE.FreezerMake,' / ',SE.FreezerModel) FreezerUnitName,
+								SE.Complaints,
+								concat(SE.BoxMake,CASE WHEN (ISNULL(LTRIM(RTRIM(SE.BoxMake)),'') = '' OR ISNULL(LTRIM(RTRIM(SE.BoxNo)), '') = '') THEN '' ELSE ' / ' END ,SE.BoxNo) BoxName,
+								concat(SE.FreezerMake,CASE WHEN (ISNULL(LTRIM(RTRIM(SE.FreezerMake)),'') = '' OR ISNULL(LTRIM(RTRIM(SE.FreezerModel)), '') = '') THEN '' ELSE ' / ' END ,SE.FreezerModel) FreezerUnitName,
 								SE.VehicleMake VehicleModelName,SE.ServiceEnquiryId,US.UserName CreatedUser,US.Signature CreatedUsersig,DI.DesignationName CreatedDes
                                 FROM JobCard J
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId

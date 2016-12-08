@@ -26,12 +26,12 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.ItmList = new SelectList(new DropdownRepository().WRItemDropdown(OrganizationId), "Id", "Name");
         }
-        public ActionResult GINRegisterReport( int itmid=0)
+        public ActionResult GINRegisterReport( string itmid="")
         {
            
             return PartialView("_GINRegister", new SalesRegisterRepository().GetGINRegisterData( itmid, OrganizationId));
         }
-        public ActionResult Print(string Itmname = "", int Itmid = 0)
+        public ActionResult Print(string Itmid ="")
         {
 
             ReportDocument rd = new ReportDocument();
@@ -65,7 +65,7 @@ namespace ArabErp.Web.Controllers
 
             DataRow dr = ds.Tables["Head"].NewRow();
            
-            dr["Item"] = Itmname;
+            dr["Item"] = Itmid;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             ds.Tables["Head"].Rows.Add(dr);
