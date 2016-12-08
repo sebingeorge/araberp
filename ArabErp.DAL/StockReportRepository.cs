@@ -53,7 +53,7 @@ namespace ArabErp.DAL
                 return connection.Query<StockSummaryDrillDown>(sql);
             }
         }
-        public IEnumerable<StockReportSummary> GetStockReportDTPrint()
+        public IEnumerable<StockReportSummary> GetStockReportDTPrint(string ItemId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -68,9 +68,11 @@ namespace ArabErp.DAL
                 sql += " from Item I";
                 sql += " left join StockIn SI on I.ItemId = SI.ItemId";
                 sql += " left join StockOut SO on I.ItemId = SO.ItemId";
-                sql += " where SI.InQuantity is not null or SO.OutQuantity is not null and I.ItemGroupId not in (1) and i.ItemCategoryId not in(6)";
+                sql += " where SI.InQuantity is not null or SO.OutQuantity is not null and ";
+                sql += " and ItemName LIKE '%'+@itmid+'%' ";
+                var objItemId = connection.Query<StockReportSummary>(sql, new { itmid = ItemId }).ToList<StockReportSummary>();
 
-                return connection.Query<StockReportSummary>(sql);
+                return objItemId;
             }
         }
         public List<StockReportSummary> GetStockData(string ItemId)

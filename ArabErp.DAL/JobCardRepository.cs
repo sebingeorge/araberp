@@ -421,13 +421,44 @@ namespace ArabErp
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-//              
-                string sql = @" 
-                SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,
+                string sq;
+                string qu;
+                string sql = @"select isservice from JobCard  where JobCardId=@JobCardId";
+                var objJobcard = connection.Query<JobCard>(sql, new { JobCardId = JobCardId, OrganizationId = OrganizationId }).First<JobCard>();
+                if (objJobcard.isService == 0)
+                {
+                    sq = @"SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,
                               C.CustomerName Customer,U.ItemName FreezerUnitName,
 								v.RegistrationNo ChasisNo,VM.VehicleModelName,UI.ItemName BoxName,
-								SE.Complaints,SE.BoxMake,SE.BoxNo,SE.FreezerMake,SE.FreezerModel,
-								SE.VehicleMake,SE.ServiceEnquiryId,US.UserName CreatedUser,US.Signature CreatedUsersig,DI.DesignationName CreatedDes
+								US.UserName CreatedUser,US.Signature CreatedUsersig,DI.DesignationName CreatedDes
+                                FROM JobCard J
+                                INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
+                                INNER JOIN Customer C ON C.CustomerId=S.CustomerId
+							    inner join Organization O ON O.OrganizationId=J.OrganizationId
+								LEFT JOIN VehicleInPass V ON V.VehicleInPassId=J.InPassId
+								LEFT JOIN WorkDescription W ON W.WorkDescriptionId=J.WorkDescriptionId
+								LEFT JOIN Item U ON U.ItemId=W.FreezerUnitId
+								LEFT JOIN Item UI ON UI.ItemId=W.BoxId
+								LEFT JOIN VehicleModel VM ON VM.VehicleModelId=W.VehicleModelId
+								left join [User] US ON US.[UserId]=J.CreatedBy
+								left join Designation DI ON DI.DesignationId=US.DesignationId
+                                WHERE J.JobCardId=@JobCardId";
+
+                    var objJobCardId = connection.Query<JobCard>(sq, new
+                    {
+                        JobCardId = JobCardId,
+                        OrganizationId = OrganizationId
+                    }).First<JobCard>();
+
+                    return objJobCardId;
+                }
+                else
+                {
+                    qu = @"SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,
+                              C.CustomerName Customer,U.ItemName FreezerUnitName,
+								v.RegistrationNo ChasisNo,VM.VehicleModelName,UI.ItemName BoxName,
+								SE.Complaints,concat(SE.BoxMake,' / ',SE.BoxNo) BoxName,concat(SE.FreezerMake,' / ',SE.FreezerModel) FreezerUnitName,
+								SE.VehicleMake VehicleModelName,SE.ServiceEnquiryId,US.UserName CreatedUser,US.Signature CreatedUsersig,DI.DesignationName CreatedDes
                                 FROM JobCard J
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
@@ -441,18 +472,20 @@ namespace ArabErp
 								left join [User] US ON US.[UserId]=J.CreatedBy
 								left join Designation DI ON DI.DesignationId=US.DesignationId
                                 WHERE J.JobCardId=@JobCardId";
+                }
 
-                var objJobCardId = connection.Query<JobCard>(sql, new
+                var objJobCard= connection.Query<JobCard>(qu, new
                 {
                     JobCardId = JobCardId,
-                    OrganizationId=OrganizationId
+                    OrganizationId = OrganizationId
+
                 }).First<JobCard>();
 
-                return objJobCardId;
+                return objJobCard;
+                   
             }
+
         }
-
-
         public JobCard GetJobCardDetails2(int JobCardId, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
