@@ -86,7 +86,7 @@ namespace ArabErp.Web.Controllers
                 //SalesInvoiceRepository SalesInvoiceRepo = new SalesInvoiceRepository();
                 //SalesInvoice saleinvoice = SalesInvoiceRepo.GetSelectedSalesInvoiceHD(SelectedSaleOrderItemId);
                 //int deliveryChallanId = new DeliveryChallanRepository().GetDeliveryChallanIdFromJobCardId()
-                saleinvoice.PrintDescriptions = new DeliveryChallanRepository().GetPrintDescriptions(0);
+                saleinvoice.PrintDescriptions = new SalesInvoiceRepository().GetPrintDescriptions(SelectedSaleOrderItemId);
             }
             if (saleinvoice.InvoiceType == "Inter" || saleinvoice.InvoiceType == "Final")
             {
@@ -137,10 +137,10 @@ namespace ArabErp.Web.Controllers
                 {
                     SalesInvoice saleinvoice = new SalesInvoice();
                     saleinvoice = new SalesInvoiceRepository().GetInvoiceHd(id, type);
-
-
                     saleinvoice.SaleInvoiceItems = new SalesInvoiceRepository().GetInvoiceItems(id);
-
+                    saleinvoice.InvoiceType = type;
+                    List<int> saleOrderItemIds = (from p in saleinvoice.SaleInvoiceItems select p.SaleOrderItemId).ToList();
+                    saleinvoice.PrintDescriptions = new SalesInvoiceRepository().GetPrintDescriptions(saleOrderItemIds);
                     return View(saleinvoice);
                 }
                 else

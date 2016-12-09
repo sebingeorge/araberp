@@ -35,5 +35,7 @@ namespace ArabErp.Domain
         public int SaleOrderItemId { get; set; }
         public int JobCardId { get; set; }
         public string invType { get; set; }
+        public string DeliveryChallanRefNo { get; set; }
+        public DateTime DeliveryChallanDate { get; set; }
     }
 }

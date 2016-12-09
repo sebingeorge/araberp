@@ -153,14 +153,13 @@
         {
             <thead>
                 <tr class="grid_heading">
-                    <th width="40%"><h1>Work Description</h1></th>
-                    <th width="15%"><h1>Job Card No. &amp; Date</h1></th>
+                    <th width="20%"><h1>Delivery Challan No. &amp; Date</h1></th>
+                    <th width="20%"><h1>Job Card No. &amp; Date</h1></th>
                     <th width="25%"><h1>RegNo. & Chassis No.</h1></th>
                     <th width="5%" class="text-right"><h1>Qty</h1></th>
-
-                    <th width="5%" class="text-right"><h1>Rate</h1></th>
-                    <th width="5%" class="text-right"><h1>Amount</h1></th>
-                    <th width="5%" nowrap>
+                    <th width="7%" class="text-right"><h1>Rate</h1></th>
+                    <th width="7%" class="text-right"><h1>Amount</h1></th>
+                    <th width="7%" nowrap>
                         <h1>
                             <input id="checkAll" type="checkbox" value="Select All" /><label for="checkAll">Select All</label>
                             <input type="hidden" value="0" id="HiddenForCheckBox" />
@@ -171,11 +170,12 @@
             <tbody>
                 @for (int i = 0; i < Model.Count(); i++)
                 {
-                    <tr style="width:80%">
+                    <tr>
                         <td>
                             @*@Html.TextBoxFor(m => Model[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
-                            @Model[i].WorkDescription
-                            @Html.HiddenFor(m => m[i].WorkDescription)
+                            @Model[i].DeliveryChallanRefNo - @Model[i].DeliveryChallanDate.ToString("dd/MMMM/yyyy")
+                            @Html.HiddenFor(m => m[i].DeliveryChallanRefNo)
+                            @Html.HiddenFor(m => m[i].DeliveryChallanDate)
                         </td>
                         <td>
                             @Model[i].JobCardNo - @Model[i].JobCardDate.ToString("dd/MMMM/yyyy")
@@ -213,11 +213,10 @@
         else
         {
             <tr class="grid_heading">
-                <th>Work Description</th>
+                <th>Delivery Challan No. &amp; Date</th>
                 <th>Job Card No. &amp; Date</th>
                 <th>RegNo. & Chassis No.</th>
                 <th>Quantity</th>
-
                 <th>Rate</th>
                 <th>Amount</th>
                 <th></th>

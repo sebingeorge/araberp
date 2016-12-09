@@ -1,6 +1,12 @@
-﻿@model ArabErp.Domain.DeliveryChallan
+﻿@model ArabErp.Domain.SalesInvoice
 
 <script type="text/javascript">
+
+    $(document).ready(function(){
+        $('#print-description-table input').attr("disabled", "true");
+        $('#print-description-table textarea').attr("disabled", "true");
+        $('.glyphicon').hide();
+    })
 
     function AddPrintDescRow() {
         var i = 0;

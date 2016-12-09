@@ -13,7 +13,7 @@
 <script>
 
     function Exit() {
-        location.href = '@Url.Action("PendingSalesInvoice", "SalesInvoice", new { invType = Model.InvoiceType })';
+        location.href = '@Url.Action("Index", new { type = Model.InvoiceType })';
     }
 
     $(function () {
@@ -305,16 +305,18 @@
                 </table>
             </div>
 
-            <div class="row form-group">
+            <div class="row">
                 <div class="col-md-12">
-
-
                     <label class="tamount"><b>@(Model.CurrencySymbol)&nbsp;<span id="lblTotalAmount">@Model.TotalAmount</span></b></label>
                     @Html.HiddenFor(m => m.TotalAmount)
                 </div>
             </div>
 
-
+            <div class="row form-group">
+                <div class="col-md-12">
+                    @Html.Partial("_PrintDescriptionGrid", Model)
+                </div>
+            </div>
 
             <div class="row form-group">
                 <div class="col-md-12">
