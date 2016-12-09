@@ -35,7 +35,7 @@ namespace ArabErp.Web.Controllers
             return View(repo.GetStockReportItemWise(itemId));
         }
 
-        public ActionResult Print(string itmid)
+        public ActionResult Print(string itmid="")
         {
 
             ReportDocument rd = new ReportDocument();

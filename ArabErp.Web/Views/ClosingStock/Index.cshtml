@@ -31,7 +31,7 @@
         var itmid = $("#ItemId").val().trim();
         var Ason = $("#txtAsOn").val();
         var url = '@Url.Action("ClosingStockRegister")';
-        url += "?Ason=" + Ason + "&stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid;
+        url += "?Ason=" + Ason + "&stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + encodeURIComponent(itmid);
         $("#Closing_stock").load(url, function () {
             $("#Closing_stock").removeClass("fade");
         });
@@ -49,7 +49,7 @@
         var Itmid = $("#ItemId").val().trim();
         //var Itmname = $("#ItemId option:selected").text();
         var url = '@Url.Action("Print")';
-        url += "?date="+date+"&Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmname=" + (Itmname == '' ? 0 : Itmname) + "&Itmid=" + Itmid;
+        url += "?date="+date+"&Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) +"&Itmid=" + Itmid;
         window.location = url;
     }
 </script>
@@ -75,13 +75,13 @@
                 @Html.DropDownListFor(m => Model.itmCatId, (SelectList)ViewBag.ItemCatList, "Any", new { @class = "form_input", @onchange = "FillItem();Filter()" })
                 @Html.HiddenFor(m => Model.itmCatId)
             </div>
-            <div class="col-md-3">
+            @*<div class="col-md-3">
                 <label for="cboItem">Material/Spares</label>
                 <div id="DivItem">
                     @Html.Action("Item", "ClosingStock", new { Code = Model.itmCatId })
 
                 </div>
-            </div>
+            </div>*@
 
             <div class="col-md-3">
                 <label for="ItemId">Material/Spares</label>

@@ -32,10 +32,10 @@ namespace ArabErp.Web.Controllers
             ViewBag.ItemList = new SelectList(List, "Id", "Name");
 
         }
-        public ActionResult ClosingStockRegister(DateTime? Ason, int stkid = 0, int itmcatid = 0, int itmid = 0)
+        public ActionResult ClosingStockRegister(DateTime? Ason, int stkid = 0, int itmcatid = 0, string itmid = "")
         {
             Ason = Ason ?? DateTime.Today;
-            return PartialView("_ClosingStockRegister", new ClosingStockRepository().GetClosingStockData(Ason, stkid, itmcatid, itmid, OrganizationId));
+            return PartialView("_ClosingStockRegister", new ClosingStockRepository().GetClosingStockData1(Ason, stkid, itmcatid, itmid, OrganizationId));
         }
         public void FillWarehouse()
         {
@@ -61,7 +61,7 @@ namespace ArabErp.Web.Controllers
              return PartialView("_ItemDropDown");
          }
 
-        public ActionResult Print(DateTime? date,string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", string Itmname = "", int Itmid = 0)
+        public ActionResult Print(DateTime? date,string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "",  string Itmid ="")
         {
 
             ReportDocument rd = new ReportDocument();
@@ -93,7 +93,7 @@ namespace ArabErp.Web.Controllers
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["Stkpoint"] = Spname;
             dr["ItemCat"] = ItmCatname;
-            dr["Item"] = Itmname;
+            dr["Item"] = Itmid;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             ds.Tables["Head"].Rows.Add(dr);

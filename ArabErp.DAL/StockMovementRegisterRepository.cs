@@ -22,10 +22,21 @@ namespace ArabErp.DAL
                             (SELECT SUM(S.Quantity)Quantity from StockUpdate S WHERE  StockType='OpeningStock' AND S.ItemId=@itmid AND  S.OrganizationId=@OrganizationId AND I.ItemCategoryId=@itmcatid ) OPENINGSTOCK
                             from StockUpdate S  inner join Item I on I.ItemId=S.ItemId INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                             where S.ItemId=@itmid AND  S.OrganizationId=@OrganizationId AND I.ItemCategoryId=@itmcatid GROUP BY  I.ItemId,I.ItemRefNo,I.ItemName,ItemCategoryId,U.UnitName";
-                 
-             
 
-                return connection.Query<ClosingStock>(qry, new { itmcatid = itmcatid, itmid = itmid, OrganizationId = OrganizationId, from = from, to = to }).ToList();
+
+
+                //return connection.Query<ClosingStock>(qry, new { itmcatid = itmcatid, itmid = itmid, OrganizationId = OrganizationId, from = from, to = to }).ToList();
+
+                var objCustomers = connection.Query<ClosingStock>(qry, new
+                {
+                    itmcatid = itmcatid,
+                    itmid=itmid,
+                    OrganizationId = OrganizationId,
+                    from = from,
+                    to = to
+                }).ToList<ClosingStock>();
+               
+                return objCustomers;
             }
         }
     }

@@ -31,7 +31,7 @@
 
         //var Ason = $("#txtAsOn").val();
         var url = '@Url.Action("OpeningStockRegister")';
-        url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid + "&itmGroup=" + itmGroup + "&itmSubGroup="+itmSubGroup;
+        url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + encodeURIComponent(itmid) + "&itmGroup=" + itmGroup + "&itmSubGroup="+itmSubGroup;
         $("#Opening_stock").load(url, function () {
             $("#Opening_stock").removeClass("fade");
         });
@@ -45,10 +45,14 @@
         var Spid = $("#cboStockpoint").val();
         var ItmCatid = $("#itmCatId").val();
         var ItmCatname = $("#itmCatId option:selected").text();
-        var Itmid = $("#ItemId").val();
-        var Itmname = $("#ItemId option:selected").text();
+        var Itmid = $("#filter-Material").val();
+        var ItmGroup = $("#cboGroup").val();
+        var ItmGroupname = $("#cboGroup option:selected").text();
+        var ItmSubGroup = $("#cboSubGroup").val();
+        var ItmSubGroupname = $("#cboSubGroup option:selected").text();
+        //var Itmname = $("#ItemId option:selected").text();
         var url = '@Url.Action("Print")';
-        url += "?Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmname=" + (Itmname =='' ? 0 : Itmname) + "&Itmid=" + Itmid;
+        url += "?Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmid=" + encodeURIComponent(Itmid) + "&ItmGroup=" + ItmGroup + "&ItmGroupname=" + (ItmGroupname == '' ? 0 : ItmGroupname) + "&ItmSubGroup=" + ItmSubGroup + "&ItmSubGroupname=" + (ItmSubGroupname == '' ? 0 : ItmSubGroupname);
         window.location = url;
     }
 </script>

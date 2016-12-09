@@ -68,7 +68,7 @@ namespace ArabErp.DAL
                 sql += " from Item I";
                 sql += " left join StockIn SI on I.ItemId = SI.ItemId";
                 sql += " left join StockOut SO on I.ItemId = SO.ItemId";
-                sql += " where SI.InQuantity is not null or SO.OutQuantity is not null and ";
+                sql += " where (SI.InQuantity is not null or SO.OutQuantity is not null)";
                 sql += " and ItemName LIKE '%'+@itmid+'%' ";
                 var objItemId = connection.Query<StockReportSummary>(sql, new { itmid = ItemId }).ToList<StockReportSummary>();
 

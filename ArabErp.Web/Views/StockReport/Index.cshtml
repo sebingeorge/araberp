@@ -26,6 +26,7 @@
         var itmid = $("#filter-Material").val().trim();
         var url = '@Url.Action("Print")';
         url += "?itmid=" + encodeURIComponent(itmid);
+        window.open(url);
         
     }
 

@@ -446,11 +446,8 @@ namespace ArabErp.DAL
 	                                ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
                                 FROM SalesInvoice INV
                                 LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
-                                WHERE INV.InvoiceType = @type
-                                --INV.isProjectBased = 0
-                                AND INV.OrganizationId = @OrganizationId
-                                AND CONVERT(DATE, INV.SalesInvoiceDate, 106) BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
-                                AND INV.SalesInvoiceId = ISNULL(NULLIF(CAST(@id AS INT), 0), INV.SalesInvoiceId)
+                                WHERE 
+								 INV.OrganizationId=1 and ISNULL(@IsApproved,0),INV.IsApproved
                                 ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
 
                 return connection.Query<SalesInvoice>(query, new
@@ -525,7 +522,7 @@ namespace ArabErp.DAL
                                 FROM SalesInvoice INV
                                 LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
                                 WHERE 
-								 INV.OrganizationId=@OrganizationId and INV.IsApproved=0
+								 INV.OrganizationId=1 and isnull(INV.IsApproved,0)=0
                                 ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
 
                 return connection.Query<SalesInvoice>(query, new

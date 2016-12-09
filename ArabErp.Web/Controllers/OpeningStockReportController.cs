@@ -78,7 +78,7 @@ namespace ArabErp.Web.Controllers
             FillItem(Code);
             return PartialView("_ItemDropDown");
         }
-        public ActionResult Print(string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname="", string Itmname="",int Itmid=0)
+        public ActionResult Print(string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", string Itmid = "", int ItmGroup=0, string ItmGroupname="", int ItmSubGroup=0, string ItmSubGroupname="")
         {
 
             ReportDocument rd = new ReportDocument();
@@ -109,7 +109,7 @@ namespace ArabErp.Web.Controllers
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["Stkpoint"] = Spname;
             dr["ItemCat"] = ItmCatname;
-            dr["Item"] = Itmname;
+            dr["Item"] = Itmid;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             ds.Tables["Head"].Rows.Add(dr);
@@ -117,7 +117,7 @@ namespace ArabErp.Web.Controllers
 
             OpeningStockRepository repo1 = new OpeningStockRepository();
             //var Items = repo1.GetSOVarianceDataDTPrint(from, to, itmid, itmName, SupId, SupName);
-            var Items = repo1.GetClosingStockDataDTPrint(stockPointId:Spid, itemCategoryId:ItmCatid, itemId:Itmid,OrganizationId:OrganizationId);
+            var Items = repo1.GetClosingStockDataDTPrint(stockPointId: Spid, itemCategoryId: ItmCatid, itemId: Itmid, itmGroup: ItmGroup, itmSubgroup: ItmSubGroup, OrganizationId: OrganizationId);
 
             foreach (var item in Items)
             {
@@ -127,7 +127,7 @@ namespace ArabErp.Web.Controllers
                     PartNo = item.PartNo,
                     Quantity = item.Quantity,
                     UnitName = item.UnitName,
-                   
+
                 };
 
                 DataRow dri = ds.Tables["Items"].NewRow();
