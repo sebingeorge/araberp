@@ -140,8 +140,8 @@ namespace ArabErp
                     var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCard.OrganizationId, (objJobCard.isService == 1 ? 34 : 16), true, trn);
                     objJobCard.JobCardNo = internalId.ToString();
                     int id = 0;
-                    string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,InPassId,WorkDescriptionId,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId,isProjectBased, isService) Values 
-                                                       (@JobCardNo,@JobCardDate,@SaleOrderId,@InPassId,@WorkDescriptionId,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId,@isProjectBased, @isService);
+                    string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,InPassId,WorkDescriptionId,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId,isProjectBased, isService, Complaints) Values 
+                                                       (@JobCardNo,@JobCardDate,@SaleOrderId,@InPassId,@WorkDescriptionId,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId,@isProjectBased, @isService, @Complaints);
                     SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = connection.Query<int>(sql, objJobCard, trn).Single();
@@ -178,7 +178,8 @@ namespace ArabErp
 	                                BayId = @BayId,
 	                                SpecialRemarks=@SpecialRemarks,
 	                                RequiredDate=@RequiredDate,
-	                                EmployeeId=@EmployeeId
+	                                EmployeeId=@EmployeeId,
+                                    Complaints = @Complaints
                                 WHERE JobCardId = @JobCardId;
                                 DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;";
                 try
@@ -430,7 +431,8 @@ namespace ArabErp
                     sq = @"SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,
                               C.CustomerName Customer,U.ItemName FreezerUnitName,
 								v.RegistrationNo ChasisNo,VM.VehicleModelName,UI.ItemName BoxName,
-								US.UserName CreatedUser,US.Signature CreatedUsersig,DI.DesignationName CreatedDes
+								US.UserName CreatedUser,US.Signature CreatedUsersig,DI.DesignationName CreatedDes,
+                                J.Complaints
                                 FROM JobCard J
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
@@ -501,7 +503,8 @@ namespace ArabErp
                     ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, 
                     0 GoodsLanded, 0 BayId, W.FreezerUnitId FreezerUnitId, FU.ItemName FreezerUnitName, W.BoxId BoxId, B.ItemName BoxName, 
                     ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId, S.isProjectBased,
-					JC.JobCardId, JC.JobCardNo, JC.BayId, CONVERT(VARCHAR, JC.RequiredDate, 106) RequiredDate, JC.EmployeeId,s.isService
+					JC.JobCardId, JC.JobCardNo, JC.BayId, CONVERT(VARCHAR, JC.RequiredDate, 106) RequiredDate, JC.EmployeeId,s.isService, 
+                    JC.SpecialRemarks, JC.Complaints
                     from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId
                     inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId
                     inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId

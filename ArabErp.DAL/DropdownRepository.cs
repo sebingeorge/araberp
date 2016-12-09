@@ -1031,5 +1031,14 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>(" select DesignationId  Id,DesignationName Name from designation ").ToList();
             }
         }
+
+        public List<Dropdown> TaskDropdown(int OrganizationId)
+        {
+            //OrganizationId is not considered here
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT JobCardTaskMasterId Id, JobCardTaskName Name FROM JobCardTaskMaster WHERE ISNULL(isActive, 1) = 1").ToList();
+            }
+        }
     }
 }

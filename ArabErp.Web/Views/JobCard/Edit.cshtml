@@ -168,7 +168,7 @@
     function GoToPrint(id) {
         var url = '@Url.Action("Print")';
         url += "?Id=" + id;
-        window.location = url;
+        window.open(url);
     }
 
     function Delete() {
@@ -256,7 +256,7 @@
                 <div class="row form-group">
                     <div class="col-md-12">
                         <label for="wrkdes">Work Description</label>
-                        @Html.TextAreaFor(m => m.WorkDescription, new { @class = "form_input form_input-h1", autocomplete = "off", @readonly = "true" })
+                        @Html.TextBoxFor(m => m.WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                         @Html.HiddenFor(m => m.WorkDescriptionId, new { @class = "form_input", autocomplete = "off" })
                     </div>
                 </div>
@@ -284,6 +284,16 @@
                         </div>
                     }
                 </div>
+
+                @if (Model.isService == 0)
+                {
+                    <div class="row form-group">
+                        <div class="col-md-12">
+                            <label for="Complaints">Complaints</label>
+                            @Html.TextAreaFor(m => m.Complaints, new { @class = "form_input form_input-h" })
+                        </div>
+                    </div>
+                }
 
                 <div class=" table-responsive">
                     <table class="table table-bordered" id="tab_logic">
