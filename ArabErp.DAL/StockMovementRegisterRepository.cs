@@ -25,18 +25,10 @@ namespace ArabErp.DAL
 
 
 
-                //return connection.Query<ClosingStock>(qry, new { itmcatid = itmcatid, itmid = itmid, OrganizationId = OrganizationId, from = from, to = to }).ToList();
+                return connection.Query<ClosingStock>(qry, new { itmcatid = itmcatid, itmid = itmid, OrganizationId = OrganizationId, from = from, to = to }).ToList();
 
-                var objCustomers = connection.Query<ClosingStock>(qry, new
-                {
-                    itmcatid = itmcatid,
-                    itmid=itmid,
-                    OrganizationId = OrganizationId,
-                    from = from,
-                    to = to
-                }).ToList<ClosingStock>();
                
-                return objCustomers;
+                
             }
         }
     }
