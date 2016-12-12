@@ -82,6 +82,8 @@
     <Employee>Mohammed Safiq</Employee>
     <FreezerName>V 500</FreezerName>
     <FreezerPartNo />
+    <BoxName>BAM</BoxName>
+    <BoxPartNo>BAM</BoxPartNo>
     <FreezerId />
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
@@ -95,16 +97,15 @@
     <Image1>D:\ArabErpondec6\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <LPONo xml:space="preserve"> </LPONo>
-    <LPODate>06-Dec-2016</LPODate>
+    <LPODate>07-Dec-2016</LPODate>
     <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>D:\ArabErpondec6\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
-    <ApprovedUsersig>D:\ArabErpondec6\ArabErp\ArabErp.Web\App_Images\</ApprovedUsersig>
-    <Printdescr>Consumables – Pressure Testing, Vacuuming &amp; Gas Charging
-
-General Service of TK V500 Max 10:
-Compressor Belt Tension Check-up &amp; Bracket Checking
-General Check-up &amp; Check Cooling
-Electrical Connection Check-up &amp; Adjustments
-</Printdescr>
+    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <ApprovedUsersig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
   </Head>
+  <Items>
+    <Description>Electrical Checking
+General Check-up</Description>
+    <UoM>ea</UoM>
+    <Quantity>1</Quantity>
+  </Items>
 </NewDataSet>
