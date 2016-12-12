@@ -67,20 +67,20 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC/11</DeliveryChallanRefNo>
-    <DeliveryChallanDate>07-Dec-2016</DeliveryChallanDate>
-    <Customer>Khaled Bin Mahmood</Customer>
-    <CDoorNo>Doha - Qatar</CDoorNo>
-    <CCountry>QATAR</CCountry>
-    <SaleRefNo>AARC/SER/16</SaleRefNo>
-    <SONoDate>07 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC-S/14</JobcardNo>
-    <JCDate>07-Dec-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>43221</RegistrationNo>
+    <DeliveryChallanRefNo>DC/6</DeliveryChallanRefNo>
+    <DeliveryChallanDate>06-Dec-2016</DeliveryChallanDate>
+    <Customer>Amwaj Catering Services</Customer>
+    <CDoorNo>Doha ,Qatar</CDoorNo>
+    <CCountry>INDIA</CCountry>
+    <SaleRefNo>AARC/SER/12</SaleRefNo>
+    <SONoDate>06 Dec 2016</SONoDate>
+    <JobcardNo>AARC/JC-S/9</JobcardNo>
+    <JCDate>30-Nov-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>225799</RegistrationNo>
     <WorkDesc>General Checkup &amp; Repair</WorkDesc>
-    <VehicleModel>Isuzu NPR </VehicleModel>
+    <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
     <Employee>Mohammed Safiq</Employee>
-    <FreezerName />
+    <FreezerName>V 500</FreezerName>
     <FreezerPartNo />
     <BoxName>BAM</BoxName>
     <BoxPartNo>BAM</BoxPartNo>
@@ -94,7 +94,7 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>D:\ArabErpondec6\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <LPONo xml:space="preserve"> </LPONo>
     <LPODate>07-Dec-2016</LPODate>
@@ -103,12 +103,8 @@
     <ApprovedUsersig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\69717d3d-9095-4c87-8cdf-7dee7f77e696.png</ApprovedUsersig>
   </Head>
   <Items>
-    <Description>Scope of Work:
-•	Replace Guide Plate
-•	Re-fix Door Cam
-•	Door Setting
-•	Labor Charges
-</Description>
+    <Description>Electrical Checking
+General Check-up</Description>
     <UoM>ea</UoM>
     <Quantity>1</Quantity>
   </Items>
