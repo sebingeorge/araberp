@@ -67,10 +67,10 @@ namespace ArabErp.Web.Controllers
             ViewBag.ItemSubgroup = new SelectList(result, "Id", "Name");
         }
 
-        public ActionResult OpeningStockRegister(int stkid = 0, int itmcatid = 0, string itmid ="", int itmGroup = 0, int itmSubGroup = 0)
+        public ActionResult OpeningStockRegister(int stkid = 0, int itmcatid = 0, string itmid = "", int itmGroup = 0, int itmSubGroup = 0, string PartNo="")
         {
-         
-            return PartialView("_OpeningStockRegister", new OpeningStockRepository().GetClosingStockData(stkid, itmcatid, itmid,itmGroup,itmSubGroup,OrganizationId));
+
+            return PartialView("_OpeningStockRegister", new OpeningStockRepository().GetClosingStockData(stkid, itmcatid, itmid, itmGroup, itmSubGroup, OrganizationId, PartNo));
         }
     
         public ActionResult Item(int Code)
@@ -78,7 +78,7 @@ namespace ArabErp.Web.Controllers
             FillItem(Code);
             return PartialView("_ItemDropDown");
         }
-        public ActionResult Print(string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", string Itmid = "", int ItmGroup=0, string ItmGroupname="", int ItmSubGroup=0, string ItmSubGroupname="")
+        public ActionResult Print(string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", string Itmid = "", int ItmGroup = 0, string ItmGroupname = "", int ItmSubGroup = 0, string ItmSubGroupname = "", string PartNo="")
         {
 
             ReportDocument rd = new ReportDocument();
@@ -94,6 +94,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Item");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("PartNum");
 
             //-------DT
 
@@ -112,12 +113,13 @@ namespace ArabErp.Web.Controllers
             dr["Item"] = Itmid;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            dr["PartNum"] = PartNo;
             ds.Tables["Head"].Rows.Add(dr);
 
 
             OpeningStockRepository repo1 = new OpeningStockRepository();
             //var Items = repo1.GetSOVarianceDataDTPrint(from, to, itmid, itmName, SupId, SupName);
-            var Items = repo1.GetClosingStockDataDTPrint(stockPointId: Spid, itemCategoryId: ItmCatid, itemId: Itmid, itmGroup: ItmGroup, itmSubgroup: ItmSubGroup, OrganizationId: OrganizationId);
+            var Items = repo1.GetClosingStockDataDTPrint(stockPointId: Spid, itemCategoryId: ItmCatid, itemId: Itmid, itmGroup: ItmGroup, itmSubgroup: ItmSubGroup, OrganizationId: OrganizationId, partno:PartNo);
 
             foreach (var item in Items)
             {

@@ -447,7 +447,7 @@ namespace ArabErp.DAL
                                 FROM SalesInvoice INV
                                 LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
                                 WHERE 
-								 INV.OrganizationId=1 and ISNULL(@IsApproved,0),INV.IsApproved
+								 INV.OrganizationId=1 and ISNULL(INV.IsApproved,0)=0
                                 ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
 
                 return connection.Query<SalesInvoice>(query, new
