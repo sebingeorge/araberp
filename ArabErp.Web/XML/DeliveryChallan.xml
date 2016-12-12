@@ -67,22 +67,23 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC/9</DeliveryChallanRefNo>
+    <DeliveryChallanRefNo>DC/11</DeliveryChallanRefNo>
     <DeliveryChallanDate>07-Dec-2016</DeliveryChallanDate>
-    <Customer>Al Muftah Services &amp; Rent A Car WLL</Customer>
-    <CDoorNo>D Ring Road</CDoorNo>
-    <CStreet>Doha-Qatar</CStreet>
-    <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SER/15</SaleRefNo>
+    <Customer>Khaled Bin Mahmood</Customer>
+    <CDoorNo>Doha - Qatar</CDoorNo>
+    <CCountry>QATAR</CCountry>
+    <SaleRefNo>AARC/SER/16</SaleRefNo>
     <SONoDate>07 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC-S/13</JobcardNo>
+    <JobcardNo>AARC/JC-S/14</JobcardNo>
     <JCDate>07-Dec-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>12537</RegistrationNo>
+    <RegistrationNo>43221</RegistrationNo>
     <WorkDesc>General Checkup &amp; Repair</WorkDesc>
     <VehicleModel>Isuzu NPR </VehicleModel>
     <Employee>Mohammed Safiq</Employee>
-    <FreezerName>T2500</FreezerName>
+    <FreezerName />
     <FreezerPartNo />
+    <BoxName>BAM</BoxName>
+    <BoxPartNo>BAM</BoxPartNo>
     <FreezerId />
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
@@ -97,13 +98,17 @@
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <LPONo xml:space="preserve"> </LPONo>
     <LPODate>07-Dec-2016</LPODate>
-    <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <CreatedUser>ihits</CreatedUser>
+    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\7aedc637-81cd-41fc-94a4-570257a0355f.jpg</CreateSignature>
     <ApprovedUsersig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
   </Head>
   <Items>
-    <Description>Electrical Checking
-General Check-up</Description>
+    <Description>Scope of Work:
+•	Replace Guide Plate
+•	Re-fix Door Cam
+•	Door Setting
+•	Labor Charges
+</Description>
     <UoM>ea</UoM>
     <Quantity>1</Quantity>
   </Items>
