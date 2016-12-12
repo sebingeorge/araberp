@@ -67,21 +67,20 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC/9</DeliveryChallanRefNo>
-    <DeliveryChallanDate>07-Dec-2016</DeliveryChallanDate>
-    <Customer>Al Muftah Services &amp; Rent A Car WLL</Customer>
-    <CDoorNo>D Ring Road</CDoorNo>
-    <CStreet>Doha-Qatar</CStreet>
+    <DeliveryChallanRefNo>DC/6</DeliveryChallanRefNo>
+    <DeliveryChallanDate>06-Dec-2016</DeliveryChallanDate>
+    <Customer>Amwaj Catering Services</Customer>
+    <CDoorNo>Doha ,Qatar</CDoorNo>
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SER/15</SaleRefNo>
-    <SONoDate>07 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC-S/13</JobcardNo>
-    <JCDate>07-Dec-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>12537</RegistrationNo>
+    <SaleRefNo>AARC/SER/12</SaleRefNo>
+    <SONoDate>06 Dec 2016</SONoDate>
+    <JobcardNo>AARC/JC-S/9</JobcardNo>
+    <JCDate>30-Nov-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>225799</RegistrationNo>
     <WorkDesc>General Checkup &amp; Repair</WorkDesc>
-    <VehicleModel>Isuzu NPR </VehicleModel>
+    <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
     <Employee>Mohammed Safiq</Employee>
-    <FreezerName>T2500</FreezerName>
+    <FreezerName>V 500</FreezerName>
     <FreezerPartNo />
     <FreezerId />
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
@@ -93,18 +92,19 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>D:\ArabErpondec6\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <LPONo xml:space="preserve"> </LPONo>
-    <LPODate>07-Dec-2016</LPODate>
+    <LPODate>06-Dec-2016</LPODate>
     <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
-    <ApprovedUsersig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
+    <CreateSignature>D:\ArabErpondec6\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <ApprovedUsersig>D:\ArabErpondec6\ArabErp\ArabErp.Web\App_Images\</ApprovedUsersig>
+    <Printdescr>Consumables – Pressure Testing, Vacuuming &amp; Gas Charging
+
+General Service of TK V500 Max 10:
+Compressor Belt Tension Check-up &amp; Bracket Checking
+General Check-up &amp; Check Cooling
+Electrical Connection Check-up &amp; Adjustments
+</Printdescr>
   </Head>
-  <Items>
-    <Description>Electrical Checking
-General Check-up</Description>
-    <UoM>ea</UoM>
-    <Quantity>1</Quantity>
-  </Items>
 </NewDataSet>
