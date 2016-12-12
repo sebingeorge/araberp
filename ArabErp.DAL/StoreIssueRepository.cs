@@ -156,12 +156,12 @@ namespace ArabErp.DAL
 
                 SELECT SI.WorkShopRequestId, SII.WorkShopRequestItemId, WRI.ItemId, SUM(IssuedQuantity) IssuedQuantity INTO #ISSUE FROM StoreIssueItem SII INNER JOIN StoreIssue SI ON  SII.StoreIssueId = SI.StoreIssueId INNER JOIN WorkShopRequestItem WRI ON SII.WorkShopRequestItemId = WRI.WorkShopRequestItemId GROUP BY WRI.ItemId, SI.WorkShopRequestId, SII.WorkShopRequestItemId;
                 
-				SELECT ItemId, ItemName, ItemUnitId INTO #ITEM FROM Item;
+				SELECT ItemId, ItemName, PartNo, ItemUnitId INTO #ITEM FROM Item;
 
 				SELECT UnitId, UnitName INTO #UNIT FROM Unit;
 
 				--SELECT ItemId, SUM(ISNULL(Quantity, 0)) StockQuantity INTO #STOCK FROM StockUpdate GROUP BY ItemId;
-                SELECT /*W.WorkShopRequestId,*/ W.WorkShopRequestItemId, ITEM.ItemId, ITEM.ItemName, UNIT.UnitName, W.RequiredQuantity, ISNULL(I.IssuedQuantity, 0) IssuedQuantity, ISNULL((W.RequiredQuantity-ISNULL(I.IssuedQuantity, 0)), 0) PendingQuantity, /*CAST(ROUND(ISNULL(STOCK.StockQuantity, 0), 0) AS INT)*/0 StockQuantity 
+                SELECT /*W.WorkShopRequestId,*/ W.WorkShopRequestItemId, ITEM.ItemId, ITEM.ItemName, ISNULL(ITEM.PartNo, '') PartNo, UNIT.UnitName, W.RequiredQuantity, ISNULL(I.IssuedQuantity, 0) IssuedQuantity, ISNULL((W.RequiredQuantity-ISNULL(I.IssuedQuantity, 0)), 0) PendingQuantity, /*CAST(ROUND(ISNULL(STOCK.StockQuantity, 0), 0) AS INT)*/0 StockQuantity 
 				FROM #WORK W 
 					LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId AND W.WorkShopRequestItemId = I.WorkShopRequestItemId 
 					LEFT JOIN #ITEM ITEM ON W.ItemId = ITEM.ItemId 
@@ -232,15 +232,16 @@ namespace ArabErp.DAL
                                 StoreIssueId,StoreIssueRefNo,StoreIssueDate,StockPointName,C.CustomerName, ORR.CountryName,
                                 CONCAT(W.WorkShopRequestRefNo,' , ' ,CONVERT(Varchar(15),W.WorkShopRequestDate,106))WONODATE,
                                 CONCAT(SO.SaleOrderRefNo,' , ',CONVERT(Varchar(15),SO.SaleOrderDate,106))SONODATE,
-                                W.RequiredDate,S.Remarks,S.EmployeeId,EmployeeName
+                                W.RequiredDate,S.Remarks,S.EmployeeId,EmployeeName,j.JobCardNo
                                 FROM StoreIssue S
 								INNER JOIN Stockpoint SP ON SP.StockPointId=S.StockPointId
                                 INNER JOIN WorkShopRequest W ON W.WorkShopRequestId=S.WorkShopRequestId
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=W.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=W.CustomerId 
-								 INNER JOIN Employee E ON E.EmployeeId=S.EmployeeId 
+								INNER JOIN Employee E ON E.EmployeeId=S.EmployeeId 
 							    INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
                                 left  JOIN Country ORR ON ORR.CountryId=O.Country
+								left join JobCard J ON J.JobCardId=w.JobCardId
                                 WHERE StoreIssueId=@StoreIssueId";
 
                 var objConsumption = connection.Query<StoreIssue>(sql, new

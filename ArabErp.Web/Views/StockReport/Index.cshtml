@@ -1,73 +1,73 @@
-﻿@model IEnumerable<ArabErp.Domain.StockReportSummary>
+﻿@*@model IList<ArabErp.Domain.StockReportSummary>*@
 @{
     ViewBag.Title = "Stock Summary Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script type="text/javascript">
+    function Filter() {
 
-    <div class="row">
-        <div class="form-head1">
-            <h4>Stock Summary</h4>
-        </div>
-
-        <div class="main-part pad1 ">
-
-            <div class="row">
-                <div class="main-grid main-grid-top scroll1">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-    <tr class="grid_heading">
-        <td><h1>Item</h1></td>
-        <td style="width:10%;"><h1>IN</td>
-        <td style="width:10%;"><h1>OUT</td>
-        <td style="width:10%;"><h1>Balance</h1></td>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-
-        <tbody class="grid_row">
-            <tr @if (item.Balance < 0) 
-                { @: class="report-highlight"
-                 
-                }>
-                <td class="grid-cell">
-                    <a style="cursor:pointer;" onclick="OpenDetail(@item.ItemId)">@item.ItemName</a>
-                </td>
-                <td class="grid-cell">@item.InQuantity</td>
-                <td class="grid-cell">@item.OutQuantity</td>
-                <td class="grid-cell">@item.Balance</td>
-            </tr>
-        </tbody>
+        $("#stock-grid").addClass("fade");
+        var itmid = $("#filter-Material").val().trim();
+        //var Ason = $("#txtAsOn").val();
+        var url = '@Url.Action("Stockreport")';
+        url += "?itmid=" + encodeURIComponent(itmid); 
+        $("#stock-grid").load(url, function () {
+            $("#stock-grid").removeClass("fade");
+        });
+    }
+    function OpenDetail(id) {
+        var url = '@Url.Action("DrillDown")';
+        url += "?itemId=" + id;
+        window.open(url);
     }
 
-    </table>
-                    </div>
-                    </div>
+    function GoToPrint() {
+        var itmid = $("#filter-Material").val().trim();
+        var url = '@Url.Action("Print")';
+        url += "?itmid=" + encodeURIComponent(itmid);
+        window.open(url);
+        
+    }
 
-                    <div class="row-count1">
-                        <h5>Row Count:- @Model.Count()</h5>
-                    </div>
-                </div>
-            <div class="row">
-                <div class="col-md-12 hrpart">
-                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-                    <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
+
+</script>
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Stock Summary</h4>
+    </div>
+
+    <div class="main-part pad1 ">
+
+        <div class="row">
+            <div class="part">
+                <div class="col-md-3">
+                    <label for="filter-Material">Material/Spares</label>
+                    <input id="filter-Material" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
                 </div>
             </div>
-
+        </div>
+        <br />
+        <div class="main-grid main-grid-top scroll1">
+            <div class="table-responsive">
+                <div class="row" id="stock-grid">
+                    @Html.Action("Stockreport")
                 </div>
             </div>
+        </div>
 
-            <script>
-                function OpenDetail(id) {
-                    var url = '@Url.Action("DrillDown")';
-                    url += "?itemId=" + id;
-                    window.open(url);
-                }
+        @*<div class="row-count1">
+                <h5>Row Count:- @Model.Count()</h5>
+            </div>*@
 
-                function GoToPrint() {
-                    var url = '@Url.Action("Print")';
-                    window.location = url;
-                }
-            </script>
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
+            </div>
+        </div>
+    </div>
+</div>
+
+

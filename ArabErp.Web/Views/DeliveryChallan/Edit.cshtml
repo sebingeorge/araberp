@@ -25,15 +25,13 @@
             function (data) {
                 $("#txtJCNoDate").val(data.JobCardNoDate);
                 $("#txtSONoDate").val(data.SaleOrderNoDate);
-                $("#txtCustomerOrderRef").val(data.CustomerOrderRef);
+                //$("#txtCustomerOrderRef").val(data.CustomerOrderRef);
                 $("#txtVehicleModel").val(data.VehicleModel);
                 $("#txtWork").val(data.WorkDescr);
                 $("#txtCustomer").val(data.CustomerName);
                 $("#txtRegNo").val(data.RegistrationNo);
                 $("#txtPaymentTerms").val(data.PaymentTerms);
             });
-
-        $("#DeliveryChallanRefNo").tooltip();
     });
 
     function formValidation() {
@@ -41,13 +39,13 @@
     }
 
     function Back() {
-        var url = '@Url.Action("Index")';
+        var url = '@Url.Action("DeliveryChallanList")';
         window.location = url;
     }
 
     function GoToPrint() {
         var url = '@Url.Action("Print", new { Id = Model.DeliveryChallanId })';
-        window.location = url;
+        window.open(url);
     }
 
     function Delete() {
@@ -70,8 +68,9 @@
                 <div class="col-md-2">
                     <label>Delivery Challan No.</label>
                     @Html.HiddenFor(m => m.JobCardId)
+                    @Html.HiddenFor(m => m.isService)
                     @Html.HiddenFor(m => m.DeliveryChallanId)
-                    @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true", @title = "This number may change after saving" })
+                    @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                 </div>
                 <div class="col-md-2">
                     <label>Challan Date</label>
@@ -94,11 +93,6 @@
                     @Html.TextBoxFor(m => Model.SONODATE, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     @*<input type="text" class="form_input" id="txtSONoDate" readonly />*@
                 </div>
-                <div class="col-md-2">
-                    <label>Customer Order Ref No.</label>
-                    @Html.TextBoxFor(m => Model.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                    @*<input type="text" class="form_input" id="txtCustomerOrderRef" readonly />*@
-                </div>
                 <div class="col-md-2" title="Job Card Ref. No. and Date">
                     <label>JC. No. &amp; Date</label>
                     @Html.TextBoxFor(m => Model.JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
@@ -114,19 +108,46 @@
 
             <div class="row form-group">
 
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <label>Work Description</label>
-                    @Html.TextAreaFor(m => Model.WorkDescr, new { @class = "form_input form_input-h1", autocomplete = "off", @readonly = "readonly" })
+                    @Html.TextAreaFor(m => Model.WorkDescr, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     @*<textarea class="form_input form_input-h1" id="txtWork" readonly></textarea>*@
                 </div>
-            </div>
-            <div class="row form-group">
-
                 <div class="col-md-4">
                     <label>Vehicle Model</label>
                     @Html.TextBoxFor(m => Model.VehicleModel, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     @*<input type="text" class="form_input" id="txtVehicleModel" readonly />*@
                 </div>
+            </div>
+            <div class="row form-group">
+                @*<div class="col-md-2">
+                    <label for="QuotationRefNo">Quotation Ref. No.</label>
+                    @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input" })
+                </div>*@
+                @if (Model.isService == 1)
+                {
+                    <div class="col-md-2">
+                        <label for="QuotationRefNo">Quotation Ref. No.</label>
+                        @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Customer Order Ref No.</label>
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input" })
+                        @*<input type="text" class="form_input" id="txtCustomerOrderRef" readonly />*@
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-2">
+                        <label for="QuotationRefNo">Quotation Ref. No.</label>
+                        @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input", @readonly = "true" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Customer Order Ref No.</label>
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", @readonly = "true" })
+                        @*<input type="text" class="form_input" id="txtCustomerOrderRef" readonly />*@
+                    </div>
+                }
                 <div class="col-md-3">
                     <label>Employee</label>
                     @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input", @required = "true" })
@@ -145,7 +166,7 @@
                         </tr>
                     </thead>
                     <tbody class="grid_row">
-                        @if (Model.ItemBatches.Count > 0)
+                        @if (Model.ItemBatches != null && Model.ItemBatches.Count > 0)
                         {
                             int i = 0;
                             foreach (var item in Model.ItemBatches)
@@ -184,34 +205,41 @@
                 </table>
             </div>
 
+            <div class="row">
+                <div class="col-md-12">
+                    @*<label for="PrintDescription">Print Description</label>
+                        @Html.TextAreaFor(m=>m.PrintDescription, new { @class = "form_input", @style = "height: 109px" })*@
+                    @Html.Partial("_PrintDescriptionGrid", Model)
+                </div>
+            </div>
+            @*<div class="col-md-12">*@
             <div class="row form-group">
                 <div class="col-md-12">
                     <label>Payment Terms</label>
-                    @Html.TextAreaFor(m => m.PaymentTerms, new { @class = "form_input form_input-h" })
-                    @*<input id="txtPaymentTerms" class="form_input" readonly="readonly" />*@
+                    <textarea id="txtPaymentTerms" class="form_input form_input-h" readonly="readonly" tabindex="-1"></textarea>
                 </div>
             </div>
-
             <div class="row form-group">
                 <div class="col-md-12">
                     <label>Special Remarks</label>
                     @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
                 </div>
             </div>
+            @*</div>*@
 
             <div class="row">
                 <div class="col-md-12 col-md hrpart">
                     <input class="form-button right" type="button" value="Exit" onclick="Back()" />
-                    @if(Model.IsUsed)
+                    @if (Model.IsUsed)
                     {
-                     <span class="perm">
+                        <span class="perm">
                             <em>**Cannot edit/delete this Delivery Challan, because it is either used in another process or completed.</em>
-                     </span>
+                        </span>
                     }
                     else
                     {
-                   <button type="submit" class="form-button right">Edit</button>
-                   <input type="button" class="form-button left" value="Delete"  onclick="Delete()" />
+                        <button type="submit" class="form-button right">Edit</button>
+                        <input type="button" class="form-button left" value="Delete" onclick="Delete()" />
                     }
                     <input type="button" class="form-button right" value="Print" onclick="GoToPrint()" />
                 </div>

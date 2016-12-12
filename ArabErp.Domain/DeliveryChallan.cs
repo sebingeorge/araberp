@@ -37,15 +37,17 @@ namespace ArabErp.Domain
         public string ChassisNo { get; set; }
         public string QuotationRefNo { get; set; }
         public int FreezerId { get; set; }
+        public string ReeferId { get; set; }
         public string FreezerName { get; set; }
         public string FreezerPartNo { get; set; }
         public int BoxId { get; set; }
+        public string Box { get; set; }
         public string BoxName { get; set; }
         public string BoxPartNo { get; set; }
         public string SupplyOrderNo { get; set; }
         public DateTime SupplyOrderDate { get; set; }
 
-
+        public int isService { get; set; }
         public string DoorNo { get; set; }
 
         public string Street { get; set; }
@@ -65,9 +67,16 @@ namespace ArabErp.Domain
         public DateTime LPODate { get; set; }
         public string CreatedUser { get; set; }
         public string CreatedUsersig { get; set; }
+        public string ApprovedUsersig { get; set; }
+        public string printdes { get; set; }
+    
         public List<ItemBatch> ItemBatches { get; set; }
 
         public string SaleOrderRefNo { get; set; }
         public DateTime SaleOrderDate { get; set; }
+
+        public string PrintDescription { get; set; }
+
+        public List<PrintDescription> PrintDescriptions { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿
-@{ViewBag.Title = "Customer List"; Layout = "~/Views/Shared/_Layout.cshtml";}
+﻿@{ViewBag.Title = "Customer List"; Layout = "~/Views/Shared/_Layout.cshtml";}
 
 <script type="text/javascript">
 
@@ -12,33 +11,63 @@
         location.href = '@Url.Action("Index","Home")';
     }
 
+
+
+    function Filter() {
+        //$("#so_Reg").addClass("fade");
+        var customer = $("#cboCustomer").val().trim();
+
+        //var itmid = $("#cboItem").val();
+        //var from = $("#txtFrom").val();
+        //var to = $("#txtTo").val();
+        var url = '@Url.Action("CustomerList")';
+        url += "?customer=" + customer;
+        $('#customer-grid').load(url);
+    }
+
 </script>
 
 
 
 
-    <div class="row">
+<div class="row">
 
-        <div class="form-head  form-head3">
-            <h4>Customer List</h4>
-        </div>
+    <div class="form-head  form-head3">
+        <h4>Customer List</h4>
+    </div>
+    <div class="main-list pad1">
+        @*<div class="row">
+                <div class="col-md-2">
+                    <label>Customer</label>
+                    <input id="cboCustomer" class="form_input" onchange="Filter()" onkeyup="Filter()" />
 
-        <div class="main-part pad1 white">
-
-            <div class="row">
-                @Html.Action("CustomerList")
-            </div>
-
-            <div class="row">
-                <div class="col-md-12 hrpart1">
-                    <button type="submit" class="form-button" onclick="openPop();">Create</button>
-                    <button type="button" class="form-button right" onclick="Exit();">Exit</button>
-                    
-                    @*<button type="button" onclick="openPop();" class="form-button top5">Create</button>*@
                 </div>
+            </div>*@
+        <div class="row">
+            <div class="part">
+                <div class="col-md-3">
+                    <label for="txtName">Customer</label>
+                    <input type="text" class="form_input bluebox"  id="cboCustomer"  onchange="Filter()" onkeyup="Filter()" />
+                </div>
+
             </div>
-
-
         </div>
+        <br />
+        <div class="row" id="customer-grid">
+            @Html.Action("CustomerList")
+        </div>
+
+     
+
+        <div class="row">
+            <div class="col-md-12 hrpart1">
+                <button type="submit" class="form-button" onclick="openPop();">Create</button>
+                <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+
+              
             </div>
-    
+        </div>
+
+    </div>
+
+</div>

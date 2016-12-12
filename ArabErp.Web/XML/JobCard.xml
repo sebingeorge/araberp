@@ -37,6 +37,9 @@
                 <xs:element name="FreezerMake" type="xs:string" minOccurs="0" />
                 <xs:element name="FreezerModel" type="xs:string" minOccurs="0" />
                 <xs:element name="VehicleMake" type="xs:string" minOccurs="0" />
+                <xs:element name="CreatedUser" type="xs:string" minOccurs="0" />
+                <xs:element name="CreateSignature" type="xs:string" minOccurs="0" />
+                <xs:element name="CreatedDes" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -55,10 +58,12 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>JC/2</JobCardNo>
-    <JobCardDate>30-Nov-2016</JobCardDate>
-    <Customer>Ali Bin Ali:Ali Bin Ali- IA</Customer>
-    <ChasisNo>291973</ChasisNo>
+    <JobCardNo>AARC/JC-S/14</JobCardNo>
+    <JobCardDate>07-Dec-2016</JobCardDate>
+    <Unit />
+    <Customer>Khaled Bin Mahmood</Customer>
+    <ChasisNo>43221</ChasisNo>
+    <VModel>Isuzu NPR</VModel>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -67,23 +72,24 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Complaints>Oil Service &amp; Repair</Complaints>
-    <FreezerMake>Carrier</FreezerMake>
-    <FreezerModel>Oasis 250</FreezerModel>
-    <VehicleMake>Mitsubishi 4.3</VehicleMake>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Box>BAM</Box>
+    <Complaints>1) Accident Repair</Complaints>
+    <CreatedUser>safiq</CreatedUser>
+    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <CreatedDes>Workshop Controller</CreatedDes>
   </Head>
   <Items>
-    <TaskDate>30-Nov-2016</TaskDate>
-    <Employee>Giriesh Gopi</Employee>
+    <TaskDate>07-Dec-2016</TaskDate>
+    <Employee>Santheep Maraveedu Balan</Employee>
     <Description>General Maintenance </Description>
-    <Hours>3.00</Hours>
+    <Hours>4.00</Hours>
   </Items>
   <Items>
-    <TaskDate>30-Nov-2016</TaskDate>
-    <Employee>SHEMEER BASHEERKUTTY BASHEERKUTTY</Employee>
-    <Description>General Maintenance </Description>
-    <Hours>3.00</Hours>
+    <TaskDate />
+    <Employee />
+    <Description />
+    <Hours />
   </Items>
   <Items>
     <TaskDate />

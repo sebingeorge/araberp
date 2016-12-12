@@ -45,21 +45,25 @@
                 @Html.HiddenFor(m => m.Items[i].ItemId)
             </td>
             <td>
-                @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", @readonly = "true", @style = "background:#fefefe" })
-            </td>
-            <td>@Html.TextBoxFor(m => m.Items[i].RequiredQuantity, new { @class = "form_input text-right", @readonly = "true" })</td>
-            <td>@Html.TextBoxFor(m => m.Items[i].IssuedQuantity, new { @class = "form_input text-right", @readonly = "true" })</td>
-            <td>
-                @Html.TextBoxFor(m => m.Items[i].PendingQuantity, new { @class = "form_input text-right", @readonly = "true" })
+                @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", @readonly = "true", @style = "background:#fefefe", @tabindex = "-1" })
             </td>
             <td>
-                @Html.TextBoxFor(m => m.Items[i].StockQuantity, new { @class = "form_input text-right", @readonly = "true" })
+                @Model.Items[i].PartNo
+                @Html.HiddenFor(m => m.Items[i].PartNo)
+            </td>
+            <td>@Html.TextBoxFor(m => m.Items[i].RequiredQuantity, new { @class = "form_input text-right", @readonly = "true", @tabindex = "-1" })</td>
+            <td>@Html.TextBoxFor(m => m.Items[i].IssuedQuantity, new { @class = "form_input text-right", @readonly = "true", @tabindex = "-1" })</td>
+            <td>
+                @Html.TextBoxFor(m => m.Items[i].PendingQuantity, new { @class = "form_input text-right", @readonly = "true", @tabindex = "-1" })
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.Items[i].StockQuantity, new { @class = "form_input text-right", @readonly = "true", @tabindex = "-1" })
             </td>
             <td>
                 @Html.TextBoxFor(m => m.Items[i].CurrentIssuedQuantity, new { @class = "form_input text-right numbers-only", @placeholder = "Qty", @onchange = "ValidateQuantity(this, " + @i + ")" })
             </td>
             <td>
-                @Html.TextBoxFor(m => m.Items[i].UnitName, new { @class = "form_input", @readonly = "true" })
+                @Html.TextBoxFor(m => m.Items[i].UnitName, new { @class = "form_input", @readonly = "true", @tabindex = "-1" })
             </td>
         </tr>
     }

@@ -520,13 +520,13 @@ namespace ArabErp.DAL
                 string query = @"select SI.SaleOrderId, SI.SaleOrderItemId , SH.SaleOrderRefNo, SH.SaleOrderDate, C.CustomerName,i.ItemName freezerUnit,ii.ItemName Box,
                                SI.Amount, SI.IsPaymentApprovedForWorkshopRequest, SI.IsPaymentApprovedForJobOrder,
                                 SI.IsPaymentApprovedForDelivery, JC.JobCardNo, CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate, 
-                                ISNULL(JC.JodCardCompleteStatus, 0) JodCardCompleteStatus,ISNULL(JQC.IsQCPassed,0)as IsQCPassed
+                                ISNULL(JC.JodCardCompleteStatus, 0) JodCardCompleteStatus,ISNULL(JQC.IsQCPassed,0)as IsQCPassed,JC.isService
                                 from SaleOrder SH inner join SaleOrderItem SI on SH.SaleOrderId = SI.SaleOrderId
 								LEFT JOIN JobCard JC ON SI.SaleOrderItemId = JC.SaleOrderItemId
                                 inner join Customer C on C.CustomerId = SH.CustomerId 
                                 inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId 
-								inner join Item I on I.ItemId=W.FreezerUnitId
-								inner join Item II on II.ItemId=W.BoxId
+								left join Item I on I.ItemId=W.FreezerUnitId
+								left join Item II on II.ItemId=W.BoxId
 								left join JobCardQC JQC ON JQC.JobCardId=JC.JobCardId
                                 WHERE SH.OrganizationId = @OrganizationId
 								order by SH.SaleOrderDate, C.CustomerName";
@@ -944,11 +944,13 @@ namespace ArabErp.DAL
             {
 
 
-                string sql = @"   select S.*,O.*,C.CustomerName,C.DoorNo CDoorNo,C.State CState,C.Street CStreet,C.ContactPerson CContactPerson,C.Phone CPhone,C.Zip CZip,
-                                  CU.CountryName from ServiceEnquiry S
-                                  inner join Customer C ON C.CustomerId=S.CustomerId
-                                  inner join Organization O ON O.OrganizationId=S.OrganizationId
-                                  inner join Country CU ON CU.CountryId=O.Country
+                string sql = @"  select S.*,O.*,C.CustomerName,C.DoorNo CDoorNo,C.State CState,C.Street CStreet,C.ContactPerson CContactPerson,C.Phone CPhone,C.Zip CZip,
+                                  CU.CountryName,U.UserName CreatedUser,U.Signature CreatedUsersig,D.DesignationName CreatedDes from ServiceEnquiry S
+                                  left join Customer C ON C.CustomerId=S.CustomerId
+                                  left  join Organization O ON O.OrganizationId=S.OrganizationId
+                                  left join Country CU ON CU.CountryId=O.Country
+								  left join [User] U ON U.UserId=S.CreatedBy
+								  left join [Designation] D ON D.DesignationId=U.DesignationId
                                   where ServiceEnquiryId=@ServiceEnquiryId ";
 
                 var objServiceEnquiry = connection.Query<ServiceEnquiry>(sql, new
@@ -967,9 +969,9 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = @"SELECT ServiceEnquiryId, ServiceEnquiryRefNo, ServiceEnquiryDate, VehicleMake, BoxMake, FreezerMake, TailLiftMake, C.CustomerName,
-                                VehicleRegNo+'-' + VehicleChassisNo RegNo,FreezerModel
+                               ISNULL([VehicleRegNo],'')+''+ISNULL( [VehicleChassisNo],'') RegNo,FreezerModel
                                 FROM ServiceEnquiry SE INNER JOIN Customer C ON SE.CustomerId = C.CustomerId
-                                WHERE SE.OrganizationId= @OrganizationId";
+                                WHERE SE.OrganizationId= @OrganizationId order by ServiceEnquiryDate desc";
                 return connection.Query<ServiceEnquiry>(query, new { OrganizationId = OrganizationId }).ToList();
             }
         }

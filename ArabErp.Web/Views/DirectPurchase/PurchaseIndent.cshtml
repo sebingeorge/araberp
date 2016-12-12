@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Purchase Indent";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string actionName = ViewContext.RouteData.GetRequiredString("action");
 }
 
 <script>
@@ -23,12 +24,19 @@
     }
 
     function PreviousList() {
-        var url = '@Url.Action("Index")';
+        var url = '@Url.Action("PurchaseIndents")';
         window.location = url;
     }
 
     function Exit() {
-        var url = '@Url.Action("Index", "Home")';
+        @if (new string[] { "EditPurchaseIndent" }.Contains(actionName))
+        {
+            @:var url = '@Url.Action("PurchaseIndents")';
+        }
+        else if(new string[] { "PurchaseIndent" }.Contains(actionName))
+        {
+            @:var url = '@Url.Action("Index", "Home")';
+        }
         window.location = url;
     }
 </script>
@@ -44,6 +52,7 @@
             {*@
         <form role="form" onsubmit="return formValidation()" method="Post">
             <input type="hidden" id="purchaseLimit" />
+            @Html.HiddenFor(m => m.DirectPurchaseRequestId)
             <div class="row form-group">
                 <div class="col-md-2">
                     <label for="PurchaseRequestNo">Purchase Indent No.</label>
@@ -90,7 +99,10 @@
             <div class="row">
 
                 <div class="col-md-12 hrpart">
-                    <input type="button" class="form-button left" value="Previous" onclick="PreviousList()" />
+                    @if (!new string[] { "EditPurchaseIndent" }.Contains(actionName))
+                    {
+                        <input type="button" class="form-button left" value="Previous" onclick="PreviousList()" />
+                    }
                     <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
                     <input type="submit" class="form-button right" value="Save" />
                 </div>
@@ -101,4 +113,3 @@
         </form>
     </div>
 </div>
-

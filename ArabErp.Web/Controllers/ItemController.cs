@@ -269,8 +269,6 @@ namespace ArabErp.Web.Controllers
             //var List = repo.GetItems();
             //return PartialView("_ItemListView",List);
         }
-
-
         public ActionResult Print(string name,string group,string subgroup)
          {
 
@@ -382,12 +380,15 @@ namespace ArabErp.Web.Controllers
             var List = Repo.FillItem();
             ViewBag.ItemList = new SelectList(List, "Id", "Name");
         }
-
         public void FillJobCardTaskMaster()
         {
             JobCardTaskMasterRepository Repo = new JobCardTaskMasterRepository();
             var List = Repo.FillJobCardTaskMaster();
             ViewBag.JobCardTaskMasterList = new SelectList(List, "Id", "Name");
+        }
+        public ActionResult ReorderLevelList()
+        {
+            return View(new ItemRepository().GetCriticalMaterialsBelowMinStock(OrganizationId));
         }
     }
 }

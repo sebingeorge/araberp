@@ -29,9 +29,13 @@ namespace ArabErp.Domain
         public int OrganizationId { get; set; }
         public int SaleOrderId { get; set; }
         public string VehicleModelName { get; set; }
+        public string RegistrationNo { get; set; }
+        public string ChassisNo { get; set; }
         public bool SelectStatus { get; set; }
         public int SaleOrderItemId { get; set; }
         public int JobCardId { get; set; }
         public string invType { get; set; }
+        public string DeliveryChallanRefNo { get; set; }
+        public DateTime DeliveryChallanDate { get; set; }
     }
 }

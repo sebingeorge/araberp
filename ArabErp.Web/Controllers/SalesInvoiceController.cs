@@ -85,9 +85,8 @@ namespace ArabErp.Web.Controllers
 
                 //SalesInvoiceRepository SalesInvoiceRepo = new SalesInvoiceRepository();
                 //SalesInvoice saleinvoice = SalesInvoiceRepo.GetSelectedSalesInvoiceHD(SelectedSaleOrderItemId);
-
-
-
+                //int deliveryChallanId = new DeliveryChallanRepository().GetDeliveryChallanIdFromJobCardId()
+                saleinvoice.PrintDescriptions = new SalesInvoiceRepository().GetPrintDescriptions(SelectedSaleOrderItemId);
             }
             if (saleinvoice.InvoiceType == "Inter" || saleinvoice.InvoiceType == "Final")
             {
@@ -138,10 +137,10 @@ namespace ArabErp.Web.Controllers
                 {
                     SalesInvoice saleinvoice = new SalesInvoice();
                     saleinvoice = new SalesInvoiceRepository().GetInvoiceHd(id, type);
-
-
                     saleinvoice.SaleInvoiceItems = new SalesInvoiceRepository().GetInvoiceItems(id);
-
+                    saleinvoice.InvoiceType = type;
+                    List<int> saleOrderItemIds = (from p in saleinvoice.SaleInvoiceItems select p.SaleOrderItemId).ToList();
+                    saleinvoice.PrintDescriptions = new SalesInvoiceRepository().GetPrintDescriptions(saleOrderItemIds);
                     return View(saleinvoice);
                 }
                 else
@@ -274,6 +273,11 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Email");
             ds.Tables["Head"].Columns.Add("ContactPerson");
             ds.Tables["Head"].Columns.Add("Zip");
+            ds.Tables["Head"].Columns.Add("CreateUser");
+            ds.Tables["Head"].Columns.Add("CreateSig");
+            ds.Tables["Head"].Columns.Add("ApproveUser");
+            ds.Tables["Head"].Columns.Add("ApproveSig"); 
+
             ds.Tables["Items"].Columns.Add("Quantity");
             ds.Tables["Items"].Columns.Add("WorkDescription");
             ds.Tables["Items"].Columns.Add("WorkDescriptionRefNo");
@@ -308,7 +312,10 @@ namespace ArabErp.Web.Controllers
             dr["Email"] = Head.Email;
             dr["ContactPerson"] = Head.ContactPerson;
             dr["Zip"] = Head.Zip;
-      
+            dr["CreateUser"] = Head.CreateUser;
+            dr["CreateSig"] = Server.MapPath("~/App_images/") + Head.CreateSig;
+            dr["ApproveUser"] = Head.ApproveUser;
+            dr["ApproveSig"] = Server.MapPath("~/App_images/") + Head.ApproveSig;
             ds.Tables["Head"].Rows.Add(dr);
 
         

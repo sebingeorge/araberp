@@ -47,7 +47,7 @@ namespace ArabErp.Web.Controllers
                     List<int> selectedpurchaserequests = (from PendingPurchaseRequest p in PendingPurchaseRequestItemsSelected
                                                           where p.Select
                                                           select p.PurchaseRequestId).ToList<int>();
-                    supplyorder.SupplyOrderItems = rep.GetPurchaseRequestItems(selectedpurchaserequests);
+                    supplyorder.SupplyOrderItems = rep.GetPurchaseRequestItems(selectedpurchaserequests, OrganizationId);
                 }
             }
             supplyorder.SupplyOrderDate = System.DateTime.Today;
@@ -434,6 +434,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("Amount");
             ds.Tables["Items"].Columns.Add("ItemRefNo");
             ds.Tables["Items"].Columns.Add("UnitName");
+            ds.Tables["Items"].Columns.Add("Description");
 
 
 
@@ -497,7 +498,8 @@ namespace ArabErp.Web.Controllers
                     Discount = item.Discount,
                     Amount = item.Amount,
                     ItemRefNo = item.ItemRefNo,
-                    UnitName = item.UnitName
+                    UnitName = item.UnitName,
+                    Description=item.Description
 
 
                 };
@@ -514,6 +516,7 @@ namespace ArabErp.Web.Controllers
                 dri["Amount"] = pritem.Amount;
                 dri["ItemRefNo"] = pritem.ItemRefNo;
                 dri["UnitName"] = pritem.UnitName;
+                dri["Description"] = pritem.Description;
 
                 ds.Tables["Items"].Rows.Add(dri);
             }
@@ -537,6 +540,12 @@ namespace ArabErp.Web.Controllers
             {
                 throw;
             }
+        }
+
+        private JsonResult GetLastSupplyOrderRate(int itemId)
+        {
+            var data = new SupplyOrderRepository().GetLastSupplyOrderRate(itemId, OrganizationId);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }

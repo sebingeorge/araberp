@@ -124,7 +124,7 @@ namespace ArabErp.DAL
       INNER JOIN WorkShopRequestItem WRI ON SII.WorkShopRequestItemId = WRI.WorkShopRequestItemId 
       GROUP BY WRI.ItemId, SI.WorkShopRequestId, SII.WorkShopRequestItemId;
                 
-      SELECT ItemId, ItemName, ItemUnitId INTO #ITEM FROM Item;
+      SELECT ItemId, ItemName, ItemUnitId,PartNo INTO #ITEM FROM Item;
 
       SELECT * INTO #Organization FROM Organization;
 
@@ -134,7 +134,7 @@ namespace ArabErp.DAL
 
       SELECT W.WorkShopRequestItemId, ITEM.ItemId, ITEM.ItemName, W.RequiredQuantity, 
       ISNULL(I.IssuedQuantity, 0) IssuedQuantity, ISNULL((W.RequiredQuantity-ISNULL(I.IssuedQuantity, 0)), 0) PendingQuantity,
-      (ST.StockQuantity+S.CurrentIssuedQuantity)StockQuantity ,S.CurrentIssuedQuantity,UNIT.UnitName
+      (ST.StockQuantity+S.CurrentIssuedQuantity)StockQuantity ,S.CurrentIssuedQuantity,UNIT.UnitName,ITEM.PartNo
       FROM #STOREISSUE S
       INNER JOIN #WORK W ON W.WorkShopRequestItemId=S.WorkShopRequestItemId
       INNER JOIN #Organization O ON O.OrganizationId=S.OrganizationId
@@ -142,7 +142,7 @@ namespace ArabErp.DAL
       LEFT JOIN #ITEM ITEM ON W.ItemId = ITEM.ItemId 
       LEFT JOIN #UNIT UNIT ON ITEM.ItemUnitId = UNIT.UnitId 
       LEFT JOIN #STOCK ST ON ST.ItemId= W.ItemId AND ST.StockPointId=S.StockPointId
-      WHERE S.StoreIssueId =@StoreIssueId 
+      WHERE S.StoreIssueId=@StoreIssueId 
 
                                 DROP TABLE #STOREISSUE;
                                 DROP TABLE #ISSUE;

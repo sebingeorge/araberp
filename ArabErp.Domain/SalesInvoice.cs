@@ -57,8 +57,12 @@ namespace ArabErp.Domain
         public string Email { get; set; }
         public string ContactPerson { get; set; }
         public string Zip { get; set; }
+        public string CreateUser { get; set; }
+        public string CreateSig { get; set; }
+        public string ApproveUser { get; set; }
+        public string ApproveSig { get; set; }
 
-     
+        public List<PrintDescription> PrintDescriptions { get; set; }
         public List<SalesInvoiceItem> SaleInvoiceItems { get; set; }
     }
 }

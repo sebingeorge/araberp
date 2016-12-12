@@ -16,23 +16,23 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-
-        public ActionResult CustomerList(int?page)
+        public void FillCustomer()
         {
-            int itemsPerPage = 10;
-            int pageNumber = page ?? 1;
-            var repo = new CustomerRepository();
-            var List = repo.GetCustomers();
-            return PartialView("_CustomerListView",List);
-        }
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.CustomersDropdown();
+            ViewBag.CustomerList1 = new SelectList(result, "Id", "Name");
 
-     
+        }
+        public ActionResult CustomerList(int? page, string customer = "")
+        {
+            int pageNumber = page ?? 1;
+            return PartialView("_CustomerListView", new CustomerRepository().GetCustomers(customer));
+        }
         public void FillCategoryDropdown()
         {
             var cus = rep.FillCategoryDropdown();
             ViewBag.CustomerCategory = new SelectList(cus, "Id", "Name");
         }
-
         public void FillCountryDropdown()
         {
             var cus = rep.FillCountryDropdown();
@@ -42,7 +42,7 @@ namespace ArabErp.Web.Controllers
         public void FillCurrencyDropdown()
         {
             var cus = rep.FillCurrencyDropdown();
-            ViewBag.CustomerCurrency=new SelectList (cus,"Id","Name");
+            ViewBag.CustomerCurrency = new SelectList(cus, "Id", "Name");
         }
 
         public ActionResult Create()
@@ -60,49 +60,49 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create(Customer model)
         {
 
-                model.OrganizationId = OrganizationId;
-                model.CreatedDate = System.DateTime.Now;
-                model.CreatedBy = UserID.ToString();
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = UserID.ToString();
 
-                var repo = new CustomerRepository();
-                bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Customer", "CustomerName", model.CustomerName, null, null);
-                if (!isexists)
+            var repo = new CustomerRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Customer", "CustomerName", model.CustomerName, null, null);
+            if (!isexists)
+            {
+                var result = new CustomerRepository().InsertCustomer(model);
+                if (result.CustomerId > 0)
                 {
-                    var result = new CustomerRepository().InsertCustomer(model);
-                    if (result.CustomerId > 0)
-                    {
 
-                        TempData["Success"] = "Added Successfully!";
-                        TempData["CustomerRefNo"] = result.CustomerRefNo;
-                        return RedirectToAction("Index");
-                    }
-
-                    else
-                    {
-                        FillCategoryDropdown();
-                        FillCountryDropdown();
-                        FillCurrencyDropdown();
-                        TempData["error"] = "Oops!!..Something Went Wrong!!";
-                        TempData["CustomerRefNo"] = null;
-                        return View("Create", model);
-                    }
-
+                    TempData["Success"] = "Added Successfully!";
+                    TempData["CustomerRefNo"] = result.CustomerRefNo;
+                    return RedirectToAction("Index");
                 }
+
                 else
                 {
-
                     FillCategoryDropdown();
                     FillCountryDropdown();
                     FillCurrencyDropdown();
-                    TempData["error"] = "This Name Alredy Exists!!";
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
                     TempData["CustomerRefNo"] = null;
                     return View("Create", model);
                 }
 
+            }
+            else
+            {
+
+                FillCategoryDropdown();
+                FillCountryDropdown();
+                FillCurrencyDropdown();
+                TempData["error"] = "This Name Alredy Exists!!";
+                TempData["CustomerRefNo"] = null;
+                return View("Create", model);
+            }
+
         }
 
-     
-         public ActionResult Edit(int Id)
+
+        public ActionResult Edit(int Id)
         {
             //int Id = 0;
             FillCategoryDropdown();
@@ -118,47 +118,47 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Edit(Customer model)
         {
-                model.OrganizationId = OrganizationId;
-                model.CreatedDate = System.DateTime.Now;
-                model.CreatedBy = UserID.ToString();
+            model.OrganizationId = OrganizationId;
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = UserID.ToString();
 
-                var repo = new CustomerRepository();
-                bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Customer", "CustomerName", model.CustomerName, "CustomerId", model.CustomerId);
-                if (!isexists)
+            var repo = new CustomerRepository();
+            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Customer", "CustomerName", model.CustomerName, "CustomerId", model.CustomerId);
+            if (!isexists)
+            {
+                var result = new CustomerRepository().UpdateCustomer(model);
+                if (result.CustomerId > 0)
                 {
-                    var result = new CustomerRepository().UpdateCustomer(model);
-                    if (result.CustomerId > 0)
-                    {
 
-                        TempData["Success"] = "Updated Successfully!";
-                        TempData["CustomerRefNo"] = result.CustomerRefNo;
-                        return RedirectToAction("Index");
-                    }
-
-                    else
-                    {
-                        FillCategoryDropdown();
-                        FillCountryDropdown();
-                        FillCurrencyDropdown();
-                        TempData["error"] = "Oops!!..Something Went Wrong!!";
-                        TempData["CustomerRefNo"] = null;
-                        return View("Create", model);
-                    }
-
+                    TempData["Success"] = "Updated Successfully!";
+                    TempData["CustomerRefNo"] = result.CustomerRefNo;
+                    return RedirectToAction("Index");
                 }
+
                 else
                 {
-
                     FillCategoryDropdown();
                     FillCountryDropdown();
                     FillCurrencyDropdown();
-                    TempData["error"] = "This Name Alredy Exists!!";
+                    TempData["error"] = "Oops!!..Something Went Wrong!!";
                     TempData["CustomerRefNo"] = null;
                     return View("Create", model);
                 }
 
+            }
+            else
+            {
+
+                FillCategoryDropdown();
+                FillCountryDropdown();
+                FillCurrencyDropdown();
+                TempData["error"] = "This Name Alredy Exists!!";
+                TempData["CustomerRefNo"] = null;
+                return View("Create", model);
+            }
+
         }
-   
+
 
         public ActionResult Delete(int Id)
         {
@@ -202,7 +202,7 @@ namespace ArabErp.Web.Controllers
 
         }
 
-    
+
 
     }
 }

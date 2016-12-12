@@ -25,13 +25,14 @@
         var stkid = $("#cboStockpoint").val();
         var itmcatid = $("#itmCatId").val();
         var itmid = $("#filter-Material").val().trim();
+        var PartNo = $("#filter-PartNo").val().trim();
         var itmGroup = $("#cboGroup").val();
         var itmSubGroup = $("#cboSubGroup").val();
 
 
         //var Ason = $("#txtAsOn").val();
         var url = '@Url.Action("OpeningStockRegister")';
-        url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid + "&itmGroup=" + itmGroup + "&itmSubGroup="+itmSubGroup;
+        url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + encodeURIComponent(itmid) + "&PartNo=" + encodeURIComponent(PartNo) + "&itmGroup=" + itmGroup + "&itmSubGroup=" + itmSubGroup;
         $("#Opening_stock").load(url, function () {
             $("#Opening_stock").removeClass("fade");
         });
@@ -45,10 +46,15 @@
         var Spid = $("#cboStockpoint").val();
         var ItmCatid = $("#itmCatId").val();
         var ItmCatname = $("#itmCatId option:selected").text();
-        var Itmid = $("#ItemId").val();
-        var Itmname = $("#ItemId option:selected").text();
+        var Itmid = $("#filter-Material").val();
+        var PartNo = $("#filter-PartNo").val().trim();
+        var ItmGroup = $("#cboGroup").val();
+        var ItmGroupname = $("#cboGroup option:selected").text();
+        var ItmSubGroup = $("#cboSubGroup").val();
+        var ItmSubGroupname = $("#cboSubGroup option:selected").text();
+        //var Itmname = $("#ItemId option:selected").text();
         var url = '@Url.Action("Print")';
-        url += "?Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmname=" + (Itmname =='' ? 0 : Itmname) + "&Itmid=" + Itmid;
+        url += "?Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmid=" + encodeURIComponent(Itmid) + "&PartNo=" + encodeURIComponent(PartNo) + +"&ItmGroup=" + ItmGroup + "&ItmGroupname=" + (ItmGroupname == '' ? 0 : ItmGroupname) + "&ItmSubGroup=" + ItmSubGroup + "&ItmSubGroupname=" + (ItmSubGroupname == '' ? 0 : ItmSubGroupname);
         window.location = url;
     }
 </script>
@@ -77,6 +83,12 @@
             <div class="col-md-3">
                 <label for="filter-Material">Material/Spares</label>
                 <input id="filter-Material" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
+            </div>
+
+
+            <div class="col-md-3">
+                <label for="filter-PartNo">Part No.</label>
+                <input id="filter-PartNo" class="form_input" placeholder="Search for Part No." onkeyup="Filter()" onchange="Filter()" />
             </div>
 
 

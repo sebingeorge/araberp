@@ -14,7 +14,7 @@ namespace ArabErp.Domain
         public int ItemId { get; set; }
         public string Remarks { get; set; }
         public string PartNo { get; set; }
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
         public string UnitName { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
@@ -22,7 +22,7 @@ namespace ArabErp.Domain
         public int SlNo { get; set; }
         //public string WorkDescr { get; set; }
         public string ItemName { get; set; }
-        public int? ActualQuantity { get; set; }
+        public decimal? ActualQuantity { get; set; }
         public int isAddtionalMaterialRequest { get; set; }
       
     }

@@ -192,7 +192,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IList<DirectPurchaseRequest> GetPreviousList()
+        public IList<DirectPurchaseRequest> GetPreviousList(int organizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -218,7 +218,7 @@ namespace ArabErp.DAL
                                 WHERE DP.OrganizationId = @OrganizationId
                                 AND DP.isActive = 1
                                 ORDER BY DP.PurchaseRequestDate DESC, DP.CreatedDate DESC";
-                return connection.Query<DirectPurchaseRequest>(query, new { OrganizationId = 1 }).ToList();
+                return connection.Query<DirectPurchaseRequest>(query, new { OrganizationId = organizationId }).ToList();
             }
         }
 
@@ -270,6 +270,77 @@ namespace ArabErp.DAL
                 var objDirectPurchaseRequestItems = connection.Query<DirectPurchaseRequestItem>(sql, new { DirectPurchaseRequestId = DirectPurchaseRequestId }).ToList<DirectPurchaseRequestItem>();
 
                 return objDirectPurchaseRequestItems;
+            }
+        }
+
+        public object GetPurchaseIndentList(int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //the model used for Purchase Indent is DirectPurchaseRequest
+                string query = @"SELECT
+	                                PurchaseRequestId DirectPurchaseRequestId,
+	                                PurchaseRequestNo,
+	                                CONVERT(VARCHAR, PurchaseRequestDate, 106) PurchaseRequestDate,
+	                                SpecialRemarks,
+	                                CONVERT(VARCHAR, RequiredDate, 106) RequiredDate
+                                FROM PurchaseRequest PR
+                                WHERE PR.OrganizationId = @org
+                                AND WorkShopRequestId IS NULL
+                                ORDER BY PurchaseRequestDate DESC, PurchaseRequestNo DESC";
+                return connection.Query<DirectPurchaseRequest>(query, new { org = organizationId }).ToList();
+            }
+        }
+
+        public DirectPurchaseRequest GetPurchaseIndent(int id, int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                //the model used for Purchase Indent is DirectPurchaseRequest
+                string query = @"SELECT
+	                                PurchaseRequestId DirectPurchaseRequestId, *
+                                FROM PurchaseRequest
+                                WHERE PurchaseRequestId = @id
+                                AND OrganizationId = @org";
+                DirectPurchaseRequest model = connection.Query<DirectPurchaseRequest>(query, new { org = organizationId, @id = id }).FirstOrDefault();
+                string sql = @"SELECT
+	                                PRI.PurchaseRequestItemId DirectPurchaseRequestItemId, PRI.*,
+									U.UnitName UoM
+                                FROM PurchaseRequestItem PRI
+								INNER JOIN Item I ON PRI.ItemId = I.ItemId
+								INNER JOIN Unit U ON I.ItemUnitId = U.UnitId
+                                WHERE PurchaseRequestId = @id";
+                model.items = connection.Query<DirectPurchaseRequestItem>(sql, new { id = id }).ToList();
+                return model;
+            }
+        }
+
+        public int UpdatePurchaseIndent(DirectPurchaseRequest model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"UPDATE PurchaseRequest SET
+                                PurchaseRequestDate = @PurchaseRequestDate,
+                                SpecialRemarks = @SpecialRemarks,
+                                RequiredDate = @RequiredDate,
+                                CreatedBy = @CreatedBy,
+                                CreatedDate = @CreatedDate
+                                WHERE PurchaseRequestId = @DirectPurchaseRequestId";
+                    int id = connection.Execute(query, model, txn);
+                    if (id <= 0) throw new Exception();
+                    id = new DirectPurchaseItemRepository().UpdatePurchaseIndentItem(model, connection, txn);
+                    if (id <= 0) throw new Exception();
+                    txn.Commit();
+                    return id;
+                }
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    throw;
+                }
             }
         }
 
@@ -357,6 +428,15 @@ namespace ArabErp.DAL
                     txn.Rollback();
                     throw;
                 }
+            }
+        }
+
+        public decimal GetStockQuantity(int itemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"select sum(ISNULL(Quantity,0)) StockQuantity from StockUpdate where ItemId=@ItemId group by ItemId";
+                return connection.Query<decimal>(query, new { ItemId = itemId }).FirstOrDefault();
             }
         }
     }

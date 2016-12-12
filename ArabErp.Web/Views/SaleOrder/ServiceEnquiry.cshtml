@@ -281,7 +281,7 @@
                     <div class="col-md-3">
                         <label for="WorkDescriptionId">Description of Work</label>
                         @Html.DropDownListFor(x => Model.Items[0].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text",
-                        Model.Items[0].WorkDescriptionId), "Select Complaint", new
+                  Model.Items[0].WorkDescriptionId), "Select Description of Work", new
                         {
                             @class = "form_input",
                             autocomplete = "off",

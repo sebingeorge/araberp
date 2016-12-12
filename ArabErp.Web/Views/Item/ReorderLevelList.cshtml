@@ -1,0 +1,49 @@
+﻿@model IList<ArabErp.Domain.Item>
+@using GridMvc.Html
+@{
+    ViewBag.Title = "ReorderLevelList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style type="text/css">
+    .tableData {
+        font-size: 12px;
+        padding-left: 4px;
+    }
+
+    .list {
+        display: block;
+        height: 320px;
+        overflow-y: scroll;
+    }
+
+        .list tr:hover {
+            background-color: #DFEDF7;
+        }
+</style>
+<div class="table-responsive">
+
+    <div class="main-grid scroll1">
+
+        @Html.Grid(Model).Columns(columns =>
+                        {
+                            columns.Add(m => m.ItemRefNo).Titled("Item Code").SetWidth(20);
+                            columns.Add(m => m.PartNo).Titled("Part No").SetWidth(200);
+                            columns.Add(m => m.ItemName).Titled("Item Name").SetWidth(20);
+                            columns.Add(m => m.CurrentStock).Titled("Stock").SetWidth(200);
+                            //columns.Add(m => m.FreezerUnitRefNo).Titled("Ref No.").SetWidth(20);
+                            //columns.Add(m => m.FreezerUnitName).Titled("Name").SetWidth(200);
+
+                        }).WithPaging(15)
+
+    </div>
+
+
+    <div class="row-count1">
+        <h5>Row Count:- @Model.Count()</h5>
+    </div>
+
+
+</div>
+

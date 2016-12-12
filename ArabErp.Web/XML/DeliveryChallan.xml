@@ -30,7 +30,7 @@
                 <xs:element name="BoxName" type="xs:string" minOccurs="0" />
                 <xs:element name="BoxPartNo" type="xs:string" minOccurs="0" />
                 <xs:element name="FreezerId" type="xs:string" minOccurs="0" />
-                <xs:element name="BoxId" type="xs:string" minOccurs="0" />
+                <xs:element name="Box" type="xs:string" minOccurs="0" />
                 <xs:element name="SupplyOrderNo" type="xs:string" minOccurs="0" />
                 <xs:element name="SupplyOrderDate" type="xs:string" minOccurs="0" />
                 <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
@@ -48,14 +48,16 @@
                 <xs:element name="LPODate" type="xs:string" minOccurs="0" />
                 <xs:element name="CreatedUser" type="xs:string" minOccurs="0" />
                 <xs:element name="CreateSignature" type="xs:string" minOccurs="0" />
+                <xs:element name="ApprovedUsersig" type="xs:string" minOccurs="0" />
+                <xs:element name="Printdescr" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
           <xs:element name="Items">
             <xs:complexType>
               <xs:sequence>
-                <xs:element name="ItemName" type="xs:string" minOccurs="0" />
-                <xs:element name="Unit" type="xs:string" minOccurs="0" />
+                <xs:element name="Description" type="xs:string" minOccurs="0" />
+                <xs:element name="UoM" type="xs:string" minOccurs="0" />
                 <xs:element name="Quantity" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
@@ -65,55 +67,45 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC/3</DeliveryChallanRefNo>
-    <DeliveryChallanDate>30-Nov-2016</DeliveryChallanDate>
-    <Customer>Al Nafaihi Ice  Factory, Shamal</Customer>
-    <CDoorNo>Doha, Qatar</CDoorNo>
+    <DeliveryChallanRefNo>DC/6</DeliveryChallanRefNo>
+    <DeliveryChallanDate>06-Dec-2016</DeliveryChallanDate>
+    <Customer>Amwaj Catering Services</Customer>
+    <CDoorNo>Doha ,Qatar</CDoorNo>
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>SO/1</SaleRefNo>
-    <SONoDate>28 Nov 2016</SONoDate>
-    <JobcardNo>JC/2</JobcardNo>
-    <JCDate>28-Nov-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>134</RegistrationNo>
-    <ChassisNo>45</ChassisNo>
-    <WorkDesc>itmas + itm4</WorkDesc>
-    <VehicleModel>JAC HFC 1251 Truck -6x4 Chassis</VehicleModel>
-    <Employee>Giriesh Gopi</Employee>
-    <SpecialRemarks>dgdfg</SpecialRemarks>
-    <QuotationRefNo>SQ/1</QuotationRefNo>
-    <FreezerName>itmas</FreezerName>
-    <FreezerPartNo>sads</FreezerPartNo>
-    <BoxName>itm4</BoxName>
-    <BoxPartNo>rtr</BoxPartNo>
-    <FreezerId>1383</FreezerId>
-    <BoxId>1384</BoxId>
+    <SaleRefNo>AARC/SER/12</SaleRefNo>
+    <SONoDate>06 Dec 2016</SONoDate>
+    <JobcardNo>AARC/JC-S/9</JobcardNo>
+    <JCDate>30-Nov-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>225799</RegistrationNo>
+    <WorkDesc>General Checkup &amp; Repair</WorkDesc>
+    <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
+    <Employee>Mohammed Safiq</Employee>
+    <FreezerName>V 500</FreezerName>
+    <FreezerPartNo />
+    <BoxName>BAM</BoxName>
+    <BoxPartNo>BAM</BoxPartNo>
+    <FreezerId />
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
-    <Country>UAE</Country>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
-    <LPONo>YTY45</LPONo>
-    <LPODate>28-Nov-2016</LPODate>
+    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
+    <Street>Hiteen Street, Muntazah </Street>
+    <State>Doha</State>
+    <Country>QATAR</Country>
+    <Phone>974 4435 7216</Phone>
+    <Fax>974 4414 2910</Fax>
+    <Email>info@arabrefrigeration.com</Email>
+    <Zip>13037</Zip>
+    <Image1>D:\ArabErpondec6\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <LPONo xml:space="preserve"> </LPONo>
+    <LPODate>07-Dec-2016</LPODate>
     <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\a0e7a4f0-3793-4f73-9574-e33e48be78a9.png</CreateSignature>
+    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\7aedc637-81cd-41fc-94a4-570257a0355f.jpg</CreateSignature>
+    <ApprovedUsersig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\69717d3d-9095-4c87-8cdf-7dee7f77e696.png</ApprovedUsersig>
   </Head>
   <Items>
-    <ItemName>itm4</ItemName>
-    <Unit>Nos</Unit>
-    <Quantity>1.00</Quantity>
-  </Items>
-  <Items>
-    <ItemName>itmas</ItemName>
-    <Unit>Nos</Unit>
-    <Quantity>1.00</Quantity>
-  </Items>
-  <Items>
-    <ItemName>100mm 2300x1700x1700mm- ISUZU</ItemName>
-    <Unit>Nos</Unit>
-    <Quantity>30.00</Quantity>
-  </Items>
-  <Items>
-    <ItemName>100mm 2300x1700x1700mm- ISUZU</ItemName>
-    <Unit>Nos</Unit>
-    <Quantity>50.00</Quantity>
+    <Description>Electrical Checking
+General Check-up</Description>
+    <UoM>ea</UoM>
+    <Quantity>1</Quantity>
   </Items>
 </NewDataSet>

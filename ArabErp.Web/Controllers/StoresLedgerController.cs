@@ -53,7 +53,7 @@ namespace ArabErp.Web.Controllers
             var result = repo.ItemCategoryDropdown();
             ViewBag.ItemCatList = new SelectList(result, "Id", "Name");
         }
-        public ActionResult StoresLedger(DateTime? from, DateTime? to, int stkid = 0, int itmcatid = 0, int itmid = 0)
+        public ActionResult StoresLedger(DateTime? from, DateTime? to, int stkid = 0, int itmcatid = 0, string itmid = "")
         {
             from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
@@ -66,7 +66,7 @@ namespace ArabErp.Web.Controllers
         }
 
 
-        public ActionResult Print(DateTime? from,DateTime?to, string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", string Itmname = "", int Itmid = 0)
+        public ActionResult Print(DateTime? from,DateTime?to, string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", string Itmname = "", string Itmid ="")
         {
 
             ReportDocument rd = new ReportDocument();
@@ -102,7 +102,7 @@ namespace ArabErp.Web.Controllers
             dr["To"] = to.Value.ToShortDateString();
             dr["Stkpoint"] = Spname;
             dr["ItemCat"] = ItmCatname;
-            dr["Item"] = Itmname;
+            dr["Item"] = Itmid;
             
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;

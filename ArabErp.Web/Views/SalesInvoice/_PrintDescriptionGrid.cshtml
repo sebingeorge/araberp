@@ -1,0 +1,112 @@
+﻿@model ArabErp.Domain.SalesInvoice
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('#print-description-table input').attr("disabled", "true");
+        $('#print-description-table textarea').attr("disabled", "true");
+        $('.glyphicon').hide();
+    })
+
+    function AddPrintDescRow() {
+        var i = 0;
+        $('#print-description-table tr[id$="_printdesc_row"]').each(function () {
+            i++;
+        });
+        //clone and replace indices
+        var clone = $('#0_printdesc_row').clone();
+        clone.html($(clone).html().replace(/PrintDescriptions_0__/g, 'PrintDescriptions_' + i + '__'));
+        clone.html($(clone).html().replace(/PrintDescriptions\[0]./g, 'PrintDescriptions[' + i + '].'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        clone.html($(clone).html().replace(/0_printdesc_serialno/g, i + '_printdesc_serialno'));
+        $('#print-description-table').append('<tr id="' + i + '_printdesc_row">' + clone.html() + '</tr>');
+        //----------------------end
+        $('#print-description-table #' + i + '_printdesc_serialno').text(i + 1);
+        $('#print-description-table #PrintDescriptions_' + i + '__Description').val('');
+        $('#print-description-table #PrintDescriptions_' + i + '__UoM').val('');
+        $('#print-description-table #PrintDescriptions_' + i + '__Quantity').val('');
+        $('#print-description-table #PrintDescriptions_' + i + '__Description').focus();
+    }
+
+    function DeletePrintDescRow(index) {
+        var i = 0;
+        $('#print-description-table tr[id$="_printdesc_row"]').each(function () {
+            i++;
+        });
+        if (i > 1) {
+            $('#' + index + '_printdesc_row').remove();
+            for (var j = index + 1; j < i; j++) {
+                var description = $('#PrintDescriptions_' + j + '__Description').val();
+                var uom = $('#PrintDescriptions_' + j + '__UoM').val();
+                var quantity = $('#PrintDescriptions_' + j + '__Quantity').val();
+                //clone and replace indices
+                var clone = $('#' + j + '_printdesc_row').clone(true, true);
+                clone.html($(clone).html().replace(new RegExp('PrintDescriptions_' + j + '__', 'g'), 'PrintDescriptions_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp('PrintDescriptions\\[' + j + '].', 'g'), 'PrintDescriptions[' + (j - 1) + '].'));
+                clone.html($(clone).html().replace(new RegExp(j + '_printdesc_serialno', 'g'), (j - 1) + '_printdesc_serialno'));
+                clone.html($(clone).html().replace('DeletePrintDescRow(' + j + ')', 'DeletePrintDescRow(' + (j - 1) + ')'));
+                $('#' + j + '_printdesc_row').html(clone.html());
+                $('#' + j + '_printdesc_row').attr('id', (j - 1) + '_printdesc_row');
+                //----------------------end
+                $('#' + (j - 1) + '_printdesc_serialno').text(j);
+                $('#PrintDescriptions_' + (j - 1) + '__Description').val(description);
+                $('#PrintDescriptions_' + (j - 1) + '__UoM').val(uom);
+                $('#PrintDescriptions_' + (j - 1) + '__Quantity').val(quantity);
+            }
+        }
+    }
+
+</script>
+
+<table class="table table-responsive table-bordered table-hover" id="print-description-table">
+    <thead>
+        <tr class="grid_heading">
+            <th width="1%"></th>
+            <th width="2%" class="text-center">#</th>
+            <th width="76%" nowrap>Print Description</th>
+            <th width="10%">UoM</th>
+            <th width="10%">Quantity</th>
+            <th width="1%"></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @{
+            if (Model.PrintDescriptions != null && Model.PrintDescriptions.Count > 0)
+            {
+                for (int i = 0; i < Model.PrintDescriptions.Count; i++)
+                {
+                    <tr id="@(i)_printdesc_row">
+                        <td style="vertical-align:middle">
+                            <a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeletePrintDescRow(@i)"></a>
+                        </td>
+                        <td align="center">
+                            <span id="@(i)_printdesc_serialno">
+                                @(i + 1)
+                            </span>
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(m => m.PrintDescriptions[i].Description, new { @class = "form_input", @style = "height: 57px" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].UoM, new { @class = "form_input" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Quantity, new { @class = "form_input numbers-only" })
+                        </td>
+                        <td style="vertical-align:middle">
+                            <a class="glyphicon glyphicon-plus" style="top:0px" onclick="AddPrintDescRow()"></a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td align="center" colspan="6">
+                        <em>There are no print descriptions found!</em>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

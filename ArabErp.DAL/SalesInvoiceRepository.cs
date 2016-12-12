@@ -33,7 +33,7 @@ namespace ArabErp.DAL
 
                 string sql = @"select O.*,SalesInvoiceRefNo,SalesInvoiceDate,CustomerName Customer,Concat(C.DoorNo,',',C.Street,',',C.Phone)CustomerAddress,S.CustomerOrderRef,
                                 SI.PaymentTerms,V.RegistrationNo,J.JobCardNo,D.DeliveryChallanRefNo,SI.TotalAmount,ORR.CountryName,CU.CurrencyName,
-								 U.UserName,U.Signature,UI.UserName,UI.Signature
+								U.UserName CreateUser,U.Signature CreateSig,UI.UserName ApproveUser,UI.Signature ApproveSig
 								 from SalesInvoice SI
                                 inner join SaleOrder S on S.SaleOrderId=SI.SaleOrderId
                                 inner join Customer C ON C.CustomerId=S.CustomerId
@@ -43,8 +43,8 @@ namespace ArabErp.DAL
 								left JOIN Currency CU ON CU.CurrencyId=O.CurrencyId
                                 left join VehicleInPass V ON V.VehicleInPassId=J.InPassId
 								left join DeliveryChallan D ON D.JobCardId=J.JobCardId 
-								left join [User] U ON U.UserId=SI.IsApprovedBy
-									left join [User] UI ON U.UserId=SI.CreatedBy
+								 left join [User] U ON U.UserId=SI.CreatedBy
+								left join [User] UI ON UI.UserId=SI.IsApprovedBy
                                 where SalesInvoiceId=@SalesInvoiceId";
 
                 var objSalesInvoice = connection.Query<SalesInvoice>(sql, new
@@ -219,8 +219,9 @@ namespace ArabErp.DAL
                             LEFT JOIN WorkDescription W ON W.WorkDescriptionId=O.WorkDescriptionId
                             WHERE I.SaleOrderId IS NULL AND I.SaleOrderItemId IS NULL;
                             SELECT R.SaleOrderId SaleOrderId,R.SaleOrderItemId SaleOrderItemId,R.Quantity Quantity,R.Rate Rate,r.Amount Amount,
-                            CONCAT(V.VehicleModelName,'',VehicleModelDescription) VehicleModelName,R.WorkDescr WorkDescription,R.JobCardNo JobCardNo, CONVERT(VARCHAR, R.JobCardDate, 106)JobCardDate FROM #RESULT R 
+                            CONCAT(V.VehicleModelName,'',VehicleModelDescription) VehicleModelName,R.WorkDescr WorkDescription,R.JobCardNo JobCardNo, CONVERT(VARCHAR, R.JobCardDate, 106)JobCardDate,VIP.RegistrationNo,VIP.ChassisNo FROM #RESULT R 
                             LEFT JOIN VehicleModel V ON R.VehicleModelId=V.VehicleModelId
+                            LEFT JOIN VehicleInPass VIP ON VIP.SaleOrderItemId=R.SaleOrderItemId
                             DROP TABLE #RESULT;
                             DROP TABLE #SaleOrder;
                             DROP TABLE #SalesInvoice;
@@ -230,19 +231,21 @@ namespace ArabErp.DAL
                 else if (invType == "Final")
                 {
                     sql = @"SELECT * INTO #SaleOrder FROM SaleOrder WHERE SaleOrderId=@SaleOrderId AND isActive=1;
-                            SELECT SO.SaleOrderId SaleOrderId,SOI.WorkDescriptionId WorkDescriptionId,SOI.SaleOrderItemId SaleOrderItemId,SOI.Quantity Quantity,SOI.Rate Rate,SOI.Amount Amount,SOI.VehicleModelId,JC.JobCardNo JobCardNo, JC.JobCardDate INTO #TEMP_ORDER 
+                            SELECT SO.SaleOrderId SaleOrderId,SOI.WorkDescriptionId WorkDescriptionId,SOI.SaleOrderItemId SaleOrderItemId,SOI.Quantity Quantity,SOI.Rate Rate,SOI.Amount Amount,SOI.VehicleModelId,JC.JobCardNo JobCardNo, JC.JobCardDate, JC.JobCardId INTO #TEMP_ORDER 
                             FROM #SaleOrder SO LEFT JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
-	        				LEFT JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId
-		        			WHERE JC.JodCardCompleteStatus=1
+                            LEFT JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId
+                            WHERE JC.JodCardCompleteStatus=1
                             SELECT * INTO #SalesInvoice FROM SalesInvoice WHERE SaleOrderId=@SaleOrderId AND isActive=1;
                             SELECT SI.SaleOrderId,SII.SaleOrderItemId INTO #TEMP_INVOICE FROM #SalesInvoice SI LEFT JOIN SalesInvoiceItem SII ON SI.SalesInvoiceId=SII.SalesInvoiceId;
-                            SELECT O.SaleOrderId,O.SaleOrderItemId,O.Quantity,O.Rate,O.Amount,O.VehicleModelId,O.WorkDescriptionId WorkDescriptionId,W.WorkDescr WorkDescr,O.JobCardNo JobCardNo, O.JobCardDate INTO #RESULT FROM #TEMP_ORDER O 
+                            SELECT O.SaleOrderId,O.SaleOrderItemId,O.Quantity,O.Rate,O.Amount,O.VehicleModelId,O.WorkDescriptionId WorkDescriptionId,W.WorkDescr WorkDescr,O.JobCardNo JobCardNo, O.JobCardDate, O.JobCardId INTO #RESULT FROM #TEMP_ORDER O 
                             LEFT JOIN #TEMP_INVOICE I ON O.SaleOrderId=I.SaleOrderId AND O.SaleOrderItemId=I.SaleOrderItemId 
                             LEFT JOIN WorkDescription W ON W.WorkDescriptionId=O.WorkDescriptionId
                             WHERE I.SaleOrderId IS NULL AND I.SaleOrderItemId IS NULL;
                             SELECT R.SaleOrderId SaleOrderId,R.SaleOrderItemId SaleOrderItemId,R.Quantity Quantity,R.Rate Rate,r.Amount Amount,
-                            CONCAT(V.VehicleModelName,'',VehicleModelDescription) VehicleModelName,R.WorkDescr WorkDescription,R.JobCardNo JobCardNo, CONVERT(VARCHAR, R.JobCardDate, 106)JobCardDate FROM #RESULT R 
+                            CONCAT(V.VehicleModelName,'',VehicleModelDescription) VehicleModelName,R.WorkDescr WorkDescription,R.JobCardNo JobCardNo, CONVERT(VARCHAR, R.JobCardDate, 106)JobCardDate,VIP.RegistrationNo,VIP.ChassisNo, DC.DeliveryChallanRefNo, CONVERT(VARCHAR, DC.DeliveryChallanDate, 106)DeliveryChallanDate FROM #RESULT R 
                             LEFT JOIN VehicleModel V ON R.VehicleModelId=V.VehicleModelId
+                            LEFT JOIN VehicleInPass VIP ON VIP.SaleOrderItemId=R.SaleOrderItemId
+                            LEFT JOIN DeliveryChallan DC ON R.JobCardId = DC.JobCardId
                             DROP TABLE #RESULT;
                             DROP TABLE #SaleOrder;
                             DROP TABLE #SalesInvoice;
@@ -443,11 +446,8 @@ namespace ArabErp.DAL
 	                                ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
                                 FROM SalesInvoice INV
                                 LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
-                                WHERE INV.InvoiceType = @type
-                                --INV.isProjectBased = 0
-                                AND INV.OrganizationId = @OrganizationId
-                                AND CONVERT(DATE, INV.SalesInvoiceDate, 106) BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
-                                AND INV.SalesInvoiceId = ISNULL(NULLIF(CAST(@id AS INT), 0), INV.SalesInvoiceId)
+                                WHERE 
+								 INV.OrganizationId=1 and ISNULL(INV.IsApproved,0)=0
                                 ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
 
                 return connection.Query<SalesInvoice>(query, new
@@ -522,7 +522,7 @@ namespace ArabErp.DAL
                                 FROM SalesInvoice INV
                                 LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
                                 WHERE 
-								 INV.OrganizationId=@OrganizationId and INV.IsApproved=0
+								 INV.OrganizationId=1 and isnull(INV.IsApproved,0)=0
                                 ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
 
                 return connection.Query<SalesInvoice>(query, new
@@ -540,6 +540,31 @@ namespace ArabErp.DAL
                 string sql = @"Update SalesInvoice set IsApproved=1,IsApprovedDate=@date,IsApprovedBy=@user  WHERE SalesInvoiceId=@id";
                 return connection.Execute(sql, new { id = id, date = date, user = user });
 
+            }
+        }
+        /// <summary>
+        /// Get print description from SaleOrderItemIds
+        /// </summary>
+        /// <param name="SaleOrderItemIds"></param>
+        /// <returns></returns>
+        public List<PrintDescription> GetPrintDescriptions(List<int> SaleOrderItemIds)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string sql = @"SELECT
+	                                PD.*
+                                FROM PrintDescription PD
+                                INNER JOIN DeliveryChallan DC ON PD.DeliveryChallanId = DC.DeliveryChallanId
+                                INNER JOIN JobCard JC ON DC.JobCardId = JC.JobCardId
+                                WHERE JC.SaleOrderItemId IN @ids";
+                    return connection.Query<PrintDescription>(sql, new { ids = SaleOrderItemIds }).ToList();
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
             }
         }
     }

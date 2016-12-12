@@ -17,11 +17,11 @@ namespace ArabErp.DAL
         /// Return all job cards waiting for completion
         /// </summary>
         /// <returns></returns>
-        public List<Dropdown> JobCardDropdown()
+        public List<Dropdown> JobCardDropdown(int organizationId, int jobCardId = 0)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(JodCardCompleteStatus, 0) = 0 AND ISNULL(isActive, 1) = 1").ToList();
+                return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(JodCardCompleteStatus, 0) = 0 AND ISNULL(isActive, 1) = 1 AND OrganizationId = @org OR JobCardId = @jobCardId", new { jobCardId = jobCardId, org = organizationId }).ToList();
             }
         }
         /// <summary>
@@ -150,7 +150,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>(@"select ItemId Id, PartNo Name from item where ItemId in(select DISTINCT ItemId from StockUpdate where StockPointId=@StockPointId) AND ISNULL(LTRIM(RTRIM(PartNo)), '') <> ''", new { StockPointId = stockPointId }).ToList();
+                //old query --- select ItemId Id, PartNo Name from item where ItemId in(select DISTINCT ItemId from StockUpdate where StockPointId=@StockPointId) AND ISNULL(LTRIM(RTRIM(PartNo)), '') <> ''
+                return connection.Query<Dropdown>(@"select ItemId Id, PartNo Name from item where ISNULL(LTRIM(RTRIM(PartNo)), '') <> ''", new { StockPointId = stockPointId }).ToList();
             }
         }
 
@@ -260,6 +261,7 @@ namespace ArabErp.DAL
 	                                AND ISNULL(DC.isActive, 1) = 1
 	                                AND ISNULL(SO.isActive, 1) = 1
 									AND ISNULL(JC.JodCardCompleteStatus, 0) = 1
+                                    AND DC.JobCardId IS NULL
 									AND JC.OrganizationId = @OrganizationId";
                 return connection.Query<Dropdown>(query, new { OrganizationId = OrganizationId }).ToList();
             }
@@ -289,7 +291,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>(@"select ItemId Id,ItemName Name from item where ItemId in(select DISTINCT ItemId from StockUpdate where StockPointId=@StockPointId)", new { StockPointId = StockPointId }).ToList();
+                //old string --- select ItemId Id,ItemName Name from item where ItemId in(select DISTINCT ItemId from StockUpdate where StockPointId=@StockPointId)
+                return connection.Query<Dropdown>(@"SELECT ItemId Id, ItemName Name FROM Item", new { StockPointId = StockPointId }).ToList();
             }
         }
 
@@ -760,7 +763,14 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT distinct S.SupplierId Id,SupplierName Name FROM Supplier S INNER JOIN SupplyOrder SO ON SO.SupplierId=S.SupplierId WHERE ISNULL(S.isActive, 1) = 1").ToList();
             }
         }
-
+        public List<Dropdown> CustomersDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("select [CustomerId] Id,[CustomerName] Name from [dbo].[Customer]").ToList();
+            }
+        }
+        
         public List<Dropdown> PRRefNoDropdown()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -1019,6 +1029,15 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Dropdown>(" select DesignationId  Id,DesignationName Name from designation ").ToList();
+            }
+        }
+
+        public List<Dropdown> TaskDropdown(int OrganizationId)
+        {
+            //OrganizationId is not considered here
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT JobCardTaskMasterId Id, JobCardTaskName Name FROM JobCardTaskMaster WHERE ISNULL(isActive, 1) = 1").ToList();
             }
         }
     }

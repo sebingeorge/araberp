@@ -26,6 +26,7 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public string ItemName { get; set; }
+        public string Description { get; set; }
         public string PartNo { get; set; }
         public string Remarks { get; set; }
         public decimal PendingQuantity { get; set; }

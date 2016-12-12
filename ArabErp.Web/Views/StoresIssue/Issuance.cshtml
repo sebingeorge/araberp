@@ -80,7 +80,7 @@
                 <div class="col-md-2">
                     <label for="StoreIssueRefNo">Store Issue Ref. No.</label>
                     @Html.HiddenFor(m => m.WorkShopRequestId)
-                    @Html.TextBoxFor(m => m.StoreIssueRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true", @title = "This number may change after saving" })
+                    @Html.TextBoxFor(m => m.StoreIssueRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true", @tabindex = "-1" })
                 </div>
                 <div class="col-md-2">
                     <label for="StoreIssueDate">Date</label>
@@ -94,19 +94,19 @@
             <div class="row form-group">
                 <div class="col-md-4">
                     <label for="wrkdes">Customer</label>
-                    <input type="text" id="customer" class="form_input" autocomplete="off" readonly="readonly" />
+                    <input type="text" id="customer" class="form_input" autocomplete="off" readonly="readonly", tabindex = "-1" />
                 </div>
                 <div class="col-md-2">
                     <label for="wrkreqref">Workshop Request No. &amp; Date</label>
-                    <input type="text" id="workshopno" class="form_input" autocomplete="off" readonly="readonly" />
+                    <input type="text" id="workshopno" class="form_input" autocomplete="off" readonly="readonly", tabindex = "-1" />
                 </div>
                 <div class="col-md-2">
                     <label for="jcdate">Sale Order No. &amp; Date</label>
-                    <input type="text" id="saleorderno" class="form_input" autocomplete="off" readonly="readonly" />
+                    <input type="text" id="saleorderno" class="form_input" autocomplete="off" readonly="readonly", tabindex = "-1" />
                 </div>
                 <div class="col-md-2">
                     <label for="reqdate">Required Date</label>
-                    <input type="text" id="reqdate" style="min-width: 100%" class="form_input" readonly="readonly" />
+                    <input type="text" id="reqdate" style="min-width: 100%" class="form_input" readonly="readonly", tabindex = "-1" />
                 </div>
             </div>
             <div class="table-responsive">
@@ -115,6 +115,7 @@
                         <tr class="grid_heading">
                             <th width="2%" align="center"><h1>#</h1></th>
                             <th width="53%" nowrap><h1>Material/Spares</h1></th>
+                            <th width="10%" nowrap><h1>Part No.</h1></th>
                             <th width="8%" class="text-right" title="Required Quantity" nowrap><h1>Req. Qty</h1></th>
                             <th width="8%" class="text-right" title="Previously Issued Quantity" nowrap><h1>Prev. Issued Qty</h1></th>
                             <th width="8%" class="text-right" nowrap><h1>Pending Qty</h1></th>

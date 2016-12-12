@@ -17,7 +17,7 @@
             changeMonth: true,
             yearRange: year + ":" + (year + 3)
         });
-        $("#EmployeeId").focus();
+        $("#QuotationRefNo").focus();
         //$("#DeliveryChallanDate").datepicker({ dateFormat: "dd-MM-yy" });
     });
     $(document).ready(function () {
@@ -62,7 +62,8 @@
                 <div class="col-md-2">
                     <label>Delivery Challan No.</label>
                     @Html.HiddenFor(m => m.JobCardId)
-                    @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true", @title = "This number may change after saving" })
+                    @Html.HiddenFor(m => m.isService)
+                    @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                 </div>
                 <div class="col-md-2">
                     <label>Challan Date</label>
@@ -70,7 +71,7 @@
                     @*@Html.TextBoxFor(m => m.DeliveryChallanDate, new { @class = "form_input", @type = "date" })*@
                 </div>
                 <div class="col-md-2">
-                    <label for="TransportWarrantyExpiryDate">Warranty Expiry Date</label>
+                    <label for="TransportWarrantyExpiryDate">Service Warranty Expiry Date</label>
                     @Html.TextBoxFor(m => m.TransportWarrantyExpiryDate, Model.TransportWarrantyExpiryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
                 </div>
             </div>
@@ -83,16 +84,12 @@
                     <label>Sale Order Ref. No. &amp; Date</label>
                     <input type="text" class="form_input" id="txtSONoDate" readonly />
                 </div>
-                <div class="col-md-2">
-                    <label>Customer Order Ref No.</label>
-                    <input type="text" class="form_input" id="txtCustomerOrderRef" readonly />
-                </div>
                 <div class="col-md-2" title="Job Card Ref. No. and Date">
                     <label>Job Card Ref. No. &amp; Date</label>
                     <input type="text" class="form_input" id="txtJCNoDate" readonly />
                 </div>
                 <div class="col-md-2">
-                    <label>Chasis No./Reg No.</label>
+                    <label>Chassis No./Reg. No.</label>
                     <input type="text" class="form_input" id="txtRegNo" readonly />
                 </div>
 
@@ -100,17 +97,42 @@
 
             <div class="row form-group">
 
-                <div class="col-md-12">
+                <div class="col-md-8">
                     <label>Work Description</label>
-                    <textarea class="form_input form_input-h1" id="txtWork" readonly></textarea>
+                    <input type="text" class="form_input" id="txtWork" readonly />
+                    @*<textarea class="form_input form_input-h1" id="txtWork" readonly></textarea>*@
                 </div>
-            </div>
-            <div class="row form-group">
-
                 <div class="col-md-4">
                     <label>Vehicle Model</label>
                     <input type="text" class="form_input" id="txtVehicleModel" readonly />
                 </div>
+            </div>
+            <div class="row form-group">
+                @if (Model.isService == 1)
+                {
+                    <div class="col-md-2">
+                        <label for="QuotationRefNo">Quotation Ref. No.</label>
+                        @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Customer Order Ref No.</label>
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input" })
+                        @*<input type="text" class="form_input" id="txtCustomerOrderRef" readonly />*@
+                    </div>
+                }
+                else
+                {
+
+                    <div class="col-md-2">
+                        <label for="QuotationRefNo">Quotation Ref. No.</label>
+                        @Html.TextBoxFor(m => m.QuotationRefNo, new { @class = "form_input", @readonly = "true" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Customer Order Ref No.</label>
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", @readonly = "true" })
+                        @*<input type="text" class="form_input" id="txtCustomerOrderRef" readonly />*@
+                    </div>
+                }
                 <div class="col-md-3">
                     <label>Employee</label>
                     @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input", @required = "true" })
@@ -129,7 +151,7 @@
                         </tr>
                     </thead>
                     <tbody class="grid_row">
-                        @if (Model.ItemBatches.Count > 0)
+                        @if (Model.ItemBatches != null && Model.ItemBatches.Count > 0)
                         {
                             int i = 0;
                             foreach (var item in Model.ItemBatches)
@@ -137,7 +159,7 @@
                                 <tr>
                                     <td align="center">
                                         @Html.HiddenFor(m => m.ItemBatches[i].ItemBatchId)
-                                        @*<input class="form_input" value="*@@(i+1)@*" disabled />*@
+                                        @*<input class="form_input" value="*@@(i + 1)@*" disabled />*@
                                     </td>
                                     <td>
                                         @Html.TextBoxFor(m => m.ItemBatches[i].SerialNo, new { @class = "form_input", @readonly = "true" })
@@ -168,20 +190,28 @@
                 </table>
             </div>
 
+            <div class="row">
+                <div class="col-md-12">
+                    @*<label for="PrintDescription">Print Description</label>
+                        @Html.TextAreaFor(m=>m.PrintDescription, new { @class = "form_input", @style = "height: 109px" })*@
+                    @Html.Partial("_PrintDescriptionGrid", Model)
+                </div>
+            </div>
+            @*<div class="col-md-12">*@
             <div class="row form-group">
                 <div class="col-md-12">
                     <label>Payment Terms</label>
-                    <input id="txtPaymentTerms" class="form_input" readonly="readonly" />
+                    <textarea id="txtPaymentTerms" class="form_input form_input-h" readonly="readonly" tabindex="-1"></textarea>
                 </div>
             </div>
-            
             <div class="row form-group">
                 <div class="col-md-12">
                     <label>Special Remarks</label>
                     @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h" })
                 </div>
             </div>
-            
+            @*</div>*@
+
             <div class="row">
                 <div class="col-md-12 col-md hrpart">
                     <input class="form-button right" type="button" value="Exit" onclick="Back()" />
@@ -193,4 +223,3 @@
 
     </div>
 </div>
-

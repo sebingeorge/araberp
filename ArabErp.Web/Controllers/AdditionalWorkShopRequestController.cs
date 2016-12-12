@@ -69,11 +69,11 @@ namespace ArabErp.Web.Controllers
             {
                 if (id != 0)
                 {
-                    JobCardDropdown();
                     ItemDropdown();
                     FillPartNo();
                     WorkShopRequest WorkShopRequest = new WorkShopRequest();
                     WorkShopRequest = new WorkShopRequestRepository().WorkShopRequestHD(id);
+                    JobCardDropdown(WorkShopRequest.JobCardId);
                     WorkShopRequest.Items = new WorkShopRequestItemRepository().WorkShopRequestDT(id);
                     return View("Edit", WorkShopRequest);
                 }
@@ -145,9 +145,9 @@ namespace ArabErp.Web.Controllers
                 return RedirectToAction("Edit", new { id = id });
             }
         }
-        public void JobCardDropdown()
+        public void JobCardDropdown(int jobCardId = 0)
         {
-            ViewBag.JobCardList = new SelectList(new DropdownRepository().JobCardDropdown(), "Id", "Name");
+            ViewBag.JobCardList = new SelectList(new DropdownRepository().JobCardDropdown(jobCardId: jobCardId, organizationId: OrganizationId), "Id", "Name");
         }
         public JsonResult GetJobCardDetails(int jobCardId)
         {

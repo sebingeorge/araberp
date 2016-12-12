@@ -64,7 +64,7 @@
                                         <td class="grid-cell text-right">@item.Amount</td>
                                         <td>
                                             <center>
-                                                @if (item.IsQCPassed == 0)
+                                                @if (item.IsQCPassed == 0 && item.isService==0)
                                             {
                                                 <span class="perm">QC Pending</span>
                                             }
