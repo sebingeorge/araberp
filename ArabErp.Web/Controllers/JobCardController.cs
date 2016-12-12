@@ -50,9 +50,7 @@ namespace ArabErp.Web.Controllers
          {
             try
             {
-               
                 FillEmployee();
-
                 JobCardRepository repo = new JobCardRepository();
                 SaleOrderRepository soRepo = new SaleOrderRepository();
                 isProjectBased = soRepo.IsProjectOrVehicle(Id ?? 0);
@@ -64,19 +62,17 @@ namespace ArabErp.Web.Controllers
                 model.JobCardDate = DateTime.Now;
                 model.RequiredDate = DateTime.Now;
                 FillBay(model.isService);
-
-                if (model.isService == 1)
-                    FillTaks(model.WorkDescriptionId);
-                else
-                    FillFreezerAndBoxTasks(Id);
+                FillAllTasks();
+                //if (model.isService == 1)
+                //    FillTaks(model.WorkDescriptionId);
+                //else
+                //    FillFreezerAndBoxTasks(Id);
                 //FillTaks(model.WorkDescriptionId);
                 //FillFreezerUnit();
                 //FillBox();
                 //FillVehicleRegNo();
-             
                 return View(model);
             }
-
             catch (Exception ex)
             {
                 string ErrorMessage = ex.Message.ToString();
@@ -199,6 +195,11 @@ namespace ArabErp.Web.Controllers
         public void FillCustomerinJC(int isProjectBased, int service)
         {
             ViewBag.CusList = new SelectList(new DropdownRepository().JCCustomerDropdown(OrganizationId, isProjectBased,service), "Id", "Name");
+        }
+        private void FillAllTasks()
+        {
+            var result = new DropdownRepository().TaskDropdown(OrganizationId);
+            ViewBag.TaskList = new SelectList(result, "Id", "Name");
         }
         public ActionResult PreviousList(int ProjectBased,int service, DateTime? from, DateTime? to, int id = 0, int cusid = 0)
         {
@@ -374,7 +375,7 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("JobCard{0}.pdf", Id.ToString()));
+                return File(stream, "application/pdf");//, String.Format("JobCard{0}.pdf", Id.ToString()));
             }
             catch (Exception ex)
             {
@@ -388,11 +389,12 @@ namespace ArabErp.Web.Controllers
             JobCard model = new JobCardRepository().GetJobCardDetails2(id, OrganizationId);
             FillBay1(model.JobCardId);
             FillEmployee();
+            FillAllTasks();
             //FillTaks(model.WorkDescriptionId);
-            if (model.isService == 1)
-                FillTaks(model.WorkDescriptionId);
-            else
-                FillFreezerAndBoxTasks(model.SaleOrderItemId);
+            //if (model.isService == 1)
+            //    FillTaks(model.WorkDescriptionId);
+            //else
+            //    FillFreezerAndBoxTasks(model.SaleOrderItemId);
             return View(model);
         }
 
@@ -403,7 +405,7 @@ namespace ArabErp.Web.Controllers
             {
                 new JobCardRepository().UpdateJobCard(model);
                 TempData["success"] = "Updated Successfully (" + model.JobCardNo + ")";
-                return RedirectToAction("Index", new { isProjectBased = model.isProjectBased });
+                return RedirectToAction("Index", new { isProjectBased = model.isProjectBased, service = model.isService });
             }
             catch (Exception)
             {
