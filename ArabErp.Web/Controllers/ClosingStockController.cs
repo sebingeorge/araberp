@@ -32,10 +32,10 @@ namespace ArabErp.Web.Controllers
             ViewBag.ItemList = new SelectList(List, "Id", "Name");
 
         }
-        public ActionResult ClosingStockRegister(DateTime? Ason, int stkid = 0, int itmcatid = 0, string itmid = "")
+        public ActionResult ClosingStockRegister(DateTime? Ason, int stkid = 0, int itmcatid = 0, string itmid = "", string PartNo="")
         {
             Ason = Ason ?? DateTime.Today;
-            return PartialView("_ClosingStockRegister", new ClosingStockRepository().GetClosingStockData1(Ason, stkid, itmcatid, itmid, OrganizationId));
+            return PartialView("_ClosingStockRegister", new ClosingStockRepository().GetClosingStockData1(Ason, stkid, itmcatid, itmid, OrganizationId,PartNo));
         }
         public void FillWarehouse()
         {
@@ -61,7 +61,7 @@ namespace ArabErp.Web.Controllers
              return PartialView("_ItemDropDown");
          }
 
-        public ActionResult Print(DateTime? date,string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "",  string Itmid ="")
+        public ActionResult Print(DateTime? date, string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", string Itmid = "", string PartNo="")
         {
 
             ReportDocument rd = new ReportDocument();
@@ -77,6 +77,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Item");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("PartNum");
 
             //-------DT
 
@@ -94,6 +95,7 @@ namespace ArabErp.Web.Controllers
             dr["Stkpoint"] = Spname;
             dr["ItemCat"] = ItmCatname;
             dr["Item"] = Itmid;
+            dr["PartNum"] = PartNo;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             ds.Tables["Head"].Rows.Add(dr);
@@ -101,7 +103,7 @@ namespace ArabErp.Web.Controllers
 
             ClosingStockRepository repo1 = new ClosingStockRepository();
             //var Items = repo1.GetSOVarianceDataDTPrint(from, to, itmid, itmName, SupId, SupName);
-            var Items = repo1.GetClosingStockDataDTPrint(stockPointId: Spid, itemCategoryId: ItmCatid, itemId: Itmid, OrganizationId: OrganizationId);
+            var Items = repo1.GetClosingStockDataDTPrint(stockPointId: Spid, itemCategoryId: ItmCatid, itemId: Itmid, OrganizationId: OrganizationId,partno:PartNo);
 
             foreach (var item in Items)
             {

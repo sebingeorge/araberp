@@ -24,10 +24,10 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public ActionResult Stockreport(string itmid = "")
+        public ActionResult Stockreport(string itmid = "",string PartNo="")
         {
 
-            return PartialView("_StockReportRegister", new StockReportRepository().GetStockData(itmid));
+            return PartialView("_StockReportRegister", new StockReportRepository().GetStockData(itmid, PartNo));
         }
         public ActionResult DrillDown(int itemId)
         {
@@ -35,7 +35,7 @@ namespace ArabErp.Web.Controllers
             return View(repo.GetStockReportItemWise(itemId));
         }
 
-        public ActionResult Print(string itmid="")
+        public ActionResult Print(string itmid="",string PartNo="")
         {
 
             ReportDocument rd = new ReportDocument();
@@ -50,6 +50,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
             ds.Tables["Head"].Columns.Add("Item");
+            ds.Tables["Head"].Columns.Add("PartNo");
 
             //-------DT
 
@@ -67,12 +68,13 @@ namespace ArabErp.Web.Controllers
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             dr["Item"] = itmid;
+            dr["PartNo"] = itmid;
             ds.Tables["Head"].Rows.Add(dr);
 
 
             StockReportRepository repo1 = new StockReportRepository();
             //var Items = repo1.GetSOVarianceDataDTPrint(from, to, itmid, itmName, SupId, SupName);
-            var Items = repo1.GetStockReportDTPrint(itmid);
+            var Items = repo1.GetStockReportDTPrint(itmid,PartNo);
 
             foreach (var item in Items)
             {

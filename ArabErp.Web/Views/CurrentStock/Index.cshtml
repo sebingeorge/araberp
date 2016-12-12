@@ -25,8 +25,9 @@
         var stkid = $("#cboStockpoint").val();
         var itmcatid = $("#itmCatId").val();
         var itmid = $("#filter-Material").val().trim();
+        var PartNo = $("#filter-PartNo").val().trim();
         var url = '@Url.Action("CurrentStockRegister")';
-        url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid;
+        url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid + "&PartNo=" + encodeURIComponent(PartNo);
         $("#Current_stock").load(url, function () {
             $("#Current_stock").removeClass("fade");
         });
@@ -41,9 +42,9 @@
         var ItmCatid = $("#itmCatId").val();
         var ItmCatname = $("#itmCatId option:selected").text();
         var Itmid = $("#filter-Material").val().trim();
-        //var Itmname = $("#filter-Material").val().trim();
+        var PartNo = $("#filter-PartNo").val().trim();
         var url = '@Url.Action("Print")';
-        url += "?Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmid=" + Itmid;
+        url += "?Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmid=" + Itmid + "&PartNo=" + encodeURIComponent(PartNo);
         window.location = url;
     }
 </script>
@@ -60,6 +61,12 @@
                 <label for="filter-Material">Material/Spares</label>
                 <input id="filter-Material" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
             </div>
+
+            <div class="col-md-3">
+                <label for="filter-PartNo">Part No.</label>
+                <input id="filter-PartNo" class="form_input" placeholder="Search for Part No." onkeyup="Filter()" onchange="Filter()" />
+            </div>
+
 
            
             <div class="col-md-3">

@@ -95,13 +95,19 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
             ds.Tables["Head"].Columns.Add("PartNum");
+            ds.Tables["Head"].Columns.Add("Group");
+            ds.Tables["Head"].Columns.Add("SubGroup");
+            ds.Tables["Head"].Columns.Add("ItemCategory");
 
             //-------DT
 
             ds.Tables["Items"].Columns.Add("Item");
             ds.Tables["Items"].Columns.Add("PartNo");
             ds.Tables["Items"].Columns.Add("OpeningStk");
+            ds.Tables["Items"].Columns.Add("GroupG");
+            ds.Tables["Items"].Columns.Add("SubGroupG");
             ds.Tables["Items"].Columns.Add("Unit");
+      
 
 
             OrganizationRepository repo = new OrganizationRepository();
@@ -114,6 +120,9 @@ namespace ArabErp.Web.Controllers
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             dr["PartNum"] = PartNo;
+            dr["Group"] = ItmGroupname;
+            dr["SubGroup"] = ItmSubGroupname;
+            dr["ItemCategory"] = ItmCatname;
             ds.Tables["Head"].Rows.Add(dr);
 
 
@@ -129,6 +138,8 @@ namespace ArabErp.Web.Controllers
                     PartNo = item.PartNo,
                     Quantity = item.Quantity,
                     UnitName = item.UnitName,
+                    ItemGroupName = item.ItemGroupName,
+                    ItemSubGroupName = item.ItemSubGroupName,
 
                 };
 
@@ -137,6 +148,8 @@ namespace ArabErp.Web.Controllers
                 dri["PartNo"] = SupplyOrderRegItem.PartNo;
                 dri["OpeningStk"] = SupplyOrderRegItem.Quantity;
                 dri["Unit"] = SupplyOrderRegItem.UnitName;
+                dri["GroupG"] = SupplyOrderRegItem.ItemGroupName;
+                dri["SubGroupG"] = SupplyOrderRegItem.ItemSubGroupName;
                 ds.Tables["Items"].Rows.Add(dri);
             }
 

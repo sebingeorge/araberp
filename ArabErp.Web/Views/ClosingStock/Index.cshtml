@@ -29,9 +29,10 @@
         var stkid = $("#cboStockpoint").val();
         var itmcatid = $("#itmCatId").val();
         var itmid = $("#ItemId").val().trim();
+        var PartNo = $("#filter-PartNo").val().trim();
         var Ason = $("#txtAsOn").val();
         var url = '@Url.Action("ClosingStockRegister")';
-        url += "?Ason=" + Ason + "&stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + encodeURIComponent(itmid);
+        url += "?Ason=" + Ason + "&stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + encodeURIComponent(itmid) + "&PartNo=" + encodeURIComponent(PartNo);
         $("#Closing_stock").load(url, function () {
             $("#Closing_stock").removeClass("fade");
         });
@@ -47,9 +48,10 @@
         var ItmCatid = $("#itmCatId").val();
         var ItmCatname = $("#itmCatId option:selected").text();
         var Itmid = $("#ItemId").val().trim();
+        var PartNo = $("#filter-PartNo").val().trim();
         //var Itmname = $("#ItemId option:selected").text();
         var url = '@Url.Action("Print")';
-        url += "?date="+date+"&Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) +"&Itmid=" + Itmid;
+        url += "?date=" + date + "&Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmid=" + Itmid + "&PartNo=" + encodeURIComponent(PartNo);
         window.location = url;
     }
 </script>
@@ -87,7 +89,10 @@
                 <label for="ItemId">Material/Spares</label>
                 <input id="ItemId" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
             </div>
-
+            <div class="col-md-3">
+                <label for="filter-PartNo">Part No.</label>
+                <input id="filter-PartNo" class="form_input" placeholder="Search for Part No." onkeyup="Filter()" onchange="Filter()" />
+            </div>
         </div>
         <br />
         <div class="row">

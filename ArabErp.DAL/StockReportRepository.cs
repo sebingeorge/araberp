@@ -53,7 +53,7 @@ namespace ArabErp.DAL
                 return connection.Query<StockSummaryDrillDown>(sql);
             }
         }
-        public IEnumerable<StockReportSummary> GetStockReportDTPrint(string ItemId)
+        public IEnumerable<StockReportSummary> GetStockReportDTPrint(string ItemId,string partno="")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -70,12 +70,13 @@ namespace ArabErp.DAL
                 sql += " left join StockOut SO on I.ItemId = SO.ItemId";
                 sql += " where (SI.InQuantity is not null or SO.OutQuantity is not null)";
                 sql += " and ItemName LIKE '%'+@itmid+'%' ";
-                var objItemId = connection.Query<StockReportSummary>(sql, new { itmid = ItemId }).ToList<StockReportSummary>();
+                 sql += " AND I.PartNo LIKE '%'+@partno+'%' ";
+                var objItemId = connection.Query<StockReportSummary>(sql, new { itmid = ItemId,partno=partno }).ToList<StockReportSummary>();
 
                 return objItemId;
             }
         }
-        public List<StockReportSummary> GetStockData(string ItemId)
+        public List<StockReportSummary> GetStockData(string ItemId,string partno)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -91,9 +92,10 @@ namespace ArabErp.DAL
                 sql += " left join StockIn SI on I.ItemId = SI.ItemId";
                 sql += " left join StockOut SO on I.ItemId = SO.ItemId";
                 sql += " where SI.InQuantity is not null and SO.OutQuantity is not null and ";
-                sql += " ItemName LIKE '%'+@itmid+'%' ";
+                sql += " ItemName LIKE '%'+@itmid+'%'";
+                 sql += AND I.PartNo LIKE '%'+@partno+'%' ";
 
-                var objItemId = connection.Query<StockReportSummary>(sql, new { itmid = ItemId }).ToList<StockReportSummary>();
+                var objItemId = connection.Query<StockReportSummary>(sql, new { itmid = ItemId,partno=partno}).ToList<StockReportSummary>();
 
                 return objItemId;
             }

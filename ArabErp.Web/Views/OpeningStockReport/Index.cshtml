@@ -48,13 +48,14 @@
         var ItmCatname = $("#itmCatId option:selected").text();
         var Itmid = $("#filter-Material").val();
         var PartNo = $("#filter-PartNo").val().trim();
+        debugger
         var ItmGroup = $("#cboGroup").val();
         var ItmGroupname = $("#cboGroup option:selected").text();
         var ItmSubGroup = $("#cboSubGroup").val();
         var ItmSubGroupname = $("#cboSubGroup option:selected").text();
         //var Itmname = $("#ItemId option:selected").text();
         var url = '@Url.Action("Print")';
-        url += "?Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmid=" + encodeURIComponent(Itmid) + "&PartNo=" + encodeURIComponent(PartNo) + +"&ItmGroup=" + ItmGroup + "&ItmGroupname=" + (ItmGroupname == '' ? 0 : ItmGroupname) + "&ItmSubGroup=" + ItmSubGroup + "&ItmSubGroupname=" + (ItmSubGroupname == '' ? 0 : ItmSubGroupname);
+        url += "?Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmid=" + encodeURIComponent(Itmid) + "&PartNo=" + encodeURIComponent(PartNo)  +"&ItmGroup=" + ItmGroup + "&ItmGroupname=" + (ItmGroupname == '' ? 0 : ItmGroupname) + "&ItmSubGroup=" + ItmSubGroup + "&ItmSubGroupname=" + (ItmSubGroupname == '' ? 0 : ItmSubGroupname);
         window.location = url;
     }
 </script>

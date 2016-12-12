@@ -9,7 +9,7 @@
 
         $("#stock-grid").addClass("fade");
         var itmid = $("#filter-Material").val().trim();
-        //var Ason = $("#txtAsOn").val();
+        var PartNo = $("#filter-PartNo").val().trim();
         var url = '@Url.Action("Stockreport")';
         url += "?itmid=" + encodeURIComponent(itmid); 
         $("#stock-grid").load(url, function () {
@@ -24,6 +24,7 @@
 
     function GoToPrint() {
         var itmid = $("#filter-Material").val().trim();
+        var PartNo = $("#filter-PartNo").val().trim();
         var url = '@Url.Action("Print")';
         url += "?itmid=" + encodeURIComponent(itmid);
         window.open(url);
@@ -45,6 +46,10 @@
                 <div class="col-md-3">
                     <label for="filter-Material">Material/Spares</label>
                     <input id="filter-Material" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
+                </div>
+                <div class="col-md-3">
+                    <label for="filter-PartNo">Part No.</label>
+                    <input id="filter-PartNo" class="form_input" placeholder="Search for Part No." onkeyup="Filter()" onchange="Filter()" />
                 </div>
             </div>
         </div>
