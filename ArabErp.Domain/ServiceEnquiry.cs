@@ -42,6 +42,7 @@ namespace ArabErp.Domain
         public string Complaints { get; set; }
         public string RegNo { get; set; }
         //public int OrganizationId { get; set; }
+        public bool IsUsed { get; set; }
         public int IsConfirmed { get; set; }
         //public int CreatedBy { get; set; }
         //public DateTime CreatedDate { get; set; }

@@ -54,16 +54,16 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>AARC/SI/1</SalesInvoiceRefNo>
+    <SalesInvoiceRefNo>AARC/SI/2</SalesInvoiceRefNo>
     <SalesInvoiceDate>09-Dec-2016</SalesInvoiceDate>
-    <VehicleOutPassNo>DC/8</VehicleOutPassNo>
-    <CustomerName>Al Jassim Group</CustomerName>
-    <Address>Doha - Qatar,,</Address>
+    <VehicleOutPassNo>DC/1</VehicleOutPassNo>
+    <CustomerName>Ali Bin Ali:Ali Bin Ali- IA</CustomerName>
+    <Address>Doha ,Qatar,,0</Address>
     <CustomerOrderRef xml:space="preserve"> </CustomerOrderRef>
-    <RegistrationNo>276717</RegistrationNo>
-    <JobCardNo>AARC/JC-S/11</JobCardNo>
-    <TotalAmount>2200.00</TotalAmount>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <RegistrationNo>291973</RegistrationNo>
+    <JobCardNo>AARC/JC/2</JobCardNo>
+    <TotalAmount>5000.00</TotalAmount>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
@@ -76,14 +76,14 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <CreateUser>ihits</CreateUser>
-    <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\7aedc637-81cd-41fc-94a4-570257a0355f.jpg</CreateSig>
-    <ApproveSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</ApproveSig>
+    <CreateSig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\7aedc637-81cd-41fc-94a4-570257a0355f.jpg</CreateSig>
+    <ApproveSig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\</ApproveSig>
   </Head>
   <Items>
     <Quantity>1</Quantity>
     <WorkDescription>General Checkup &amp; Repair</WorkDescription>
     <WorkDescriptionRefNo>WD/5</WorkDescriptionRefNo>
-    <Rate>2300.00</Rate>
-    <Amount>2200.00</Amount>
+    <Rate>5000.00</Rate>
+    <Amount>5000.00</Amount>
   </Items>
 </NewDataSet>

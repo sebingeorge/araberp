@@ -924,7 +924,9 @@ namespace ArabErp.DAL
             {
                 try
                 {
-                    string query = @"SELECT * FROM ServiceEnquiry SE WHERE ServiceEnquiryId = @id AND OrganizationId = @org";
+                    string query = @"SELECT SE.*,ISNULL(SO.ServiceEnquiryId,0)IsUsed  from ServiceEnquiry SE 
+                                     Left join SaleOrder SO ON SO.ServiceEnquiryId=SE.ServiceEnquiryId
+                                     WHERE SE.ServiceEnquiryId = @id AND SE.OrganizationId = @org ";
                     return connection.Query<ServiceEnquiry>(query, new { id = id, org = OrganizationId }).FirstOrDefault();
                 }
                 catch (InvalidOperationException)
@@ -974,6 +976,30 @@ namespace ArabErp.DAL
                                 WHERE SE.OrganizationId= @OrganizationId order by ServiceEnquiryDate desc";
                 return connection.Query<ServiceEnquiry>(query, new { OrganizationId = OrganizationId }).ToList();
             }
+        }
+
+
+        public int UpdateServiceEnquiry(ServiceEnquiry objServiceEnquiry)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+
+                string sql = @"UPDATE
+                                ServiceEnquiry SET 
+                                CustomerId=@CustomerId,VehicleMake=@VehicleMake,VehicleRegNo=@VehicleRegNo,VehicleChassisNo=@VehicleChassisNo,
+                                VehicleKm=@VehicleKm,BoxMake=@BoxMake,BoxNo=@BoxNo,BoxSize=@BoxSize,FreezerMake=@FreezerMake,FreezerModel=@FreezerModel,
+                                FreezerSerialNo=@FreezerSerialNo,FreezerHours=@FreezerHours,TailLiftMake=@TailLiftMake,TailLiftModel=@TailLiftModel,
+                                TailLiftSerialNo=@TailLiftSerialNo,IsConfirmed=@IsConfirmed,ServiceEnquiryDate=@ServiceEnquiryDate,Complaints@Complaints, 
+                                CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId
+                                WHERE DeliveryChallanId = @DeliveryChallanId;";
+                var id = connection.Execute(sql, objServiceEnquiry, txn);
+
+                InsertLoginHistory(dataConnection, objServiceEnquiry.CreatedBy, "Update", "Service Enquiry", id.ToString(), "0");
+                return id;
+
+            }
+
         }
     }
 }
