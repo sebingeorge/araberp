@@ -1201,6 +1201,9 @@ namespace ArabErp.Web.Controllers
             ServiceEnquiry model = new SaleOrderRepository().GetServiceEnquiryDetails(id, OrganizationId);
             model.IsConfirmed = 0;
             return View("ServiceEnquiry", model);
+
+
+
         }
     }
 }

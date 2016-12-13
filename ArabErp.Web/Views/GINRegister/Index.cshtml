@@ -9,8 +9,9 @@
 
         $("#gin_reg").addClass("fade");
         var itmid = $("#filter-Material").val().trim();
+        var PartNo = $("#filter-PartNo").val().trim();
         var url = '@Url.Action("GINRegisterReport")';
-        url += "?itmid=" + encodeURIComponent(itmid);
+        url += "?itmid=" + encodeURIComponent(itmid) + "&PartNo=" + encodeURIComponent(PartNo);
         $("#gin_reg").load(url, function () {
             $("#gin_reg").removeClass("fade");
         });
@@ -23,9 +24,10 @@
     function GoToPrint() {
        
         var Itmid = $("#filter-Material").val().trim();
+        var PartNo = $("#filter-PartNo").val().trim();
         //var Itmname = $("#cboItem option:selected").text();
         var url = '@Url.Action("Print")';
-        url += "?&Itmid=" + encodeURIComponent(Itmid);
+        url += "?&Itmid=" + encodeURIComponent(Itmid) + "&PartNo=" + encodeURIComponent(PartNo);
         window.location = url;
 
     }
@@ -43,6 +45,10 @@
             <div class="col-md-3">
                 <label for="filter-Material">Material/Spares</label>
                 <input id="filter-Material" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
+            </div>
+            <div class="col-md-3">
+                <label for="filter-PartNo">Part No.</label>
+                <input id="filter-PartNo" class="form_input" placeholder="Search for Part No." onkeyup="Filter()" onchange="Filter()" />
             </div>
         </div>
         <br />

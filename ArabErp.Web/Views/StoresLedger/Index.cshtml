@@ -36,11 +36,12 @@
         var stkid = $("#cboStockpoint").val();
         var itmcatid = $("#itmCatId").val();
         var itmid = $("#filter-Material").val().trim();
+        var PartNo = $("#filter-PartNo").val().trim();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
         var url = '@Url.Action("StoresLedger")';
       
-        url += "?from=" + from + "&to=" + to + "&stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + encodeURIComponent(itmid);
+        url += "?from=" + from + "&to=" + to + "&stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + encodeURIComponent(itmid) + "&PartNo=" + encodeURIComponent(PartNo);
         $("#Stores_Ledger").load(url, function () {
             $("#Stores_Ledger").removeClass("fade");
         });
@@ -62,8 +63,9 @@
         var ItmCatname = $("#itmCatId option:selected").text();
         var Itmid = $("#filter-Material").val();
         var Itmname = $("#ItemId option:selected").text();
+        var PartNo = $("#filter-PartNo").val().trim();
         var url = '@Url.Action("Print")';
-        url += "?from=" + from + "&to=" + to + "&Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmname=" + (Itmname == '' ? 0 : Itmname) + "&Itmid=" + encodeURIComponent(Itmid);
+        url += "?from=" + from + "&to=" + to + "&Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmname=" + (Itmname == '' ? 0 : Itmname) + "&Itmid=" + encodeURIComponent(Itmid) + "&PartNo=" + encodeURIComponent(PartNo);;
         window.location = url;
     }
 </script>
@@ -91,6 +93,10 @@
                 <label for="cboItemCat">Item Category</label>
                 @Html.DropDownListFor(m => Model.itmCatId, (SelectList)ViewBag.ItemCatList, "Select Item Category", new { @class = "form_input", @onchange = "FillItem()" })
                 @Html.HiddenFor(m => Model.itmCatId)
+            </div>
+            <div class="col-md-3">
+                <label for="filter-PartNo">Part No.</label>
+                <input id="filter-PartNo" class="form_input" placeholder="Search for Part No." onkeyup="Filter()" onchange="Filter()" />
             </div>
             @*<div class="col-md-3">
                 <label for="cboItem">Material/Spares</label>

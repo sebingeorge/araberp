@@ -58,6 +58,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("IN");
             ds.Tables["Items"].Columns.Add("OUT");
             ds.Tables["Items"].Columns.Add("Balance");
+            ds.Tables["Items"].Columns.Add("PartNum");
 
 
             OrganizationRepository repo = new OrganizationRepository();
@@ -68,7 +69,7 @@ namespace ArabErp.Web.Controllers
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             dr["Item"] = itmid;
-            dr["PartNo"] = itmid;
+            dr["PartNo"] = PartNo;
             ds.Tables["Head"].Rows.Add(dr);
 
 
@@ -84,6 +85,7 @@ namespace ArabErp.Web.Controllers
                     InQuantity = item.InQuantity,
                     OutQuantity = item.OutQuantity,
                     Balance = item.Balance,
+                    PartNo = item.PartNo,
 
                 };
 
@@ -92,6 +94,7 @@ namespace ArabErp.Web.Controllers
                 dri["IN"] = SupplyOrderRegItem.InQuantity;
                 dri["OUT"] = SupplyOrderRegItem.OutQuantity;
                 dri["Balance"] = SupplyOrderRegItem.Balance;
+                dri["PartNum"] = SupplyOrderRegItem.PartNo;
                 ds.Tables["Items"].Rows.Add(dri);
             }
 

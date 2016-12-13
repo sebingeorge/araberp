@@ -387,22 +387,22 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<GINRegister> GetGINRegisterData(string id, int OrganizationId)
+        public IEnumerable<GINRegister> GetGINRegisterData(string id, int OrganizationId,string partno)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string qry = @" select I.ItemRefNo,I.ItemName,I.PartNo,W.WorkShopRequestRefNo,WI.Quantity,SUM(ISNULL(SI.IssuedQuantity,0))ISSQTY,WI.Quantity-SUM(ISNULL(SI.IssuedQuantity,0))BALQTY,U.UnitName,
+                string qry = @" select I.ItemRefNo,I.ItemName,ISNULL(PartNo,'-')PartNo,W.WorkShopRequestRefNo,WI.Quantity,SUM(ISNULL(SI.IssuedQuantity,0))ISSQTY,WI.Quantity-SUM(ISNULL(SI.IssuedQuantity,0))BALQTY,U.UnitName,
                                 (select sum(Quantity) from StockUpdate S where S.ItemId=I.ItemId)STOCK
                                 from WorkShopRequest W
 		                        INNER JOIN WorkShopRequestItem WI  ON W.WorkShopRequestId=WI.WorkShopRequestId
 		                        INNER JOIN Item I ON I.ItemId=WI.ItemId
 		                        INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
 		                        LEFT JOIN StoreIssueItem SI ON SI.WorkShopRequestItemId=WI.WorkShopRequestItemId
-                                WHERE I.ItemName LIKE '%'+@id+'%' and W.OrganizationId=@OrganizationId	
+                                WHERE I.ItemName LIKE '%'+@id+'%' and I.PartNo LIKE '%'+@partno+'%'  AND  W.OrganizationId=@OrganizationId	
 		                        group by I.ItemRefNo,I.ItemName,I.PartNo,WI.Quantity,U.UnitName,W.WorkShopRequestRefNo,I.ItemId";
 
-                return connection.Query<GINRegister>(qry, new { OrganizationId = OrganizationId, id = id}).ToList();
+                return connection.Query<GINRegister>(qry, new { OrganizationId = OrganizationId, id = id,partno=partno}).ToList();
             }
         }
 
@@ -782,12 +782,12 @@ namespace ArabErp.DAL
                 return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, id = id, FYStartdate = FYStartdate, FYEnddate = FYEnddate }).ToList();
             }
         }
-        public IEnumerable<GINRegister> GetGINRegisterDataDetailsPrint(string id, int OrganizationId)
+        public IEnumerable<GINRegister> GetGINRegisterDataDetailsPrint(string id, int OrganizationId,string partno)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string qry = @" select I.ItemRefNo,I.ItemName,I.PartNo,W.WorkShopRequestRefNo,WI.Quantity,SUM(ISNULL(SI.IssuedQuantity,0))ISSQTY,WI.Quantity-SUM(ISNULL(SI.IssuedQuantity,0))BALQTY,U.UnitName,
+                string qry = @" select I.ItemRefNo,I.ItemName,ISNULL(PartNo,'-')PartNo,W.WorkShopRequestRefNo,WI.Quantity,SUM(ISNULL(SI.IssuedQuantity,0))ISSQTY,WI.Quantity-SUM(ISNULL(SI.IssuedQuantity,0))BALQTY,U.UnitName,
                                 (select sum(Quantity) from StockUpdate S where S.ItemId=I.ItemId)STOCK
                                 from WorkShopRequest W
 		                        INNER JOIN WorkShopRequestItem WI  ON W.WorkShopRequestId=WI.WorkShopRequestId
@@ -795,9 +795,10 @@ namespace ArabErp.DAL
 		                        INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
 		                        LEFT JOIN StoreIssueItem SI ON SI.WorkShopRequestItemId=WI.WorkShopRequestItemId
                                 WHERE I.ItemName LIKE '%'+@id+'%' and W.OrganizationId=@OrganizationId	
+                                AND I.PartNo LIKE '%'+@partno+'%'
 		                        group by I.ItemRefNo,I.ItemName,I.PartNo,WI.Quantity,U.UnitName,W.WorkShopRequestRefNo,I.ItemId";
 
-                return connection.Query<GINRegister>(qry, new { OrganizationId = OrganizationId, id = id }).ToList();
+                return connection.Query<GINRegister>(qry, new { OrganizationId = OrganizationId, id = id ,partno=partno}).ToList();
             }
         }
     }
