@@ -64,7 +64,7 @@ namespace ArabErp.DAL
                 sql += " StockOut as (";
                 sql += " select ItemId, 0- SUM(Quantity) OutQuantity from StockUpdate where StockInOut = 'OUT'";
                 sql += " group by ItemId)";
-                sql += " select I.ItemId, I.ItemName, SI.InQuantity, SO.OutQuantity, Balance = ISNULL(SI.InQuantity,0) - ISNULL(SO.OutQuantity,0)";
+                sql += " select I.ItemId, I.ItemName,ISNULL(PartNo,'-')PartNo, SI.InQuantity, SO.OutQuantity, Balance = ISNULL(SI.InQuantity,0) - ISNULL(SO.OutQuantity,0)";
                 sql += " from Item I";
                 sql += " left join StockIn SI on I.ItemId = SI.ItemId";
                 sql += " left join StockOut SO on I.ItemId = SO.ItemId";
@@ -87,7 +87,7 @@ namespace ArabErp.DAL
                 sql += " StockOut as (";
                 sql += " select ItemId, 0- SUM(Quantity) OutQuantity from StockUpdate where StockInOut = 'OUT'";
                 sql += " group by ItemId)";
-                sql += " select I.ItemId, I.ItemName, SI.InQuantity, SO.OutQuantity, Balance = ISNULL(SI.InQuantity,0) - ISNULL(SO.OutQuantity,0)";
+                sql += " select I.ItemId, I.ItemName,ISNULL(PartNo,'-')PartNo, SI.InQuantity, SO.OutQuantity, Balance = ISNULL(SI.InQuantity,0) - ISNULL(SO.OutQuantity,0)";
                 sql += " from Item I";
                 sql += " left join StockIn SI on I.ItemId = SI.ItemId";
                 sql += " left join StockOut SO on I.ItemId = SO.ItemId";

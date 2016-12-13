@@ -13,6 +13,7 @@ namespace ArabErp.Domain
         public decimal InQuantity { get; set; }
         public decimal OutQuantity { get; set; }
         public decimal Balance { get; set; }
+        public string PartNo { get; set; }
     }
     public class StockSummaryDrillDown
     {

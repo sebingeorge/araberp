@@ -11,6 +11,7 @@
             <tr class="grid_heading">
                 <th width="10%"><h1>Entry Date</h1></th>
                 <th width="15%"><h1>Transaction.No.</h1></th>
+                <th width="8%"><h1>Part No.</h1></th>
                 <th width="55%"><h1>Transaction Type</h1></th>
                 <th class="text-right" width="10%"><h1>Qty.In</h1></th>
                 <th class="text-right" width="10%"><h1>Qty.Out</h1></th>
@@ -23,6 +24,7 @@
                 <tr>
                     <td class="grid-cell">@item.stocktrnDate.ToString("dd/MMM/yyyy")</td>
                     <td class="grid-cell">@item.StockUserId</td>
+                    <td class="grid-cell">@item.PartNo</td>
                     <td class="grid-cell">@item.StockType</td>
                     <td class="grid-cell text-right">@item.INQTY</td>
                     <td class="grid-cell text-right">@item.OUTQTY</td>
@@ -32,6 +34,7 @@
 
         <tfoot>
             <tr class="grid_heading">
+                <th width="10%"><h1></h1></th>
                 <th width="10%"><h1></h1></th>
                 <th width="10%"><h1></h1></th>
                 <th class="text-right" width="60%"><h1>Total</h1></th>

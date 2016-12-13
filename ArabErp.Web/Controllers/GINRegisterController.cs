@@ -26,12 +26,12 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.ItmList = new SelectList(new DropdownRepository().WRItemDropdown(OrganizationId), "Id", "Name");
         }
-        public ActionResult GINRegisterReport( string itmid="")
+        public ActionResult GINRegisterReport( string itmid="",string PartNo="")
         {
-           
-            return PartialView("_GINRegister", new SalesRegisterRepository().GetGINRegisterData( itmid, OrganizationId));
+
+            return PartialView("_GINRegister", new SalesRegisterRepository().GetGINRegisterData(itmid, OrganizationId, PartNo));
         }
-        public ActionResult Print(string Itmid ="")
+        public ActionResult Print(string Itmid ="" ,string PartNo="")
         {
 
             ReportDocument rd = new ReportDocument();
@@ -46,6 +46,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Item");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("PartNo");
 
             //-------DT
 
@@ -68,12 +69,13 @@ namespace ArabErp.Web.Controllers
             dr["Item"] = Itmid;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            dr["PartNo"] = PartNo;
             ds.Tables["Head"].Rows.Add(dr);
 
 
             SalesRegisterRepository repo1 = new SalesRegisterRepository();
             //var Items = repo1.GetSOVarianceDataDTPrint(from, to, itmid, itmName, SupId, SupName);
-            var Items = repo1.GetGINRegisterDataDetailsPrint(id:Itmid, OrganizationId:OrganizationId);
+            var Items = repo1.GetGINRegisterDataDetailsPrint(id: Itmid, OrganizationId: OrganizationId, partno: PartNo);
 
             foreach (var item in Items)
             {

@@ -3,6 +3,7 @@
 <table class="table table-bordered">
     <tr class="grid_heading">
         <td><h1>Item</h1></td>
+        <td><h1>Part No.</h1></td>
         <td style="width:10%;"><h1>IN</td>
         <td style="width:10%;"><h1>OUT</td>
         <td style="width:10%;"><h1>Balance</h1></td>
@@ -17,6 +18,7 @@
                 <td class="grid-cell">
                     <a style="cursor:pointer;" onclick="OpenDetail(@item.ItemId)">@item.ItemName</a>
                 </td>
+                <td class="grid-cell">@item.PartNo</td>
                 <td class="grid-cell">@item.InQuantity</td>
                 <td class="grid-cell">@item.OutQuantity</td>
                 <td class="grid-cell">@item.Balance</td>

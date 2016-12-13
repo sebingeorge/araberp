@@ -53,11 +53,11 @@ namespace ArabErp.Web.Controllers
             var result = repo.ItemCategoryDropdown();
             ViewBag.ItemCatList = new SelectList(result, "Id", "Name");
         }
-        public ActionResult StoresLedger(DateTime? from, DateTime? to, int stkid = 0, int itmcatid = 0, string itmid = "")
+        public ActionResult StoresLedger(DateTime? from, DateTime? to, int stkid = 0, int itmcatid = 0, string itmid = "", string PartNo = "")
         {
             from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
-            return PartialView("_StoresLedger", new StoresLedgerRepository().GetStoresLedgerData(from, to, stkid, itmcatid, itmid, OrganizationId));
+            return PartialView("_StoresLedger", new StoresLedgerRepository().GetStoresLedgerData(from, to, stkid, itmcatid, itmid, OrganizationId, PartNo));
         }
         public ActionResult Item(int Code)
         {
@@ -66,7 +66,7 @@ namespace ArabErp.Web.Controllers
         }
 
 
-        public ActionResult Print(DateTime? from,DateTime?to, string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", string Itmname = "", string Itmid ="")
+        public ActionResult Print(DateTime? from,DateTime?to, string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", string Itmname = "", string Itmid ="",string PartNo="")
         {
 
             ReportDocument rd = new ReportDocument();
@@ -84,6 +84,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Item");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("PartNo");
 
             //-------DT
 
@@ -92,6 +93,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("TransType");
             ds.Tables["Items"].Columns.Add("QtyIn");
             ds.Tables["Items"].Columns.Add("Qtyout");
+            ds.Tables["Items"].Columns.Add("PartNum");
 
 
             OrganizationRepository repo = new OrganizationRepository();
@@ -103,6 +105,7 @@ namespace ArabErp.Web.Controllers
             dr["Stkpoint"] = Spname;
             dr["ItemCat"] = ItmCatname;
             dr["Item"] = Itmid;
+            dr["PartNo"] = PartNo;
             
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
@@ -111,7 +114,7 @@ namespace ArabErp.Web.Controllers
 
             StoresLedgerRepository repo1 = new StoresLedgerRepository();
             //var Items = repo1.GetSOVarianceDataDTPrint(from, to, itmid, itmName, SupId, SupName);
-            var Items = repo1.GetStoresLedgerDataDTPrint(from,to, Spid,ItmCatid,Itmid, OrganizationId);
+            var Items = repo1.GetStoresLedgerDataDTPrint(from,to, Spid,ItmCatid,Itmid, OrganizationId,PartNo);
 
             foreach (var item in Items)
             {
@@ -122,6 +125,7 @@ namespace ArabErp.Web.Controllers
                     StockType = item.StockType,
                     INQTY = item.INQTY,
                     OUTQTY = item.OUTQTY,
+                    PartNo = item.PartNo,
                 
 
                 };
@@ -132,7 +136,7 @@ namespace ArabErp.Web.Controllers
                 dri["TransType"] = SupplyOrderRegItem.StockType;
                 dri["QtyIn"] = SupplyOrderRegItem.INQTY;
                 dri["Qtyout"] = SupplyOrderRegItem.OUTQTY;
-                //dri["totalInQty"] = SupplyOrderRegItem.;
+                dri["PartNum"] = SupplyOrderRegItem.PartNo;
                 //dri["totalOutQty"] = SupplyOrderRegItem.UnitName;
                 ds.Tables["Items"].Rows.Add(dri);
             }
