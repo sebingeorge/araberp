@@ -313,7 +313,7 @@ namespace ArabErp.DAL
                             select Distinct 
                             C.CustomerName Customer,
                             SO.SaleOrderId SaleOrderId,
-                            S.SymbolName CurrencySymbol,
+                            CU.CurrencyName CurrencySymbol,
                             Convert(varchar(15),Getdate(),106) CurrentDate,
                             isnull((getdate()+CreditPeriod),getdate())SalesInvoiceDueDate,
                             SO.SaleOrderRefNo SaleOrderRefNo ,

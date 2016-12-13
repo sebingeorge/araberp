@@ -924,7 +924,7 @@ namespace ArabErp.DAL
             {
                 try
                 {
-                    string query = @"SELECT SE.*,ISNULL(SO.ServiceEnquiryId,0)IsUsed  from ServiceEnquiry SE 
+                    string query = @"SELECT SE.*,ISNULL(SO.ServiceEnquiryId,0)IsSEUsed  from ServiceEnquiry SE 
                                      Left join SaleOrder SO ON SO.ServiceEnquiryId=SE.ServiceEnquiryId
                                      WHERE SE.ServiceEnquiryId = @id AND SE.OrganizationId = @org ";
                     return connection.Query<ServiceEnquiry>(query, new { id = id, org = OrganizationId }).FirstOrDefault();
@@ -990,12 +990,13 @@ namespace ArabErp.DAL
                                 CustomerId=@CustomerId,VehicleMake=@VehicleMake,VehicleRegNo=@VehicleRegNo,VehicleChassisNo=@VehicleChassisNo,
                                 VehicleKm=@VehicleKm,BoxMake=@BoxMake,BoxNo=@BoxNo,BoxSize=@BoxSize,FreezerMake=@FreezerMake,FreezerModel=@FreezerModel,
                                 FreezerSerialNo=@FreezerSerialNo,FreezerHours=@FreezerHours,TailLiftMake=@TailLiftMake,TailLiftModel=@TailLiftModel,
-                                TailLiftSerialNo=@TailLiftSerialNo,IsConfirmed=@IsConfirmed,ServiceEnquiryDate=@ServiceEnquiryDate,Complaints@Complaints, 
+                                TailLiftSerialNo=@TailLiftSerialNo,IsConfirmed=@IsConfirmed,ServiceEnquiryDate=@ServiceEnquiryDate,Complaints=@Complaints, 
                                 CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId
-                                WHERE DeliveryChallanId = @DeliveryChallanId;";
+                                WHERE ServiceEnquiryId = @ServiceEnquiryId;";
                 var id = connection.Execute(sql, objServiceEnquiry, txn);
 
                 InsertLoginHistory(dataConnection, objServiceEnquiry.CreatedBy, "Update", "Service Enquiry", id.ToString(), "0");
+                txn.Commit();
                 return id;
 
             }

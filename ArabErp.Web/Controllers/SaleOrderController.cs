@@ -1192,7 +1192,7 @@ namespace ArabErp.Web.Controllers
         {
             return View(new SaleOrderRepository().GetPendingServiceEnquiryList(OrganizationId));
         }
-
+        [HttpGet]
         public ActionResult EditEnquiry(int id)//ServiceEnquiryId is received here
         {
              try
@@ -1236,7 +1236,7 @@ namespace ArabErp.Web.Controllers
         
         }
  
- [HttpPost]
+        [HttpPost]
         public ActionResult EditEnquiry(ServiceEnquiry model)
         {
             try
