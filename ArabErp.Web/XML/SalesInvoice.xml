@@ -55,15 +55,15 @@
   </xs:schema>
   <Head>
     <SalesInvoiceRefNo>AARC/SI/1</SalesInvoiceRefNo>
-    <SalesInvoiceDate>09-Dec-2016</SalesInvoiceDate>
+    <SalesInvoiceDate>13-Dec-2016</SalesInvoiceDate>
     <VehicleOutPassNo>DC/8</VehicleOutPassNo>
     <CustomerName>Al Jassim Group</CustomerName>
     <Address>Doha - Qatar,,</Address>
     <CustomerOrderRef xml:space="preserve"> </CustomerOrderRef>
     <RegistrationNo>276717</RegistrationNo>
     <JobCardNo>AARC/JC-S/11</JobCardNo>
-    <TotalAmount>2200.00</TotalAmount>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <TotalAmount>12001.00</TotalAmount>
+    <Image1>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
@@ -76,14 +76,14 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <CreateUser>ihits</CreateUser>
-    <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\7aedc637-81cd-41fc-94a4-570257a0355f.jpg</CreateSig>
-    <ApproveSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</ApproveSig>
+    <CreateSig>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\</CreateSig>
+    <ApproveSig>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\</ApproveSig>
   </Head>
   <Items>
     <Quantity>1</Quantity>
     <WorkDescription>General Checkup &amp; Repair</WorkDescription>
     <WorkDescriptionRefNo>WD/5</WorkDescriptionRefNo>
-    <Rate>2300.00</Rate>
-    <Amount>2200.00</Amount>
+    <Rate>12345.00</Rate>
+    <Amount>12001.00</Amount>
   </Items>
 </NewDataSet>

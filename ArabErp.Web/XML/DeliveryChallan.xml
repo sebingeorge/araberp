@@ -67,24 +67,23 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DC/6</DeliveryChallanRefNo>
-    <DeliveryChallanDate>06-Dec-2016</DeliveryChallanDate>
-    <Customer>Amwaj Catering Services</Customer>
-    <CDoorNo>Doha ,Qatar</CDoorNo>
+    <DeliveryChallanRefNo>DV/16/1471</DeliveryChallanRefNo>
+    <DeliveryChallanDate>12-Dec-2016</DeliveryChallanDate>
+    <Customer>Delight International Movers</Customer>
+    <CDoorNo>Doha, Qatar</CDoorNo>
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SER/12</SaleRefNo>
-    <SONoDate>06 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC-S/9</JobcardNo>
-    <JCDate>30-Nov-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>225799</RegistrationNo>
+    <SaleRefNo>AARC/SER/26</SaleRefNo>
+    <SONoDate>12 Dec 2016</SONoDate>
+    <JobcardNo>AARC/JC-S/24</JobcardNo>
+    <JCDate>12-Dec-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>40369</RegistrationNo>
     <WorkDesc>General Checkup &amp; Repair</WorkDesc>
-    <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
+    <VehicleModel>Mitsubishi 4.1 Ton Double Cabin Truck</VehicleModel>
     <Employee>Mohammed Safiq</Employee>
-    <FreezerName>V 500</FreezerName>
-    <FreezerPartNo />
-    <BoxName>BAM</BoxName>
-    <BoxPartNo>BAM</BoxPartNo>
-    <FreezerId />
+    <QuotationRefNo>AARC/SER/982/12/16</QuotationRefNo>
+    <FreezerName>Z10</FreezerName>
+    <FreezerPartNo>290350</FreezerPartNo>
+    <FreezerId>290350</FreezerId>
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -94,17 +93,20 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <Image1>D:\ArabErpondec6\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <LPONo xml:space="preserve"> </LPONo>
-    <LPODate>07-Dec-2016</LPODate>
-    <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\7aedc637-81cd-41fc-94a4-570257a0355f.jpg</CreateSignature>
-    <ApprovedUsersig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\69717d3d-9095-4c87-8cdf-7dee7f77e696.png</ApprovedUsersig>
+    <LPODate>12-Dec-2016</LPODate>
+    <CreatedUser>safiq</CreatedUser>
+    <CreateSignature>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <ApprovedUsersig>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
   </Head>
   <Items>
-    <Description>Electrical Checking
-General Check-up</Description>
+    <Description>General Service of Tail Lift:
+Top-up Hydraulic Oil
+Tail Lift Greasing
+General Check-up &amp; Maintenance
+</Description>
     <UoM>ea</UoM>
     <Quantity>1</Quantity>
   </Items>
