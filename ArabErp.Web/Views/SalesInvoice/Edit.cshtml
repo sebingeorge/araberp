@@ -109,6 +109,34 @@
     });
 
     function Amountchanged() {
+        //var qty = 0;
+        //var rate = 0;
+        //var discount = 0;
+        //var amount = 0;
+        //var total = 0;
+        //var addition = 0;
+        //var deduction = 0;
+        //var TotalQty = 0;
+
+        //$('.Amount').each(function (i, obj) {
+        //    console.log(obj);
+        //    qty = qty + eval($("#SaleInvoiceItems_" + i + "__QuantityTxt").val());
+        //    rate = rate + eval($("#SaleInvoiceItems_" + i + "__Rate").val());
+        //    discount = discount + eval($("#SaleInvoiceItems_" + i + "__Discount").val());
+        //    //alert(qty);
+        //    TotalQty += qty;
+        //    amount = (qty * rate) - discount;
+        //    total = total + amount;
+        //    $("#SaleInvoiceItems_" + i + "__Amount").val(amount);
+        //});
+        //$("#gridTotal").text(total);
+        //addition = eval($("#Addition").val());
+        //deduction = eval($("#Deduction").val());
+
+        //var net = total + addition - deduction;
+        //$("#TotalAmount").val(total.toFixed(2));
+        //$("#lblTotalAmount").text(total.toFixed(2));
+        //$('#TotalQty').text(TotalQty);
         var qty = 0;
         var rate = 0;
         var discount = 0;
@@ -116,27 +144,30 @@
         var total = 0;
         var addition = 0;
         var deduction = 0;
-        var TotalQty = 0;
-
+        var net = 0;
         $('.Amount').each(function (i, obj) {
             console.log(obj);
-            qty = qty + eval($("#SaleInvoiceItems_" + i + "__QuantityTxt").val());
-            rate = rate + eval($("#SaleInvoiceItems_" + i + "__Rate").val());
-            discount = discount + eval($("#SaleInvoiceItems_" + i + "__Discount").val());
-            //alert(qty);
-            TotalQty += qty;
+            if (eval($("#SaleInvoiceItems_" + i + "__QuantityTxt").val() != 0 && eval($("#SaleInvoiceItems_" + i + "__QuantityTxt").val() != '')))
+                qty = qty + eval($("#SaleInvoiceItems_" + i + "__QuantityTxt").val());
+            if (eval($("#SaleInvoiceItems_" + i + "__Rate").val() != 0 && eval($("#SaleInvoiceItems_" + i + "__Rate").val() != '')))
+                rate = rate + eval($("#SaleInvoiceItems_" + i + "__Rate").val());
+            if (eval($("#SaleInvoiceItems_" + i + "__Discount").val() != 0 && eval($("#SaleInvoiceItems_" + i + "__Discount").val() != '')))
+                discount = discount + eval($("#SaleInvoiceItems_" + i + "__Discount").val());
+
             amount = (qty * rate) - discount;
             total = total + amount;
             $("#SaleInvoiceItems_" + i + "__Amount").val(amount);
+            $("#totalDiscount").text(discount);
         });
         $("#gridTotal").text(total);
-        addition = eval($("#Addition").val());
-        deduction = eval($("#Deduction").val());
+        if (eval($("#Addition").val() != 0 && eval($("#Addition").val() != '')))
+            addition = eval($("#Addition").val());
+        if (eval($("#Deduction").val() != 0 && eval($("#Deduction").val() != '')))
+            deduction = eval($("#Deduction").val());
 
-        var net = total + addition - deduction;
+        net = total + addition - deduction;
         $("#TotalAmount").val(total.toFixed(2));
-        $("#lblTotalAmount").text(total.toFixed(2));
-        $('#TotalQty').text(TotalQty);
+        $("#lblTotalAmount").text(net.toFixed(2));
     }
 
     function DateChanged(Date) {
@@ -274,14 +305,18 @@
                                 <td>
                                     @if (Model.InvoiceType == "Inter" || Model.InvoiceType == "Final")
                                     {
-                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @*@readonly = "readonly",*@ @onchange = "Amountchanged()" })
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @*@readonly = "readonly",*@ @onchange = "Amountchanged()",
+                                       @onkeyup = "Amountchanged()"
+                                   })
                                     }
                                     else
                                     {
                                         @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @readonly = "readonly" })
                                     }
                                 </td>
-                                <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Discount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Discount"@*, @readonly = "readonly"*@ })</td>
+                                <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Discount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Discount"@*, @readonly = "readonly"*@,
+                                   @onkeyup = "Amountchanged()"
+                               })</td>
                                 <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "readonly" })</td>
                             </tr>
                         }
