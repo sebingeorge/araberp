@@ -287,10 +287,12 @@ namespace ArabErp.DAL
 	                                JCTM.JobCardTaskName,
 	                                JCT.ActualHours,
 	                                JCTM.MinimumRate,
-	                                (ISNULL(JCTM.MinimumRate, 0) * ISNULL(JCT.ActualHours, 0)) Amount
+	                                (ISNULL(JCTM.MinimumRate, 0) * ISNULL(JCT.ActualHours, 0)) Amount,
+									EMP.EmployeeName
                                 FROM JobCard JC
                                 INNER JOIN JobCardTask JCT ON JC.JobCardId = JCT.JobCardId
                                 INNER JOIN JobCardTaskMaster JCTM ON JCT.JobCardTaskMasterId = JCTM.JobCardTaskMasterId
+								INNER JOIN Employee EMP ON JCT.EmployeeId = EMP.EmployeeId
                                 WHERE JC.JobCardId = @id";
                 return connection.Query<LabourCostForService>(sql, new { id = id }).ToList();
             }
@@ -307,14 +309,15 @@ namespace ArabErp.DAL
 	                                I.PartNo,
 	                                WRI.Quantity,
 	                                WRI.Remarks,
-                                    0.00 Rate,
-                                    0.00 Amount
+									ISNULL(SR.Rate, 0.00) Rate,
+                                    CAST(ISNULL(SR.Rate, 0.00) * WRI.Quantity AS DECIMAL(18,2)) Amount
                                 FROM JobCard JC
                                 LEFT JOIN WorkShopRequest WR ON JC.JobCardId = WR.JobCardId
                                 INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
                                 INNER JOIN StoreIssue SI ON WR.WorkShopRequestId = SI.WorkShopRequestId
                                 INNER JOIN StoreIssueItem SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
                                 INNER JOIN Item I ON WRI.ItemId = I.ItemId
+								LEFT JOIN StandardRate SR ON I.ItemId = SR.ItemId
                                 WHERE JC.JobCardId = @id";
                 return connection.Query<MaterialCostForService>(sql, new { id = id }).ToList();
             }
