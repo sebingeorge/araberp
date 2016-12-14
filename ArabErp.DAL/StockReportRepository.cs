@@ -70,7 +70,7 @@ namespace ArabErp.DAL
                 sql += " left join StockOut SO on I.ItemId = SO.ItemId";
                 sql += " where (SI.InQuantity is not null or SO.OutQuantity is not null)";
                 sql += " and ItemName LIKE '%'+@itmid+'%' ";
-                 sql += " AND I.PartNo LIKE '%'+@partno+'%' ";
+                sql += " and isnull(I.PartNo,'') like '%'+@partno+'%'";
                 var objItemId = connection.Query<StockReportSummary>(sql, new { itmid = ItemId,partno=partno }).ToList<StockReportSummary>();
 
                 return objItemId;
@@ -93,7 +93,7 @@ namespace ArabErp.DAL
                 sql += " left join StockOut SO on I.ItemId = SO.ItemId";
                 sql += " where SI.InQuantity is not null and SO.OutQuantity is not null and ";
                 sql += " ItemName LIKE '%'+@itmid+'%'";
-                 sql += "AND I.PartNo LIKE '%'+@partno+'%' ";
+                sql += "and isnull(I.PartNo,'') like '%'+@partno+'%'";
 
                 var objItemId = connection.Query<StockReportSummary>(sql, new { itmid = ItemId,partno=partno}).ToList<StockReportSummary>();
 

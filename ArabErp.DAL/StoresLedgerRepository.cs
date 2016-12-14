@@ -20,7 +20,7 @@ namespace ArabErp.DAL
                                FROM StockUpdate S  inner join Item I on I.ItemId=S.ItemId
                                WHERE stocktrnDate >= @from AND stocktrnDate <= @to AND S.StockPointId=ISNULL(NULLIF(@stkid,0),S.StockPointId)
                                AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) AND  I.ItemName LIKE '%'+@itmid+'%'
-                               AND I.PartNo LIKE '%'+@partno+'%'   
+                               and isnull(I.PartNo,'') like '%'+@partno+'%'
                                AND S.OrganizationId=@OrganizationId ;
                  
                 with A as (
@@ -50,7 +50,7 @@ namespace ArabErp.DAL
                                FROM StockUpdate S  inner join Item I on I.ItemId=S.ItemId
                                WHERE stocktrnDate >= @from AND stocktrnDate <= @to AND S.StockPointId=ISNULL(NULLIF(@stkid,0),S.StockPointId)
                                AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) AND  I.ItemName LIKE '%'+@itmid+'%'
-                               AND I.PartNo LIKE '%'+@partno+'%'   
+                               and isnull(I.PartNo,'') like '%'+@partno+'%'
                                AND S.OrganizationId=@OrganizationId ;
                  
                 with A as (

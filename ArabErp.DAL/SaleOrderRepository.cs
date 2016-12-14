@@ -1011,7 +1011,8 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    string query = @"DELETE FROM ServiceEnquiry OUTPUT deleted.ServiceEnquiryRefNo WHERE ServiceEnquiryId = @ServiceEnquiryId";
+                    string query = @"DELETE FROM SaleOrder WHERE ServiceEnquiryId = @ServiceEnquiryId;
+                                    DELETE FROM ServiceEnquiry OUTPUT deleted.ServiceEnquiryRefNo WHERE ServiceEnquiryId = @ServiceEnquiryId";
                     string output = connection.Query<string>(query, new { ServiceEnquiryId = ServiceEnquiryId }, txn).First();
                     txn.Commit();
                     return output;

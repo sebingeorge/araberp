@@ -99,11 +99,12 @@
         window.location = url;
     }
     function Delete(id) {
-        alert(id)
+       
         var url = '@Url.Action("DeleteEnquiry")';
         url += "?id=" + id;
         window.location = url;
     }
+
 </script>
 
 <div class="row">
@@ -334,7 +335,7 @@
                     @if (actionName == "EditEnquiry")
                     {
                         <input type="button" class="form-button right" onclick="PrintEnquiry()" value="Print">
-                        <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+             
                     }
                  
                 </div>

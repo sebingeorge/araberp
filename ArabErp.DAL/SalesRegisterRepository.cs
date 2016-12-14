@@ -399,7 +399,7 @@ namespace ArabErp.DAL
 		                        INNER JOIN Item I ON I.ItemId=WI.ItemId
 		                        INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
 		                        LEFT JOIN StoreIssueItem SI ON SI.WorkShopRequestItemId=WI.WorkShopRequestItemId
-                                WHERE I.ItemName LIKE '%'+@id+'%' and I.PartNo LIKE '%'+@partno+'%'  AND  W.OrganizationId=@OrganizationId	
+                                WHERE I.ItemName LIKE '%'+@id+'%' and isnull(I.PartNo,'') like '%'+@partno+'%' AND  W.OrganizationId=@OrganizationId	
 		                        group by I.ItemRefNo,I.ItemName,I.PartNo,WI.Quantity,U.UnitName,W.WorkShopRequestRefNo,I.ItemId";
 
                 return connection.Query<GINRegister>(qry, new { OrganizationId = OrganizationId, id = id,partno=partno}).ToList();
@@ -795,7 +795,7 @@ namespace ArabErp.DAL
 		                        INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
 		                        LEFT JOIN StoreIssueItem SI ON SI.WorkShopRequestItemId=WI.WorkShopRequestItemId
                                 WHERE I.ItemName LIKE '%'+@id+'%' and W.OrganizationId=@OrganizationId	
-                                AND I.PartNo LIKE '%'+@partno+'%'
+                                and isnull(I.PartNo,'') like '%'+@partno+'%'
 		                        group by I.ItemRefNo,I.ItemName,I.PartNo,WI.Quantity,U.UnitName,W.WorkShopRequestRefNo,I.ItemId";
 
                 return connection.Query<GINRegister>(qry, new { OrganizationId = OrganizationId, id = id ,partno=partno}).ToList();

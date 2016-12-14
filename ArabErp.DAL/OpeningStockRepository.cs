@@ -160,7 +160,7 @@ namespace ArabErp.DAL
                                 INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                 INNER JOIN ItemGroup  IG ON IG.ItemGroupId=I.ItemGroupId
 								INNER JOIN ItemSubGroup IGS ON IGS.ItemSubGroupId=I.ItemSubGroupId
-                                WHERE StockType='OpeningStock'AND  I.ItemName LIKE '%'+@itmid+'%'  AND I.PartNo LIKE '%'+@partno+'%'  AND 
+                                WHERE StockType='OpeningStock'AND  I.ItemName LIKE '%'+@itmid+'%'   and isnull(I.PartNo,'') like '%'+@partno+'%' AND 
                                 I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) and
                                 I.ItemGroupId=ISNULL(NULLIF(@itmGroup,0),I.ItemGroupId) and I.ItemSubGroupId=ISNULL(NULLIF(@itmSubgroup,0),I.ItemSubGroupId)
                                 and S.OrganizationId=@OrganizationId AND 
@@ -263,7 +263,7 @@ namespace ArabErp.DAL
                                 INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                 INNER JOIN ItemGroup  IG ON IG.ItemGroupId=I.ItemGroupId
 								INNER JOIN ItemSubGroup IGS ON IGS.ItemSubGroupId=I.ItemSubGroupId
-                                WHERE StockType='OpeningStock'AND  I.ItemName LIKE '%'+@itmid+'%'  AND I.PartNo LIKE '%'+@partno+'%'  AND 
+                                WHERE StockType='OpeningStock'AND  I.ItemName LIKE '%'+@itmid+'%'and isnull(I.PartNo,'') like '%'+@partno+'%' AND 
                                 I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) and
                                 I.ItemGroupId=ISNULL(NULLIF(@itmGroup,0),I.ItemGroupId) and I.ItemSubGroupId=ISNULL(NULLIF(@itmSubgroup,0),I.ItemSubGroupId)
                                 and S.OrganizationId=@OrganizationId AND 

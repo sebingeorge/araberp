@@ -61,7 +61,7 @@ namespace ArabErp.DAL
                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                WHERE  I.ItemName LIKE '%'+@itmid+'%' AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) 
                                AND SU.OrganizationId=@OrganizationId AND SU.StockPointId = ISNULL(NULLIF(@stkid, 0), SU.StockPointId)
-                               AND I.PartNo LIKE '%'+@partno+'%' 
+                               and isnull(I.PartNo,'') like '%'+@partno+'%'
                                GROUP BY ItemName,PartNo,UnitName"; 
                 return connection.Query<ClosingStock>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, OrganizationId = OrganizationId,partno=partno}).ToList();
             }
@@ -76,7 +76,7 @@ namespace ArabErp.DAL
                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                WHERE  I.ItemName LIKE '%'+@itmid+'%' AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) 
                                AND SU.OrganizationId=@OrganizationId AND SU.StockPointId = ISNULL(NULLIF(@stkid, 0), SU.StockPointId)
-                               AND I.PartNo LIKE '%'+@partno+'%' 
+                               and isnull(I.PartNo,'') like '%'+@partno+'%'
                                GROUP BY ItemName,PartNo,UnitName";
                 return connection.Query<ClosingStock>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, OrganizationId = OrganizationId,partno=partno }).ToList();
             }
