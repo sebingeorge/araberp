@@ -520,7 +520,7 @@ namespace ArabErp.DAL
                                 Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)CustomerAddress,
                                 S.CustomerOrderRef CustomerOrderRef,SI.SpecialRemarks,SI.PaymentTerms,SI.Addition,
                                 SI.Deduction,SI.AdditionRemarks,SI.DeductionRemarks,SI.TotalAmount,SI.InvoiceType,
-								SYM.SymbolName CurrencySymbol
+								CUR.CurrencyName CurrencySymbol, S.isService
                                 from SalesInvoice SI 
                                 inner join SaleOrder S on S.SaleOrderId=SI.SaleOrderId
                                 inner join Customer C on S.CustomerId=C.CustomerId
