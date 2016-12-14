@@ -1256,22 +1256,22 @@ namespace ArabErp.Web.Controllers
             FillServiceWorkDescription();
             return View(model);
         }
- //public ActionResult Delete(int DeliveryChallanId = 0)
- //{
- //    try
- //    {
- //        if (DeliveryChallanId == 0) return RedirectToAction("Index", "Home");
- //        string ref_no = new DeliveryChallanRepository().DeleteDeliveryChallan(DeliveryChallanId);
+        public ActionResult DeleteEnquiry(int ServiceEnquiryId=0)
+        {
+            try
+            {
+                if (ServiceEnquiryId == 0) return RedirectToAction("Index", "Home");
+                string ref_no = new SaleOrderRepository().DeleteServiceEnquiry(ServiceEnquiryId);
 
- //        TempData["Success"] = "Deleted Successfully!";
- //        TempData["DeliveryChallanRefNo"] = ref_no;
- //        return RedirectToAction("Index");
- //    }
- //    catch (Exception)
- //    {
- //        TempData["error"] = "Some error occured while deleting. Please try again.";
- //        return RedirectToAction("Edit", new { id = DeliveryChallanId });
- //    }
- //}
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["ServiceEnquiryRefNo"] = ref_no;
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+                return RedirectToAction("Edit", new { id = ServiceEnquiryId });
+            }
+        }
     }
 }

@@ -36,7 +36,7 @@ namespace ArabErp.DAL
             }
         }
         public IEnumerable<ClosingStock> GetClosingStockData1(DateTime? asOn, int stockPointId, int itemCategoryId, string itemId, int OrganizationId, string partno)
-        {
+      {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 //              
@@ -44,7 +44,8 @@ namespace ArabErp.DAL
                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                WHERE I.ItemName LIKE '%'+@itmid+'%' AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) 
                                AND SU.OrganizationId=@OrganizationId AND SU.StockPointId = ISNULL(NULLIF(@stkid, 0), SU.StockPointId) AND 
-                               CONVERT(DATE, SU.stocktrnDate, 106)<=CONVERT(DATE, @Ason, 106) AND I.PartNo LIKE '%'+@partno+'%'
+                               CONVERT(DATE, SU.stocktrnDate, 106)<=CONVERT(DATE, @Ason, 106)
+                                 and isnull(I.PartNo,'') like '%'+@partno+'%'
                                GROUP BY ItemRefNo,PartNo,ItemName,UnitName";
                 return connection.Query<ClosingStock>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, OrganizationId = OrganizationId, Ason = asOn, partno = partno }).ToList();
             }
@@ -89,7 +90,7 @@ namespace ArabErp.DAL
                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                WHERE   I.ItemName LIKE '%'+@itmid+'%' AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) 
                                AND SU.OrganizationId=@OrganizationId AND SU.StockPointId = ISNULL(NULLIF(@stkid, 0), SU.StockPointId) 
-                               AND I.PartNo LIKE '%'+@partno+'%' 
+                               and isnull(I.PartNo,'') like '%'+@partno+'%'
                                GROUP BY ItemRefNo,PartNo,ItemName,UnitName";
                 return connection.Query<ClosingStock>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, OrganizationId = OrganizationId,partno=partno}).ToList();
             }

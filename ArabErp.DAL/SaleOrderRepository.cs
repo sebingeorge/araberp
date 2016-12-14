@@ -1002,5 +1002,26 @@ namespace ArabErp.DAL
             }
 
         }
+
+
+        public string DeleteServiceEnquiry(int ServiceEnquiryId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"DELETE FROM ServiceEnquiry OUTPUT deleted.ServiceEnquiryRefNo WHERE ServiceEnquiryId = @ServiceEnquiryId";
+                    string output = connection.Query<string>(query, new { ServiceEnquiryId = ServiceEnquiryId }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
     }
 }

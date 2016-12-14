@@ -77,7 +77,7 @@
     }
 
     function Exit() {
-        var url = '@Url.Action("Index", "Home")';
+        var url = '@Url.Action("EnquiryList")';
         window.location = url;
     }
 
@@ -98,8 +98,10 @@
         url += '/' + '@Model.ServiceEnquiryId';
         window.location = url;
     }
-    function Delete() {
-        var url = '@Url.Action("Delete", new { ServiceEnquiryId = Model.ServiceEnquiryId })';
+    function Delete(id) {
+        alert(id)
+        var url = '@Url.Action("DeleteEnquiry")';
+        url += "?id=" + id;
         window.location = url;
     }
 </script>
@@ -322,13 +324,13 @@
            <em>**Cannot edit/delete this Service Enquiry, because it is either used in another process or completed.</em>
          </span>
                     }
-                    @*//else
-                    //{*@
-                    <input type="button" class="form-button left" value="Delete" onclick="Delete()" />
+                    else
+                    {
+                    <input type="button" class="form-button left" value="Delete" onclick="Delete(@Model.ServiceEnquiryId)" />
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     <button type="submit" class="form-button right">Edit</button>
                    
-                    @*}*@
+                    }
                     @if (actionName == "EditEnquiry")
                     {
                         <input type="button" class="form-button right" onclick="PrintEnquiry()" value="Print">
