@@ -27,7 +27,7 @@ namespace ArabErp.Domain
         public string SpecialRemarks { get; set; }
         public string PaymentTerms { get; set; }
         public string DeliveryTerms { get; set; }
-     
+
         public decimal? TotalAmount { get; set; }
         public decimal? TotalDiscount { get; set; }
         public int? CommissionAgentId { get; set; }
@@ -68,7 +68,7 @@ namespace ArabErp.Domain
         public string WorkRequestPaymentApproved { get; set; }
         public string EmployeeName { get; set; }
         public string CommissionAgentName { get; set; }
-   
+
         public bool isUsed { get; set; }
 
         //Organization

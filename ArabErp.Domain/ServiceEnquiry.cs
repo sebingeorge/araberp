@@ -14,7 +14,7 @@ namespace ArabErp.Domain
         public int ServiceEnquiryId { get; set; }
         public string ServiceEnquiryRefNo { get; set; }
         public DateTime ServiceEnquiryDate { get; set; }
-        //public int CustomerId { get; set; }
+        public int CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CDoorNo { get; set; }
         public string CStreet { get; set; }
@@ -42,6 +42,7 @@ namespace ArabErp.Domain
         public string Complaints { get; set; }
         public string RegNo { get; set; }
         //public int OrganizationId { get; set; }
+        public bool IsSEUsed { get; set; }
         public int IsConfirmed { get; set; }
         //public int CreatedBy { get; set; }
         //public DateTime CreatedDate { get; set; }

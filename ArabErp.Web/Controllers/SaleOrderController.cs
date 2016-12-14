@@ -1192,18 +1192,86 @@ namespace ArabErp.Web.Controllers
         {
             return View(new SaleOrderRepository().GetPendingServiceEnquiryList(OrganizationId));
         }
-
+        [HttpGet]
         public ActionResult EditEnquiry(int id)//ServiceEnquiryId is received here
         {
+             try
+            {
+                if (id != 0)
+                {
+                 
             FillCustomer();
             FillCurrency();
             FillServiceWorkDescription();
             ServiceEnquiry model = new SaleOrderRepository().GetServiceEnquiryDetails(id, OrganizationId);
             model.IsConfirmed = 0;
-            return View("ServiceEnquiry", model);
+            return View(model);
+                }
+                else
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
 
+            catch (InvalidOperationException iox)
+            {
+                TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
 
-
+            TempData["success"] = "";
+            return RedirectToAction("Index");
+        
         }
+ 
+        [HttpPost]
+        public ActionResult EditEnquiry(ServiceEnquiry model)
+        {
+            try
+            {
+                model.CreatedBy = UserID.ToString(); model.CreatedDate = DateTime.Today; model.OrganizationId = OrganizationId;
+                new SaleOrderRepository().UpdateServiceEnquiry(model);
+                TempData["success"] = "Updated Successfully (" + model.ServiceEnquiryRefNo + ")";
+                TempData["ServiceEnquiryRefNo"] = model.ServiceEnquiryRefNo;
+                return RedirectToAction("EnquiryList");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+            FillCustomer();
+            FillCurrency();
+            FillServiceWorkDescription();
+            return View(model);
+        }
+ //public ActionResult Delete(int DeliveryChallanId = 0)
+ //{
+ //    try
+ //    {
+ //        if (DeliveryChallanId == 0) return RedirectToAction("Index", "Home");
+ //        string ref_no = new DeliveryChallanRepository().DeleteDeliveryChallan(DeliveryChallanId);
+
+ //        TempData["Success"] = "Deleted Successfully!";
+ //        TempData["DeliveryChallanRefNo"] = ref_no;
+ //        return RedirectToAction("Index");
+ //    }
+ //    catch (Exception)
+ //    {
+ //        TempData["error"] = "Some error occured while deleting. Please try again.";
+ //        return RedirectToAction("Edit", new { id = DeliveryChallanId });
+ //    }
+ //}
     }
 }

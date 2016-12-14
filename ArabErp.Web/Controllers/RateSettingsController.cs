@@ -109,7 +109,13 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult StandardRate()
         {
+            FillItems();
             return View();
+        }
+
+        private void FillItems()
+        {
+            ViewBag.materialList = new SelectList(new DropdownRepository().FillItem(), "Id", "Name");
         }
     }
 }

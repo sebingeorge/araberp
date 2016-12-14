@@ -25,6 +25,7 @@
     }
 
     function AddRow() {
+       
         if (validateGrid()) {
             var i = 0;
             var no = 1;
@@ -36,6 +37,7 @@
                     i = row;
                 }
             });
+            alert(i)
             i++;
             var index = (new Date()).getTime(); // unique indexer
             var clone = $('#0').clone(); // clone the BatchProducts item
