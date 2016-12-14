@@ -1,0 +1,45 @@
+﻿@model IList<ArabErp.Domain.LabourCostForService>
+@{
+    var total = Model.Sum(x => x.Amount);
+}
+<strong>Labour Cost:</strong>
+<table class="table table-responsive table-bordered">
+    <thead class="grid_heading">
+        <tr>
+            <th>Task Name</th>
+            <th>Actual Hours</th>
+            <th>Rate</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.JobCardTaskName</td>
+                    <td>@item.ActualHours</td>
+                    <td>@item.MinimumRate</td>
+                    <td>@item.Amount</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td align="center" colspan="4">
+                    <em>No tasks found!</em>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot class="grid_heading">
+        <tr>
+            <th></th>
+            <th></th>
+            <th>Total</th>
+            <th>@total</th>
+        </tr>
+    </tfoot>
+</table>

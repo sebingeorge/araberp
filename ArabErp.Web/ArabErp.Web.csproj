@@ -1280,6 +1280,9 @@
     <Content Include="Views\SaleOrderStatus\_SaleOrderStatus.cshtml" />
     <Content Include="Views\StockReport\_StockReportRegister.cshtml" />
     <Content Include="Views\SalesInvoice\_PrintDescriptionGrid.cshtml" />
+    <Content Include="Views\SalesInvoice\_MaterialCostGrid.cshtml" />
+    <Content Include="Views\SalesInvoice\_LabourCostGrid.cshtml" />
+    <Content Include="Views\RateSettings\StandardRate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
