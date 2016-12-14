@@ -126,7 +126,7 @@ namespace ArabErp.Web.Controllers
                 if (data.Length > 0)
                 {
                     TempData["success"] = "Saved Successfully. Reference No. is " + data;
-                    return RedirectToAction("PendingJobCard", new { isProjectBased = model.isProjectBased });
+                    return RedirectToAction("PendingJobCard", new { isProjectBased = model.isProjectBased, service = model.isService });
                 }
                 TempData["error"] = "Some error occured while saving. Please try again.";
                 return View(model);

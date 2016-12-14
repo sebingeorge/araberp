@@ -8,6 +8,7 @@ namespace ArabErp.Domain
 {
     public class LabourCostForService
     {
+        public string EmployeeName { get; set; }
         public string JobCardTaskName { get; set; }
         public decimal ActualHours { get; set; }
         public decimal MinimumRate { get; set; }

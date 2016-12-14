@@ -6,6 +6,7 @@
 <table class="table table-responsive table-bordered">
     <thead class="grid_heading">
         <tr>
+            <th nowrap>Employee</th>
             <th nowrap>Task Name</th>
             <th nowrap>Actual Hours</th>
             <th nowrap>Rate</th>
@@ -18,6 +19,7 @@
             foreach (var item in Model)
             {
                 <tr>
+                    <td>@item.EmployeeName</td>
                     <td>@item.JobCardTaskName</td>
                     <td>@item.ActualHours</td>
                     <td>@item.MinimumRate</td>
@@ -28,7 +30,7 @@
         else
         {
             <tr>
-                <td align="center" colspan="4">
+                <td align="center" colspan="5">
                     <em>No tasks found!</em>
                 </td>
             </tr>
@@ -36,7 +38,7 @@
     </tbody>
     <tfoot class="grid_heading">
         <tr>
-            <th colspan="3" class="text-right">Total</th>
+            <th colspan="4" class="text-right">Total</th>
             <th>@total</th>
         </tr>
     </tfoot>

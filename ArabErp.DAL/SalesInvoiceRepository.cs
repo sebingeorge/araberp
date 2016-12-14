@@ -287,7 +287,7 @@ namespace ArabErp.DAL
 	                                JCTM.JobCardTaskName,
 	                                JCT.ActualHours,
 	                                JCTM.MinimumRate,
-	                                (ISNULL(JCTM.MinimumRate, 0) * ISNULL(JCT.ActualHours, 0)) Amount,
+	                                CAST((ISNULL(JCTM.MinimumRate, 0) * ISNULL(JCT.ActualHours, 0)) AS DECIMAL(18,2)) Amount,
 									EMP.EmployeeName
                                 FROM JobCard JC
                                 INNER JOIN JobCardTask JCT ON JC.JobCardId = JCT.JobCardId

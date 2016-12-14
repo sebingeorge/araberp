@@ -161,7 +161,7 @@
     function getCostEstimation() {
         var url = '@Url.Action("getMaterialCost")';
         url += '?id=' + @Model.SaleInvoiceItems[0].JobCardId;
-        $('#materialCost').text('Loading material cost...');
+        $('#materialCost').html('Loading material cost...<br><br>');
         $('#materialCost').load(url);
         url = '@Url.Action("getLabourCost")/@Model.SaleInvoiceItems[0].JobCardId';
         $('#labourCost').text('Loading labour cost...');
