@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "Standard Rate Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Standard Rate Settings</h4>
+    </div>
+
+    <div class="main-part pad1">
+        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "openingstock_form" }))
+        {
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="cboItem">Material/Spare</label>
+                    @Html.DropDownList("cboItem", new SelectList(ViewBag.materialList, "Value", "Text"), "Select Material/Spare", new { @class = "form_input" })
+                </div>
+                <div class="col-md-1">
+                    <label for="txtRate">Rate</label>
+                    <input id="txtRate" class="form_input" placeholder="0.00" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" id="standard_rate_table">
+                    <table class="table table-responsive table-bordered">
+                        <thead class="grid_heading">
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th>Material/Spare</th>
+                                <th>Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

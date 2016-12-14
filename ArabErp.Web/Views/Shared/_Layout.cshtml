@@ -365,6 +365,7 @@
                                                 {
                                                     <li><a href="@Url.Action("Index","ItemSellingPrice")">Item Selling Price Settings</a></li>
                                                 }
+                                                <li><a href="@Url.Action("StandardRate","RateSettings")">Standard Rate Settings</a></li>
                                             </ul>
                                         </div>
                                     </li>
@@ -457,14 +458,6 @@
                                 @if (formPermission.Find(x => x.FormId == 43) != null)
                                 {
                                     <li><a href="@Url.Action("Approval","DirectPurchase")">Direct Purchase Approval</a></li>
-                                }
-                                @if (formPermission.Find(x => x.FormId == 44) != null)
-                                {
-                                    <li><a href="@Url.Action("PendingGrnWareHouse","GrnWareHouse")">GRN</a></li>
-                                }
-                                @if (formPermission.Find(x => x.FormId == 45) != null)
-                                {
-                                    <li><a href="@Url.Action("PendingDirectPurchase","GrnWareHouse")">Direct Purchase GRN</a></li>
                                 }
                                 @if (formPermission.Find(x => x.FormId == 46) != null
                                     || formPermission.Find(x => x.FormId == 47) != null
@@ -838,6 +831,14 @@
                         <a href="#" data-toggle="collapse" data-target="#store-level-menu">Store<span class="caret arrow"></span></a>
                         <div id="store-level-menu" class="collapse">
                             <ul>
+                                @if (formPermission.Find(x => x.FormId == 44) != null)
+                                {
+                                    <li><a href="@Url.Action("PendingGrnWareHouse","GrnWareHouse")">GRN</a></li>
+                                }
+                                @if (formPermission.Find(x => x.FormId == 45) != null)
+                                {
+                                    <li><a href="@Url.Action("PendingDirectPurchase","GrnWareHouse")">Direct Purchase GRN</a></li>
+                                }
                                 @if (formPermission.Find(x => x.FormId == 93) != null)
                                 {
                                     <li><a href="@Url.Action("Pending","StoresIssue")">Stores Issue</a></li>

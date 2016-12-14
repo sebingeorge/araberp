@@ -1,0 +1,49 @@
+﻿@model IList<ArabErp.Domain.MaterialCostForService>
+@{ 
+    var total = Model.Sum(x => x.Amount);
+}
+<strong>Material Cost:</strong>
+<table class="table table-responsive table-bordered">
+    <thead class="grid_heading">
+        <tr>
+            <th nowrap>WR No.</th>
+            <th nowrap>SI No.</th>
+            <th nowrap>Material/Spare</th>
+            <th nowrap>Part No</th>
+            <th nowrap>Quantity</th>
+            <th nowrap>Rate</th>
+            <th nowrap>Amount</th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @if(Model != null && Model.Count > 0)
+        {
+            foreach(var item in Model)
+            {
+                <tr>
+                    <td nowrap>@item.WorkShopRequestRefNo</td>
+                    <td>@item.StoreIssueRefNo</td>
+                    <td>@item.ItemName</td>
+                    <td>@item.PartNo</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Rate</td>
+                    <td>@item.Amount</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td align="center" colspan="7">
+                    <em>No materials/spares found!</em>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot class="grid_heading">
+        <tr>
+            <th colspan="6" class="text-right">Total</th>
+            <th>@total</th>
+        </tr>
+    </tfoot>
+</table>

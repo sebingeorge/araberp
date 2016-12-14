@@ -278,6 +278,51 @@ namespace ArabErp.DAL
                 return connection.Query<SalesInvoiceItem>(sql, new { SaleOrderId = SaleOrderId }).ToList();
             }
         }
+
+        public List<LabourCostForService> getLabourCost(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT
+	                                JCTM.JobCardTaskName,
+	                                JCT.ActualHours,
+	                                JCTM.MinimumRate,
+	                                CAST((ISNULL(JCTM.MinimumRate, 0) * ISNULL(JCT.ActualHours, 0)) AS DECIMAL(18,2)) Amount,
+									EMP.EmployeeName
+                                FROM JobCard JC
+                                INNER JOIN JobCardTask JCT ON JC.JobCardId = JCT.JobCardId
+                                INNER JOIN JobCardTaskMaster JCTM ON JCT.JobCardTaskMasterId = JCTM.JobCardTaskMasterId
+								INNER JOIN Employee EMP ON JCT.EmployeeId = EMP.EmployeeId
+                                WHERE JC.JobCardId = @id";
+                return connection.Query<LabourCostForService>(sql, new { id = id }).ToList();
+            }
+        }
+
+        public List<MaterialCostForService> getMaterialCost(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT
+	                                WR.WorkShopRequestRefNo,
+	                                SI.StoreIssueRefNo,
+	                                I.ItemName,
+	                                I.PartNo,
+	                                WRI.Quantity,
+	                                WRI.Remarks,
+									ISNULL(SR.Rate, 0.00) Rate,
+                                    CAST(ISNULL(SR.Rate, 0.00) * WRI.Quantity AS DECIMAL(18,2)) Amount
+                                FROM JobCard JC
+                                LEFT JOIN WorkShopRequest WR ON JC.JobCardId = WR.JobCardId
+                                INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                                INNER JOIN StoreIssue SI ON WR.WorkShopRequestId = SI.WorkShopRequestId
+                                INNER JOIN StoreIssueItem SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
+                                INNER JOIN Item I ON WRI.ItemId = I.ItemId
+								LEFT JOIN StandardRate SR ON I.ItemId = SR.ItemId
+                                WHERE JC.JobCardId = @id";
+                return connection.Query<MaterialCostForService>(sql, new { id = id }).ToList();
+            }
+        }
+
         public SalesInvoice GetSelectedSalesInvoiceHD(int salesinvoiceid, string invType)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -297,7 +342,9 @@ namespace ArabErp.DAL
                                 CustomerAddress,
                                 SO.CustomerOrderRef CustomerOrderRef,
                                 SO.SpecialRemarks SpecialRemarks,
-                                SO.PaymentTerms PaymentTerms from #SaleOrder SO 
+                                SO.PaymentTerms PaymentTerms,
+                                JC.isService
+                                from #SaleOrder SO 
                                 left join SaleOrderItem SOI on SO.SaleOrderId=SOI.SaleOrderId
                                 Left join JobCard JC on SO.SaleOrderId=JC.SaleOrderId
                                 Left join Customer C on SO.CustomerId=C.CustomerId
@@ -321,7 +368,8 @@ namespace ArabErp.DAL
                             CustomerAddress,
                             SO.CustomerOrderRef CustomerOrderRef,
                             SO.SpecialRemarks SpecialRemarks,
-                            SO.PaymentTerms PaymentTerms from #SaleOrder SO 
+                            SO.PaymentTerms PaymentTerms,
+                            JC.isService from #SaleOrder SO 
                             left join SaleOrderItem SOI on SO.SaleOrderId=SOI.SaleOrderId
                             Left join JobCard JC on SO.SaleOrderId=JC.SaleOrderId
                             Left join Customer C on SO.CustomerId=C.CustomerId

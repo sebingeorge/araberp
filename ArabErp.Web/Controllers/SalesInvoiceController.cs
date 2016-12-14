@@ -371,6 +371,19 @@ namespace ArabErp.Web.Controllers
                 return RedirectToAction("Edit", new { id = Id });
             }
         }
-              
+        
+        public ActionResult getMaterialCost(int id)
+        {
+            var list = new SalesInvoiceRepository().getMaterialCost(id);
+            if (list == null) list = new List<MaterialCostForService>();
+            return PartialView("_MaterialCostGrid", list);//, new SalesInvoiceRepository().getMaterialCost(id));
+        }
+
+        public ActionResult getLabourCost(int id)
+        {
+            var list = new SalesInvoiceRepository().getLabourCost(id);
+            if (list == null) list = new List<LabourCostForService>();
+            return PartialView("_LabourCostGrid", list);
+        }
     }
 }
