@@ -26,7 +26,7 @@
                         <td>
                             @Html.HiddenFor(m => m.SupplyOrderItems[i].PurchaseRequestItemId)
                             @Html.HiddenFor(m => m.SupplyOrderItems[i].ItemId, new { @class = "itmcodes" })
-                            @Html.TextBoxFor(m => m.SupplyOrderItems[i].ItemName, new { @class = "form_input", @readonly = "true", @tabindex = "-1" })
+                            @Html.TextBoxFor(m => m.SupplyOrderItems[i].ItemName, new { @class = "form_input", @readonly = "true", @tabindex = "-1", @title = Model.SupplyOrderItems[i].Remarks, @data_placement="right" })
                         </td>
                         <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].Description, new { @class = "form_input"})</td>
                         <td>@Html.TextBoxFor(m => m.SupplyOrderItems[i].PartNo, new { @class = "form_input", @readonly = "true" })</td>

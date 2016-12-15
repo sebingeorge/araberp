@@ -132,6 +132,7 @@ namespace ArabErp.DAL
 	                                CONCAT(PurchaseRequestNo,' - ',
 	                                CONVERT (VARCHAR(15),PurchaseRequestDate,106)) PRNODATE,
 	                                PI.PurchaseRequestItemId,
+									PI.Remarks,
 	                                i.ItemName,i.ItemId,
 	                                i.PartNo,
 	                                CAST(ISNULL(PI.Quantity, 0) - ISNULL(SUP.SuppliedQuantity, 0) AS INT) as BalQty,
