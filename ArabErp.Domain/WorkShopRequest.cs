@@ -19,6 +19,8 @@ namespace ArabErp.Domain
         public string title { get; set; }
         public DateTime RequiredDate { get; set; }
         public string CreatedBy { get; set; }
+        public string RegistrationNo { get; set; }
+        public string ChassisNo { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
 

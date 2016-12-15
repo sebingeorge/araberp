@@ -414,8 +414,8 @@ namespace ArabErp.DAL
         /// Returns all pending workshop requests
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<WorkShopRequest> PendingWorkshopRequests(string Request = "", string Jobcard = "", string Customer = "", string jcno = "")
-        {
+        public IEnumerable<WorkShopRequest> PendingWorkshopRequests(string Request = "", string Jobcard = "", string Customer = "", string jcno = "", string RegNo="")
+       {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<WorkShopRequest>(@"SELECT WorkShopRequestId, SUM(Quantity) Quantity INTO #WORK FROM WorkShopRequestItem GROUP BY WorkShopRequestId;
@@ -425,19 +425,22 @@ namespace ArabErp.DAL
                 SELECT W.WorkShopRequestId, ISNULL(WR.WorkShopRequestRefNo, '')+' - '+CAST(CONVERT(VARCHAR, WR.WorkShopRequestDate, 106) AS VARCHAR) WorkShopRequestRefNo, ISNULL(CONVERT(DATETIME, WR.RequiredDate, 106), '01 Jan 1900') RequiredDate, C.CustomerName, S.SoNoWithDate,
 				DATEDIFF(day, WR.WorkShopRequestDate, GETDATE()) Ageing,
 				DATEDIFF(day, GETDATE(), WR.RequiredDate) DaysLeft,
-				JC.JobCardNo, CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate
+				JC.JobCardNo, CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,ISNULL(ChassisNo,'')ChassisNo,ISNULL(RegistrationNo,'')RegistrationNo
                 FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId INNER JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId INNER JOIN #SALE S ON WR.SaleOrderId = S.SaleOrderId 
                 LEFT JOIN JobCard JC ON WR.JobCardId = JC.JobCardId
+				LEFT JOIN VehicleInPass V ON V.VehicleInPassId=JC.InPassId 
                 WHERE ISNULL(IssuedQuantity,0) < Quantity 
                 AND  WorkShopRequestRefNo LIKE '%'+@Request+'%'
 				AND SoNoWithDate LIKE '%'+@Jobcard+'%'
 				AND CustomerName LIKE '%'+@Customer+'%'
+                AND RegistrationNo LIKE '%'+@RegNo+'%'
+				AND ChassisNo LIKE '%'+@RegNo+'%'
 				AND ISNULL(JC.JobCardNo, '') LIKE '%'+@jcno+'%'
                 ORDER BY WR.WorkShopRequestDate DESC, WR.CreatedDate DESC;
                 DROP TABLE #ISSUE;
                 DROP TABLE #WORK;
                 DROP TABLE #CUSTOMER;
-				DROP TABLE #SALE;", new { Request = Request, Jobcard = Jobcard, Customer = Customer, @jcno = jcno }).ToList();
+				DROP TABLE #SALE;", new { Request = Request, Jobcard = Jobcard, Customer = Customer, @jcno = jcno, RegNo = RegNo }).ToList();
             }
         }
         public IEnumerable<WorkShopRequest> GetPrevious(int isProjectBased, DateTime? from, DateTime? to, string workshop, string customer, int OrganizationId)
