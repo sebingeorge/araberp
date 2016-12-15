@@ -32,8 +32,10 @@
                 <xs:element name="Zip" type="xs:string" minOccurs="0" />
                 <xs:element name="CreateUser" type="xs:string" minOccurs="0" />
                 <xs:element name="CreateSig" type="xs:string" minOccurs="0" />
+                <xs:element name="CreatedDes" type="xs:string" minOccurs="0" />
                 <xs:element name="ApproveUser" type="xs:string" minOccurs="0" />
                 <xs:element name="ApproveSig" type="xs:string" minOccurs="0" />
+                <xs:element name="ApproveDes" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -54,15 +56,15 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>AARC/SI/2</SalesInvoiceRefNo>
-    <SalesInvoiceDate>09-Dec-2016</SalesInvoiceDate>
-    <VehicleOutPassNo>DC/1</VehicleOutPassNo>
-    <CustomerName>Ali Bin Ali:Ali Bin Ali- IA</CustomerName>
+    <SalesInvoiceRefNo>AARC/SI/1</SalesInvoiceRefNo>
+    <SalesInvoiceDate>15-Dec-2016</SalesInvoiceDate>
+    <VehicleOutPassNo>DV/16/1464</VehicleOutPassNo>
+    <CustomerName>Amwaj Catering Services</CustomerName>
     <Address>Doha ,Qatar,,0</Address>
-    <CustomerOrderRef xml:space="preserve"> </CustomerOrderRef>
-    <RegistrationNo>291973</RegistrationNo>
-    <JobCardNo>AARC/JC/2</JobCardNo>
-    <TotalAmount>5000.00</TotalAmount>
+    <CustomerOrderRef>Mail Confirm</CustomerOrderRef>
+    <RegistrationNo>227460</RegistrationNo>
+    <JobCardNo>AARC/JC-S/1</JobCardNo>
+    <TotalAmount>1394.00</TotalAmount>
     <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
@@ -76,14 +78,17 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <CreateUser>ihits</CreateUser>
-    <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\7aedc637-81cd-41fc-94a4-570257a0355f.jpg</CreateSig>
-    <ApproveSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</ApproveSig>
+    <CreateSig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\e4e9eadd-d4c7-4133-af20-db268cbd1fc0.png</CreateSig>
+    <CreatedDes>Asst.Sales Manager</CreatedDes>
+    <ApproveUser>ihits</ApproveUser>
+    <ApproveSig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\e4e9eadd-d4c7-4133-af20-db268cbd1fc0.png</ApproveSig>
+    <ApproveDes>Asst.Sales Manager</ApproveDes>
   </Head>
   <Items>
-    <Quantity>1</Quantity>
+    <Quantity>41</Quantity>
     <WorkDescription>General Checkup &amp; Repair</WorkDescription>
     <WorkDescriptionRefNo>WD/5</WorkDescriptionRefNo>
-    <Rate>5000.00</Rate>
-    <Amount>5000.00</Amount>
+    <Rate>34.00</Rate>
+    <Amount>1394.00</Amount>
   </Items>
 </NewDataSet>
