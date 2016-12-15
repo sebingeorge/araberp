@@ -26,8 +26,9 @@
         var Jobcard = $("#txtJobcard").val().trim();
         var Customer = $("#txtCustomer").val().trim();
         var JcNo = $("#txtJcNo").val().trim();
+        var RegNo = $("#txtRegNo").val().trim();
         //name = name.replace(/ /g, "+");
-        url += "?Request=" + encodeURIComponent(Request) + "&Jobcard=" + encodeURIComponent(Jobcard) + "&Customer=" + encodeURIComponent(Customer) + "&jcno=" + encodeURIComponent(JcNo);
+        url += "?Request=" + encodeURIComponent(Request) + "&Jobcard=" + encodeURIComponent(Jobcard) + "&Customer=" + encodeURIComponent(Customer) + "&jcno=" + encodeURIComponent(JcNo) + "&RegNo=" + encodeURIComponent(RegNo);
         $("#pending_workshop").load(url, function () {
             $("#pending_workshop").removeClass("fade");
         });
@@ -46,21 +47,25 @@
 
             <div class="row">
                 <div class="part">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label for="txtRequest">Request No.</label>
                         <input type="text" class="form_input" id="txtRequest" onkeyup="Filter()" onchange="Filter()" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label for="txtJobcard">Sale Order No.</label>
                         <input type="text" class="form_input" id="txtJobcard" onkeyup="Filter()" onchange="Filter()" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label for="txtJcNo">Job Card No</label>
                         <input type="text" class="form_input" id="txtJcNo" onkeyup="Filter()" onchange="Filter()" />
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <label for="txtCustomer">Customer</label>
                         <input type="text" class="form_input" id="txtCustomer" onkeyup="Filter()" onchange="Filter()" />
+                    </div>
+                    <div class="col-md-2">
+                        <label for="txtRegNo">RegNo./ChassisNo.</label>
+                        <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" />
                     </div>
                 </div>
             </div>
