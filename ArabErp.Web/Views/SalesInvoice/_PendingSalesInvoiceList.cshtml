@@ -153,9 +153,10 @@
         {
             <thead>
                 <tr class="grid_heading">
+                    <th width="15%">Sale Order No. &amp; Date</th>
                     <th width="20%"><h1>Delivery Challan No. &amp; Date</h1></th>
                     <th width="20%"><h1>Job Card No. &amp; Date</h1></th>
-                    <th width="25%"><h1>RegNo. & Chassis No.</h1></th>
+                    <th width="25%"><h1>Reg. No. & Chassis No.</h1></th>
                     <th width="5%" class="text-right"><h1>Qty</h1></th>
                     <th width="7%" class="text-right"><h1>Rate</h1></th>
                     <th width="7%" class="text-right"><h1>Amount</h1></th>
@@ -172,17 +173,20 @@
                 {
                     <tr>
                         <td>
+                            <strong>@Model[i].SaleOrderRefNo</strong> - @Model[i].SaleOrderDate.ToString("dd/MMMM/yyyyy")
+                        </td>
+                        <td>
                             @*@Html.TextBoxFor(m => Model[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
-                            @Model[i].DeliveryChallanRefNo - @Model[i].DeliveryChallanDate.ToString("dd/MMMM/yyyy")
+                            <strong>@Model[i].DeliveryChallanRefNo</strong> - @Model[i].DeliveryChallanDate.ToString("dd/MMMM/yyyy")
                             @Html.HiddenFor(m => m[i].DeliveryChallanRefNo)
                             @Html.HiddenFor(m => m[i].DeliveryChallanDate)
                         </td>
                         <td>
-                            @Model[i].JobCardNo - @Model[i].JobCardDate.ToString("dd/MMMM/yyyy")
+                            <strong>@Model[i].JobCardNo</strong> - @Model[i].JobCardDate.ToString("dd/MMMM/yyyy")
                             @*@Html.TextBoxFor(m => Model[i].JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
                         </td>
                         <td>
-                            @Model[i].RegistrationNo -@Model[i].ChassisNo
+                            @Model[i].RegistrationNo - @Model[i].ChassisNo
                             @*@Html.TextBoxFor(m => Model[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
                         </td>
                         <td align="right">
@@ -197,14 +201,13 @@
                             @Model[i].Amount
                             @*@Html.TextBoxFor(m => Model[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })*@
                         </td>
-                        <td>
-                            <center>
-                                @Html.CheckBoxFor(model => Model[i].SelectStatus, new { @class = "check_box CheckBoxClass", @onclick = "Checked(this)" })
-                            </center>
+                        <td align="center">
+                            @Html.CheckBoxFor(model => Model[i].SelectStatus, new { @class = "check_box CheckBoxClass", @onclick = "Checked(this)" })
+                            @Html.HiddenFor(model => Model[i].SaleOrderId)
+                            @Html.HiddenFor(model => Model[i].SaleOrderItemId)
+                            @Html.HiddenFor(model => Model[i].invType)
                         </td>
-                        @Html.HiddenFor(model => Model[i].SaleOrderId)
-                        @Html.HiddenFor(model => Model[i].SaleOrderItemId)
-                        @Html.HiddenFor(model => Model[i].invType)
+                        @*<input type="hidden" id="SaleOrderId_@i" value="" />*@
                         @* <td><a href="" onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">Select</a></td>*@
                     </tr>
                 }
@@ -213,18 +216,19 @@
         else
         {
             <tr class="grid_heading">
+                <th>Sale Order No. &amp; Date</th>
                 <th>Delivery Challan No. &amp; Date</th>
                 <th>Job Card No. &amp; Date</th>
-                <th>RegNo. & Chassis No.</th>
+                <th>Reg. No. & Chassis No.</th>
                 <th>Quantity</th>
                 <th>Rate</th>
                 <th>Amount</th>
                 <th></th>
             </tr>
             <tr>
-                <td colspan="7">
+                <td colspan="8">
                     <center>
-                        <em>Select a sale order to see job cards</em>
+                        <em>No items to show!</em>
                     </center>
                 </td>
             </tr>

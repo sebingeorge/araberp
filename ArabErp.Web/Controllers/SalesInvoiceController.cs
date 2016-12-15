@@ -64,12 +64,15 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Create(List<SalesInvoiceItem> ObjSaleInvoiceItem)
         {
+            ObjSaleInvoiceItem = ObjSaleInvoiceItem.Where(x => x.SelectStatus).Select(x => x).ToList();
             SalesInvoice saleinvoice = new SalesInvoice();
             SalesInvoiceRepository SalesInvoiceRepo = new SalesInvoiceRepository();
             SalesInvoiceItemRepository SalesInvoiceItemRepo = new SalesInvoiceItemRepository();
             if (ObjSaleInvoiceItem.Count > 0)
             {
-
+                List<int> SelectedSaleOrderItemId = (from SalesInvoiceItem s in ObjSaleInvoiceItem
+                                                     where s.SelectStatus
+                                                     select s.SaleOrderItemId).ToList<int>();
                 saleinvoice = SalesInvoiceRepo.GetSelectedSalesInvoiceHD(ObjSaleInvoiceItem[0].SaleOrderId, ObjSaleInvoiceItem[0].invType);
                 saleinvoice.InvoiceType = ObjSaleInvoiceItem[0].invType;
 
@@ -77,9 +80,6 @@ namespace ArabErp.Web.Controllers
                 internalId = DatabaseCommonRepository.GetNextDocNo(7, OrganizationId);
                 saleinvoice.SalesInvoiceDate = System.DateTime.Today;
                 saleinvoice.SalesInvoiceRefNo = internalId;
-                List<int> SelectedSaleOrderItemId = (from SalesInvoiceItem s in ObjSaleInvoiceItem
-                                                     where s.SelectStatus
-                                                     select s.SaleOrderItemId).ToList<int>();
 
                 saleinvoice.SaleInvoiceItems = SalesInvoiceItemRepo.GetSelectedSalesInvoiceDT(SelectedSaleOrderItemId, ObjSaleInvoiceItem[0].SaleOrderId);
 
