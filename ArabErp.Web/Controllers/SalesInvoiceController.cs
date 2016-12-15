@@ -275,8 +275,10 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Zip");
             ds.Tables["Head"].Columns.Add("CreateUser");
             ds.Tables["Head"].Columns.Add("CreateSig");
+            ds.Tables["Head"].Columns.Add("CreatedDes");
             ds.Tables["Head"].Columns.Add("ApproveUser");
-            ds.Tables["Head"].Columns.Add("ApproveSig"); 
+            ds.Tables["Head"].Columns.Add("ApproveSig");
+            ds.Tables["Head"].Columns.Add("ApproveDes");
 
             ds.Tables["Items"].Columns.Add("Quantity");
             ds.Tables["Items"].Columns.Add("WorkDescription");
@@ -314,8 +316,10 @@ namespace ArabErp.Web.Controllers
             dr["Zip"] = Head.Zip;
             dr["CreateUser"] = Head.CreateUser;
             dr["CreateSig"] = Server.MapPath("~/App_images/") + Head.CreateSig;
+            dr["CreatedDes"] = Head.CreatedDes;
             dr["ApproveUser"] = Head.ApproveUser;
             dr["ApproveSig"] = Server.MapPath("~/App_images/") + Head.ApproveSig;
+            dr["ApproveDes"] = Head.ApprovedDes;
             ds.Tables["Head"].Rows.Add(dr);
 
         
