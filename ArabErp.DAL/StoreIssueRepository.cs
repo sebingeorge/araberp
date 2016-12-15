@@ -156,7 +156,7 @@ namespace ArabErp.DAL
 
                 SELECT SI.WorkShopRequestId, SII.WorkShopRequestItemId, WRI.ItemId, SUM(IssuedQuantity) IssuedQuantity INTO #ISSUE FROM StoreIssueItem SII INNER JOIN StoreIssue SI ON  SII.StoreIssueId = SI.StoreIssueId INNER JOIN WorkShopRequestItem WRI ON SII.WorkShopRequestItemId = WRI.WorkShopRequestItemId GROUP BY WRI.ItemId, SI.WorkShopRequestId, SII.WorkShopRequestItemId;
                 
-				SELECT ItemId, ItemName, PartNo, ItemUnitId INTO #ITEM FROM Item;
+				SELECT ItemId, ItemName, PartNo, ItemUnitId,isConsumable INTO #ITEM FROM Item;
 
 				SELECT UnitId, UnitName INTO #UNIT FROM Unit;
 
@@ -167,7 +167,7 @@ namespace ArabErp.DAL
 					LEFT JOIN #ITEM ITEM ON W.ItemId = ITEM.ItemId 
 					LEFT JOIN #UNIT UNIT ON ITEM.ItemUnitId = UNIT.UnitId 
 					--LEFT JOIN #STOCK STOCK ON ITEM.ItemId = STOCK.ItemId 
-				WHERE W.WorkShopRequestId = @WorkShopRequestId 
+				WHERE  ISNULL(ITEM.isConsumable,0)=0  and W.WorkShopRequestId = @WorkShopRequestId 
 					AND W.RequiredQuantity > ISNULL(I.IssuedQuantity, 0);
                 DROP TABLE #ISSUE;
                 DROP TABLE #WORK;
