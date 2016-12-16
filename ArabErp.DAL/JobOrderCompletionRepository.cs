@@ -51,6 +51,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = string.Empty;
+                string sql = string.Empty;
                 if (isProjectBased == 0)
                 {
                     query = "SELECT distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerId, C.CustomerName,V.VehicleModelId, V.VehicleModelName,";
@@ -117,7 +118,23 @@ namespace ArabErp.DAL
                             DROP TABLE #TOTAL;";
 
                 jobcard.JobCardTask = connection.Query<JobCardCompletionTask>(query, new { JobCardId = JobCardId }).ToList();
-
+                sql = @"select COUNT(WI.WorkShopRequestItemId) StoreIssued
+                        from jobcard J
+                        Left join WorkShopRequest W ON W.JobCardId=J.JobCardId OR j.SaleOrderId=W.SaleOrderId
+                        left join WorkShopRequestItem WI ON WI.WorkShopRequestId=W.WorkShopRequestId
+                        left join Item I  ON I.ItemId=WI.ItemId
+                        LEFT JOIN StoreIssueItem SII ON WI.WorkShopRequestItemId = SII.WorkShopRequestItemId
+                        where ISNULL(I.isConsumable,0)=0 and J.jobcardid=@JobCardId AND SII.WorkShopRequestItemId IS  NULL";
+                int val = connection.Query<int>(sql, new { JobCardId = JobCardId }).First();
+                if(val>0)
+                {
+                    jobcard.StoreIssued =false;
+                    
+                }
+                else
+                {
+                    jobcard.StoreIssued = true;
+                }
                 //jobcard.JobCardTask = new List<JobCardCompletionTask>();
 
                 //foreach (JobCardCompletionTask item in tasks)
