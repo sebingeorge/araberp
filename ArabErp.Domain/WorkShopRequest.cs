@@ -59,6 +59,7 @@ namespace ArabErp.Domain
         public string ContactPerson { get; set; }
         public string OrganizationName { get; set; }
         public string Image1 { get; set; }
+        public int SaleOrderItemId { get; set; }
         public List<WorkShopRequestItem> Items { get; set; }
         public List<WorkShopRequestItem> AdditionalMaterials { get; set; }
     }
