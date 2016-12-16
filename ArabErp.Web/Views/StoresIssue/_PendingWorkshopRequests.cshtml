@@ -51,7 +51,12 @@
                                     }
                                 </td>
                                 <td>
-                                    @Model[i].RegistrationNo - @Model[i].ChassisNo 
+                                  @Model[i].RegistrationNo
+                                    @if ((Model[i].RegistrationNo != null && Model[i].RegistrationNo != "") && (Model[i].ChassisNo != null && Model[i].ChassisNo != ""))
+                                    {
+                                        @: - 
+                                    }
+                              @Model[i].ChassisNo
                                 </td>
                                 <td>
                                     @Model[i].RequiredDate.ToString("dd/MMM/yyyy")

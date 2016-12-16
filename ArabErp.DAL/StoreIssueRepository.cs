@@ -210,14 +210,15 @@ namespace ArabErp.DAL
 	                                SI.StoreIssueDate,
 	                                ISNULL(WR.WorkShopRequestRefNo, '') WorkShopRequestRefNo,
 	                                WR.WorkShopRequestDate,
-	                                E.EmployeeName,
+	                                C.CustomerName,
 	                                SI.Remarks,
-	                                SI.CreatedDate
+	                                SI.CreatedDate,J.JobCardNo
                                 FROM StoreIssue SI
 	                                INNER JOIN WorkShopRequest WR ON SI.WorkShopRequestId = WR.WorkShopRequestId
-	                                INNER JOIN Employee E ON SI.EmployeeId = E.EmployeeId
-                                WHERE ISNULL(SI.isActive, 1) = 1
-                                AND SI.OrganizationId = @OrganizationId
+	                                INNER JOIN Customer C ON WR.CustomerId = C.CustomerId
+									INNER JOIN JobCard J  ON J.JobCardId=WR.JobCardId
+                                WHERE ISNULL(SI.isActive, 1) = @OrganizationId
+                                AND SI.OrganizationId = 1
                                 ORDER BY StoreIssueDate DESC, SI.CreatedDate DESC;";
                 return connection.Query<StoresIssuePreviousList>(query, new { OrganizationId = OrganizationId }).ToList();
             }
