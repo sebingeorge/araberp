@@ -15,5 +15,7 @@ namespace ArabErp.Domain
         public DateTime WorkShopRequestDate { get; set; }
         public string EmployeeName { get; set; }
         public string Remarks { get; set; }
+         public string CustomerName { get; set; }
+         public string JobCardNo { get; set; }
     }
 }
