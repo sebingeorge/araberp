@@ -433,8 +433,8 @@ namespace ArabErp.DAL
                 AND  WorkShopRequestRefNo LIKE '%'+@Request+'%'
 				AND SoNoWithDate LIKE '%'+@Jobcard+'%'
 				AND CustomerName LIKE '%'+@Customer+'%'
-                AND RegistrationNo LIKE '%'+@RegNo+'%'
-				AND ChassisNo LIKE '%'+@RegNo+'%'
+                AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%'
+			    OR ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%')
 				AND ISNULL(JC.JobCardNo, '') LIKE '%'+@jcno+'%'
                 ORDER BY WR.WorkShopRequestDate DESC, WR.CreatedDate DESC;
                 DROP TABLE #ISSUE;
