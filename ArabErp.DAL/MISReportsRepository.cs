@@ -13,7 +13,7 @@ namespace ArabErp.DAL
     public class MISReportsRepository : BaseRepository
     {
         string dataConnection = GetConnectionString("arab");
-        public IEnumerable GetDCReport(int OrganizationId,int? month, int? year, string ChassisNo = "", string UnitSlNo = "")
+        public IEnumerable GetDCReport(int OrganizationId, int? month, int? year, string ChassisNo = "", string UnitSlNo = "", string Customer="", string JobcardNo="")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -58,10 +58,10 @@ namespace ArabErp.DAL
 									AND YEAR(JC.JobCardDate) = ISNULL(@year, YEAR(GETDATE()))
                                     AND Concat(VIP.RegistrationNo,'/',VIP.ChassisNo) LIKE '%'+@ChassisNo+'%'
                                     AND isnull(IB.SerialNo,0)  LIKE '%'+@UnitSlNo+'%'
-
-
+                                    AND isnull(CUS.CustomerName,'')  LIKE '%'+@Customer+'%'
+                                    AND isnull( JC.JobCardNo,'')  LIKE '%'+@JobcardNo+'%'
                                     DROP TABLE #HourlyCost";
-                    return connection.Query<DCReport>(query, new { org = OrganizationId, month = month, year = year, ChassisNo = ChassisNo, UnitSlNo = UnitSlNo });
+                    return connection.Query<DCReport>(query, new { org = OrganizationId, month = month, year = year, ChassisNo = ChassisNo, UnitSlNo = UnitSlNo, Customer = Customer, JobcardNo = JobcardNo });
                 }
                 catch (Exception)
                 {
