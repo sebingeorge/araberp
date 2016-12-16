@@ -9,7 +9,7 @@
             <th width="15%" title="Job Card No."><h1>Job Card No.</h1></th>
             <th width="15%" title="Store Issue No."><h1>Store Issue No.</h1></th>
             <th width="30%"><h1>Material/Spares</h1></th>
-            <th width="15%"><h1>GRN No.</h1></th>
+            <th width="15%" nowrap><h1>Available Serial No.</h1></th>
             <th width="5%" class="text-right"><h1>Quantity</h1></th>
             <th width="5%" class="text-right" title="Previously Reserved Quantity" nowrap><h1>Res. Qty.</h1></th>
             <th width="5%" class="text-right" title="Remaining quantity to be reserved" nowrap><h1>Rem. Qty.</h1></th>
@@ -42,7 +42,7 @@
                         @*<input type="text" value="*@@Model[i].ItemName@*" class="form_input" disabled />*@
                     </td>
                     <td>
-                        <strong>@Model[i].GRNNo</strong>
+                        <strong>@Model[i].SerialNo</strong>
                     </td>
                     <td align="right">
                         @*<input type="text" value="*@@Model[i].Quantity@*" class="form_input text-right" disabled />*@

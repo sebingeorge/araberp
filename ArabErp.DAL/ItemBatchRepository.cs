@@ -432,14 +432,13 @@ namespace ArabErp.DAL
 	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
 									CUS.CustomerName,
 									STUFF((SELECT ', '+T1.WorkShopRequestRefNo FROM WorkShopRequest T1 
-									    WHERE T1.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
+									    WHERE T1.JobCardId = JC.JobCardId OR (T1.SaleOrderId = SO.SaleOrderId AND T1.JobCardId IS NULL) FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
 									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
 										WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')StoreIssueRefNo,
-									STUFF((SELECT ', '+T1.JobCardNo FROM JobCard T1
-										WHERE T1.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')JobCardNo,
+									JC.JobCardNo,
 									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
 										LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
-										WHERE T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId FOR XML PATH('')), 1, 2, '')GRNNo,
+										WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '')SerialNo,
 	                                ISNULL(WI.Quantity, 0) Quantity,
 	                                --WD.WorkDescriptionRefNo,
                                     I.ItemId,
@@ -455,6 +454,7 @@ namespace ArabErp.DAL
 								LEFT JOIN #RESERVED R ON SOI.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
 								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
 								INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
+								LEFT JOIN JobCard JC ON SOI.SaleOrderItemId = JC.SaleOrderItemId
                                 WHERE ISNULL(SOI.isActive, 1) = 1
                                 AND SO.isActive = 1 AND SOI.isActive = 1 AND SO.SaleOrderApproveStatus = 1
 								--AND IB.SaleOrderItemId IS NULL
@@ -473,14 +473,13 @@ namespace ArabErp.DAL
 									CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
 									CUS.CustomerName,
 									STUFF((SELECT ', '+T1.WorkShopRequestRefNo FROM WorkShopRequest T1 
-										WHERE T1.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
+									    WHERE T1.JobCardId = JC.JobCardId OR (T1.SaleOrderId = SO.SaleOrderId AND T1.JobCardId IS NULL) FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
 									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
 										WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')StoreIssueRefNo,
-									STUFF((SELECT ', '+T1.JobCardNo FROM JobCard T1
-										WHERE T1.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')JobCardNo,
+									JC.JobCardNo,
 									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
 										LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
-										WHERE T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId FOR XML PATH('')), 1, 2, '')GRNNo,
+										WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '')SerialNo,
 									SOI.Quantity,
 									--WD.WorkDescriptionRefNo,
 									I.ItemId,
@@ -495,6 +494,7 @@ namespace ArabErp.DAL
 								LEFT JOIN #RESERVED R ON SOI.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
 								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
 								INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
+								LEFT JOIN JobCard JC ON SOI.SaleOrderItemId = JC.SaleOrderItemId
 								WHERE ISNULL(SOI.isActive, 1) = 1
                                 AND SO.isActive = 1 AND SO.SaleOrderApproveStatus = 1
 								--AND IB.SaleOrderItemId IS NULL
@@ -513,14 +513,13 @@ namespace ArabErp.DAL
 									CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
 									CUS.CustomerName,
 									STUFF((SELECT ', '+T1.WorkShopRequestRefNo FROM WorkShopRequest T1 
-										WHERE T1.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
+									    WHERE T1.JobCardId = JC.JobCardId OR (T1.SaleOrderId = SO.SaleOrderId AND T1.JobCardId IS NULL) FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
 									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
 										WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')StoreIssueRefNo,
-									STUFF((SELECT ', '+T1.JobCardNo FROM JobCard T1
-										WHERE T1.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')JobCardNo,
+									JC.JobCardNo,
 									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
 										LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
-										WHERE T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId FOR XML PATH('')), 1, 2, '')GRNNo,
+										WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '')SerialNo,
 									SOI.Quantity,
 									--WD.WorkDescriptionRefNo,
 									I.ItemId,
@@ -535,6 +534,7 @@ namespace ArabErp.DAL
 								LEFT JOIN #RESERVED R ON SOI.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
 								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
 								INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
+								LEFT JOIN JobCard JC ON SOI.SaleOrderItemId = JC.SaleOrderItemId
 								WHERE ISNULL(SOI.isActive, 1) = 1
                                 AND SO.isActive = 1 AND SO.SaleOrderApproveStatus = 1
 								--AND IB.SaleOrderItemId IS NULL
