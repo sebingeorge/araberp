@@ -6,6 +6,7 @@
                                 <th width="20%"><h1>Delivery Challan No.</h1></th>
                                 <th width="15%"><h1>Date</h1></th>
                                 <th width="20%" title="Job Card No. & Date"><h1>JC. No. & Date</h1></th>
+                                <th width="20%"><h1>Reg No./Chassis No.</h1></th>
                                 <th width="20%"><h1>Employee</h1></th>
                                 <th width="1%"></th>
                             </tr>
@@ -19,6 +20,13 @@
                                         <td class="grid-cell">@item.DeliveryChallanRefNo</td>
                                         <td class="grid-cell">@item.DeliveryChallanDate.ToString("dd/MMM/yyyy")</td>
                                         <td class="grid-cell">@item.JobCardNo &amp; @item.JobCardDate.ToString("dd/MMM/yyyy")</td>
+                                        <td class="grid-cell">
+                                            @item.RegistrationNo
+                                        @if (item.ChassisNo != null && item.ChassisNo != "" && item.RegistrationNo != null && item.RegistrationNo != "")
+                                        {
+                                            @:/
+                                        } @item.ChassisNo
+                                    </td>
                                         <td class="grid-cell">@item.EmployeeName</td>
                                         <td>
                                             <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.DeliveryChallanId)" /></center>
