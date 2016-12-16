@@ -22,6 +22,5 @@ namespace ArabErp.Domain
         public string WorkShopRequestRefNo { get; set; }
         public string StoreIssueRefNo { get; set; }
         public string JobCardNo { get; set; }
-        public string GRNNo { get; set; }
     }
 }
