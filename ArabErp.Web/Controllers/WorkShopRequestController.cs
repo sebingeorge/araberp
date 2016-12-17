@@ -25,13 +25,14 @@ namespace ArabErp.Web.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Create(int? SaleOrderId)
+        public ActionResult Create(int? SaleOrderId, int? saleorderitem)
         {
             ItemDropdown();
             WorkShopRequestRepository repo = new WorkShopRequestRepository();
             WorkShopRequest model = repo.GetSaleOrderForWorkshopRequest(SaleOrderId ?? 0);
+            model.SaleOrderItemId = saleorderitem ?? 0;
             model.WorkDescription = repo.GetCombinedWorkDescriptionSaleOrderForWorkshopRequest(SaleOrderId ?? 0).WorkDescription;
-            var WSList = repo.GetWorkShopRequestData(SaleOrderId ?? 0);
+            var WSList = repo.GetWorkShopRequestData(SaleOrderId ?? 0, saleorderitem ?? 0);
             model.Items = new List<WorkShopRequestItem>();
             //model.Isused = true;
             foreach (var item in WSList)
@@ -77,9 +78,9 @@ namespace ArabErp.Web.Controllers
             var rep = new SaleOrderRepository();
 
 
-            var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId,isProjectBased,saleOrder.Trim());
+            var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId, isProjectBased, saleOrder.Trim());
 
-           
+
 
             return PartialView("_PendingGrid", slist);
         }
@@ -97,7 +98,7 @@ namespace ArabErp.Web.Controllers
                 {
                     TempData["success"] = "Saved successfully. WorkShop Request Reference No. is " + id.Split('|')[1];
                     TempData["error"] = "";
-                    return RedirectToAction("Pending", new {model.isProjectBased});
+                    return RedirectToAction("Pending", new { model.isProjectBased });
                 }
                 else
                 {
@@ -130,7 +131,7 @@ namespace ArabErp.Web.Controllers
             var repo = new WorkShopRequestRepository();
             WorkShopRequest model = repo.GetWorkshopRequestHdData(id ?? 0);
             model.Items = repo.GetWorkShopRequestDtData(id ?? 0);
-          
+
             return View("Edit", model);
         }
 
@@ -174,7 +175,7 @@ namespace ArabErp.Web.Controllers
                 return RedirectToAction("Edit", new { id = id });
             }
         }
-  
+
         public void FillWRNo()
         {
             ViewBag.WRNoList = new SelectList(new DropdownRepository().WRNODropdown(OrganizationId), "Id", "Name");
@@ -183,7 +184,7 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.CusList = new SelectList(new DropdownRepository().WRCustomerDropdown(OrganizationId), "Id", "Name");
         }
-        
+
         private void ItemDropdown()
         {
             ViewBag.itemList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
@@ -275,7 +276,7 @@ namespace ArabErp.Web.Controllers
                     Remarks = item.Remarks,
                     Quantity = item.Quantity,
                     UnitName = item.UnitName,
-                   
+
 
                 };
 
@@ -286,7 +287,7 @@ namespace ArabErp.Web.Controllers
                 dri["Remarks"] = pritem.Remarks;
                 dri["Quantity"] = pritem.Quantity;
                 dri["UnitName"] = pritem.UnitName;
-                
+
 
                 ds.Tables["Items"].Rows.Add(dri);
             }

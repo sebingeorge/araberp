@@ -41,7 +41,7 @@
                                         <td>
                                             <center>
 
-                                                @Html.ActionLink("Select", "Create", "WorkShopRequest", new { SaleOrderId = Model.ElementAt(i).SaleOrderId }, new { @class = "form-button5" })
+                                                @Html.ActionLink("Select", "Create", "WorkShopRequest", new { SaleOrderId = Model.ElementAt(i).SaleOrderId, saleorderitem = Model.ElementAt(i).SaleOrderItemId }, new { @class = "form-button5" })
 
                                             </center>
                                         </td>

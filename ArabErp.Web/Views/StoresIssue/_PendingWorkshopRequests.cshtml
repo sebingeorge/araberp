@@ -44,19 +44,23 @@
                                     @Model[i].SoNoWithDate
                                 </td>
                                 <td>
-                                    @Model[i].JobCardNo -
+                                    <strong>@Model[i].JobCardNo</strong>
                                     @if (Model[i].JobCardNo != "" && Model[i].JobCardNo != null)
                                     {
-                                        @:@Model[i].JobCardDate.ToString("dd/MMM/yyyy")
+                                        @: - @Model[i].JobCardDate.ToString("dd/MMM/yyyy")
+                                    }
+                                    else
+                                    {
+                                        <center><em class="perm">Job Card not raised</em></center>
                                     }
                                 </td>
                                 <td>
-                                  @Model[i].RegistrationNo
+                                    <strong>@Model[i].RegistrationNo</strong>
                                     @if ((Model[i].RegistrationNo != null && Model[i].RegistrationNo != "") && (Model[i].ChassisNo != null && Model[i].ChassisNo != ""))
                                     {
                                         @: - 
                                     }
-                              @Model[i].ChassisNo
+                                    <strong>@Model[i].ChassisNo</strong>
                                 </td>
                                 <td>
                                     @Model[i].RequiredDate.ToString("dd/MMM/yyyy")

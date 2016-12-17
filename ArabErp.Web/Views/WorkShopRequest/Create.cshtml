@@ -99,6 +99,7 @@
             @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "work_form", @onsubmit = "return formValidation()" }))
             {
                 @Html.HiddenFor(m=>m.isProjectBased)
+                @Html.HiddenFor(m=>m.SaleOrderItemId)
                 @Html.HiddenFor(m => m.SaleOrderId, new { @class = "form_input", autocomplete = "off" })
                 @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
                 <div class="row form-group">

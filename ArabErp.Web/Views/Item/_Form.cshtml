@@ -193,17 +193,14 @@
                             @Html.CheckBoxFor(model => model.Box, new { autocomplete = "off", @class = "subject-list", @onclick = "Tick()" })
                             <label for="name">Box</label>
                         </div>
+                        <div class="part4 col-md-4">
+                            @Html.CheckBoxFor(model => model.isConsumable, new { autocomplete = "off", @class = "subject-list", @onclick = "Tick()" })
+                            <label for="name">Consumable</label>
+                        </div>
                     </div>
 
                 </div>
             </div>
-
-
-
-
-
-
-
 
             <div class="row form-group">
 

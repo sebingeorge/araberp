@@ -92,6 +92,7 @@ namespace ArabErp.Domain
         public string CreatedUsersig { get; set; }
         public string CreatedDes { get; set; }
         public int isService { get; set; }
+        public int SaleOrderItemId { get; set; }
     }
 }
 
