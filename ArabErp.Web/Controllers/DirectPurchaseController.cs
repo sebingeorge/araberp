@@ -363,6 +363,21 @@ namespace ArabErp.Web.Controllers
             }
         }
 
+        public ActionResult DeletePurchaseIndent(int id = 0)
+        {
+            try
+            {
+                if (id == 0) return RedirectToAction("Index", "Home");
+                string result = new DirectPurchaseRepository().DeletePurchaseIndent(id);
+                TempData["Success"] = "Deleted Successfully!";
+                return RedirectToAction("PurchaseIndents");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+                return RedirectToAction("PurchaseIndent", new { id = id });
+            }
+        }
         public JsonResult GetStockQuantity(int itemId)
         {
             return Json(new DirectPurchaseRepository().GetStockQuantity(itemId), JsonRequestBehavior.AllowGet);

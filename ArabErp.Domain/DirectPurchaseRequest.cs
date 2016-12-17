@@ -37,5 +37,7 @@ namespace ArabErp.Domain
         public DateTime JobCardDate { get; set; }
         public int Ageing { get; set; }
         public int DaysLeft { get; set; }
+
+        public bool isUsed { get; set; }
     }
 }

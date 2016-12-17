@@ -27,16 +27,22 @@
         var url = '@Url.Action("PurchaseIndents")';
         window.location = url;
     }
+    function DeletePurchase(id) {
+        var url = '@Url.Action("DeletePurchaseIndent")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+
 
     function Exit() {
         @if (new string[] { "EditPurchaseIndent" }.Contains(actionName))
         {
             @:var url = '@Url.Action("PurchaseIndents")';
-        }
+                                }
         else if(new string[] { "PurchaseIndent" }.Contains(actionName))
         {
             @:var url = '@Url.Action("Index", "Home")';
-        }
+                                }
         window.location = url;
     }
 </script>
@@ -99,12 +105,27 @@
             <div class="row">
 
                 <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
                     @if (!new string[] { "EditPurchaseIndent" }.Contains(actionName))
                     {
                         <input type="button" class="form-button left" value="Previous" onclick="PreviousList()" />
+                        <input type="submit" class="form-button right" value="Save" />
                     }
-                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-                    <input type="submit" class="form-button right" value="Save" />
+                    else
+                    {
+                        if (!Model.isUsed)
+                        {
+                            <input type="button" class="form-button left" value="Delete" onclick="DeletePurchase(@Model.DirectPurchaseRequestId)" />
+                            <input type="submit" class="form-button right" value="Edit" />
+                        }
+                        else
+                        {
+                            <span class="perm">
+                                <em>**Cannot edit/delete this Purchase Indent, because it is either used in another process.</em>
+                            </span>
+                        }
+
+                    }
                 </div>
 
             </div>
