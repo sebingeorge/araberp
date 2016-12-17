@@ -485,7 +485,10 @@ namespace ArabErp.DAL
                 SELECT W.WorkShopRequestId, ISNULL(WR.WorkShopRequestRefNo, '')+' - '+CAST(CONVERT(VARCHAR, WR.WorkShopRequestDate, 106) AS VARCHAR) WorkShopRequestRefNo, ISNULL(CONVERT(DATETIME, WR.RequiredDate, 106), '01 Jan 1900') RequiredDate, C.CustomerName, S.SoNoWithDate,
 				DATEDIFF(day, WR.WorkShopRequestDate, GETDATE()) Ageing,
 				DATEDIFF(day, GETDATE(), WR.RequiredDate) DaysLeft,
-				JC.JobCardNo, CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,ISNULL(ChassisNo,'')ChassisNo,ISNULL(RegistrationNo,'')RegistrationNo
+
+                STUFF((SELECT ', '+T1.JobCardNo FROM JobCard T1 WHERE T1.SaleOrderId = S.SaleOrderId FOR XML PATH('')), 1, 2, '') JobCardNo,
+
+                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,ISNULL(ChassisNo,'')ChassisNo,ISNULL(RegistrationNo,'')RegistrationNo
                 FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId INNER JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId INNER JOIN #SALE S ON WR.SaleOrderId = S.SaleOrderId 
                 LEFT JOIN JobCard JC ON WR.JobCardId = JC.JobCardId
 				LEFT JOIN VehicleInPass V ON V.VehicleInPassId=JC.InPassId 
