@@ -54,16 +54,16 @@ namespace ArabErp.DAL
                 string sql = string.Empty;
                 if (isProjectBased == 0)
                 {
-                    query = "SELECT distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerId, C.CustomerName,V.VehicleModelId, V.VehicleModelName,";
-                    query += " W.WorkDescr, W.WorkDescriptionId, J.SpecialRemarks,(ISNULL(SS.WorkShopRequestId,0))StoreIssued";
-                    query += " FROM JobCard J INNER JOIN SaleOrder S on S.SaleOrderId = J.SaleOrderId";
-                    query += " INNER JOIN SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
-                    query += " INNER JOIN Customer C on S.CustomerId = C.CustomerId";
-                    query += " INNER JOIN WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
-                    query += " LEFT JOIN VehicleModel V on V.VehicleModelId = W.VehicleModelId";
-                    query += " LEFT JOIN WorkShopRequest WR ON WR.SaleOrderId=J.SaleOrderId";
-                    query += " LEFT JOIN StoreIssue SS ON SS.WorkShopRequestId=WR.WorkShopRequestId";
-                    query += " where J.JobCardId = " + JobCardId.ToString() + "  and J.isProjectBased = 0";
+                    query = @"SELECT distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerId, C.CustomerName,V.VehicleModelId, V.VehicleModelName,
+                            W.WorkDescr, W.WorkDescriptionId, J.SpecialRemarks,(ISNULL(SS.WorkShopRequestId,0))StoreIssued
+                            FROM JobCard J INNER JOIN SaleOrder S on S.SaleOrderId = J.SaleOrderId
+                            INNER JOIN SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId
+                            INNER JOIN Customer C on S.CustomerId = C.CustomerId
+                            INNER JOIN WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
+                            LEFT JOIN VehicleModel V on V.VehicleModelId = W.VehicleModelId
+                            LEFT JOIN WorkShopRequest WR ON WR.SaleOrderId=J.SaleOrderId
+                            LEFT JOIN StoreIssue SS ON SS.WorkShopRequestId=WR.WorkShopRequestId
+                            where J.JobCardId = " + JobCardId.ToString() + "  and J.isProjectBased = 0";
                 }
                 else
                 {
