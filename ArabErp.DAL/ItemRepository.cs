@@ -118,10 +118,10 @@ namespace ArabErp.DAL
 
                 string sql = @"insert  into Item(ItemRefNo,PartNo,ItemName,ItemPrintName,ItemShortName,ItemGroupId,ItemSubGroupId,
                                                 ItemCategoryId,ItemUnitId,MinLevel,ReorderLevel,MaxLevel,BatchRequired,StockRequired,
-                                                CriticalItem,FreezerUnit,Box,OrganizationId,CreatedBy,CreatedDate) Values
+                                                CriticalItem,FreezerUnit,Box,OrganizationId,CreatedBy,CreatedDate, isConsumable) Values
                                                 (@ItemRefNo,@PartNo,@ItemName,@ItemPrintName,@ItemShortName,@ItemGroupId,@ItemSubGroupId,
                                                 @ItemCategoryId,@ItemUnitId,@MinLevel,@ReorderLevel,@MaxLevel,@BatchRequired,@StockRequired,
-                                                @CriticalItem,@FreezerUnit,@Box,@OrganizationId,@CreatedBy,@CreatedDate);
+                                                @CriticalItem,@FreezerUnit,@Box,@OrganizationId,@CreatedBy,@CreatedDate, @isConsumable);
                                                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -219,7 +219,7 @@ namespace ArabErp.DAL
                                ItemShortName = @ItemShortName,ItemGroupId = @ItemGroupId,ItemSubGroupId = @ItemSubGroupId,
                                ItemCategoryId = @ItemCategoryId,ItemUnitId = @ItemUnitId ,MinLevel = @MinLevel,MaxLevel = @MaxLevel,
                                ReorderLevel = @ReorderLevel,BatchRequired = @BatchRequired ,StockRequired = @StockRequired,
-                               CriticalItem=@CriticalItem,FreezerUnit=@FreezerUnit,Box=@Box OUTPUT INSERTED.ItemId  WHERE ItemId = @ItemId";
+                               CriticalItem=@CriticalItem,FreezerUnit=@FreezerUnit,Box=@Box, isConsumable = @isConsumable OUTPUT INSERTED.ItemId  WHERE ItemId = @ItemId";
 
                 try
                 {
