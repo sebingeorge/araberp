@@ -295,7 +295,7 @@ namespace ArabErp
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Bay>("select BayId, BayName from Bay where BayId not in (select isnull(BayId,0)BayId from JobCard where ISNULL(JodCardCompleteStatus,0) = 0) AND ISNULL(Bay.isActive, 1) = 1 and  ISNULL(Bay.IsService,0)=@IsService", new { IsService = IsService });
+                return connection.Query<Bay>("select BayId, BayName from Bay where BayId not in (select isnull(BayId,0)BayId from JobCard where ISNULL(JodCardCompleteStatus,0) = 0) AND ISNULL(Bay.isActive, 1) = 1 --and  ISNULL(Bay.IsService,0)=@IsService", new { IsService = IsService });
             }
         }
 
