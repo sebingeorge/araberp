@@ -21,18 +21,16 @@ namespace ArabErp.DAL
                 try
                 {
                     int id = 0;
-                    string internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCardQC.OrganizationId, 17, true,trn);
+                    string internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCardQC.OrganizationId, 17, true, trn);
 
                     objJobCardQC.JobCardQCRefNo = internalId;
-                    string sql = @"INSERT INTO JobCardQC(JobCardId,JobCardQCRefNo,EmployeeId,JobCardQCDate,IsQCPassed,CreatedBy,CreatedDate,OrganizationId,Remarks) VALUES (@JobCardId,@JobCardQCRefNo,@EmployeeId,GETDATE(),@IsQCPassed,@CreatedBy,GETDATE(),@OrganizationId,@Remarks);
-           
-
-                        SELECT CAST(SCOPE_IDENTITY() as int)";
-
+                    string sql = @"INSERT INTO JobCardQC(JobCardId,JobCardQCRefNo,EmployeeId,JobCardQCDate,IsQCPassed,CreatedBy,CreatedDate,OrganizationId,Remarks, PunchingNo) 
+                                    VALUES (@JobCardId,@JobCardQCRefNo,@EmployeeId,GETDATE(),@IsQCPassed,@CreatedBy,GETDATE(),@OrganizationId,@Remarks, @PunchingNo);
+                                    SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = connection.Query<int>(sql, objJobCardQC, trn).Single();
                     var JobCardQCParamRepo = new JobCardQCParamRepository();
-                    
+
                     foreach (var item in objJobCardQC.JobCardQCParams)
                     {
                         item.JobCardQCId = id;
@@ -50,7 +48,7 @@ namespace ArabErp.DAL
 
 
             }
-            }
+        }
         public IEnumerable<PendingJobCardQC> GetPendingJobCardQC()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -77,7 +75,7 @@ namespace ArabErp.DAL
             {
                 string sql = @" SELECT JobCardQCId,JobCardQCRefNo,J.JobCardNo,J.JobCardDate JcDate,JQ.JobCardId,
                                 C.CustomerName Customer,V.VehicleModelName VehicleModel,
-                                JQ.EmployeeId,JobCardQCDate,IsQCPassed,ISNULL(DC.JobCardId,0)IsUsed,JQ.Remarks 
+                                JQ.EmployeeId,JobCardQCDate,IsQCPassed,ISNULL(DC.JobCardId,0)IsUsed,JQ.Remarks, J.isService, JQ.PunchingNo
                                 FROM JobCardQC JQ
                                 INNER JOIN JobCard J ON J.JobCardId=JQ.JobCardId
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
@@ -117,7 +115,8 @@ namespace ArabErp.DAL
                 string sql = @"UPDATE
                                 JobCardQC SET JobCardQCRefNo=@JobCardQCRefNo,EmployeeId=@EmployeeId,
                                 JobCardQCDate=@JobCardQCDate,IsQCPassed=@IsQCPassed,CreatedBy=@CreatedBy,
-                                CreatedDate=@CreatedDate,OrganizationId=@OrganizationId,Remarks=@Remarks
+                                CreatedDate=@CreatedDate,OrganizationId=@OrganizationId,Remarks=@Remarks,
+                                PunchingNo = @PunchingNo
                                 WHERE JobCardId = @JobCardId;";
                 try
                 {
@@ -186,8 +185,7 @@ namespace ArabErp.DAL
 
             }
         }
-        public IEnumerable<JobCardQC> GetPreviousList( int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
-
+        public IEnumerable<JobCardQC> GetPreviousList(int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -199,13 +197,13 @@ namespace ArabErp.DAL
                                 and  J.JobCardQCId = ISNULL(NULLIF(@id, 0), J.JobCardQCId)  
                                 AND Convert(date,J.JobCardQCDate,106) BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
                                 ORDER BY J.JobCardQCDate Desc";
-                return connection.Query<JobCardQC>(qry, new { id = id, cusid = cusid, from = from, to = to, OrganizationId = OrganizationId}).ToList();
+                return connection.Query<JobCardQC>(qry, new { id = id, cusid = cusid, from = from, to = to, OrganizationId = OrganizationId }).ToList();
 
             }
         }
 
 
-        public JobCardQC GetJobCardQCHDPrint(int JobCardQCId,int organizationId)
+        public JobCardQC GetJobCardQCHDPrint(int JobCardQCId, int organizationId)
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -253,7 +251,8 @@ namespace ArabErp.DAL
 	                            CONVERT(VARCHAR, JobCardDate, 106) JobCardDate,
 	                            C.CustomerName,
 	                            VM.VehicleModelName,
-	                            VIP.ChassisNo
+	                            VIP.ChassisNo,
+                                JC.isService
                             FROM JobCard JC
 	                            INNER JOIN SaleOrder SO ON JC.SaleOrderId = SO.SaleOrderId
 	                            INNER JOIN SaleOrderItem SOI ON JC.SaleOrderItemId = SOI.SaleOrderItemId

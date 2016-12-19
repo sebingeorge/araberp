@@ -147,6 +147,10 @@
                         @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", @readonly = "true" })
                         @*<input type="text" class="form_input" id="txtCustomerOrderRef" readonly />*@
                     </div>
+                    <div class="col-md-2">
+                        <label for="BoxNo">Box No.</label>
+                        @Html.TextBoxFor(m => m.PunchingNo, new { @class = "form_input", @readonly = "true" })
+                    </div>
                 }
                 <div class="col-md-3">
                     <label>Employee</label>

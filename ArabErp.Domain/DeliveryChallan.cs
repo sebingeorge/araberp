@@ -76,6 +76,7 @@ namespace ArabErp.Domain
         public DateTime SaleOrderDate { get; set; }
 
         public string PrintDescription { get; set; }
+        public string PunchingNo { get; set; }
 
         public List<PrintDescription> PrintDescriptions { get; set; }
     }

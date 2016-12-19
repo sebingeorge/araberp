@@ -694,7 +694,8 @@ namespace ArabErp.DAL
                     string sql = @"SELECT
 	                                    JC.isService,
 	                                    SQ.QuotationRefNo,
-	                                    SO.CustomerOrderRef
+	                                    SO.CustomerOrderRef,
+                                        JC.BoxNo
                                     FROM JobCard JC
                                     LEFT JOIN SaleOrder SO ON JC.SaleOrderId = SO.SaleOrderId
                                     LEFT JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
