@@ -60,19 +60,6 @@
                     @Html.TextBoxFor(m => Model.ChassisNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                 </div>
             </div>
-            <div class="row form-group ">
-                @if (!Model.isService)
-                {
-                    <div class="col-md-2">
-                        <label for="BoxNo">Punching No.</label>
-                        @Html.TextBoxFor(m => m.PunchingNo, new { @class = "form_input", @required = "true" })
-                    </div>
-                }
-                <div class="col-md-10">
-                    <label for="ChassisNo">Remarks</label>
-                    @Html.TextAreaFor(m => Model.Remarks, new { @class = "form_input", autocomplete = "off" })
-                </div>
-            </div>
 
             <div class="wrap">
                 <div class="table-responsive">
@@ -105,6 +92,19 @@
 
                     </div>
 
+                </div>
+            </div>
+            <div class="row form-group ">
+                @if (!Model.isService)
+                {
+                    <div class="col-md-2">
+                        <label for="BoxNo">Punching No.</label>
+                        @Html.TextBoxFor(m => m.PunchingNo, new { @class = "form_input", @required = "true" })
+                    </div>
+                }
+                <div class="col-md-10">
+                    <label for="ChassisNo">Remarks</label>
+                    @Html.TextAreaFor(m => Model.Remarks, new { @class = "form_input", autocomplete = "off" })
                 </div>
             </div>
             <div class="row form-group">

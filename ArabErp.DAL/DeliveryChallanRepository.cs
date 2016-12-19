@@ -247,7 +247,7 @@ namespace ArabErp.DAL
                                 ISNULL(SO.SaleOrderRefNo,'')+ ' - '  +CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
                                 ISNULL(JC.JobCardNo,'') + ' - ' +CONVERT(varchar,JC.JobCardDate,106)JobCardNo,VI. RegistrationNo,
                                 WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeId,SO.PaymentTerms,DC.Remarks,ISNULL(SQ.DeliveryChallanId,0)IsUsed, TransportWarrantyExpiryDate,
-                                DC.PrintDescription, DC.QuotationRefNo, JC.isService, JC.JobCardId
+                                DC.PrintDescription, DC.QuotationRefNo, JC.isService, JC.JobCardId, QC.PunchingNo
                                 FROM DeliveryChallan DC
                                 INNER JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
@@ -258,6 +258,7 @@ namespace ArabErp.DAL
                                 INNER JOIN Employee E ON E.EmployeeId=DC.EmployeeId
                                 LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
                                 LEFT JOIN SalesQuotation SQ ON SQ.DeliveryChallanId=DC.DeliveryChallanId
+                                LEFT JOIN JobCardQC QC ON JC.JobCardId = QC.JobCardId
                                 WHERE  DC.DeliveryChallanId=@DeliveryChallanId";
 
                 var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new
@@ -553,7 +554,8 @@ namespace ArabErp.DAL
 								SQ.QuotationRefNo,
 								I.[ItemName] FreezerName,I.ItemId ReeferId,
 								ISNULL(I.PartNo,'') FreezerPartNo,
-								II.ItemName Box, II.ItemId Box,
+                                QC.PunchingNo Box,
+								--II.ItemName Box, II.ItemId Box,
 								ISNULL(II.PartNo, '') BoxPartNo,
 								LPO.SupplyOrderNo,
 								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig, U1.Signature ApprovedUsersig,
@@ -582,6 +584,7 @@ namespace ArabErp.DAL
 								left join [User] U1 ON U1.UserId=SOI.PaymentApprovedForDeliveryCreatedBy
 							    left join Item I ON I.ItemId=JC.[FreezerUnitId]
 								left join Item II ON II.ItemId=JC.[BoxId]
+                                LEFT JOIN JobCardQC QC ON JC.JobCardId = QC.JobCardId
 								WHERE DC.DeliveryChallanId=@DeliveryChallanId";
 
 
@@ -695,11 +698,12 @@ namespace ArabErp.DAL
 	                                    JC.isService,
 	                                    SQ.QuotationRefNo,
 	                                    SO.CustomerOrderRef,
-                                        JC.BoxNo
+                                        QC.PunchingNo
                                     FROM JobCard JC
                                     LEFT JOIN SaleOrder SO ON JC.SaleOrderId = SO.SaleOrderId
                                     LEFT JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
-                                    WHERE JobCardId = " + id + @"AND JC.OrganizationId = " + OrganizationId;
+									LEFT JOIN JobCardQC QC ON JC.JobCardId = QC.JobCardId
+                                    WHERE JC.JobCardId = " + id + @" AND JC.OrganizationId = " + OrganizationId;
                     return connection.Query<DeliveryChallan>(sql).FirstOrDefault();
                 }
                 catch (Exception)
