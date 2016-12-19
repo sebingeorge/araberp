@@ -86,6 +86,39 @@ namespace ArabErp.DAL
                 //query += " inner join Employee E on E.EmployeeId = J.EmployeeId";
                 //query += " where J.JobCardId = " + JobCardId.ToString();
 
+                #region old query 19.12.2016 3.33p
+                //                query = @"SELECT 
+                //	                        T1.EmployeeId,
+                //							T1.JobCardTaskId,
+                //	                        SUM(T1.ActualHours) TotalHours
+                //                            INTO #TOTAL
+                //                            FROM JobCardDailyActivityTask T1
+                //	                        INNER JOIN JobCardDailyActivity T2 ON T1.JobCardDailyActivityId = T2.JobCardDailyActivityId
+                //                            WHERE T2.JobCardId = @JobCardId
+                //                            GROUP BY T1.EmployeeId, T1.JobCardTaskId
+                //
+                //                        SELECT DISTINCT
+                //	                        M.JobCardTaskName,
+                //							JT.SlNo,
+                //	                        EMP.EmployeeName,
+                //	                        DAT.JobCardTaskId,
+                //	                        ISNULL(T.TotalHours, 0) ActualHours,
+                //							JT.Hours,
+                //	                        (SELECT TOP 1 CONVERT(VARCHAR, JobCardDailyActivityDate, 106) FROM JobCardDailyActivity WHERE JobCardId = @JobCardId 
+                //                            ORDER BY JobCardDailyActivityDate) StartDate,
+                //	                        (SELECT TOP 1 CONVERT(VARCHAR, JobCardDailyActivityDate, 106) FROM JobCardDailyActivity WHERE JobCardId = @JobCardId 
+                //                            ORDER BY JobCardDailyActivityDate DESC) EndDate
+                //                            FROM JobCardTask JT
+                //	                        INNER JOIN JobCardTaskMaster M ON JT.JobCardTaskMasterId = M.JobCardTaskMasterId
+                //	                        LEFT JOIN JobCardDailyActivity DA ON JT.JobCardId = DA.JobCardId
+                //	                        LEFT JOIN JobCardDailyActivityTask DAT ON DA.JobCardDailyActivityId = DAT.JobCardDailyActivityId AND M.JobCardTaskMasterId = DAT.JobCardTaskId
+                //	                        LEFT JOIN Employee EMP ON JT.EmployeeId = EMP.EmployeeId
+                //	                        LEFT JOIN #TOTAL T ON EMP.EmployeeId = T.EmployeeId AND DAT.JobCardTaskId = T.JobCardTaskId
+                //                            WHERE JT.JobCardId = @JobCardId;
+                //
+                //                            DROP TABLE #TOTAL;"; 
+                #endregion
+
                 query = @"SELECT 
 	                        T1.EmployeeId,
 							T1.JobCardTaskId,
@@ -110,14 +143,14 @@ namespace ArabErp.DAL
                             FROM JobCardTask JT
 	                        INNER JOIN JobCardTaskMaster M ON JT.JobCardTaskMasterId = M.JobCardTaskMasterId
 	                        LEFT JOIN JobCardDailyActivity DA ON JT.JobCardId = DA.JobCardId
-	                        LEFT JOIN JobCardDailyActivityTask DAT ON DA.JobCardDailyActivityId = DAT.JobCardDailyActivityId AND M.JobCardTaskMasterId = DAT.JobCardTaskId
+	                        LEFT JOIN JobCardDailyActivityTask DAT ON DA.JobCardDailyActivityId = DAT.JobCardDailyActivityId AND JT.JobCardTaskId = DAT.JobCardTaskId
 	                        LEFT JOIN Employee EMP ON JT.EmployeeId = EMP.EmployeeId
 	                        LEFT JOIN #TOTAL T ON EMP.EmployeeId = T.EmployeeId AND DAT.JobCardTaskId = T.JobCardTaskId
                             WHERE JT.JobCardId = @JobCardId;
 
                             DROP TABLE #TOTAL;";
-
                 jobcard.JobCardTask = connection.Query<JobCardCompletionTask>(query, new { JobCardId = JobCardId }).ToList();
+
                 sql = @"select COUNT(WI.WorkShopRequestItemId) StoreIssued
                         from jobcard J
                         Left join WorkShopRequest W ON W.JobCardId=J.JobCardId OR j.SaleOrderId=W.SaleOrderId

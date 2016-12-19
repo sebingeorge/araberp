@@ -167,6 +167,7 @@
                                 </td>
                                 <td width="5%">
                                     @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].JobCardTaskMasterId)
+                                    @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].JobCardTaskId)
                                     @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].JobCardTaskName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                                 </td>
                                 <td>@Model.JobCardDailyActivityTask[i].TaskStartDate.ToString("dd/MMMM/yyyy")</td>
