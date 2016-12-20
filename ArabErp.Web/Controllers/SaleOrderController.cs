@@ -1195,17 +1195,17 @@ namespace ArabErp.Web.Controllers
         [HttpGet]
         public ActionResult EditEnquiry(int id)//ServiceEnquiryId is received here
         {
-             try
+            try
             {
                 if (id != 0)
                 {
-                 
-            FillCustomer();
-            FillCurrency();
-            FillServiceWorkDescription();
-            ServiceEnquiry model = new SaleOrderRepository().GetServiceEnquiryDetails(id, OrganizationId);
-            model.IsConfirmed = 0;
-            return View(model);
+
+                    FillCustomer();
+                    FillCurrency();
+                    FillServiceWorkDescription();
+                    ServiceEnquiry model = new SaleOrderRepository().GetServiceEnquiryDetails(id, OrganizationId);
+                    model.IsConfirmed = 0;
+                    return View(model);
                 }
                 else
                 {
@@ -1233,9 +1233,9 @@ namespace ArabErp.Web.Controllers
 
             TempData["success"] = "";
             return RedirectToAction("Index");
-        
+
         }
- 
+
         [HttpPost]
         public ActionResult EditEnquiry(ServiceEnquiry model)
         {
@@ -1266,6 +1266,87 @@ namespace ArabErp.Web.Controllers
                 TempData["Success"] = "Deleted Successfully!";
                 TempData["ServiceEnquiryRefNo"] = ref_no;
                 return RedirectToAction("EnquiryList");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+                return RedirectToAction("Edit", new { id = id });
+            }
+        }
+
+        public ActionResult ServiceOrderList()
+        {
+
+            return View("_ServiceOrderList", new SaleOrderRepository().GetPendingServiceOrderList(OrganizationId));
+            // return PartialView("_PreviousList", new SaleOrderRepository().GetPreviousList(ProjectBased, id, cusid, OrganizationId, from, to, service));
+        }
+        public ActionResult ServiceOrderEdit(int id = 0)//ServiceEnquiryId is received here
+        {
+            try
+            {
+                if (id == 0)
+                {
+                    TempData["error"] = "That was an invalid request. Please try again.";
+                    RedirectToAction("Index", "Home");
+                }
+                FillVehicle();
+                FillCustomer();
+                FillServiceWorkDescription();
+                ServiceEnquiry model = new SaleOrderRepository().GetServiceOrderDetails(id, OrganizationId);
+                model.Used = new SaleOrderRepository().Count(id);
+                model.SaleOrderRefNo = DatabaseCommonRepository.GetNextDocNo(35, OrganizationId);
+                model.SaleOrderDate = DateTime.Today;
+                model.isProjectBased = 0;
+                model.isService = 1;
+                model.IsConfirmed = 1;
+                model.Items = new List<SaleOrderItem>();
+                var repo = new SaleOrderRepository();
+                model.Items = repo.GetSaleOrderItm(id);
+                model.Items.Add(new SaleOrderItem());
+                return View("ServiceEnquiry", model);
+            }
+            catch (InvalidOperationException)
+            {
+                TempData["error"] = "Requested data could not be found. Please try again.";
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+            return RedirectToAction("PendingEnquiries");
+        }
+
+        [HttpPost]
+        public ActionResult ServiceOrderEdit(SaleOrder model)
+        {
+            try
+            {
+                model.OrganizationId = OrganizationId;
+                model.CreatedBy = UserID.ToString();
+                new SaleOrderRepository().UpdateServiceOrder(model);
+                TempData["success"] = "Updated Successfully (" + model.SaleOrderRefNo + ")";
+                TempData["ServiceEnquiryRefNo"] = model.SaleOrderRefNo;
+                return RedirectToAction("ServiceOrderList");
+            }
+            catch (Exception)
+            {
+                FillVehicle();
+                FillCustomer();
+                FillServiceWorkDescription();
+                TempData["error"] = "Some error occurred while saving. Please try again.";
+                return View("_ServiceOrderList", model);
+            }
+        }
+        public ActionResult DeleteServiceorderList(int id = 0)
+        {
+            try
+            {
+                if (id == 0) return RedirectToAction("Index", "Home");
+                string ref_no = new SaleOrderRepository().DeletServiceOrder(id);
+
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["SaleOrderRefNo"] = ref_no;
+                return RedirectToAction("ServiceOrderList");
             }
             catch (Exception)
             {
