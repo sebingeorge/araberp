@@ -1047,5 +1047,126 @@ namespace ArabErp.DAL
                 }
             }
         }
+        public IList<SaleOrder> GetPendingServiceOrderList(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"
+                                      select SaleOrderRefNo,SaleOrderDate,CustomerOrderRef,SE.ServiceEnquiryDate,SE.ServiceEnquiryRefNo,W.WorkDescr,V.VehicleModelName,S.saleorderid from SaleOrder S
+								left join ServiceEnquiry SE ON SE.ServiceEnquiryId=S.ServiceEnquiryId
+								left join SaleOrderItem SI On SI.SaleOrderId=S.SaleOrderId
+								left join VehicleModel V ON V.VehicleModelId=SI.VehicleModelId
+								left join WorkDescription W ON W. WorkDescriptionId=SI.WorkDescriptionId
+								where S.OrganizationId=@OrganizationId  and isService=1 order by [SaleOrderDate] desc";
+                return connection.Query<SaleOrder>(query, new
+                {
+                    OrganizationId = OrganizationId,
+
+                }).ToList();
+            }
+        }
+        public ServiceEnquiry GetServiceOrderDetails(int id, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string query = @"select S.*,SE.ServiceEnquiryRefNo,SE.ServiceEnquiryDate,W.WorkDescr,V.VehicleModelName from SaleOrder S 
+						left join ServiceEnquiry SE ON SE.ServiceEnquiryId=S.ServiceEnquiryId 
+						left join SaleOrderItem SI On SI.SaleOrderId=S.SaleOrderId
+						left join VehicleModel V ON V.VehicleModelId=SI.VehicleModelId
+						left join WorkDescription W ON W. WorkDescriptionId=SI.WorkDescriptionId where S.SaleOrderId=@id AND S.OrganizationId = @org ";
+                    return connection.Query<ServiceEnquiry>(query, new { id = id, org = OrganizationId }).FirstOrDefault();
+
+                }
+                catch (InvalidOperationException)
+                {
+                    throw;
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public int Count(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"select count(SaleOrderId)SaleOrderId from VehicleInPass where  SaleOrderId=@id";
+
+                return connection.Query<int>(query, new { id = id }).First();
+            }
+        }
+        public List<SaleOrderItem> GetSaleOrderItm(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select * from saleorderitem where saleorderid=@id";
+                return connection.Query<SaleOrderItem>(sql, new { id = id }).ToList();
+            }
+        }
+        public int UpdateServiceOrder(SaleOrder model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    model.ServiceEnquiryRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 33, true, txn);
+                    #region query
+                    string query = @"update SaleOrder set SaleOrderDate=@SaleOrderDate,CustomerOrderRef=@CustomerOrderRef WHERE SaleOrderId = @SaleOrderId;";
+                    #endregion
+                    int output = connection.Execute(query, model, txn);
+
+                    // int id = connection.Query<int>(query, model, txn).FirstOrDefault();
+                    if (output > 0)
+                    {
+                        string sql = @"delete from SaleOrderItem where SaleOrderId=@SaleOrderId";
+                       connection.Execute(sql, model, txn);
+                        foreach (SaleOrderItem item in model.Items)
+                        {
+                            item.SaleOrderId = model.SaleOrderId;
+                            new SaleOrderItemRepository().InsertSaleOrderItem(item, connection, txn);
+                        }
+                        txn.Commit();
+                        return output;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+
+                }
+
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    throw;
+                }
+            }
+        }
+
+        public string DeletServiceOrder(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string query = @"DELETE FROM SaleOrderitem WHERE SaleOrderId = @id;
+                                    DELETE FROM SaleOrder OUTPUT deleted.[SaleOrderRefNo] WHERE SaleOrderId = @id";
+                    string output = connection.Query<string>(query, new { id = id }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
     }
 }

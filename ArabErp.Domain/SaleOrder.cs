@@ -93,6 +93,12 @@ namespace ArabErp.Domain
         public string CreatedDes { get; set; }
         public int isService { get; set; }
         public int SaleOrderItemId { get; set; }
+        public string ServiceEnquiryRefNo { get; set; }
+        public DateTime ServiceEnquiryDate { get; set; }
+        public string WorkDescr { get; set; }
+        public string VehicleModelName { get; set; }
+
+
     }
 }
 

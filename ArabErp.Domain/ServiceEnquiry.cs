@@ -8,7 +8,7 @@ namespace ArabErp.Domain
 {
     public class ServiceEnquiry : SaleOrder
     {
-        //public int SaleOrderId { get; set; }
+        public int SaleOrderId { get; set; }
         //public int isService { get; set; }
         //public int isProjectBased { get; set; }
         public int ServiceEnquiryId { get; set; }
@@ -46,6 +46,8 @@ namespace ArabErp.Domain
         public int IsConfirmed { get; set; }
         //public int CreatedBy { get; set; }
         //public DateTime CreatedDate { get; set; }
+
+        public int Used { get; set; }
 
     }
 }
