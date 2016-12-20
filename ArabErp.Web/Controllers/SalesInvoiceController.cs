@@ -29,7 +29,7 @@ namespace ArabErp.Web.Controllers
         {
             return PartialView("_PreviousListGrid", new SalesInvoiceRepository().PreviousList(type: type, from: from, to: to, id: id, OrganizationId: OrganizationId));
         }
-     
+
         public ActionResult PendingSalesInvoice(string invType)
         {
             ViewBag.saleOrderList = new SelectList(Repo.GetSalesInvoiceCustomerList(invType, OrganizationId), "SaleOrderId", "SaleOrderRefNoWithDate");
@@ -113,7 +113,7 @@ namespace ArabErp.Web.Controllers
 
             if (Result.SalesInvoiceId > 0)
             {
-                TempData["success"] = "Saved successfully";
+                TempData["success"] = "Saved successfully (" + model.SalesInvoiceRefNo + ")";
                 TempData["error"] = null;
 
                 TempData["SalesInvoiceRefNo"] = null;
@@ -129,7 +129,7 @@ namespace ArabErp.Web.Controllers
 
         }
 
-        public ActionResult Edit(int id ,string type)
+        public ActionResult Edit(int id, string type)
         {
             try
             {
@@ -187,9 +187,9 @@ namespace ArabErp.Web.Controllers
 
                 new SalesInvoiceRepository().UpdateSalesInvoice(model);
 
-                TempData["success"] = "Updated Successfully ";
+                TempData["success"] = "Updated Successfully (" + model.SalesInvoiceRefNo + ")";
                 TempData["SalesInvoiceRefNo"] = model.SalesInvoiceRefNo;
-                return RedirectToAction("PendingSalesInvoice", new { invType = model.InvoiceType });
+                return RedirectToAction("Index", new { type = model.InvoiceType });
             }
             catch (Exception)
             {
@@ -203,18 +203,18 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Approval(int? id, string type)
         {
-        //    FillCustomer();
-        //    FillCurrency();
-        //    FillCommissionAgent();
-        //    FillUnit();
-        //    FillEmployee();
+            //    FillCustomer();
+            //    FillCurrency();
+            //    FillCommissionAgent();
+            //    FillUnit();
+            //    FillEmployee();
 
-        //    FillVehicle();
+            //    FillVehicle();
             var repo = new SalesInvoiceRepository();
             SalesInvoice model = repo.GetInvoiceHd(id ?? 0, type);
             model.SaleInvoiceItems = repo.GetInvoiceItems(id ?? 0);
 
-             //var saleinvoice = new SalesInvoiceRepository().GetInvoiceHd(id, type);
+            //var saleinvoice = new SalesInvoiceRepository().GetInvoiceHd(id, type);
             //model.Items = repo.GetSaleOrderItem(SaleOrderId ?? 0);
 
             //FillWrkDesc();
@@ -240,9 +240,9 @@ namespace ArabErp.Web.Controllers
             return RedirectToAction("PendingApproval");
         }
 
-        public ActionResult Print(int Id)                                                                                                           
+        public ActionResult Print(int Id)
         {
-            
+
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reports"), "SalesInvoice.rpt"));
 
@@ -288,7 +288,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("Unit");
 
             SalesInvoiceRepository repo = new SalesInvoiceRepository();
-            var Head = repo.GetSalesInvoiceHdforPrint(Id,OrganizationId);
+            var Head = repo.GetSalesInvoiceHdforPrint(Id, OrganizationId);
 
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["SalesInvoiceRefNo"] = Head.SalesInvoiceRefNo;
@@ -322,10 +322,10 @@ namespace ArabErp.Web.Controllers
             dr["ApproveDes"] = Head.ApprovedDes;
             ds.Tables["Head"].Rows.Add(dr);
 
-        
-                SalesInvoiceItemRepository repo1 = new SalesInvoiceItemRepository();
-                 var Items = repo1.GetSalesInvoiceItemforPrint(Id);
-                foreach (var item in Items)
+
+            SalesInvoiceItemRepository repo1 = new SalesInvoiceItemRepository();
+            var Items = repo1.GetSalesInvoiceItemforPrint(Id);
+            foreach (var item in Items)
             {
                 var InvItem = new SalesInvoiceItem { Quantity = item.Quantity, Rate = item.Rate, Amount = item.Amount, Unit = item.Unit, WorkDescription = item.WorkDescription, WorkDescriptionRefNo = item.WorkDescriptionRefNo };
                 DataRow dri = ds.Tables["Items"].NewRow();
@@ -348,20 +348,20 @@ namespace ArabErp.Web.Controllers
             Response.ClearContent();
             Response.ClearHeaders();
 
-            
+
             try
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
                 return File(stream, "application/pdf", String.Format("SalesInvoice{0}.pdf", Id.ToString()));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }
         }
-        public ActionResult Delete(int Id,string type)
-             {
+        public ActionResult Delete(int Id, string type)
+        {
             try
             {
                 if (Id == 0) return RedirectToAction("PendingSalesInvoice", new { invType = type });
@@ -375,7 +375,7 @@ namespace ArabErp.Web.Controllers
                 return RedirectToAction("Edit", new { id = Id });
             }
         }
-        
+
         public ActionResult getMaterialCost(int id)
         {
             var list = new SalesInvoiceRepository().getMaterialCost(id);

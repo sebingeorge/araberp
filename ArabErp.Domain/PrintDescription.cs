@@ -13,6 +13,8 @@ namespace ArabErp.Domain
         public string Description { get; set; }
         public string UoM { get; set; }
         public decimal? Quantity { get; set; }
+        public decimal PriceEach { get; set; }
+        public decimal Amount { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public int OrganizationId { get; set; }

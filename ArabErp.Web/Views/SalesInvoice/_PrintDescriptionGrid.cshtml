@@ -3,8 +3,8 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-        $('#print-description-table input').attr("disabled", "true");
-        $('#print-description-table textarea').attr("disabled", "true");
+        //$('#print-description-table input').attr("disabled", "true");
+        //$('#print-description-table textarea').attr("disabled", "true");
         $('#print-description-table .glyphicon').hide();
     })
 
@@ -63,9 +63,11 @@
         <tr class="grid_heading">
             <th width="1%"></th>
             <th width="2%" class="text-center">#</th>
-            <th width="76%" nowrap>Print Description</th>
+            <th width="56%" nowrap>Print Description</th>
             <th width="10%">UoM</th>
             <th width="10%">Quantity</th>
+            <th width="10%">Price Each</th>
+            <th width="10%">Amount</th>
             <th width="1%"></th>
         </tr>
     </thead>
@@ -82,16 +84,23 @@
                         <td align="center">
                             <span id="@(i)_printdesc_serialno">
                                 @(i + 1)
+                                @Html.HiddenFor(m => m.PrintDescriptions[i].PrintDescriptionId)
                             </span>
                         </td>
                         <td>
-                            @Html.TextAreaFor(m => m.PrintDescriptions[i].Description, new { @class = "form_input", @style = "height: 57px" })
+                            @Html.TextAreaFor(m => m.PrintDescriptions[i].Description, new { @class = "form_input", @style = "height: 57px", @readonly = "readonly", @tabindex = "-1" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.PrintDescriptions[i].UoM, new { @class = "form_input" })
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].UoM, new { @class = "form_input", @readonly = "readonly", @tabindex = "-1" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Quantity, new { @class = "form_input numbers-only" })
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Quantity, new { @class = "form_input numbers-only", @readonly = "readonly", @tabindex = "-1" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].PriceEach, new { @class = "form_input numbers-only", @required = "true" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Amount, new { @class = "form_input numbers-only"@*, @readonly = "readonly"*@, @tabindex = "-1", @required = "true" })
                         </td>
                         <td style="vertical-align:middle">
                             <a class="glyphicon glyphicon-plus" style="top:0px" onclick="AddPrintDescRow()"></a>
