@@ -216,7 +216,7 @@ namespace ArabErp.DAL
                                 FROM StoreIssue SI
 	                                INNER JOIN WorkShopRequest WR ON SI.WorkShopRequestId = WR.WorkShopRequestId
 	                                INNER JOIN Customer C ON WR.CustomerId = C.CustomerId
-									INNER JOIN JobCard J  ON J.JobCardId=WR.JobCardId
+									LEFT JOIN JobCard J  ON J.JobCardId=WR.JobCardId
                                 WHERE ISNULL(SI.isActive, 1) = @OrganizationId
                                 AND SI.OrganizationId = 1
                                 ORDER BY StoreIssueDate DESC, SI.CreatedDate DESC;";

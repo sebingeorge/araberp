@@ -363,10 +363,10 @@ namespace ArabErp.DAL
                 try
                 {
 
-                    if (isAfterSales == 1)
-                    {
-                        query = "DELETE FROM SaleOrderMaterial  WHERE SaleOrderId = @id;";
-                    }
+                    //if (isAfterSales == 1)
+                    //{
+                    query = "DELETE FROM SaleOrderMaterial  WHERE SaleOrderId = @id;";
+                    //}
                     query += @"DELETE FROM SaleOrderItem WHERE SaleOrderId = @id;
                                      DELETE FROM SaleOrder OUTPUT deleted.SaleOrderRefNo WHERE SaleOrderId = @id;";
                     string output = connection.Query<string>(query, new { id = id }, txn).First();

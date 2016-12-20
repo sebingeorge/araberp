@@ -60,73 +60,78 @@
                     @Html.TextBoxFor(m => Model.ChassisNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                 </div>
             </div>
-            <div class="row form-group ">
-                <div class="col-md-12">
-                        <label for="ChassisNo">Remarks</label>
-                        @Html.TextAreaFor(m => Model.Remarks, new { @class = "form_input", autocomplete = "off" })
-                </div>
-            </div>
 
-                <div class="wrap">
-                    <div class="table-responsive">
+            <div class="wrap">
+                <div class="table-responsive">
 
-                        <div class="wrap">
-                            <table class="table table-bordered ">
-                                <tr class="grid_heading">
-                                    <th width="1%"><h1>#</h1></th>
-                                    <th width="10%"><h1>Type</h1></th>
-                                    <th width="80%"><h1>QC Parameter</h1></th>
-                                    <th width="10%"><h1>Value</h1></th>
+                    <div class="wrap">
+                        <table class="table table-bordered ">
+                            <tr class="grid_heading">
+                                <th width="1%"><h1>#</h1></th>
+                                <th width="10%"><h1>Type</h1></th>
+                                <th width="80%"><h1>QC Parameter</h1></th>
+                                <th width="10%"><h1>Value</h1></th>
+
+                            </tr>
+                            @for (int i = 0; i < Model.JobCardQCParams.Count(); i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @*@Html.TextBoxFor(model => Model.JobCardQCParams[i].QCParamId, new { @class = "form_input" , autocomplete = "off", @readonly = "readonly"})*@
+                                        @Html.HiddenFor(m => m.JobCardQCParams[i].QCParamId)
+                                        @(i + 1)
+                                    </td>
+                                    <td>@Html.TextBoxFor(model => Model.JobCardQCParams[i].ParaName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(model => model.JobCardQCParams[i].QCParamName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                    <td>@Html.TextBoxFor(model => model.JobCardQCParams[i].QCParamValue, new { @class = "form_input", autocomplete = "off" })</td>
 
                                 </tr>
-                                @for (int i = 0; i < Model.JobCardQCParams.Count(); i++)
-                            {
-                                    <tr>
-                                        <td>
-                                            @*@Html.TextBoxFor(model => Model.JobCardQCParams[i].QCParamId, new { @class = "form_input" , autocomplete = "off", @readonly = "readonly"})*@
-                                            @Html.HiddenFor(m => m.JobCardQCParams[i].QCParamId)
-                                            @(i+1)
-                                        </td>
-                                        <td>@Html.TextBoxFor(model => Model.JobCardQCParams[i].ParaName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(model => model.JobCardQCParams[i].QCParamName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                                        <td>@Html.TextBoxFor(model => model.JobCardQCParams[i].QCParamValue, new { @class = "form_input", autocomplete = "off" })</td>
-
-                                    </tr>
                             }
-                            </table>
+                        </table>
 
-
-                        </div>
 
                     </div>
+
                 </div>
-                <div class="row form-group">
+            </div>
+            <div class="row form-group ">
+                @if (!Model.isService)
+                {
                     <div class="col-md-2">
-                        <label for="name" class="label1">Employee</label>
-                        @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input" })
+                        <label for="BoxNo">Punching No.</label>
+                        @Html.TextBoxFor(m => m.PunchingNo, new { @class = "form_input", @required = "true" })
                     </div>
-                    <div class="col-md-2" style="vertical-align:middle">
-
-                        @Html.CheckBoxFor(model => Model.IsQCPassed, new { @class = "check_box", @onclick = "Checked(this)" })
-                        <label for="@Html.NameFor(x => x.IsQCPassed)">QC Passed</label>
-                    </div>
+                }
+                <div class="col-md-10">
+                    <label for="ChassisNo">Remarks</label>
+                    @Html.TextAreaFor(m => Model.Remarks, new { @class = "form_input", autocomplete = "off" })
                 </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="name" class="label1">Employee</label>
+                    @Html.DropDownListFor(m => Model.EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Employee", new { @class = "form_input" })
+                </div>
+                <div class="col-md-2" style="vertical-align:middle">
+
+                    @Html.CheckBoxFor(model => Model.IsQCPassed, new { @class = "check_box", @onclick = "Checked(this)" })
+                    <label for="@Html.NameFor(x => x.IsQCPassed)">QC Passed</label>
+                </div>
+            </div>
 
 
-                <div class="row">
+            <div class="row">
 
-                    <div class="col-md-12 hrpart">
-                        <button type="button" class="form-button right" onclick="Back()">Exit</button>
-                        <button type="submit" class="form-button right">Save</button>
-
-                    </div>
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Back()">Exit</button>
+                    <button type="submit" class="form-button right">Save</button>
 
                 </div>
-
 
             </div>
+
+
+        </div>
     }
     @*</form>*@
 </div>
-
-

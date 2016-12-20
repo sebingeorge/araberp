@@ -57,15 +57,16 @@
   </xs:schema>
   <Head>
     <SalesInvoiceRefNo>AARC/SI/1</SalesInvoiceRefNo>
-    <SalesInvoiceDate>15-Dec-2016</SalesInvoiceDate>
-    <VehicleOutPassNo>DV/16/1464</VehicleOutPassNo>
-    <CustomerName>Amwaj Catering Services</CustomerName>
-    <Address>Doha ,Qatar,,0</Address>
-    <CustomerOrderRef>Mail Confirm</CustomerOrderRef>
-    <RegistrationNo>227460</RegistrationNo>
-    <JobCardNo>AARC/JC-S/1</JobCardNo>
-    <TotalAmount>1394.00</TotalAmount>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <SalesInvoiceDate>20-Dec-2016</SalesInvoiceDate>
+    <VehicleOutPassNo>DC/5</VehicleOutPassNo>
+    <CustomerName>Chef Middle East WLL</CustomerName>
+    <Address>Doha, Qatar,,</Address>
+    <CustomerOrderRef xml:space="preserve"> </CustomerOrderRef>
+    <PaymentTerms>on delivery</PaymentTerms>
+    <RegistrationNo>231926</RegistrationNo>
+    <JobCardNo>AARC/JC-S/3</JobCardNo>
+    <TotalAmount>2450.00</TotalAmount>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
@@ -78,17 +79,17 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <CreateUser>ihits</CreateUser>
-    <CreateSig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\e4e9eadd-d4c7-4133-af20-db268cbd1fc0.png</CreateSig>
+    <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\ec1d0553-e854-4076-9cd5-72e5d635b691.jpg</CreateSig>
     <CreatedDes>Asst.Sales Manager</CreatedDes>
     <ApproveUser>ihits</ApproveUser>
-    <ApproveSig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\e4e9eadd-d4c7-4133-af20-db268cbd1fc0.png</ApproveSig>
+    <ApproveSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\ec1d0553-e854-4076-9cd5-72e5d635b691.jpg</ApproveSig>
     <ApproveDes>Asst.Sales Manager</ApproveDes>
   </Head>
   <Items>
-    <Quantity>41</Quantity>
+    <Quantity>1</Quantity>
     <WorkDescription>General Checkup &amp; Repair</WorkDescription>
     <WorkDescriptionRefNo>WD/5</WorkDescriptionRefNo>
-    <Rate>34.00</Rate>
-    <Amount>1394.00</Amount>
+    <Rate>2460.00</Rate>
+    <Amount>2450.00</Amount>
   </Items>
 </NewDataSet>

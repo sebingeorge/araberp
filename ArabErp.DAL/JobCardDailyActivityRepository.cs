@@ -34,7 +34,7 @@ namespace ArabErp.DAL
                         item.JobCardDailyActivityId = id;
                         item.CreatedDate = DateTime.Now;
                         sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
-                                                                      (@JobCardDailyActivityId,@JobCardTaskMasterId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, @EmployeeId, @StartTime, @EndTime);
+                                                                      (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, @EmployeeId, @StartTime, @EndTime);
                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -192,10 +192,11 @@ namespace ArabErp.DAL
                 string query = @"SELECT
 	                                T.EmployeeId,
 	                                E.EmployeeName,
+                                    T.JobCardTaskId,
 	                                T.JobCardTaskMasterId,
 	                                M.JobCardTaskName,
-									CONVERT(VARCHAR, GETDATE(), 106) TaskStartDate,
-									CONVERT(VARCHAR, GETDATE(), 106) TaskEndDate
+									CONVERT(VARCHAR, T.TaskDate, 106) TaskStartDate,
+									CONVERT(VARCHAR, T.TaskDate, 106) TaskEndDate
                                 FROM JobCardTask T
 									INNER JOIN JobCard J ON T.JobCardId = J.JobCardId
 	                                INNER JOIN Employee E ON T.EmployeeId = E.EmployeeId

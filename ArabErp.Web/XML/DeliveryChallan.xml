@@ -67,24 +67,29 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DV/16/1471</DeliveryChallanRefNo>
-    <DeliveryChallanDate>12-Dec-2016</DeliveryChallanDate>
-    <Customer>Delight International Movers</Customer>
-    <CDoorNo>Doha, Qatar</CDoorNo>
+    <DeliveryChallanRefNo>DV/16/1486</DeliveryChallanRefNo>
+    <DeliveryChallanDate>19-Dec-2016</DeliveryChallanDate>
+    <Customer>Jaida Motors &amp; Trading Co</Customer>
+    <CDoorNo>Doha- Qatar</CDoorNo>
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SER/26</SaleRefNo>
-    <SONoDate>12 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC-S/24</JobcardNo>
-    <JCDate>12-Dec-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>40369</RegistrationNo>
-    <WorkDesc>General Checkup &amp; Repair</WorkDesc>
-    <VehicleModel>Mitsubishi 4.1 Ton Double Cabin Truck</VehicleModel>
-    <Employee>Mohammed Safiq</Employee>
-    <QuotationRefNo>AARC/SER/982/12/16</QuotationRefNo>
-    <FreezerName>Z10</FreezerName>
-    <FreezerPartNo>290350</FreezerPartNo>
-    <FreezerId>290350</FreezerId>
-    <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
+    <SaleRefNo>AARC/SO/TR/6</SaleRefNo>
+    <SONoDate>02 Dec 2016</SONoDate>
+    <JobcardNo>AARC/JC/4</JobcardNo>
+    <JCDate>29-Nov-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>P18963</RegistrationNo>
+    <WorkDesc>Thermoking T600-R + 100MM 5000X2100X2100MM ,ISUZU ,BAM</WorkDesc>
+    <VehicleModel>Isuzu NPR Long chassis Truck</VehicleModel>
+    <Employee> Anoop</Employee>
+    <PaymentTerms>Net 30</PaymentTerms>
+    <QuotationRefNo>AARC/SQ/6</QuotationRefNo>
+    <FreezerName>Thermoking T600-R</FreezerName>
+    <FreezerPartNo>GLW1080913</FreezerPartNo>
+    <BoxName>Box Part No</BoxName>
+    <BoxPartNo>Box Part No</BoxPartNo>
+    <FreezerId>1253</FreezerId>
+    <Box>aaaaaaaaaaaa</Box>
+    <SupplyOrderNo>AARC/PO/16/1009</SupplyOrderNo>
+    <SupplyOrderDate>04-Dec-2016</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -93,21 +98,12 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <Image1>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo xml:space="preserve"> </LPONo>
-    <LPODate>12-Dec-2016</LPODate>
-    <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
-    <ApprovedUsersig>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
+    <LPONo>SQ6/JAIDAH/02/12/2016</LPONo>
+    <LPODate>02-Dec-2016</LPODate>
+    <CreatedUser>ihits</CreatedUser>
+    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\ec1d0553-e854-4076-9cd5-72e5d635b691.jpg</CreateSignature>
+    <ApprovedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\ec1d0553-e854-4076-9cd5-72e5d635b691.jpg</ApprovedUsersig>
   </Head>
-  <Items>
-    <Description>General Service of Tail Lift:
-Top-up Hydraulic Oil
-Tail Lift Greasing
-General Check-up &amp; Maintenance
-</Description>
-    <UoM>ea</UoM>
-    <Quantity>1</Quantity>
-  </Items>
 </NewDataSet>

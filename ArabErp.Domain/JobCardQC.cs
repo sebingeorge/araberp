@@ -53,6 +53,8 @@ namespace ArabErp.Domain
         public string ContactPerson { get; set; }
         public string OrganizationName { get; set; }
         public string Image1 { get; set; }
+        public bool isService { get; set; }
+        public string PunchingNo { get; set; }
         public List<JobCardQCParam> JobCardQCParams { get; set; }
     }
 }

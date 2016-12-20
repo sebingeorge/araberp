@@ -146,6 +146,7 @@
                             <th width="2%" class="text-center"><h1>#</h1></th>
                             <th width="20%" class="text-left"><h1>Technician</h1></th>
                             <th width="20%" class="text-left"><h1>Task</h1></th>
+                            <th width="10%"><h1>Date</h1></th>
                             <th width="10%"><h1>Start Time</h1></th>
                             <th width="10%"><h1>End Time</h1></th>
                             <th width="10%"><h1>Actual Hours</h1></th>
@@ -166,8 +167,10 @@
                                 </td>
                                 <td width="5%">
                                     @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].JobCardTaskMasterId)
+                                    @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].JobCardTaskId)
                                     @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].JobCardTaskName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                                 </td>
+                                <td>@Model.JobCardDailyActivityTask[i].TaskStartDate.ToString("dd/MMMM/yyyy")</td>
                                 @*<td width="5%">*@@Html.HiddenFor(m => m.JobCardDailyActivityTask[i].TaskStartDate)@*</td>*@
                                 @*<td width="5%">*@@Html.HiddenFor(m => m.JobCardDailyActivityTask[i].TaskEndDate)@*</td>*@
                                 <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].StartTime, new { @class = "form_input timepicker", autocomplete = "off", @required = "true" })</td>

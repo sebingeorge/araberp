@@ -219,6 +219,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables.Add("Items");
 
             //-------HEAD
+            #region head
             ds.Tables["Head"].Columns.Add("DeliveryChallanRefNo");
             ds.Tables["Head"].Columns.Add("DeliveryChallanDate");
             ds.Tables["Head"].Columns.Add("Customer");
@@ -262,7 +263,8 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("CreateSignature");
             ds.Tables["Head"].Columns.Add("ApprovedUsersig");
             ds.Tables["Head"].Columns.Add("Printdescr");
-            //ds.Tables["Head"].Columns.Add("TransportWarrantyExpiryDate");
+            //ds.Tables["Head"].Columns.Add("TransportWarrantyExpiryDate"); 
+            #endregion
             //-------DT
             ds.Tables["Items"].Columns.Add("Description");
             ds.Tables["Items"].Columns.Add("UoM");
@@ -296,7 +298,7 @@ namespace ArabErp.Web.Controllers
             dr["QuotationRefNo"] = Head.QuotationRefNo;
             dr["FreezerName"] = Head.FreezerName;
             dr["FreezerId"] = Head.ReeferId;
-            dr["FreezerPartNo"] = Head.ReeferId;
+            dr["FreezerPartNo"] = Head.FreezerPartNo;
             dr["Box"] = Head.Box;
             dr["BoxName"] = Head.BoxPartNo;
             dr["BoxPartNo"] = Head.BoxPartNo;
@@ -342,6 +344,19 @@ namespace ArabErp.Web.Controllers
                 dri["Quantity"] = DCItem.Quantity;
                 ds.Tables["Items"].Rows.Add(dri);
             }
+            //}
+
+            //var list = new DeliveryChallanRepository().GetSerialNos(Head.JobCardId).ToList();
+            //ds.Tables.Add("ItemBatches");
+            //ds.Tables["ItemBatches"].Columns.Add("SerialNo");
+            //ds.Tables["ItemBatches"].Columns.Add("ItemName");
+            //ds.Tables["ItemBatches"].Columns.Add("WarrantyPeriod");
+            //dr = ds.Tables["ItemBatches"].NewRow();
+            //foreach (var item in list)
+            //{
+            //    dr["SerialNo"] = item.SerialNo;
+            //    dr["ItemName"] = item.ItemName;
+            //    dr["WarrantyPeriod"] = item.WarrantyPeriodInMonths;
             //}
 
             ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "DeliveryChallan.xml"), XmlWriteMode.WriteSchema);

@@ -85,7 +85,8 @@ namespace ArabErp.Web.Controllers
 
                 purchasebill.PurchaseBillDate = System.DateTime.Today;
                 purchasebill.PurchaseBillDueDate = rep.GetBillDueDate(PendingGRNSelected[0].SupplierId).PurchaseBillDueDate;
-                purchasebill.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
+                purchasebill.CurrencyId = new SupplierRepository().GetSupplierCurrency(PendingGRNSelected[0].SupplierId).CurrencyId;
+                //purchasebill.CurrencyId = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).CurrencyId;
                 return View(purchasebill);
             }
             catch (Exception)
