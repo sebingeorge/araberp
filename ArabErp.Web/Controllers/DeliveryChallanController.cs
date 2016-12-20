@@ -298,7 +298,7 @@ namespace ArabErp.Web.Controllers
             dr["QuotationRefNo"] = Head.QuotationRefNo;
             dr["FreezerName"] = Head.FreezerName;
             dr["FreezerId"] = Head.ReeferId;
-            dr["FreezerPartNo"] = Head.ReeferId;
+            dr["FreezerPartNo"] = Head.FreezerPartNo;
             dr["Box"] = Head.Box;
             dr["BoxName"] = Head.BoxPartNo;
             dr["BoxPartNo"] = Head.BoxPartNo;

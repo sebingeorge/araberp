@@ -53,13 +53,13 @@ namespace ArabErp.DAL
                                 INNER JOIN WorkShopRequestItem WRI ON SII.WorkShopRequestItemId = WRI.WorkShopRequestItemId 
                                 GROUP BY WRI.ItemId, SI.WorkShopRequestId, SII.WorkShopRequestItemId;
                 
-                                SELECT ItemId, ItemName, ItemUnitId INTO #ITEM FROM Item;
+                                SELECT ItemId, ItemName, ItemUnitId, PartNo INTO #ITEM FROM Item;
 
                                 SELECT UnitId, UnitName INTO #UNIT FROM Unit;
 
                                 SELECT ItemId,StockPointId,Sum(Quantity)StockQuantity INTO #STOCK FROM StockUpdate GROUP BY ItemId,StockPointId
 
-                                SELECT W.WorkShopRequestItemId, ITEM.ItemId, ITEM.ItemName, W.RequiredQuantity, 
+                                SELECT W.WorkShopRequestItemId, ITEM.ItemId, ITEM.ItemName, ITEM.PartNo, W.RequiredQuantity, 
                                 ISNULL(I.IssuedQuantity, 0) IssuedQuantity, ISNULL((W.RequiredQuantity-ISNULL(I.IssuedQuantity, 0)), 0) PendingQuantity,
                                 (ST.StockQuantity+S.CurrentIssuedQuantity)StockQuantity ,S.CurrentIssuedQuantity,UNIT.UnitName
                                 FROM #STOREISSUE S

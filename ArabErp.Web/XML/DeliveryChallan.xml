@@ -67,26 +67,29 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DV/16/1488</DeliveryChallanRefNo>
+    <DeliveryChallanRefNo>DV/16/1486</DeliveryChallanRefNo>
     <DeliveryChallanDate>19-Dec-2016</DeliveryChallanDate>
     <Customer>Jaida Motors &amp; Trading Co</Customer>
     <CDoorNo>Doha- Qatar</CDoorNo>
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SO/TR/10</SaleRefNo>
-    <SONoDate>03 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC/8</JobcardNo>
-    <JCDate>08-Dec-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>P28359</RegistrationNo>
-    <WorkDesc>Thermoking T600-R + 100mm 4400x2100x2100mm- ISUZU ,BAM</WorkDesc>
-    <VehicleModel>Isuzu NPR </VehicleModel>
+    <SaleRefNo>AARC/SO/TR/6</SaleRefNo>
+    <SONoDate>02 Dec 2016</SONoDate>
+    <JobcardNo>AARC/JC/4</JobcardNo>
+    <JCDate>29-Nov-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>P18963</RegistrationNo>
+    <WorkDesc>Thermoking T600-R + 100MM 5000X2100X2100MM ,ISUZU ,BAM</WorkDesc>
+    <VehicleModel>Isuzu NPR Long chassis Truck</VehicleModel>
     <Employee> Anoop</Employee>
     <PaymentTerms>Net 30</PaymentTerms>
-    <QuotationRefNo>AARC/SQ/10</QuotationRefNo>
+    <QuotationRefNo>AARC/SQ/6</QuotationRefNo>
     <FreezerName>Thermoking T600-R</FreezerName>
-    <FreezerPartNo>1253</FreezerPartNo>
+    <FreezerPartNo>GLW1080913</FreezerPartNo>
+    <BoxName>Box Part No</BoxName>
+    <BoxPartNo>Box Part No</BoxPartNo>
     <FreezerId>1253</FreezerId>
-    <Box>qqwweerrttyyuuiioopp</Box>
-    <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
+    <Box>aaaaaaaaaaaa</Box>
+    <SupplyOrderNo>AARC/PO/16/1009</SupplyOrderNo>
+    <SupplyOrderDate>04-Dec-2016</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -95,17 +98,12 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <Image1>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo>SQ10/JAIDAH/03/12/2016</LPONo>
-    <LPODate>03-Dec-2016</LPODate>
+    <LPONo>SQ6/JAIDAH/02/12/2016</LPONo>
+    <LPODate>02-Dec-2016</LPODate>
     <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
-    <ApprovedUsersig>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_Images\</ApprovedUsersig>
+    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\ec1d0553-e854-4076-9cd5-72e5d635b691.jpg</CreateSignature>
+    <ApprovedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\ec1d0553-e854-4076-9cd5-72e5d635b691.jpg</ApprovedUsersig>
   </Head>
-  <Items>
-    <Description>wwweweerrdgfhjkjlkn</Description>
-    <UoM>hu</UoM>
-    <Quantity>7</Quantity>
-  </Items>
 </NewDataSet>

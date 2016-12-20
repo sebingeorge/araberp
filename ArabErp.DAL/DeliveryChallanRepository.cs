@@ -532,9 +532,7 @@ namespace ArabErp.DAL
                 var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new { OrganizationId = OrganizationId, DeliveryChallanId = DeliveryChallanId }).First<DeliveryChallan>();
                 if (objDeliveryChallan.isService == 0)
                 {
-                    sq = @"
-								
-								SELECT DISTINCT O.*,
+                    sq = @"SELECT DISTINCT O.*,
 								ORR.CountryName,
 								DC.DeliveryChallanId,
 								DeliveryChallanRefNo,
@@ -553,7 +551,8 @@ namespace ArabErp.DAL
 								DC.Remarks,
 								SQ.QuotationRefNo,
 								I.[ItemName] FreezerName,I.ItemId ReeferId,
-								ISNULL(I.PartNo,'') FreezerPartNo,
+								IB.SerialNo FreezerPartNo,
+								--ISNULL(I.PartNo,'') FreezerPartNo,
                                 QC.PunchingNo Box,
 								--II.ItemName Box, II.ItemId Box,
 								ISNULL(II.PartNo, '') BoxPartNo,
@@ -585,6 +584,9 @@ namespace ArabErp.DAL
 							    left join Item I ON I.ItemId=JC.[FreezerUnitId]
 								left join Item II ON II.ItemId=JC.[BoxId]
                                 LEFT JOIN JobCardQC QC ON JC.JobCardId = QC.JobCardId
+								LEFT JOIN ItemBatch IB ON DC.DeliveryChallanId = IB.DeliveryChallanId
+								LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId AND I.ItemId = GI.ItemId
+								LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId AND I.ItemId = OS.ItemId
 								WHERE DC.DeliveryChallanId=@DeliveryChallanId";
 
 
