@@ -4,13 +4,16 @@
     <thead>
         <tr class="grid_heading">
             <th width="1%" class="text-center">#</th>
-            <th width="15%"><h1>Sale Order Ref. No. &amp; Date</h1></th>
+            <th width="12%"><h1>Sale Order Ref. No. &amp; Date</h1></th>
             <th width="15%" nowrap><h1>Job Card Ref No. &amp; Date</h1></th>
+            <th width="5%" nowrap><h1>Bay</h1></th>
             <th width="8%"><h1>Engineer</h1></th>
-            <th width="15%"><h1>Task</h1></th>
-            <th width="5%" title="Estimated hours" nowrap><h1>Est. Hours</h1></th>
+            <th width="8%"><h1>Task</h1></th>
+            <th width="8%"><h1>Customer</h1></th>
+            <th width="5%"><h1>Reg No./Chassis No.</h1></th>
+            <th width="3%" title="Estimated hours" nowrap><h1>Est. Hours</h1></th>
             <th width="8%"><h1>Technician</h1></th>
-            <th width="10%"><h1>Required Date</h1></th>
+            <th width="7%"><h1>Required Date</h1></th>
         </tr>
     </thead>
     <tbody class="grid_row">
@@ -43,6 +46,8 @@
                         count1 = Model.Where(x => x.JobCardId == item.JobCardId).Count();
                         <td rowspan="@count1">
                             <b>@item.JobCardNo</b> - @item.JobCardDate.ToString("dd/MMMM/yyyy")
+                            </td>
+                        <td>
                             @if(!item.isProjectBased)
                             {
                                 @:(@item.BayName)
@@ -55,6 +60,17 @@
                     <td>
                         @item.JobCardTaskName
                     </td>
+                    <td>@item.CustomerName</td>
+                    <td>
+                        @item.RegistrationNo
+                        @if ((item.RegistrationNo != null && item.RegistrationNo != "") && (item.ChassisNo != null && item.ChassisNo != ""))
+                        {
+                            @: -
+                                                 }
+                        @item.ChassisNo
+                    </td>
+                  
+
                     <td>
                         @item.EstimatedHours
                     </td>

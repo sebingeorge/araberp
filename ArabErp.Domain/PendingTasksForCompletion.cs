@@ -23,5 +23,7 @@ namespace ArabErp.Domain
         public DateTime TaskDate { get; set; }
         public string JobCardTaskName { get; set; }
         public string EmployeeName { get; set; }
+        public string CustomerName { get; set; }
+        public string ChassisNo { get; set; }
     }
 }
