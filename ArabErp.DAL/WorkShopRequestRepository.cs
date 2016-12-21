@@ -478,7 +478,8 @@ namespace ArabErp.DAL
        {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<WorkShopRequest>(@"SELECT WorkShopRequestId, SUM(Quantity) Quantity INTO #WORK FROM WorkShopRequestItem GROUP BY WorkShopRequestId;
+                return connection.Query<WorkShopRequest>(@"SELECT WorkShopRequestId, SUM(Quantity) Quantity INTO #WORK FROM WorkShopRequestItem 
+                inner join ITEM I ON I.ItemId= WorkShopRequestItem.ItemId where isnull(I.isConsumable,0)=0 GROUP BY WorkShopRequestId;
                 SELECT WorkShopRequestId, SUM(IssuedQuantity) IssuedQuantity INTO #ISSUE FROM StoreIssueItem SII INNER JOIN StoreIssue SI ON  SII.StoreIssueId = SI.StoreIssueId GROUP BY WorkShopRequestId;
                 SELECT CustomerId, CustomerName INTO #CUSTOMER FROM Customer;
 				SELECT SaleOrderId, ISNULL(SaleOrderRefNo, '')+' - '+CONVERT(VARCHAR, SaleOrderDate, 106) SoNoWithDate INTO #SALE FROM SaleOrder;

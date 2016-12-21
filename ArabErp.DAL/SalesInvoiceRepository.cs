@@ -165,7 +165,7 @@ namespace ArabErp.DAL
 						AND JC.isActive=1
 						AND C.isActive=1
 						AND SOI.isActive=1
-                        AND SO.OrganizationId = @OrganizationId";
+                        AND SO.OrganizationId = @OrganizationId ";
                 }
                 else if (invType == "Final")
                 {
@@ -249,7 +249,7 @@ namespace ArabErp.DAL
                             LEFT JOIN VehicleModel V ON R.VehicleModelId=V.VehicleModelId
                             LEFT JOIN VehicleInPass VIP ON VIP.SaleOrderItemId=R.SaleOrderItemId
                             LEFT JOIN DeliveryChallan DC ON R.JobCardId = DC.JobCardId
-							WHERE DC.DeliveryChallanId IS NOT NULL
+							WHERE DC.DeliveryChallanId IS NOT NULL ORDER BY DeliveryChallanDate desc, DeliveryChallanId desc
                             DROP TABLE #RESULT;
                             DROP TABLE #SaleOrder;
                             DROP TABLE #SalesInvoice;
