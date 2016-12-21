@@ -7,6 +7,7 @@
             <th width="30%"><h1>Customer</h1></th>
             <th width="20%"><h1>Freezer Unit</h1></th>
             <th width="20%"><h1>Box</h1></th>
+            <th width="20%" nowrap><h1> Reg No./Chassis No.</h1></th>
             <th width="15%"><h1>Engineer/Supervisor</h1></th>
             <th width="1%" class="text-center"><h1></h1></th>
         </tr>
@@ -22,6 +23,17 @@
                     <td>@item.CustomerName</td>
                     <td>@item.FreezerUnitName</td>
                     <td>@item.BoxName</td>
+                
+                    <td>
+                        <strong>@item.RegistrationNo </strong>
+                        @if ((item.RegistrationNo != null && item.RegistrationNo != "") && (item.ChasisNo != null && item.ChasisNo != ""))
+                        {
+                            @: -
+                                    }
+                        <strong>@item.ChasisNo</strong>
+                    </td>
+
+
                     <td>@item.EmployeeName</td>
                     <td>
                         <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.JobCardId)" /></center>
