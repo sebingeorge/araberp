@@ -201,13 +201,13 @@ namespace ArabErp.Web.Controllers
             var result = new DropdownRepository().TaskDropdown(OrganizationId);
             ViewBag.TaskList = new SelectList(result, "Id", "Name");
         }
-        public ActionResult PreviousList(int ProjectBased,int service, DateTime? from, DateTime? to, int id = 0, int cusid = 0)
+        public ActionResult PreviousList(int ProjectBased, int service, DateTime? from, DateTime? to, int id = 0, int cusid = 0, string RegNo = "")
         {
             try
             {
                 from = from ?? DateTime.Today.AddMonths(-1);
                 to = to ?? DateTime.Today;
-                return PartialView("_PreviousList", new JobCardRepository().GetAllJobCards(ProjectBased,service ,id, cusid, OrganizationId, from, to));
+                return PartialView("_PreviousList", new JobCardRepository().GetAllJobCards(ProjectBased, service, id, cusid, OrganizationId, from, to, RegNo));
             }
 
             catch (Exception ex)

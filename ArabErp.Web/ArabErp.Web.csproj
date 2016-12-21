@@ -1288,6 +1288,7 @@
     <Content Include="Views\WorkShopRequest\CreateDirectMaterialRequest.cshtml" />
     <Content Include="Views\WorkShopRequest\_DirectMaterialRequestGrid.cshtml" />
     <Content Include="Views\WorkShopRequest\DirectMaterialRequestList.cshtml" />
+    <Content Include="Views\StoresIssue\_PreviousListStoreIssue.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

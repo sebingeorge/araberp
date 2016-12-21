@@ -200,9 +200,10 @@ namespace ArabErp.DAL
         /// Return all active store issues
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<StoresIssuePreviousList> PreviousList(int OrganizationId)
+        public IEnumerable<StoresIssuePreviousList> PreviousList(string StoreIssue = "", string Jobcard = "", string Customer = "", string RegNo = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
+
             {
                 string query = @"SELECT 
 	                                SI.StoreIssueId,
@@ -212,15 +213,22 @@ namespace ArabErp.DAL
 	                                WR.WorkShopRequestDate,
 	                                C.CustomerName,
 	                                SI.Remarks,
-	                                SI.CreatedDate,J.JobCardNo
-                                FROM StoreIssue SI
+	                                SI.CreatedDate,J.JobCardNo,
+									ISNULL(ChassisNo,'')ChassisNo,ISNULL(RegistrationNo,'')RegistrationNo
+                                    FROM StoreIssue SI
 	                                INNER JOIN WorkShopRequest WR ON SI.WorkShopRequestId = WR.WorkShopRequestId
 	                                LEFT JOIN Customer C ON WR.CustomerId = C.CustomerId
 									LEFT JOIN JobCard J  ON J.JobCardId=WR.JobCardId
-                                WHERE ISNULL(SI.isActive, 1) = @OrganizationId
-                                AND SI.OrganizationId = 1
+									LEFT JOIN VehicleInPass V ON V.VehicleInPassId=J.InPassId
+                                WHERE ISNULL(SI.isActive, 1) = 1
+                                AND CustomerName LIKE '%'+@Customer+'%'
+                                AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%'
+			                    OR ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%')
+				                AND ISNULL(J.JobCardNo, '') LIKE '%'+@Jobcard+'%'
+								AND ISNULL(SI.StoreIssueRefNo, '') LIKE '%'+@StoreIssue+'%'
+                                AND ISNULL(SI.StoreIssueDate, '') LIKE '%'+@StoreIssue+'%'
                                 ORDER BY StoreIssueDate DESC, SI.CreatedDate DESC;";
-                return connection.Query<StoresIssuePreviousList>(query, new { OrganizationId = OrganizationId }).ToList();
+                return connection.Query<StoresIssuePreviousList>(query, new { StoreIssue = StoreIssue, Jobcard = Jobcard, Customer = Customer, RegNo = RegNo }).ToList();
             }
         }
 

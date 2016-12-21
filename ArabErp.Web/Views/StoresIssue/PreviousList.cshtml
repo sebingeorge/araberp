@@ -6,80 +6,66 @@
 }
 
 <script type="text/javascript">
- 
-    function Open(id) {
-        var url = '@Url.Action("Edit")';
-        url += "?id=" + id;
-        window.location = url;
-    }
-   
-    function Exit()
-    {
+
+    function Exit() {
         var url = '@Url.Action("Pending")';
         window.location = url;
+    }
+
+    function Filter() {
+        $("#previous_workshop").addClass("fade");
+        var StoreIssue = $("#txtStoreIssue").val().trim();
+        var Jobcard = $("#txtJcNo").val().trim();
+        var Customer = $("#txtCustomer").val().trim();
+        var RegNo = $("#txtRegNo").val().trim();
+        var url = '@Url.Action("PreviousList")';
+        url += "?StoreIssue=" + encodeURIComponent(StoreIssue) + "&Jobcard=" + encodeURIComponent(Jobcard) + "&Customer=" + encodeURIComponent(Customer) + "&RegNo=" + encodeURIComponent(RegNo);
+        alert("")
+        window.location = url;
+        $("#previous_workshop").load(url, function () {
+            $("#previous_workshop").removeClass("fade");
+        });
     }
 </script>
 
 
-    <div class="row">
-        <div class="form-head1">
-            <h4>Stores Issue List</h4>
-        </div>
-        <div class="main-part pad1">
-            <div class="row">
-                <div class="main-grid main-grid-top scroll1">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="grid_heading">
-                                    <th width="18%" nowrap><h1>Stores Issue No. &amp; Date</h1></th>
-                                    <th width="15%" nowrap><h1>WR No. &amp; Date</h1></th>
-                                    <th width="15%" nowrap><h1>Jobcard No. </h1></th>
-                                    <th width="20%" nowrap><h1>Customer</h1></th>
-                                    <th width="26%" nowrap><h1>Special Remarks</h1></th>
-                                    <th width="10%"><center><h1></h1></center></th>
-                                </tr>
-                            </thead>
-                            <tbody class="grid_row">
 
-                                @if (Model.Count > 0)
-                                {
-                                    foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td>@item.StoreIssueRefNo - @item.StoreIssueDate.ToString("dd/MMMM/yyyy")</td>
-                                            <td>@item.WorkShopRequestRefNo &amp; @item.WorkShopRequestDate.ToString("dd/MMM/yyyy")</td>
-                                            <td>@item.JobCardNo</td>
-                                            <td>@item.CustomerName</td>
-                                            <td>@item.Remarks</td>
-                                            <td>
-                                                <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.StoreIssueId)" /></center>
-
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td colspan="5">
-                                            <center><em>No items found!</em></center>
-                                        </td>
-                                    </tr>
-                                }
-
-                            </tbody>
-                        </table>
-                    </div>
-                    </div>
+<div class="row">
+    <div class="form-head1">
+        <h4>Stores Issue List</h4>
+    </div>
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="part">
+                <div class="col-md-2">
+                    <label for="txtJobcard">Store Issue.</label>
+                    <input type="text" class="form_input" id="txtStoreIssue" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Store Issue" />
                 </div>
-
-                <div class="row">
-                    <div class="col-md-12 hrpart">
-                        <button class="form-button right" onclick="Exit()">Exit</button>
-                    </div>
+                <div class="col-md-2">
+                    <label for="txtJcNo">Job Card No.</label>
+                    <input type="text" class="form_input" id="txtJcNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Job Card" />
                 </div>
-
+                <div class="col-md-2">
+                    <label for="txtCustomer">Customer</label>
+                    <input type="text" class="form_input" id="txtCustomer" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Customer" />
+                </div>
+                <div class="col-md-2">
+                    <label for="txtRegNo">Reg. No./Chassis No.</label>
+                    <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Reg. No./Chassis No." />
                 </div>
             </div>
+        </div>
+        <br />
+        <div id="previous_workshop">
+            @Html.Partial("_PreviousListStoreIssue")
+        </div>
+        <br />
 
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button class="form-button right" onclick="Exit()">Exit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
