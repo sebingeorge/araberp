@@ -89,8 +89,6 @@ namespace ArabErp.DAL
                 {
                     var id = connection.Execute(sql, objSalesInvoice, txn);
 
-                    int i = 0;
-
                     var SalesInvoiceItemRepo = new SalesInvoiceItemRepository();
                     foreach (var item in objSalesInvoice.SaleInvoiceItems)
                     {
@@ -98,6 +96,14 @@ namespace ArabErp.DAL
 
                         item.OrganizationId = objSalesInvoice.OrganizationId;
                         SalesInvoiceItemRepo.InsertSalesInvoiceItem(item, connection, txn);
+                    }
+
+                    sql = @"UPDATE PrintDescription SET PriceEach = @PriceEach, Amount = @Amount WHERE PrintDescriptionId = @PrintDescriptionId";
+                    foreach (var item in objSalesInvoice.PrintDescriptions)
+                    {
+                        if (item.PrintDescriptionId == 0) continue;
+                        item.Amount = (item.Quantity ?? 0) * item.PriceEach;
+                        if (connection.Execute(sql, item, txn) <= 0) throw new Exception();
                     }
 
                     InsertLoginHistory(dataConnection, objSalesInvoice.CreatedBy, "Update", "Sales Invoice", id.ToString(), objSalesInvoice.OrganizationId.ToString());
@@ -443,7 +449,16 @@ namespace ArabErp.DAL
                         item.OrganizationId = model.OrganizationId;
                         SalesInvoiceItemRepo.InsertSalesInvoiceItem(item, connection, trn);
                     }
-                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Sales Invoice", result.SalesInvoiceId.ToString(), "0");
+
+                    sql = @"UPDATE PrintDescription SET PriceEach = @PriceEach, Amount = @Amount WHERE PrintDescriptionId = @PrintDescriptionId";
+                    foreach (var item in model.PrintDescriptions)
+                    {
+                        if (item.PrintDescriptionId == null || item.PrintDescriptionId == 0) continue;
+                        item.Amount = (item.Quantity??0) * item.PriceEach;
+                        if (connection.Execute(sql, item, trn) <= 0) throw new Exception();
+                    }
+
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "Sales Invoice", result.SalesInvoiceId.ToString(), model.OrganizationId.ToString());
                     trn.Commit();
                     //return id + "|INV/" + internalId;
                 }
