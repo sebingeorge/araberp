@@ -49,6 +49,10 @@
                                     {
                                         @: - @Model[i].JobCardDate.ToString("dd/MMM/yyyy")
                                     }
+                                    else if (Model[i].isDirectRequest == true)
+                                    {
+                                        <center></center>
+                                    }
                                     else
                                     {
                                         <center><em class="perm">Job Card not raised</em></center>
@@ -63,7 +67,15 @@
                                     <strong>@Model[i].ChassisNo</strong>
                                 </td>
                                 <td>
-                                    @Model[i].RequiredDate.ToString("dd/MMM/yyyy")
+                                    @if (Model[i].RequiredDate == DateTime.MinValue )
+                                    {
+                                        <center></center>
+                                    }
+                                    else
+                                    {
+                                        @Model[i].RequiredDate.ToString("dd/MMM/yyyy")
+                                    }
+                                 
                                 </td>
                                 <td>
                                     @Model[i].DaysLeft

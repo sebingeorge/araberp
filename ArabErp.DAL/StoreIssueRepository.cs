@@ -87,8 +87,8 @@ namespace ArabErp.DAL
                                 W.RequiredDate,S.Remarks,S.EmployeeId
                                 FROM StoreIssue S
                                 INNER JOIN WorkShopRequest W ON W.WorkShopRequestId=S.WorkShopRequestId
-                                INNER JOIN SaleOrder SO ON SO.SaleOrderId=W.SaleOrderId
-                                INNER JOIN Customer C ON C.CustomerId=W.CustomerId 
+                                LEFT JOIN SaleOrder SO ON SO.SaleOrderId=W.SaleOrderId
+                                LEFT JOIN Customer C ON C.CustomerId=W.CustomerId 
                                 WHERE StoreIssueId=@StoreIssueId";
 
                 var objConsumption = connection.Query<StoreIssue>(sql, new
@@ -217,7 +217,7 @@ namespace ArabErp.DAL
 									ISNULL(ChassisNo,'')ChassisNo,ISNULL(RegistrationNo,'')RegistrationNo
                                     FROM StoreIssue SI
 	                                INNER JOIN WorkShopRequest WR ON SI.WorkShopRequestId = WR.WorkShopRequestId
-	                                INNER JOIN Customer C ON WR.CustomerId = C.CustomerId
+	                                LEFT JOIN Customer C ON WR.CustomerId = C.CustomerId
 									LEFT JOIN JobCard J  ON J.JobCardId=WR.JobCardId
 									LEFT JOIN VehicleInPass V ON V.VehicleInPassId=J.InPassId
                                 WHERE ISNULL(SI.isActive, 1) = 1
