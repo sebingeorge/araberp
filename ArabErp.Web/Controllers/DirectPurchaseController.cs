@@ -272,7 +272,8 @@ namespace ArabErp.Web.Controllers
         public ActionResult PurchaseIndent()
         {
             FillPartNo();
-            GetMaterials(); List<DirectPurchaseRequestItem> list = new List<DirectPurchaseRequestItem>();
+            GetMaterials(); 
+            List<DirectPurchaseRequestItem> list = new List<DirectPurchaseRequestItem>();
             list.Add(new DirectPurchaseRequestItem());
             return View(new DirectPurchaseRequest
             {

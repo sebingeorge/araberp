@@ -1,12 +1,10 @@
-﻿@model ArabErp.Domain.DirectPurchaseRequest
-
+﻿@model ArabErp.Domain.WorkShopRequest
 @{
     string actionName = ViewContext.RouteData.GetRequiredString("action");
 }
-
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#items_0__SlNo").val('1');
+        $("#Items_0__SlNo").val('1');
 
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
@@ -19,13 +17,13 @@
     function validateGrid() {
         var status = true;
         $("select[id$='__ItemId'").each(function (index, object) {
-            if (this.value == '' || $("#items_" + index + "__Quantity").val() == '' || $("#items_" + index + "__Rate").val() == '') status = false;
+            if (this.value == '' || $("#Items_" + index + "__Quantity").val() == '' || $("#Items_" + index + "__Rate").val() == '') status = false;
         });
         return status;
     }
 
     function AddRow() {
-       
+
         if (validateGrid()) {
             var i = 0;
             var no = 1;
@@ -43,13 +41,13 @@
             var clone = $('#0').clone(); // clone the BatchProducts item
             //Update the index of the clone
             //clone.html($(clone).html().replace("Items_0__", 'Items_' + i + '__'));
-            clone.html($(clone).html().replace(/items_0__/g, 'items_' + i + '__'));
-            clone.html($(clone).html().replace(/\items[0]./g, 'items[' + i + '].'));
+            clone.html($(clone).html().replace(/Items_0__/g, 'Items_' + i + '__'));
+            clone.html($(clone).html().replace(/\Items[0]./g, 'Items[' + i + '].'));
             clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
             clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
             clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
             clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
-            clone.html($(clone).html().replace(/txtUoM0/, 'txtUoM' + i + ''));
+            clone.html($(clone).html().replace(/txtUnitName0/, 'txtUnitName' + i + ''));
             clone.html($(clone).html().replace(/txtPartNo0/, 'txtPartNo' + i + ''));
             clone.html($(clone).html().replace(/this, 0/g, 'this, ' + i + ''));
             clone.html($(clone).html().replace(/this,0/g, 'this,' + i + ''));
@@ -57,18 +55,18 @@
             clone.html($(clone).html().replace(/stockQuantity_0/g, 'stockQuantity_' + i + ''));
             $("#table-grid").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
             $("#slno" + (i + 1)).html((i + 1));
-            $("#items_" + i + "__SlNo").val((i + 1));
+            $("#Items_" + i + "__SlNo").val((i + 1));
             //$("#txtUoM" + i).html('');
             //$("#txtPartNo" + i).html('');
 
             $("#" + i).find('span[class="custom-combobox"]').remove();
-            $("#items_" + i + "__Remarks").val('');
-            $("#items_" + i + "__Quantity").val('');
-            $("#items_" + i + "__Rate").val('');
-            $("#items_" + i + "__Amount").val('');
-            $("#items_" + i + "__Amount").val('');
-            $("#items_" + i + "__ItemId").val('');
-            $("#items_" + i + "__ItemId").combobox();
+            $("#Items_" + i + "__Remarks").val('');
+            $("#Items_" + i + "__Quantity").val('');
+            $("#Items_" + i + "__Rate").val('');
+            $("#Items_" + i + "__Amount").val('');
+            $("#Items_" + i + "__Amount").val('');
+            $("#Items_" + i + "__ItemId").val('');
+            $("#Items_" + i + "__ItemId").combobox();
             $("#cboPartNo" + i).val('');
             $("#cboPartNo" + i).combobox();
 
@@ -99,49 +97,50 @@
         if (i > 1) {
             $("#" + index).remove();
             for (var j = index + 1; j < i; j++) {
-                var item = $("#items_" + j + "__ItemId").val();
-                var remarks = $("#items_" + j + "__Remarks").val();
-                var partno = $("#items_" + j + "__PartNo").val();
-                var uom = $("#items_" + j + "__UoM").val();
-                var qty = $("#items_" + j + "__Quantity").val();
-                var rate = $("#items_" + j + "__Rate").val();
-                var amount = $("#items_" + j + "__Amount").val();
+                var item = $("#Items_" + j + "__ItemId").val();
+                var remarks = $("#Items_" + j + "__Remarks").val();
+                var partno = $("#Items_" + j + "__PartNo").val();
+                var uom = $("#Items_" + j + "__UnitName").val();
+                var qty = $("#Items_" + j + "__Quantity").val();
+                var rate = $("#Items_" + j + "__Rate").val();
+                var amount = $("#Items_" + j + "__Amount").val();
                 var clone = $("#" + j).clone(true, true);
-                clone.html($(clone).html().replace(new RegExp("items_" + j + "__", "g"), 'items_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("Items_" + j + "__", "g"), 'Items_' + (j - 1) + '__'));
                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
                 clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
                 clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
                 clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
-                clone.html($(clone).html().replace("items_" + j + "__UoM", "items_" + (j - 1) + "__UoM"));
-                clone.html($(clone).html().replace("items_" + j + "__PartNo", "items_" + (j - 1) + "__PartNo"));
+                clone.html($(clone).html().replace("Items_" + j + "__UnitName", "Items_" + (j - 1) + "__UnitName"));
+                clone.html($(clone).html().replace("Items_" + j + "__PartNo", "Items_" + (j - 1) + "__PartNo"));
                 clone.html($(clone).html().replace(new RegExp("this, " + j, "g"), "this, " + (j - 1)));
                 clone.html($(clone).html().replace(new RegExp("this," + j, "g"), "this," + (j - 1)));
                 clone.html($(clone).html().replace(new RegExp("cboPartNo" + j, "g"), "cboPartNo" + (j - 1)));
                 clone.html($(clone).html().replace(new RegExp("stockQuantity_" + j, "g"), "stockQuantity_" + (j - 1)));
                 $("#" + j).html(clone.html());
-                $("#items_" + (j - 1) + "__SlNo").val(j);
+                $("#Items_" + (j - 1) + "__SlNo").val(j);
                 $("#" + (j)).attr('id', (j - 1));
                 $("#" + (j - 1)).find('span[class="custom-combobox"]').remove();
-                $("#items_" + (j - 1) + "__ItemId").val(item);
-                $("#items_" + (j - 1) + "__ItemId").combobox();
-                $("#items_" + (j - 1) + "__Remarks").val(remarks);
+                $("#Items_" + (j - 1) + "__ItemId").val(item);
+                $("#Items_" + (j - 1) + "__ItemId").combobox();
+                $("#Items_" + (j - 1) + "__Remarks").val(remarks);
                 //$("#items_" + (j - 1) + "__PartNo").val(partno);
                 $("#cboPartNo" + (j - 1)).val(item);
                 $("#cboPartNo" + (j - 1)).combobox();
-                $("#items_" + (j - 1) + "__UoM").val(uom);
-                $("#items_" + (j - 1) + "__Quantity").val(qty);
-                $("#items_" + (j - 1) + "__Rate").val(rate);
-                $("#items_" + (j - 1) + "__Amount").val(amount);
+                $("#Items_" + (j - 1) + "__UnitName").val(uom);
+                $("#Items_" + (j - 1) + "__Quantity").val(qty);
+                $("#Items_" + (j - 1) + "__Rate").val(rate);
+                $("#Items_" + (j - 1) + "__Amount").val(amount);
             }
         }
     }
 
     function OnMaterialChange(sender, index) {
+       
         var id = $(sender).val();
-        alert(id);
+       
         var repeat = false;
         $("select[id$='__ItemId']").each(function (i, object) {
-            //alert($(object).val());
+         
             if ($(object).val() == id && index != i) {
                 repeat = true;
             }
@@ -157,11 +156,11 @@
             $.getJSON(url, { itemId: id },
                 function (data) {
                     var arr = data.split('|');
-                    //$("#items_" + index + "__PartNo").val(arr[0]);
+                 
                     $("#cboPartNo" + index).combobox("destroy");
                     $("#cboPartNo" + index).val(id);
                     $("#cboPartNo" + index).combobox();
-                    $("#items_" + index + "__UoM").val(arr[1]);
+                    $("#Items_" + index + "__UnitName").val(arr[1]);
                 });
             url = '@Url.Action("GetStockQuantity")';
             $.getJSON(url, { itemId: id }, function (data) {
@@ -169,11 +168,11 @@
             })
         }
         else {
-            //$("#items_" + index + "__PartNo").val('');
+          
             $("#cboPartNo" + index).combobox("destroy");
             $("#cboPartNo" + index).val('');
             $("#cboPartNo" + index).combobox();
-            $("#items_" + index + "__UoM").val('');
+            $("#Items_" + index + "__UnitName").val('');
             $('#stockQuantity').text(0);
         }
     }
@@ -181,7 +180,7 @@
     function OnQtyChange(sender, index) {
         var qty = Number($(sender).val());
         var rate = Number($("#items_" + index + "__Rate").val());
-        $("#items_" + index + "__Amount").val((qty * rate).toFixed(2));
+        $("#Items_" + index + "__Amount").val((qty * rate).toFixed(2));
         calculateTotal();
     }
 
@@ -195,48 +194,43 @@
 
     function OnRateChange(sender, index) {
         var rate = Number($(sender).val());
-        var qty = Number($("#items_" + index + "__Quantity").val());
-        $("#items_" + index + "__Amount").val((qty * rate).toFixed(2));
+        var qty = Number($("#Items_" + index + "__Quantity").val());
+        $("#Items_" + index + "__Amount").val((qty * rate).toFixed(2));
         calculateTotal();
     }
 
     function OnPartNoChanged(sender, row) {
         var id = $(sender).val();
         if (id != '' && id != 0) {
-            $("#items_" + row + "__ItemId").combobox("destroy");
-            $("#items_" + row + "__ItemId").val(id);
-            $("#items_" + row + "__ItemId").combobox();
+            $("#Items_" + row + "__ItemId").combobox("destroy");
+            $("#Items_" + row + "__ItemId").val(id);
+            $("#Items_" + row + "__ItemId").combobox();
         }
         else {
-            $("#items_" + row + "__ItemId").combobox("destroy");
-            $("#items_" + row + "__ItemId").val('');
-            $("#items_" + row + "__ItemId").combobox();
+            $("#Items_" + row + "__ItemId").combobox("destroy");
+            $("#Items_" + row + "__ItemId").val('');
+            $("#Items_" + row + "__ItemId").combobox();
         }
-        OnMaterialChange($("#items_" + row + "__ItemId"), row);
+        OnMaterialChange($("#Items_" + row + "__ItemId"), row);
     }
 </script>
 
 <table class="table table-bordered" id="table-grid">
     <thead>
         <tr class="grid_heading">
-            <th width="1%"></th>
+            <th width="2%"></th>
             <th width="1%" class="text-center">#</th>
-            <th width="20%">Material/Spares</th>
+            <th width="40%">Material/Spares</th>
             <th width="10%">Part No</th>
-            <th width="25%">Remarks</th>
-            <th width="5%" class="text-right">Stock Qty</th>
+            <th width="35%">Remarks</th>
+            @*<th width="5%" class="text-right">Stock Qty</th>*@
             <th width="5%" class="text-right">Qty</th>
             <th width="5%">UoM</th>
-            @if (!new string[] { "EditPurchaseIndent", "PurchaseIndent" }.Contains(actionName))
-            {
-                <th width="8%" class="text-right ">Rate</th>
-                <th width="8%" class="text-right ">Amount</th>
-            }
-            <th width="1%">&nbsp;</th>
+            <th width="2%">&nbsp;&nbsp;</th>
         </tr>
     </thead>
     <tbody>
-        @for (int i = 0; i < Model.items.Count; i++)
+        @for (int i = 0; i < Model.Items.Count; i++)
         {
             <tr id="@i">
                 <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
@@ -244,46 +238,30 @@
                     <span id="slno@(i+1)">@(i + 1)</span>
                 </td>
                 <td>
-                    @Html.HiddenFor(m => m.items[i].SlNo)
+                    @Html.HiddenFor(m => m.Items[i].SlNo)
                     <input type="hidden" id="Row_@i" />
 
-                    @Html.DropDownListFor(m => m.items[i].ItemId, new SelectList(ViewBag.materialList, "Value", "Text", Model.items[i].ItemId), "Select Material/Spare", new { @class = "form_input", @onchange = "OnMaterialChange(this, " + i + ")", @required = "true" })
+                    @Html.DropDownListFor(m => m.Items[i].ItemId, new SelectList(ViewBag.materialList, "Value", "Text", Model.Items[i].ItemId), "Select Material/Spare", new { @class = "form_input", @onchange = "OnMaterialChange(this, " + i + ")", @required = "true" })
                 </td>
-                @*
-                    <td>
-                        <input type="text" class="form_input" id="txtPartNo@(i)" disabled />
-                    </td>*@
+             
                 <td>
-                    @Html.DropDownList("cboPartNo" + i, new SelectList(ViewBag.partNoList, "Value", "Text", Model.items[i].ItemId), "Select Part No.", new { @class = "form_input", @onchange = "OnPartNoChanged(this," + i + ")" })
-                    @*@Html.TextBoxFor(m => m.items[i].PartNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                    @Html.DropDownList("cboPartNo" + i, new SelectList(ViewBag.partNoList, "Value", "Text", Model.Items[i].ItemId), "Select Part No.", new { @class = "form_input", @onchange = "OnPartNoChanged(this," + i + ")" })
+                 
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })
+                    @Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })
                 </td>
-                <td align="right">
+                @*<td align="right">
                     <span id="stockQuantity_@i">
 
                     </span>
-                </td>
+                </td>*@
                 <td>
-                    @Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "OnQtyChange(this, " + i + ")", @required = "true" })
+                    @Html.TextBoxFor(m => m.Items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "OnQtyChange(this, " + i + ")", @required = "true" })
                 </td>
 
-                <td>@Html.TextBoxFor(m => m.items[i].UoM, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
-
-                @*
-                    <td>
-                        <input type="text" id="txtUoM@(i)" class="form_input" disabled />
-                    </td>*@
-                @if (!new string[] { "EditPurchaseIndent", "PurchaseIndent" }.Contains(actionName))
-                {
-                    <td>
-                        @Html.TextBoxFor(m => m.items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Rate", @onkeyup = "OnRateChange(this, " + i + ")", @required = "true" })
-                    </td>
-                    <td>
-                        @Html.TextBoxFor(m => m.items[i].Amount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @readonly = "true" })
-                    </td>
-                }
+                <td>@Html.TextBoxFor(m => m.Items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
+              
                 <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0" onclick="AddRow()"></a></td>
             </tr>
         }
@@ -300,17 +278,7 @@
             <th></th>
             <th></th>
             <th></th>
-            @if (!new string[] { "EditPurchaseIndent", "PurchaseIndent" }.Contains(actionName))
-            {
-                <th class="text-right">Total</th>
-                <th class="text-right">
-                    <strong>
-                        <span id="total">
-
-                        </span>
-                    </strong>
-                </th>
-            }
+         
             <th></th>
         </tr>
     </tfoot>
