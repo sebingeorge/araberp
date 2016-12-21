@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using Dapper;
 using ArabErp.Domain;
 using System.Data;
+using System.Collections;
 
 namespace ArabErp.DAL
 {
@@ -632,6 +633,25 @@ namespace ArabErp.DAL
                 {
                     return null;
                 }
+            }
+        }
+
+        public IEnumerable<SalesInvoiceItem> GetDeliveryChallansFromInvoice(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT
+	                                DC.DeliveryChallanRefNo,
+	                                JC.JobCardNo,
+	                                ISNULL(VI.RegistrationNo, '')RegistrationNo,
+	                                ISNULL(VI.ChassisNo, '')ChassisNo
+                                FROM SalesInvoiceItem SII
+                                INNER JOIN JobCard JC ON SII.JobCardId = JC.JobCardId
+                                INNER JOIN DeliveryChallan DC ON JC.JobCardId = DC.JobCardId
+                                INNER JOIN VehicleInPass VI ON JC.InPassId = VI.VehicleInPassId
+                                WHERE SII.SalesInvoiceId = @Id";
+                var objInvoiceItem = connection.Query<SalesInvoiceItem>(sql, new { Id = Id }).ToList<SalesInvoiceItem>();
+                return objInvoiceItem;
             }
         }
     }
