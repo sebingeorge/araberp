@@ -39,5 +39,6 @@ namespace ArabErp.Domain
         public DateTime DeliveryChallanDate { get; set; }
         public string SaleOrderRefNo { get; set; }
         public DateTime SaleOrderDate { get; set; }
+        public string CustomerName { get; set; }
     }
 }
