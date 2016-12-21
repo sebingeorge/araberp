@@ -144,9 +144,9 @@ namespace ArabErp.Web.Controllers
             string data = new StoreIssueRepository().WorkshopRequestHeadDetails(workshopRequestId);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult PreviousList()
+        public ActionResult PreviousList(string StoreIssue = "", string Jobcard = "", string Customer = "", string RegNo = "")
         {
-            return View(new StoreIssueRepository().PreviousList(OrganizationId));
+            return View("PreviousList", new StoreIssueRepository().PreviousList(StoreIssue, Jobcard, Customer, RegNo));
         }
 
         public ActionResult GetStockQuantity(string date, int item = 0, int stockpoint = 0)

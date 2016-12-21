@@ -23,7 +23,7 @@ namespace ArabErp.DAL
             try
             {
 
-                string sql = @"INSERT INTO WorkShopRequestItem(WorkShopRequestId,ItemId,Remarks,Quantity,isActive,isAddtionalMaterialRequest) VALUES( @WorkShopRequestId ,@ItemId,@Remarks,@Quantity,1,@isAddtionalMaterialRequest);
+                string sql = @"INSERT INTO WorkShopRequestItem(WorkShopRequestId,ItemId,Remarks,Slno,Quantity,isActive,isAddtionalMaterialRequest) VALUES( @WorkShopRequestId ,@ItemId,@Remarks,@Slno,@Quantity,1,@isAddtionalMaterialRequest);
                              SELECT CAST(SCOPE_IDENTITY() as int)";
 
                 var id = connection.Query<int>(sql, model, trn).Single();

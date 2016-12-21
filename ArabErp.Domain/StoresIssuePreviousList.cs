@@ -17,5 +17,7 @@ namespace ArabErp.Domain
         public string Remarks { get; set; }
          public string CustomerName { get; set; }
          public string JobCardNo { get; set; }
+        public string RegistrationNo{get;set;}
+        public string ChassisNo { get; set; }
     }
 }

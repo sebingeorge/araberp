@@ -401,18 +401,25 @@ namespace ArabErp
                 return jc;
             }
         }
-        public IEnumerable<JobCard> GetAllJobCards( int ProjectBased,int service,int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
+        public IEnumerable<JobCard> GetAllJobCards(int ProjectBased, int service, int id, int cusid, int OrganizationId, DateTime? from, DateTime? to, string RegNo = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = @"select JobCardId,JobCardNo,JobCardDate,CustomerName,S.CustomerId, I1.ItemName FreezerUnitName, I2.ItemName BoxName, E.EmployeeName from JobCard J inner               join SaleOrder S ON S.SaleOrderId=J.SaleOrderId
-                               inner join Customer C ON C.CustomerId=S.CustomerId
+                string qry = @"SELECT JobCardId,JobCardNo,JobCardDate,CustomerName,S.CustomerId, I1.ItemName FreezerUnitName, I2.ItemName BoxName, E.EmployeeName,
+                               ISNULL(ChassisNo,'')ChasisNo,ISNULL(RegistrationNo,'')RegistrationNo
+                               FROM JobCard J 
+                               INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
+                               INNER JOIN Customer C ON C.CustomerId=S.CustomerId
+                               INNER JOIN VehicleInPass V ON VehicleInPassId=J.InPassId
 							   LEFT JOIN ITEM I1 ON J.FreezerUnitId = I1.ItemId
 							   LEFT JOIN ITEM I2 ON J.BoxId = I2.ItemId
 							   LEFT JOIN Employee E ON J.EmployeeId = E.EmployeeId
-                               where J.isActive=1 and J.OrganizationId = @OrganizationId and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)  AND J.JobCardDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) and J.isProjectBased = @ProjectBased and J.isService=@service
-                                ORDER BY J.JobCardDate DESC, J.CreatedDate DESC";
-                return connection.Query<JobCard>(qry, new { id = id, cusid = cusid, from = from, to = to, OrganizationId = OrganizationId, ProjectBased = ProjectBased,service=service }).ToList();
+                               WHERE J.isActive=1 and J.OrganizationId = @OrganizationId and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) 
+                               AND S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)  AND J.JobCardDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) 
+                               AND ISNULL(@to, GETDATE()) and J.isProjectBased = @ProjectBased and J.isService=@service  
+                               AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%')
+                               ORDER BY J.JobCardDate DESC, J.CreatedDate DESC";
+                return connection.Query<JobCard>(qry, new { id = id, cusid = cusid, from = from, to = to, OrganizationId = OrganizationId, ProjectBased = ProjectBased, service = service, RegNo = RegNo }).ToList();
 
             }
         }
