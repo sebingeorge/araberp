@@ -64,16 +64,16 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>AARC/SI/16/1007</SalesInvoiceRefNo>
-    <SalesInvoiceDate>20-Dec-2016</SalesInvoiceDate>
-    <VehicleOutPassNo>DV/16/1484</VehicleOutPassNo>
-    <CustomerName>UNITED CAR RENTALS Co W.L.L</CustomerName>
-    <Address>Doha,,</Address>
-    <CustomerOrderRef>9980</CustomerOrderRef>
-    <PaymentTerms>100% before Delivery</PaymentTerms>
-    <RegistrationNo>301139</RegistrationNo>
-    <JobCardNo>AARC/JC/14</JobCardNo>
-    <TotalAmount>23000.00</TotalAmount>
+    <SalesInvoiceRefNo>AARC/SI/16/1008</SalesInvoiceRefNo>
+    <SalesInvoiceDate>22-Dec-2016</SalesInvoiceDate>
+    <VehicleOutPassNo>DV/16/1492</VehicleOutPassNo>
+    <CustomerName>Al Irfan Fruits and Vegetables .</CustomerName>
+    <Address>Doha , Qatar,,0</Address>
+    <CustomerOrderRef>qqwweerrttg</CustomerOrderRef>
+    <PaymentTerms>aaaaa</PaymentTerms>
+    <RegistrationNo>293139</RegistrationNo>
+    <JobCardNo>AARC/JC-S/43</JobCardNo>
+    <TotalAmount>760.00</TotalAmount>
     <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
@@ -89,33 +89,22 @@
     <CreateUser>ihits</CreateUser>
     <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\717535aa-1a23-4c12-b77b-a232fad1da2b.jpg</CreateSig>
     <CreatedDes>Asst.Sales Manager</CreatedDes>
-    <ApproveUser>ihits</ApproveUser>
-    <ApproveSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\717535aa-1a23-4c12-b77b-a232fad1da2b.jpg</ApproveSig>
-    <ApproveDes>Asst.Sales Manager</ApproveDes>
+    <ApproveSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</ApproveSig>
   </Head>
   <Items>
-    <PrintDescription>Supply &amp; Installation of 50mm Panel on Walls &amp; 100mm
-Panels on Floor covered with 2mm thick Aluminum 
-Chequered Sheet with 1 Door (Rear Door) into Toyota
-Hiace 6str Van
+    <PrintDescription>General Service of TM T2500:
+Compressor Belt Tension Check-up &amp; Bracket Checking
+General Check-up &amp; Check Cooling
+Electrical Connection Check-up &amp; Adjustments
 </PrintDescription>
     <Quantity>1.00</Quantity>
     <UoM>ea</UoM>
-    <PriceEach>10000.00</PriceEach>
-    <Amount>10000.00</Amount>
-  </Items>
-  <Items>
-    <PrintDescription>
-Supply, Installation &amp; Commissioning of Thermal Master
-T1400 (12V without Stand-by) into Toyota Hiace Van</PrintDescription>
-    <Quantity>1.00</Quantity>
-    <UoM>ea</UoM>
-    <PriceEach>13000.00</PriceEach>
-    <Amount>13000.00</Amount>
+    <PriceEach>760.00</PriceEach>
+    <Amount>760.00</Amount>
   </Items>
   <DeliveryChallans>
-    <DeliveryChallanRefNo>DV/16/1484</DeliveryChallanRefNo>
-    <JobCardNo>AARC/JC/14</JobCardNo>
-    <Chassiss_RegNo>301139</Chassiss_RegNo>
+    <DeliveryChallanRefNo>DV/16/1492</DeliveryChallanRefNo>
+    <JobCardNo>AARC/JC-S/43</JobCardNo>
+    <Chassiss_RegNo>293139</Chassiss_RegNo>
   </DeliveryChallans>
 </NewDataSet>

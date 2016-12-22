@@ -27,7 +27,7 @@ namespace ArabErp.DAL
         //            }
         //        }
 
-        public SalesInvoice GetSalesInvoiceHdforPrint(int SalesInvoiceId,int OrganizationId)
+        public SalesInvoice GetSalesInvoiceHdforPrint(int SalesInvoiceId, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -54,7 +54,7 @@ namespace ArabErp.DAL
                 var objSalesInvoice = connection.Query<SalesInvoice>(sql, new
                 {
                     SalesInvoiceId = SalesInvoiceId,
-                    OrganizationId=OrganizationId
+                    OrganizationId = OrganizationId
                 }).First<SalesInvoice>();
 
                 return objSalesInvoice;
@@ -89,6 +89,15 @@ namespace ArabErp.DAL
                 try
                 {
                     var id = connection.Execute(sql, objSalesInvoice, txn);
+
+                    #region update customer order ref to [SaleOrder] if isService = 1
+                    if (objSalesInvoice.isService == 1)
+                    {
+                        sql = @"UPDATE SaleOrder SET CustomerOrderRef = '" + objSalesInvoice.CustomerOrderRef.Trim() + @"'
+                                WHERE SaleOrderId = " + objSalesInvoice.SaleOrderId;
+                        if (connection.Execute(sql, transaction: txn) <= 0) throw new Exception();
+                    }
+                    #endregion
 
                     var SalesInvoiceItemRepo = new SalesInvoiceItemRepository();
                     foreach (var item in objSalesInvoice.SaleInvoiceItems)
@@ -132,7 +141,7 @@ namespace ArabErp.DAL
                 return id;
             }
         }
-       
+
         public string DeleteInvoice(int Id)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -373,7 +382,7 @@ namespace ArabErp.DAL
                                 SO.CustomerOrderRef CustomerOrderRef,
                                 SO.SpecialRemarks SpecialRemarks,
                                 SO.PaymentTerms PaymentTerms,
-                                JC.isService
+                                SO.isService
                                 from #SaleOrder SO 
                                 left join SaleOrderItem SOI on SO.SaleOrderId=SOI.SaleOrderId
                                 Left join JobCard JC on SO.SaleOrderId=JC.SaleOrderId
@@ -461,6 +470,15 @@ namespace ArabErp.DAL
 
                     result = connection.Query<SalesInvoice>(sql, model, trn).Single<SalesInvoice>();
 
+                    #region update customer order ref to [SaleOrder] if isService = 1
+                    if (model.isService == 1)
+                    {
+                        sql = @"UPDATE SaleOrder SET CustomerOrderRef = '" + model.CustomerOrderRef.Trim() + @"'
+                                WHERE SaleOrderId = " + model.SaleOrderId;
+                        if (connection.Execute(sql, transaction: trn) <= 0) throw new Exception();
+                    }
+                    #endregion
+
                     var SalesInvoiceItemRepo = new SalesInvoiceItemRepository();
                     foreach (var item in model.SaleInvoiceItems)
                     {
@@ -474,7 +492,7 @@ namespace ArabErp.DAL
                     foreach (var item in model.PrintDescriptions)
                     {
                         if (item.PrintDescriptionId == null || item.PrintDescriptionId == 0) continue;
-                        item.Amount = (item.Quantity??0) * item.PriceEach;
+                        item.Amount = (item.Quantity ?? 0) * item.PriceEach;
                         if (connection.Execute(sql, item, trn) <= 0) throw new Exception();
                     }
 
@@ -548,7 +566,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public SalesInvoice GetInvoiceHd(int Id,string type)
+        public SalesInvoice GetInvoiceHd(int Id, string type)
         {
 
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -566,10 +584,11 @@ namespace ArabErp.DAL
 								INNER JOIN Currency CUR ON C.CurrencyId = CUR.CurrencyId
 								INNER JOIN Symbol SYM ON CUR.CurrencySymbolId = SYM.SymbolId
                                 WHERE SalesInvoiceId=@Id";
-              
+
                 var objSalesInvoice = connection.Query<SalesInvoice>(sql, new
                 {
-                    Id = Id,type=type
+                    Id = Id,
+                    type = type
                 }).First<SalesInvoice>();
 
                 return objSalesInvoice;
@@ -587,7 +606,7 @@ namespace ArabErp.DAL
                                 left join Unit U ON U.UnitId=S.UnitId
                                 left join VehicleModel V ON V.VehicleModelId=W.VehicleModelId
                                 WHERE SalesInvoiceId= @Id";
-              
+
 
                 var objInvoiceItem = connection.Query<SalesInvoiceItem>(sql, new { Id = Id }).ToList<SalesInvoiceItem>();
 
@@ -595,8 +614,8 @@ namespace ArabErp.DAL
             }
         }
 
-        public IList<SalesInvoice> ApprovalList( int OrganizationId)
-        { 
+        public IList<SalesInvoice> ApprovalList(int OrganizationId)
+        {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = @"SELECT
@@ -615,12 +634,12 @@ namespace ArabErp.DAL
                 return connection.Query<SalesInvoice>(query, new
                 {
                     OrganizationId = OrganizationId
-                   
+
 
                 }).ToList();
             }
         }
-        public int UpdateSIApproval(int id,DateTime date,int user)
+        public int UpdateSIApproval(int id, DateTime date, int user)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {

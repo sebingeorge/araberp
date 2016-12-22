@@ -66,6 +66,11 @@
         return status;
     }
 
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
     function Filter() {
        
         $("#SalesInvoiceListDiv").addClass("fade");
@@ -162,6 +167,7 @@
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <input type="button" class="form-button left" value="Previous" onclick="PreviousList()" />
+                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
                     <button type="submit" class="form-button right" id="BtnSubmit" disabled>Proceed</button>
                 </div>
             </div>
