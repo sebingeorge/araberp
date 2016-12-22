@@ -248,23 +248,18 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                    IDbTransaction txn = connection.BeginTransaction();
+                IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
+                    string checksql = @"DELETE from [StandardRate]";
+                    connection.Query<int>(checksql, transaction: txn);
                     foreach (var item in model.StandardSellingRateItems)
                     {
-
-                        string checksql = @"DELETE from [StandardRate]";
-
-                        connection.Query<int>(checksql, item, txn);
-
                         string sql = @"INSERT INTO [dbo].[StandardRate]
                                         ([ItemId] ,[Rate] ) VALUES (@ItemId,@Rate)
-                                       
                               SELECT CAST(SCOPE_IDENTITY() as int)";
 
                         int ObjStandardRate = connection.Query<int>(sql, item, txn).First();
-                        txn.Commit();
                     }
                 }
                 catch (Exception)
@@ -273,6 +268,7 @@ namespace ArabErp.DAL
                     throw;
                 }
 
+                txn.Commit();
                 return 1;
             }
         }
