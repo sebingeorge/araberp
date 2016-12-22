@@ -139,16 +139,21 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.stockpointList = new SelectList(new DropdownRepository().StockpointDropdown(), "Id", "Name");
         }
+
         public JsonResult WorkshopRequestHeadDetails(int workshopRequestId)
         {
             string data = new StoreIssueRepository().WorkshopRequestHeadDetails(workshopRequestId);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult PreviousList(string StoreIssue = "", string Jobcard = "", string Customer = "", string RegNo = "")
+        public ActionResult PreviousList()
         {
-            return View("PreviousList", new StoreIssueRepository().PreviousList(StoreIssue, Jobcard, Customer, RegNo));
+            return View();
         }
 
+        public ActionResult PreviousListGrid(string StoreIssue = "", string Jobcard = "", string Customer = "", string RegNo = "")
+        {
+            return PartialView("_PreviousListStoreIssue", new StoreIssueRepository().PreviousList(StoreIssue, Jobcard, Customer, RegNo));
+        }
         public ActionResult GetStockQuantity(string date, int item = 0, int stockpoint = 0)
         {
             try

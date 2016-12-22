@@ -14,35 +14,41 @@ namespace ArabErp.DAL
     public class JobOrderCompletionRepository:BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<JobOrderPending> GetPendingJobOrder(int? isProjectBased, int OrganizationId)
+        public IEnumerable<JobOrderPending> GetPendingJobOrder(int? isProjectBased, int OrganizationId, int id, int cusid, string RegNo = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = string.Empty;
                 if ((isProjectBased ?? 0) == 0)
                 {
-                    query += " select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, V.VehicleModelName";
+                    query += " select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, V.VehicleModelName,RegistrationNo,ChassisNo";
                     query += " from JobCard J";
                     query += " inner join SaleOrderItem SI on SI.SaleOrderItemId = J.SaleOrderItemId";
                     query += " inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId";
                     query += " inner join Customer C on S.CustomerId = C.CustomerId ";
                     query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                    query += " inner join VehicleInPass VI ON VI.VehicleInPassId=J.InPassId";
                     query += " left join VehicleModel V on V.VehicleModelId = W.VehicleModelId ";
                     query += " where ISNULL(J.JodCardCompleteStatus,0) <> 1 and J.isProjectBased = 0 AND J.OrganizationId = @OrganizationId";
+                    query += " and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)";
+                    query += " AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')";
                 }
                 else
                 {
-                    query += " select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, '' VehicleModelName";
+                    query += " select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, '' VehicleModelName,RegistrationNo,ChassisNo";
                     query += " from JobCard J";
                     query += " inner join SaleOrderItem SI on SI.SaleOrderItemId = J.SaleOrderItemId";
                     query += " inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId";
                     query += " inner join Customer C on S.CustomerId = C.CustomerId ";
                     query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                    query += " inner join VehicleInPass VI ON VI.VehicleInPassId=J.InPassId";
                     query += " where ISNULL(J.JodCardCompleteStatus,0) <> 1 and J.isProjectBased = 1 AND J.OrganizationId = @OrganizationId";
+                    query += " and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)";
+                    query += " AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')";
                 }
 
 
-                return connection.Query<JobOrderPending>(query, new { OrganizationId = OrganizationId });
+                return connection.Query<JobOrderPending>(query, new {isProjectBased=isProjectBased, OrganizationId = OrganizationId,id=id,cusid=cusid,RegNo=RegNo});
             }
         }
 

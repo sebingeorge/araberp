@@ -18,10 +18,8 @@
         var Jobcard = $("#txtJcNo").val().trim();
         var Customer = $("#txtCustomer").val().trim();
         var RegNo = $("#txtRegNo").val().trim();
-        var url = '@Url.Action("PreviousList")';
+        var url = '@Url.Action("PreviousListGrid")';
         url += "?StoreIssue=" + encodeURIComponent(StoreIssue) + "&Jobcard=" + encodeURIComponent(Jobcard) + "&Customer=" + encodeURIComponent(Customer) + "&RegNo=" + encodeURIComponent(RegNo);
-        alert("")
-        window.location = url;
         $("#previous_workshop").load(url, function () {
             $("#previous_workshop").removeClass("fade");
         });
@@ -57,7 +55,7 @@
         </div>
         <br />
         <div id="previous_workshop">
-            @Html.Partial("_PreviousListStoreIssue")
+            @Html.Action("PreviousListGrid")
         </div>
         <br />
 

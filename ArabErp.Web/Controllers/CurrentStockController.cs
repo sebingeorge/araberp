@@ -22,6 +22,8 @@ namespace ArabErp.Web.Controllers
             InitDropdown();
             FillWarehouse();
             FillItemCategory();
+            FillGroup();
+            FillSubGroup();
             ClosingStock cs = new ClosingStock();
             cs.itmCatId = 0;
             return View("Index", cs);
@@ -32,10 +34,10 @@ namespace ArabErp.Web.Controllers
             ViewBag.ItemList = new SelectList(List, "Id", "Name");
 
         }
-        public ActionResult CurrentStockRegister(int stkid = 0, int itmcatid = 0, string itmid = "", string PartNo = "")
+        public ActionResult CurrentStockRegister(int stkid = 0, int itmcatid = 0, string itmid = "", string PartNo = "", int itmGroup = 0, int itmSubGroup = 0)
         {
-
-            return PartialView("_CurrentStockRegister", new ClosingStockRepository().GetCurrentStockData(stkid, itmcatid, itmid, OrganizationId,PartNo));
+                                                                                                      
+            return PartialView("_CurrentStockRegister",new ClosingStockRepository().GetCurrentStockData(stkid, itmcatid,itmid,PartNo,itmGroup, itmSubGroup,OrganizationId));
         }
         public void FillWarehouse()
         {
@@ -141,6 +143,18 @@ namespace ArabErp.Web.Controllers
             {
                 throw;
             }
+        }
+        public void FillGroup()
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.ItemGroupDropdown();
+            ViewBag.ItemGroup = new SelectList(result, "Id", "Name");
+        }
+        public void FillSubGroup()
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.ItemSubgroupDropdown();
+            ViewBag.ItemSubgroup = new SelectList(result, "Id", "Name");
         }
     }
 }
