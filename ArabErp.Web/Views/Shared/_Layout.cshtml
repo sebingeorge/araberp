@@ -711,7 +711,7 @@
                                                 }
                                                 @if (formPermission.Find(x => x.FormId == 80) != null)
                                                 {
-                                                    <li><a href="@Url.Action("PendingJobOrderCompletion", "JobOrderCompletion", new { isProjectBased = 1})">Job Order Completion</a></li>
+                                                    <li><a href="@Url.Action("Index", "JobOrderCompletion", new { isProjectBased = 1})">Job Order Completion</a></li>
                                                 }
                                             </ul>
                                         </div>
@@ -782,7 +782,7 @@
                                             }
                                             @if (formPermission.Find(x => x.FormId == 85) != null)
                                             {
-                                                <li><a href="@Url.Action("PendingJobOrderCompletion", "JobOrderCompletion", new { isProjectBased = 0})">Job Order Completion</a></li>
+                                                <li><a href="@Url.Action("Index", "JobOrderCompletion", new { isProjectBased = 0 })">Job Order Completion</a></li>
                                             }
                                             @if (formPermission.Find(x => x.FormId == 86) != null)
                                             {

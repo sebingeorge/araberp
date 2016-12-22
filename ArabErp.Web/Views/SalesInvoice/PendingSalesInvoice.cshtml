@@ -71,6 +71,24 @@
         window.location = url;
     }
 
+    function Filter() {
+       
+        $("#SalesInvoiceListDiv").addClass("fade");
+        var DeliveryNo = $("#txtDeliveryNo").val().trim();
+       
+        var CustomerName = $("#txtCustomer").val().trim();
+        var SalesOrderId = 0;
+        var RegNo = $("#txtRegNo").val().trim();
+        var invType = $("#invType").val();
+        var url = '@Url.Action("PendingSalesInvoice")';
+        url += "?SalesOrderId"+SalesOrderId+ "&invType=" + invType + "&DeliveryNo=" + encodeURIComponent(DeliveryNo) + "&CustomerName=" + encodeURIComponent(CustomerName) + "&RegNo=" + encodeURIComponent(RegNo);
+     
+        window.location = url;
+        $("SalesInvoiceListDiv").load(url, function () {
+            $("SalesInvoiceListDiv").removeClass("fade");
+        });
+    }
+
 </script>
 <style>
     /*td:nth-child(1), th:nth-child(1) { min-width: 400px; }
@@ -87,6 +105,26 @@
     @using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", @id = "Item_form", @onsubmit = "return formValidation()" }))
     {
         <div class="main-part pad1">
+            <div class="row">
+                <div class="part">
+                    <div class="col-md-2">
+                        <label for="txtDeliveryNo">Delivery No.</label>
+                        <input type="text" class="form_input" id="txtDeliveryNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Delivery No." />
+                    </div>
+                    <div class="col-md-2">
+                        <label for="txtRegNo">Reg. No./Chassis No.</label>
+                        <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Reg. No./Chassis No." />
+                    </div>
+                   
+                    <div class="col-md-2">
+                        <label for="txtCustomer">Customer</label>
+                        <input type="text" class="form_input" id="txtCustomer" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Customer" />
+                    </div>
+                  
+                </div>
+            </div>
+            <br />
+
             @*<div class="row form-group">
                     <div class="col-md-3">
                         <label for="cboSaleOrder">Sale Order</label>
@@ -124,7 +162,7 @@
                 </div>*@
 
             <div class="" id="SalesInvoiceListDiv">
-                @Html.Action("PendingSalesInvoiceDt", new { SalesOrderId = 0, Customer = "Select Any Invoice", SaleOrderRefNoWithDate = "Select Any Invoice", invType = invType })
+                @Html.Action("PendingSalesInvoiceDt")
             </div>
             <div class="row">
                 <div class="col-md-12 hrpart">

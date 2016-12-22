@@ -234,5 +234,40 @@ namespace ArabErp.DAL
                 throw;
             }
         }
+        public List<StandardSellingRateItem> GetStandardRateData()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string query = @"SELECT I.ItemId,I.ItemName,I.PartNo,isnull(S.Rate,0)Rate from StandardRate S right join Item I on I.ItemId=S.ItemId";
+                return connection.Query<StandardSellingRateItem>(query).ToList();
+            }
+        }
+        public int InsertStandardRate(StandardSellingRate model)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                foreach (var item in model.StandardSellingRateItems)
+                {
+
+                    string checksql = @"DELETE from [StandardRate]";
+
+                        connection.Query<int>(checksql, item);
+
+                        string sql = @"INSERT INTO [dbo].[StandardRate]
+                                        ([ItemId] ,[Rate] ) VALUES (@ItemId,@Rate)
+                                       
+                              SELECT CAST(SCOPE_IDENTITY() as int)";
+
+                       int ObjStandardRate = connection.Query<int>(sql, item).First();
+                  
+                }
+
+                return 1;
+            }
+        }
+
     }
 }

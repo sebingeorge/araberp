@@ -79,7 +79,7 @@
     }
 
     function Exit() {
-        var url = '@Url.Action("PendingJobOrderCompletion", new { isProjectBased = Model.isProjectBased })';
+        var url = '@Url.Action("Index", new { isProjectBased = Model.isProjectBased })';
         window.location = url;
     }
 </script>
