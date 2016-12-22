@@ -427,5 +427,53 @@ namespace ArabErp.Web.Controllers
                 throw;
             }
         }
+        public ActionResult PendingMaterialRequestApproval()
+        {
+            return View(new WorkShopRequestRepository().PendingDirectMaterialRequestforApproval(OrganizationId));
+        }
+        //[HttpGet]
+        public ActionResult MaterialRequestApproval(int id = 0)
+        {
+            try
+            {
+                if (id == 0)
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                var model = new WorkShopRequestRepository().GetDirectMaterialRequest(id, OrganizationId);
+                if (model == null)
+                {
+                    TempData["error"] = "Could not find the requested Purchase Indent. Please try again.";
+                    return RedirectToAction("Index", "Home");
+                }
+                FillPartNo();
+                GetMaterials();
+                return View("CreateDirectMaterialRequest", model);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured. Please try again.";
+                return RedirectToAction("DirectMaterialRequestList");
+            }
+        }
+        
+        public ActionResult ApproveMaterialReq(int id = 0)
+        {
+          
+            try
+            {
+                new WorkShopRequestRepository().ApproveMaterialRequest(id);
+                TempData["Success"] = "Approved Successfully";
+                return RedirectToAction("PendingMaterialRequestApproval");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+
+            return RedirectToAction("PendingMaterialRequestApproval");
+        }
     }
 }

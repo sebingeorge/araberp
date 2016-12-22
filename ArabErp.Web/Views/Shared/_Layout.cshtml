@@ -810,9 +810,14 @@
                                             {
                                                 <li><a href="@Url.Action("Pending", "WorkShopRequest", new { isProjectBased = 0 })">Workshop Request</a></li>
                                             }
-                                          
-                                                <li><a href="@Url.Action("CreateDirectMaterialRequest", "WorkShopRequest")">Material Request</a></li>
-                                          
+                                          @if (formPermission.Find(x => x.FormId == 143) != null)
+                                            {
+                                            <li><a href="@Url.Action("CreateDirectMaterialRequest", "WorkShopRequest")">Material Request</a></li>
+                                          }
+                                          @if (formPermission.Find(x => x.FormId == 144) != null)
+                                            {
+                                            <li><a href="@Url.Action("PendingMaterialRequestApproval", "WorkShopRequest")">Material Request Approval</a></li>
+                                          }
                                             @if (formPermission.Find(x => x.FormId == 89) != null)
                                             {
                                                 <li><a href="@Url.Action("Create","AdditionalWorkShopRequest")">Additional Workshop Request</a></li>
