@@ -210,7 +210,7 @@ namespace ArabErp.DAL
                 return objSalesInvoices;
             }
         }
-        public List<SalesInvoiceItem> GetPendingSalesInvoiceList(int SaleOrderId, string invType)
+        public List<SalesInvoiceItem> GetPendingSalesInvoiceList(int SaleOrderId,string invType, string DeliveryNo, string CustomerName, string RegNo)
         {
             //  int salesOrderId = Convert.ToInt32(SalesOrderId);
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -264,12 +264,19 @@ namespace ArabErp.DAL
                             LEFT JOIN VehicleModel V ON R.VehicleModelId=V.VehicleModelId
                             LEFT JOIN VehicleInPass VIP ON VIP.SaleOrderItemId=R.SaleOrderItemId
                             LEFT JOIN DeliveryChallan DC ON R.JobCardId = DC.JobCardId
-							WHERE DC.DeliveryChallanId IS NOT NULL ORDER BY DeliveryChallanDate desc, DeliveryChallanId desc
+								WHERE DC.DeliveryChallanId IS NOT NULL AND
+							 ISNULL(C.CustomerName,'') LIKE '%'+@CustomerName+'%'
+                             AND (ISNULL(VIP.RegistrationNo, '') LIKE '%'+@RegNo+'%'
+			                 OR ISNULL(VIP.ChassisNo, '') LIKE '%'+@RegNo+'%')
+				             AND (ISNULL(DC.DeliveryChallanRefNo, '') LIKE '%'+@DeliveryNo+'%'
+			                 OR ISNULL(DeliveryChallanDate, '') LIKE '%'+@DeliveryNo+'%')
+
+				ORDER BY DeliveryChallanDate desc, DeliveryChallanId desc
                             DROP TABLE #RESULT;
                             DROP TABLE #SaleOrder;
                             DROP TABLE #SalesInvoice;
                             DROP TABLE #TEMP_INVOICE;
-                            DROP TABLE #TEMP_ORDER;";
+                            DROP TABLE #TEMP_ORDER;;";
                 }
                 else if (invType == "Transportation")
                 {
@@ -294,7 +301,11 @@ namespace ArabErp.DAL
                             DROP TABLE #TEMP_ORDER;";
                 }
 
-                return connection.Query<SalesInvoiceItem>(sql, new { SaleOrderId = SaleOrderId }).ToList();
+                return connection.Query<SalesInvoiceItem>(sql, new { SaleOrderId = SaleOrderId, 
+                    DeliveryNo = DeliveryNo,
+                    CustomerName = CustomerName,
+                    RegNo = RegNo
+                }).ToList();
             }
         }
 
