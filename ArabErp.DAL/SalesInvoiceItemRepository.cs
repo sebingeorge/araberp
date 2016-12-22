@@ -45,17 +45,28 @@ namespace ArabErp.DAL
                 return objSalesInvoiceItem;
             }
         }
-        public List<SalesInvoiceItem> GetSalesInvoiceItemforPrint(int SalesInvoiceId)
+        public List<PrintDescription> GetSalesInvoiceItemforPrint(int SalesInvoiceId)
         {
+            //Data is fetched from [PrintDescription] table for SalesInvoiceItem
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" select W.WorkDescriptionRefNo,W.WorkDescr WorkDescription,SI.Amount,SI.Rate,SI.Quantity,UnitName Unit from SalesInvoiceItem SI inner join SalesInvoice S ON SI.SalesInvoiceId=S.SalesInvoiceId
-                                inner join SaleOrderItem SII ON SII.SaleOrderItemId=SI.SaleOrderItemId
-                                LEFT JOIN WorkDescription W ON W.WorkDescriptionId=SII.WorkDescriptionId
-                                LEFT JOIN UNIT U ON U.UnitId=SII.UnitId
-                                where SI.SalesInvoiceId=@SalesInvoiceId";
-                               
-                return connection.Query<SalesInvoiceItem>(sql, new { SalesInvoiceId = SalesInvoiceId }).ToList();
+                #region old query 21.12.2016 9.57a
+                //                string sql = @" select W.WorkDescriptionRefNo,W.WorkDescr WorkDescription,SI.Amount,SI.Rate,SI.Quantity,UnitName Unit from SalesInvoiceItem SI inner join SalesInvoice S ON SI.SalesInvoiceId=S.SalesInvoiceId
+                //                                inner join SaleOrderItem SII ON SII.SaleOrderItemId=SI.SaleOrderItemId
+                //                                LEFT JOIN WorkDescription W ON W.WorkDescriptionId=SII.WorkDescriptionId
+                //                                LEFT JOIN UNIT U ON U.UnitId=SII.UnitId
+                //                                where SI.SalesInvoiceId=@SalesInvoiceId"; 
+                #endregion
+
+                string sql = @"SELECT
+	                                PD.*
+                                FROM SalesInvoiceItem SII
+                                INNER JOIN JobCard JC ON SII.JobCardId = JC.JobCardId
+                                INNER JOIN DeliveryChallan DC ON JC.JobCardId = DC.JobCardId
+                                INNER JOIN PrintDescription PD ON DC.DeliveryChallanId = PD.DeliveryChallanId
+                                WHERE SII.SalesInvoiceId = @SalesInvoiceId";
+
+                return connection.Query<PrintDescription>(sql, new { SalesInvoiceId = SalesInvoiceId }).ToList();
 
                
             }
