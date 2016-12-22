@@ -349,6 +349,12 @@
       <DependentUpon>CrystalReport1.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\CrystalReport2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport2.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\CurrentStockReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1285,6 +1291,9 @@
     <Content Include="Views\SalesInvoice\_LabourCostGrid.cshtml" />
     <Content Include="Views\RateSettings\StandardRate.cshtml" />
     <Content Include="Views\SaleOrder\_ServiceOrderList.cshtml" />
+    <Content Include="Views\WorkShopRequest\CreateDirectMaterialRequest.cshtml" />
+    <Content Include="Views\WorkShopRequest\_DirectMaterialRequestGrid.cshtml" />
+    <Content Include="Views\WorkShopRequest\DirectMaterialRequestList.cshtml" />
     <Content Include="Views\StoresIssue\_PreviousListStoreIssue.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -1327,6 +1336,10 @@
     <EmbeddedResource Include="Reports\CrystalReport1.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CrystalReport1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\CrystalReport2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport2.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\CurrentStockReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

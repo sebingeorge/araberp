@@ -42,12 +42,20 @@
           <xs:element name="Items">
             <xs:complexType>
               <xs:sequence>
+                <xs:element name="PrintDescription" type="xs:string" minOccurs="0" />
                 <xs:element name="Quantity" type="xs:string" minOccurs="0" />
-                <xs:element name="WorkDescription" type="xs:string" minOccurs="0" />
-                <xs:element name="WorkDescriptionRefNo" type="xs:string" minOccurs="0" />
-                <xs:element name="Rate" type="xs:string" minOccurs="0" />
+                <xs:element name="UoM" type="xs:string" minOccurs="0" />
+                <xs:element name="PriceEach" type="xs:string" minOccurs="0" />
                 <xs:element name="Amount" type="xs:string" minOccurs="0" />
-                <xs:element name="Unit" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="DeliveryChallans">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="DeliveryChallanRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="JobCardNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Chassiss_RegNo" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -56,16 +64,16 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>AARC/SI/1</SalesInvoiceRefNo>
+    <SalesInvoiceRefNo>AARC/SI/16/1007</SalesInvoiceRefNo>
     <SalesInvoiceDate>20-Dec-2016</SalesInvoiceDate>
-    <VehicleOutPassNo>DC/5</VehicleOutPassNo>
-    <CustomerName>Chef Middle East WLL</CustomerName>
-    <Address>Doha, Qatar,,</Address>
-    <CustomerOrderRef xml:space="preserve"> </CustomerOrderRef>
-    <PaymentTerms>on delivery</PaymentTerms>
-    <RegistrationNo>231926</RegistrationNo>
-    <JobCardNo>AARC/JC-S/3</JobCardNo>
-    <TotalAmount>2450.00</TotalAmount>
+    <VehicleOutPassNo>DV/16/1484</VehicleOutPassNo>
+    <CustomerName>UNITED CAR RENTALS Co W.L.L</CustomerName>
+    <Address>Doha,,</Address>
+    <CustomerOrderRef>9980</CustomerOrderRef>
+    <PaymentTerms>100% before Delivery</PaymentTerms>
+    <RegistrationNo>301139</RegistrationNo>
+    <JobCardNo>AARC/JC/14</JobCardNo>
+    <TotalAmount>23000.00</TotalAmount>
     <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
@@ -79,17 +87,35 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <CreateUser>ihits</CreateUser>
-    <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\ec1d0553-e854-4076-9cd5-72e5d635b691.jpg</CreateSig>
+    <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\717535aa-1a23-4c12-b77b-a232fad1da2b.jpg</CreateSig>
     <CreatedDes>Asst.Sales Manager</CreatedDes>
     <ApproveUser>ihits</ApproveUser>
-    <ApproveSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\ec1d0553-e854-4076-9cd5-72e5d635b691.jpg</ApproveSig>
+    <ApproveSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\717535aa-1a23-4c12-b77b-a232fad1da2b.jpg</ApproveSig>
     <ApproveDes>Asst.Sales Manager</ApproveDes>
   </Head>
   <Items>
-    <Quantity>1</Quantity>
-    <WorkDescription>General Checkup &amp; Repair</WorkDescription>
-    <WorkDescriptionRefNo>WD/5</WorkDescriptionRefNo>
-    <Rate>2460.00</Rate>
-    <Amount>2450.00</Amount>
+    <PrintDescription>Supply &amp; Installation of 50mm Panel on Walls &amp; 100mm
+Panels on Floor covered with 2mm thick Aluminum 
+Chequered Sheet with 1 Door (Rear Door) into Toyota
+Hiace 6str Van
+</PrintDescription>
+    <Quantity>1.00</Quantity>
+    <UoM>ea</UoM>
+    <PriceEach>10000.00</PriceEach>
+    <Amount>10000.00</Amount>
   </Items>
+  <Items>
+    <PrintDescription>
+Supply, Installation &amp; Commissioning of Thermal Master
+T1400 (12V without Stand-by) into Toyota Hiace Van</PrintDescription>
+    <Quantity>1.00</Quantity>
+    <UoM>ea</UoM>
+    <PriceEach>13000.00</PriceEach>
+    <Amount>13000.00</Amount>
+  </Items>
+  <DeliveryChallans>
+    <DeliveryChallanRefNo>DV/16/1484</DeliveryChallanRefNo>
+    <JobCardNo>AARC/JC/14</JobCardNo>
+    <Chassiss_RegNo>301139</Chassiss_RegNo>
+  </DeliveryChallans>
 </NewDataSet>

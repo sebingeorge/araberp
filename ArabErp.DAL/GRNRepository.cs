@@ -466,15 +466,14 @@ namespace ArabErp.DAL
 	                                I.PartNo,
 	                                U.UnitName Unit,
 	                                (ISNULL(SOI.OrderedQty, 0) - ISNULL(GRN.Quantity, 0)) PendingQuantity,
-	                                --(ISNULL(SOI.OrderedQty, 0) - ISNULL(GRN.Quantity, 0)) ReceivedQuantity,
-	                                0 ReceivedQuantity,
+	                                (ISNULL(SOI.OrderedQty, 0) - ISNULL(GRN.Quantity, 0)) ReceivedQuantity,
 	                                --(ISNULL(SOI.OrderedQty, 0) - ISNULL(GRN.Quantity, 0)) AcceptedQuantity,
 	                                0 AcceptedQuantity,
                                     0 AS RejectedQuantity,
 	                                ISNULL(SOI.Rate, 0.00) Rate,
 	                                ISNULL(SOI.Discount, 0.00) Discount,
-									--((ISNULL(SOI.OrderedQty, 0) - ISNULL(GRN.Quantity, 0))*ISNULL(SOI.Rate, 0.00))-ISNULL(SOI.Discount, 0.00) Amount
-	                                0.00 Amount
+									((ISNULL(SOI.OrderedQty, 0) - ISNULL(GRN.Quantity, 0))*ISNULL(SOI.Rate, 0.00))-ISNULL(SOI.Discount, 0.00) Amount
+	                                --0.00 Amount
                                 FROM SupplyOrderItem SOI
                                 INNER JOIN SupplyOrder SO ON SOI.SupplyOrderId = SO.SupplyOrderId
                                 INNER JOIN PurchaseRequestItem PR ON SOI.PurchaseRequestItemId = PR.PurchaseRequestItemId

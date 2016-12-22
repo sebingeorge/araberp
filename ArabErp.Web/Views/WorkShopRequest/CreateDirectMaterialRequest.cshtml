@@ -1,0 +1,112 @@
+﻿@model ArabErp.Domain.WorkShopRequest
+@{
+    ViewBag.Title = "Material Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string actionName = ViewContext.RouteData.GetRequiredString("action");
+}
+
+<script>
+    function Exit() {
+        location.href = '@Url.Action("Index", "Home")';
+    }
+    $(function () {
+        $("#WorkShopRequestDate").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+       
+    });
+
+    function formValidation() {
+        return true;
+    }
+
+    function PreviousList() {
+        var url = '@Url.Action("DirectMaterialRequestList")';
+        window.location = url;
+    }
+    function DeletePurchase(id) {
+        var url = '@Url.Action("DeleteDirectMaterialRequest")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+    
+    function Exit() {
+        @if (new string[] { "EditDirectMaterialRequest" }.Contains(actionName))
+        {
+            @:var url = '@Url.Action("DirectMaterialRequestList")';
+        }
+        else if (new string[] { "DirectMaterialRequest" }.Contains(actionName))
+    {
+        @:var url = '@Url.Action("Index", "Home")';
+    }
+    window.location = url;
+    }
+</script>
+
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Material Request</h4>
+    </div>
+
+    <div class="main-part pad1">
+      
+        <form role="form" onsubmit="return formValidation()" method="Post">
+            <input type="hidden" id="purchaseLimit" />
+            @Html.HiddenFor(m => m.WorkShopRequestId)
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="WorkShopRequestNo">Request No.</label>
+                    @Html.TextBoxFor(m => m.WorkShopRequestRefNo, new { @class = "form_input", autocomplete = "off", @onchange = "OnRequestDateChanged(this)", @required = "true", @readonly = "readonly" })
+                </div>
+                <div class="col-md-2">
+                    <label for="WorkShopRequestDate">Date</label>
+                    @Html.TextBoxFor(m => m.WorkShopRequestDate, Model.WorkShopRequestDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
+                </div>
+               
+            </div>
+            <div class="table-responsive">
+                @Html.Partial("_DirectMaterialRequestGrid")
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <label for="SpecialRemarks">Special Remarks</label>
+                    @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
+                </div>
+            </div>
+
+           
+
+            <div class="row">
+
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                    @if (!new string[] { "EditDirectMaterialRequest" }.Contains(actionName))
+                    {
+                        <input type="button" class="form-button left" value="Previous" onclick="PreviousList()" />
+                        <input type="submit" class="form-button right" value="Save" />
+                    }
+                    else
+                    {
+                        if (Model.WorkShopRequestId == null )
+                        {
+                            <input type="button" class="form-button left" value="Delete" onclick="DeletePurchase(@Model.WorkShopRequestId)" />
+                            <input type="submit" class="form-button right" value="Edit" />
+                        }
+                        else
+                        {
+                            <span class="perm">
+                                <em>**Cannot edit/delete this Material Request, because it is either used in another process.</em>
+                            </span>
+                        }
+
+                    }
+                </div>
+
+            </div>
+
+           
+        </form>
+    </div>
+</div>

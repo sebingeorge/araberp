@@ -446,6 +446,7 @@ namespace ArabErp.DAL
 	                                I.ItemName,
 									WD.WorkDescrShortName,
 									SO.SaleOrderDate
+									
                                 FROM SaleOrderItem SOI
                                 INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
                                 INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
