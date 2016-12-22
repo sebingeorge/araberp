@@ -1295,6 +1295,7 @@
     <Content Include="Views\WorkShopRequest\_DirectMaterialRequestGrid.cshtml" />
     <Content Include="Views\WorkShopRequest\DirectMaterialRequestList.cshtml" />
     <Content Include="Views\StoresIssue\_PreviousListStoreIssue.cshtml" />
+    <Content Include="Views\WorkShopRequest\PendingMaterialRequestApproval.cshtml" />
     <Content Include="Views\JobOrderCompletion\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

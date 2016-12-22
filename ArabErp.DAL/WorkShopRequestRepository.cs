@@ -493,7 +493,7 @@ namespace ArabErp.DAL
                 FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId left JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId left JOIN #SALE S ON WR.SaleOrderId = S.SaleOrderId 
                 LEFT JOIN JobCard JC ON WR.JobCardId = JC.JobCardId
 				LEFT JOIN VehicleInPass V ON V.VehicleInPassId=JC.InPassId 
-                WHERE ISNULL(IssuedQuantity,0) < Quantity
+                WHERE ISNULL(IssuedQuantity,0) < Quantity and  (case when isnull(WR.isDirectRequest,0)=1 then isnull(WR.isApproved,0)else 1 end)=1 
                 AND  WorkShopRequestRefNo LIKE '%'+@Request+'%'
 				AND ISNULL(SoNoWithDate,'') LIKE '%'+@Jobcard+'%'
 				AND ISNULL(CustomerName,'') LIKE '%'+@Customer+'%'
@@ -818,6 +818,17 @@ namespace ArabErp.DAL
                 return connection.Query<WorkShopRequest>(query, new { org = organizationId }).ToList();
             }
         }
+        public object PendingDirectMaterialRequestforApproval(int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string query = @"SELECT WR.WorkShopRequestId,WR.WorkShopRequestRefNo,CONVERT(VARCHAR,WR.WorkShopRequestDate, 106)WorkshopRequestDate,ISNULL(WR.SpecialRemarks ,'-') SpecialRemarks
+                                FROM WorkShopRequest WR WHERE WR.OrganizationId = @org AND WR.isDirectRequest=1 and isnull(isApproved,0) = 0
+                                ORDER BY WorkShopRequestDate DESC";
+                return connection.Query<WorkShopRequest>(query, new { org = organizationId }).ToList();
+            }
+        }
         public WorkShopRequest GetDirectMaterialRequest(int id, int organizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -903,6 +914,15 @@ namespace ArabErp.DAL
                     txn.Rollback();
                     throw ex;
                 }
+            }
+        }
+        public void ApproveMaterialRequest(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Update WorkShopRequest  SET isApproved=1  OUTPUT INSERTED.WorkShopRequestRefNo WHERE WorkShopRequestId=@id";
+                var Refno = connection.Query(sql, new { id = id });
+             
             }
         }
     }
