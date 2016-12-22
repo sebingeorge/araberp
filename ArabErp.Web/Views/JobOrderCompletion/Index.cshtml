@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "Pending Job Card Completion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    int isProjectBased = Convert.ToInt32(Request.QueryString["isProjectBased"].ToString());
+}
+<script type="text/javascript">
+
+    //$(document).ready(function () {
+
+    function Filter() {
+
+        $("#jobcardlist").addClass("fade");
+        var id = $("#cboJCNo").val();
+        var cusid = $("#cboCustomer").val();
+        var RegNo = $("#txtRegNo").val().trim();
+
+        var url = '@Url.Action("PendingJobOrderCompletion")';
+
+        url += "?id=" + id + "&cusid=" + cusid + "&RegNo=" + encodeURIComponent(RegNo)
+            + "&isProjectBased=" + @ViewBag.ProjectBased ;
+        //alert(url);
+        $("#jobcardlist").load(url, function () {
+            $("#jobcardlist").removeClass("fade");
+        });
+
+    }
+
+    function Exit() {
+        var url ='@Url.Action("Index","Home")';
+        window.location.href = url;
+    }
+
+    function GotoJobcardCompletion(id)
+    {
+        var url = '@Url.Action("Create")';
+        url = url + "?Id=" + id + "&isProjectBased=" + @isProjectBased;
+        console.log(url);
+        window.location.href = url;
+    }
+
+</script>
+<div class="row">
+    <div class="form-head1">
+        <h4>Pending Job Card Completion</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="cboJCNo">Job Card No.</label>
+                @Html.DropDownList("cboJCNo", (SelectList)ViewBag.JCNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+
+            <div class="col-md-3">
+                <label for="cboCustomer">Customer</label>
+                @Html.DropDownList("cboCustomer", (SelectList)ViewBag.CusList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+
+            <div class="col-md-2">
+                <label for="txtRegNo">Reg. No./Chassis No.</label>
+                <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Reg. No./Chassis No." />
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive" id="jobcardlist">
+                    @Html.Action("PendingJobOrderCompletion", new
+               {
+                   ProjectBased = ViewBag.ProjectBased
+               })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+    </div>
+</div>

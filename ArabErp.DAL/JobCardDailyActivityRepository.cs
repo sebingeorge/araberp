@@ -158,14 +158,18 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select J.JobCardId,J.JobCardNo, J.JobCardDate, E.EmployeeName,W.WorkDescr,J.RequiredDate
-                            from JobCard J
-                            inner join Employee E on E.EmployeeId = J.EmployeeId
-                            inner join WorkDescription W on W.WorkDescriptionId = J.WorkDescriptionId
-                            where J.JodCardCompleteStatus is null
-							AND J.OrganizationId = @OrganizationId
-							AND	J.isProjectBased = @type
-							AND J.isActive = 1";
+                string sql = @" select J.JobCardId,J.JobCardNo, J.JobCardDate, E.EmployeeName,W.WorkDescr,J.RequiredDate,
+                                CustomerName,RegistrationNo,ChassisNo
+                                from JobCard J
+                                inner join SaleOrder S on S.SaleOrderId=J.SaleOrderId
+                                inner join Employee E on E.EmployeeId = J.EmployeeId
+                                inner join WorkDescription W on W.WorkDescriptionId = J.WorkDescriptionId
+                                inner join VehicleInPass on VehicleInPassId=InPassId
+                                inner join Customer C on C.CustomerId=S.CustomerId
+                                where J.JodCardCompleteStatus is null
+						        AND J.OrganizationId = @OrganizationId
+						        AND	J.isProjectBased = @type
+						        AND J.isActive = 1";
                 return connection.Query<JobCardForDailyActivity>(sql, new { OrganizationId = OrganizationId, type = type });
             }
         }
