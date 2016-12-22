@@ -7,6 +7,7 @@
             <th width="15%" title="Sale Order No. & Date"><h1>Sale Order No. &amp; Date</h1></th>
             <th width="10%" title="Workshop Request No."><h1>Workshop Req. No.</h1></th>
             <th width="8%" title="Job Card No."><h1>Job Card No.</h1></th>
+            <th width="15%" nowrap><h1> Reg No./Chassis No.</h1></th>
             <th width="8%" title="Store Issue No."><h1>Store Issue No.</h1></th>
             <th width="30%"><h1>Material/Spares</h1></th>
             <th width="15%" nowrap><h1>Available Serial No.</h1></th>
@@ -35,6 +36,15 @@
                     <td>
                         <strong>@Model[i].JobCardNo</strong>
                     </td>
+                    <td>
+                        @Model[i].RegistrationNo
+                        @if ((Model[i].RegistrationNo != null && Model[i].RegistrationNo != "") && (Model[i].ChassisNo != null && Model[i].ChassisNo != ""))
+                        {
+                            @: -
+                                                 }
+                        @Model[i].ChassisNo
+                    </td>
+
                     <td>
                         <strong>@Model[i].StoreIssueRefNo</strong>
                     </td>
