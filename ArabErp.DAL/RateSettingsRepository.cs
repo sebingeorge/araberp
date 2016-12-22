@@ -248,21 +248,29 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-
-                foreach (var item in model.StandardSellingRateItems)
+                    IDbTransaction txn = connection.BeginTransaction();
+                try
                 {
+                    foreach (var item in model.StandardSellingRateItems)
+                    {
 
-                    string checksql = @"DELETE from [StandardRate]";
+                        string checksql = @"DELETE from [StandardRate]";
 
-                        connection.Query<int>(checksql, item);
+                        connection.Query<int>(checksql, item, txn);
 
                         string sql = @"INSERT INTO [dbo].[StandardRate]
                                         ([ItemId] ,[Rate] ) VALUES (@ItemId,@Rate)
                                        
                               SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                       int ObjStandardRate = connection.Query<int>(sql, item).First();
-                  
+                        int ObjStandardRate = connection.Query<int>(sql, item, txn).First();
+                        txn.Commit();
+                    }
+                }
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    throw;
                 }
 
                 return 1;
