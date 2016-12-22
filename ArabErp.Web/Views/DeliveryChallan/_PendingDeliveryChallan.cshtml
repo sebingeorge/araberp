@@ -8,7 +8,8 @@
                     <tr class="grid_heading">
                         <th width="12%"><h1>SO.No. &amp; Date</h1></th>
                         <th width="12%"><h1>JC.No. &amp; Date</h1></th>
-                        <th width="39%"><h1>Work Description</h1></th>
+                        <th width="33%"><h1>Work Description</h1></th>
+                        <th width="17%"><h1>Customer</h1></th>
                         <th width="15%"><h1>Vehicle Model</h1></th>
                         <th width="12%"><h1>Chassis No./Reg No.</h1></th>
                         <th width="1%"></th>
@@ -30,6 +31,9 @@
                                 </td>
                                 <td class="grid-cell">
                                     @*<input class="form_input" type="text" value="*@@Model[i].WorkDescr@*" disabled />*@
+                                </td>
+                                <td>
+                                    <input class="form_input" type="text" value="@Model[i].CustomerName" disabled />
                                 </td>
                                 <td>
                                     <input class="form_input" type="text" value="@Model[i].VehicleModel" disabled />
