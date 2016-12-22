@@ -11,10 +11,32 @@ namespace ArabErp.Web.Controllers
     public class JobOrderCompletionController : BaseController
     {
         // GET: JobOrderCompletion
-        public ActionResult Index()
+
+        public ActionResult Index(int isProjectBased = 0)
         {
-            return View();
+            try
+            {
+                FillJCNo(isProjectBased);
+                FillCustomerinJC(isProjectBased);
+                ViewBag.ProjectBased = isProjectBased;
+                return View();
+            }
+
+            catch (Exception ex)
+            {
+                string ErrorMessage = ex.Message.ToString();
+                if (ex.InnerException != null)
+                {
+                    if (ex.InnerException.Message != null)
+                    {
+                        ErrorMessage = ErrorMessage + ex.InnerException.Message.ToString();
+                    }
+                }
+                ViewData["Error"] = ErrorMessage;
+                return View("ShowError");
+            }
         }
+
         public ActionResult Create(int Id, int isProjectBased)
         {
             JobOrderCompletionRepository repo = new JobOrderCompletionRepository();
@@ -29,12 +51,25 @@ namespace ArabErp.Web.Controllers
             //ViewBag.type = 1;
             return View(jobcard);
         }
-        public ActionResult PendingJobOrderCompletion(int? isProjectBased)
+        public ActionResult PendingJobOrderCompletion(int isProjectBased, int id = 0, int cusid = 0, string RegNo = "")
+    
         {
-            JobOrderCompletionRepository repo = new JobOrderCompletionRepository();
-            var result = repo.GetPendingJobOrder(isProjectBased, OrganizationId);
-            return View(result);
+            return PartialView("PendingJobOrderCompletion", new JobOrderCompletionRepository().GetPendingJobOrder(isProjectBased, OrganizationId, id, cusid,RegNo));
+
+            //JobOrderCompletionRepository repo = new JobOrderCompletionRepository();
+            //var result = repo.GetPendingJobOrder(isProjectBased, OrganizationId);
+            //return View(result);
         }
+
+        public void FillJCNo(int isProjectBased)
+        {
+            ViewBag.JCNoList = new SelectList(new DropdownRepository().JobCardNoDropdown(OrganizationId, isProjectBased), "Id", "Name");
+        }
+        public void FillCustomerinJC(int isProjectBased)
+        {
+            ViewBag.CusList = new SelectList(new DropdownRepository().JobCardCustomerDropdown(OrganizationId, isProjectBased), "Id", "Name");
+        }
+
         public void FillEmployee()
         {
             JobCardRepository repo = new JobCardRepository();
