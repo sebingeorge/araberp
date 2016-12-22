@@ -630,7 +630,7 @@ namespace ArabErp.DAL
                                 DC.PrintDescription printdes,
 								JC.isService,
 								concat(SE.FreezerModel,CASE WHEN (ISNULL(LTRIM(RTRIM(SE.FreezerModel)),'') = '' OR ISNULL(LTRIM(RTRIM(SE.TailLiftModel)), '') = '') THEN '' ELSE ' / ' END,SE.TailLiftModel)FreezerName,
-								concat(SE.FreezerSerialNo,CASE WHEN (ISNULL(LTRIM(RTRIM(SE.FreezerSerialNo)),'') = '' OR ISNULL(LTRIM(RTRIM(SE.TailLiftSerialNo)), '') = '') THEN '' ELSE ' / ' END,SE.TailLiftSerialNo)ReeferId,
+								concat(SE.FreezerSerialNo,CASE WHEN (ISNULL(LTRIM(RTRIM(SE.FreezerSerialNo)),'') = '' OR ISNULL(LTRIM(RTRIM(SE.TailLiftSerialNo)), '') = '') THEN '' ELSE ' / ' END,SE.TailLiftSerialNo)FreezerPartNo,
 								SE.BoxNo Box,SE.BoxMake BoxPartNo, DC.QuotationRefNo
 	                            FROM DeliveryChallan DC
                                 left JOIN JobCard JC ON JC.JobCardId=DC.JobCardId

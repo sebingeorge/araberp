@@ -221,7 +221,7 @@ namespace ArabErp.DAL
 									LEFT JOIN JobCard J  ON J.JobCardId=WR.JobCardId
 									LEFT JOIN VehicleInPass V ON V.VehicleInPassId=J.InPassId
                                 WHERE ISNULL(SI.isActive, 1) = 1
-                                AND CustomerName LIKE '%'+@Customer+'%'
+                                AND isnull(CustomerName,'') LIKE '%'+@Customer+'%'
                                 AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%'
 			                    OR ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%')
 				                AND ISNULL(J.JobCardNo, '') LIKE '%'+@Jobcard+'%'
