@@ -1,0 +1,80 @@
+﻿@model IList<ArabErp.Domain.WorkShopRequest>
+@{
+    ViewBag.Title = "Pending MaterialRequest Approval";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function Exit()
+    {
+        location.href = '@Url.Action("Index", "Home")';
+    }
+</script>
+
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Pending Material Request Approval</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="2%" class="text-center"><h1>#</h1></th>
+                                <th width="15%" nowrap><h1>Material Request No.</h1></th>
+                                <th width="10%" nowrap><h1> Date</h1></th>
+                                <th width="20%" nowrap><h1>Remarks</h1></th>
+                                <th width="1%"><center></center></th>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            @if (Model.Count > 0)
+                            {
+                                int i = 0;
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td align="center">
+                                            @(++i)
+                                        </td>
+                                        <td>
+                                            @item.WorkShopRequestRefNo
+                                        </td>
+                                        <td>
+                                            @item.WorkShopRequestDate.ToString("dd-MMMM-yyyy")
+                                        </td>
+                                        <td>
+                                            @item.SpecialRemarks
+                                        </td>
+
+                                        <td>
+                                            @Html.ActionLink("Select", "MaterialRequestApproval", "WorkShopRequest", new { id = @item.WorkShopRequestId }, new { @class = "form-button5", @style = "text-align:center" })
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="10" align="center">
+                                        <em>No items to show!</em>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+    </div>
+</div>
+

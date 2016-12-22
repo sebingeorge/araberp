@@ -6,8 +6,13 @@
 }
 
 <script>
-    function Exit() {
+    @*function Exit() {
         location.href = '@Url.Action("Index", "Home")';
+    }*@
+    function Approve(id) {
+        var url = '@Url.Action("ApproveMaterialReq")';
+        url += "?id=" + id;
+        window.location = url;
     }
     $(function () {
         $("#WorkShopRequestDate").datepicker({
@@ -35,9 +40,13 @@
         {
             @:var url = '@Url.Action("DirectMaterialRequestList")';
         }
-        else if (new string[] { "DirectMaterialRequest" }.Contains(actionName))
+        else if (new string[] { "CreateDirectMaterialRequest" }.Contains(actionName))
     {
         @:var url = '@Url.Action("Index", "Home")';
+    }
+        else if (new string[] { "MaterialRequestApproval" }.Contains(actionName))
+    {
+        @:var url = '@Url.Action("PendingMaterialRequestApproval")';
     }
     window.location = url;
     }
@@ -46,7 +55,14 @@
 <div class="row">
 
     <div class="form-head1">
-        <h4>Material Request</h4>
+         @if (new string[] { "MaterialRequestApproval" }.Contains(actionName))
+        {
+        <h4>Material Request Approval</h4>
+        }
+         else
+         {
+            <h4>Material Request</h4>
+         }
     </div>
 
     <div class="main-part pad1">
@@ -82,14 +98,19 @@
 
                 <div class="col-md-12 hrpart">
                     <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-                    @if (!new string[] { "EditDirectMaterialRequest" }.Contains(actionName))
+                    @if (new string[] { "CreateDirectMaterialRequest" }.Contains(actionName))
                     {
                         <input type="button" class="form-button left" value="Previous" onclick="PreviousList()" />
                         <input type="submit" class="form-button right" value="Save" />
                     }
-                    else
+                    else if (new string[] { "MaterialRequestApproval" }.Contains(actionName))
                     {
-                        if (Model.WorkShopRequestId == null )
+
+                        <input type="button" class="form-button right" value="Approval" onclick="Approve(@Model.WorkShopRequestId)" />
+                    }
+                    else if (new string[] { "EditDirectMaterialRequest" }.Contains(actionName))
+                    {
+                        if (!Model.isApproved)
                         {
                             <input type="button" class="form-button left" value="Delete" onclick="DeletePurchase(@Model.WorkShopRequestId)" />
                             <input type="submit" class="form-button right" value="Edit" />
@@ -97,7 +118,7 @@
                         else
                         {
                             <span class="perm">
-                                <em>**Cannot edit/delete this Material Request, because it is either used in another process.</em>
+                                <em>**Cannot edit/delete this Material Request, because it is Already Approved</em>
                             </span>
                         }
 
