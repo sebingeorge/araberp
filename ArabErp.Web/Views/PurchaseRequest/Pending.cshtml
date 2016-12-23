@@ -1,0 +1,85 @@
+﻿
+@*@model ArabErp.Domain.SaleOrder*@
+@*@model ArabErp.Web.Models.PagedSaleOrderViewModel*@
+
+@{
+    ViewBag.Title = "Pending Workshop/Material Requests for Purchase Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    
+<style type="text/css">
+    .fade {
+        opacity: 0.6;
+    }
+</style>
+
+<script>
+
+    function PreviousList() {
+        var url = '@Url.Action("Index")';
+        window.location = url;
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index","Home")';
+        window.location = url;
+    }
+
+    function Filter() {
+
+        $("#wr-pending").addClass("fade");
+        var WRNo = $("#txtWRNo").val().trim();
+        var cusid = $("#cboCustomer").val();
+
+        var url = '@Url.Action("PendingPurchaseRequest")';
+
+        url += "?cusid=" + cusid + "&WRNo=" + encodeURIComponent(WRNo);
+
+        $("#wr-pending").load(url, function () {
+            $("#wr-pending").removeClass("fade");
+
+        });
+
+    }
+</script>
+
+<div class="row">
+    <div class="form-head1">
+    <h4>Pending Workshop/Material Requests for Purchase Request</h4>
+</div>
+
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="txtSaleOrder">WR No.</label>
+                <input type="text" class="form_input" id="txtWRNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for WR No." />
+            </div>
+
+            <div class="col-md-3">
+                <label for="cboCustomer">Customer</label>
+                @Html.DropDownList("cboCustomer", (SelectList)ViewBag.CustomerList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+
+        </div>
+
+        <br />
+        <div class="row" id="wr-pending">
+             @Html.Action("PendingPurchaseRequest")
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input class="form-button" type="button" value="Previous" onclick="PreviousList()" />
+                <input class="form-button right" type="button" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+
+    </div>
+ </div>
+
+
+
+
+
+

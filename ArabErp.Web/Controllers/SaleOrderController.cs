@@ -435,13 +435,18 @@ namespace ArabErp.Web.Controllers
             ViewBag.ApproveType = "JOB_CARD";
             return View("PendingSaleOrderApprovalTransaction", result);
         }
-        public ActionResult PendingSaleOrderApprovalDEL()
+        public ActionResult SaleOrderApprovalDeliveryChellan(string ChassisNo = "", string Customer = "", string JobcardNo = "")
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval(OrganizationId);
+            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval(OrganizationId,ChassisNo,Customer,JobcardNo);
             var result = from a in pendingSO where ((a.IsPaymentApprovedForDelivery == false || a.IsPaymentApprovedForDelivery == null) && a.JodCardCompleteStatus == 1) select a;
             ViewBag.ApproveType = "DELIVERY_CHALLAN";
-            return View("PendingSaleOrderApprovalTransaction", result);
+            return PartialView("_SaleOrderApprovalDeliveryChellan", result);
+        }
+        public ActionResult PendingSaleOrderApprovalDEL()
+        {
+
+            return View("PendingSaleOrderApprovalTransaction");
         }
         public ActionResult ApprovalForTrn(int? SaleOrderId, int? SaleOrderItemId, string AppType)
         {
