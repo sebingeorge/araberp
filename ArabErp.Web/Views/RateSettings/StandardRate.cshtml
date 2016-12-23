@@ -1,44 +1,70 @@
-﻿
+﻿@model ArabErp.Domain.StandardSellingRate
 @{
     ViewBag.Title = "Standard Rate Settings";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script>
+    function Exit() {
+        var url = '@Url.Action("Index","Home")';
+        window.location = url;
+    }
+</script>
 <div class="row">
     <div class="form-head1">
         <h4>Standard Rate Settings</h4>
     </div>
-
     <div class="main-part pad1">
-        @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "openingstock_form" }))
+        @using (Html.BeginForm("StandardRate", null, FormMethod.Post, new { @class = "createFrom", @id = "openingstock_form" }))
         {
-            <div class="row">
-                <div class="col-md-3">
-                    <label for="cboItem">Material/Spare</label>
-                    @Html.DropDownList("cboItem", new SelectList(ViewBag.materialList, "Value", "Text"), "Select Material/Spare", new { @class = "form_input" })
-                </div>
-                <div class="col-md-1">
-                    <label for="txtRate">Rate</label>
-                    <input id="txtRate" class="form_input" placeholder="0.00" />
-                </div>
-            </div>
-            <div class="row">
+    <div class="row">
                 <div class="col-md-12" id="standard_rate_table">
                     <table class="table table-responsive table-bordered">
                         <thead class="grid_heading">
                             <tr>
                                 <th class="text-center">#</th>
-                                <th>Material/Spare</th>
+                                <th>Material/Spares</th>
+                                <th>Part No.</th>
                                 <th>Rate</th>
                             </tr>
                         </thead>
                         <tbody class="grid_row">
-                            
+
+                            @{ int row = 0;}
+                            @for (int i = 0; i < Model.StandardSellingRateItems.Count; i++)
+                            {
+                                <tr id="@row">
+
+                                    <td align="center">
+                                        @Html.HiddenFor(m => m.StandardSellingRateItems[i].ItemId)
+                                        @*@Html.HiddenFor(m => m.ItemSellingPriceLists[row].ItemId)*@
+                                        @*<input type="text" value="@(row + 1)" style="width:30px" class="form_input textl" disabled />*@
+                                        @(row + 1)
+                                    </td>
+                                    <td>
+                                        @Model.StandardSellingRateItems[i].ItemName
+                                    </td>
+                                    <td>@Model.StandardSellingRateItems[i].PartNo</td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.StandardSellingRateItems[i].Rate, new { @class = "form_input", autocomplete = "off" })
+                                      
+                                    </td>
+                                </tr>
+                                row++;
+
+                            }
                         </tbody>
                     </table>
                 </div>
             </div>
+    <div class="row">
+        <div class="col-md-12 hrpart">
+            <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            <button type="submit" class="form-button right">Save</button>
+        </div>
+    </div>
         }
     </div>
+  
+        
 </div>
 

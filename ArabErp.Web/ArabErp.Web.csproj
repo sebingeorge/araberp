@@ -1297,6 +1297,7 @@
     <Content Include="Views\StoresIssue\_PreviousListStoreIssue.cshtml" />
     <Content Include="Views\WorkShopRequest\PendingMaterialRequestApproval.cshtml" />
     <Content Include="Views\JobOrderCompletion\Index.cshtml" />
+    <Content Include="Views\SaleOrder\_SaleOrderApprovalDeliveryChellan.cshtml" />
     <Content Include="Views\PurchaseRequest\Pending.cshtml" />
   </ItemGroup>
   <ItemGroup>

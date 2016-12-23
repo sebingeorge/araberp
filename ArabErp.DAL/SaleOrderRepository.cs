@@ -520,11 +520,11 @@ namespace ArabErp.DAL
                                  from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId LEFT JOIN Employee E ON S.CreatedBy = E.EmployeeId
                                  where CommissionAmount>0 And isnull(CommissionAmountApproveStatus,0)=0 AND S.isActive = 1 and S.OrganizationId=@OrganizationId
                                  and  S.IsProjectBased = @IsProjectBased
-                                 ORDER BY S.EDateDelivery , S.CreatedDate ";
+                                 ORDER BY S.EDateDelivery,S.CreatedDate";
                 return connection.Query<PendingSO>(query, new { IsProjectBased = IsProjectBased, OrganizationId = OrganizationId });
             }
         }
-        public IEnumerable<PendingSaleOrderForTransactionApproval> GetSaleOrderPendingForTrnApproval(int OrganizationId)
+        public IEnumerable<PendingSaleOrderForTransactionApproval> GetSaleOrderPendingForTrnApproval(int OrganizationId, string ChassisNo = "", string Customer = "", string JobcardNo = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -543,18 +543,23 @@ namespace ArabErp.DAL
                 string query = @"select SI.SaleOrderId, SI.SaleOrderItemId , SH.SaleOrderRefNo, SH.SaleOrderDate, C.CustomerName,i.ItemName freezerUnit,ii.ItemName Box,
                                SI.Amount, SI.IsPaymentApprovedForWorkshopRequest, SI.IsPaymentApprovedForJobOrder,
                                 SI.IsPaymentApprovedForDelivery, JC.JobCardNo, CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate, 
-                                ISNULL(JC.JodCardCompleteStatus, 0) JodCardCompleteStatus,ISNULL(JQC.IsQCPassed,0)as IsQCPassed,JC.isService
+                                ISNULL(JC.JodCardCompleteStatus, 0) JodCardCompleteStatus,ISNULL(JQC.IsQCPassed,0)as IsQCPassed,JC.isService, VIP.RegistrationNo,
+	                            VIP.ChassisNo
                                 from SaleOrder SH inner join SaleOrderItem SI on SH.SaleOrderId = SI.SaleOrderId
 								LEFT JOIN JobCard JC ON SI.SaleOrderItemId = JC.SaleOrderItemId
+                                LEFT JOIN VehicleInPass VIP ON JC.InPassId = VIP.VehicleInPassId
                                 inner join Customer C on C.CustomerId = SH.CustomerId 
                                 inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId 
 								left join Item I on I.ItemId=W.FreezerUnitId
 								left join Item II on II.ItemId=W.BoxId
 								left join JobCardQC JQC ON JQC.JobCardId=JC.JobCardId
                                 WHERE SH.OrganizationId = @OrganizationId
-								order by SH.SaleOrderDate, C.CustomerName";
+							    AND Concat(VIP.RegistrationNo,'/',VIP.ChassisNo) LIKE '%'+@ChassisNo+'%'
+                                AND isnull(C.CustomerName,'')  LIKE '%'+@Customer+'%'
+                                AND isnull( JC.JobCardNo,'')  LIKE '%'+@JobcardNo+'%'
+							   order by SH.SaleOrderDate, C.CustomerName";
 
-                return connection.Query<PendingSaleOrderForTransactionApproval>(query, new { OrganizationId = OrganizationId });
+                return connection.Query<PendingSaleOrderForTransactionApproval>(query, new { OrganizationId = OrganizationId, ChassisNo = ChassisNo, Customer = Customer, JobcardNo = JobcardNo });
             }
         }
 

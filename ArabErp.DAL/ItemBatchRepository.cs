@@ -263,7 +263,7 @@ namespace ArabErp.DAL
         /// Return all sale order items that doesnt have a reserved material
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<PendingForSOIReservation> GetUnreservedItems(string saleOrder, string itemName)
+        public IEnumerable<PendingForSOIReservation> GetUnreservedItems(string saleOrder, string itemName, string Jobcard = "", string Customer = "", string RegNo = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -445,7 +445,10 @@ namespace ArabErp.DAL
 									R.ReservedQuantity,
 	                                I.ItemName,
 									WD.WorkDescrShortName,
-									SO.SaleOrderDate
+									SO.SaleOrderDate,
+									VI.ChassisNo,
+									VI.RegistrationNo,
+									C.CustomerName
 									
                                 FROM SaleOrderItem SOI
                                 INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
@@ -456,6 +459,8 @@ namespace ArabErp.DAL
 								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
 								INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
 								LEFT JOIN JobCard JC ON SOI.SaleOrderItemId = JC.SaleOrderItemId
+                                LEFT JOIN VehicleInPass VI ON VI.VehicleInPassId=JC.InPassId
+                                LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
                                 WHERE ISNULL(SOI.isActive, 1) = 1
                                 AND SO.isActive = 1 AND SOI.isActive = 1 AND SO.SaleOrderApproveStatus = 1
 								--AND IB.SaleOrderItemId IS NULL
@@ -464,6 +469,10 @@ namespace ArabErp.DAL
                                 AND I.BatchRequired = 1
                                 AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
                                 AND I.ItemName LIKE '%'+@itemName+'%'
+                                AND isnull(C.CustomerName,'') LIKE '%'+@Customer+'%'
+                                AND (ISNULL(VI.RegistrationNo, '') LIKE '%'+@RegNo+'%'
+			                    OR ISNULL(VI.ChassisNo, '') LIKE '%'+@RegNo+'%')
+				                AND ISNULL(JC.JobCardNo, '') LIKE '%'+@Jobcard+'%'
 								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
 
 								UNION ALL
@@ -487,7 +496,10 @@ namespace ArabErp.DAL
 									R.ReservedQuantity,
 									I.ItemName,
 									WD.WorkDescrShortName,
-									SO.SaleOrderDate
+									SO.SaleOrderDate,
+									VI.ChassisNo,
+									VI.RegistrationNo,
+									C.CustomerName
 								FROM SaleOrder SO
 								INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
 								INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
@@ -496,6 +508,8 @@ namespace ArabErp.DAL
 								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
 								INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
 								LEFT JOIN JobCard JC ON SOI.SaleOrderItemId = JC.SaleOrderItemId
+                                LEFT JOIN VehicleInPass VI ON VI.VehicleInPassId=JC.InPassId
+                                LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
 								WHERE ISNULL(SOI.isActive, 1) = 1
                                 AND SO.isActive = 1 AND SO.SaleOrderApproveStatus = 1
 								--AND IB.SaleOrderItemId IS NULL
@@ -504,6 +518,10 @@ namespace ArabErp.DAL
                                 AND I.BatchRequired = 1
                                 AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
                                 AND I.ItemName LIKE '%'+@itemName+'%'
+                                AND isnull(C.CustomerName,'') LIKE '%'+@Customer+'%'
+                                AND (ISNULL(VI.RegistrationNo, '') LIKE '%'+@RegNo+'%'
+			                    OR ISNULL(VI.ChassisNo, '') LIKE '%'+@RegNo+'%')
+				                AND ISNULL(JC.JobCardNo, '') LIKE '%'+@Jobcard+'%'
 								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
 
 								UNION ALL
@@ -527,7 +545,10 @@ namespace ArabErp.DAL
 									R.ReservedQuantity,
 									I.ItemName,
 									WD.WorkDescrShortName,
-									SO.SaleOrderDate
+									SO.SaleOrderDate,
+									VI.ChassisNo,
+									VI.RegistrationNo,
+									C.CustomerName
 								FROM SaleOrder SO
 								INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
 								INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
@@ -536,6 +557,8 @@ namespace ArabErp.DAL
 								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
 								INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
 								LEFT JOIN JobCard JC ON SOI.SaleOrderItemId = JC.SaleOrderItemId
+                                LEFT JOIN VehicleInPass VI ON VI.VehicleInPassId=JC.InPassId
+                                LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
 								WHERE ISNULL(SOI.isActive, 1) = 1
                                 AND SO.isActive = 1 AND SO.SaleOrderApproveStatus = 1
 								--AND IB.SaleOrderItemId IS NULL
@@ -544,13 +567,17 @@ namespace ArabErp.DAL
                                 AND I.BatchRequired = 1
                                 AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
                                 AND I.ItemName LIKE '%'+@itemName+'%'
+                                AND isnull(C.CustomerName,'') LIKE '%'+@Customer+'%'
+                                AND (ISNULL(VI.RegistrationNo, '') LIKE '%'+@RegNo+'%'
+			                    OR ISNULL(VI.ChassisNo, '') LIKE '%'+@RegNo+'%')
+				                AND ISNULL(JC.JobCardNo, '') LIKE '%'+@Jobcard+'%'
 								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
 
                                 ORDER BY SO.SaleOrderDate DESC, SO.SaleOrderRefNo DESC;
 
 								DROP TABLE #RESERVED;";
 
-                return connection.Query<PendingForSOIReservation>(query, new { saleOrder = saleOrder, itemName = itemName }).ToList();
+                return connection.Query<PendingForSOIReservation>(query, new { saleOrder = saleOrder, itemName = itemName, Jobcard = Jobcard, Customer = Customer, RegNo = RegNo }).ToList();
             }
         }
 
