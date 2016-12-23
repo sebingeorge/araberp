@@ -31,11 +31,19 @@ namespace ArabErp.Web.Controllers
             return PartialView("_PreviousList", new PurchaseRequestRepository().GetPurchaseRequest(OrganizationId: OrganizationId, id: id, cusid: cusid, from: from, to: to));
         }
 
-        public ActionResult PendingPurchaseRequest()
+        public ActionResult Pending()
         {
-            var repo = new PurchaseRequestRepository();
-            IEnumerable<PendingWorkShopRequest> pendingWR = repo.GetWorkShopRequestPending(OrganizationId);
-            return View(pendingWR);
+            FillWRCustomer(OrganizationId);
+            return View();
+        }
+
+        public ActionResult PendingPurchaseRequest(int cusid = 0, string WRNo = "")
+        {
+            return PartialView("PendingPurchaseRequest", new PurchaseRequestRepository().GetWorkShopRequestPending(OrganizationId, cusid, WRNo));
+
+            //var repo = new PurchaseRequestRepository();
+            //IEnumerable<PendingWorkShopRequest> pendingWR = repo.GetWorkShopRequestPending(OrganizationId);
+            //return View(pendingWR);
         }
         public ActionResult Create(int? WorkShopRequestId)
         {
@@ -240,6 +248,11 @@ namespace ArabErp.Web.Controllers
         public void FillPRCustomer()
         {
             ViewBag.CustomerList = new SelectList(new DropdownRepository().PurchaseReqCustomerDropdown(), "Id", "Name");
+        }
+
+        public void FillWRCustomer(int OrganizationId)
+        {
+            ViewBag.CustomerList = new SelectList(new DropdownRepository().WRCustomerDropdown(OrganizationId), "Id", "Name");
         }
         public ActionResult Print(int Id)
         {

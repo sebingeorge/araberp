@@ -542,18 +542,17 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"SELECT
-	                                INV.SalesInvoiceId,
-	                                INV.SalesInvoiceRefNo,
-	                                INV.SalesInvoiceDate,
-	                                SO.SaleOrderRefNo,
-	                                SO.SaleOrderDate,
-	                                ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
-                                FROM SalesInvoice INV
-                                LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
-                                WHERE 
+                string query = @"SELECT INV.SalesInvoiceId,INV.SalesInvoiceRefNo,
+	                             INV.SalesInvoiceDate,SO.SaleOrderRefNo,SO.SaleOrderDate,
+                                 C.CustomerName Customer,V.RegistrationNo,ChassisNo,
+	                             ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
+                                 FROM SalesInvoice INV
+                                 LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
+                                 LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
+                                 LEFT JOIN VehicleInPass V ON V.SaleOrderId=SO.SaleOrderId
+                                 WHERE 
 								 INV.OrganizationId=1 
-                                ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
+                                 ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
 
                 return connection.Query<SalesInvoice>(query, new
                 {
