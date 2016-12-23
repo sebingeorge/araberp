@@ -753,6 +753,7 @@
     <Content Include="Images\white-pattern.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Views\OpeningStock\Create.cshtml" />
     <Content Include="XML\SalesInvoice.xml" />
     <None Include="Properties\PublishProfiles\Server.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -878,7 +879,6 @@
     <Content Include="Views\SalesInvoice\Create.cshtml" />
     <Content Include="Views\SalesInvoice\_PendingSalesInvoiceList.cshtml" />
     <Content Include="Views\SalesInvoice\_pendingSalesCustomerList.cshtml" />
-    <Content Include="Views\OpeningStock\Create.cshtml" />
     <Content Include="Views\OpeningStock\OpeningStockList.cshtml" />
     <Content Include="Views\StockReturn\_StockReturnList.cshtml" />
     <Content Include="Views\AdditionalWorkShopRequest\_AdditionalItemsList.cshtml" />
@@ -1302,6 +1302,8 @@
     <Content Include="Views\StoresLedger\_ItemCategoryDropdown.cshtml" />
     <Content Include="Views\StoresLedger\_ItemGroupDropdown.cshtml" />
     <Content Include="Views\StoresLedger\_ItemSubGroupDropdown.cshtml" />
+    <Content Include="Views\OpeningStock\Index.cshtml" />
+    <Content Include="Views\OpeningStock\_OpeningStock.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
