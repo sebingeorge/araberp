@@ -22,5 +22,7 @@ namespace ArabErp.Domain
       public int ItemId { get; set; }
       public string ItemRefNo { get; set; }
       public string PartNo { get; set; }
+      public int itmGrpId { get; set; }
+      public int itmSubGrpId { get; set; }
     }
 }

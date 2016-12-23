@@ -23,6 +23,8 @@ namespace ArabErp.Web.Controllers
             InitDropdown();
             FillWarehouse();
             FillItemCategory();
+            FillItemGroup();
+            FillItemSubGroup();
             ClosingStock cs = new ClosingStock();
             cs.itmCatId = 0;
             ViewBag.startdate = FYStartdate;
@@ -53,11 +55,37 @@ namespace ArabErp.Web.Controllers
             var result = repo.ItemCategoryDropdown();
             ViewBag.ItemCatList = new SelectList(result, "Id", "Name");
         }
-        public ActionResult StoresLedger(DateTime? from, DateTime? to, int stkid = 0, int itmcatid = 0, string itmid = "", string PartNo = "")
+
+        public void FillItemGroup()
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.ItemGroupDropdown();
+            ViewBag.ItemGrpList = new SelectList(result, "Id", "Name");
+        }
+
+        public void FillItemSubGroup()
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.ItemSubgroupDropdown();
+            ViewBag.ItemSubGrpList = new SelectList(result, "Id", "Name");
+        }
+        //public void FillItemGroup(int Id)
+        //{
+        //    ItemRepository Repo = new ItemRepository();
+        //    var List = Repo.FillItemGroup(Id);
+        //    ViewBag.ItemGroupList = new SelectList(List, "Id", "Name");
+        //}
+        //public void FillItemSubGroup(int Id)
+        //{
+        //    ItemRepository Repo = new ItemRepository();
+        //    var List = Repo.FillItemSubGroup(Id);
+        //    ViewBag.ItemSubGroupList = new SelectList(List, "Id", "Name");
+        //}
+        public ActionResult StoresLedger(DateTime? from, DateTime? to, int stkid = 0, int itmcatid = 0,int itmGrpId = 0,int itmSubGrpId = 0,string itmid = "", string PartNo = "")
         {
             from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
-            return PartialView("_StoresLedger", new StoresLedgerRepository().GetStoresLedgerData(from, to, stkid, itmcatid, itmid, OrganizationId, PartNo));
+            return PartialView("_StoresLedger", new StoresLedgerRepository().GetStoresLedgerData(from, to, stkid, itmcatid,itmGrpId,itmSubGrpId, itmid, OrganizationId, PartNo));
         }
         public ActionResult Item(int Code)
         {
@@ -65,7 +93,21 @@ namespace ArabErp.Web.Controllers
             return PartialView("_ItemDropDown");
         }
 
-
+        //public ActionResult ItemGroup(int Code)
+        //{
+        //    FillItemGroup(Code);
+        //    return PartialView("_ItemGroupDropdown");
+        //}
+        //public ActionResult ItemSubGroup(int Code)
+        //{
+        //    FillItemSubGroup(Code);
+        //    return PartialView("_ItemSubGroupDropdown");
+        //}
+        //public ActionResult ItemCategory()
+        //{
+        //    FillItemCategory();
+        //    return PartialView("_ItemCategoryDropdown");
+        //}
         public ActionResult Print(DateTime? from,DateTime?to, string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", string Itmname = "", string Itmid ="",string PartNo="")
         {
 

@@ -11,8 +11,9 @@
         var UnitSlNo = $("#unitserialno").val().trim();
         var Customer = $("#Customer").val().trim();
         var JobcardNo = $("#JobcardNo").val().trim();
+        var Installation = $("#Installation").val().trim();
         var url = '@Url.Action("DCReportGrid")';
-        url += "?month=" + month + "&year=" + year + "&ChassisNo=" + encodeURIComponent(ChassisNo) + "&UnitSlNo=" + encodeURIComponent(UnitSlNo) + "&Customer=" + encodeURIComponent(Customer) + "&JobcardNo="+encodeURIComponent(JobcardNo);
+        url += "?month=" + month + "&year=" + year + "&ChassisNo=" + encodeURIComponent(ChassisNo) + "&UnitSlNo=" + encodeURIComponent(UnitSlNo) + "&Customer=" + encodeURIComponent(Customer) + "&JobcardNo=" + encodeURIComponent(JobcardNo) + "&Installation=" + encodeURIComponent(Installation);
         $("#dc_report_table").load(url, function () {
             $("#dc_report_table").removeClass("fade");
 
@@ -77,6 +78,11 @@
                         <label>Jobcard No.</label>
                         <input id="JobcardNo" class="form_input" placeholder="Search for Jobcard No." onkeyup="Filter()" />
                     </div>
+                    <div class="col-md-2">
+                        <label>New Installation/Service</label>
+                        <input id="Installation" class="form_input" placeholder="Search for New Installation/Service" onkeyup="Filter()" />
+                    </div>
+
             </div>
                 <div class="table-responsive" id="dc_report_table">
                     @Html.Action("DCReportGrid")

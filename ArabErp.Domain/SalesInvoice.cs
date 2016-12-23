@@ -40,6 +40,7 @@ namespace ArabErp.Domain
         public string InvoiceType { get; set; }
         public int isProjectBased { get; set; }
         public string RegistrationNo { get; set; }
+        public string ChasisNo { get; set; }
         public string JobCardNo { get; set; }
         public string VehicleOutPassNo { get; set; }
         public DateTime IsApprovedDate { get; set; }

@@ -24,7 +24,7 @@ namespace ArabErp.DAL
 
                 //return connection.Query<Dropdown>("x",
                 // return connection.Query<Dropdown>("dbo.usp_MvcGetDayClosingDetails", param, commandType: CommandType.StoredProcedure).ToList();
-                return connection.Query<Dropdown>("select ItemSubGroupId Id,ItemSubGroupName Name from ItemSubGroup WHERE isActive=1 AND ItemGroupId=@ID", new { ID = Id }).ToList();
+                return connection.Query<Dropdown>("select ItemSubGroupId Id,ItemSubGroupName Name from ItemSubGroup WHERE isActive=1 AND ItemGroupId=ISNULL(NULLIF(@ID,0),ItemGroupId)", new { ID = Id }).ToList();
             }
 
         }
@@ -51,7 +51,7 @@ namespace ArabErp.DAL
                 var param = new DynamicParameters();
                 //return connection.Query<Dropdown>("x",
                 // return connection.Query<Dropdown>("dbo.usp_MvcGetDayClosingDetails", param, commandType: CommandType.StoredProcedure).ToList();
-                return connection.Query<Dropdown>("select ItemGroupId Id,ItemGroupName Name from ItemGroup WHERE isActive=1 AND ItemCategoryId=@ID", new { ID = Id }).ToList();
+                return connection.Query<Dropdown>("select ItemGroupId Id,ItemGroupName Name from ItemGroup WHERE isActive=1 AND ItemCategoryId=ISNULL(NULLIF(@ID,0),ItemCategoryId)", new { ID = Id }).ToList();
             }
 
         }

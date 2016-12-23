@@ -31,8 +31,10 @@
         var itmid = $("#ItemId").val().trim();
         var PartNo = $("#filter-PartNo").val().trim();
         var Ason = $("#txtAsOn").val();
+        var itmGroup = $("#cboGroup").val();
+        var itmSubGroup = $("#cboSubGroup").val();
         var url = '@Url.Action("ClosingStockRegister")';
-        url += "?Ason=" + Ason + "&stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + encodeURIComponent(itmid) + "&PartNo=" + encodeURIComponent(PartNo);
+        url += "?Ason=" + Ason + "&stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + encodeURIComponent(itmid) + "&PartNo=" + encodeURIComponent(PartNo) + "&itmGroup=" + itmGroup + "&itmSubGroup=" + itmSubGroup;
         $("#Closing_stock").load(url, function () {
             $("#Closing_stock").removeClass("fade");
         });
@@ -49,6 +51,7 @@
         var ItmCatname = $("#itmCatId option:selected").text();
         var Itmid = $("#ItemId").val().trim();
         var PartNo = $("#filter-PartNo").val().trim();
+
         //var Itmname = $("#ItemId option:selected").text();
         var url = '@Url.Action("Print")';
         url += "?date=" + date + "&Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmid=" + Itmid + "&PartNo=" + encodeURIComponent(PartNo);
@@ -68,11 +71,11 @@
                 <label>As On Date</label>
                 <input id="txtAsOn" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="cboStockpoint">Stock Point</label>
                 @Html.DropDownList("cboStockpoint", (SelectList)ViewBag.WarehouseList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="cboItemCat">Item Category</label>
                 @Html.DropDownListFor(m => Model.itmCatId, (SelectList)ViewBag.ItemCatList, "Any", new { @class = "form_input", @onchange = "FillItem();Filter()" })
                 @Html.HiddenFor(m => Model.itmCatId)
@@ -85,13 +88,22 @@
                 </div>
             </div>*@
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="ItemId">Material/Spares</label>
                 <input id="ItemId" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="filter-PartNo">Part No.</label>
                 <input id="filter-PartNo" class="form_input" placeholder="Search for Part No." onkeyup="Filter()" onchange="Filter()" />
+            </div>
+            <div class="col-md-2">
+                <label for="cboGroup">Group</label>
+                @Html.DropDownList("cboGroup", (SelectList)ViewBag.ItemGroup, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+
+            <div class="col-md-2">
+                <label for="cboSubGroup">SubGroup</label>
+                @Html.DropDownList("cboSubGroup", (SelectList)ViewBag.ItemSubgroup, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
         </div>
         <br />
