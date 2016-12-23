@@ -39,5 +39,6 @@ namespace ArabErp.Domain
         public int DaysLeft { get; set; }
 
         public bool isUsed { get; set; }
+        public bool isStockOrder { get; set; }
     }
 }
