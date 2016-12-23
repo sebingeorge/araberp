@@ -240,28 +240,61 @@ namespace ArabErp.DAL
                 //                             order by SO.EDateDelivery, SO.SaleOrderDate"; 
                 #endregion
 
-                string sql = @"SELECT t.SaleOrderId, t.SaleOrderItemId,
-                                    SO.CustomerOrderRef,SO.SaleOrderDate,
-                                    SO.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106) SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,
-                                    SO.CustomerId,C.CustomerName,
+                #region old query 23.12.2016 3.36p
+                //string sql = @"SELECT t.SaleOrderId, t.SaleOrderItemId,
+                //                    SO.CustomerOrderRef,SO.SaleOrderDate,
+                //                    SO.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106) SaleOrderRefNo,SO.EDateArrival,SO.EDateDelivery,
+                //                    SO.CustomerId,C.CustomerName,
 
-                                    WD.WorkDescr WorkDescription,
+                //                    WD.WorkDescr WorkDescription,
 
-                                    DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays 
-                                    FROM SaleOrderItem t 
-	                                    INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId 
-	                                    INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
-	                                    left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId-- OR t.SaleOrderItemId = WR.SaleOrderItemId-- AND WR.SaleOrderItemId <> 0
-	                                    LEFT JOIN WorkDescription WD ON t.WorkDescriptionId = WD.WorkDescriptionId
-                                    WHERE ((WR.SaleOrderItemId <> t.SaleOrderItemId AND WR.SaleOrderItemId <> 0) OR WR.SaleOrderId IS NULL)
-	                                    --AND WR.SaleOrderItemId <> 0
-	                                    AND SO.SaleOrderApproveStatus=1 
-	                                    and SO.SaleOrderHoldStatus IS NULL 
-	                                    and SO.OrganizationId = @OrganizationId
-                                        and SO.isProjectBased=isnull(@isProjectBased, SO.isProjectBased)
-	                                    AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
-	                                    AND ISNULL(SO.isService, 0) = 0
-                                    order by SO.EDateDelivery, SO.SaleOrderDate";
+                //                    DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays 
+                //                    FROM SaleOrderItem t 
+                //                     INNER JOIN SaleOrder SO on t.SaleOrderId=SO.SaleOrderId 
+                //                     INNER JOIN Customer C ON SO.CustomerId =C.CustomerId
+                //                     left join WorkShopRequest WR on SO.SaleOrderId=WR.SaleOrderId-- OR t.SaleOrderItemId = WR.SaleOrderItemId-- AND WR.SaleOrderItemId <> 0
+                //                     LEFT JOIN WorkDescription WD ON t.WorkDescriptionId = WD.WorkDescriptionId
+                //                    WHERE ((WR.SaleOrderItemId <> t.SaleOrderItemId AND WR.SaleOrderItemId <> 0) OR WR.SaleOrderId IS NULL)
+                //                     --AND WR.SaleOrderItemId <> 0
+                //                     AND SO.SaleOrderApproveStatus=1 
+                //                     and SO.SaleOrderHoldStatus IS NULL 
+                //                     and SO.OrganizationId = @OrganizationId
+                //                        and SO.isProjectBased=isnull(@isProjectBased, SO.isProjectBased)
+                //                     AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+                //                     AND ISNULL(SO.isService, 0) = 0
+                //                    order by SO.EDateDelivery, SO.SaleOrderDate"; 
+                #endregion
+
+                string sql = @"SELECT * INTO #WORK_REQUEST FROM WorkShopRequest WHERE SaleOrderItemId <> 0;
+
+                                SELECT
+	                                SOI.SaleOrderId, 
+	                                SOI.SaleOrderItemId,
+	                                SO.CustomerOrderRef,
+	                                SO.SaleOrderDate,
+	                                SO.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106) SaleOrderRefNo,
+	                                SO.EDateArrival,
+	                                SO.EDateDelivery,
+	                                SO.CustomerId,
+	                                C.CustomerName,
+	                                WD.WorkDescr WorkDescription,
+	                                DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,
+	                                DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays 
+                                FROM SaleOrderItem SOI
+	                                LEFT JOIN #WORK_REQUEST WR ON SOI.SaleOrderItemId = WR.SaleOrderItemId
+	                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+	                                INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+	                                LEFT JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                                WHERE WR.SaleOrderItemId IS NULL
+	                                AND SO.SaleOrderApproveStatus = 1
+	                                AND SO.SaleOrderHoldStatus IS NULL
+	                                AND SO.OrganizationId = @OrganizationId
+	                                and SO.isProjectBased=isnull(@isProjectBased, SO.isProjectBased)
+	                                AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+	                                AND ISNULL(SO.isService, 0) = 0
+	                                AND SO.SaleOrderId NOT IN (SELECT SaleOrderId FROM WorkShopRequest WHERE SaleOrderItemId = 0)
+                                ORDER BY SO.EDateDelivery, SO.SaleOrderDate
+                                DROP TABLE #WORK_REQUEST;";
                 var objSaleOrders = connection.Query<SaleOrder>(sql, new { OrganizationId = OrganizationId, isProjectBased = isProjectBased, saleOrder = saleOrder }).ToList<SaleOrder>();
 
                 return objSaleOrders;
