@@ -135,7 +135,7 @@ namespace ArabErp.Web.Controllers
         public void FillJC()
         {
             ExpenseRepository repo = new ExpenseRepository();
-            List<Dropdown> list = repo.FillJC();
+            List<Dropdown> list = new DropdownRepository().JobCardDropdown(OrganizationId);
             ViewBag.JC = new SelectList(list, "Id", "Name");
         }
         public ActionResult Edit(int id = 0)
