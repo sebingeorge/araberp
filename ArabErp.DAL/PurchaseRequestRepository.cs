@@ -156,7 +156,7 @@ namespace ArabErp.DAL
         /// Pending Workshop Request For Purchase Request
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<PendingWorkShopRequest> GetWorkShopRequestPending(int OrganizationId)
+        public IEnumerable<PendingWorkShopRequest> GetWorkShopRequestPending(int OrganizationId, int cusid, string WRNo= "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -229,7 +229,9 @@ namespace ArabErp.DAL
                                     LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId 
                                     LEFT JOIN PurchaseRequestItem PRI ON PR.PurchaseRequestId = PRI.PurchaseRequestId
                                     LEFT JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
-                                WHERE /*PR.PurchaseRequestId is null and*/ WR.OrganizationId = @OrganizationId
+                                    WHERE /*PR.PurchaseRequestId is null and*/ WR.OrganizationId = @OrganizationId
+                                    AND  WR.CustomerId = ISNULL(NULLIF(@cusid, 0),  WR.CustomerId)
+                                    AND (ISNULL(WR.WorkShopRequestRefNo, '') LIKE '%'+@WRNo+'%')
                                     GROUP BY WR.WorkShopRequestId,
 	                                WR.WorkShopRequestRefNo,
 	                                WR.WorkShopRequestDate,
@@ -243,7 +245,7 @@ namespace ArabErp.DAL
 
 								DROP TABLE #TEMP1;";
 
-                return connection.Query<PendingWorkShopRequest>(query, new { OrganizationId = OrganizationId });
+                return connection.Query<PendingWorkShopRequest>(query, new { OrganizationId = OrganizationId, cusid = cusid, WRNo = WRNo });
             }
         }
         /// <summary>
