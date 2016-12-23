@@ -9,7 +9,7 @@
     function Filter() {
         var month = Number($("#month-filter").val()) + 1;
         var year = Number($("#year-filter").val());
-        var ChassisNo= $("#chassisno").val().trim();
+        var ChassisNo = $("#chassisno").val().trim();
         var UnitSlNo = $("#unitserialno").val().trim();
         var Customer = $("#Customer").val().trim();
         var JobcardNo = $("#JobcardNo").val().trim();
@@ -17,8 +17,12 @@
         url += "?month=" + month + "&year=" + year + "&ChassisNo=" + encodeURIComponent(ChassisNo) + "&UnitSlNo=" + encodeURIComponent(UnitSlNo) + "&Customer=" + encodeURIComponent(Customer) + "&JobcardNo="+encodeURIComponent(JobcardNo);
         $("#dc_report_table").load(url, function () {
             $("#dc_report_table").removeClass("fade");
-        
+
         });
+    }
+    function Exit() {
+        var url = '@Url.Action("Index","Home")';
+        window.location = url;
     }
 </script>
 <div class="row">
