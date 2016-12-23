@@ -3,9 +3,7 @@
     ViewBag.Title = "DC Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <script type="text/javascript">
-
     function Filter() {
         var month = Number($("#month-filter").val()) + 1;
         var year = Number($("#year-filter").val());
@@ -80,14 +78,11 @@
                         <input id="JobcardNo" class="form_input" placeholder="Search for Jobcard No." onkeyup="Filter()" />
                     </div>
             </div>
-
                 <div class="table-responsive" id="dc_report_table">
                     @Html.Action("DCReportGrid")
                 </div>
             </div>
-
         </div>
-
         <div class="row">
             <div class="col-md-12 hrpart">
                 @*<input type="button" class="form-button" onclick="PreviousList()" value="Previous">*@
