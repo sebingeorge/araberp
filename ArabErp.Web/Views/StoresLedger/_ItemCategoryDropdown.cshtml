@@ -1,0 +1,6 @@
+﻿@model ArabErp.Domain.ClosingStock
+
+@Html.DropDownListFor(m => Model.itmCatId, (SelectList)ViewBag.ItemCatList, "Select Category", new { @class = "form_input", @onchange = "FillItemGroup()"})
+@Html.HiddenFor(m => Model.itmCatId)
+@*@Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })*@
+

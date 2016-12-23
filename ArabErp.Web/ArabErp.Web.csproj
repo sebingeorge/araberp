@@ -1299,6 +1299,9 @@
     <Content Include="Views\JobOrderCompletion\Index.cshtml" />
     <Content Include="Views\SaleOrder\_SaleOrderApprovalDeliveryChellan.cshtml" />
     <Content Include="Views\PurchaseRequest\Pending.cshtml" />
+    <Content Include="Views\StoresLedger\_ItemCategoryDropdown.cshtml" />
+    <Content Include="Views\StoresLedger\_ItemGroupDropdown.cshtml" />
+    <Content Include="Views\StoresLedger\_ItemSubGroupDropdown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
