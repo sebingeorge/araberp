@@ -125,9 +125,9 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.DCNoList = new SelectList(new DropdownRepository().DCNODropdown(OrganizationId), "Id", "Name");
         }
-        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int cusid = 0, string RegNo = "")
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int cusid = 0, string RegNo = "", string Customer="")
         {
-            return PartialView("_PreviousList", new DeliveryChallanRepository().GetAllDeliveryChallan(id, cusid, OrganizationId, from, to, RegNo));
+            return PartialView("_PreviousList", new DeliveryChallanRepository().GetAllDeliveryChallan(id, cusid, OrganizationId, from, to, RegNo, Customer));
         }
 
         public ActionResult Edit(int id = 0)
