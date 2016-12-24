@@ -89,7 +89,7 @@ namespace ArabErp.Web.Controllers
                 JobOrderCompletionRepository repo = new JobOrderCompletionRepository();
                 repo.UpdateJobCardCompletion(model, UserID.ToString());
                 TempData["success"] = "Saved Successfully";
-                return RedirectToAction("PendingJobOrderCompletion", new { isProjectBased = model.isProjectBased });
+                return RedirectToAction("Index", new { isProjectBased = model.isProjectBased });
             }
             catch (Exception)
             {
