@@ -1304,6 +1304,7 @@
     <Content Include="Views\StoresLedger\_ItemSubGroupDropdown.cshtml" />
     <Content Include="Views\OpeningStock\Index.cshtml" />
     <Content Include="Views\OpeningStock\_OpeningStock.cshtml" />
+    <Content Include="Views\BayStatus\_BayStatusGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

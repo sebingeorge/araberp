@@ -63,7 +63,7 @@ namespace ArabErp.Web.Controllers
 
         public void FillJCNo(int isProjectBased)
         {
-            ViewBag.JCNoList = new SelectList(new DropdownRepository().JobCardNoDropdown(OrganizationId, isProjectBased), "Id", "Name");
+            ViewBag.JCNoList = new SelectList(new DropdownRepository().JobCardDropdown(OrganizationId, isProjectBased), "Id", "Name");
         }
         public void FillCustomerinJC(int isProjectBased)
         {

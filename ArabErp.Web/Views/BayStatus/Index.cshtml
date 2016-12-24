@@ -1,37 +1,48 @@
-﻿@model IEnumerable<ArabErp.Domain.BayStatus>
+﻿
 @{
     ViewBag.Title = "Bay Allocation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@{
-    int totalBays = Model.Count();
-    int freeBays = (from a in Model where a.Occupied == "No" select a).Count();
-    int occupiedBays = totalBays - freeBays;
-}
 
-    <div class="row">
-        <div class="form-head1">
-            <h4>Bay Status Report</h4>
+<script type="text/javascript">
+    function OnBayTypeChanged(type) {
+        $('#bay-status-grid').addClass("fade");
+        var url = '@Url.Action("BayStatusGrid")';
+        url += '?type=' + type;
+        $('#bay-status-grid').load(url, function () {
+            $('#bay-status-grid').removeClass("fade");
+        });
+    }
+</script>
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Bay Status Report</h4>
+    </div>
+
+    <div class="main-part pad1 white">
+        <div class="col-md-12">
+            <div class="row">
+                <center><h4>Bay Allocation and Status Report on @DateTime.Now.ToString("dd MMM yyyy")</h4></center>
+            </div>
         </div>
-        
-        <div class="main-part pad1 white">
-            <div class="col-md-12">
-                <div class="row">
-                    <center><h4>Bay Allocation and Status Report on @DateTime.Now.ToString("dd MMM yyyy")</h4></center>
-                </div>
-                <div class="row">
-                    <h5>Total Bays @totalBays, Free Bays @freeBays, Occupied Bays @occupiedBays</h5>
-                </div>
-            </div> 
-                <div class="col-md-12">
-                    <div class="row">
-                        @foreach (var item in Model)
-                        {
-                            @Html.Partial("_BayPartial", item)
-                        }
-                    </div>
-                </div>
-           
+        <div class="row form-group">
+            <div class="col-md-1 text-right">
+                <label for="cboBayType">Bay Type</label>
+            </div>
+            <div class="col-md-2">
+                <select id="cboBayType" class="form_input bluebox" onchange="OnBayTypeChanged(this.value)">
+                    <option value="all" selected>All</option>
+                    <option value="service">Service</option>
+                    <option value="new">New Installation</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row" id="bay-status-grid">
+                @Html.Action("BayStatusGrid")
+            </div>
         </div>
     </div>
+</div>
 
