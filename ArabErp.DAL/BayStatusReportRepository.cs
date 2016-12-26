@@ -41,7 +41,7 @@ namespace ArabErp.DAL
                 left join WorkDescription W on W.WorkDescriptionId = Job.WorkDescriptionId
                 left join Item U on U.ItemId = W.FreezerUnitId 
                 LEFT JOIN JobCardDailyActivity DA ON Job.JobCardId = DA.JobCardId
-                WHERE ISNULL(Job.isService, 0) = CASE @type WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(Job.isService, 0) END
+                WHERE ISNULL(B.isService, 0) = CASE @type WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(B.isService, 0) END
                 AND B.OrganizationId = @org
                 ORDER BY B.BayName, Occupied";
 

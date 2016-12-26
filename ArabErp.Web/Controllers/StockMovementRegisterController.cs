@@ -18,7 +18,8 @@ namespace ArabErp.Web.Controllers
             InitDropdown();
             FillWarehouse();
             FillItemCategory();
-
+            FillGroup();
+            FillSubGroup();
             ClosingStock cs = new ClosingStock();
             cs.itmCatId = 0;
             ViewBag.startdate = FYStartdate;
@@ -48,6 +49,18 @@ namespace ArabErp.Web.Controllers
             DropdownRepository repo = new DropdownRepository();
             var result = repo.ItemCategoryDropdown();
             ViewBag.ItemCatList = new SelectList(result, "Id", "Name");
+        }
+        public void FillGroup()
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.ItemGroupDropdown();
+            ViewBag.ItemGroup = new SelectList(result, "Id", "Name");
+        }
+        public void FillSubGroup()
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.ItemSubgroupDropdown();
+            ViewBag.ItemSubgroup = new SelectList(result, "Id", "Name");
         }
         public ActionResult StockMovementRegister(DateTime? from, DateTime? to, int itmcatid = 0, int itmid = 0)
         {
