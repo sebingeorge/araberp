@@ -167,12 +167,12 @@ namespace ArabErp.DAL
                 int val = connection.Query<int>(sql, new { JobCardId = JobCardId }).First();
                 if(val>0)
                 {
-                    jobcard.StoreIssued =false;
+                    jobcard.StoreIssued = true;
                     
                 }
                 else
                 {
-                    jobcard.StoreIssued = true;
+                    jobcard.StoreIssued = false;
                 }
                 //jobcard.JobCardTask = new List<JobCardCompletionTask>();
 

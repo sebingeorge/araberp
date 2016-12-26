@@ -21,13 +21,37 @@ namespace ArabErp.Web.Controllers
         {
             //StockReportRepository repo = new StockReportRepository();
             //return View(repo.GetStockReport());
+            FillItemCategory();
+            FillItemGroup();
+            FillItemSubGroup();
             return View();
         }
 
-        public ActionResult Stockreport(string itmid = "",string PartNo="")
+        public void FillItemCategory()
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.ItemCategoryDropdown();
+            ViewBag.ItemCatList = new SelectList(result, "Id", "Name");
+        }
+
+        public void FillItemGroup()
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.ItemGroupDropdown();
+            ViewBag.ItemGrpList = new SelectList(result, "Id", "Name");
+        }
+
+        public void FillItemSubGroup()
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.ItemSubgroupDropdown();
+            ViewBag.ItemSubGrpList = new SelectList(result, "Id", "Name");
+        }
+
+        public ActionResult Stockreport(string itmid = "", string PartNo = "", int itmcatid = 0, int itmGrpId = 0, int itmSubGrpId = 0)
         {
 
-            return PartialView("_StockReportRegister", new StockReportRepository().GetStockData(itmid, PartNo));
+            return PartialView("_StockReportRegister", new StockReportRepository().GetStockData(itmid, PartNo,itmcatid,itmGrpId,itmSubGrpId));
         }
         public ActionResult DrillDown(int itemId)
         {

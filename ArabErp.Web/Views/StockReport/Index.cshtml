@@ -1,17 +1,39 @@
 ﻿@*@model IList<ArabErp.Domain.StockReportSummary>*@
+@model ArabErp.Domain.StockReportSummary
+
+
 @{
     ViewBag.Title = "Stock Summary Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script type="text/javascript">
+
+    function FillItem() {
+        var Code = $('#itmCatId').val();
+
+        var Url = '@Url.Action("Item")';
+
+        if (Code == '') {
+            $("#DivItem").load(Url, { Code: 0 });
+            Filter()
+        }
+        else {
+            $("#DivItem").load(Url, { Code: Code });
+            Filter()
+        }
+    }
+
     function Filter() {
 
         $("#stock-grid").addClass("fade");
         var itmid = $("#filter-Material").val().trim();
         var PartNo = $("#filter-PartNo").val().trim();
+        var itmcatid = $("#itmCatId").val();
+        var itmGrpId = $("#itmGrpId").val();
+        var itmSubGrpId = $("#itmSubGrpId").val();
         var url = '@Url.Action("Stockreport")';
-        url += "?itmid=" + encodeURIComponent(itmid) + "&PartNo=" + encodeURIComponent(PartNo);
+        url += "?itmid=" + encodeURIComponent(itmid) + "&PartNo=" + encodeURIComponent(PartNo) + "&itmcatid=" + itmcatid + "&itmGrpId=" + itmGrpId + "&itmSubGrpId=" + itmSubGrpId;
         $("#stock-grid").load(url, function () {
             $("#stock-grid").removeClass("fade");
         });
@@ -51,6 +73,25 @@
                     <label for="filter-PartNo">Part No.</label>
                     <input id="filter-PartNo" class="form_input" placeholder="Search for Part No." onkeyup="Filter()" onchange="Filter()" />
                 </div>
+
+                <div class="col-md-2">
+                    <label for="cboItemCat">Item Category</label>
+                    @Html.DropDownListFor(m => Model.itmCatId, (SelectList)ViewBag.ItemCatList, "Select Item Category", new { @class = "form_input", @onchange = "FillItem()" })
+                    @Html.HiddenFor(m => Model.itmCatId)
+                </div>
+
+                <div class="col-md-2">
+                    <label for="cboItemCat">Item Group</label>
+                    @Html.DropDownListFor(m => Model.itmGrpId, (SelectList)ViewBag.ItemGrpList, "Select Item Group", new { @class = "form_input", @onchange = "FillItem()" })
+                    @Html.HiddenFor(m => Model.itmGrpId)
+                </div>
+
+                <div class="col-md-2">
+                    <label for="cboItemCat">Item Sub Group</label>
+                    @Html.DropDownListFor(m => Model.itmSubGrpId, (SelectList)ViewBag.ItemSubGrpList, "Select Item Sub Group", new { @class = "form_input", @onchange = "FillItem()" })
+                    @Html.HiddenFor(m => Model.itmSubGrpId)
+                </div>
+
             </div>
         </div>
         <br />

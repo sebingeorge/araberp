@@ -14,6 +14,9 @@ namespace ArabErp.Domain
         public decimal OutQuantity { get; set; }
         public decimal Balance { get; set; }
         public string PartNo { get; set; }
+        public int itmCatId { get; set; }
+        public int itmGrpId { get; set; }
+        public int itmSubGrpId { get; set; }
     }
     public class StockSummaryDrillDown
     {

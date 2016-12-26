@@ -31,9 +31,7 @@
       
     }
 
-    function FillItemGroup() {
-
-      
+    @*function FillItemGroup() {
         var Code = $('#ItemCategoryId').val();
         alert(Code);
         var Url = '@Url.Action("ItemGroup")';
@@ -47,6 +45,7 @@
             $("#DivItemSubGroup").load(UrlSubGroup, { Code: 0 });
         }
     }
+
     function FillItemSubGroup() {
         var Code = $('#ItemGroupId').val();
         var Url = '@Url.Action("ItemSubGroup")';
@@ -56,7 +55,7 @@
         else {
             $("#DivItemSubGroup").load(Url, { Code: Code });
         }
-    }
+    }*@
 
     function Filter() {
         $("#Stores_Ledger").addClass("fade");
