@@ -76,7 +76,8 @@ namespace ArabErp.DAL
                 return objItemId;
             }
         }
-        public List<StockReportSummary> GetStockData(string ItemId,string partno)
+
+        public List<StockReportSummary> GetStockData(string ItemId, string partno, int itmcatid, int itmGrpId, int itmSubGrpId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -93,9 +94,12 @@ namespace ArabErp.DAL
                 sql += " left join StockOut SO on I.ItemId = SO.ItemId";
                 sql += " where SI.InQuantity is not null and SO.OutQuantity is not null and ";
                 sql += " ItemName LIKE '%'+@itmid+'%'";
-                sql += "and isnull(I.PartNo,'') like '%'+@partno+'%'";
+                sql += " and isnull(I.PartNo,'') like '%'+@partno+'%'";
+                sql += " AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId)";
+                sql += " AND I.ItemGroupId=ISNULL(NULLIF(@itmGrpId, 0), I.ItemGroupId) ";
+                sql += " AND I.ItemSubGroupId=ISNULL(NULLIF(@itmSubGrpId, 0), I.ItemSubGroupId) ";
 
-                var objItemId = connection.Query<StockReportSummary>(sql, new { itmid = ItemId,partno=partno}).ToList<StockReportSummary>();
+                var objItemId = connection.Query<StockReportSummary>(sql, new { itmid = ItemId,partno=partno,itmcatid = itmcatid, itmGrpId = itmGrpId, itmSubGrpId = itmSubGrpId}).ToList<StockReportSummary>();
 
                 return objItemId;
             }

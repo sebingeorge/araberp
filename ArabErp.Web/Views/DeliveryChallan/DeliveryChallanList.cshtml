@@ -22,9 +22,10 @@
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
         var RegNo = $("#txtRegNo").val().trim();
+        var Customer = $("#txtCustomer").val().trim();
         var url = '@Url.Action("PreviousList")';
 
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&RegNo=" + encodeURIComponent(RegNo);
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&RegNo=" + encodeURIComponent(RegNo) + "&Customer=" + encodeURIComponent(Customer);
 
         $("#dclist").load(url, function () {
             $("#dclist").removeClass("fade");
@@ -69,6 +70,10 @@
             <div class="col-md-2">
                 <label for="txtRegNo">Reg. No./Chassis No.</label>
                 <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Reg. No./Chassis No." />
+            </div>
+            <div class="col-md-2">
+                <label for="txtCustomer">Customer</label>
+                <input type="text" class="form_input" id="txtCustomer" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Customer" />
             </div>
         </div>
         <br />

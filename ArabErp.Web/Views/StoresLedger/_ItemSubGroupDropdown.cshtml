@@ -1,0 +1,5 @@
+﻿
+@model ArabErp.Domain.ClosingStock
+@Html.DropDownListFor(m => Model.itmSubGrpId, (SelectList)ViewBag.ItemSubGroupList, "Select Sub Group", new { @class = "form_input" })
+@*@Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })*@
+

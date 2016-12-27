@@ -1,0 +1,52 @@
+﻿@model  ArabErp.Domain.OpeningStock
+<div class="main-part pad1">
+    @using (Html.BeginForm("StandardRate", null, FormMethod.Post, new { @class = "createFrom", @id = "openingstock_form" }))
+    {
+        <div class="row">
+            <div class="col-md-12" id="standard_rate_table">
+                <table class="table table-responsive table-bordered">
+                    <thead class="grid_heading">
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Material/Spares</th>
+                            <th>Part No.</th>
+                            <th class=" text align_right">Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody class="grid_row">
+
+                        @{ int row = 0;}
+                        @for (int i = 0; i < Model.OpeningStockItem.Count; i++)
+                        {
+                            <tr id="@row">
+
+                                <td align="center">
+                                    @Html.HiddenFor(m => m.OpeningStockItem[i].ItemId)
+                                    @Html.HiddenFor(m => m.OpeningStockItem[i].OpeningStockId)
+                                    @(row + 1)
+                                </td>
+                                <td>
+                                    @Model.OpeningStockItem[i].ItemName
+                                </td>
+                                <td>@Model.OpeningStockItem[i].PartNo</td>
+                                <td>
+                                @if (Model.OpeningStockItem[i].isUsed)
+                                {
+                                    @Html.TextBoxFor(m => m.OpeningStockItem[i].Quantity, new { @class = "form_input  text-right", autocomplete = "off", @style = "color:red", @readonly = "true" })
+                                }
+                                else
+                                {
+                                    @Html.TextBoxFor(m => m.OpeningStockItem[i].Quantity, new { @class = "form_input", autocomplete = "off", @style = "text-align:right" })
+                                }
+                                </td>
+                            </tr>
+                            row++;
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+    }
+</div>

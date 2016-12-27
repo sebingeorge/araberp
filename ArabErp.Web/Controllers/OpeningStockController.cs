@@ -13,9 +13,15 @@ namespace ArabErp.Web.Controllers
         // GET: OpeningStock
         public ActionResult Index()
         {
+            FillStockpoint();
             return View();
         }
-
+        public ActionResult OpeningStock()
+        {
+            OpeningStock OpeningStock = new OpeningStock();
+            OpeningStock.OpeningStockItem = new OpeningStockRepository().GetItem();
+            return PartialView("_OpeningStock", OpeningStock);
+        }
         public ActionResult Create()
         {
             FillStockpoint();
@@ -78,9 +84,9 @@ namespace ArabErp.Web.Controllers
             //new OpeningStockRepository().InsertOpeningStock(model);
             //new OpeningStockRepository().DeleteStockUpdate(model);
             //new OpeningStockRepository().InsertStockUpdate(model);
-
-            new OpeningStockRepository().UpdateOpeningStock(model);
-
+            
+            //new OpeningStockRepository().UpdateOpeningStock(model);
+            new OpeningStockRepository().SaveOpeningStock(model);
             FillStockpoint();
             FillItem();
             FillPartNo();
@@ -89,7 +95,7 @@ namespace ArabErp.Web.Controllers
             OpeningStock OpeningStock = new OpeningStock();
             OpeningStock.OpeningStockItem = new List<OpeningStockItem>();
             OpeningStock.OpeningStockItem.Add(new OpeningStockItem());
-            return RedirectToAction("Create");
+            return RedirectToAction("Index");
         }
 
     }

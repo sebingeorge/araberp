@@ -25,6 +25,8 @@ namespace ArabErp.Domain
         public int JodCardCompleteStatus { get; set; }
         public int IsQCPassed { get; set; }
         public int isService { get; set; }
+        public string RegistrationNo { get; set; }
+        public string ChassisNo { get; set; }
         
 
     }

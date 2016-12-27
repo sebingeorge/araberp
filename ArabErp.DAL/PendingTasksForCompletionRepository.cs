@@ -50,7 +50,7 @@ namespace ArabErp.DAL
 	                CONVERT(VARCHAR, JT.TaskDate, 106) TaskDate,
 
 	                JTM.JobCardTaskName,
-	                EMP.EmployeeName,C.CustomerName,isnull(VI.ChassisNo,'')ChassisNo,isnull(VI.RegistrationNo,'')
+	                EMP.EmployeeName,C.CustomerName,isnull(VI.ChassisNo,'')ChassisNo,isnull(VI.RegistrationNo,'')RegistrationNo
 
                      FROM JobCard JC
 	                INNER JOIN JobCardTask JT ON JC.JobCardId = JT.JobCardId

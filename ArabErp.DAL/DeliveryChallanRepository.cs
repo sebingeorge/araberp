@@ -223,20 +223,25 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<DeliveryChallan> GetAllDeliveryChallan(int id, int cusid, int OrganizationId, DateTime? from, DateTime? to, string RegNo = "")
+        public IEnumerable<DeliveryChallan> GetAllDeliveryChallan(int id, int cusid, int OrganizationId, DateTime? from, DateTime? to, string RegNo = "", string Customer="")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = @"select DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,JobCardNo,JobCardDate,E.EmployeeName,
+                string qry = @"select DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,JobCardNo,JobCardDate,E.EmployeeName,C.CustomerName,
                                V.RegistrationNo,v.ChassisNo from DeliveryChallan D
                                INNER JOIN Employee E ON E.EmployeeId=D.EmployeeId
                                INNER JOIN JobCard J ON J.JobCardId =D.JobCardId 
 	                           inner join vehicleinpass V ON  V.VehicleInPassId=J.InPassId
-                               where D.isActive=1 AND D.OrganizationId = @OrganizationId and   D.DeliveryChallanDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) 
-                               AND ISNULL(@to, GETDATE()) AND  D.DeliveryChallanId = ISNULL(NULLIF(@id, 0), D.DeliveryChallanId) 
+							   LEFT JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
+							   LEFT JOIN Customer C ON C.CustomerId=S.CustomerId
+                               where D.isActive=1 AND D.OrganizationId = 1 and  
+							    D.DeliveryChallanDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) 
+                               AND ISNULL(@to, GETDATE()) AND
+							     D.DeliveryChallanId = ISNULL(NULLIF(@id, 0), D.DeliveryChallanId) 
+                               AND isnull(C.CustomerName,'') LIKE '%'+@Customer+'%'
                                AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%')
                                ORDER BY D.DeliveryChallanDate DESC, D.CreatedDate DESC";
-                return connection.Query<DeliveryChallan>(qry, new { OrganizationId = OrganizationId, id = id, from = from, to = to, RegNo = RegNo }).ToList();
+                return connection.Query<DeliveryChallan>(qry, new { OrganizationId = OrganizationId, id = id, from = from, to = to, RegNo = RegNo, Customer = Customer }).ToList();
 
             }
         }

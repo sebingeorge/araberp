@@ -128,14 +128,13 @@ namespace ArabErp.Web.Controllers
         }
         public void FillSO()
         {
-            ExpenseRepository repo = new ExpenseRepository();
-            List<Dropdown> list = repo.FillSO();
+            List<Dropdown> list = new DropdownRepository().SaleOrderDropdown2(OrganizationId);
             ViewBag.SO = new SelectList(list, "Id", "Name");
         }
         public void FillJC()
         {
             ExpenseRepository repo = new ExpenseRepository();
-            List<Dropdown> list = repo.FillJC();
+            List<Dropdown> list = new DropdownRepository().JobCardDropdown(OrganizationId);
             ViewBag.JC = new SelectList(list, "Id", "Name");
         }
         public ActionResult Edit(int id = 0)

@@ -63,7 +63,7 @@ namespace ArabErp.Web.Controllers
 
         public void FillJCNo(int isProjectBased)
         {
-            ViewBag.JCNoList = new SelectList(new DropdownRepository().JobCardNoDropdown(OrganizationId, isProjectBased), "Id", "Name");
+            ViewBag.JCNoList = new SelectList(new DropdownRepository().JobCardDropdown(OrganizationId, isProjectBased), "Id", "Name");
         }
         public void FillCustomerinJC(int isProjectBased)
         {
@@ -89,7 +89,7 @@ namespace ArabErp.Web.Controllers
                 JobOrderCompletionRepository repo = new JobOrderCompletionRepository();
                 repo.UpdateJobCardCompletion(model, UserID.ToString());
                 TempData["success"] = "Saved Successfully";
-                return RedirectToAction("PendingJobOrderCompletion", new { isProjectBased = model.isProjectBased });
+                return RedirectToAction("Index", new { isProjectBased = model.isProjectBased });
             }
             catch (Exception)
             {
