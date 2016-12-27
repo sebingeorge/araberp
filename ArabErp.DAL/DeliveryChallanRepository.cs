@@ -562,8 +562,9 @@ namespace ArabErp.DAL
 								IB.SerialNo FreezerPartNo,
 								--ISNULL(I.PartNo,'') FreezerPartNo,
                                 QC.PunchingNo Box,
-								--II.ItemName Box, II.ItemId Box,
-								ISNULL(II.PartNo, '') BoxPartNo,
+								II.ItemName Box, II.ItemId Box,
+								IB1.SerialNo BoxPartNo,
+								--ISNULL(II.PartNo, '') BoxPartNo,
 								LPO.SupplyOrderNo,
 								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig, U1.Signature ApprovedUsersig,
 								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate,
@@ -592,10 +593,16 @@ namespace ArabErp.DAL
 							    left join Item I ON I.ItemId=JC.[FreezerUnitId]
 								left join Item II ON II.ItemId=JC.[BoxId]
                                 LEFT JOIN JobCardQC QC ON JC.JobCardId = QC.JobCardId
-								LEFT JOIN ItemBatch IB ON DC.DeliveryChallanId = IB.DeliveryChallanId
+								LEFT JOIN ItemBatch IB ON DC.DeliveryChallanId = IB.DeliveryChallanId 
 								LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId AND I.ItemId = GI.ItemId
 								LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId AND I.ItemId = OS.ItemId
-								WHERE DC.DeliveryChallanId=@DeliveryChallanId";
+
+								LEFT JOIN ItemBatch IB1 ON DC.DeliveryChallanId = IB1.DeliveryChallanId 
+								LEFT JOIN GRNItem GI1 ON IB1.GRNItemId = GI1.GRNItemId AND II.ItemId = GI1.ItemId
+								LEFT JOIN OpeningStock OS1 ON IB1.OpeningStockId = OS1.OpeningStockId AND II.ItemId = OS1.ItemId
+								WHERE DC.DeliveryChallanId = @DeliveryChallanId
+								AND ISNULL(GI.ItemId, OS.ItemId) = JC.FreezerUnitId
+								AND ISNULL(GI1.ItemId, OS1.ItemId) = JC.BoxId";
 
 
                     var objDeliveryChalla = connection.Query<DeliveryChallan>(sq, new
