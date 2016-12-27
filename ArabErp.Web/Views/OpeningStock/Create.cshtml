@@ -27,10 +27,7 @@
     function OnItemChanged(sender, row) {
         var id = $(sender).val();
         if (id != '' && id != 0) {
-            @*var url = '@Url.Action("GetItemPartNo", "AdditionalWorkShopRequest")';
-            $.getJSON(url, { itemId: id}, function(data){
-                $("#part_no_" + row).text(data);
-            })*@
+         
             $("#cboPartNo" + row).combobox("destroy");
             $("#cboPartNo" + row).val(id);
             $("#cboPartNo" + row).combobox();
@@ -80,14 +77,13 @@
                 </div>
             </div>
 
-            @*@*<div class="row form-group">
-                </div>*@
+           
 
             <div id="opening-stock-list" class="table-responsive">
                 @Html.Action("OpeningStockList", new { stockpointId = 0 })
             </div>
 
-            @*@Html.Action("OpeningStockList")*@
+      
 
             <div class="row">
 

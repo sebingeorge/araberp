@@ -163,7 +163,7 @@ namespace ArabErp.DAL
                                  FROM OpeningStock OS
 	                             LEFT JOIN ItemBatch IB ON OS.OpeningStockId = IB.OpeningStockId
 								 left JOIN Item I ON OS.ItemId = I.ItemId";
-                               
+
 
                 //var objItem = connection.Query<OpeningStock>(sql, new
                 //{
@@ -173,39 +173,39 @@ namespace ArabErp.DAL
                 return connection.Query<OpeningStockItem>(query).ToList();
             }
         }
-//        public int SaveStockUpdate(OpeningStock model)
-//        {
-//            using (IDbConnection connection = OpenConnection(dataConnection))
-//            {
-//            int id = 0;
-//            foreach (var item in model.OpeningStockItem)
-//            {
-//                if ( item.OpeningStockId > 0) continue;
-//                string sql = @"insert  into StockUpdate(StockPointId,stocktrnDate,ItemId,Quantity,
-//                                 StockType,StockInOut,CreatedBy,CreatedDate,OrganizationId) 
-//                                 Values (@stockpointId,@CreatedDate,@ItemId,@Quantity,'OpeningStock','IN',
-//                                 @CreatedBy,@CreatedDate,@OrganizationId);
-//                                 SELECT CAST(SCOPE_IDENTITY() as int)";
+        //        public int SaveStockUpdate(OpeningStock model)
+        //        {
+        //            using (IDbConnection connection = OpenConnection(dataConnection))
+        //            {
+        //            int id = 0;
+        //            foreach (var item in model.OpeningStockItem)
+        //            {
+        //                if ( item.OpeningStockId > 0) continue;
+        //                string sql = @"insert  into StockUpdate(StockPointId,stocktrnDate,ItemId,Quantity,
+        //                                 StockType,StockInOut,CreatedBy,CreatedDate,OrganizationId) 
+        //                                 Values (@stockpointId,@CreatedDate,@ItemId,@Quantity,'OpeningStock','IN',
+        //                                 @CreatedBy,@CreatedDate,@OrganizationId);
+        //                                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
-//                //id = connection.Query<int>(sql, item).Single();
+        //                //id = connection.Query<int>(sql, item).Single();
 
-//                id = connection.Query<int>(sql, new
-//                {
-//                    stockpointId = model.stockpointId,
-//                    ItemId = item.ItemId,
-//                    Quantity = item.Quantity,
-//                    CreatedBy = model.CreatedBy,
-//                    CreatedDate = model.CreatedDate,
-//                    OrganizationId = model.OrganizationId
-//                }).Single();
+        //                id = connection.Query<int>(sql, new
+        //                {
+        //                    stockpointId = model.stockpointId,
+        //                    ItemId = item.ItemId,
+        //                    Quantity = item.Quantity,
+        //                    CreatedBy = model.CreatedBy,
+        //                    CreatedDate = model.CreatedDate,
+        //                    OrganizationId = model.OrganizationId
+        //                }).Single();
 
-//            }
+        //            }
 
 
-//            return id;
+        //            return id;
 
-//            }
-//        }
+        //            }
+        //        }
         public int SaveOpeningStock(OpeningStock model)
         {
 
@@ -214,29 +214,55 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    //string checksql = @"DELETE from [StandardRate]";
-                    //connection.Query<int>(checksql, transaction: txn);
+                    string sql = string.Empty;
                     foreach (var item in model.OpeningStockItem)
                     {
-                        if (item.OpeningStockId == 0)
+                        if (item.OpeningStockId == 0 && item.Quantity > 0)
                         {
-                        string sql = @"insert  into OpeningStock(ItemId,Quantity,
+                            sql = @"insert  into OpeningStock(ItemId,Quantity,
                                  CreatedBy,CreatedDate,OrganizationId,StockpointId) 
                                  Values (@ItemId,@Quantity,
                                  @CreatedBy,@CreatedDate,@OrganizationId,@StockpointId);
+                                
+                      
+                                 insert  into StockUpdate(StockPointId,stocktrnDate,ItemId,Quantity,
+                                 StockType,StockInOut,CreatedBy,CreatedDate,OrganizationId) 
+                                 Values (@stockpointId,@CreatedDate,@ItemId,@Quantity,'OpeningStock','IN',
+                                 @CreatedBy,@CreatedDate,@OrganizationId);
                                  SELECT CAST(SCOPE_IDENTITY() as int)";
-                       
-                        int ObjStandardRate = connection.Query<int>(sql, new
-                        {
+                      
 
-                            StockPointId = model.stockpointId,
-                            ItemId = item.ItemId,
-                            Quantity = item.Quantity,
-                            CreatedBy = model.CreatedBy,
-                            CreatedDate = model.CreatedDate,
-                            OrganizationId = model.OrganizationId
-                        }, txn).First();
-                    }
+                            int ObjStandardRate = connection.Query<int>(sql, new
+                            {
+
+                                StockPointId = model.stockpointId,
+                                ItemId = item.ItemId,
+                                Quantity = item.Quantity,
+                                CreatedBy = model.CreatedBy,
+                                CreatedDate = model.CreatedDate,
+                                OrganizationId = model.OrganizationId
+                            }, txn).First();
+                        }
+                        else
+                        {
+                            if (!item.isUsed)
+                            {
+                                sql = @"update OpeningStock set ItemId=@ItemId,Quantity=@Quantity,CreatedBy= @CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId,StockpointId=@StockpointId where OpeningStockId=@OpeningStockId;
+                                        update StockUpdate set StockPointId=@StockPointId,stocktrnDate=@CreatedDate,ItemId=@ItemId,Quantity=@Quantity,CreatedBy= @CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId where StockType='OpeningStock' and StockInOut='IN' and ItemId=@ItemId and StockpointId=@StockpointId ;";
+                          
+                                int ObjStandardRate = connection.Execute(sql, new
+                                {
+                                    StockPointId = model.stockpointId,
+                                    OpeningStockId = item.OpeningStockId,
+                                    ItemId = item.ItemId,
+                                    Quantity = item.Quantity,
+                                    CreatedBy = model.CreatedBy,
+                                    CreatedDate = model.CreatedDate,
+                                    OrganizationId = model.OrganizationId
+                                }, txn);
+                            }
+                        }
+
                     }
                 }
                 catch (Exception)
@@ -249,7 +275,7 @@ namespace ArabErp.DAL
                 return 1;
             }
         }
-        public IEnumerable<OpeningStockReport> GetClosingStockData(int stockPointId, int itemCategoryId, string itemId, int itmGroup, int itmSubgroup, int OrganizationId,string partno)
+        public IEnumerable<OpeningStockReport> GetClosingStockData(int stockPointId, int itemCategoryId, string itemId, int itmGroup, int itmSubgroup, int OrganizationId, string partno)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -352,7 +378,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<OpeningStockReport> GetClosingStockDataDTPrint(int stockPointId, int itemCategoryId, string itemId, int itmGroup, int itmSubgroup, int OrganizationId,string partno)
+        public IEnumerable<OpeningStockReport> GetClosingStockDataDTPrint(int stockPointId, int itemCategoryId, string itemId, int itmGroup, int itmSubgroup, int OrganizationId, string partno)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -369,7 +395,7 @@ namespace ArabErp.DAL
                                 S.StockPointId = ISNULL(NULLIF(@stkid, 0), S.StockPointId) 
                                 GROUP BY  I.ItemName,I.PartNo,U.UnitName,IG.ItemGroupName,IGS.ItemSubGroupName
                                 ORDER BY I.ItemName";
-                return connection.Query<OpeningStockReport>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId,  itmGroup = itmGroup, itmSubgroup = itmSubgroup ,OrganizationId = OrganizationId,partno=partno}).ToList();
+                return connection.Query<OpeningStockReport>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, itmGroup = itmGroup, itmSubgroup = itmSubgroup, OrganizationId = OrganizationId, partno = partno }).ToList();
             }
         }
 
