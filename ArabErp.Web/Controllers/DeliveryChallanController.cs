@@ -113,6 +113,7 @@ namespace ArabErp.Web.Controllers
                 WorkDescr = data.WorkDescr,
                 CustomerName = data.CustomerName,
                 RegistrationNo = data.RegistrationNo,
+                ChassisNo = data.ChassisNo,
                 PaymentTerms = data.PaymentTerms
             }, JsonRequestBehavior.AllowGet);
         }

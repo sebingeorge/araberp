@@ -27,13 +27,13 @@ namespace ArabErp.DAL
 
                     var id = connection.Query<int>(sql, objDeliveryChallan, txn).Single();
 
-                    #region update customer order ref to [SaleOrder] if isService = 1
-                    if (objDeliveryChallan.isService == 1)
-                    {
+                    #region update customer order ref to [SaleOrder]
+                    //if (objDeliveryChallan.isService == 1)
+                    //{
                         sql = @"UPDATE SaleOrder SET CustomerOrderRef = '" + objDeliveryChallan.CustomerOrderRef + @"'
                                 WHERE SaleOrderId = (SELECT SaleOrderId FROM JobCard WHERE JobCardId = " + objDeliveryChallan.JobCardId + @")";
                         if (connection.Execute(sql, transaction: txn) <= 0) throw new Exception();
-                    } 
+                    //} 
                     #endregion
 
                     try
@@ -187,7 +187,7 @@ namespace ArabErp.DAL
                     WHERE ISNULL(SOI.isActive, 1) = 1 /* AND ISNULL(VM.isActive, 1) = 1 */;
 
                     SELECT ISNULL(J.JobCardNo, '')+' - '+CONVERT(VARCHAR, J.JobCardDate, 106) JobCardNoDate, T.SaleOrderNoDate,T.CustomerOrderRef,
-                    T.VehicleModel, T.WorkDescr, T.CustomerName, ISNULL(VI.RegistrationNo, '-') RegistrationNo, T.PaymentTerms
+                    T.VehicleModel, T.WorkDescr, T.CustomerName, VI.RegistrationNo, VI.ChassisNo, T.PaymentTerms
                     FROM JobCard J 
                     LEFT JOIN DeliveryChallan VO ON J.JobCardId = VO.JobCardId
                     INNER JOIN #TEMP T ON J.SaleOrderItemId = T.SaleOrderItemId
@@ -253,7 +253,7 @@ namespace ArabErp.DAL
 
                 string sql = @" SELECT DISTINCT DC.DeliveryChallanId,DeliveryChallanRefNo,DeliveryChallanDate,C.CustomerName Customer,SO.CustomerOrderRef,
                                 ISNULL(SO.SaleOrderRefNo,'')+ ' - '  +CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
-                                ISNULL(JC.JobCardNo,'') + ' - ' +CONVERT(varchar,JC.JobCardDate,106)JobCardNo,VI. RegistrationNo,
+                                ISNULL(JC.JobCardNo,'') + ' - ' +CONVERT(varchar,JC.JobCardDate,106)JobCardNo,VI.RegistrationNo, VI.ChassisNo,
                                 WI.WorkDescr,VM.VehicleModelName VehicleModel,E.EmployeeId,SO.PaymentTerms,DC.Remarks,ISNULL(SQ.DeliveryChallanId,0)IsUsed, TransportWarrantyExpiryDate,
                                 DC.PrintDescription, DC.QuotationRefNo, JC.isService, JC.JobCardId, QC.PunchingNo
                                 FROM DeliveryChallan DC
@@ -442,13 +442,13 @@ namespace ArabErp.DAL
                     sql = @"UPDATE ItemBatch SET DeliveryChallanId = NULL WHERE DeliveryChallanId = @DeliveryChallanId";
                     id = connection.Execute(sql, objDeliveryChallan, txn);
 
-                    #region update customer order ref to [SaleOrder] if isService = 1
-                    if (objDeliveryChallan.isService == 1)
-                    {
+                    #region update customer order ref to [SaleOrder]
+                    //if (objDeliveryChallan.isService == 1)
+                    //{
                         sql = @"UPDATE SaleOrder SET CustomerOrderRef = '" + objDeliveryChallan.CustomerOrderRef + @"'
                                 WHERE SaleOrderId = (SELECT SaleOrderId FROM JobCard WHERE JobCardId = " + objDeliveryChallan.JobCardId + @")";
                         if (connection.Execute(sql, transaction: txn) <= 0) throw new Exception();
-                    }
+                    //}
                     #endregion
 
                     try
@@ -540,7 +540,95 @@ namespace ArabErp.DAL
                 var objDeliveryChallan = connection.Query<DeliveryChallan>(sql, new { OrganizationId = OrganizationId, DeliveryChallanId = DeliveryChallanId }).First<DeliveryChallan>();
                 if (objDeliveryChallan.isService == 0)
                 {
-                    sq = @"SELECT DISTINCT O.*,
+                    #region old query 27.12.2016 6.50p
+                    //                    sq = @"SELECT DISTINCT O.*,
+                    //								ORR.CountryName,
+                    //								DC.DeliveryChallanId,
+                    //								DeliveryChallanRefNo,
+                    //								DeliveryChallanDate,
+                    //								C.CustomerName Customer,
+                    //								C.DoorNo CDoorNo,
+                    //								C.Street CStreet,
+                    //								CCC.CountryName CCountry,
+                    //								ISNULL(SO.SaleOrderRefNo,'')SaleRefNo,CONVERT(varchar,SO.SaleOrderDate,106) SONODATE,
+                    //								ISNULL(JC.JobCardNo,'')JobcardNo,CONVERT(varchar,JC.JobCardDate,106)JobCardDate,
+                    //								VI. RegistrationNo,VI.ChassisNo,
+                    //								WI.WorkDescr,
+                    //								VM.VehicleModelName VehicleModel,
+                    //								E.EmployeeName,
+                    //								SO.PaymentTerms,
+                    //								DC.Remarks,
+                    //								SQ.QuotationRefNo,
+                    //								I.[ItemName] FreezerName,I.ItemId ReeferId,
+                    //								IB.SerialNo FreezerPartNo,
+                    //								--ISNULL(I.PartNo,'') FreezerPartNo,
+                    //                                QC.PunchingNo Box,
+                    //								II.ItemName Box, II.ItemId Box,
+                    //								IB1.SerialNo BoxPartNo,
+                    //								--ISNULL(II.PartNo, '') BoxPartNo,
+                    //								LPO.SupplyOrderNo,
+                    //								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig, U1.Signature ApprovedUsersig,
+                    //								SO.CustomerOrderRef LPONo,SO.SaleOrderDate LPODate,
+                    //                                DC.PrintDescription printdes,
+                    //                                JC.JobCardId
+                    //	                            FROM DeliveryChallan DC
+                    //                                left JOIN JobCard JC ON JC.JobCardId=DC.JobCardId
+                    //                                left JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
+                    //								left JOIN SalesQuotation SQ ON SQ.SalesQuotationId=SO.SalesQuotationId
+                    //                                left JOIN SaleOrderItem SOI ON JC.SaleOrderItemId=SOI.SaleOrderItemId
+                    //                                left JOIN Customer C ON C.CustomerId=SO.CustomerId 
+                    //								left join Country CCC ON CCC.CountryId=c.Country
+                    //                                left JOIN WorkDescription WI ON WI.WorkDescriptionId = SOI.WorkDescriptionId
+                    //                                LEFT JOIN VehicleModel VM ON VM.VehicleModelId=SOI.VehicleModelId
+                    //                                left JOIN Employee E ON E.EmployeeId=DC.EmployeeId
+                    //                                left join Organization O ON  DC.OrganizationId=O.OrganizationId
+                    //								LEFT  JOIN Country ORR ON ORR.CountryId=O.Country
+                    //                                LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId = SOI.SaleOrderItemId
+                    //								LEFT join WorkShopRequest W ON W.SaleOrderId=SO.SaleOrderId
+                    //								LEFT join PurchaseRequest PR ON PR.WorkShopRequestId=w.WorkShopRequestId
+                    //								LEFT join PurchaseRequestItem PRI ON pRI.PurchaseRequestId=PR.PurchaseRequestId
+                    //								left join SupplyOrderItem LPOI ON PRI.PurchaseRequestItemId = LPOI.PurchaseRequestItemId
+                    //								LEFT JOIN SupplyOrder LPO ON LPOI.SupplyOrderId = LPO.SupplyOrderId
+                    //								left join [User] U ON U.UserId=DC.CreatedBy
+                    //								left join [User] U1 ON U1.UserId=SOI.PaymentApprovedForDeliveryCreatedBy
+                    //							    left join Item I ON I.ItemId=JC.[FreezerUnitId]
+                    //								left join Item II ON II.ItemId=JC.[BoxId]
+                    //                                LEFT JOIN JobCardQC QC ON JC.JobCardId = QC.JobCardId
+                    //								LEFT JOIN ItemBatch IB ON DC.DeliveryChallanId = IB.DeliveryChallanId 
+                    //								LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId AND I.ItemId = GI.ItemId
+                    //								LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId AND I.ItemId = OS.ItemId
+                    //
+                    //								LEFT JOIN ItemBatch IB1 ON DC.DeliveryChallanId = IB1.DeliveryChallanId 
+                    //								LEFT JOIN GRNItem GI1 ON IB1.GRNItemId = GI1.GRNItemId AND II.ItemId = GI1.ItemId
+                    //								LEFT JOIN OpeningStock OS1 ON IB1.OpeningStockId = OS1.OpeningStockId AND II.ItemId = OS1.ItemId
+                    //								WHERE DC.DeliveryChallanId = @DeliveryChallanId
+                    //								AND ISNULL(GI.ItemId, OS.ItemId) = JC.FreezerUnitId
+                    //								AND ISNULL(GI1.ItemId, OS1.ItemId) = JC.BoxId"; 
+                    #endregion
+
+                    sq = @"DECLARE @FreezerSerialNo VARCHAR(MAX), @BoxSerialNo VARCHAR(MAX);
+                            SELECT
+	                            @FreezerSerialNo = IB.SerialNo
+                            FROM DeliveryChallan DC
+                            LEFT JOIN JobCard JC ON DC.JobCardId = JC.JobCardId
+                            LEFT JOIN Item I ON JC.FreezerUnitId = I.ItemId
+                            LEFT JOIN ItemBatch IB ON DC.DeliveryChallanId = IB.DeliveryChallanId 
+                            LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId AND I.ItemId = GI.ItemId
+                            LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId AND I.ItemId = OS.ItemId
+                            WHERE DC.DeliveryChallanId = @DeliveryChallanId
+                            AND ISNULL(GI.ItemId, OS.ItemId) = JC.FreezerUnitId;
+                            SELECT
+	                            @BoxSerialNo = IB.SerialNo
+                            FROM DeliveryChallan DC
+                            LEFT JOIN JobCard JC ON DC.JobCardId = JC.JobCardId
+                            LEFT JOIN Item I ON JC.BoxId = I.ItemId
+                            LEFT JOIN ItemBatch IB ON DC.DeliveryChallanId = IB.DeliveryChallanId 
+                            LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId AND I.ItemId = GI.ItemId
+                            LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId AND I.ItemId = OS.ItemId
+                            WHERE DC.DeliveryChallanId = @DeliveryChallanId
+                            AND ISNULL(GI.ItemId, OS.ItemId) = JC.BoxId
+
+                            SELECT DISTINCT O.*,
 								ORR.CountryName,
 								DC.DeliveryChallanId,
 								DeliveryChallanRefNo,
@@ -559,11 +647,13 @@ namespace ArabErp.DAL
 								DC.Remarks,
 								SQ.QuotationRefNo,
 								I.[ItemName] FreezerName,I.ItemId ReeferId,
-								IB.SerialNo FreezerPartNo,
+								@FreezerSerialNo FreezerPartNo,
+								--IB.SerialNo FreezerPartNo,
 								--ISNULL(I.PartNo,'') FreezerPartNo,
                                 QC.PunchingNo Box,
 								II.ItemName Box, II.ItemId Box,
-								IB1.SerialNo BoxPartNo,
+								@BoxSerialNo BoxPartNo,
+								--IB1.SerialNo BoxPartNo,
 								--ISNULL(II.PartNo, '') BoxPartNo,
 								LPO.SupplyOrderNo,
 								LPO.SupplyOrderDate,U.UserName CreatedUser,U.Signature CreatedUsersig, U1.Signature ApprovedUsersig,
@@ -593,18 +683,7 @@ namespace ArabErp.DAL
 							    left join Item I ON I.ItemId=JC.[FreezerUnitId]
 								left join Item II ON II.ItemId=JC.[BoxId]
                                 LEFT JOIN JobCardQC QC ON JC.JobCardId = QC.JobCardId
-								LEFT JOIN ItemBatch IB ON DC.DeliveryChallanId = IB.DeliveryChallanId 
-								LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId AND I.ItemId = GI.ItemId
-								LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId AND I.ItemId = OS.ItemId
-
-								LEFT JOIN ItemBatch IB1 ON DC.DeliveryChallanId = IB1.DeliveryChallanId 
-								LEFT JOIN GRNItem GI1 ON IB1.GRNItemId = GI1.GRNItemId AND II.ItemId = GI1.ItemId
-								LEFT JOIN OpeningStock OS1 ON IB1.OpeningStockId = OS1.OpeningStockId AND II.ItemId = OS1.ItemId
-								WHERE DC.DeliveryChallanId = @DeliveryChallanId
-								AND ISNULL(GI.ItemId, OS.ItemId) = JC.FreezerUnitId
-								AND ISNULL(GI1.ItemId, OS1.ItemId) = JC.BoxId";
-
-
+								WHERE DC.DeliveryChallanId=@DeliveryChallanId";
                     var objDeliveryChalla = connection.Query<DeliveryChallan>(sq, new
                     {
                         DeliveryChallanId = DeliveryChallanId,

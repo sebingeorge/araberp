@@ -99,9 +99,13 @@
                     @*<input type="text" class="form_input" id="txtJCNoDate" readonly />*@
                 </div>
                 <div class="col-md-2">
-                    <label>Chassis No./Reg No.</label>
+                    <label>Reg. No.</label>
                     @Html.TextBoxFor(m => Model.RegistrationNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                     @*<input type="text" class="form_input" id="txtRegNo" readonly />*@
+                </div>
+                <div class="col-md-2">
+                    <label>Chassis No.</label>
+                    @Html.TextBoxFor(m => m.ChassisNo, new { @class = "form_input", @readonly = "readonly" })
                 </div>
 
             </div>
@@ -144,7 +148,7 @@
                     </div>
                     <div class="col-md-2">
                         <label>Customer Order Ref No.</label>
-                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", @readonly = "true" })
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input" })
                         @*<input type="text" class="form_input" id="txtCustomerOrderRef" readonly />*@
                     </div>
                     <div class="col-md-2">
