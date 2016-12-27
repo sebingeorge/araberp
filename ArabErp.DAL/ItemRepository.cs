@@ -420,14 +420,11 @@ namespace ArabErp.DAL
 
                 update T set T.TotalQty = (T.WRQTY+T.WRPndIssQty+T.MinLevel) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
 
-                with PR as (
-                SELECT WI.ItemId,(SUM(WI.Quantity)-SUM(ISNULL(PI.Quantity,0)))PendingPRQty FROM WorkShopRequestItem WI
-                LEFT JOIN PurchaseRequestItem PI ON WI.ItemId =PI.ItemId
-                GROUP BY WI.ItemId
+               	with PR as (
+                SELECT PI.ItemId,SUM(ISNULL(PI.Quantity,0))PendingPRQty  FROM PurchaseRequestItem PI
+				GROUP BY  PI.ItemId
                 )
-
-                update T set T.PendingPRQty =  (PR.PendingPRQty) from PR inner join #TEMP T on T.ItemId = PR.ItemId;
-
+                update T set T.PendingPRQty = ( T.WRQTY-(PR.PendingPRQty)) from PR inner join #TEMP T on T.ItemId = PR.ItemId;
 
                 SELECT ItemId,SUM(ISNULL(GI.Quantity,0))GRNQTY INTO #TEMP2 FROM GRNItem GI WHERE  DirectPurchaseRequestItemId IS NULL
                 GROUP BY ItemId ;
@@ -436,7 +433,7 @@ namespace ArabErp.DAL
                 GROUP BY PI.ItemId ;
 
                 with TR as (
-                SELECT T1.ItemId,(SOQTY-GRNQTY)INTRANS FROM #TEMP2 T2 INNER JOIN #TEMP1 T1 ON T2.ItemId =T1.ItemId
+               SELECT T1.ItemId,(SOQTY-isnull(GRNQTY,0))INTRANS FROM #TEMP1 T1  LEFT JOIN #TEMP2 T2 ON T2.ItemId =T1.ItemId
                 )
                 update T set T.InTransitQty = INTRANS from TR inner join  #TEMP T on T.ItemId = TR.ItemId;
 

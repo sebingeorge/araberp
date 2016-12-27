@@ -1299,7 +1299,6 @@ namespace ArabErp.Web.Controllers
                 FillServiceWorkDescription();
                 ServiceEnquiry model = new SaleOrderRepository().GetServiceOrderDetails(id, OrganizationId);
                 model.Used = new SaleOrderRepository().Count(id);
-                model.SaleOrderRefNo = DatabaseCommonRepository.GetNextDocNo(35, OrganizationId);
                 model.SaleOrderDate = DateTime.Today;
                 model.isProjectBased = 0;
                 model.isService = 1;

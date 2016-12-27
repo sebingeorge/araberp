@@ -68,7 +68,7 @@ namespace ArabErp.Web.Controllers
             FillPartNo(Code);
             return PartialView("_PartNoDropDown");
         }
-        public ActionResult Print(string Itmname = "", int Itmid = 0, string batchname = "", int batch = 0, string partNo="")
+        public ActionResult Print( int? batch,string Itmname = "", int Itmid = 0, string batchname = "",string partNo="")
         {
 
             ReportDocument rd = new ReportDocument();
@@ -163,7 +163,7 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("MaterialPlanning.pdf"));
+                return File(stream, "application/pdf");
             }
             catch (Exception ex)
             {
