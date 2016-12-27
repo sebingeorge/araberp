@@ -487,7 +487,9 @@ namespace ArabErp.DAL
 				DATEDIFF(day, WR.WorkShopRequestDate, GETDATE()) Ageing,
 				DATEDIFF(day, GETDATE(), WR.RequiredDate) DaysLeft,
 
-                STUFF((SELECT ', '+T1.JobCardNo FROM JobCard T1 WHERE T1.SaleOrderId = S.SaleOrderId FOR XML PATH('')), 1, 2, '') JobCardNo,
+                --STUFF((SELECT ', '+T1.JobCardNo FROM JobCard T1 WHERE T1.SaleOrderId = S.SaleOrderId FOR XML PATH('')), 1, 2, '') JobCardNo,
+                CASE WHEN WR.SaleOrderItemId = 0 THEN STUFF((SELECT ', '+T1.JobCardNo+' - '+CONVERT(VARCHAR, T1.JobCardDate, 106) FROM JobCard T1 WHERE T1.SaleOrderId = S.SaleOrderId FOR XML PATH('')), 1, 2, '')
+                ELSE (SELECT JobCardNo+' - '+CONVERT(VARCHAR, JobCardDate, 106) FROM JobCard WHERE SaleOrderItemId = WR.SaleOrderItemId) END JobCardNo,
 
                 CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,ISNULL(ChassisNo,'')ChassisNo,ISNULL(RegistrationNo,'')RegistrationNo
                 FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId left JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId left JOIN #SALE S ON WR.SaleOrderId = S.SaleOrderId 

@@ -67,22 +67,28 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DV/16/1492</DeliveryChallanRefNo>
-    <DeliveryChallanDate>21-Dec-2016</DeliveryChallanDate>
-    <Customer>Al Irfan Fruits and Vegetables .</Customer>
-    <CDoorNo>Doha , Qatar</CDoorNo>
+    <DeliveryChallanRefNo>DV/16/1501</DeliveryChallanRefNo>
+    <DeliveryChallanDate>25-Dec-2016</DeliveryChallanDate>
+    <Customer>Jaida Motors &amp; Trading Co</Customer>
+    <CDoorNo>Doha- Qatar</CDoorNo>
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SER/45</SaleRefNo>
-    <SONoDate>21 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC-S/43</JobcardNo>
-    <JCDate>21-Dec-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>293139</RegistrationNo>
-    <WorkDesc>General Checkup &amp; Repair</WorkDesc>
-    <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
+    <SaleRefNo>AARC/SO/TR/22</SaleRefNo>
+    <SONoDate>17 Dec 2016</SONoDate>
+    <JobcardNo>AARC/JC/21</JobcardNo>
+    <JCDate>20-Dec-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>P28361</RegistrationNo>
+    <ChassisNo>P28361</ChassisNo>
+    <WorkDesc>Thermal Matser T2500SE 24V(220V/50HZ/1PH) + 100mm 4400x2100x2100mm- ISUZU ,BAM</WorkDesc>
+    <VehicleModel>Isuzu NPR </VehicleModel>
     <Employee>Mohammed Safiq</Employee>
-    <QuotationRefNo>AARC/SER/996/12/16</QuotationRefNo>
-    <FreezerName>T2500</FreezerName>
-    <FreezerPartNo>TH-06QN-07</FreezerPartNo>
+    <PaymentTerms>Net 30</PaymentTerms>
+    <QuotationRefNo>AARC/SQ/23</QuotationRefNo>
+    <FreezerName>Thermal Matser T2500SE 24V(220V/50HZ/1PH)</FreezerName>
+    <FreezerPartNo>TH-21PN-N-03</FreezerPartNo>
+    <BoxName>2956</BoxName>
+    <BoxPartNo>2956</BoxPartNo>
+    <FreezerId>1243</FreezerId>
+    <Box>17</Box>
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -94,18 +100,31 @@
     <Zip>13037</Zip>
     <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo xml:space="preserve"> </LPONo>
-    <LPODate>21-Dec-2016</LPODate>
+    <LPONo>JMC/HED/ISU/532/16</LPONo>
+    <LPODate>17-Dec-2016</LPODate>
     <CreatedUser>safiq</CreatedUser>
     <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
     <ApprovedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
   </Head>
   <Items>
-    <Description>General Service of TM T2500:
-Compressor Belt Tension Check-up &amp; Bracket Checking
-General Check-up &amp; Check Cooling
-Electrical Connection Check-up &amp; Adjustments
-</Description>
+    <Description>Supply &amp; Installation of 100mm 4.4x2.1x2.1mtr PUB
+into Suitable Isuzu NPR Truck
+
+Box No: AARC 1239
+Part No: 2956</Description>
+    <UoM>ea</UoM>
+    <Quantity>1</Quantity>
+  </Items>
+  <Items>
+    <Description>Supply, Installation &amp; Commissioning of Thermal Master T2500-SE
+(24V with Stand-by) into Isuzu NPR Truck
+
+TH-21PN-N-03</Description>
+    <UoM>ea</UoM>
+    <Quantity>1</Quantity>
+  </Items>
+  <Items>
+    <Description>Supply &amp; Fixing of Single Layer Side Crash Guard</Description>
     <UoM>ea</UoM>
     <Quantity>1</Quantity>
   </Items>
