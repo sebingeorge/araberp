@@ -32,15 +32,16 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult PendingSalesInvoice(string invType)
         {
+            FillNeworService();
             //ViewBag.saleOrderList = new SelectList(Repo.GetSalesInvoiceCustomerList(invType, OrganizationId), "SaleOrderId", "SaleOrderRefNoWithDate");
             //var List = Repo.GetSalesInvoiceCustomerList(invType);
             return View("PendingSalesInvoice");
 
         }
-        public ActionResult PendingSalesInvoiceDt(int SalesOrderId=0,string invType="",string DeliveryNo="", string CustomerName = "", string RegNo = "")
+        public ActionResult PendingSalesInvoiceDt(int SalesOrderId = 0, string invType = "", string DeliveryNo = "", string CustomerName = "", string RegNo = "", string InstallType = "")
         {
-        
-            var List = Repo.GetPendingSalesInvoiceList(SalesOrderId, invType, DeliveryNo, CustomerName, RegNo);
+
+            var List = Repo.GetPendingSalesInvoiceList(SalesOrderId, invType, DeliveryNo, CustomerName, RegNo, InstallType);
             foreach (var item in List)
             {
                 item.invType = invType;
@@ -409,6 +410,13 @@ namespace ArabErp.Web.Controllers
             var list = new SalesInvoiceRepository().getLabourCost(id);
             if (list == null) list = new List<LabourCostForService>();
             return PartialView("_LabourCostGrid", list);
+        }
+        public void FillNeworService()
+        {
+            List<Dropdown> types = new List<Dropdown>();
+            types.Add(new Dropdown { Id = 1, Name = "New Installation" });
+            types.Add(new Dropdown { Id = 2, Name = "Service" });
+            ViewBag.Type = new SelectList(types, "Id", "Name");
         }
     }
 }

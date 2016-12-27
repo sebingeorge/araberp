@@ -72,23 +72,20 @@
     }
 
     function Filter() {
-       
         $("#SalesInvoiceListDiv").addClass("fade");
         var DeliveryNo = $("#txtDeliveryNo").val().trim();
-       
+        var InstallType = $("#cboType").val();
         var CustomerName = $("#txtCustomer").val().trim();
         var SalesOrderId = 0;
         var RegNo = $("#txtRegNo").val().trim();
         var invType = $("#invType").val();
-        var url = '@Url.Action("PendingSalesInvoice")';
-        url += "?SalesOrderId"+SalesOrderId+ "&invType=" + invType + "&DeliveryNo=" + encodeURIComponent(DeliveryNo) + "&CustomerName=" + encodeURIComponent(CustomerName) + "&RegNo=" + encodeURIComponent(RegNo);
-     
-        window.location = url;
-        $("SalesInvoiceListDiv").load(url, function () {
-            $("SalesInvoiceListDiv").removeClass("fade");
+        var url = '@Url.Action("PendingSalesInvoiceDt")';
+        url += "?SalesOrderId=" + SalesOrderId + "&invType=" + invType + "&DeliveryNo=" + encodeURIComponent(DeliveryNo) + "&CustomerName=" + encodeURIComponent(CustomerName) + "&RegNo=" + encodeURIComponent(RegNo) + "&InstallType=" + encodeURIComponent(InstallType);
+        $("#SalesInvoiceListDiv").load(url, function () {
+        $("#SalesInvoiceListDiv").removeClass("fade");
         });
+       
     }
-
 </script>
 <style>
     /*td:nth-child(1), th:nth-child(1) { min-width: 400px; }
@@ -120,7 +117,11 @@
                         <label for="txtCustomer">Customer</label>
                         <input type="text" class="form_input" id="txtCustomer" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Customer" />
                     </div>
-                  
+                    <div class="col-md-3">
+                        <label for="cboType">New Installation/Service</label>
+                        @Html.DropDownList("cboType", (SelectList)ViewBag.Type, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                    </div>
+
                 </div>
             </div>
             <br />

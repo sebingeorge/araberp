@@ -22,6 +22,8 @@ namespace ArabErp.Domain
         public decimal ShortorExcess { get; set; }
         public string UnitName { get; set; }
         public int? batch { get; set; }
+        public decimal? IssuedQty { get; set; }
+      
        
     }
 }
