@@ -219,7 +219,7 @@ namespace ArabErp.DAL
                 return objSalesInvoices;
             }
         }
-        public List<SalesInvoiceItem> GetPendingSalesInvoiceList(int SaleOrderId,string invType, string DeliveryNo, string CustomerName, string RegNo)
+        public List<SalesInvoiceItem> GetPendingSalesInvoiceList(int SaleOrderId,string invType, string DeliveryNo, string CustomerName, string RegNo,string InstallType)
         {
             //  int salesOrderId = Convert.ToInt32(SalesOrderId);
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -250,14 +250,14 @@ namespace ArabErp.DAL
                 else if (invType == "Final")
                 {
                     sql = @"SELECT * INTO #SaleOrder FROM SaleOrder WHERE SaleOrderId=ISNULL(NULLIF(CAST(0 AS INT), @SaleOrderId), SaleOrderId) AND isActive=1;
-                            SELECT SO.SaleOrderId SaleOrderId,SO.CustomerId, SO.SaleOrderRefNo, SO.SaleOrderDate, SOI.WorkDescriptionId WorkDescriptionId,SOI.SaleOrderItemId SaleOrderItemId,SOI.Quantity Quantity,SOI.Rate Rate,SOI.Amount Amount,SOI.VehicleModelId,JC.JobCardNo JobCardNo, JC.JobCardDate, JC.JobCardId INTO #TEMP_ORDER 
+                            SELECT SO.SaleOrderId SaleOrderId,SO.CustomerId, SO.SaleOrderRefNo, SO.SaleOrderDate, SOI.WorkDescriptionId WorkDescriptionId,SOI.SaleOrderItemId SaleOrderItemId,SOI.Quantity Quantity,SOI.Rate Rate,SOI.Amount Amount,SOI.VehicleModelId,JC.JobCardNo JobCardNo, JC.JobCardDate, JC.JobCardId,JC.isService INTO #TEMP_ORDER 
                             FROM #SaleOrder SO LEFT JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
                             LEFT JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId
                             WHERE JC.JodCardCompleteStatus=1
                             SELECT * INTO #SalesInvoice FROM SalesInvoice WHERE SaleOrderId=ISNULL(NULLIF(CAST(0 AS INT), @SaleOrderId), SaleOrderId) AND isActive=1;
                             SELECT SI.SaleOrderId,SII.SaleOrderItemId INTO #TEMP_INVOICE FROM #SalesInvoice SI LEFT JOIN SalesInvoiceItem SII ON SI.SalesInvoiceId=SII.SalesInvoiceId;
                            
-						    SELECT O.SaleOrderId, O.SaleOrderRefNo,o.CustomerId,O.SaleOrderDate, O.SaleOrderItemId,O.Quantity,O.Rate,O.Amount,O.VehicleModelId,O.WorkDescriptionId WorkDescriptionId,W.WorkDescr WorkDescr,O.JobCardNo JobCardNo, O.JobCardDate, O.JobCardId INTO #RESULT FROM #TEMP_ORDER O 
+						    SELECT O.SaleOrderId, O.SaleOrderRefNo,o.CustomerId,O.SaleOrderDate, O.SaleOrderItemId,O.Quantity,O.Rate,O.Amount,O.VehicleModelId,O.WorkDescriptionId WorkDescriptionId,W.WorkDescr WorkDescr,O.JobCardNo JobCardNo, O.JobCardDate, O.JobCardId,O.isService INTO #RESULT FROM #TEMP_ORDER O 
                             LEFT JOIN #TEMP_INVOICE I ON O.SaleOrderId=I.SaleOrderId AND O.SaleOrderItemId=I.SaleOrderItemId 
                             LEFT JOIN WorkDescription W ON W.WorkDescriptionId=O.WorkDescriptionId
 
@@ -273,7 +273,7 @@ namespace ArabErp.DAL
                             LEFT JOIN VehicleModel V ON R.VehicleModelId=V.VehicleModelId
                             LEFT JOIN VehicleInPass VIP ON VIP.SaleOrderItemId=R.SaleOrderItemId
                             LEFT JOIN DeliveryChallan DC ON R.JobCardId = DC.JobCardId
-								WHERE DC.DeliveryChallanId IS NOT NULL AND
+								WHERE DC.DeliveryChallanId IS NOT NULL  AND
 							 ISNULL(C.CustomerName,'') LIKE '%'+@CustomerName+'%'
                              AND (ISNULL(VIP.RegistrationNo, '') LIKE '%'+@RegNo+'%'
 			                 OR ISNULL(VIP.ChassisNo, '') LIKE '%'+@RegNo+'%')
@@ -313,7 +313,8 @@ namespace ArabErp.DAL
                 return connection.Query<SalesInvoiceItem>(sql, new { SaleOrderId = SaleOrderId, 
                     DeliveryNo = DeliveryNo,
                     CustomerName = CustomerName,
-                    RegNo = RegNo
+                    RegNo = RegNo,
+                    InstallType = InstallType
                 }).ToList();
             }
         }
