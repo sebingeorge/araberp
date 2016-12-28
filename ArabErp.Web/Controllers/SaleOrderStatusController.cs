@@ -18,12 +18,13 @@ namespace ArabErp.Web.Controllers
         // GET: SaleOrderStatus
         public ActionResult Index()
         {
+            FillNeworService();
            return View();
         }
 
-        public ActionResult SaleOrderStatus(string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "")
+        public ActionResult SaleOrderStatus(string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "", string InstallType = "all")
         {
-            return PartialView("_SaleOrderStatus", new SaleOrderStatusRepository().GetSaleOrderStatus(customer, sono, lpoNo, ChassisNo));
+            return PartialView("_SaleOrderStatus", new SaleOrderStatusRepository().GetSaleOrderStatus(customer, sono, lpoNo, ChassisNo, InstallType));
         }
         public ActionResult Print(string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "")
         {
@@ -138,6 +139,14 @@ namespace ArabErp.Web.Controllers
             {
                 throw;
             }
+        }
+
+        public void FillNeworService()
+        {
+            List<Dropdown> types = new List<Dropdown>();
+            types.Add(new Dropdown { Id = 1, Name = "New Installation" });
+            types.Add(new Dropdown { Id = 2, Name = "Service" });
+            ViewBag.Type = new SelectList(types, "Id", "Name");
         }
     }
 }

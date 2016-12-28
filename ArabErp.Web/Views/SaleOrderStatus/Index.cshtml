@@ -15,6 +15,7 @@
         var sono = $("#sono").val().trim();
         var lpoNo = $("#lpono").val().trim();
         var ChassisNo = $("#chassisno").val().trim();
+      
         var url = '@Url.Action("Print")';
         //url += "?Id=" + id;
         url += "?customer=" + encodeURIComponent(customer) + "&sono=" + encodeURIComponent(sono) + "&lpoNo=" + encodeURIComponent(lpoNo) + "&ChassisNo=" + encodeURIComponent(ChassisNo);
@@ -26,9 +27,9 @@
         var sono = $("#sono").val().trim();
         var lpoNo = $("#lpono").val().trim();
         var ChassisNo = $("#chassisno").val().trim();
-
+        var InstallType = $("#cboType").val();
         var url = '@Url.Action("SaleOrderStatus")';
-        url += "?customer=" + encodeURIComponent(customer) + "&sono=" + encodeURIComponent(sono) + "&lpoNo=" + encodeURIComponent(lpoNo) + "&ChassisNo=" + encodeURIComponent(ChassisNo);
+        url += "?customer=" + encodeURIComponent(customer) + "&sono=" + encodeURIComponent(sono) + "&lpoNo=" + encodeURIComponent(lpoNo) + "&ChassisNo=" + encodeURIComponent(ChassisNo) + "&InstallType=" + encodeURIComponent(InstallType);
         $("#SaleOrder_Status").load(url, function () {
             $("#SaleOrder_Status").removeClass("fade");
 
@@ -62,6 +63,14 @@
                     <div class="col-md-2">
                         <label>Reg.No./Chassis No.</label>
                         <input id="chassisno" class="form_input" placeholder="Search for Reg/Chassis No." onkeyup="Filter()" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="txtCustomer">Service/New Installation</label>
+                        <select id="cboType" class="form_input" onchange="Filter()">
+                            <option value="all" selected>All</option>
+                            <option value="service">Service</option>
+                            <option value="new">New Installation</option>
+                        </select>
                     </div>
                 </div>
                 <div class="table-responsive" id="SaleOrder_Status">

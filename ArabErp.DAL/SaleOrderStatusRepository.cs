@@ -11,7 +11,7 @@ namespace ArabErp.DAL
     public class SaleOrderStatusRepository:BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<SaleOrderStatus> GetSaleOrderStatus(string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "")
+        public IEnumerable<SaleOrderStatus> GetSaleOrderStatus(string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "", string InstallType="")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -44,7 +44,7 @@ namespace ArabErp.DAL
                 //sql += " left join VehicleInPass VI on VI.VehicleInPassId = J.InPassId";
                 //sql += " order by S.SaleOrderDate, S.SaleOrderId";
 
-                sql = @"select distinct SI.SaleOrderItemId, S.SaleOrderId, C.CustomerName, S.SaleOrderRefNo, S.SaleOrderDate,S.EDateDelivery,S.CustomerOrderRef, 
+                sql = @"select distinct SI.SaleOrderItemId, S.SaleOrderId, C.CustomerName, S.SaleOrderRefNo, S.SaleOrderDate,S.EDateDelivery,S.CustomerOrderRef,S.isService, 
                         isnull(VI.RegistrationNo,isnull(VI.ChassisNo,''))RegistrationNo,
                         V.VehicleModelName,
                         VehicleInpass =  case when VI.VehicleInPassId is null then NULL else  VehicleInPassNo +','+ CONVERT (VARCHAR(15),VehicleInPassDate,106)  end, 
@@ -107,15 +107,15 @@ namespace ArabErp.DAL
                         where W.SaleOrderId = #RESULT.SaleOrderId
                         FOR XML PATH('')),1,1,''))
 
-                        select * from #RESULT where  CustomerName LIKE '%'+@customer+'%'
+                          select * from #RESULT where  CustomerName LIKE '%'+@customer+'%'
                         AND SaleOrderRefNo  LIKE '%'+@sono+'%'
                         AND isnull(CustomerOrderRef,'')  LIKE '%'+@lpoNo+'%'
                         AND isnull(RegistrationNo,'')  LIKE '%'+@ChassisNo+'%'
-
+                        AND  ISNULL(isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(isService, 0) END
 
                         drop table #RESULT;";
 
-                return connection.Query<SaleOrderStatus>(sql, new { customer = customer, sono = sono, lpoNo = lpoNo, ChassisNo = ChassisNo });
+                   return connection.Query<SaleOrderStatus>(sql, new { customer = customer, sono = sono, lpoNo = lpoNo, ChassisNo = ChassisNo, InstallType = InstallType });
             }
         }
         public IEnumerable<SaleOrderStatus> GetSaleOrderStatusDTPrint(string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "")
