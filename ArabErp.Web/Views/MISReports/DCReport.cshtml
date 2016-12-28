@@ -12,9 +12,8 @@
         var Customer = $("#Customer").val().trim();
         var JobcardNo = $("#JobcardNo").val().trim();
         var InstallType = $("#cboType").val();
-     
         var url = '@Url.Action("DCReportGrid")';
-        url += "?month=" + month + "&year=" + year + "&ChassisNo=" + encodeURIComponent(ChassisNo) + "&UnitSlNo=" + encodeURIComponent(UnitSlNo) + "&Customer=" + encodeURIComponent(Customer) + "&JobcardNo=" + encodeURIComponent(JobcardNo) + + "&InstallType=" + encodeURIComponent(InstallType);
+        url += "?month=" + month + "&year=" + year + "&ChassisNo=" + encodeURIComponent(ChassisNo) + "&UnitSlNo=" + encodeURIComponent(UnitSlNo) + "&Customer=" + encodeURIComponent(Customer) + "&JobcardNo=" + encodeURIComponent(JobcardNo) + "&InstallType=" + encodeURIComponent(InstallType);
         $("#dc_report_table").load(url, function () {
             $("#dc_report_table").removeClass("fade");
 
@@ -80,8 +79,12 @@
                         <input id="JobcardNo" class="form_input" placeholder="Search for Jobcard No." onkeyup="Filter()" />
                     </div>
                     <div class="col-md-3">
-                        <label for="cboType">New Installation/Service</label>
-                        @Html.DropDownList("cboType", (SelectList)ViewBag.Type, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                        <label for="txtCustomer">Service/New Installation</label>
+                        <select id="cboType" class="form_input" onchange="Filter()">
+                            <option value="all" selected>All</option>
+                            <option value="service">Service</option>
+                            <option value="new">New Installation</option>
+                        </select>
                     </div>
 
             </div>
