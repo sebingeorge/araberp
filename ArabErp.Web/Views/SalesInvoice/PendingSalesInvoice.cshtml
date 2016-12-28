@@ -118,9 +118,17 @@
                         <input type="text" class="form_input" id="txtCustomer" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Customer" />
                     </div>
                     <div class="col-md-3">
+                        <label for="txtCustomer">Service/New Installation</label>
+                        <select id="cboType" class="form_input" onchange="Filter()">
+                            <option value="all" selected>All</option>
+                            <option value="service">Service</option>
+                            <option value="new">New Installation</option>
+                        </select>
+                    </div>
+                    @*<div class="col-md-3">
                         <label for="cboType">New Installation/Service</label>
                         @Html.DropDownList("cboType", (SelectList)ViewBag.Type, "Any", new { @class = "form_input", @onchange = "Filter()" })
-                    </div>
+                    </div>*@
 
                 </div>
             </div>

@@ -30,15 +30,15 @@ namespace ArabErp.Web.Controllers
             return PartialView("_PreviousListGrid", new SalesInvoiceRepository().PreviousList(type: type, from: from, to: to, id: id, OrganizationId: OrganizationId));
         }
 
-        public ActionResult PendingSalesInvoice(string invType)
+        public ActionResult PendingSalesInvoice(string invType, string InstallType = "all")
         {
-            FillNeworService();
+            //FillNeworService();
             //ViewBag.saleOrderList = new SelectList(Repo.GetSalesInvoiceCustomerList(invType, OrganizationId), "SaleOrderId", "SaleOrderRefNoWithDate");
             //var List = Repo.GetSalesInvoiceCustomerList(invType);
             return View("PendingSalesInvoice");
 
         }
-        public ActionResult PendingSalesInvoiceDt(int SalesOrderId = 0, string invType = "", string DeliveryNo = "", string CustomerName = "", string RegNo = "", string InstallType = "")
+        public ActionResult PendingSalesInvoiceDt(int SalesOrderId = 0, string invType = "", string DeliveryNo = "", string CustomerName = "", string RegNo = "", string InstallType = "all")
         {
 
             var List = Repo.GetPendingSalesInvoiceList(SalesOrderId, invType, DeliveryNo, CustomerName, RegNo, InstallType);

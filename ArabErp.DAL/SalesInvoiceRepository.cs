@@ -266,19 +266,20 @@ namespace ArabErp.DAL
                             SELECT R.SaleOrderId SaleOrderId, R.SaleOrderRefNo, CONVERT(VARCHAR, R.SaleOrderDate, 106)SaleOrderDate, 
 							R.SaleOrderItemId SaleOrderItemId,R.Quantity Quantity,R.Rate Rate,r.Amount Amount,C.CustomerName,
                             CONCAT(V.VehicleModelName,'',VehicleModelDescription)
-							 VehicleModelName,R.WorkDescr WorkDescription,R.JobCardNo JobCardNo, 
-							 CONVERT(VARCHAR, R.JobCardDate, 106)JobCardDate,VIP.RegistrationNo,VIP.ChassisNo, DC.DeliveryChallanRefNo,
-							  CONVERT(VARCHAR, DC.DeliveryChallanDate, 106)DeliveryChallanDate FROM #RESULT R 
-							  LEFT JOIN Customer C ON C.CustomerId=R.CustomerId
+							VehicleModelName,R.WorkDescr WorkDescription,R.JobCardNo JobCardNo, 
+							CONVERT(VARCHAR, R.JobCardDate, 106)JobCardDate,VIP.RegistrationNo,VIP.ChassisNo, DC.DeliveryChallanRefNo,
+							CONVERT(VARCHAR, DC.DeliveryChallanDate, 106)DeliveryChallanDate FROM #RESULT R 
+							LEFT JOIN Customer C ON C.CustomerId=R.CustomerId
                             LEFT JOIN VehicleModel V ON R.VehicleModelId=V.VehicleModelId
                             LEFT JOIN VehicleInPass VIP ON VIP.SaleOrderItemId=R.SaleOrderItemId
                             LEFT JOIN DeliveryChallan DC ON R.JobCardId = DC.JobCardId
-								WHERE DC.DeliveryChallanId IS NOT NULL  AND
-							 ISNULL(C.CustomerName,'') LIKE '%'+@CustomerName+'%'
-                             AND (ISNULL(VIP.RegistrationNo, '') LIKE '%'+@RegNo+'%'
-			                 OR ISNULL(VIP.ChassisNo, '') LIKE '%'+@RegNo+'%')
-				             AND (ISNULL(DC.DeliveryChallanRefNo, '') LIKE '%'+@DeliveryNo+'%'
-			                 OR ISNULL(DeliveryChallanDate, '') LIKE '%'+@DeliveryNo+'%')
+							WHERE DC.DeliveryChallanId IS NOT NULL  AND
+                            ISNULL(R.isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(R.isService, 0) END
+							AND ISNULL(C.CustomerName,'') LIKE '%'+@CustomerName+'%'
+                            AND (ISNULL(VIP.RegistrationNo, '') LIKE '%'+@RegNo+'%'
+			                OR ISNULL(VIP.ChassisNo, '') LIKE '%'+@RegNo+'%')
+				            AND (ISNULL(DC.DeliveryChallanRefNo, '') LIKE '%'+@DeliveryNo+'%'
+			                OR ISNULL(DeliveryChallanDate, '') LIKE '%'+@DeliveryNo+'%')
 
 				ORDER BY DeliveryChallanDate desc, DeliveryChallanId desc
                             DROP TABLE #RESULT;
