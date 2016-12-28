@@ -98,7 +98,8 @@ namespace ArabErp.DAL
                 return objVehicleInPass;
             }
         }
-
+      
+        
         public List<VehicleInPass> GetVehicleInPasss()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -280,5 +281,74 @@ namespace ArabErp.DAL
             }
         }
         public int id1 { get; set; }
+
+
+
+
+        public IEnumerable<VehicleInPass> GetVehicleInpassRegister(string InstallType)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+
+                string sql = @"SELECT T1.* 
+                               INTO #TEMP1 FROM 
+                               (SELECT DISTINCT SOI.SaleOrderItemId,
+                               JM.JobCardTaskMasterId, JM.JobCardTaskName
+                               FROM SaleOrder SO
+                               INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
+                               INNER JOIN WorkDescription WD ON WD.WorkDescriptionId = SOI.WorkDescriptionId
+                               INNER JOIN ItemVsTasks IT ON IT.ItemId = WD.FreezerUnitId
+                               INNER JOIN JobCardTaskMaster JM ON JM.JobCardTaskMasterId=IT.JobCardTaskMasterId
+                               UNION 
+                               SELECT DISTINCT SOI.SaleOrderItemId,
+                               JM.JobCardTaskMasterId, JM.JobCardTaskName
+                               FROM SaleOrder SO
+                               INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
+                               INNER JOIN WorkDescription WD ON WD.WorkDescriptionId = SOI.WorkDescriptionId
+                               INNER JOIN ItemVsTasks BOX ON BOX.ItemId = WD.BoxId
+                               INNER JOIN JobCardTaskMaster JM ON JM.JobCardTaskMasterId=BOX.JobCardTaskMasterId
+                               )T1
+
+                               select DISTINCT V.VehicleInPassNo,C.CustomerName,V.ChassisNo,V.RegistrationNo,I.ItemName FreezerUnitName,I.ItemName BoxName,S.isService,
+                               STUFF((SELECT ', ' + CAST(I.ItemName AS VARCHAR(MAX)) [text()]
+                               FROM Item I inner join SaleOrderMaterial SM on I.ItemId=SM.ItemId
+                               WHERE SM.SaleOrderId = S.SaleOrderId
+                               FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ')  Accessories,J.JobCardNo,VM.VehicleModelName,S.EDateDelivery,
+                               Task = case when S.isService =1 then 
+                               
+                               STUFF((SELECT ', ' + CAST(JM.JobCardTaskName AS VARCHAR(MAX)) [text()]
+                               FROM WorkVsTask WD inner join JobCardTaskMaster JM on JM.JobCardTaskMasterId=WD.JobCardTaskMasterId
+                               WHERE WD.WorkDescriptionId = W.WorkDescriptionId
+                               FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ')
+                               ELSE  
+                               STUFF((SELECT ', ' + CAST(T.JobCardTaskName AS VARCHAR(MAX)) [text()]
+                               FROM #TEMP1 T inner join JobCardTaskMaster J on T.JobCardTaskMasterId=J.JobCardTaskMasterId
+                               WHERE SI.SaleOrderItemId = T.SaleOrderItemId
+                               FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ')
+                               END,
+                               case when D.JobCardId is not null then 'Delivered'
+                               when Isnull(J.JodCardCompleteStatus,0)=1  then 'Completed'
+                               when Isnull(J.JodCardCompleteStatus,0)=0 and JA.JobCardId is not null   then 'Work in Progress'  
+                               when Isnull(J.JodCardCompleteStatus,0)=0 and JA.JobCardId is null   then 'Work not Started' 
+                               when J.InPassId is null then 'Pending JC Creation'
+                               end as Status
+                               from VehicleInPass V
+                               INNER JOIN  SaleOrder S on V.SaleOrderId=S.SaleOrderId
+                               INNER JOIN SaleOrderItem SI on SI.SaleOrderId=S.SaleOrderId
+                               INNER JOIN Customer C on C.CustomerId=S.CustomerId
+                               INNER JOIN WorkDescription W on W.WorkDescriptionId=SI.WorkDescriptionId
+                               INNER JOIN VehicleModel VM on VM.VehicleModelId= SI.VehicleModelId
+                               LEFT JOIN JobCard J on J.InPassId=V.VehicleInPassId
+                               LEFT JOIN JobCardDailyActivity JA ON JA.JobCardId=J.JobCardId
+                               LEFT JOIN DeliveryChallan D ON D.JobCardId=J.JobCardId
+                               LEFT JOIN Item I ON I.ItemId=W.FreezerUnitId
+                               LEFT JOIN Item IT ON IT.ItemId=W.BoxId
+                               LEFT JOIN #TEMP1 T ON T.SaleOrderItemId=SI.SaleOrderItemId
+                               where  ISNULL(S.isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(S.isService, 0) END";
+
+                return connection.Query<VehicleInPass>(sql, new { InstallType = InstallType }).ToList();
+            }
+        }
     }
 }

@@ -651,7 +651,7 @@ namespace ArabErp.DAL
 								--IB.SerialNo FreezerPartNo,
 								--ISNULL(I.PartNo,'') FreezerPartNo,
                                 QC.PunchingNo Box,
-								II.ItemName Box, II.ItemId Box,
+								--II.ItemName Box, II.ItemId Box,
 								@BoxSerialNo BoxPartNo,
 								--IB1.SerialNo BoxPartNo,
 								--ISNULL(II.PartNo, '') BoxPartNo,

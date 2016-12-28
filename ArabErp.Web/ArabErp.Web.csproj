@@ -317,6 +317,7 @@
     <Compile Include="Controllers\TransactionHistoryController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Controllers\VehicleInPassController.cs" />
+    <Compile Include="Controllers\VehicleInpassRegisterController.cs" />
     <Compile Include="Controllers\VehicleModelController.cs" />
     <Compile Include="Controllers\DeliveryChallanController.cs" />
     <Compile Include="Controllers\WorkDescriptionController.cs" />
@@ -1302,6 +1303,8 @@
     <Content Include="Views\OpeningStock\Index.cshtml" />
     <Content Include="Views\OpeningStock\_OpeningStock.cshtml" />
     <Content Include="Views\BayStatus\_BayStatusGrid.cshtml" />
+    <Content Include="Views\VehicleInpassRegister\Index.cshtml" />
+    <Content Include="Views\VehicleInpassRegister\_VehicleInpassRegister.cshtml" />
     <Content Include="Views\JobCardDailyActivity\PendingJobcards.cshtml" />
   </ItemGroup>
   <ItemGroup>

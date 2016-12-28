@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Vehicle Inpass Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+    function Filter() {
+        $("#VehicleInpass_Reg").addClass("fade");
+        var InstallType = $("#cboType").val();
+        var url = '@Url.Action("VehicleInpassRegister")';
+        url += "?InstallType=" + encodeURIComponent(InstallType);
+        $("#VehicleInpass_Reg").load(url, function () {
+            $("#VehicleInpass_Reg").removeClass("fade");
+        });
+
+    }
+</script>
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Vehicle Inpass Register</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="col-md-3">
+                <label for="txtCustomer">Service/New Installation</label>
+                <select id="cboType" class="form_input" onchange="Filter()">
+                    <option value="all" selected>All</option>
+                    <option value="service">Service</option>
+                    <option value="new">New Installation</option>
+                </select>
+            </div>
+           
+        </div>
+        <br />
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive" id="VehicleInpass_Reg">
+                    @Html.Action("VehicleInpassRegister")
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                @*<input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />*@
+            </div>
+        </div>
+    </div>
+</div>
+
+

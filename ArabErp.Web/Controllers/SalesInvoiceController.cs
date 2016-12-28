@@ -32,7 +32,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult PendingSalesInvoice(string invType, string InstallType = "all")
         {
-            //FillNeworService();
+         
             //ViewBag.saleOrderList = new SelectList(Repo.GetSalesInvoiceCustomerList(invType, OrganizationId), "SaleOrderId", "SaleOrderRefNoWithDate");
             //var List = Repo.GetSalesInvoiceCustomerList(invType);
             return View("PendingSalesInvoice");
@@ -411,12 +411,6 @@ namespace ArabErp.Web.Controllers
             if (list == null) list = new List<LabourCostForService>();
             return PartialView("_LabourCostGrid", list);
         }
-        public void FillNeworService()
-        {
-            List<Dropdown> types = new List<Dropdown>();
-            types.Add(new Dropdown { Id = 1, Name = "New Installation" });
-            types.Add(new Dropdown { Id = 2, Name = "Service" });
-            ViewBag.Type = new SelectList(types, "Id", "Name");
-        }
+       
     }
 }
