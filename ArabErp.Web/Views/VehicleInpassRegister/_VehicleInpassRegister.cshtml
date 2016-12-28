@@ -1,1 +1,61 @@
 ﻿
+@model IEnumerable<ArabErp.Domain.VehicleInPass>
+
+
+<div  class="table-responsive">
+    <table border="0" cellpadding="0" cellspacing="0" class="scrollTable table table-bordered table-hover">
+        <thead>
+            <tr class="grid_heading">
+                <th width="1%" class="text-center"><h1>#</h1></th>
+                <th width="25%"><h1>Customer</h1></th>
+                <th width="5%"><h1>Vehicle Inpass No.</h1></th>
+                <th width="7%"  nowrap><h1>Chassis No / Reg No.</h1></th>
+                <th width="7%" nowrap><h1>Unit</h1></th>
+                <th width="7%"  nowrap><h1>Box</h1></th>
+                <th width="14%"  nowrap><h1>Accessories</h1></th>
+
+                <th width="7%" nowrap><h1>Task</h1></th>
+
+                <th width="10%"  nowrap><h1>EDD</h1></th>
+                <th width="7%"  nowrap><h1>Vehicle Model</h1></th>
+                <th width="6%"  nowrap><h1>Job Card No.</h1></th>
+                <th width="5%"  nowrap><h1>Status</h1></th>
+               
+            </tr>
+        </thead>
+        @{int i = 0;}
+        @foreach (var item in Model)
+        {
+            ++i;
+            <tbody class="grid_row">
+                <tr>
+                    <td class="grid-cell">@i</td>
+                    <td class="grid-cell">@item.CustomerName</td>
+                    <td class="grid-cell">@item.VehicleInPassNo</td>
+                    <td class="grid-cell">
+                        <strong>@item.RegistrationNo</strong>
+                        @if ((item.RegistrationNo != null && item.RegistrationNo != "") && (item.ChassisNo != null && item.ChassisNo != ""))
+                        {
+                            @: /
+                                    }
+                        <strong>@item.ChassisNo</strong>
+                    </td>
+                    <td class="grid-cell">@item.FreezerUnitName</td>
+                    <td class="grid-cell">@item.BoxName</td>
+                    <td class="grid-cell">@item.Accessories</td>
+                    <td class="grid-cell">@item.Task</td>
+                    <td class="grid-cell">@item.EDateDelivery.ToString("dd-MMM-yyyy")</td>
+                    <td class="grid-cell">@item.VehicleModelName</td>
+                    <td class="grid-cell">@item.JobCardNo</td>
+                    <td class="grid-cell">@item.Status</td>
+                </tr>
+
+            </tbody>
+        }
+    </table>
+
+
+
+</div>
+
+
