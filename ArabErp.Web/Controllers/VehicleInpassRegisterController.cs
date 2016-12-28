@@ -22,9 +22,9 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult VehicleInpassRegister(string InstallType = "all")
+        public ActionResult VehicleInpassRegister(string InstallType = "all", string CustomerName = "", string RegNo = "")
         {
-            return PartialView("_VehicleInpassRegister", new VehicleInPassRepository().GetVehicleInpassRegister(InstallType));
+            return PartialView("_VehicleInpassRegister", new VehicleInPassRepository().GetVehicleInpassRegister(InstallType, CustomerName, RegNo));
         }
     }
 }
