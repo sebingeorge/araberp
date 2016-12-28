@@ -3,7 +3,7 @@
     ViewBag.Title = "Pending Work for Daily Activity";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script>
+@*<script>
     function GoToDailyActivity(Id)
     {
         var url = '@Url.Action("Create")';
@@ -20,12 +20,12 @@
         var url = '@Url.Action("Index", "Home")';
         window.location = url;
     }
-</script>
+</script>*@
 
     <div class="row">
-        <div class="form-head1">
+        @*<div class="form-head1">
             <h4>Pending Work for Daily Activity</h4>
-        </div>
+        </div>*@
         <div class="main-part pad1">
             <div class="row">
                 <div class="main-grid main-grid-top scroll1">
@@ -83,12 +83,12 @@
             </div>
 
 
-            <div class="row">
+            @*<div class="row">
                 <div class="col-md-12 hrpart">
                     <input class="form-button" type="button" value="Previous" onclick="PreviousList()" />
                     <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
                 </div>
-            </div>
+            </div>*@
 
         </div>
     </div>

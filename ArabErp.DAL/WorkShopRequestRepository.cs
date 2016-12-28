@@ -474,7 +474,7 @@ namespace ArabErp.DAL
         /// Returns all pending workshop requests
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<WorkShopRequest> PendingWorkshopRequests(string Request = "", string Jobcard = "", string Customer = "", string jcno = "", string RegNo="")
+        public IEnumerable<WorkShopRequest> PendingWorkshopRequests(string Request = "", string Sale = "", string Customer = "", string jcno = "", string RegNo = "")
        {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -487,9 +487,9 @@ namespace ArabErp.DAL
 				DATEDIFF(day, WR.WorkShopRequestDate, GETDATE()) Ageing,
 				DATEDIFF(day, GETDATE(), WR.RequiredDate) DaysLeft,
 
-                --STUFF((SELECT ', '+T1.JobCardNo FROM JobCard T1 WHERE T1.SaleOrderId = S.SaleOrderId FOR XML PATH('')), 1, 2, '') JobCardNo,
-                CASE WHEN WR.SaleOrderItemId = 0 THEN STUFF((SELECT ', '+T1.JobCardNo+' - '+CONVERT(VARCHAR, T1.JobCardDate, 106) FROM JobCard T1 WHERE T1.SaleOrderId = S.SaleOrderId FOR XML PATH('')), 1, 2, '')
-                ELSE (SELECT JobCardNo+' - '+CONVERT(VARCHAR, JobCardDate, 106) FROM JobCard WHERE SaleOrderItemId = WR.SaleOrderItemId) END JobCardNo,
+              --STUFF((SELECT ', '+T1.JobCardNo FROM JobCard T1 WHERE T1.SaleOrderId = S.SaleOrderId FOR XML PATH('')), 1, 2, '') JobCardNo,
+                CASE WHEN WR.SaleOrderItemId = 0 THEN STUFF((SELECT ', '+T1.JobCardNo+' - '+CONVERT(VARCHAR, T1.JobCardDate, 106) FROM JobCard T1 WHERE ISNULL(T1.JobCardNo, '') LIKE '%'+@jcno+'%' AND T1.SaleOrderId = S.SaleOrderId FOR XML PATH('')), 1, 2, '')	
+                ELSE (SELECT JobCardNo+' - '+CONVERT(VARCHAR, JobCardDate, 106) FROM JobCard WHERE SaleOrderItemId = WR.SaleOrderItemId AND ISNULL(JobCardNo, '') LIKE '%'+@jcno+'%') END JobCardNo,
 
                 CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,ISNULL(ChassisNo,'')ChassisNo,ISNULL(RegistrationNo,'')RegistrationNo
                 FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId left JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId left JOIN #SALE S ON WR.SaleOrderId = S.SaleOrderId 
@@ -497,16 +497,15 @@ namespace ArabErp.DAL
 				LEFT JOIN VehicleInPass V ON V.VehicleInPassId=JC.InPassId 
                 WHERE ISNULL(IssuedQuantity,0) < Quantity and  (case when isnull(WR.isDirectRequest,0)=1 then isnull(WR.isApproved,0)else 1 end)=1 
                 AND  WorkShopRequestRefNo LIKE '%'+@Request+'%'
-				AND ISNULL(SoNoWithDate,'') LIKE '%'+@Jobcard+'%'
+				AND ISNULL(SoNoWithDate,'') LIKE '%'+@Sale+'%'
 				AND ISNULL(CustomerName,'') LIKE '%'+@Customer+'%'
                 AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%'
 			    OR ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%')
-				AND ISNULL(JC.JobCardNo, '') LIKE '%'+@jcno+'%'
                 ORDER BY WR.WorkShopRequestDate DESC, WR.CreatedDate DESC;
                 DROP TABLE #ISSUE;
                 DROP TABLE #WORK;
                 DROP TABLE #CUSTOMER;
-				DROP TABLE #SALE;", new { Request = Request, Jobcard = Jobcard, Customer = Customer, @jcno = jcno, RegNo = RegNo }).ToList();
+				DROP TABLE #SALE;", new { Request = Request, Sale = Sale, Customer = Customer, jcno = jcno, RegNo = RegNo }).ToList();
             }
         }
         public IEnumerable<WorkShopRequest> GetPrevious(int isProjectBased, DateTime? from, DateTime? to, string workshop, string customer, int OrganizationId)

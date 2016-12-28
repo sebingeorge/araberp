@@ -122,9 +122,9 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public PartialViewResult PendingWorkshopRequests(string Request = "", string Jobcard = "", string Customer = "", string jcno = "", string RegNo = "")
+        public PartialViewResult PendingWorkshopRequests(string Request = "", string Sale = "", string Customer = "", string jcno = "", string RegNo = "")
         {
-            return PartialView("_PendingWorkshopRequests", new WorkShopRequestRepository().PendingWorkshopRequests(Request, Jobcard, Customer, jcno, RegNo));
+            return PartialView("_PendingWorkshopRequests", new WorkShopRequestRepository().PendingWorkshopRequests(Request, Sale, Customer, jcno, RegNo));
         }
         public PartialViewResult PendingWorkshopRequestDetails()
         {
@@ -150,9 +150,9 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public ActionResult PreviousListGrid(string StoreIssue = "", string Jobcard = "", string Customer = "", string RegNo = "")
+        public ActionResult PreviousListGrid(string StoreIssue = "", string Jobcard = "", string Customer = "", string RegNo = "",string Request = "")
         {
-            return PartialView("_PreviousListStoreIssue", new StoreIssueRepository().PreviousList(StoreIssue, Jobcard, Customer, RegNo));
+            return PartialView("_PreviousListStoreIssue", new StoreIssueRepository().PreviousList(StoreIssue, Jobcard, Customer, RegNo, Request));
         }
         public ActionResult GetStockQuantity(string date, int item = 0, int stockpoint = 0)
         {

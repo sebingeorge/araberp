@@ -13,7 +13,7 @@ namespace ArabErp.DAL
     public class MISReportsRepository : BaseRepository
     {
         string dataConnection = GetConnectionString("arab");
-        public IEnumerable GetDCReport(int OrganizationId, int? month, int? year, string ChassisNo = "", string UnitSlNo = "", string Customer = "", string JobcardNo = "", string Installation="")
+        public IEnumerable GetDCReport(int OrganizationId, int? month, int? year, string ChassisNo = "", string UnitSlNo = "", string Customer = "", string JobcardNo = "", string InstallType = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -60,9 +60,10 @@ namespace ArabErp.DAL
                                     AND isnull(IB.SerialNo,0)  LIKE '%'+@UnitSlNo+'%'
                                     AND isnull(CUS.CustomerName,'')  LIKE '%'+@Customer+'%'
                                     AND isnull( JC.JobCardNo,'')  LIKE '%'+@JobcardNo+'%'
-                                    AND isnull( JC.isService,'')  LIKE '%'+@Installation+'%'
+--                                  AND isnull( JC.isService,'')  LIKE '%'+@Installation+'%'
+                                    AND  ISNULL(JC.isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(JC.isService, 0) END
                                     DROP TABLE #HourlyCost";
-                    return connection.Query<DCReport>(query, new { org = OrganizationId, month = month, year = year, ChassisNo = ChassisNo, UnitSlNo = UnitSlNo, Customer = Customer, JobcardNo = JobcardNo, Installation = Installation });
+                    return connection.Query<DCReport>(query, new { org = OrganizationId, month = month, year = year, ChassisNo = ChassisNo, UnitSlNo = UnitSlNo, Customer = Customer, JobcardNo = JobcardNo, InstallType = InstallType });
                 }
                 catch (Exception)
                 {

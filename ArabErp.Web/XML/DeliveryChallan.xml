@@ -67,26 +67,26 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DV/16/1503</DeliveryChallanRefNo>
+    <DeliveryChallanRefNo>DV/16/1505</DeliveryChallanRefNo>
     <DeliveryChallanDate>27-Dec-2016</DeliveryChallanDate>
-    <Customer>Qatar Automobiles Company</Customer>
-    <CDoorNo>Salwa raod, Doha, Qatar</CDoorNo>
-    <CStreet>Tel: 974 44699685</CStreet>
-    <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SO/TR/24</SaleRefNo>
-    <SONoDate>21 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC/24</JobcardNo>
+    <Customer>SANWARA FRUITS AND VEGETABLES</Customer>
+    <CStreet>Doha , Qatar</CStreet>
+    <CCountry>QATAR</CCountry>
+    <SaleRefNo>AARC/SO/TR/13</SaleRefNo>
+    <SONoDate>07 Dec 2016</SONoDate>
+    <JobcardNo>AARC/JC/22</JobcardNo>
     <JCDate>22-Dec-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>GK018028</RegistrationNo>
-    <ChassisNo>GK018028</ChassisNo>
-    <WorkDesc>40mm4300x2100x2100mm- MITS</WorkDesc>
-    <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
-    <Employee> Anoop</Employee>
+    <ChassisNo>GK023229</ChassisNo>
+    <WorkDesc>Thermoking T600-R + 100mm 5500x2200x2200mm - MITS ,BAM</WorkDesc>
+    <VehicleModel>Mitsubishi Canter HD 5.8 Ton Truck</VehicleModel>
+    <Employee>Mohammed Safiq</Employee>
     <PaymentTerms>Net 60</PaymentTerms>
-    <QuotationRefNo>AARC/SQ/25</QuotationRefNo>
-    <Box>73</Box>
-    <SupplyOrderNo>AARC/PO/16/1032</SupplyOrderNo>
-    <SupplyOrderDate>21-Dec-2016</SupplyOrderDate>
+    <QuotationRefNo>AARC/SQ/13</QuotationRefNo>
+    <FreezerName>Thermoking T600-R</FreezerName>
+    <FreezerId>1253</FreezerId>
+    <Box>1240</Box>
+    <SupplyOrderNo>AARC/PO/16/1016</SupplyOrderNo>
+    <SupplyOrderDate>07-Dec-2016</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -97,14 +97,31 @@
     <Zip>13037</Zip>
     <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo>SQ25/QAC/21/12/2016-2</LPONo>
-    <LPODate>21-Dec-2016</LPODate>
-    <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
-    <ApprovedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\</ApprovedUsersig>
+    <LPONo>SQ13/Q534/07/12/2016</LPONo>
+    <LPODate>07-Dec-2016</LPODate>
+    <CreatedUser>safiq</CreatedUser>
+    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <ApprovedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
   </Head>
   <Items>
-    <Description>Print Description</Description>
+    <Description>Supply &amp; Installation of 100mm 5.5x2.2x2.2mtr PUB
+into Suitable Mit 5.4mtr Truck
+
+Box No: AARC 1240
+Part No: 2564</Description>
+    <UoM>ea</UoM>
+    <Quantity>1</Quantity>
+  </Items>
+  <Items>
+    <Description>Supply, Installation &amp; Commissioning of Thermo King T600-R
+(12V with Stand-by) into Mit 5.4mtr Truck
+
+Unit Srl No: GLW1080916</Description>
+    <UoM>ea</UoM>
+    <Quantity>1</Quantity>
+  </Items>
+  <Items>
+    <Description>Supply &amp; Fixing of Single Row Side Crash Guard</Description>
     <UoM>ea</UoM>
     <Quantity>1</Quantity>
   </Items>

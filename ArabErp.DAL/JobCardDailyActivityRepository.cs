@@ -87,7 +87,9 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT
+                string sql = @"
+
+								SELECT
 	                                JobCardDailyActivityId,
 	                                SUM(ActualHours) ActualHours,
 	                                STUFF((SELECT ', ' + CAST(M.JobCardTaskName AS VARCHAR(MAX)) [text()]
@@ -103,17 +105,19 @@ namespace ArabErp.DAL
 	                                DA.JobCardDailyActivityId,
 	                                DA.JobCardDailyActivityRefNo,
 	                                CONVERT(VARCHAR, DA.JobCardDailyActivityDate, 106) JobCardDailyActivityDate,
-	                                Remarks,
+	                                DA.Remarks,
 	                                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
 	                                JC.JobCardNo,
 	                                EMP.EmployeeName,
 	                                T.ActualHours,
 	                                T.Tasks,
-                                    JC.isProjectBased
+                                    JC.isProjectBased,
+									V.ChassisNo,V.RegistrationNo
                                 FROM JobCardDailyActivity DA
                                 INNER JOIN JobCard JC ON DA.JobCardId = JC.JobCardId
                                 INNER JOIN Employee EMP ON DA.EmployeeId = EMP.EmployeeId
                                 INNER JOIN #TASKS T ON DA.JobCardDailyActivityId = T.JobCardDailyActivityId
+							    Left join VehicleInPass V ON V.VehicleInPassId=JC.InPassId
                                 WHERE DA.isActive = 1
                                     AND DA.OrganizationId = @OrganizationId
 									AND JC.isProjectBased = @type
@@ -154,7 +158,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<JobCardForDailyActivity> PendingJobcardTasks(int type, int OrganizationId)
+        public IEnumerable<JobCardForDailyActivity> PendingJobcardTasks(int type, int OrganizationId, string RegNo="")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -169,8 +173,10 @@ namespace ArabErp.DAL
                                 where J.JodCardCompleteStatus is null
 						        AND J.OrganizationId = @OrganizationId
 						        AND	J.isProjectBased = @type
+                                AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%'
+			                    OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')
 						        AND J.isActive = 1";
-                return connection.Query<JobCardForDailyActivity>(sql, new { OrganizationId = OrganizationId, type = type });
+                return connection.Query<JobCardForDailyActivity>(sql, new { OrganizationId = OrganizationId, type = type, RegNo = RegNo });
             }
         }
 

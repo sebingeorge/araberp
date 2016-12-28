@@ -396,5 +396,18 @@ namespace ArabErp.Web.Controllers
                 throw;
             }
         }
+
+        public ActionResult GetLastPurchaseRate(int itemId)
+        {
+            try
+            {
+                var list = new PurchaseRequestRepository().GetLastPurchaseRate(itemId, OrganizationId);
+                return PartialView("_LastPurchaseRateGrid", list);
+            }
+            catch (Exception)
+            {
+                return Json("Some error occurred while fetching the rates!", JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

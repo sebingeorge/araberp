@@ -122,7 +122,12 @@
         <div class="main-part pad1">
           
                 @Html.Partial("_SaleOrderHead",Model)
-                @Html.Partial("_DisplaySOList", Model)                
+                @Html.Partial("_DisplaySOList", Model)
+                <strong>Tail lift/accessories:</strong>
+                @if (Model.Materials != null && Model.Materials.Count > 0)
+                {
+                    @Html.Partial("_MaterialList", Model)
+                }
                 @Html.Partial("_SaleOrderFooter", Model)                
                 @using (Html.BeginForm(postActionName, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
                 {

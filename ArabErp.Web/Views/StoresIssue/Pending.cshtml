@@ -23,12 +23,12 @@
         $("#pending_workshop").addClass("fade");
         var url = '@Url.Action("PendingWorkshopRequests")';
         var Request = $("#txtRequest").val().trim();
-        var Jobcard = $("#txtJobcard").val().trim();
+        var Sale = $("#txtSale").val().trim();
         var Customer = $("#txtCustomer").val().trim();
         var JcNo = $("#txtJcNo").val().trim();
         var RegNo = $("#txtRegNo").val().trim();
-        //name = name.replace(/ /g, "+");
-        url += "?Request=" + encodeURIComponent(Request) + "&Jobcard=" + encodeURIComponent(Jobcard) + "&Customer=" + encodeURIComponent(Customer) + "&jcno=" + encodeURIComponent(JcNo) + "&RegNo=" + encodeURIComponent(RegNo);
+    
+        url += "?Request=" + encodeURIComponent(Request) + "&Sale=" + encodeURIComponent(Sale) + "&Customer=" + encodeURIComponent(Customer) + "&jcno=" + encodeURIComponent(JcNo) + "&RegNo=" + encodeURIComponent(RegNo);
         $("#pending_workshop").load(url, function () {
             $("#pending_workshop").removeClass("fade");
         });
@@ -52,8 +52,8 @@
                         <input type="text" class="form_input" id="txtRequest" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Workshop Request" />
                     </div>
                     <div class="col-md-2">
-                        <label for="txtJobcard">Sale Order No.</label>
-                        <input type="text" class="form_input" id="txtJobcard" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Sale Order" />
+                        <label for="txtSale">Sale Order No.</label>
+                        <input type="text" class="form_input" id="txtSale" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Sale Order" />
                     </div>
                     <div class="col-md-2">
                         <label for="txtJcNo">Job Card No.</label>
