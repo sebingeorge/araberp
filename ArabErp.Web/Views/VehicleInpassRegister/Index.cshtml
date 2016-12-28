@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Vehicle Inpass Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
+</script>
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Vehicle Inpass Register</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row">
+
+            @*<div class="col-md-3">
+                <label for="cboItem">Material/Spares</label>
+                @Html.Action("Item")
+            </div>*@
+            @*<div class="col-md-2">
+                <label for="cboBatch">Batch</label>
+                @Html.DropDownList("cboBatch", (SelectList)ViewBag.BatchList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>*@
+        </div>
+        <br />
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive" id="planning">
+                    @Html.Action("VehicleInpassRegister")
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
