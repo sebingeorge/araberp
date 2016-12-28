@@ -98,7 +98,8 @@ namespace ArabErp.DAL
                 return objVehicleInPass;
             }
         }
-
+      
+        
         public List<VehicleInPass> GetVehicleInPasss()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -280,5 +281,20 @@ namespace ArabErp.DAL
             }
         }
         public int id1 { get; set; }
+
+
+      
+
+        public IEnumerable<VehicleInPass> GetVehicleInpassRegister()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+
+                string sql = @"";
+
+                return connection.Query<VehicleInPass>(sql, new {  }).ToList();
+            }
+        }
     }
 }
