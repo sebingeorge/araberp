@@ -1305,6 +1305,7 @@
     <Content Include="Views\BayStatus\_BayStatusGrid.cshtml" />
     <Content Include="Views\VehicleInpassRegister\Index.cshtml" />
     <Content Include="Views\VehicleInpassRegister\_VehicleInpassRegister.cshtml" />
+    <Content Include="Views\JobCardDailyActivity\PendingJobcards.cshtml" />
     <Content Include="Views\PurchaseRequest\_LastPurchaseRateGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -18,13 +18,13 @@ namespace ArabErp.Web.Controllers
     public class VehicleInpassRegisterController : BaseController
     {
         // GET: VehicleInpassRegister
-        public ActionResult Index()
+        public ActionResult Index(string InstallType = "all")
         {
             return View();
         }
-        public ActionResult VehicleInpassRegister()
+        public ActionResult VehicleInpassRegister(string InstallType = "all")
         {
-            return PartialView("_VehicleInpassRegister",new VehicleInPassRepository().GetVehicleInpassRegister());
+            return PartialView("_VehicleInpassRegister", new VehicleInPassRepository().GetVehicleInpassRegister(InstallType));
         }
     }
 }
