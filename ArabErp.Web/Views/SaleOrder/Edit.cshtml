@@ -226,7 +226,8 @@
             <div id="wordescriptions">
                 @Html.Partial("_DisplaySOList", Model)
             </div>
-            if (@Model.isAfterSales==1)
+            <strong>Tail lift/accessories:</strong>
+            if (Model.Materials != null && Model.Materials.Count > 0)
             {
                 @Html.Partial("_MaterialList", Model)
             }

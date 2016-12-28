@@ -438,7 +438,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult SaleOrderApprovalDeliveryChellan(string ChassisNo = "", string Customer = "", string JobcardNo = "")
         {
             var repo = new SaleOrderRepository();
-            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval(OrganizationId,ChassisNo,Customer,JobcardNo);
+            IEnumerable<PendingSaleOrderForTransactionApproval> pendingSO = repo.GetSaleOrderPendingForTrnApproval(OrganizationId, ChassisNo, Customer, JobcardNo);
             var result = from a in pendingSO where ((a.IsPaymentApprovedForDelivery == false || a.IsPaymentApprovedForDelivery == null) && a.JodCardCompleteStatus == 1) select a;
             ViewBag.ApproveType = "DELIVERY_CHALLAN";
             return PartialView("_SaleOrderApprovalDeliveryChellan", result);
@@ -491,8 +491,8 @@ namespace ArabErp.Web.Controllers
                         soitem.IsPaymentApprovedForDelivery = true;
                     }
                 }
-
             }
+            model.Materials = new SaleOrderRepository().GetSaleOrderMaterial(SaleOrderId ?? 0);
             ViewBag.AppType = AppType;
             FillWrkDesc();
             return View("Approval", model);
