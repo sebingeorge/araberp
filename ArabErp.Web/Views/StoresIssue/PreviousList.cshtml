@@ -18,8 +18,9 @@
         var Jobcard = $("#txtJcNo").val().trim();
         var Customer = $("#txtCustomer").val().trim();
         var RegNo = $("#txtRegNo").val().trim();
+        var Request = $("#txtRequest").val().trim();
         var url = '@Url.Action("PreviousListGrid")';
-        url += "?StoreIssue=" + encodeURIComponent(StoreIssue) + "&Jobcard=" + encodeURIComponent(Jobcard) + "&Customer=" + encodeURIComponent(Customer) + "&RegNo=" + encodeURIComponent(RegNo);
+        url += "?StoreIssue=" + encodeURIComponent(StoreIssue) + "&Jobcard=" + encodeURIComponent(Jobcard) + "&Customer=" + encodeURIComponent(Customer) + "&RegNo=" + encodeURIComponent(RegNo) + "&Request=" + encodeURIComponent(Request);
         $("#previous_workshop").load(url, function () {
             $("#previous_workshop").removeClass("fade");
         });
@@ -38,6 +39,10 @@
                 <div class="col-md-2">
                     <label for="txtJobcard">Store Issue.</label>
                     <input type="text" class="form_input" id="txtStoreIssue" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Store Issue" />
+                </div>
+                <div class="col-md-2">
+                    <label for="txtRequest">Workshop Request No.</label>
+                    <input type="text" class="form_input" id="txtRequest" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Workshop Request" />
                 </div>
                 <div class="col-md-2">
                     <label for="txtJcNo">Job Card No.</label>

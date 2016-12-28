@@ -24,5 +24,9 @@ namespace ArabErp.Domain
         public bool isDirectPurchase { get; set; }
         public int PendingQuantity { get; set; }
         public int RequiredQuantity { get; set; }
+
+        public string ItemName { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal Rate { get; set; }
     }
 }
