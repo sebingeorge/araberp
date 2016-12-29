@@ -50,13 +50,13 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Delivery Challan List</h4>
+        <h4>Delivery Note List</h4>
     </div>
 
     <div class="main-part pad1">
         <div class="row">
             <div class="col-md-2">
-                <label for="cboDCNo">Delivery Challan No.</label>
+                <label for="cboDCNo">Delivery Note No.</label>
                 @Html.DropDownList("cboDCNo", (SelectList)ViewBag.DCNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
             <div class="col-md-2">

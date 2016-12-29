@@ -58,7 +58,7 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Delivery Challan</h4>
+        <h4>Delivery Note</h4>
     </div>
     <div class="main-part pad1">
 
@@ -66,14 +66,14 @@
         {
             <div class="row form-group">
                 <div class="col-md-2">
-                    <label>Delivery Challan No.</label>
+                    <label>Delivery Note No.</label>
                     @Html.HiddenFor(m => m.JobCardId)
                     @Html.HiddenFor(m => m.isService)
                     @Html.HiddenFor(m => m.DeliveryChallanId)
                     @Html.TextBoxFor(m => m.DeliveryChallanRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                 </div>
                 <div class="col-md-2">
-                    <label>Challan Date</label>
+                    <label> Date</label>
                     @Html.TextBoxFor(m => m.DeliveryChallanDate, Model.DeliveryChallanDate.ToString("dd-MMMM-yyyy"), new { @class = "form_input ", autocomplete = "off", @required = "true", @readonly = "true" })
                     @*@Html.TextBoxFor(m => m.DeliveryChallanDate, new { @class = "form_input", @type = "date" })*@
                 </div>
@@ -241,7 +241,7 @@
                     @if (Model.IsUsed)
                     {
                         <span class="perm">
-                            <em>**Cannot edit/delete this Delivery Challan, because it is either used in another process or completed.</em>
+                            <em>**Cannot edit/delete this Delivery Note, because it is either used in another process or completed.</em>
                         </span>
                     }
                     else

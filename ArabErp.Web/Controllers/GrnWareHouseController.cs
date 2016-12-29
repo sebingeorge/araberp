@@ -331,11 +331,11 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public PartialViewResult PendingGrid(int supplierId = 0)
+        public PartialViewResult PendingGrid(string Supplier = "",string LPO = "")
         {
             try
             {
-                return PartialView("_PendingGrid", new GRNRepository().GetGRNPendingList(supplierId));
+                return PartialView("_PendingGrid", new GRNRepository().GetGRNPendingList1(Supplier, LPO));
             }
             catch (Exception)
             {
