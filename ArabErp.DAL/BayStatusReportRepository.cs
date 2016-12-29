@@ -43,7 +43,7 @@ namespace ArabErp.DAL
                 LEFT JOIN JobCardDailyActivity DA ON Job.JobCardId = DA.JobCardId
                 WHERE ISNULL(B.isService, 0) = CASE @type WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(B.isService, 0) END
                 AND B.OrganizationId = @org
-                ORDER BY B.BayName, Occupied";
+                ORDER BY  Occupied desc,B.BayName";
 
                 return connection.Query<BayStatus>(sql, new { type = type.ToLower(), @org = OrganizationId });
             }

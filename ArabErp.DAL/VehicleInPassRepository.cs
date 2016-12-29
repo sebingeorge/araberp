@@ -285,7 +285,7 @@ namespace ArabErp.DAL
 
 
 
-        public IEnumerable<VehicleInPass> GetVehicleInpassRegister(string InstallType)
+        public IEnumerable<VehicleInPass> GetVehicleInpassRegister(string InstallType, string CustomerName, string RegNo)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -345,9 +345,12 @@ namespace ArabErp.DAL
                                LEFT JOIN Item I ON I.ItemId=W.FreezerUnitId
                                LEFT JOIN Item IT ON IT.ItemId=W.BoxId
                                LEFT JOIN #TEMP1 T ON T.SaleOrderItemId=SI.SaleOrderItemId
-                               where  ISNULL(S.isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(S.isService, 0) END";
+                               where  ISNULL(S.isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(S.isService, 0) END
+                               AND ISNULL(C.CustomerName,'') LIKE '%'+@CustomerName+'%'
+                               AND (ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%')";
+			                 
 
-                return connection.Query<VehicleInPass>(sql, new { InstallType = InstallType }).ToList();
+                return connection.Query<VehicleInPass>(sql, new { InstallType = InstallType, CustomerName = CustomerName, RegNo = RegNo }).ToList();
             }
         }
     }
