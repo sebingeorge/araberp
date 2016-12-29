@@ -16,13 +16,14 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public ActionResult PendingJobcards(int type = 0)
-        {
+        
+        public ActionResult PendingJobcardTasks(int type = 0)
+       {
             return View();
         }
-        public ActionResult PendingJobcardTasks(int type = 0,string RegNo = "")
+        public ActionResult PendingJobcards(int type = 0, string RegNo = "", string jcno = "")
         {
-            return PartialView((new JobCardDailyActivityRepository()).PendingJobcardTasks(type, OrganizationId, RegNo));
+            return PartialView((new JobCardDailyActivityRepository()).PendingJobcardTasks(type, OrganizationId, RegNo, jcno));
         }
         public ActionResult Create(int Id)
         {
@@ -205,5 +206,6 @@ namespace ArabErp.Web.Controllers
         {
             return View(new JobCardDailyActivityRepository().GetJobCardDailyActivitys(OrganizationId, type));
         }
+      
     }
 }
