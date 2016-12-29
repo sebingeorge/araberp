@@ -18,6 +18,7 @@ namespace ArabErp.Domain
         public int VehicleModelId { get; set; }
         public string CustomerName { get; set; }
         public string VehicleModelName { get; set; }
+        public string ChassisNo { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string CurrentDate { get; set; }

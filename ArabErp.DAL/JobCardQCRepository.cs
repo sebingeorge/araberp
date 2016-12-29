@@ -56,10 +56,11 @@ namespace ArabErp.DAL
                 string sql = @"SELECT * INTO #JobCard FROM JobCard WHERE JodCardCompleteStatus=1 and isService=0;
                                SELECT JC.JobCardId JobCardId,JC.JobCardNo JobCardNo,JC.JobCardDate JobCardDate,JC.SaleOrderId SaleOrderId,JC.SaleOrderItemId SaleOrderItemId INTO #JOBCARDvsQC 
                                FROM #JobCard JC WHERE JC.JobCardId NOT IN (SELECT JobCardId FROM JobCardQC);
-                               SELECT JCQ.JobCardId JobCardId,JCQ.JobCardNo JobCardNo,JCQ.JobCardDate JobCardDate,JCQ.SaleOrderId SaleOrderId,JCQ.SaleOrderItemId SaleOrderItemId,SO.CustomerId CustomerId,SOI.VehicleModelId VehicleModelId INTO #JOBCARD_vs_SALERORDER
+                               SELECT JCQ.JobCardId JobCardId,JCQ.JobCardNo JobCardNo,JCQ.JobCardDate JobCardDate,JCQ.SaleOrderId SaleOrderId,JCQ.SaleOrderItemId SaleOrderItemId,SO.CustomerId CustomerId,SOI.VehicleModelId VehicleModelId,ChassisNo INTO #JOBCARD_vs_SALERORDER
                                FROM #JOBCARDvsQC JCQ LEFT JOIN SaleOrder SO ON JCQ.SaleOrderId=SO.SaleOrderId
-							   LEFT JOIN SaleOrderItem SOI ON JCQ.SaleOrderItemId=SOI.SaleOrderItemId;
-                               SELECT JVS.JobCardId JobCardId,JVS.JobCardNo JobCardNo,JVS.JobCardDate JobCardDate,JVS.SaleOrderId SaleOrderId,JVS.SaleOrderItemId SaleOrderItemId,JVS.CustomerId CustomerId,JVS.VehicleModelId VehicleModelId,C.CustomerName,/*CONCAT(VM.VehicleModelName,'  ',VM.VehicleModelDescription)*/ VM.VehicleModelDescription VehicleModelName
+							   LEFT JOIN SaleOrderItem SOI ON JCQ.SaleOrderItemId=SOI.SaleOrderItemId
+                               LEFT JOIN VehicleInPass V ON V.SaleOrderItemId=JCQ.SaleOrderItemId ;
+                               SELECT JVS.JobCardId JobCardId,JVS.JobCardNo JobCardNo,JVS.JobCardDate JobCardDate,JVS.SaleOrderId SaleOrderId,JVS.SaleOrderItemId SaleOrderItemId,JVS.CustomerId CustomerId,JVS.VehicleModelId VehicleModelId,C.CustomerName,/*CONCAT(VM.VehicleModelName,'  ',VM.VehicleModelDescription)*/ VM.VehicleModelDescription VehicleModelName,ChassisNo
                                FROM #JOBCARD_vs_SALERORDER JVS LEFT JOIN Customer C ON JVS.CustomerId=C.CustomerId
 						       LEFT JOIN VehicleModel VM ON JVS.VehicleModelId=VM.VehicleModelId;
                                DROP TABLE #JobCard;
