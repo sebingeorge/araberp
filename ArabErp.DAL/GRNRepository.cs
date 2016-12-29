@@ -399,7 +399,57 @@ namespace ArabErp.DAL
                 throw;
             }
         }
+        public IEnumerable<PendingForGRN> GetGRNPendingList1(string Supplier, string LPO)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    //                    string qry = @"SELECT
+                    //	                            SO.SupplyOrderId,
+                    //                            CONCAT(SO.SupplyOrderId,' - ',CONVERT(VARCHAR(15),SupplyOrderDate,106))SoNoWithDate,
+                    //                            QuotaionNoAndDate
+                    //                            FROM SupplyOrder SO 
+                    //	                            INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId AND SO.SupplierId = @supplierId
+                    //	                            LEFT JOIN GRN G ON G.SupplyOrderId=SO.SupplyOrderId
+                    //                            WHERE SO.isActive=1 and G.SupplyOrderId is null";
 
+                    string qry = @"SELECT
+	                                    DISTINCT SO.SupplyOrderId,
+	                                    SO.SupplyOrderDate,
+	                                    SO.CreatedDate,
+	                                    CONCAT(SO.SupplyOrderNo,' - ',ISNULL(CONVERT(VARCHAR(15),SupplyOrderDate,106), ''))SoNoWithDate,
+	                                    ISNULL(QuotaionNoAndDate, '-')QuotaionNoAndDate,
+	                                    DATEDIFF(day, SupplyOrderDate, GETDATE()) Age,
+	                                    DATEDIFF(day, GETDATE(), RequiredDate) DaysLeft,
+	                                    ISNULL(SpecialRemarks, '-') SpecialRemarks,
+	                                    ISNULL(CONVERT(VARCHAR(15),RequiredDate,106), '-') RequiredDate,
+										S.SupplierId,
+										S.SupplierName,
+										SO.RequiredDate
+                                    FROM SupplyOrder SO 
+	                                    INNER JOIN SupplyOrderItem SOI ON SO.SupplyOrderId = SOI.SupplyOrderId
+	                                    INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId 
+	                                    LEFT JOIN GRNItem GI ON SOI.SupplyOrderItemId = GI.SupplyOrderItemId
+                                    WHERE SO.isActive=1 and 
+                                    (GI.SupplyOrderItemId IS NULL OR ISNULL(GI.Quantity, 0) < ISNULL(SOI.OrderedQty, 0))
+									AND ISNULL(S.SupplierName,'') like'%'+@Supplier+'%'
+	                                AND ISNULL(SO.SupplyOrderNo,'') like '%'+@LPO+'%'
+                                    AND ISNULL(SupplyOrderDate,'') like '%'+@LPO+'%'
+                                    ORDER BY SO.RequiredDate, SO.SupplyOrderDate DESC";
+
+                    return connection.Query<PendingForGRN>(qry, new { Supplier = Supplier, LPO = LPO });
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         /// <summary>
         /// Return details of a GRN such as Supplier Id
         /// </summary>

@@ -19,9 +19,8 @@
     function Filter() {
         $("#pending-grid").addClass("fade");
         var url = '@Url.Action("PendingGrid")';
-        var Supplier = $("#txtRequest").val().trim();
-        var LPO = $("#txtSale").val().trim();
-
+        var Supplier = $("#txtSupplier").val().trim();
+        var LPO = $("#txtLPONo").val().trim();
         url += "?Supplier=" + encodeURIComponent(Supplier) + "&LPO=" + encodeURIComponent(LPO);
         $("#pending-grid").load(url, function () {
             $("#pending-grid").removeClass("fade");

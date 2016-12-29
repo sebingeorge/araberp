@@ -331,17 +331,17 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        //public PartialViewResult PendingGrid(string Supplier = "",LPO)
-        //{
-        //    try
-        //    {
-        //        return PartialView("_PendingGrid", new GRNRepository().GetGRNPendingList(Supplier));
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return PartialView("_PendingGrid", new List<PendingForGRN>());
-        //    }
-        //}
+        public PartialViewResult PendingGrid(string Supplier = "",string LPO = "")
+        {
+            try
+            {
+                return PartialView("_PendingGrid", new GRNRepository().GetGRNPendingList1(Supplier, LPO));
+            }
+            catch (Exception)
+            {
+                return PartialView("_PendingGrid", new List<PendingForGRN>());
+            }
+        }
 
         public ActionResult PendingDirectPurchaseGrid()
         {

@@ -21,13 +21,16 @@
         var engineer = $("#filter-engineer").val().trim();
         var task = $("#filter-task").val().trim();
         var technician = $("#filter-technician").val().trim();
+        var InstallType = $("#cboType").val();
         var url = '@Url.Action("PendingTasks")';
         url += "?saleorder=" + encodeURIComponent(saleorder)
             + "&jobcard=" + encodeURIComponent(jobcard)
             + "&jobcarddate=" + encodeURIComponent(jobcarddate)
             + "&engineer=" + encodeURIComponent(engineer)
             + "&task=" + encodeURIComponent(task)
-            + "&technician=" + encodeURIComponent(technician);
+            + "&technician=" + encodeURIComponent(technician)
+            + "&InstallType=" + encodeURIComponent(InstallType);
+        ;
         $("#pending-tasks-grid").load(url, function () {
             $("#pending-tasks-grid").removeClass("fade");
         });
@@ -51,7 +54,7 @@
       //  var taskname = $("#filter-task").text().trim();
         var technician = $("#filter-technician").val().trim();
       //  var technicianname = $("#filter-technician option:selected").text().trim();
-       
+        var InstallType = $("#cboType").val();
         var url = '@Url.Action("Print")';
         //url += "&saleordername=" + (saleordername == '' ? 0 : saleordername)
         //   + "&jobcardName=" + (jobcardName == '' ? 0 : jobcardName)
@@ -103,6 +106,15 @@
                 <label for="filter-technician">Technician</label>
                 <input id="filter-technician" class="form_input" placeholder="Search for Technician" onkeyup="Filter()" onchange="Filter()" />
             </div>
+        </div>
+
+        <div class="col-md-3">
+            <label for="cboType">Service/New Installation</label>
+            <select id="cboType" class="form_input" onchange="Filter()">
+                <option value="all" selected>All</option>
+                <option value="service">Service</option>
+                <option value="new">New Installation</option>
+            </select>
         </div>
         <br />
         <div class="row">
