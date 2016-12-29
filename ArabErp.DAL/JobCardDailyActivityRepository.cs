@@ -158,7 +158,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<JobCardForDailyActivity> PendingJobcardTasks(int type, int OrganizationId, string RegNo="")
+        public IEnumerable<JobCardForDailyActivity> PendingJobcardTasks(int type, int OrganizationId, string RegNo = "", string jcno = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -175,8 +175,9 @@ namespace ArabErp.DAL
 						        AND	J.isProjectBased = @type
                                 AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%'
 			                    OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')
+	                            AND ISNULL(J.JobCardNo,'') LIKE '%'+@jcno+'%'
 						        AND J.isActive = 1";
-                return connection.Query<JobCardForDailyActivity>(sql, new { OrganizationId = OrganizationId, type = type, RegNo = RegNo });
+                return connection.Query<JobCardForDailyActivity>(sql, new { OrganizationId = OrganizationId, type = type, RegNo = RegNo, jcno = jcno });
             }
         }
 

@@ -31,7 +31,297 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\</Image1>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
   </Head>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/2</SaleOrderRefNo>
+    <SaleOrderDate>30-Nov-2016</SaleOrderDate>
+    <CustomerName>Ali Bin Ali:Ali Bin Ali- IA</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>1600.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/3</SaleOrderRefNo>
+    <SaleOrderDate>01-Dec-2016</SaleOrderDate>
+    <CustomerName>Amwaj Catering Services</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>3825.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/4</SaleOrderRefNo>
+    <SaleOrderDate>01-Dec-2016</SaleOrderDate>
+    <CustomerName>Almana &amp; Partners W.L.L.</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>1720.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/10</SaleOrderRefNo>
+    <SaleOrderDate>06-Dec-2016</SaleOrderDate>
+    <CustomerName>Star Afland</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>1950.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/11</SaleOrderRefNo>
+    <SaleOrderDate>06-Dec-2016</SaleOrderDate>
+    <CustomerName>Well Care Trading</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>2250.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/13</SaleOrderRefNo>
+    <SaleOrderDate>06-Dec-2016</SaleOrderDate>
+    <CustomerName>Al Jassim Group</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>1850.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/16</SaleOrderRefNo>
+    <SaleOrderDate>07-Dec-2016</SaleOrderDate>
+    <CustomerName>Khaled Bin Mahmood</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>450.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SO/TR/15</SaleOrderRefNo>
+    <SaleOrderDate>05-Dec-2016</SaleOrderDate>
+    <CustomerName>UNITED CAR RENTALS Co W.L.L</CustomerName>
+    <OrderAmount>69000.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>23000.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/17</SaleOrderRefNo>
+    <SaleOrderDate>08-Dec-2016</SaleOrderDate>
+    <CustomerName>International Fish</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>1200.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/22</SaleOrderRefNo>
+    <SaleOrderDate>11-Dec-2016</SaleOrderDate>
+    <CustomerName>Almana &amp; Partners W.L.L.</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>850.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/23</SaleOrderRefNo>
+    <SaleOrderDate>11-Dec-2016</SaleOrderDate>
+    <CustomerName>Chef Middle East WLL</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>1150.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SO/TR/16</SaleOrderRefNo>
+    <SaleOrderDate>12-Dec-2016</SaleOrderDate>
+    <CustomerName>Qatar Automobiles Company</CustomerName>
+    <OrderAmount>19500.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>19500.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/26</SaleOrderRefNo>
+    <SaleOrderDate>12-Dec-2016</SaleOrderDate>
+    <CustomerName>Delight International Movers</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>350.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/29</SaleOrderRefNo>
+    <SaleOrderDate>13-Dec-2016</SaleOrderDate>
+    <CustomerName>Nasser Al Hajiri</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>6200.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/31</SaleOrderRefNo>
+    <SaleOrderDate>13-Dec-2016</SaleOrderDate>
+    <CustomerName>Al Irfan Fruits and Vegetables .</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>350.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SO/TR/18</SaleOrderRefNo>
+    <SaleOrderDate>14-Dec-2016</SaleOrderDate>
+    <CustomerName>Crompton International</CustomerName>
+    <OrderAmount>88000.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>44000.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/32</SaleOrderRefNo>
+    <SaleOrderDate>15-Dec-2016</SaleOrderDate>
+    <CustomerName>Hazen International</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>850.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/33</SaleOrderRefNo>
+    <SaleOrderDate>15-Dec-2016</SaleOrderDate>
+    <CustomerName>United  Business Development</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>2230.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/34</SaleOrderRefNo>
+    <SaleOrderDate>15-Dec-2016</SaleOrderDate>
+    <CustomerName>Auto Z</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>900.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/36</SaleOrderRefNo>
+    <SaleOrderDate>19-Dec-2016</SaleOrderDate>
+    <CustomerName>Tropical Trading</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>2800.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/38</SaleOrderRefNo>
+    <SaleOrderDate>19-Dec-2016</SaleOrderDate>
+    <CustomerName>Aromas Trading</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>350.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/40</SaleOrderRefNo>
+    <SaleOrderDate>19-Dec-2016</SaleOrderDate>
+    <CustomerName>Vision Trading</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>400.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/42</SaleOrderRefNo>
+    <SaleOrderDate>20-Dec-2016</SaleOrderDate>
+    <CustomerName>Al BaraahTrading &amp; Contracting</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>450.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/44</SaleOrderRefNo>
+    <SaleOrderDate>21-Dec-2016</SaleOrderDate>
+    <CustomerName>Bakemart</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>1000.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/45</SaleOrderRefNo>
+    <SaleOrderDate>21-Dec-2016</SaleOrderDate>
+    <CustomerName>Al Irfan Fruits and Vegetables .</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>350.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/46</SaleOrderRefNo>
+    <SaleOrderDate>22-Dec-2016</SaleOrderDate>
+    <CustomerName>Bakemart</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>2800.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/47</SaleOrderRefNo>
+    <SaleOrderDate>24-Dec-2016</SaleOrderDate>
+    <CustomerName>Busthan Al Khaleej Trading &amp; Cont Co.</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>1450.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/48</SaleOrderRefNo>
+    <SaleOrderDate>24-Dec-2016</SaleOrderDate>
+    <CustomerName>Arabian Farms Development Co Ltd</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>350.00</SalesInvoice>
+  </Items>
+  <Items>
+    <SaleOrderRefNo>AARC/SER/50</SaleOrderRefNo>
+    <SaleOrderDate>25-Dec-2016</SaleOrderDate>
+    <CustomerName>Al Sharah Fish</CustomerName>
+    <OrderAmount>0.00</OrderAmount>
+    <Purchase>0.00</Purchase>
+    <Expense>0.00</Expense>
+    <Labour>0.00</Labour>
+    <SalesInvoice>3000.00</SalesInvoice>
+  </Items>
 </NewDataSet>
