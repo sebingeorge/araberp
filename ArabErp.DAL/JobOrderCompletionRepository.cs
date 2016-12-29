@@ -11,7 +11,7 @@ using System.Collections;
 
 namespace ArabErp.DAL
 {
-    public class JobOrderCompletionRepository:BaseRepository
+    public class JobOrderCompletionRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
         public IEnumerable<JobOrderPending> GetPendingJobOrder(int? isProjectBased, int OrganizationId, int id, int cusid, string RegNo = "")
@@ -48,7 +48,7 @@ namespace ArabErp.DAL
                 }
 
 
-                return connection.Query<JobOrderPending>(query, new {isProjectBased=isProjectBased, OrganizationId = OrganizationId,id=id,cusid=cusid,RegNo=RegNo});
+                return connection.Query<JobOrderPending>(query, new { isProjectBased = isProjectBased, OrganizationId = OrganizationId, id = id, cusid = cusid, RegNo = RegNo });
             }
         }
 
@@ -83,7 +83,7 @@ namespace ArabErp.DAL
                     query += " LEFT JOIN StoreIssue SS ON SS.WorkShopRequestId=WR.WorkShopRequestId";
                     query += " where J.JobCardId = " + JobCardId.ToString() + " and J.isProjectBased = 1";
                 }
-                
+
                 var jobcard = connection.Query<JobCardCompletion>(query).FirstOrDefault();
 
                 //query = string.Empty;
@@ -157,23 +157,26 @@ namespace ArabErp.DAL
                             DROP TABLE #TOTAL;";
                 jobcard.JobCardTask = connection.Query<JobCardCompletionTask>(query, new { JobCardId = JobCardId }).ToList();
 
-                sql = @"select COUNT(WI.WorkShopRequestItemId) StoreIssued
-                        from jobcard J
-                        Left join WorkShopRequest W ON W.JobCardId=J.JobCardId OR j.SaleOrderId=W.SaleOrderId
-                        left join WorkShopRequestItem WI ON WI.WorkShopRequestId=W.WorkShopRequestId
-                        left join Item I  ON I.ItemId=WI.ItemId
-                        LEFT JOIN StoreIssueItem SII ON WI.WorkShopRequestItemId = SII.WorkShopRequestItemId
-                        where ISNULL(I.isConsumable,0)=0 and J.jobcardid=@JobCardId AND SII.WorkShopRequestItemId IS  NULL";
+                #region old query 29.12.2016 2.45p
+                //                sql = @"select COUNT(WI.WorkShopRequestItemId) StoreIssued
+                //                        from jobcard J
+                //                        Left join WorkShopRequest W ON W.JobCardId=J.JobCardId OR j.SaleOrderId=W.SaleOrderId
+                //                        left join WorkShopRequestItem WI ON WI.WorkShopRequestId=W.WorkShopRequestId
+                //                        left join Item I  ON I.ItemId=WI.ItemId
+                //                        LEFT JOIN StoreIssueItem SII ON WI.WorkShopRequestItemId = SII.WorkShopRequestItemId
+                //                        where ISNULL(I.isConsumable,0)=0 and J.jobcardid=@JobCardId AND SII.WorkShopRequestItemId IS  NULL"; 
+                #endregion
+                sql = @"SELECT
+	                        ISNULL(SUM(ISNULL(WRI.Quantity, 0)) - SUM(ISNULL(SII.IssuedQuantity, 0)), 1)
+                        FROM WorkShopRequest WR
+                        INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                        INNER JOIN Item I ON WRI.ItemId = I.ItemId
+                        LEFT JOIN StoreIssueItem SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
+                        WHERE ISNULL(I.isConsumable, 0) = 0 AND WR.JobCardId = @JobCardId OR 
+                        WR.SaleOrderItemId = (SELECT SaleOrderItemId FROM JobCard WHERE JobCardId = @JobCardId)
+                        OR (WR.SaleOrderItemId = 0 AND WR.SaleOrderId = (SELECT SaleOrderId FROM JobCard WHERE JobCardId = @JobCardId))";
                 int val = connection.Query<int>(sql, new { JobCardId = JobCardId }).First();
-                if(val>0)
-                {
-                    jobcard.StoreIssued = true;
-                    
-                }
-                else
-                {
-                    jobcard.StoreIssued = false;
-                }
+                jobcard.StoreIssued = val <= 0 ? true : false;
                 //jobcard.JobCardTask = new List<JobCardCompletionTask>();
 
                 //foreach (JobCardCompletionTask item in tasks)
@@ -196,9 +199,9 @@ namespace ArabErp.DAL
                     var count = connection.Query(query, transaction: txn);
                     //query = @"UPDATE JobCardQC JQ SET JQ.IsQCPassed =1 inner join JobCard J on J.JobCardId=JQ.JobCardId   WHERE J.isService=1 AND JQ.JobCardId = " + jobcard.JobCardId + "";
                     //connection.Execute(sql: query, transaction: txn);
-//                    query = @"UPDATE SaleOrderItem SET IsPaymentApprovedForDelivery = (SELECT isService FROM JobCard WHERE JobCardId = " + jobcard.JobCardId + @")
-//                                WHERE SaleOrderItemId = (SELECT SaleOrderItemId FROM JobCard WHERE JobCardId = " + jobcard.JobCardId + ")";
-//                    connection.Execute(sql: query, transaction: txn);
+                    //                    query = @"UPDATE SaleOrderItem SET IsPaymentApprovedForDelivery = (SELECT isService FROM JobCard WHERE JobCardId = " + jobcard.JobCardId + @")
+                    //                                WHERE SaleOrderItemId = (SELECT SaleOrderItemId FROM JobCard WHERE JobCardId = " + jobcard.JobCardId + ")";
+                    //                    connection.Execute(sql: query, transaction: txn);
                     int i = 0;
                     foreach (var item in jobcard.JobCardTask)
                     {

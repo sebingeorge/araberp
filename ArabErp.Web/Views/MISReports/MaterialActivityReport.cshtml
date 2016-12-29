@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "Material Activity Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="form-head1">
+        <h4>DC Report</h4>
+    </div>
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                @*<div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="">Month</label>
+                        @Html.DropDownList("month-filter", new SelectList(
+                  new List<Object>{
+                       new { value = 0 , text = "January"  },
+                       new { value = 1 , text = "February" },
+                       new { value = 2 , text = "March"},
+                       new { value = 3 , text = "April"},
+                       new { value = 4 , text = "May"},
+                       new { value = 5 , text = "June"},
+                       new { value = 6 , text = "July"},
+                       new { value = 7 , text = "August"},
+                       new { value = 8 , text = "September"},
+                       new { value = 9 , text = "October"},
+                       new { value = 10 , text = "November"},
+                       new { value = 11 , text = "December"}
+                    },
+                  "value",
+                  "text", DateTime.Today.Month - 1), "Select Month", new { @class = "form_input", @onchange = "Filter()" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="">Year</label>
+                        @Html.DropDownList("year-filter", new SelectList(
+                  new List<Object>{
+                       new { value = ViewBag.Year, text = ViewBag.Year },
+                       new { value = ViewBag.Year + 1, text = ViewBag.Year + 1 }
+                    },
+                  "value",
+                  "text", ViewBag.Year), "Select Year", new { @class = "form_input", @onchange = "Filter()" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Reg No./Chassis No.</label>
+                        <input id="chassisno" class="form_input" placeholder="Search for Vehicle/Chassis No." onkeyup="Filter()" />
+                    </div>
+                    <div class="col-md-2">
+                        <label>Unit Sl.No.</label>
+                        <input id="unitserialno" class="form_input" placeholder="Search for Unit Sl.No" onkeyup="Filter()" />
+                    </div>
+                    <div class="col-md-2">
+                        <label>Customer</label>
+                        <input id="Customer" class="form_input" placeholder="Search for Customer " onkeyup="Filter()" />
+                    </div>
+                    <div class="col-md-2">
+                        <label>Jobcard No.</label>
+                        <input id="JobcardNo" class="form_input" placeholder="Search for Jobcard No." onkeyup="Filter()" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="txtCustomer">Service/New Installation</label>
+                        <select id="cboType" class="form_input" onchange="Filter()">
+                            <option value="all" selected>All</option>
+                            <option value="service">Service</option>
+                            <option value="new">New Installation</option>
+                        </select>
+                    </div>
+
+                </div>*@
+                <div class="table-responsive" id="dc_report_table">
+                    @Html.Action("MaterialActivityReportGrid")
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" onclick="Exit()" value="Exit">
+            </div>
+        </div>
+    </div>
+
+</div>
+

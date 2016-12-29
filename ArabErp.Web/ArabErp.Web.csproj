@@ -1308,6 +1308,8 @@
     <Content Include="Views\JobCardDailyActivity\PendingJobcards.cshtml" />
     <Content Include="Views\PurchaseRequest\_LastPurchaseRateGrid.cshtml" />
     <Content Include="Views\DirectPurchase\_LastPurchaseRateGrid.cshtml" />
+    <Content Include="Views\MISReports\MaterialActivityReport.cshtml" />
+    <Content Include="Views\MISReports\_MaterialActivityReportGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
