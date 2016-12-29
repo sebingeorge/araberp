@@ -71,5 +71,21 @@ namespace ArabErp.DAL
                 }
             }
         }
+
+        public IEnumerable GetMaterialActivityReport(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string query = @"";
+                    return connection.Query<DCReport>(query, new { org = OrganizationId });
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
     }
 }
