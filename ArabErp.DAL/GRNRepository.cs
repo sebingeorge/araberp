@@ -414,7 +414,7 @@ namespace ArabErp.DAL
                     //	                            LEFT JOIN GRN G ON G.SupplyOrderId=SO.SupplyOrderId
                     //                            WHERE SO.isActive=1 and G.SupplyOrderId is null";
 
-                    string qry = @"SELECT
+                   string qry = @"SELECT
 	                                    DISTINCT SO.SupplyOrderId,
 	                                    SO.SupplyOrderDate,
 	                                    SO.CreatedDate,
@@ -434,8 +434,8 @@ namespace ArabErp.DAL
                                     WHERE SO.isActive=1 and 
                                     (GI.SupplyOrderItemId IS NULL OR ISNULL(GI.Quantity, 0) < ISNULL(SOI.OrderedQty, 0))
 									AND ISNULL(S.SupplierName,'') like'%'+@Supplier+'%'
-	                                AND ISNULL(SO.SupplyOrderNo,'') like '%'+@LPO+'%'
-                                    AND ISNULL(SupplyOrderDate,'') like '%'+@LPO+'%'
+	                                AND (ISNULL(SO.SupplyOrderNo,'') like '%'+@LPO+'%'
+                                    OR ISNULL(SupplyOrderDate,'') like '%'+@LPO+'%')
                                     ORDER BY SO.RequiredDate, SO.SupplyOrderDate DESC";
 
                     return connection.Query<PendingForGRN>(qry, new { Supplier = Supplier, LPO = LPO });

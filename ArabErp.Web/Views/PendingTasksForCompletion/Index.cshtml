@@ -54,7 +54,7 @@
       //  var taskname = $("#filter-task").text().trim();
         var technician = $("#filter-technician").val().trim();
       //  var technicianname = $("#filter-technician option:selected").text().trim();
-        var InstallType = $("#cboType").val();
+        var InstallType = $("#cboType").val().trim();
         var url = '@Url.Action("Print")';
         //url += "&saleordername=" + (saleordername == '' ? 0 : saleordername)
         //   + "&jobcardName=" + (jobcardName == '' ? 0 : jobcardName)
@@ -68,7 +68,8 @@
            + "&jobcarddate=" + encodeURIComponent(jobcarddate)
            + "&engineer=" + encodeURIComponent(engineer)
            + "&task=" + encodeURIComponent(task)
-           + "&technician=" + encodeURIComponent(technician);
+           + "&technician=" + encodeURIComponent(technician)
+           + "&InstallType=" + encodeURIComponent(InstallType);;
         alert(url);
         window.location = url;
     }
