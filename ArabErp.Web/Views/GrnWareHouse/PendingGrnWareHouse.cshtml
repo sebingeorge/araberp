@@ -16,7 +16,16 @@
             $("#pending-grid").removeClass("fade");
         });
     }
-
+    function Filter() {
+        $("#pending-grid").addClass("fade");
+        var url = '@Url.Action("PendingGrid")';
+        var Supplier = $("#txtSupplier").val().trim();
+        var LPO = $("#txtLPONo").val().trim();
+        url += "?Supplier=" + encodeURIComponent(Supplier) + "&LPO=" + encodeURIComponent(LPO);
+        $("#pending-grid").load(url, function () {
+            $("#pending-grid").removeClass("fade");
+        });
+    }
     function PreviousList() {
         window.location = '@Url.Action("PreviousList", "GrnWareHouse")';
     }
@@ -50,9 +59,18 @@
             <form role="form" method="post" action="Create" onsubmit="return formValidation()">
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-md-3">
+                        @*<div class="col-md-3">
                             <label for="cboSupplier">Supplier</label>
                             @Html.DropDownListFor(m => Model[0].SupplierId, (SelectList)ViewBag.supplierList, "All", new { @id = "cboSupplier", @class = "form_input", @onchange = "OnSupplierChanged(this)" })
+                        </div>*@
+
+                        <div class="col-md-2">
+                            <label for="txtSupplier">Supplier</label>
+                            <input type="text" class="form_input" id="txtSupplier" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Supplier" />
+                        </div>
+                        <div class="col-md-2">
+                            <label for="txtLPONo.">LPO No.</label>
+                            <input type="text" class="form_input" id="txtLPONo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for LPO No." />
                         </div>
                     </div>
                 </div>

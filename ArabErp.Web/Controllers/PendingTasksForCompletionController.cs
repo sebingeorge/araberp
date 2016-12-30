@@ -19,12 +19,13 @@ namespace ArabErp.Web.Controllers
         // GET: PendingTasksForCompletion
         public ActionResult Index()
         {
-            IEnumerable list = new PendingTasksForCompletionRepository().GetPendingTasks(OrganizationId: OrganizationId);
-            return View(list);
+            FillNeworService();
+           // IEnumerable list = new PendingTasksForCompletionRepository().GetPendingTasks(OrganizationId: OrganizationId);
+            return View();
         }
 
         public ActionResult PendingTasks(string saleorder = "", string jobcard = "", string jobcarddate = "",
-                                         string engineer = "", string task = "", string technician = "")
+                                         string engineer = "", string task = "", string technician = "", string InstallType = "all")
         {
             var list = new PendingTasksForCompletionRepository().GetPendingTasks(
                 OrganizationId: OrganizationId,
@@ -33,7 +34,7 @@ namespace ArabErp.Web.Controllers
                 jobcarddate: jobcarddate,
                 technician: technician,
                 task: task,
-                engineer: engineer);
+                engineer: engineer, InstallType: InstallType);
              return PartialView("_PendingTasksGrid", list);
         }
 
@@ -148,5 +149,15 @@ namespace ArabErp.Web.Controllers
                 throw;
             }
         }
+
+        #region Dropdowns
+        public void FillNeworService()
+        {
+            List<Dropdown> types = new List<Dropdown>();
+            types.Add(new Dropdown { Id = 1, Name = "New Installation" });
+            types.Add(new Dropdown { Id = 2, Name = "Service" });
+            ViewBag.Type = new SelectList(types, "Id", "Name");
+        }
+        #endregion
     }
 }
