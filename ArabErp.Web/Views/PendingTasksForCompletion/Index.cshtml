@@ -21,7 +21,7 @@
         var engineer = $("#filter-engineer").val().trim();
         var task = $("#filter-task").val().trim();
         var technician = $("#filter-technician").val().trim();
-        var InstallType = $("#cboType").val();
+        var InstallType = $("#cboType").val().trim();;
         var url = '@Url.Action("PendingTasks")';
         url += "?saleorder=" + encodeURIComponent(saleorder)
             + "&jobcard=" + encodeURIComponent(jobcard)
@@ -70,7 +70,7 @@
            + "&task=" + encodeURIComponent(task)
            + "&technician=" + encodeURIComponent(technician)
            + "&InstallType=" + encodeURIComponent(InstallType);;
-        alert(url);
+      
         window.location = url;
     }
 
@@ -107,21 +107,22 @@
                 <label for="filter-technician">Technician</label>
                 <input id="filter-technician" class="form_input" placeholder="Search for Technician" onkeyup="Filter()" onchange="Filter()" />
             </div>
+            <div class="col-md-3">
+                <label for="cboType">Service/New Installation</label>
+                <select id="cboType" class="form_input" onchange="Filter()">
+                    <option value="all" selected>All</option>
+                    <option value="service">Service</option>
+                    <option value="new">New Installation</option>
+                </select>
+            </div>
         </div>
 
-        <div class="col-md-3">
-            <label for="cboType">Service/New Installation</label>
-            <select id="cboType" class="form_input" onchange="Filter()">
-                <option value="all" selected>All</option>
-                <option value="service">Service</option>
-                <option value="new">New Installation</option>
-            </select>
-        </div>
+        
         <br />
         <div class="row">
             <div class="main-grid main-grid-top scroll1">
                 <div class="table-responsive" id="pending-tasks-grid">
-                    @Html.Partial("_PendingTasksGrid", Model)
+                    @Html.Action("PendingTasks")
                 </div>
             </div>
         </div>

@@ -15,7 +15,7 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
 
         public IEnumerable GetPendingTasks(int OrganizationId, string saleorder = "", string jobcard = "", string jobcarddate = "",
-                                           string engineer = "", string task = "", string technician = "")
+                                           string engineer = "", string task = "", string technician = "", string InstallType="")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -73,6 +73,7 @@ namespace ArabErp.DAL
                     @"AND EMP1.EmployeeName LIKE '%'+@engineer+'%'
 					AND JTM.JobCardTaskName LIKE '%'+@task+'%'
 					AND EMP.EmployeeName LIKE '%'+@technician+'%'
+                    AND  ISNULL(JC.isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(JC.isService, 0) END
 	            ORDER BY SO.SaleOrderRefNo, JC.RequiredDate DESC";
 
                 return connection.Query<PendingTasksForCompletion>(query, new
@@ -83,7 +84,8 @@ namespace ArabErp.DAL
                     jobcarddate = d,
                     engineer = engineer,
                     task = task,
-                    technician = technician
+                    technician = technician,
+                    InstallType=InstallType
                 }).ToList();
             }
         }
