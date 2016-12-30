@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#txtFrom").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+        $("#txtTo").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+    })
+
+    function Filter() {
+        $("#grnlist").addClass("fade");
+        var id = $("#cboItmGrp").val();
+        var material = $("#material").val().trim();
+        var supplier = $("#supplier").val().trim();
+        var from = $("#txtFrom").val();
+        var to = $("#txtTo").val();
+
+        var url = '@Url.Action("GRNRegister")';
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&material=" + encodeURIComponent(material) + "&supplier=" + encodeURIComponent(supplier);
+        $("#grnlist").load(url, function () {
+            $("#grnlist").removeClass("fade");
+        });
+    }
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+</script>
+<div class="row">
+
+    <div class="form-head1">
+        <h4>GRN Register</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="col-md-2">
+                <label>From</label>
+                <input id="txtFrom" value="@ViewBag.startdate.ToString("dd-MMMM-yyyy")" class="form_input" onchange="Filter()" />
+            </div>
+            <div class="col-md-2">
+                <label>To</label>
+                <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" class="form_input" onchange="Filter()" />
+            </div>
+            <div class="col-md-2">
+                <label for="cboItmGrp">Material Group</label>
+                @Html.DropDownList("cboItmGrp", (SelectList)ViewBag.ItmGrpList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+            <div class="col-md-3">
+                <label>Material Name</label>
+                <input id="material" class="form_input" placeholder="Search for Material Name" onkeyup="Filter()" />
+            </div>
+            <div class="col-md-3">
+                <label>Supplier</label>
+                <input id="supplier" class="form_input" placeholder="Search for Supplier" onkeyup="Filter()" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive" id="grnlist">
+                    @Html.Action("GRNRegister")
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+    </div>
+</div>
+

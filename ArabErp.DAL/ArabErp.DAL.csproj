@@ -99,6 +99,7 @@
     <Compile Include="FinancialYearRepository.cs" />
     <Compile Include="FreezerUnitRepository.cs" />
     <Compile Include="GRNItemRepository.cs" />
+    <Compile Include="GRNRegisterRepository.cs" />
     <Compile Include="GRNRepository.cs" />
     <Compile Include="ItemBatchRepository.cs" />
     <Compile Include="ItemCategoryRepository.cs" />
