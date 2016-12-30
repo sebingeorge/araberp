@@ -3,11 +3,12 @@
 <table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
-            <th width="10%"><h1>GRN No.</h1></th>
-            <th width="10%"><h1>GRN Date</h1></th>
+            <th width="8%"><h1>GRN No.</h1></th>
+            <th width="9%"><h1>GRN Date</h1></th>
             <th width="20%"><h1>Supplier</h1></th>
             <th width="17"><h1>LPO No.</h1></th>
             <th width="30%"><h1>Material</h1></th>
+            <th width="15%"><h1>Part No.</h1></th>
             <th width="8%" class="text-right"><h1>Qty</h1></th>
             <th width="10%" class="text-right"><h1>Rate</h1></th>
             <th width="10%" class="text-right"><h1>Amount</h1></th>
@@ -24,6 +25,7 @@
                 <td class="grid-cell">@item.SupplierName</td>
                 <td class="grid-cell">@item.SupplyOrderNo</td>
                 <td class="grid-cell">@item.ItemName</td>
+                <td class="grid-cell">@item.PartNo</td>
                 <td class="grid-cell text-right">@item.Quantity</td>
                 <td class="grid-cell text-right">@item.Rate</td>
                 <td class="grid-cell text-right">@item.Amount</td>
