@@ -501,6 +501,7 @@ namespace ArabErp.DAL
 				AND ISNULL(CustomerName,'') LIKE '%'+@Customer+'%'
                 AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%'
 			    OR ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%')
+                AND ISNULL(JC.JobCardNo, '') LIKE '%'+@jcno+'%'
                 ORDER BY WR.WorkShopRequestDate DESC, WR.CreatedDate DESC;
                 DROP TABLE #ISSUE;
                 DROP TABLE #WORK;
