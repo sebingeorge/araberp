@@ -247,10 +247,9 @@ namespace ArabErp.DAL
                         {
                             if (!item.isUsed)
                             {
-                                sql = @"update OpeningStock set ItemId=@ItemId,Quantity=@Quantity,CreatedBy= @CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId,StockpointId=@StockpointId where OpeningStockId=@OpeningStockId;
-                                        update StockUpdate set StockPointId=@StockPointId,stocktrnDate=@CreatedDate,ItemId=@ItemId,Quantity=@Quantity,CreatedBy= @CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId where StockType='OpeningStock' and StockInOut='IN' and ItemId=@ItemId and StockpointId=@StockpointId ;";
-                          
-                                int ObjStandardRate = connection.Execute(sql, new
+                                sql = @"update OpeningStock set ItemId=@ItemId,Quantity=@Quantity,CreatedBy= @CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId,StockpointId=@StockpointId where OpeningStockId=@OpeningStockId;";
+
+                                  int ObjStandardRate = connection.Execute(sql, new
                                 {
                                     StockPointId = model.stockpointId,
                                     OpeningStockId = item.OpeningStockId,
@@ -260,6 +259,41 @@ namespace ArabErp.DAL
                                     CreatedDate = model.CreatedDate,
                                     OrganizationId = model.OrganizationId
                                 }, txn);
+
+                                sql = @"update StockUpdate set StockPointId=@StockPointId,stocktrnDate=@CreatedDate,ItemId=@ItemId,Quantity=@Quantity,CreatedBy= @CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId where StockType='OpeningStock' and StockInOut='IN' and ItemId=@ItemId and StockpointId=@StockpointId ;";
+                          
+                                int ObjReturn = connection.Execute(sql, new
+                                {
+                                    StockPointId = model.stockpointId,
+                                    OpeningStockId = item.OpeningStockId,
+                                    ItemId = item.ItemId,
+                                    Quantity = item.Quantity,
+                                    CreatedBy = model.CreatedBy,
+                                    CreatedDate = model.CreatedDate,
+                                    OrganizationId = model.OrganizationId
+                                }, txn);
+                                if (ObjReturn == 0 && item.Quantity > 0)
+                                {
+
+                                    sql = @" insert  into StockUpdate(StockPointId,stocktrnDate,ItemId,Quantity,
+                                 StockType,StockInOut,CreatedBy,CreatedDate,OrganizationId) 
+                                 Values (@stockpointId,@CreatedDate,@ItemId,@Quantity,'OpeningStock','IN',
+                                 @CreatedBy,@CreatedDate,@OrganizationId);
+                                 SELECT CAST(SCOPE_IDENTITY() as int)";
+                      
+
+                            int Objstckup = connection.Query<int>(sql, new
+                            {
+
+                                StockPointId = model.stockpointId,
+                                ItemId = item.ItemId,
+                                Quantity = item.Quantity,
+                                CreatedBy = model.CreatedBy,
+                                CreatedDate = model.CreatedDate,
+                                OrganizationId = model.OrganizationId
+                            }, txn).First();
+                                }
+
                             }
                         }
 

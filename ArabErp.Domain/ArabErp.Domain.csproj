@@ -83,6 +83,8 @@
     <Compile Include="GINRegister.cs" />
     <Compile Include="GRNAddition.cs" />
     <Compile Include="GRNDeduction.cs" />
+    <Compile Include="GRNRegister.cs" />
+    <Compile Include="IndentVsSOVsInpassStatus.cs" />
     <Compile Include="ItemSellingPrice.cs" />
     <Compile Include="ItemSellingPriceList.cs" />
     <Compile Include="ItemVsBom.cs" />

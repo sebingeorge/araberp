@@ -8,10 +8,11 @@
                 <th width="1%" class="text-center"><h1>#</h1></th>
                 <th width="30%"><h1>Material/Spares</h1></th>
                 <th width="7%"><h1>Part No.</h1></th>
-                <th width="7%" class="text-right" nowrap><h1>WR Qty</h1></th>
+                @*<th width="7%" class="text-right" nowrap><h1>WR Qty</h1></th>*@
+                <th width="7%" class="text-right" nowrap><h1>Pending Issue.Qty</h1></th>
                 <th width="7%" class="text-right" nowrap><h1>Min. Stock</h1></th>
                 <th width="7%" class="text-right" nowrap><h1>Curr. Stock</h1></th>
-                <th width="7%" class="text-right" nowrap><h1>Issued. Qty</h1></th>
+             
                
                 <th width="7%" class="text-right" nowrap><h1>Tot. Req. Qty.</h1></th>
                
@@ -32,10 +33,11 @@
                     <td class="grid-cell">@i</td>
                     <td class="grid-cell">@item.ItemName</td>
                     <td class="grid-cell">@item.PartNo</td>
-                    <td class="grid-cell text-right">@item.WRQTY</td>
+                    @*<td class="grid-cell text-right">@item.WRQTY</td>*@
+                    <td class="grid-cell text-right">@item.WRPndIssQty</td>
                     <td class="grid-cell text-right">@item.MinLevel</td>
                     <td class="grid-cell text-right">@item.CurrentStock</td>
-                    <td class="grid-cell text-right">@item.IssuedQty</td>
+                 
                   
                     <td class="grid-cell text-right">@item.TotalQty</td>
                     

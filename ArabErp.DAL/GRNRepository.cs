@@ -238,7 +238,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<GRN> GetGRNPreviousList(int OrganizationId)
+        public IEnumerable<GRN> GetGRNPreviousList(string Grn = "",  string Supplier = "", int OrganizationId=0)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -248,7 +248,9 @@ namespace ArabErp.DAL
                                 FROM GRNItem GT1 
 							    INNER  JOIN SupplyOrderItem SOT ON SOT.SupplyOrderItemId =GT1.SupplyOrderItemId
 							    INNER  JOIN SupplyOrder SO on SO.SupplyOrderId=SOT.SupplyOrderId
-                                WHERE GT1.GRNId = GT.GRNId
+                                WHERE
+                             --   ISNULL(SO.SupplyOrderNo,'')like '%'+@Lpo+'%' and
+                                GT1.GRNId = GT.GRNId
                                 FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') SONoDATE,
 
                                 ISNULL(S.SupplierName, '-') Supplier,
@@ -265,11 +267,13 @@ namespace ArabErp.DAL
                                 INNER JOIN Stockpoint ST ON G.WareHouseId = ST.StockPointId
 
                                 WHERE ISNULL(G.isActive, 1) = 1 AND G.OrganizationId = @OrganizationId
+	                            AND ISNULL(S.SupplierName,'') like'%'+@Supplier+'%'
+	                            AND ISNULL(GRNNo,'') like'%'+@Grn+'%'
                                 GROUP BY G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName,G.SupplierDCNoAndDate,
                                 EMP.EmployeeName ,ST.StockPointName,G.GrandTotal,G.CreatedDate,
                                 G.isDirectPurchaseGRN,GT.SupplyOrderItemId,GT.GRNId
 								ORDER BY G.GRNDate DESC, G.CreatedDate DESC;";
-                return connection.Query<GRN>(query, new { OrganizationId = OrganizationId });
+                return connection.Query<GRN>(query, new { Grn = Grn, Supplier = Supplier, OrganizationId = OrganizationId });
             }
         }
 
