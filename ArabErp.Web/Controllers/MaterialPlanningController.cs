@@ -54,9 +54,9 @@ namespace ArabErp.Web.Controllers
             ViewBag.PartNoList = new SelectList(result, "Id", "Name");
         }
 
-        public ActionResult Planning(int? batch,string partNo , int itmid = 0)
+        public ActionResult Planning(string partNo,string batch="all",int itmid = 0)
         {
-            return PartialView("_Planning", new MaterialPlanningRepository().GetMaterialPlanning(partNo,itmid,batch));
+            return PartialView("_Planning", new MaterialPlanningRepository().GetMaterialPlanning(itmid,partNo, batch));
         }
         public ActionResult Item()
         {
@@ -68,7 +68,7 @@ namespace ArabErp.Web.Controllers
             FillPartNo(Code);
             return PartialView("_PartNoDropDown");
         }
-        public ActionResult Print( int? batch,string Itmname = "", int Itmid = 0, string batchname = "",string partNo="")
+        public ActionResult Print(string Itmname = "", int Itmid = 0, string batchname = "",string batch = "all")
         {
 
             ReportDocument rd = new ReportDocument();
