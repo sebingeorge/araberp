@@ -68,7 +68,7 @@ namespace ArabErp.Web.Controllers
             FillPartNo(Code);
             return PartialView("_PartNoDropDown");
         }
-        public ActionResult Print( int? batch,string Itmname = "", int Itmid = 0, string batchname = "",string partNo="")
+        public ActionResult Print(string Itmname = "", int Itmid = 0, string batchname = "",string batch = "all")
         {
 
             ReportDocument rd = new ReportDocument();
