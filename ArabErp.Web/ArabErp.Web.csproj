@@ -907,7 +907,7 @@
     <Content Include="Views\WorkShopGRN\_DisplayWGRNList.cshtml" />
     <Content Include="Views\SaleOrder\PendingSaleOrderHold.cshtml" />
     <Content Include="Views\SaleOrder\PendingSaleOrderRelease.cshtml" />
-    <Content Include="Views\GrnWareHouse\PreviousList.cshtml" />
+    <Content Include="Views\GrnWareHouse\_PreviousListGRN.cshtml" />
     <Content Include="Views\SupplyOrder\CreateLocalSupplyOrder.cshtml" />
     <Content Include="Views\SupplyOrder\_formHeader.cshtml" />
     <Content Include="Views\SupplyOrder\_grid.cshtml" />
@@ -1310,6 +1310,7 @@
     <Content Include="Views\DirectPurchase\_LastPurchaseRateGrid.cshtml" />
     <Content Include="Views\MISReports\MaterialActivityReport.cshtml" />
     <Content Include="Views\MISReports\_MaterialActivityReportGrid.cshtml" />
+    <Content Include="Views\GrnWareHouse\PreviousList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
