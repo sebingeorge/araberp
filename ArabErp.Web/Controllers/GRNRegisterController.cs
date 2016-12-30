@@ -25,11 +25,11 @@ namespace ArabErp.Web.Controllers
             ViewBag.ItmGrpList = new SelectList(new DropdownRepository().ItemGroupDropdown(), "Id", "Name");
         }
 
-        public ActionResult GRNRegister(DateTime? from, DateTime? to, int id = 0, string material = "", string supplier = "")
+        public ActionResult GRNRegister(DateTime? from, DateTime? to, int id = 0, string material = "",string partno="" ,string supplier = "")
         {
             from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
-            return PartialView("_GRNRegister", new GRNRegisterRepository().GetGRNRegister(from, to, id, material, supplier));
+            return PartialView("_GRNRegister", new GRNRegisterRepository().GetGRNRegister(from, to, id, material,partno,supplier));
         }
 
     }

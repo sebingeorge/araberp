@@ -17,12 +17,13 @@
         $("#grnlist").addClass("fade");
         var id = $("#cboItmGrp").val();
         var material = $("#material").val().trim();
+        var partno = $("#partno").val().trim();
         var supplier = $("#supplier").val().trim();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
 
         var url = '@Url.Action("GRNRegister")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&material=" + encodeURIComponent(material) + "&supplier=" + encodeURIComponent(supplier);
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&material=" + encodeURIComponent(material) + "&partno=" + encodeURIComponent(partno) + "&supplier=" + encodeURIComponent(supplier);
         $("#grnlist").load(url, function () {
             $("#grnlist").removeClass("fade");
         });
@@ -55,6 +56,10 @@
             <div class="col-md-3">
                 <label>Material Name</label>
                 <input id="material" class="form_input" placeholder="Search for Material Name" onkeyup="Filter()" />
+            </div>
+            <div class="col-md-3">
+                <label>Part No.</label>
+                <input id="partno" class="form_input" placeholder="Search for Part No." onkeyup="Filter()" />
             </div>
             <div class="col-md-3">
                 <label>Supplier</label>

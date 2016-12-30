@@ -14,6 +14,7 @@ namespace ArabErp.Domain
         public string SupplierName { get; set; }
         public string SupplyOrderNo { get; set; }
         public string ItemName { get; set; }
+        public string PartNo { get; set; }
         public string Quantity { get; set; }
         public string Rate { get; set; }
         public string Amount { get; set; }

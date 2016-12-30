@@ -12,14 +12,14 @@ namespace ArabErp.DAL
     public class GRNRegisterRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<GRNRegister> GetGRNRegister(DateTime? from, DateTime? to,int id, string material = "", string supplier = "")
+        public IEnumerable<GRNRegister> GetGRNRegister(DateTime? from, DateTime? to,int id, string material = "",string partno="", string supplier = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = string.Empty;
 
                 sql = @"SELECT GRNNo,GRNDate,S.SupplierName,isnull(SupplyOrderNo,'-')SupplyOrderNo,
-                        I.ItemName,GI.Quantity,GI.Rate,GI.Amount,U.UnitName 
+                        I.ItemName,isnull (I.PartNo,'-')PartNo,GI.Quantity,GI.Rate,GI.Amount,U.UnitName 
                         FROM  GRN G
                         INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
                         INNER JOIN Supplier S ON S.SupplierId=G.SupplierId
@@ -30,9 +30,10 @@ namespace ArabErp.DAL
                         WHERE  GRNDate >= @from AND GRNDate <= @to
                         AND I.ItemGroupId=ISNULL(NULLIF(@id, 0),I.ItemGroupId)
                         AND isnull(I.ItemName,'')  LIKE '%'+@material+'%'
+                        AND isnull(I.PartNo,'')  LIKE '%'+@partno+'%'
                         AND isnull(S.SupplierName,'')  LIKE '%'+@supplier+'%'";
 
-                return connection.Query<GRNRegister>(sql, new { from = from, to = to, id = id, material = material, supplier = supplier });
+                return connection.Query<GRNRegister>(sql, new { from = from, to = to, id = id, material = material, partno = partno,supplier = supplier });
             }
         }
     }

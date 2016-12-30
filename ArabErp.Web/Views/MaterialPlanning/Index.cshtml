@@ -36,7 +36,7 @@
         var batch = $("#cboBatch").val();
      
         var url = '@Url.Action("Planning")';
-        url += "?partNo=" + encodeURIComponent(partNo) + "&batch=" + batch + "&itmid=" + itmid;
+        url += "?partNo=" + encodeURIComponent(partNo) + "&batch=" + encodeURIComponent(batch) + "&itmid=" + itmid;
        
         $("#planning").load(url, function () {
             $("#planning").removeClass("fade");
@@ -123,10 +123,18 @@ function stripedTable() {
    
          
         @*</div>*@
-            <div class="col-md-2">
+            <div class="col-md-3">
+                <label for="txtBatch">Batch</label>
+                <select id="cboBatch" class="form_input" onchange="Filter()">
+                    <option value="all" selected>All</option>
+                    <option value="batch">Batch</option>
+                    <option value="nobatch">Non-Batch</option>
+                </select>
+            </div>
+            @*<div class="col-md-2">
                 <label for="cboBatch">Batch</label>
                 @Html.DropDownList("cboBatch", (SelectList)ViewBag.BatchList, "Any", new { @class = "form_input", @onchange = "Filter()" })
-            </div>
+            </div>*@
         </div>
         <br />
         <div class="row">
