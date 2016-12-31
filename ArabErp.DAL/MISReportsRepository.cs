@@ -72,14 +72,27 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable GetMaterialActivityReport(int OrganizationId)
+        public IEnumerable GetPendingLPO(int item, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 try
                 {
-                    string query = @"";
-                    return connection.Query<DCReport>(query, new { org = OrganizationId });
+                    string query = @"SELECT
+	                                    PR.PurchaseRequestNo,
+	                                    CONVERT(VARCHAR, PR.PurchaseRequestDate, 106) PurchaseRequestDate,
+	                                    PRI.Quantity PRQuantity,
+	                                    PRI.Quantity - ISNULL(SOI.Quantity, 0) PendingQuantity
+                                    FROM PurchaseRequestItem PRI
+                                    LEFT JOIN (SELECT
+				                                    PurchaseRequestItemId,
+				                                    SUM(OrderedQty) Quantity
+			                                    FROM SupplyOrderItem
+			                                    GROUP BY PurchaseRequestItemId) SOI ON PRI.PurchaseRequestItemId = SOI.PurchaseRequestItemId
+                                    INNER JOIN Item I ON PRI.ItemId = I.ItemId
+                                    INNER JOIN PurchaseRequest PR ON PRI.PurchaseRequestId = PR.PurchaseRequestId
+                                    WHERE I.ItemId = @item AND PR.OrganizationId = @org AND ISNULL(SOI.Quantity, 0) < PRI.Quantity AND SOI.PurchaseRequestItemId IS NULL";
+                    return connection.Query<PendingPurchaseRequest>(query, new { org = OrganizationId, item = item }).ToList();
                 }
                 catch (Exception)
                 {

@@ -7,95 +7,80 @@
 
 <div class="container">
 
-    
-
-        <div class="row">
 
 
-            <div class="col-md-3"></div>
-            <div class="col-md-6 col-xs-10 col-sm-11 outer-login">
-                <div class="col-md-12">
-                    <br />
-                    <center><img src="~/Images/logo.png" height="50" /></center>
-                    <hr />
-                </div>
-                <h4>@ViewBag.Title</h4>
-                <section id="loginForm">
-                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row">
 
 
-                        <div class="row main-login-user">
-                            @*<div class="login-user-left"></div>*@
-                            @Html.LabelFor(m => m.Username, new { @class = "control-label login-user" })
-                            @*<div class="login-user-right"></div>*@
-
-
-                            @Html.TextBoxFor(m => m.Username, new { @class = "login-text" })
-                            @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
-
-                            @*<div class="login-text-right"></div>*@
-
-
-                        </div>
-                        <div class="row main-login-user">
-                            @*<div class="login-user-left"></div>*@
-                            @Html.LabelFor(m => m.Password, new { @class = "control-label login-user" })
-                            @*<div class="login-user-right"></div>*@
-                            @Html.PasswordFor(m => m.Password, new { @class = "login-text" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                            @*<div class="login-text-right"></div>*@
-                        </div>
-                        <div class="row main-login-user">
-                            @*<div class="login-user-left"></div>*@
-                            @Html.Label("Organization", new { @class = "control-label login-user" })
-                            @*<div class="login-user-right"></div>*@
-                            @Html.DropDownListFor(m => Model.OrganizationId, (SelectList)ViewBag.Organizations, "Select Organization", new { @class = "login-text", autocomplete = "off" })
-                            @*<div class="login-text-right"></div>*@
-                        </div>
-    @*<div class="checkbox rem">
-        @Html.CheckBoxFor(m => m.RememberMe)
-        @Html.LabelFor(m => m.RememberMe)
-    </div>*@
-                        
-       <div class="rem row">
-           <div class="col-md-6 text-left">Best Supported in Chrome</div>
-           <div class="col-md-6 text-right"><em><font style="font-size:smaller">Version 1.3.23 (30.12.2016)</font></em></div>
-    </div>
-                        
-                        
-                        
-
-
-    
-                        <div class="row">
-                          
-
-                             
-                            <input type="submit" value="Login" class="log-button" />
-                            
-                      
-                        </div>
-
-
-                        @* Enable this once you have account confirmation enabled for password reset functionality
-                    <p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>*@
-                    }
-                </section>
+        <div class="col-md-3"></div>
+        <div class="col-md-6 col-xs-10 col-sm-11 outer-login">
+            <div class="col-md-12">
+                <br />
+                <center><img src="~/Images/logo.png" height="50" /></center>
+                <hr />
             </div>
-            
+            <h4>@ViewBag.Title</h4>
+            <section id="loginForm">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                <div class="col-md-3"></div>
 
+                    <div class="row main-login-user">
+                        @*<div class="login-user-left"></div>*@
+                        @Html.LabelFor(m => m.Username, new { @class = "control-label login-user" })
+                        @*<div class="login-user-right"></div>*@
+
+
+                        @Html.TextBoxFor(m => m.Username, new { @class = "login-text" })
+                        @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+
+                        @*<div class="login-text-right"></div>*@
+
+
+                    </div>
+                    <div class="row main-login-user">
+                        @*<div class="login-user-left"></div>*@
+                        @Html.LabelFor(m => m.Password, new { @class = "control-label login-user" })
+                        @*<div class="login-user-right"></div>*@
+                        @Html.PasswordFor(m => m.Password, new { @class = "login-text" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        @*<div class="login-text-right"></div>*@
+                    </div>
+                    <div class="row main-login-user">
+                        @*<div class="login-user-left"></div>*@
+                        @Html.Label("Organization", new { @class = "control-label login-user" })
+                        @*<div class="login-user-right"></div>*@
+                        @Html.DropDownListFor(m => Model.OrganizationId, (SelectList)ViewBag.Organizations, "Select Organization", new { @class = "login-text", autocomplete = "off" })
+                        @*<div class="login-text-right"></div>*@
+                    </div>
+                    @*<div class="checkbox rem">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe)
+                        </div>*@
+
+                    <div class="rem row">
+                        <div class="col-md-6 text-left">Best Supported in Chrome</div>
+                        <div class="col-md-6 text-right"><em><font style="font-size:smaller">Version 1.3.24 (31.12.2016)</font></em></div>
+                    </div>
+                    <div class="row">
+                        <input type="submit" value="Login" class="log-button" />
+                    </div>
+                    @* Enable this once you have account confirmation enabled for password reset functionality
+                        <p>
+                            @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                        </p>*@
+                }
+            </section>
         </div>
 
-        
+        <div class="col-md-3"></div>
+
     </div>
 
-        @*@section Scripts {
-                @Scripts.Render("~/bundles/jqueryval")
-            }*@
+</div>
+
+@*@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@

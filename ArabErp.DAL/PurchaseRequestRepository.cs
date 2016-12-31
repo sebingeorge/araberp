@@ -484,7 +484,8 @@ namespace ArabErp.DAL
 	                                LEFT JOIN Supplier S ON SO.SupplierId = S.SupplierId
 	                                INNER JOIN Item I ON GI.ItemId = I.ItemId
                                 WHERE GI.ItemId = @itemId
-	                                AND G.OrganizationId = @org";
+	                                AND G.OrganizationId = @org
+								ORDER BY G.GRNDate DESC";
                     var list = connection.Query<PendingForGRN>(sql, new { itemId = itemId, org = OrganizationId }).ToList();
                     if (list == null || list.Count == 0)
                     {
