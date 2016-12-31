@@ -322,6 +322,7 @@
     <Compile Include="Controllers\VehicleInpassRegisterController.cs" />
     <Compile Include="Controllers\VehicleModelController.cs" />
     <Compile Include="Controllers\DeliveryChallanController.cs" />
+    <Compile Include="Controllers\WarrantyExtensionRegisterController.cs" />
     <Compile Include="Controllers\WorkDescriptionController.cs" />
     <Compile Include="Controllers\WorkShopGRNController.cs" />
     <Compile Include="Controllers\WorkShopRequestController.cs" />
@@ -1316,6 +1317,8 @@
     <Content Include="Views\GRNRegister\_GRNRegister.cshtml" />
     <Content Include="Views\GrnWareHouse\PreviousList.cshtml" />
     <Content Include="Views\IndentVsSOVsInpassStatus\IndentVsSOVsInpassStatus.cshtml" />
+    <Content Include="Views\WarrantyExtensionRegister\Index.cshtml" />
+    <Content Include="Views\WarrantyExtensionRegister\_WarrantyExtensionRegister.cshtml" />
     <Content Include="Views\MISReports\_PendingGRN.cshtml" />
     <Content Include="Views\MISReports\_PendingIssue.cshtml" />
     <Content Include="Views\MISReports\_LastPurchaseRequest.cshtml" />

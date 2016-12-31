@@ -808,5 +808,25 @@ namespace ArabErp.DAL
                 }
             }
         }
+
+        public IEnumerable<DeliveryChallan> GetWarrantyExtensionRegister()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select c.CustomerName,J.JobCardId,J.JobCardNo,J.JobCardDate,V.ChassisNo,V.RegistrationNo,VM.VehicleModelName,W.WorkDescr,D.DeliveryChallanDate,I.SerialNo,I.WarrantyExpireDate from [dbo].[JobCard] J
+                                INNER JOIN [dbo].[VehicleInPass] V ON J.InPassId=V.VehicleInPassId
+                                INNER JOIN SaleOrderItem SI ON SI.SaleOrderItemId=J.SaleOrderItemId
+                                INNER JOIN SaleOrder S ON S.SaleOrderId=SI.SaleOrderId
+                                INNER JOIN Customer C ON C.CustomerId=S.CustomerId
+                                INNER JOIN VehicleModel VM ON VM.VehicleModelId=SI.VehicleModelId
+                                INNER JOIN WorkDescription W ON W.WorkDescriptionId=SI.WorkDescriptionId
+                                LEFT JOIN DeliveryChallan D ON D.JobCardId=J.JobCardId
+                                LEFT JOIN [dbo].[ItemBatch] I ON D.DeliveryChallanId= I.DeliveryChallanId
+                                LEFT JOIN GRNItem G ON G.GRNItemId=I.GRNItemId
+                                LEFT JOIN OpeningStock O ON O.OpeningStockId=I.OpeningStockId
+                                WHERE (G.ItemId =J.FreezerUnitId OR O.ItemId=J.FreezerUnitId )";
+                return connection.Query<DeliveryChallan>(sql, new { }).ToList();
+            }
+        }
     }
 }

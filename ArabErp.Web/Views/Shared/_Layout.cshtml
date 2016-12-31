@@ -1095,6 +1095,10 @@
                                 {
                                     <li><a href="@Url.Action("Index","WorkshopRequestRegister")">Workshop Request Register</a></li>
                                 }
+                                @if (formPermission.Find(x => x.FormId == 148) != null)
+                                {
+                                <li><a href="@Url.Action("Index", "WarrantyExtensionRegister")">Warranty Extension Register</a></li>
+                                }
                                 @if (formPermission.Find(x => x.FormId == 130) != null)
                                 {
                                     <li><a href="@Url.Action("Index","LoginHistory")">Login History</a></li>
