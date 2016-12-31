@@ -219,7 +219,7 @@
                             @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                         </div>
                         <div class="col-md-2">
-                            <label for="RegistrationNo">Chassis No./Reg No.</label>
+                            <label for="RegistrationNo">Reg No./Chassis No.</label>
                             @Html.HiddenFor(m => m.InPassId)
                             @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                             @*@Html.DropDownListFor(m => m.InPassId, (SelectList)ViewBag.inpassList, "Select Chassis/Reg No.", new { @class = "form_input", autocomplete = "off" })*@

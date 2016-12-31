@@ -70,7 +70,9 @@ namespace ArabErp
                     GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,
                     ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, 
                     0 GoodsLanded, 0 BayId, W.FreezerUnitId FreezerUnitId, FU.ItemName FreezerUnitName, W.BoxId BoxId, 
-                    B.ItemName BoxName, ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId, S.isService, S.isProjectBased, S.SaleOrderRefNo
+                    B.ItemName BoxName, 
+                    VI.RegistrationNo + CASE WHEN ISNULL(VI.RegistrationNo, '') <> '' AND ISNULL(VI.ChassisNo, '') <> '' THEN ' - ' END + VI.ChassisNo RegistrationNo, 
+                    VI.VehicleInPassId InPassId, S.isService, S.isProjectBased, S.SaleOrderRefNo
                     FROM SaleOrder S 
                     INNER JOIN Customer C ON S.CustomerId = C.CustomerId
                     INNER JOIN SaleOrderItem SI ON SI.SaleOrderId = S.SaleOrderId
@@ -437,7 +439,8 @@ namespace ArabErp
                 {
                     sq = @"SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,
                               C.CustomerName Customer,U.ItemName FreezerUnitName,
-								v.RegistrationNo ChasisNo,VM.VehicleModelName,UI.ItemName BoxName,
+								V.ChassisNo + CASE WHEN ISNULL(V.RegistrationNo, '') <> '' AND ISNULL(V.ChassisNo, '') <> '' THEN ' - ' END + V.RegistrationNo ChasisNo,
+                                VM.VehicleModelName,UI.ItemName BoxName,
 								US.UserName CreatedUser,US.Signature CreatedUsersig,DI.DesignationName CreatedDes,
                                 J.Complaints
                                 FROM JobCard J
@@ -509,7 +512,8 @@ namespace ArabErp
                     JC.JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,
                     ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, 
                     0 GoodsLanded, 0 BayId, W.FreezerUnitId FreezerUnitId, FU.ItemName FreezerUnitName, W.BoxId BoxId, B.ItemName BoxName, 
-                    ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId, S.isProjectBased,
+                    VI.RegistrationNo + CASE WHEN ISNULL(VI.RegistrationNo, '') <> '' AND ISNULL(VI.ChassisNo, '') <> '' THEN ' - ' END + VI.ChassisNo RegistrationNo, 
+                    VI.VehicleInPassId InPassId, S.isProjectBased,
 					JC.JobCardId, JC.JobCardNo, JC.BayId, CONVERT(VARCHAR, JC.RequiredDate, 106) RequiredDate, JC.EmployeeId,s.isService, 
                     JC.SpecialRemarks, JC.Complaints
                     from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId
