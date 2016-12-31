@@ -22,7 +22,7 @@ namespace ArabErp.DAL
                 INNER JOIN Unit U on U.UnitId =I.ItemUnitId
                 INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
                 LEFT JOIN StockUpdate S ON I.ItemId=S.ItemId
-                WHERE  CategoryName='Finished Goods'
+                WHERE  CategoryName='Finished Goods' and I.CriticalItem=1
                 GROUP BY I.ItemId,I.PartNo,ItemName,UnitName,MinLevel,BatchRequired;
                            
                 with W as (
@@ -83,7 +83,7 @@ namespace ArabErp.DAL
                 INNER JOIN Unit U on U.UnitId =I.ItemUnitId
                 INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
                 LEFT JOIN StockUpdate S ON I.ItemId=S.ItemId
-                WHERE  CategoryName='Finished Goods'
+                WHERE  CategoryName='Finished Goods'  and I.CriticalItem=1
                 GROUP BY I.ItemId,I.PartNo,ItemName,UnitName,MinLevel,BatchRequired;
                            
                 with W as (
