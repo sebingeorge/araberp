@@ -36,24 +36,27 @@ namespace ArabErp.Web.Controllers
         } 
         #endregion
 
+        #region Material Activity Report
         public ActionResult MaterialActivityReport()
         {
+            FillMaterial();
             return View();
         }
 
-        public ActionResult MaterialActivityReportGrid()
+        public ActionResult GetPendingLPO(int item)
         {
             try
             {
-                var list = new MISReportsRepository().GetMaterialActivityReport(OrganizationId);
-                return View("_MaterialActivityReportGrid");
+                var list = new MISReportsRepository().GetPendingLPO(item, OrganizationId);
+                return PartialView("_PendingLPO", list);
             }
             catch (Exception)
             {
                 TempData["error"] = "Some error occurred while loading the report. Please try again.";
                 throw;
             }
-        }
+        } 
+        #endregion
 
         #region Dropdowns
         public void FillNeworService()
@@ -62,7 +65,12 @@ namespace ArabErp.Web.Controllers
             types.Add(new Dropdown { Id = 1, Name = "New Installation" });
             types.Add(new Dropdown { Id = 2, Name = "Service" });
             ViewBag.Type = new SelectList(types, "Id", "Name");
-        } 
+        }
+        public void FillMaterial()
+        {
+            var list = new DropdownRepository().ItemDropdown();
+            ViewBag.materialList = new SelectList(list, "Id", "Name");
+        }
         #endregion
     }
 }

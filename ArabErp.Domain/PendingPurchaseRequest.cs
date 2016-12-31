@@ -17,5 +17,7 @@ namespace ArabErp.Domain
         public int Ageing { get; set; }
         public int DaysLeft { get; set; }
         public string WRNoAndDate { get; set; }
+        public decimal PRQuantity { get; set; }
+        public decimal PendingQuantity { get; set; }
     }
 }

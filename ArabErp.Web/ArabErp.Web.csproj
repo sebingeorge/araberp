@@ -1311,7 +1311,7 @@
     <Content Include="Views\PurchaseRequest\_LastPurchaseRateGrid.cshtml" />
     <Content Include="Views\DirectPurchase\_LastPurchaseRateGrid.cshtml" />
     <Content Include="Views\MISReports\MaterialActivityReport.cshtml" />
-    <Content Include="Views\MISReports\_MaterialActivityReportGrid.cshtml" />
+    <Content Include="Views\MISReports\_PendingLPO.cshtml" />
     <Content Include="Views\GRNRegister\Index.cshtml" />
     <Content Include="Views\GRNRegister\_GRNRegister.cshtml" />
     <Content Include="Views\GrnWareHouse\PreviousList.cshtml" />
