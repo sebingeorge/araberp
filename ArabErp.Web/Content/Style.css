@@ -755,5 +755,11 @@ input[type="checkbox"].warranty
     right:5px;
     top:0;
 }
-
+.full-width-table{
+    width:100%
+}
+.div-bordered{
+    border:1px solid white; 
+    padding:5px
+}
 

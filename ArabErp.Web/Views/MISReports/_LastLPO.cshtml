@@ -1,13 +1,13 @@
-﻿@model IList<ArabErp.Domain.PendingPurchaseRequest>
+﻿
+@model IList<ArabErp.Domain.PendingSupplyOrder>
 
-<strong>Pending LPO - @Model.Sum(x => x.PendingQuantity)</strong>
+<strong>Last LPO</strong>
 <div class="div-bordered">
     <table class="table-responsive table-hover table-bordered full-width-table">
         <thead class="grid_heading">
             <tr>
-                <th>Purchase Request No &amp; Date</th>
-                <th>Request Quantity</th>
-                <th>Pending Quantity</th>
+                <th>LPO No &amp; Date</th>
+                <th>Quantity</th>
             </tr>
         </thead>
         <tbody class="grid_row">
@@ -16,16 +16,15 @@
                 foreach (var item in Model)
                 {
                     <tr>
-                        <td><strong>@item.PurchaseRequestNo</strong> - @item.PurchaseRequestDate.ToString("dd/MMMM/yyyy")</td>
-                        <td>@item.PRQuantity</td>
-                        <td>@item.PendingQuantity</td>
+                        <td><strong>@item.SoNoWithDate</strong></td>
+                        <td>@item.Quantity</td>
                     </tr>
                 }
             }
             else
             {
                 <tr>
-                    <td align="center" colspan="4">
+                    <td align="center" colspan="2">
                         <em>No items found!</em>
                     </td>
                 </tr>

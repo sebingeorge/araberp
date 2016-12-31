@@ -1,12 +1,13 @@
-﻿@model IList<ArabErp.Domain.PendingPurchaseRequest>
+﻿@model IList<ArabErp.Domain.PendingForGRN>
 
-<strong>Pending LPO - @Model.Sum(x => x.PendingQuantity)</strong>
+<strong>Pending GRN - @Model.Sum(x => x.PendingQuantity)</strong>
 <div class="div-bordered">
-    <table class="table-responsive table-hover table-bordered full-width-table">
+    <table class="table-responsive table-hover table-bordered  full-width-table">
         <thead class="grid_heading">
             <tr>
-                <th>Purchase Request No &amp; Date</th>
-                <th>Request Quantity</th>
+                <th>Supply Order No &amp; Date</th>
+                <th>Supplier</th>
+                <th>Order Quantity</th>
                 <th>Pending Quantity</th>
             </tr>
         </thead>
@@ -16,8 +17,9 @@
                 foreach (var item in Model)
                 {
                     <tr>
-                        <td><strong>@item.PurchaseRequestNo</strong> - @item.PurchaseRequestDate.ToString("dd/MMMM/yyyy")</td>
-                        <td>@item.PRQuantity</td>
+                        <td>@item.SupplierName</td>
+                        <td><strong>@item.SoNoWithDate</strong></td>
+                        <td>@item.Quantity</td>
                         <td>@item.PendingQuantity</td>
                     </tr>
                 }

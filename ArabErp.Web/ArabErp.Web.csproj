@@ -1316,6 +1316,11 @@
     <Content Include="Views\GRNRegister\_GRNRegister.cshtml" />
     <Content Include="Views\GrnWareHouse\PreviousList.cshtml" />
     <Content Include="Views\IndentVsSOVsInpassStatus\IndentVsSOVsInpassStatus.cshtml" />
+    <Content Include="Views\MISReports\_PendingGRN.cshtml" />
+    <Content Include="Views\MISReports\_PendingIssue.cshtml" />
+    <Content Include="Views\MISReports\_LastPurchaseRequest.cshtml" />
+    <Content Include="Views\MISReports\_LastLPO.cshtml" />
+    <Content Include="Views\MISReports\_LastGRN.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

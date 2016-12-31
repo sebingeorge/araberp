@@ -19,5 +19,8 @@ namespace ArabErp.Domain
         public DateTime RequiredDate { get; set; }
         public int Ageing { get; set; }
         public int DaysLeft { get; set; }
+
+        public decimal Quantity { get; set; }
+        public decimal PendingQuantity { get; set; }
     }
 }

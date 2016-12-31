@@ -19,5 +19,6 @@ namespace ArabErp.Domain
         public string StockPointName { get; set; }
         public decimal? GrandTotal { get; set; }
        public bool Select { get; set; }
+       public decimal Quantity { get; set; }
     }
 }

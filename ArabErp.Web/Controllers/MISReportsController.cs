@@ -33,7 +33,7 @@ namespace ArabErp.Web.Controllers
             string Customer = "", string JobcardNo = "", string InstallType = "all")
         {
             return PartialView("_DCReportGrid", new MISReportsRepository().GetDCReport(OrganizationId, month, year, ChassisNo, UnitSlNo, Customer, JobcardNo, InstallType));
-        } 
+        }
         #endregion
 
         #region Material Activity Report
@@ -42,7 +42,6 @@ namespace ArabErp.Web.Controllers
             FillMaterial();
             return View();
         }
-
         public ActionResult GetPendingLPO(int item)
         {
             try
@@ -53,9 +52,74 @@ namespace ArabErp.Web.Controllers
             catch (Exception)
             {
                 TempData["error"] = "Some error occurred while loading the report. Please try again.";
-                throw;
+                return Json(TempData["error"], JsonRequestBehavior.AllowGet);
             }
-        } 
+        }
+        public ActionResult GetPendingGRN(int item)
+        {
+            try
+            {
+                var list = new MISReportsRepository().GetPendingGRN(item, OrganizationId);
+                return PartialView("_PendingGRN", list);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred while loading the report. Please try again.";
+                return Json(TempData["error"], JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetPendingIssue(int item)
+        {
+            try
+            {
+                var list = new MISReportsRepository().GetPendingIssue(item, OrganizationId);
+                return PartialView("_PendingIssue", list);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred while loading the report. Please try again.";
+                return Json(TempData["error"], JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetLastPurchaseRequest(int item)
+        {
+            try
+            {
+                var list = new MISReportsRepository().GetLastPurchaseRequest(item, OrganizationId);
+                return PartialView("_LastPurchaseRequest", list);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred while loading the report. Please try again.";
+                return Json(TempData["error"], JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetLastLPO(int item)
+        {
+            try
+            {
+                var list = new MISReportsRepository().GetLastLPO(item, OrganizationId);
+                return PartialView("_LastLPO", list);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred while loading the report. Please try again.";
+                return Json(TempData["error"], JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetLastGRN(int item)
+        {
+            try
+            {
+                var list = new MISReportsRepository().GetLastGRN(item, OrganizationId);
+                return PartialView("_LastGRN", list);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred while loading the report. Please try again.";
+                return Json(TempData["error"], JsonRequestBehavior.AllowGet);
+            }
+        }
         #endregion
 
         #region Dropdowns
