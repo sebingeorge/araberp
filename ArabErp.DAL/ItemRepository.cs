@@ -394,19 +394,19 @@ namespace ArabErp.DAL
             }
         }
 
- 
-        public IEnumerable<Item> GetCriticalMaterialsBelowMinStock(int OrganizationId)
+
+        public IEnumerable<MaterialPlanning> GetCriticalMaterialsBelowMinStock(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 #region query
-                string sql = @"select I.ItemId,I.PartNo,ItemName,UnitName,isnull(MinLevel,0)MinLevel
+                string sql = @"select I.ItemId,I.ItemRefNo,I.PartNo,ItemName,UnitName,isnull(MinLevel,0)MinLevel
                 ,ISNULL(sum(S.Quantity),0)CurrentStock,0WRQTY,0 WRPndIssQty ,0TotalQty,0InTransitQty,0PendingPRQty,0ShortorExcess,BatchRequired INTO #TEMP FROM item I
                 INNER JOIN Unit U on U.UnitId =I.ItemUnitId
                 INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
                 LEFT JOIN StockUpdate S ON I.ItemId=S.ItemId
-                WHERE  CategoryName='Finished Goods'
-                GROUP BY I.ItemId,I.PartNo,ItemName,UnitName,MinLevel,BatchRequired;
+                WHERE  CategoryName='Finished Goods'  and I.CriticalItem=1
+                GROUP BY I.ItemId,I.PartNo,ItemName,UnitName,MinLevel,BatchRequired,I.ItemRefNo;
                            
                 with W as (
                 select ItemId, sum(Quantity)Quantity from WorkShopRequestItem group by ItemId
@@ -442,14 +442,14 @@ namespace ArabErp.DAL
                 
                 update T set T.ShortorExcess = (T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
 
-                SELECT * FROM #TEMP WHERE ShortorExcess < 1
+                SELECT row_number() over (order by (select NULL)) as SlNo,* FROM #TEMP WHERE ShortorExcess < 1
 				--ItemId = ISNULL(NULLIF(CAST(0 AS INT), 0),ItemId) and  PartNo = ISNULL(NULLIF('', ''),PartNo) and BatchRequired = ISNULL(NULL,BatchRequired);
 
                 drop table #TEMP;
                 DROP TABLE #TEMP1;
                 DROP TABLE #TEMP2;";
                 #endregion
-                return connection.Query<Item>(sql, new { OrganizationId = OrganizationId });
+                return connection.Query<MaterialPlanning>(sql, new { OrganizationId = OrganizationId });
             }
         }
     }
