@@ -209,7 +209,19 @@ namespace ArabErp.DAL
                 					INNER JOIN SaleOrder SO ON SOM.SaleOrderId = SO.SaleOrderId
                 					INNER JOIN Item I3 ON SOM.ItemId = I3.ItemId
                 					INNER JOIN Unit U ON I3.ItemUnitId = U.UnitId
-                					WHERE SO.SaleOrderId = @SaleOrderId) T1;
+                					WHERE SO.SaleOrderId = @SaleOrderId
+                                    UNION ALL
+                                    SELECT 
+                                        I.ItemId, I.ItemName, I.PartNo, IVB.Quantity, U.UnitName FROM ItemVsBom IVB
+                                    INNER JOIN Item I ON IVB.BomItemId = I.ItemId
+                                    INNER JOIN Unit U ON I.ItemUnitId = U.UnitId
+                                    WHERE IVB.ItemId IN
+                                    (
+	                                    SELECT
+		                                    SOM.ItemId
+	                                    FROM SaleOrderMaterial SOM
+	                                    WHERE SOM.SaleOrderId = @SaleOrderId
+                                    )) T1;
                 
                                     SELECT
                 	                    ItemId, ItemName, PartNo, SUM(Quantity) Quantity, UnitName
@@ -220,8 +232,6 @@ namespace ArabErp.DAL
 
                 return connection.Query<WorkShopRequestItem>(query,
                 new { SaleOrderId = SaleOrderId, SaleOrderItemId = SaleOrderItemId }).ToList();
-
-
             }
         }
         /// <summary>

@@ -88,6 +88,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="MVCGrid">
       <HintPath>..\packages\MVCGrid.Net.1.0.0.60\lib\net40\MVCGrid.dll</HintPath>
     </Reference>
@@ -1324,6 +1325,8 @@
     <Content Include="Views\MISReports\_LastPurchaseRequest.cshtml" />
     <Content Include="Views\MISReports\_LastLPO.cshtml" />
     <Content Include="Views\MISReports\_LastGRN.cshtml" />
+    <Content Include="Views\MISReports\_LastPurchaseRate.cshtml" />
+    <Content Include="Views\MISReports\_LastPurchaseBill.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

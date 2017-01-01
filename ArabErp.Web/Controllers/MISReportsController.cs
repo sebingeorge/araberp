@@ -42,6 +42,7 @@ namespace ArabErp.Web.Controllers
             FillMaterial();
             return View();
         }
+
         public ActionResult GetPendingLPO(int item)
         {
             try
@@ -55,6 +56,7 @@ namespace ArabErp.Web.Controllers
                 return Json(TempData["error"], JsonRequestBehavior.AllowGet);
             }
         }
+
         public ActionResult GetPendingGRN(int item)
         {
             try
@@ -68,6 +70,7 @@ namespace ArabErp.Web.Controllers
                 return Json(TempData["error"], JsonRequestBehavior.AllowGet);
             }
         }
+
         public ActionResult GetPendingIssue(int item)
         {
             try
@@ -81,6 +84,7 @@ namespace ArabErp.Web.Controllers
                 return Json(TempData["error"], JsonRequestBehavior.AllowGet);
             }
         }
+
         public ActionResult GetLastPurchaseRequest(int item)
         {
             try
@@ -94,6 +98,7 @@ namespace ArabErp.Web.Controllers
                 return Json(TempData["error"], JsonRequestBehavior.AllowGet);
             }
         }
+
         public ActionResult GetLastLPO(int item)
         {
             try
@@ -107,12 +112,41 @@ namespace ArabErp.Web.Controllers
                 return Json(TempData["error"], JsonRequestBehavior.AllowGet);
             }
         }
+
         public ActionResult GetLastGRN(int item)
         {
             try
             {
                 var list = new MISReportsRepository().GetLastGRN(item, OrganizationId);
                 return PartialView("_LastGRN", list);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred while loading the report. Please try again.";
+                return Json(TempData["error"], JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetLastPurchaseRate(int item)
+        {
+            try
+            {
+                var list = new PurchaseRequestRepository().GetLastPurchaseRate(item, OrganizationId);
+                return PartialView("_LastPurchaseRate", list);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred while loading the report. Please try again.";
+                return Json(TempData["error"], JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult GetLastPurchaseBill(int item)
+        {
+            try
+            {
+                var list = new MISReportsRepository().GetLastPurchaseBill(item, OrganizationId);
+                return PartialView("_LastPurchaseBill", list);
             }
             catch (Exception)
             {

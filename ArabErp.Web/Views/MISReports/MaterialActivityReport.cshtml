@@ -51,6 +51,20 @@
         $('#last-grn-table').load(url, { item: item }, function () {
             $('#last-grn-table').removeClass('fade');
         });
+
+        //Getting Last Purchase Rate
+        url = '@Url.Action("GetLastPurchaseRate")';
+        $('#last-purchase-rate-table').addClass('fade');
+        $('#last-purchase-rate-table').load(url, { item: item }, function () {
+            $('#last-purchase-rate-table').removeClass('fade');
+        });
+
+        //Getting Last Purchase Bill
+        url = '@Url.Action("GetLastPurchaseBill")';
+        $('#last-purchase-bill-table').addClass('fade');
+        $('#last-purchase-bill-table').load(url, { item: item }, function () {
+            $('#last-purchase-bill-table').removeClass('fade');
+        });
     }
 </script>
 
@@ -78,6 +92,12 @@
                     <div class="row">
                         <div class="col-md-4" id="last-pr-table"></div>
                         <div class="col-md-4" id="last-lpo-table"></div>
+                        <div class="col-md-4" id="last-grn-table"></div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-4" id="last-purchase-rate-table"></div>
+                        <div class="col-md-4" id="last-purchase-bill-table"></div>
                         <div class="col-md-4" id="last-grn-table"></div>
                     </div>
                 </div>

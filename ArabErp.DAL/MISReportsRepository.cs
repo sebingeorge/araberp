@@ -101,6 +101,29 @@ namespace ArabErp.DAL
             }
         }
 
+        public object GetLastPurchaseBill(int item, int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string query = @"SELECT DISTINCT TOP 3
+	                                    PB.PurchaseBillRefNo,
+	                                    CONVERT(VARCHAR, PB.PurchaseBillDate, 106) PurchaseBillDate,
+	                                    PB.PurchaseBillAmount
+                                    FROM PurchaseBill PB
+	                                    INNER JOIN PurchaseBillItem PBI ON PB.PurchaseBillId = PBI.PurchaseBillId
+	                                    INNER JOIN GRNItem GI ON PBI.GRNItemId = GI.GRNItemId
+                                    WHERE GI.ItemId = @item AND PB.OrganizationId = @org";
+                    return connection.Query<PurchaseBill>(query, new { org = organizationId, item = item }).ToList();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
         public IEnumerable GetPendingGRN(int item, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
