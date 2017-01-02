@@ -529,7 +529,8 @@ input[type="text"]:disabled {
     }
 .lblue 
 {
-    background-color:#67d0f5;
+    background-color:
+	#FA8072;
 }
 
 .links {

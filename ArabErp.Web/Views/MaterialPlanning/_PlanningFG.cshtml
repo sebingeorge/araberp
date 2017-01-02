@@ -7,7 +7,7 @@
        
         var url = '@Url.Action("InTransitDetails")';
         url += '?id=' + Id;
-        $('#Intransitdetails').html('Loading InTransit Details...<br><br>');
+        $('#Intransitdetails').html('Loading LPO Details...<br><br>');
         $('#Intransitdetails').load(url);
      
     }
@@ -30,7 +30,7 @@
                 <th width="7%" class="text-right" nowrap><h1>Tot. Req. Qty</h1></th>
 
                 <th width="7%" class="text-right" nowrap><h1>In Transit Qty</h1></th>
-                <th width="7%" class="text-right" nowrap><h1>Pnd. LPO Qty</h1></th>
+                <th width="7%" class="text-right" nowrap><h1>Pending<br />  LPO Qty</h1></th>
                 <th width="7%" class="text-right" nowrap><h1>Short/Excess</h1></th>
                 <th width="7%" class="text-left" nowrap><h1>UoM</h1></th>
                 @*<th class="text-left fix-1 last"></th>*@
@@ -78,7 +78,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">In-Transit Details</h4>
+                <h4 class="modal-title">LPO Details</h4>
             </div>
             <div class="modal-body">
                 <div id="Intransitdetails"></div>
