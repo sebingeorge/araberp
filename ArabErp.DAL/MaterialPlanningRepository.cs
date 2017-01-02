@@ -206,5 +206,23 @@ namespace ArabErp.DAL
                 return connection.Query<MaterialPlanning>(sql, new { itmid = itmid}).ToList();
             }
         }
+        public IEnumerable<MaterialPlanning> GetInTransitDetails(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+
+                string sql = @"select SI.SupplyOrderItemId,S.SupplyOrderNo,SS.SupplierName,DATEDIFF(day,S.SupplyOrderDate, GETDATE()) Age,S.RequiredDate,DATEDIFF(day, GETDATE(),S.RequiredDate) DaysLeft,S.SupplyOrderDate,PI.itemid,OrderedQty,OrderedQty-isnull((SELECT Quantity  FROM GRNItem G WHERE  G.ItemId=PI.ItemId and SI.SupplyOrderItemId= G.SupplyOrderItemId ),0) InTrans
+                               INTO #TEMP from SupplyOrderItem SI 
+                               INNER JOIN SupplyOrder S ON S.SupplyOrderId=SI.SupplyOrderId
+                               INNER JOIN PurchaseRequestItem PI ON SI.PurchaseRequestItemId=PI.PurchaseRequestItemId
+                               INNER JOIN Supplier SS ON SS.SupplierId=S.SupplierId
+                               where PI.itemid=@id;
+                               SELECT * FROM #TEMP WHERE InTrans>0";
+                           
+
+                return connection.Query<MaterialPlanning>(sql, new { id = id }).ToList();
+            }
+        }
     }
 }

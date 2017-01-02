@@ -68,6 +68,10 @@ namespace ArabErp.Web.Controllers
         {
             return PartialView("_PlanningFG", new MaterialPlanningRepository().GetMaterialPlanningFG(itmid));
         }
+        public ActionResult InTransitDetails(int id)
+        {
+            return PartialView("_InTransitDetails", new MaterialPlanningRepository().GetInTransitDetails(id));
+        }
 
         public ActionResult Item()
         {
