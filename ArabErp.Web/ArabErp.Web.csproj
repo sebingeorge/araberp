@@ -1327,6 +1327,8 @@
     <Content Include="Views\MISReports\_LastGRN.cshtml" />
     <Content Include="Views\MISReports\_LastPurchaseRate.cshtml" />
     <Content Include="Views\MISReports\_LastPurchaseBill.cshtml" />
+    <Content Include="Views\MaterialPlanning\_PlanningFG.cshtml" />
+    <Content Include="Views\MaterialPlanning\MaterialPlanningFG.cshtml" />
     <Content Include="Views\IndentVsSOVsInpassStatus\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
