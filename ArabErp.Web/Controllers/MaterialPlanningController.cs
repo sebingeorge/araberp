@@ -58,6 +58,17 @@ namespace ArabErp.Web.Controllers
         {
             return PartialView("_Planning", new MaterialPlanningRepository().GetMaterialPlanning(itmid,partNo, batch));
         }
+        public ActionResult MaterialPlanningFG()
+        {
+            FillItem();
+            FillBatch();
+            return View();
+        }
+        public ActionResult PlanningFG(int itmid = 0)
+        {
+            return PartialView("_PlanningFG", new MaterialPlanningRepository().GetMaterialPlanningFG(itmid));
+        }
+
         public ActionResult Item()
         {
             FillItem();

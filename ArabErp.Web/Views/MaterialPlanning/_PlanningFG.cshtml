@@ -1,0 +1,53 @@
+﻿
+@model IEnumerable<ArabErp.Domain.MaterialPlanning>
+
+
+<div id="availability1" class="table-responsive">
+    <table border="0" cellpadding="0" cellspacing="0" class="scrollTable table table-bordered table-hover">
+        <thead>
+            <tr class="grid_heading">
+                <th width="1%" class="text-center"><h1>#</h1></th>
+                <th width="30%"><h1>Material/Spares</h1></th>
+                <th width="7%"><h1>Part No.</h1></th>
+                <th width="7%" class="text-right" nowrap><h1>Pending WR Qty</h1></th>
+                <th width="7%" class="text-right" nowrap><h1>Pending Issue.Qty</h1></th>
+                <th width="7%" class="text-right" nowrap><h1>Min. Stock</h1></th>
+                <th width="7%" class="text-right" nowrap><h1>Curr. Stock</h1></th>
+
+
+                <th width="7%" class="text-right" nowrap><h1>Tot. Req. Qty.</h1></th>
+
+                <th width="7%" class="text-right" nowrap><h1>In Transit Qty</h1></th>
+                <th width="7%" class="text-right" nowrap><h1>Pnd. PR Qty</h1></th>
+                <th width="7%" class="text-right" nowrap><h1>Short/Excess</h1></th>
+                <th width="7%" class="text-left" nowrap><h1>UoM</h1></th>
+                @*<th class="text-left fix-1 last"></th>*@
+            </tr>
+        </thead>
+        @{int i = 0;}
+        @foreach (var item in Model)
+        {
+            ++i;
+            <tbody class="grid_row">
+                <tr @if (item.ShortorExcess < 0) {  @: class="report-highlight"
+                                                    }>
+                    <td class="grid-cell">@i</td>
+                    <td class="grid-cell">@item.ItemName</td>
+                    <td class="grid-cell">@item.PartNo</td>
+                    <td class="grid-cell text-right">@item.PENWRQTY</td>
+                    <td class="grid-cell text-right">@item.WRPndIssQty</td>
+                    <td class="grid-cell text-right">@item.MinLevel</td>
+                    <td class="grid-cell text-right">@item.CurrentStock</td>
+
+
+                    <td class="grid-cell text-right">@item.TotalQty</td>
+
+                    <td class="grid-cell text-right">@item.InTransitQty</td>
+                    <td class="grid-cell text-right">@item.PendingPRQty</td>
+                    <td class="grid-cell text-right">@item.ShortorExcess</td>
+                    <td class="grid-cell">@item.UnitName</td>
+                </tr>
+
+            </tbody>
+        }
+    </table>
