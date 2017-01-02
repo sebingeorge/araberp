@@ -19,10 +19,10 @@
         <thead>
             <tr class="grid_heading">
                 <th width="1%" class="text-center"><h1>#</h1></th>
-                <th width="30%"><h1>Material/Spares</h1></th>
+                <th width="34%"><h1>Material/Spares</h1></th>
                 <th width="7%"><h1>Part No.</h1></th>
-                <th width="7%" class="text-right" nowrap><h1>Pending WR Qty</h1></th>
-                <th width="7%" class="text-right" nowrap><h1>Pending Issue.Qty</h1></th>
+                <th width="7%" class="text-right" nowrap><h1>Pending<br /> WR Qty</h1></th>
+                <th width="7%" class="text-right" nowrap><h1>Pending <br /> Issue.Qty</h1></th>
                 <th width="7%" class="text-right" nowrap><h1>Min. Stock</h1></th>
                 <th width="7%" class="text-right" nowrap><h1>Curr. Stock</h1></th>
 
@@ -57,7 +57,7 @@
 
                     <td class="grid-cell text-right">@item.TotalQty</td>
 
-                    <td onclick="getInTransDetails(@item.ItemId)" class="grid-cell text-right" value="Get In-Transit Details" style="width: 150px;cursor:pointer;" data-toggle="modal" data-target="#intransitdetailspopup">@item.InTransitQty</td>
+                    <td onclick="getInTransDetails(@item.ItemId)" class="grid-cell text-right lblue" value="Get In-Transit Details" style="width: 150px;cursor:pointer;" data-toggle="modal" data-target="#intransitdetailspopup">@item.InTransitQty</td>
                     <td class="grid-cell text-right">@item.PendingPRQty</td>
                     <td class="grid-cell text-right">@item.ShortorExcess</td>
                     <td class="grid-cell">@item.UnitName</td>
