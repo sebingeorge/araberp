@@ -5,6 +5,8 @@
             <tr class="grid_heading">
                 <th width="10%"><h1>Bill No. & Date</h1></th>
                 <th width="10%"><h1>Date</h1></th>
+                <th width="10%"><h1>GRN No. & Date</h1></th>
+                <th width="10%"><h1>LPO No.</h1></th>
                 <th width="25%"><h1>Supplier</h1></th>
                 <th width="30%"><h1>Material/Spares</h1></th>
                 <th class="text-right" width="5%"><h1>Qty</h1></th>
@@ -20,6 +22,8 @@
                 <tr>
                     <td class="grid-cell">@item.PurchaseBillNoDate</td>
                     <td class="grid-cell">@item.PurchaseBillDate.ToString("dd/MMM/yyyy")</td>
+                    <td class="grid-cell">@(item.GRNNo + '/' + item.GRNDate.ToString("dd/MMM/yyyy"))</td>
+                    <td class="grid-cell">@item.SupplyOrderNo</td>
                     <td class="grid-cell">@item.SupplierName</td>
                     <td class="grid-cell">@item.ItemName</td>
                     <td class="grid-cell text-right">@item.Quantity</td>

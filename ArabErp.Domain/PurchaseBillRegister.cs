@@ -19,8 +19,9 @@ namespace ArabErp.Domain
         public decimal Amount { get; set; }
         public int Quantity { get; set; }
         public string UnitName { get; set; }
-
-
+        public string GRNNo { get; set; }
+        public DateTime GRNDate { get; set; }
+        public string SupplyOrderNo { get; set; }
         public decimal? Varperc { get; set; }
         public string MonthName { get; set; }
         public decimal? Total { get; set; }
