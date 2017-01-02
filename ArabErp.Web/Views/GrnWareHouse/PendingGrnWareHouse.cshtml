@@ -31,23 +31,43 @@
     }
 
     function formValidation() {
-        //if ($("#cboSupplier").val() == '') {
-        //    toastr.info("You have to select a supplier first");
-        //}
-        //else {
-        var flag = false;
-        $("input[type='checkbox']").each(function (i, obj) {
-            if ($(obj).is(':checked'))
-                flag = true;
-        });
-        if (!flag) {
-            toastr.info("You have to select atleast one LPO to continue.");
-            return false;
-        }
-        else return true;
-        //}
-        //return true;
+        var i = 0;
+        var status = true;
+        $('.check_box').each(function (index, object) {
+            if ($(object).hasClass("CheckBoxClass") && $(object).is(":checked")) {
+                if (i == 0) {
+                    i = $(object).next().next().val();
+                }
+                else {
+                    if (i != $(object).next().next().val()) {
+                        toastr.info("Select Same Supplier");
+                        status = false;
+                    }
+                }
+            }
+        })
+        return status;
     }
+
+
+    //function formValidation() {
+    //    //if ($("#cboSupplier").val() == '') {
+    //    //    toastr.info("You have to select a supplier first");
+    //    //}
+    //    //else {
+    //    var flag = false;
+    //    $("input[type='checkbox']").each(function (i, obj) {
+    //        if ($(obj).is(':checked'))
+    //            flag = true;
+    //    });
+    //    if (!flag) {
+    //        toastr.info("You have to select atleast one LPO to continue.");
+    //        return false;
+    //    }
+    //    else return true;
+    //    //}
+    //    //return true;
+    //}
 </script>
 
 
