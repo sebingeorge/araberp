@@ -949,6 +949,13 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item I  WHERE ISNULL(I.isActive, 1) = 1 AND I.BatchRequired=1 AND (I.FreezerUnit=1 OR I.Box=1)").ToList();
             }
         }
+        public List<Dropdown> ItemRMDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item I  WHERE ISNULL(I.isActive, 1) = 1 AND ISNULL(I.BatchRequired,0)=0 AND (ISNULL(I.FreezerUnit,0)=0 OR ISNULL(I.Box,0)=0)").ToList();
+            }
+        }
         /// <summary>
         /// Return all PartNo of FG
         /// </summary>

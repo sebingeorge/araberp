@@ -19,7 +19,7 @@ namespace ArabErp.Web.Controllers
         // GET: MaterialPlanning
         public ActionResult Index()
         {
-            FillItem();
+            FillItemRM();
             //FillPartNo();
             InitDropdown();
             FillBatch();
@@ -46,6 +46,12 @@ namespace ArabErp.Web.Controllers
             var result = repo.ItemFGDropdown();
             ViewBag.ItemList = new SelectList(result, "Id", "Name");
         }
+        public void FillItemRM()
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.ItemRMDropdown();
+            ViewBag.ItemList = new SelectList(result, "Id", "Name");
+        }
 
         public void FillPartNo(int Id)
         {
@@ -54,9 +60,9 @@ namespace ArabErp.Web.Controllers
             ViewBag.PartNoList = new SelectList(result, "Id", "Name");
         }
 
-        public ActionResult Planning(string partNo,string batch="all",int itmid = 0)
+        public ActionResult Planning(string partNo,int itmid = 0)
         {
-            return PartialView("_Planning", new MaterialPlanningRepository().GetMaterialPlanning(itmid,partNo, batch));
+            return PartialView("_Planning", new MaterialPlanningRepository().GetMaterialPlanning(itmid,partNo));
         }
         public ActionResult MaterialPlanningFG()
         {
@@ -68,16 +74,15 @@ namespace ArabErp.Web.Controllers
         {
             return PartialView("_PlanningFG", new MaterialPlanningRepository().GetMaterialPlanningFG(itmid));
         }
+        public ActionResult InTransitDetails(int id)
+        {
+            return PartialView("_InTransitDetails", new MaterialPlanningRepository().GetInTransitDetails(id));
+        }
 
         public ActionResult Item()
         {
-            FillItem();
+            FillItemRM();
             return PartialView("_ItemDropDown");
-        }
-        public ActionResult PartNo(int Code)
-        {
-            FillPartNo(Code);
-            return PartialView("_PartNoDropDown");
         }
         public ActionResult Print(string Itmname = "", int Itmid = 0, string batchname = "",string batch = "all")
         {

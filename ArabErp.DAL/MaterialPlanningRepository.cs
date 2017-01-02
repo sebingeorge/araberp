@@ -11,7 +11,7 @@ namespace ArabErp.DAL
     public class MaterialPlanningRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<MaterialPlanning> GetMaterialPlanning(int? itmid,string partNo, string batch="")
+        public IEnumerable<MaterialPlanning> GetMaterialPlanning(int? itmid,string partNo)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -22,7 +22,7 @@ namespace ArabErp.DAL
                 INNER JOIN Unit U on U.UnitId =I.ItemUnitId
                 INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
                 LEFT JOIN StockUpdate S ON I.ItemId=S.ItemId
-                WHERE  CategoryName='Finished Goods' and I.CriticalItem=1
+                WHERE isnull(I.BatchRequired,0)=0 AND (isnull(I.FreezerUnit,0)=0 OR isnull(I.Box,0)=0)
                 GROUP BY I.ItemId,I.PartNo,ItemName,UnitName,MinLevel,BatchRequired;
                            
                 with W as (
@@ -55,12 +55,12 @@ namespace ArabErp.DAL
                 SELECT PI.ItemId,(SUM(ISNULL(PI.Quantity,0))-T.SOQTY)PRQty  FROM PurchaseRequestItem PI  LEFT JOIN #TEMP1 T ON T.ItemId =PI.ItemId
                 GROUP BY  PI.ItemId,T.SOQTY
                 )
-                update T set T.PendingPRQty = (PR.PRQty) from PR INNER JOIN #TEMP T  on T.ItemId = PR.ItemId;
+                update T set T.PendingPRQty = isnull(PR.PRQty,0)  from PR INNER JOIN #TEMP T  on T.ItemId = PR.ItemId;
                 
                 update T set T.ShortorExcess = (T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
                 
-                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId)
-                AND  ISNULL(BatchRequired, 0) = CASE @batch WHEN 'batch' THEN 1 WHEN 'nobatch' THEN 0 WHEN 'all' THEN ISNULL(BatchRequired, 0) END;
+                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId);
+              
 
 
                 drop table #TEMP;
@@ -69,7 +69,7 @@ namespace ArabErp.DAL
 
 
                 //where ItemId in (select W.ItemId from SaleOrderItem SI inner join WorkVsItem W on SI.WorkDescriptionId=W.WorkDescriptionId WHERE SaleOrderId=@Id)
-                return connection.Query<MaterialPlanning>(sql, new { itmid = itmid, partNo = partNo, batch = batch}).ToList();
+                return connection.Query<MaterialPlanning>(sql, new { itmid = itmid, partNo = partNo}).ToList();
             }
         }
         public IEnumerable<MaterialPlanning> GetMaterialPlanningDTPrint(int itmid, string batch = "")
@@ -83,7 +83,7 @@ namespace ArabErp.DAL
                 INNER JOIN Unit U on U.UnitId =I.ItemUnitId
                 INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
                 LEFT JOIN StockUpdate S ON I.ItemId=S.ItemId
-                WHERE  CategoryName='Finished Goods'  and I.CriticalItem=1
+                WHERE isnull(I.BatchRequired,0)=0 AND (isnull(I.FreezerUnit,0)=0 OR isnull(I.Box,0)=0)
                 GROUP BY I.ItemId,I.PartNo,ItemName,UnitName,MinLevel,BatchRequired;
                            
                 with W as (
@@ -116,11 +116,14 @@ namespace ArabErp.DAL
                 SELECT PI.ItemId,(SUM(ISNULL(PI.Quantity,0))-T.SOQTY)PRQty  FROM PurchaseRequestItem PI  LEFT JOIN #TEMP1 T ON T.ItemId =PI.ItemId
                 GROUP BY  PI.ItemId,T.SOQTY
                 )
-                update T set T.PendingPRQty = (PR.PRQty) from PR INNER JOIN #TEMP T  on T.ItemId = PR.ItemId;
+                update T set T.PendingPRQty = isnull(PR.PRQty,0)  from PR INNER JOIN #TEMP T  on T.ItemId = PR.ItemId;
                 
                 update T set T.ShortorExcess = (T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
+                
+                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId);
+              
 
-                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId)   AND  ISNULL(BatchRequired, 0) = CASE @batch WHEN 'batch' THEN 1 WHEN 'nobatch' THEN 0 WHEN 'all' THEN ISNULL(BatchRequired, 0) END;
+               
 
                 drop table #TEMP;
                 DROP TABLE #TEMP1;
@@ -204,6 +207,24 @@ namespace ArabErp.DAL
                 DROP TABLE #TEMP1;
                 DROP TABLE #TEMP2;";
                 return connection.Query<MaterialPlanning>(sql, new { itmid = itmid}).ToList();
+            }
+        }
+        public IEnumerable<MaterialPlanning> GetInTransitDetails(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+
+                string sql = @"select SI.SupplyOrderItemId,S.SupplyOrderNo,SS.SupplierName,DATEDIFF(day,S.SupplyOrderDate, GETDATE()) Age,S.RequiredDate,DATEDIFF(day, GETDATE(),S.RequiredDate) DaysLeft,S.SupplyOrderDate,PI.itemid,OrderedQty,OrderedQty-isnull((SELECT Quantity  FROM GRNItem G WHERE  G.ItemId=PI.ItemId and SI.SupplyOrderItemId= G.SupplyOrderItemId ),0) InTrans
+                               INTO #TEMP from SupplyOrderItem SI 
+                               INNER JOIN SupplyOrder S ON S.SupplyOrderId=SI.SupplyOrderId
+                               INNER JOIN PurchaseRequestItem PI ON SI.PurchaseRequestItemId=PI.PurchaseRequestItemId
+                               INNER JOIN Supplier SS ON SS.SupplierId=S.SupplierId
+                               where PI.itemid=@id;
+                               SELECT * FROM #TEMP WHERE InTrans>0";
+                           
+
+                return connection.Query<MaterialPlanning>(sql, new { id = id }).ToList();
             }
         }
     }

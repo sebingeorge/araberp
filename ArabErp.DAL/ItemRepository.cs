@@ -400,18 +400,36 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 #region query
-                string sql = @"select I.ItemId,I.ItemRefNo,I.PartNo,ItemName,UnitName,isnull(MinLevel,0)MinLevel
-                ,ISNULL(sum(S.Quantity),0)CurrentStock,0WRQTY,0 WRPndIssQty ,0TotalQty,0InTransitQty,0PendingPRQty,0ShortorExcess,BatchRequired INTO #TEMP FROM item I
+                string sql = @"select I.ItemId,I.PartNo,ItemName,UnitName,isnull(MinLevel,0)MinLevel
+                ,ISNULL(sum(S.Quantity),0)CurrentStock,0SOQTY,0WRQTY,0PENWRQTY,0 WRPndIssQty ,0TotalQty,0InTransitQty,0PendingPRQty,0ShortorExcess,BatchRequired INTO #TEMP FROM item I
                 INNER JOIN Unit U on U.UnitId =I.ItemUnitId
-                INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
                 LEFT JOIN StockUpdate S ON I.ItemId=S.ItemId
-                WHERE  CategoryName='Finished Goods'  and I.CriticalItem=1
-                GROUP BY I.ItemId,I.PartNo,ItemName,UnitName,MinLevel,BatchRequired,I.ItemRefNo;
+                WHERE I.BatchRequired=1 AND (I.FreezerUnit=1 OR I.Box=1)  and I.CriticalItem=1
+                GROUP BY I.ItemId,I.PartNo,ItemName,UnitName,MinLevel,BatchRequired;
+                
+                with S as (
+                select ItemId, sum(Quantity)Quantity from SaleOrderItem S
+                INNER JOIN WorkDescription W ON W.WorkDescriptionId = S.WorkDescriptionId
+                INNER JOIN Item I ON I.ItemId=W.FreezerUnitId
+                group by ItemId
+                UNION ALL
+                select ItemId, sum(Quantity)Quantity from SaleOrderItem S
+                INNER JOIN WorkDescription W ON W.WorkDescriptionId = S.WorkDescriptionId
+                INNER JOIN Item I ON I.ItemId=W.BoxId
+                group by ItemId
+                UNION ALL
+
+                select ItemId,sum(Quantity)Quantity from SaleOrderMaterial S
+                group by ItemId
+                )
+                update T set T.SOQTY = ISNULL(S.Quantity,0) from S inner join #TEMP T on T.ItemId = S.ItemId;
                            
                 with W as (
                 select ItemId, sum(Quantity)Quantity from WorkShopRequestItem group by ItemId
                 )
                 update T set T.WRQTY = W.Quantity from W inner join #TEMP T on T.ItemId = W.ItemId;
+                
+                update T set T.PENWRQTY =(T.SOQTY - T.WRQTY )from #TEMP T;
                 
                 with S as (
                 SELECT  ItemId,sum(IssuedQuantity)IssuedQuantity FROM StoreIssueItem SI 
@@ -420,7 +438,7 @@ namespace ArabErp.DAL
                 )
                 update T set T.WRPndIssQty =  (T.WRQTY-S.IssuedQuantity) from S inner join #TEMP T on T.ItemId = S.ItemId;
                 
-                update T set T.TotalQty = ((T.WRPndIssQty+T.MinLevel)-T1.CurrentStock) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
+                update T set T.TotalQty = ((T.PENWRQTY + T.WRPndIssQty+T.MinLevel)-T1.CurrentStock) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
                 
                 
                 SELECT ItemId,SUM(ISNULL(GI.Quantity,0))GRNQTY INTO #TEMP2 FROM GRNItem GI WHERE  DirectPurchaseRequestItemId IS NULL
@@ -441,9 +459,10 @@ namespace ArabErp.DAL
                 update T set T.PendingPRQty = (PR.PRQty) from PR INNER JOIN #TEMP T  on T.ItemId = PR.ItemId;
                 
                 update T set T.ShortorExcess = (T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
+                     
 
                 SELECT row_number() over (order by (select NULL)) as SlNo,* FROM #TEMP WHERE ShortorExcess < 1
-				--ItemId = ISNULL(NULLIF(CAST(0 AS INT), 0),ItemId) and  PartNo = ISNULL(NULLIF('', ''),PartNo) and BatchRequired = ISNULL(NULL,BatchRequired);
+			
 
                 drop table #TEMP;
                 DROP TABLE #TEMP1;

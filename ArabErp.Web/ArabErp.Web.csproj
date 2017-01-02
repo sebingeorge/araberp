@@ -1330,6 +1330,7 @@
     <Content Include="Views\MaterialPlanning\_PlanningFG.cshtml" />
     <Content Include="Views\MaterialPlanning\MaterialPlanningFG.cshtml" />
     <Content Include="Views\IndentVsSOVsInpassStatus\Index.cshtml" />
+    <Content Include="Views\MaterialPlanning\_InTransitDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
