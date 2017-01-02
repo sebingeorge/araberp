@@ -1,0 +1,39 @@
+﻿@model IList<ArabErp.Domain.MaterialPlanning>
+
+<table class="table table-responsive table-bordered">
+    <thead class="grid_heading">
+        <tr>
+            <th nowrap>Supplier</th>
+            <th nowrap>LPO No.</th>
+            <th nowrap>LPO Date</th>
+            <th nowrap>Ageing</th>
+            <th nowrap>Required Date</th>
+            <th nowrap>Days Left</th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td nowrap>@item.SupplierName</td>
+                    <td>@item.SupplyOrderNo</td>
+                    <td>@item.SupplyOrderDate.ToString("dd/MMM/yyyy")</td>
+                    <td>@item.Age</td>
+                    <td>@item.RequiredDate.ToString("dd/MMM/yyyy")</td>
+                    <td>@item.DaysLeft</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td align="center" colspan="7">
+                    <em>No materials/spares found!</em>
+                </td>
+            </tr>
+        }
+    </tbody>
+  
+</table>

@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Material Planning FG";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    function Filter() {
+
+        $("#planning").addClass("fade");
+        var itmid = $("#cboItem").val();
+     
+        var url = '@Url.Action("PlanningFG")';
+        url += "?itmid=" + itmid ;
+            $("#planning").load(url, function () {
+            $("#planning").removeClass("fade");
+
+        });
+
+    }
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
+    @*function GoToPrint() {
+
+        var Itmid = $("#ItemId").val();
+        var Itmname = $("#ItemId option:selected").text();
+        var batch = $("#cboBatch").val();
+        var batchname = $("#cboBatch option:selected").text();
+
+        //var partNo = $("#PartNo").text();
+        var partNo = $("#PartNo option:selected").text();
+        var url = '@Url.Action("Print")';
+        url += "?Itmname=" + (Itmname == '' ? 0 : Itmname) + "&Itmid=" + Itmid + "&batchname=" + (batchname == '' ? 0 : batchname) + "&batch=" + encodeURIComponent(batch) + "&partNo=" + (partNo == '' ? 0 : partNo);
+        window.open(url);
+
+
+    }*@
+</script>
+<link href="~/Content/FixedHeader.css" rel="stylesheet" />
+
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Material Planning Report - FG</h4>
+    </div>
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="col-md-3">
+                <label for="cboItem">Material/Spares</label>
+                @Html.DropDownList("cboItem", (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+         </div>
+        <br />
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive" id="planning">
+                    @Html.Action("PlanningFG")
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
+            </div>
+        </div>
+    </div>
+</div>
+

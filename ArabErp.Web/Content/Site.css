@@ -527,6 +527,11 @@ input[type="text"]:disabled {
         background: #333;
         height: 16px;
     }
+.lblue 
+{
+    background-color:
+	#FA8072;
+}
 
 .links {
     list-style-type: none;

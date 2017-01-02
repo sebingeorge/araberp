@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Job Cards On Hold";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    function Filter() {
+        var jcno = $('#cboJCNo').val().trim();
+        var url = '@Url.Action("JobCardsOnHoldGrid")';
+        $('#jobcardlist').addClass('fade');
+        $('#jobcardlist').load(url, { jobcard: jcno }, function () {
+            $('#jobcardlist').removeClass('fade');
+        })
+    }
+
+    function ReleaseJobCard(id) {
+        var url = '@Url.Action("Release")';
+        window.location = url + '?jobcard=' + id;
+    }
+</script>
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Job Cards on Hold</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="cboJCNo">Job Card No.</label>
+                <input id="cboJCNo" placeholder="Search for Job Card" onkeyup="Filter()" class="form_input">
+            </div>
+            @*<div class="col-md-3">
+                    <label for="cboCustomer">Customer</label>
+                    @Html.DropDownList("cboCustomer", (SelectList)ViewBag.CusList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                </div>
+
+                <div class="col-md-2">
+                    <label for="txtRegNo">Reg. No./Chassis No.</label>
+                    <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Reg. No./Chassis No." />
+                </div>*@
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive" id="jobcardlist">
+                    @Html.Action("JobCardsOnHoldGrid")
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+    </div>
+</div>
+

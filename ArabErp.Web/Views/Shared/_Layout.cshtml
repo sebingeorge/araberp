@@ -1056,7 +1056,7 @@
                                             }
                                             @if (formPermission.Find(x => x.FormId == 147) != null)
                                             {
-                                                <li><a href="@Url.Action("IndentVsSOVsInpassStatus", "IndentVsSOVsInpassStatus")">Indent Vs SO Vs Inpass Status</a></li>
+                                                <li><a href="@Url.Action("Index", "IndentVsSOVsInpassStatus")">Indent Vs SO Vs Inpass Status</a></li>
                                             }
                                         </ul>
                                     </div>
@@ -1066,9 +1066,18 @@
                                 {
                                     <li><a href="@Url.Action("DCReport", "MISReports")">Delivery Tracking Report</a></li>
                                 }
+                                @if (formPermission.Find(x => x.FormId == 150) != null)
+                                {
+                                    <li><a href="@Url.Action("MaterialPlanningFG", "MaterialPlanning")">Material Planning Report - FG</a></li>
+                                }
                                 @if (formPermission.Find(x => x.FormId == 125) != null)
                                 {
-                                    <li><a href="@Url.Action("Index", "MaterialPlanning")">Material Planning Report</a></li>
+                                    <li><a href="@Url.Action("Index", "MaterialPlanning")">Material Planning Report - RM</a></li>
+                                }
+                                                            
+                                @if (formPermission.Find(x => x.FormId == 149) != null)
+                                {
+                                    <li><a href="@Url.Action("MaterialActivityReport", "MISReports")">Material Activity Report</a></li>
                                 }
                                 @if (formPermission.Find(x => x.FormId == 126) != null)
                                 {
