@@ -7706,6 +7706,14 @@ td.visible-print {
 	/*margin: 3em 0;*/
     max-height: 350px;
 }
+#indentlist .sticky-wrap {
+	overflow-x: scroll;
+	overflow-y:scroll;
+	position: relative;
+	/*margin: 3em 0;*/
+    max-height: 350px;
+}
+
 
 .scroll1 .sticky-wrap {
 	overflow-x: auto;
