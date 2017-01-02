@@ -80,6 +80,9 @@ namespace ArabErp.Domain
         public int isService { get; set; }
 
         public string SaleOrderRefNo { get; set; }
+        public string BayName { get; set; }
+        public string HeldBy { get; set; }
+        public DateTime HeldOn { get; set; }
     }
     public class JobCardForDailyActivity
     {

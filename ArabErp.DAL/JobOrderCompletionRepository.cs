@@ -21,32 +21,31 @@ namespace ArabErp.DAL
                 string query = string.Empty;
                 if ((isProjectBased ?? 0) == 0)
                 {
-                    query += " select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, V.VehicleModelName,RegistrationNo,ChassisNo";
-                    query += " from JobCard J";
-                    query += " inner join SaleOrderItem SI on SI.SaleOrderItemId = J.SaleOrderItemId";
-                    query += " inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId";
-                    query += " inner join Customer C on S.CustomerId = C.CustomerId ";
-                    query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
-                    query += " inner join VehicleInPass VI ON VI.VehicleInPassId=J.InPassId";
-                    query += " left join VehicleModel V on V.VehicleModelId = W.VehicleModelId ";
-                    query += " where ISNULL(J.JodCardCompleteStatus,0) <> 1 and J.isProjectBased = 0 AND J.OrganizationId = @OrganizationId";
-                    query += " and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)";
-                    query += " AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')";
+                    query = @"select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, V.VehicleModelName,RegistrationNo,ChassisNo, J.isOnHold
+                     from JobCard J
+                    inner join SaleOrderItem SI on SI.SaleOrderItemId = J.SaleOrderItemId
+                    inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId
+                    inner join Customer C on S.CustomerId = C.CustomerId 
+                    inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
+                    inner join VehicleInPass VI ON VI.VehicleInPassId=J.InPassId
+                    left join VehicleModel V on V.VehicleModelId = W.VehicleModelId 
+                    where (ISNULL(J.JodCardCompleteStatus,0) <> 1 OR ISNULL(J.isOnHold, 0) = 1) and J.isProjectBased = 0 AND J.OrganizationId = @OrganizationId
+                    and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)
+                    AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')";
                 }
                 else
                 {
-                    query += " select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, '' VehicleModelName,RegistrationNo,ChassisNo";
-                    query += " from JobCard J";
-                    query += " inner join SaleOrderItem SI on SI.SaleOrderItemId = J.SaleOrderItemId";
-                    query += " inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId";
-                    query += " inner join Customer C on S.CustomerId = C.CustomerId ";
-                    query += " inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
-                    query += " inner join VehicleInPass VI ON VI.VehicleInPassId=J.InPassId";
-                    query += " where ISNULL(J.JodCardCompleteStatus,0) <> 1 and J.isProjectBased = 1 AND J.OrganizationId = @OrganizationId";
-                    query += " and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)";
-                    query += " AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')";
+                    query = @"select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, '' VehicleModelName,RegistrationNo,ChassisNo, J.isOnHold
+                    from JobCard J
+                    inner join SaleOrderItem SI on SI.SaleOrderItemId = J.SaleOrderItemId
+                    inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId
+                    inner join Customer C on S.CustomerId = C.CustomerId 
+                    inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
+                    inner join VehicleInPass VI ON VI.VehicleInPassId=J.InPassId
+                    where ISNULL(J.JodCardCompleteStatus,0) <> 1 and J.isProjectBased = 1 AND J.OrganizationId = @OrganizationId
+                    and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)
+                    AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')";
                 }
-
 
                 return connection.Query<JobOrderPending>(query, new { isProjectBased = isProjectBased, OrganizationId = OrganizationId, id = id, cusid = cusid, RegNo = RegNo });
             }
@@ -219,8 +218,13 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    string query = "update JobCard set JodCardCompleteStatus = 1, JodCardCompletedDate='" + jobcard.JobCardCompletedDate.ToString("dd-MMM-yyyy") + "', WarrentyPeriod = '" + jobcard.WarrentyPeriod.ToString("dd/MMM/yyyy") + "' where jobCardId=" + jobcard.JobCardId.ToString();
+                    string query = "update JobCard set JodCardCompleteStatus = 1, JodCardCompletedDate='" +
+                        jobcard.JobCardCompletedDate.ToString("dd-MMM-yyyy") +
+                        "', WarrentyPeriod = '" + jobcard.WarrentyPeriod.ToString("dd/MMM/yyyy") + "'" +
+                        (jobcard.isOnHold ? ", isOnHold = 1, HeldBy = " + CreatedBy + ", HeldOn = GETDATE()" : "") +
+                        " where jobCardId=" + jobcard.JobCardId.ToString();
                     var count = connection.Query(query, transaction: txn);
+                    if (jobcard.isOnHold) goto commit;
                     //query = @"UPDATE JobCardQC JQ SET JQ.IsQCPassed =1 inner join JobCard J on J.JobCardId=JQ.JobCardId   WHERE J.isService=1 AND JQ.JobCardId = " + jobcard.JobCardId + "";
                     //connection.Execute(sql: query, transaction: txn);
                     //                    query = @"UPDATE SaleOrderItem SET IsPaymentApprovedForDelivery = (SELECT isService FROM JobCard WHERE JobCardId = " + jobcard.JobCardId + @")
@@ -247,6 +251,7 @@ namespace ArabErp.DAL
                             connection.Query(query, transaction: txn);
                         }
                     }
+                commit:
                     InsertLoginHistory(dataConnection, CreatedBy, "Update", "Job Card Completion", id.ToString(), "0");
                     txn.Commit();
                 }

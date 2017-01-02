@@ -1070,6 +1070,10 @@
                                 {
                                     <li><a href="@Url.Action("Index", "MaterialPlanning")">Material Planning Report</a></li>
                                 }
+                                @if (formPermission.Find(x => x.FormId == 149) != null)
+                                {
+                                    <li><a href="@Url.Action("MaterialActivityReport", "MISReports")">Material Activity Report</a></li>
+                                }
                                 @if (formPermission.Find(x => x.FormId == 126) != null)
                                 {
                                     <li><a href="@Url.Action("Employee", "ResourceAvailability")">Employee Availability Report</a></li>

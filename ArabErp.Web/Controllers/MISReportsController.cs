@@ -164,10 +164,16 @@ namespace ArabErp.Web.Controllers
             types.Add(new Dropdown { Id = 2, Name = "Service" });
             ViewBag.Type = new SelectList(types, "Id", "Name");
         }
+        
         public void FillMaterial()
         {
             var list = new DropdownRepository().ItemDropdown();
             ViewBag.materialList = new SelectList(list, "Id", "Name");
+        }
+
+        public void FillPartNo()
+        {
+            ViewBag.partNoList = new SelectList(new DropdownRepository().PartNoDropdown1(), "Value", "Text");
         }
         #endregion
     }
