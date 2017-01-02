@@ -19,7 +19,7 @@ namespace ArabErp.Web.Controllers
         // GET: MaterialPlanning
         public ActionResult Index()
         {
-            FillItem();
+            FillItemRM();
             //FillPartNo();
             InitDropdown();
             FillBatch();
@@ -44,6 +44,12 @@ namespace ArabErp.Web.Controllers
         {
             DropdownRepository repo = new DropdownRepository();
             var result = repo.ItemFGDropdown();
+            ViewBag.ItemList = new SelectList(result, "Id", "Name");
+        }
+        public void FillItemRM()
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.ItemRMDropdown();
             ViewBag.ItemList = new SelectList(result, "Id", "Name");
         }
 
@@ -75,13 +81,8 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Item()
         {
-            FillItem();
+            FillItemRM();
             return PartialView("_ItemDropDown");
-        }
-        public ActionResult PartNo(int Code)
-        {
-            FillPartNo(Code);
-            return PartialView("_PartNoDropDown");
         }
         public ActionResult Print(string Itmname = "", int Itmid = 0, string batchname = "",string batch = "all")
         {
