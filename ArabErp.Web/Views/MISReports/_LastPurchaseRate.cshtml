@@ -1,0 +1,43 @@
+﻿@model IList<ArabErp.Domain.PendingForGRN>
+
+<strong>Last Purchase Rate</strong>
+<div class="div-bordered">
+    <table class="table-responsive table-hover table-bordered full-width-table">
+        <thead class="grid_heading">
+            <tr>
+                @*<th>Material/Spare</th>*@
+                <th>Supplier</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+            </tr>
+        </thead>
+        <tbody class="grid_row">
+            @if (Model != null && Model.Count > 0)
+            {
+                //bool span = true;
+                foreach (var item in Model)
+                {
+                    if (item.SupplierName == null || item.SupplierName == "") { item.SupplierName = "Standard Rate"; }
+                    <tr>
+                        @*@if (span)
+                                    {
+                            <td rowspan="@Model.Count">@item.ItemName</td>
+                                        span = false;
+                                    }*@
+                        <td>@item.SupplierName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Rate</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td align="center" colspan="3">
+                        <em>No rate found!</em>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

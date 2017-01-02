@@ -58,12 +58,11 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>AARC/JC-S/14</JobCardNo>
-    <JobCardDate>07-Dec-2016</JobCardDate>
-    <Unit />
-    <Customer>Khaled Bin Mahmood</Customer>
-    <ChasisNo>43221</ChasisNo>
-    <VModel>Isuzu NPR</VModel>
+    <JobCardNo>AARC/JC/32</JobCardNo>
+    <JobCardDate>29-Dec-2016</JobCardDate>
+    <Customer>Qatar Automobiles Company</Customer>
+    <ChasisNo>GK018029 - GK018029</ChasisNo>
+    <VModel>MITSUBISHI 4.3 TON</VModel>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -73,23 +72,22 @@
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Box>BAM</Box>
-    <Complaints>1) Accident Repair</Complaints>
-    <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
-    <CreatedDes>Workshop Controller</CreatedDes>
+    <Box>50MM 4300X2100X2100MM- TSCL/AARC</Box>
+    <CreatedUser>murali</CreatedUser>
+    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
+    <CreatedDes>Inventory Controller </CreatedDes>
   </Head>
   <Items>
-    <TaskDate>07-Dec-2016</TaskDate>
-    <Employee>Santheep Maraveedu Balan</Employee>
-    <Description>General Maintenance </Description>
-    <Hours>4.00</Hours>
+    <TaskDate>28-Dec-2016</TaskDate>
+    <Employee>KAMAL DAYANANDA </Employee>
+    <Description>Box Fixing</Description>
+    <Hours>14.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>29-Dec-2016</TaskDate>
+    <Employee>MANEESH MANIYAN MANIYAN</Employee>
+    <Description>Box Wiring</Description>
+    <Hours>2.00</Hours>
   </Items>
   <Items>
     <TaskDate />

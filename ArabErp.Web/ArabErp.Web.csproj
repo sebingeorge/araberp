@@ -88,6 +88,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="MVCGrid">
       <HintPath>..\packages\MVCGrid.Net.1.0.0.60\lib\net40\MVCGrid.dll</HintPath>
     </Reference>
@@ -250,6 +251,7 @@
     <Compile Include="Controllers\GRNRegisterController.cs" />
     <Compile Include="Controllers\GrnWareHouseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IndentVsSOVsInpassStatusController.cs" />
     <Compile Include="Controllers\ItemBatchController.cs" />
     <Compile Include="Controllers\ItemCategoryController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
@@ -321,6 +323,7 @@
     <Compile Include="Controllers\VehicleInpassRegisterController.cs" />
     <Compile Include="Controllers\VehicleModelController.cs" />
     <Compile Include="Controllers\DeliveryChallanController.cs" />
+    <Compile Include="Controllers\WarrantyExtensionRegisterController.cs" />
     <Compile Include="Controllers\WorkDescriptionController.cs" />
     <Compile Include="Controllers\WorkShopGRNController.cs" />
     <Compile Include="Controllers\WorkShopRequestController.cs" />
@@ -1310,10 +1313,20 @@
     <Content Include="Views\PurchaseRequest\_LastPurchaseRateGrid.cshtml" />
     <Content Include="Views\DirectPurchase\_LastPurchaseRateGrid.cshtml" />
     <Content Include="Views\MISReports\MaterialActivityReport.cshtml" />
-    <Content Include="Views\MISReports\_MaterialActivityReportGrid.cshtml" />
+    <Content Include="Views\MISReports\_PendingLPO.cshtml" />
     <Content Include="Views\GRNRegister\Index.cshtml" />
     <Content Include="Views\GRNRegister\_GRNRegister.cshtml" />
     <Content Include="Views\GrnWareHouse\PreviousList.cshtml" />
+    <Content Include="Views\IndentVsSOVsInpassStatus\IndentVsSOVsInpassStatus.cshtml" />
+    <Content Include="Views\WarrantyExtensionRegister\Index.cshtml" />
+    <Content Include="Views\WarrantyExtensionRegister\_WarrantyExtensionRegister.cshtml" />
+    <Content Include="Views\MISReports\_PendingGRN.cshtml" />
+    <Content Include="Views\MISReports\_PendingIssue.cshtml" />
+    <Content Include="Views\MISReports\_LastPurchaseRequest.cshtml" />
+    <Content Include="Views\MISReports\_LastLPO.cshtml" />
+    <Content Include="Views\MISReports\_LastGRN.cshtml" />
+    <Content Include="Views\MISReports\_LastPurchaseRate.cshtml" />
+    <Content Include="Views\MISReports\_LastPurchaseBill.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -209,7 +209,19 @@ namespace ArabErp.DAL
                 					INNER JOIN SaleOrder SO ON SOM.SaleOrderId = SO.SaleOrderId
                 					INNER JOIN Item I3 ON SOM.ItemId = I3.ItemId
                 					INNER JOIN Unit U ON I3.ItemUnitId = U.UnitId
-                					WHERE SO.SaleOrderId = @SaleOrderId) T1;
+                					WHERE SO.SaleOrderId = @SaleOrderId
+                                    UNION ALL
+                                    SELECT 
+                                        I.ItemId, I.ItemName, I.PartNo, IVB.Quantity, U.UnitName FROM ItemVsBom IVB
+                                    INNER JOIN Item I ON IVB.BomItemId = I.ItemId
+                                    INNER JOIN Unit U ON I.ItemUnitId = U.UnitId
+                                    WHERE IVB.ItemId IN
+                                    (
+	                                    SELECT
+		                                    SOM.ItemId
+	                                    FROM SaleOrderMaterial SOM
+	                                    WHERE SOM.SaleOrderId = @SaleOrderId
+                                    )) T1;
                 
                                     SELECT
                 	                    ItemId, ItemName, PartNo, SUM(Quantity) Quantity, UnitName
@@ -220,8 +232,6 @@ namespace ArabErp.DAL
 
                 return connection.Query<WorkShopRequestItem>(query,
                 new { SaleOrderId = SaleOrderId, SaleOrderItemId = SaleOrderItemId }).ToList();
-
-
             }
         }
         /// <summary>
@@ -478,36 +488,112 @@ namespace ArabErp.DAL
        {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<WorkShopRequest>(@"SELECT WorkShopRequestId, SUM(Quantity) Quantity INTO #WORK FROM WorkShopRequestItem 
-                inner join ITEM I ON I.ItemId= WorkShopRequestItem.ItemId where isnull(I.isConsumable,0)=0 GROUP BY WorkShopRequestId;
-                SELECT WorkShopRequestId, SUM(IssuedQuantity) IssuedQuantity INTO #ISSUE FROM StoreIssueItem SII INNER JOIN StoreIssue SI ON  SII.StoreIssueId = SI.StoreIssueId GROUP BY WorkShopRequestId;
-                SELECT CustomerId, CustomerName INTO #CUSTOMER FROM Customer;
-        SELECT SaleOrderId, ISNULL(SaleOrderRefNo, '')+' - '+CONVERT(VARCHAR, SaleOrderDate, 106) SoNoWithDate INTO #SALE FROM SaleOrder;
-                SELECT distinct W.WorkShopRequestId,WR.isDirectRequest ,ISNULL(WR.WorkShopRequestRefNo, '')+' - '+CAST(CONVERT(VARCHAR, WR.WorkShopRequestDate, 106) AS VARCHAR) WorkShopRequestRefNo, CONVERT(DATETIME, WR.RequiredDate, 106) RequiredDate, C.CustomerName, S.SoNoWithDate,
-                 DATEDIFF(day, WR.WorkShopRequestDate, GETDATE()) Ageing,
-                 DATEDIFF(day, GETDATE(), WR.RequiredDate) DaysLeft,
+                #region old query 30.12.2016 5.53p
+                //                string sql = @"SELECT WorkShopRequestId, SUM(Quantity) Quantity INTO #WORK FROM WorkShopRequestItem 
+                //                inner join ITEM I ON I.ItemId= WorkShopRequestItem.ItemId where isnull(I.isConsumable,0)=0 GROUP BY WorkShopRequestId;
+                //                SELECT WorkShopRequestId, SUM(IssuedQuantity) IssuedQuantity INTO #ISSUE FROM StoreIssueItem SII INNER JOIN StoreIssue SI ON  SII.StoreIssueId = SI.StoreIssueId GROUP BY WorkShopRequestId;
+                //                SELECT CustomerId, CustomerName INTO #CUSTOMER FROM Customer;
+                //                SELECT SaleOrderId, ISNULL(SaleOrderRefNo, '')+' - '+CONVERT(VARCHAR, SaleOrderDate, 106) SoNoWithDate INTO #SALE FROM SaleOrder;
+                //                SELECT distinct W.WorkShopRequestId,WR.isDirectRequest ,ISNULL(WR.WorkShopRequestRefNo, '')+' - '+CAST(CONVERT(VARCHAR, WR.WorkShopRequestDate, 106) AS VARCHAR) WorkShopRequestRefNo, CONVERT(DATETIME, WR.RequiredDate, 106) RequiredDate, C.CustomerName, S.SoNoWithDate,
+                //                 DATEDIFF(day, WR.WorkShopRequestDate, GETDATE()) Ageing,
+                //                 DATEDIFF(day, GETDATE(), WR.RequiredDate) DaysLeft,
+                //
+                //              --STUFF((SELECT ', '+T1.JobCardNo FROM JobCard T1 WHERE T1.SaleOrderId = S.SaleOrderId FOR XML PATH('')), 1, 2, '') JobCardNo,
+                //                CASE WHEN WR.SaleOrderItemId = 0 THEN STUFF((SELECT ', '+T1.JobCardNo+' - '+CONVERT(VARCHAR, T1.JobCardDate, 106) FROM JobCard T1 WHERE ISNULL(T1.JobCardNo, '')LIKE '%'+@jcno+'%' AND T1.SaleOrderId = S.SaleOrderId FOR XML PATH('')), 1, 2, '')	
+                //                ELSE (SELECT JobCardNo+' - '+CONVERT(VARCHAR, JobCardDate, 106) FROM JobCard WHERE SaleOrderItemId = WR.SaleOrderItemId AND ISNULL(JobCardNo, '')LIKE '%'+@jcno+'%') END JobCardNo,
+                //
+                //                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,ISNULL(ChassisNo,'')ChassisNo,ISNULL(RegistrationNo,'')RegistrationNo
+                //                FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId left JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId left JOIN #SALE S ON WR.SaleOrderId = S.SaleOrderId 
+                //                LEFT JOIN JobCard JC ON WR.JobCardId = JC.JobCardId
+                //				LEFT JOIN VehicleInPass V ON V.VehicleInPassId=JC.InPassId 
+                //				LEFT JOIN JobCard J ON S.SaleOrderId=J.SaleOrderId
+                //				WHERE ISNULL(IssuedQuantity,0) < Quantity and  (case when isnull(WR.isDirectRequest,0)=1 then isnull(WR.isApproved,0)else 1 end)=1 
+                //				AND  WorkShopRequestRefNo LIKE '%'+@Request+'%'
+                //				AND ISNULL(SoNoWithDate,'') LIKE '%'+@Sale+'%'
+                //				AND ISNULL(CustomerName,'') LIKE '%'+@Customer+'%'
+                //				AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%'
+                //				OR ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%')
+                //				AND ISNULL(J.JobCardNo, '') LIKE '%'+@jcno+'%'
+                //                --ORDER BY WR.WorkShopRequestDate DESC;
+                //                DROP TABLE #ISSUE;
+                //                DROP TABLE #WORK;
+                //                DROP TABLE #CUSTOMER;
+                //                DROP TABLE #SALE;"; 
+                #endregion
 
-              --STUFF((SELECT ', '+T1.JobCardNo FROM JobCard T1 WHERE T1.SaleOrderId = S.SaleOrderId FOR XML PATH('')), 1, 2, '') JobCardNo,
-                CASE WHEN WR.SaleOrderItemId = 0 THEN STUFF((SELECT ', '+T1.JobCardNo+' - '+CONVERT(VARCHAR, T1.JobCardDate, 106) FROM JobCard T1 WHERE ISNULL(T1.JobCardNo, '')LIKE '%'+@jcno+'%' AND T1.SaleOrderId = S.SaleOrderId FOR XML PATH('')), 1, 2, '')	
-                ELSE (SELECT JobCardNo+' - '+CONVERT(VARCHAR, JobCardDate, 106) FROM JobCard WHERE SaleOrderItemId = WR.SaleOrderItemId AND ISNULL(JobCardNo, '')LIKE '%'+@jcno+'%') END JobCardNo,
+                string sql = @"--SELECT WorkShopRequestId, SUM(Quantity) Quantity INTO #WORK FROM WorkShopRequestItem 
+                                --inner join ITEM I ON I.ItemId= WorkShopRequestItem.ItemId where isnull(I.isConsumable,0)=0 GROUP BY WorkShopRequestId;
 
-                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,ISNULL(ChassisNo,'')ChassisNo,ISNULL(RegistrationNo,'')RegistrationNo
-                FROM #WORK W LEFT JOIN #ISSUE I ON W.WorkShopRequestId = I.WorkShopRequestId INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId left JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId left JOIN #SALE S ON WR.SaleOrderId = S.SaleOrderId 
-                LEFT JOIN JobCard JC ON WR.JobCardId = JC.JobCardId
-				LEFT JOIN VehicleInPass V ON V.VehicleInPassId=JC.InPassId 
-				LEFT JOIN JobCard J ON S.SaleOrderId=J.SaleOrderId
-				WHERE ISNULL(IssuedQuantity,0) < Quantity and  (case when isnull(WR.isDirectRequest,0)=1 then isnull(WR.isApproved,0)else 1 end)=1 
-				AND  WorkShopRequestRefNo LIKE '%'+@Request+'%'
-				AND ISNULL(SoNoWithDate,'') LIKE '%'+@Sale+'%'
-				AND ISNULL(CustomerName,'') LIKE '%'+@Customer+'%'
-				AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%'
-				OR ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%')
-				AND ISNULL(J.JobCardNo, '') LIKE '%'+@jcno+'%'
-                --ORDER BY WR.WorkShopRequestDate DESC;
-                DROP TABLE #ISSUE;
-                DROP TABLE #WORK;
-                DROP TABLE #CUSTOMER;
-                DROP TABLE #SALE;", new { Request = Request, Sale = Sale, Customer = Customer, jcno = jcno, RegNo = RegNo }).ToList();
+                                --SELECT WorkShopRequestId, SUM(IssuedQuantity) IssuedQuantity INTO #ISSUE FROM StoreIssueItem SII INNER JOIN StoreIssue SI ON  SII.StoreIssueId = SI.StoreIssueId GROUP BY WorkShopRequestId;
+
+                                ------------------------------------------------------------------workshop requests with pending issue
+                                SELECT
+	                                WRI.WorkShopRequestId,
+	                                WRI.ItemId,
+	                                SUM(WRI.Quantity) Quantity
+                                INTO #TEMP1
+                                FROM WorkShopRequest WR
+                                INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                                INNER JOIN Item I ON WRI.ItemId = I.ItemId
+                                WHERE ISNULL(I.isConsumable, 0) = 0
+                                GROUP BY WRI.ItemId, WRI.WorkShopRequestId
+
+                                SELECT
+	                                WRI.WorkShopRequestId,
+	                                WRI.ItemId,
+	                                SUM(SII.IssuedQuantity) Quantity
+                                INTO #TEMP2
+                                FROM WorkShopRequest WR
+                                INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                                INNER JOIN Item I ON WRI.ItemId = I.ItemId
+                                LEFT JOIN StoreIssueItem SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
+                                WHERE ISNULL(I.isConsumable, 0) = 0 
+                                GROUP BY WRI.ItemId, WRI.WorkShopRequestId
+
+                                SELECT DISTINCT
+	                                #TEMP1.WorkShopRequestId
+                                INTO #WORK
+                                FROM #TEMP1
+	                                LEFT JOIN #TEMP2 ON #TEMP1.ItemId = #TEMP2.ItemId AND #TEMP1.WorkShopRequestId = #TEMP2.WorkShopRequestId
+                                WHERE #TEMP1.Quantity > ISNULL(#TEMP2.Quantity, 0) order by WorkShopRequestId
+
+                                DROP TABLE #TEMP2;
+                                DROP TABLE #TEMP1;
+                                ------------------------------------------------------------------  
+
+                                SELECT CustomerId, CustomerName INTO #CUSTOMER FROM Customer;
+
+                                SELECT SaleOrderId, ISNULL(SaleOrderRefNo, '')+' - '+CONVERT(VARCHAR, SaleOrderDate, 106) SoNoWithDate INTO #SALE FROM SaleOrder;
+
+                                SELECT distinct W.WorkShopRequestId,WR.isDirectRequest ,ISNULL(WR.WorkShopRequestRefNo, '')+' - '+CAST(CONVERT(VARCHAR, WR.WorkShopRequestDate, 106) AS VARCHAR) WorkShopRequestRefNo, CONVERT(DATETIME, WR.RequiredDate, 106) RequiredDate, C.CustomerName, S.SoNoWithDate,
+                                    DATEDIFF(day, WR.WorkShopRequestDate, GETDATE()) Ageing,
+                                    DATEDIFF(day, GETDATE(), WR.RequiredDate) DaysLeft,
+                
+                              --STUFF((SELECT ', '+T1.JobCardNo FROM JobCard T1 WHERE T1.SaleOrderId = S.SaleOrderId FOR XML PATH('')), 1, 2, '') JobCardNo,
+                                CASE WHEN WR.SaleOrderItemId = 0 THEN STUFF((SELECT ', '+T1.JobCardNo+' - '+CONVERT(VARCHAR, T1.JobCardDate, 106) FROM JobCard T1 WHERE ISNULL(T1.JobCardNo, '')LIKE '%'+@jcno+'%' AND T1.SaleOrderId = S.SaleOrderId FOR XML PATH('')), 1, 2, '')	
+                                ELSE (SELECT JobCardNo+' - '+CONVERT(VARCHAR, JobCardDate, 106) FROM JobCard WHERE SaleOrderItemId = WR.SaleOrderItemId AND ISNULL(JobCardNo, '')LIKE '%'+@jcno+'%') END JobCardNo,
+                
+                                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,ISNULL(ChassisNo,'')ChassisNo,ISNULL(RegistrationNo,'')RegistrationNo
+                                FROM #WORK W 
+                                INNER JOIN WorkShopRequest WR ON W.WorkShopRequestId = WR.WorkShopRequestId 
+                                left JOIN #CUSTOMER C ON WR.CustomerId = C.CustomerId 
+                                left JOIN #SALE S ON WR.SaleOrderId = S.SaleOrderId 
+                                LEFT JOIN JobCard JC ON WR.JobCardId = JC.JobCardId
+                                LEFT JOIN VehicleInPass V ON V.VehicleInPassId=JC.InPassId 
+                                LEFT JOIN JobCard J ON S.SaleOrderId=J.SaleOrderId
+                                WHERE /*ISNULL(IssuedQuantity,0) < Quantity and*/ (case when isnull(WR.isDirectRequest,0)=1 then isnull(WR.isApproved,0)else 1 end)=1 
+                				AND  WorkShopRequestRefNo LIKE '%'+@Request+'%'
+                				AND ISNULL(SoNoWithDate,'') LIKE '%'+@Sale+'%'
+                				AND ISNULL(CustomerName,'') LIKE '%'+@Customer+'%'
+                				AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%'
+                				OR ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%')
+                				AND ISNULL(J.JobCardNo, '') LIKE '%'+@jcno+'%'
+                                --ORDER BY WR.WorkShopRequestDate DESC;
+                                DROP TABLE #WORK;
+                                DROP TABLE #CUSTOMER;
+                                DROP TABLE #SALE;";
+
+                return connection.Query<WorkShopRequest>(sql, new { Request = Request, Sale = Sale, Customer = Customer, jcno = jcno, RegNo = RegNo }).ToList();
             }
         }
         public IEnumerable<WorkShopRequest> GetPrevious(int isProjectBased, DateTime? from, DateTime? to, string workshop, string customer, int OrganizationId)

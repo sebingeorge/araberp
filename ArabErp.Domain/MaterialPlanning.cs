@@ -23,6 +23,7 @@ namespace ArabErp.Domain
         public string UnitName { get; set; }
         public string batch { get; set; }
         public decimal? IssuedQty { get; set; }
+        public int? SlNo { get; set; }
       
        
     }

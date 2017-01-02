@@ -1,75 +1,105 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Material Activity Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#item-filter').combobox();
+    })
+
+    function Filter() {
+        var item = $('#item-filter').val();
+        //Getting Pending LPO
+        var url = '@Url.Action("GetPendingLPO")';
+        $('#pending-lpo-table').addClass('fade');
+        $('#pending-lpo-table').load(url, { item: item }, function () {
+            $('#pending-lpo-table').removeClass('fade');
+        });
+
+        //Getting Pending GRN
+        url = '@Url.Action("GetPendingGRN")';
+        $('#pending-grn-table').addClass('fade');
+        $('#pending-grn-table').load(url, { item: item }, function () {
+            $('#pending-grn-table').removeClass('fade');
+        });
+
+        //Getting Pending Issue
+        url = '@Url.Action("GetPendingIssue")';
+        $('#pending-issue-table').addClass('fade');
+        $('#pending-issue-table').load(url, { item: item }, function () {
+            $('#pending-issue-table').removeClass('fade');
+        });
+
+        //Getting Last Purchase Requests
+        url = '@Url.Action("GetLastPurchaseRequest")';
+        $('#last-pr-table').addClass('fade');
+        $('#last-pr-table').load(url, { item: item }, function () {
+            $('#last-pr-table').removeClass('fade');
+        });
+
+        //Getting Last LPO
+        url = '@Url.Action("GetLastLPO")';
+        $('#last-lpo-table').addClass('fade');
+        $('#last-lpo-table').load(url, { item: item }, function () {
+            $('#last-lpo-table').removeClass('fade');
+        });
+
+        //Getting Last GRN
+        url = '@Url.Action("GetLastGRN")';
+        $('#last-grn-table').addClass('fade');
+        $('#last-grn-table').load(url, { item: item }, function () {
+            $('#last-grn-table').removeClass('fade');
+        });
+
+        //Getting Last Purchase Rate
+        url = '@Url.Action("GetLastPurchaseRate")';
+        $('#last-purchase-rate-table').addClass('fade');
+        $('#last-purchase-rate-table').load(url, { item: item }, function () {
+            $('#last-purchase-rate-table').removeClass('fade');
+        });
+
+        //Getting Last Purchase Bill
+        url = '@Url.Action("GetLastPurchaseBill")';
+        $('#last-purchase-bill-table').addClass('fade');
+        $('#last-purchase-bill-table').load(url, { item: item }, function () {
+            $('#last-purchase-bill-table').removeClass('fade');
+        });
+    }
+</script>
+
 <div class="row">
     <div class="form-head1">
-        <h4>DC Report</h4>
+        <h4>Material Activity Report</h4>
     </div>
     <div class="main-part pad1">
         <div class="row">
             <div class="main-grid main-grid-top scroll1">
-                @*<div class="row form-group">
-                    <div class="col-md-2">
-                        <label for="">Month</label>
-                        @Html.DropDownList("month-filter", new SelectList(
-                  new List<Object>{
-                       new { value = 0 , text = "January"  },
-                       new { value = 1 , text = "February" },
-                       new { value = 2 , text = "March"},
-                       new { value = 3 , text = "April"},
-                       new { value = 4 , text = "May"},
-                       new { value = 5 , text = "June"},
-                       new { value = 6 , text = "July"},
-                       new { value = 7 , text = "August"},
-                       new { value = 8 , text = "September"},
-                       new { value = 9 , text = "October"},
-                       new { value = 10 , text = "November"},
-                       new { value = 11 , text = "December"}
-                    },
-                  "value",
-                  "text", DateTime.Today.Month - 1), "Select Month", new { @class = "form_input", @onchange = "Filter()" })
-                    </div>
-                    <div class="col-md-2">
-                        <label for="">Year</label>
-                        @Html.DropDownList("year-filter", new SelectList(
-                  new List<Object>{
-                       new { value = ViewBag.Year, text = ViewBag.Year },
-                       new { value = ViewBag.Year + 1, text = ViewBag.Year + 1 }
-                    },
-                  "value",
-                  "text", ViewBag.Year), "Select Year", new { @class = "form_input", @onchange = "Filter()" })
-                    </div>
-                    <div class="col-md-2">
-                        <label>Reg No./Chassis No.</label>
-                        <input id="chassisno" class="form_input" placeholder="Search for Vehicle/Chassis No." onkeyup="Filter()" />
-                    </div>
-                    <div class="col-md-2">
-                        <label>Unit Sl.No.</label>
-                        <input id="unitserialno" class="form_input" placeholder="Search for Unit Sl.No" onkeyup="Filter()" />
-                    </div>
-                    <div class="col-md-2">
-                        <label>Customer</label>
-                        <input id="Customer" class="form_input" placeholder="Search for Customer " onkeyup="Filter()" />
-                    </div>
-                    <div class="col-md-2">
-                        <label>Jobcard No.</label>
-                        <input id="JobcardNo" class="form_input" placeholder="Search for Jobcard No." onkeyup="Filter()" />
-                    </div>
+                <div class="row form-group">
                     <div class="col-md-3">
-                        <label for="txtCustomer">Service/New Installation</label>
-                        <select id="cboType" class="form_input" onchange="Filter()">
-                            <option value="all" selected>All</option>
-                            <option value="service">Service</option>
-                            <option value="new">New Installation</option>
-                        </select>
+                        <label for="">Material/Spare</label>
+                        @Html.DropDownList("item-filter", new SelectList(ViewBag.materialList, "Value", "Text"), "Select Material/Spare",
+                        new { @class = "form_input", @onchange = "Filter()", @placeholder = "Search for material/spare" })
                     </div>
-
-                </div>*@
-                <div class="table-responsive" id="dc_report_table">
-                    @Html.Action("MaterialActivityReportGrid")
+                </div>
+                <div class="row" id="material_activity_report">
+                    <div class="row">
+                        <div class="col-md-4" id="pending-lpo-table"></div>
+                        <div class="col-md-4" id="pending-grn-table"></div>
+                        <div class="col-md-4" id="pending-issue-table"></div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-4" id="last-pr-table"></div>
+                        <div class="col-md-4" id="last-lpo-table"></div>
+                        <div class="col-md-4" id="last-grn-table"></div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-4" id="last-purchase-rate-table"></div>
+                        <div class="col-md-4" id="last-purchase-bill-table"></div>
+                        <div class="col-md-4" id="last-grn-table"></div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -190,6 +190,7 @@
                                                 {
                                                     <li><a href="@Url.Action("Index","Item")">Item</a></li>
                                                 }
+                                         
                                             </ul>
                                         </div>
                                     </li>
@@ -1014,7 +1015,8 @@
                                     || formPermission.Find(x => x.FormId == 122) != null
                                     || formPermission.Find(x => x.FormId == 123) != null
                                     || formPermission.Find(x => x.FormId == 146) != null
-                                    || formPermission.Find(x => x.FormId == 124) != null)
+                                    || formPermission.Find(x => x.FormId == 124) != null
+                                    || formPermission.Find(x => x.FormId == 147) != null)
                                 {
                                     <li>
                                     <a href="#" data-toggle="collapse" data-target="#misreports-stores">Stores<span class="caret arrow"></span></a>
@@ -1051,6 +1053,10 @@
                                             @if (formPermission.Find(x => x.FormId == 124) != null)
                                             {
                                                 <li><a href="@Url.Action("Index","GINRegister")">GIN Report</a></li>
+                                            }
+                                            @if (formPermission.Find(x => x.FormId == 147) != null)
+                                            {
+                                                <li><a href="@Url.Action("IndentVsSOVsInpassStatus", "IndentVsSOVsInpassStatus")">Indent Vs SO Vs Inpass Status</a></li>
                                             }
                                         </ul>
                                     </div>
@@ -1089,6 +1095,10 @@
                                 {
                                     <li><a href="@Url.Action("Index","WorkshopRequestRegister")">Workshop Request Register</a></li>
                                 }
+                                @if (formPermission.Find(x => x.FormId == 148) != null)
+                                {
+                                <li><a href="@Url.Action("Index", "WarrantyExtensionRegister")">Warranty Extension Register</a></li>
+                                }
                                 @if (formPermission.Find(x => x.FormId == 130) != null)
                                 {
                                     <li><a href="@Url.Action("Index","LoginHistory")">Login History</a></li>
@@ -1126,6 +1136,7 @@
                                 {
                                     <li><a href="@Url.Action("Index","ProfitabilityReport")">job Profitability</a></li>
                                 }
+                            
                             </ul>
                         </div>
                     </li>

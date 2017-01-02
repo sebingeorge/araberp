@@ -22,7 +22,7 @@ namespace ArabErp.DAL
                 INNER JOIN Unit U on U.UnitId =I.ItemUnitId
                 INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
                 LEFT JOIN StockUpdate S ON I.ItemId=S.ItemId
-                WHERE  CategoryName='Finished Goods'
+                WHERE  CategoryName='Finished Goods' and I.CriticalItem=1
                 GROUP BY I.ItemId,I.PartNo,ItemName,UnitName,MinLevel,BatchRequired;
                            
                 with W as (
@@ -72,7 +72,7 @@ namespace ArabErp.DAL
                 return connection.Query<MaterialPlanning>(sql, new { itmid = itmid, partNo = partNo, batch = batch}).ToList();
             }
         }
-        public IEnumerable<MaterialPlanning> GetMaterialPlanningDTPrint(int itmid, int? batch)
+        public IEnumerable<MaterialPlanning> GetMaterialPlanningDTPrint(int itmid, string batch = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -83,7 +83,7 @@ namespace ArabErp.DAL
                 INNER JOIN Unit U on U.UnitId =I.ItemUnitId
                 INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
                 LEFT JOIN StockUpdate S ON I.ItemId=S.ItemId
-                WHERE  CategoryName='Finished Goods'
+                WHERE  CategoryName='Finished Goods'  and I.CriticalItem=1
                 GROUP BY I.ItemId,I.PartNo,ItemName,UnitName,MinLevel,BatchRequired;
                            
                 with W as (
@@ -120,8 +120,7 @@ namespace ArabErp.DAL
                 
                 update T set T.ShortorExcess = (T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
 
-                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId) and  PartNo = ISNULL(NULLIF(@partNo, ''),PartNo) and BatchRequired = ISNULL(@batch,BatchRequired);
-
+                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId)   AND  ISNULL(BatchRequired, 0) = CASE @batch WHEN 'batch' THEN 1 WHEN 'nobatch' THEN 0 WHEN 'all' THEN ISNULL(BatchRequired, 0) END;
 
                 drop table #TEMP;
                 DROP TABLE #TEMP1;

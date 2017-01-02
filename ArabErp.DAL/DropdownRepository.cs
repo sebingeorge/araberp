@@ -940,12 +940,13 @@ namespace ArabErp.DAL
         /// <summary>
         /// for MRP 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Critical Items Only
+        /// </returns>
         public List<Dropdown> ItemFGDropdown()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item I INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId WHERE ISNULL(I.isActive, 1) = 1 AND  IC.CategoryName='Finished Goods'").ToList();
+                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item I INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId WHERE ISNULL(I.isActive, 1) = 1 AND  IC.CategoryName='Finished Goods' and I.CriticalItem=1").ToList();
             }
         }
         /// <summary>

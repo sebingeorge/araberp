@@ -72,14 +72,186 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable GetMaterialActivityReport(int OrganizationId)
+        public IEnumerable GetPendingLPO(int item, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 try
                 {
-                    string query = @"";
-                    return connection.Query<DCReport>(query, new { org = OrganizationId });
+                    string query = @"SELECT
+	                                    PR.PurchaseRequestNo,
+	                                    CONVERT(VARCHAR, PR.PurchaseRequestDate, 106) PurchaseRequestDate,
+	                                    PRI.Quantity PRQuantity,
+	                                    PRI.Quantity - ISNULL(SOI.Quantity, 0) PendingQuantity
+                                    FROM PurchaseRequestItem PRI
+                                    LEFT JOIN (SELECT
+				                                    PurchaseRequestItemId,
+				                                    SUM(OrderedQty) Quantity
+			                                    FROM SupplyOrderItem
+			                                    GROUP BY PurchaseRequestItemId) SOI ON PRI.PurchaseRequestItemId = SOI.PurchaseRequestItemId
+                                    INNER JOIN Item I ON PRI.ItemId = I.ItemId
+                                    INNER JOIN PurchaseRequest PR ON PRI.PurchaseRequestId = PR.PurchaseRequestId
+                                    WHERE I.ItemId = @item AND PR.OrganizationId = @org AND ISNULL(SOI.Quantity, 0) < PRI.Quantity AND SOI.PurchaseRequestItemId IS NULL";
+                    return connection.Query<PendingPurchaseRequest>(query, new { org = OrganizationId, item = item }).ToList();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public object GetLastPurchaseBill(int item, int organizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string query = @"SELECT DISTINCT TOP 3
+	                                    PB.PurchaseBillRefNo,
+	                                    CONVERT(VARCHAR, PB.PurchaseBillDate, 106) PurchaseBillDate,
+	                                    PB.PurchaseBillAmount
+                                    FROM PurchaseBill PB
+	                                    INNER JOIN PurchaseBillItem PBI ON PB.PurchaseBillId = PBI.PurchaseBillId
+	                                    INNER JOIN GRNItem GI ON PBI.GRNItemId = GI.GRNItemId
+                                    WHERE GI.ItemId = @item AND PB.OrganizationId = @org";
+                    return connection.Query<PurchaseBill>(query, new { org = organizationId, item = item }).ToList();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public IEnumerable GetPendingGRN(int item, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string query = @"SELECT
+	                                    SO.SupplyOrderNo + ' - ' + CONVERT(VARCHAR, SO.SupplyOrderDate, 106) SoNoWithDate,
+	                                    S.SupplierName,
+	                                    SOI.OrderedQty Quantity,
+	                                    SOI.OrderedQty - ISNULL(GI.Quantity, 0) PendingQuantity
+                                    FROM SupplyOrderItem SOI
+                                    LEFT JOIN (SELECT
+				                                    SupplyOrderItemId,
+				                                    ItemId,
+				                                    SUM(Quantity) Quantity
+			                                    FROM GRNItem
+			                                    WHERE ItemId = @item
+			                                    GROUP BY SupplyOrderItemId, ItemId) GI ON SOI.SupplyOrderItemId = GI.SupplyOrderItemId
+                                    INNER JOIN Item I ON GI.ItemId = I.ItemId
+                                    INNER JOIN SupplyOrder SO ON SOI.SupplyOrderId = SO.SupplyOrderId
+                                    INNER JOIN Supplier S ON SO.SupplierId = S.SupplierId
+                                    WHERE ISNULL(GI.Quantity, 0) < SOI.OrderedQty AND SO.OrganizationId = @org AND GI.SupplyOrderItemId IS NULL";
+                    return connection.Query<PendingForGRN>(query, new { org = OrganizationId, item = item }).ToList();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public object GetPendingIssue(int item, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string query = @"SELECT
+	                                    WR.WorkShopRequestRefNo,
+	                                    CONVERT(VARCHAR, WR.WorkShopRequestDate, 106) WorkShopRequestDate,
+	                                    WRI.Quantity,
+	                                    WRI.Quantity - ISNULL(SII.Quantity, 0) PendingQuantity
+                                    FROM WorkShopRequestItem WRI
+                                    LEFT JOIN (SELECT
+				                                    SII.WorkShopRequestItemId,
+				                                    SUM(SII.IssuedQuantity) Quantity
+			                                    FROM StoreIssueItem SII
+				                                    INNER JOIN WorkShopRequestItem WRI ON SII.WorkShopRequestItemId = WRI.WorkShopRequestItemId
+			                                    WHERE WRI.ItemId = @item
+			                                    GROUP BY SII.WorkShopRequestItemId) SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
+                                    INNER JOIN WorkShopRequest WR ON WRI.WorkShopRequestId = WR.WorkShopRequestId
+                                    INNER JOIN Item I ON WRI.ItemId = I.ItemId
+                                    WHERE WRI.ItemId = @item AND SII.WorkShopRequestItemId IS NULL AND WR.OrganizationId = @org
+                                    AND ISNULL(SII.Quantity, 0) < WRI.Quantity";
+                    return connection.Query<PendingWorkShopRequest>(query, new { org = OrganizationId, item = item }).ToList();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public object GetLastPurchaseRequest(int item, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string query = @"SELECT TOP 3
+	                                    PR.PurchaseRequestNo,
+	                                    CONVERT(VARCHAR, PR.PurchaseRequestDate, 106) PurchaseRequestDate,
+	                                    SUM(PRI.Quantity) PRQuantity
+                                    FROM PurchaseRequest PR
+	                                    INNER JOIN PurchaseRequestItem PRI ON PR.PurchaseRequestId = PRI.PurchaseRequestId
+                                    WHERE PRI.ItemId = @item AND PR.OrganizationId = @org
+                                    GROUP BY PR.PurchaseRequestNo, PR.PurchaseRequestDate
+                                    ORDER BY PR.PurchaseRequestDate DESC";
+                    return connection.Query<PendingPurchaseRequest>(query, new { org = OrganizationId, item = item }).ToList();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public object GetLastLPO(int item, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string query = @"SELECT TOP 3
+	                                    SO.SupplyOrderNo + ' - ' + CONVERT(VARCHAR, SO.SupplyOrderDate, 106) SoNoWithDate,
+	                                    SUM(SOI.OrderedQty) Quantity
+                                    FROM SupplyOrder SO
+	                                    INNER JOIN SupplyOrderItem SOI ON SO.SupplyOrderId = SOI.SupplyOrderId
+	                                    LEFT JOIN PurchaseRequestItem PRI ON SOI.PurchaseRequestItemId = PRI.PurchaseRequestItemId
+                                    WHERE PRI.ItemId = @item AND SO.OrganizationId = @org
+                                    GROUP BY SO.SupplyOrderNo,SO.SupplyOrderDate
+                                    ORDER BY SO.SupplyOrderDate DESC";
+                    return connection.Query<PendingSupplyOrder>(query, new { org = OrganizationId, item = item }).ToList();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
+        public object GetLastGRN(int item, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string query = @"SELECT TOP 3
+	                                    GRN.GRNNo,
+	                                    CONVERT(VARCHAR, GRN.GRNDate, 106) GRNDate,
+	                                    SUM(GI.Quantity) Quantity
+                                    FROM GRN
+	                                    INNER JOIN GRNItem GI ON GRN.GRNId = GI.GRNId
+                                    WHERE GI.ItemId = @item AND GRN.OrganizationId = @org
+                                    GROUP BY GRN.GRNNo, GRN.GRNDate
+                                    ORDER BY GRN.GRNDate DESC";
+                    return connection.Query<PendingGRN>(query, new { org = OrganizationId, item = item }).ToList();
                 }
                 catch (Exception)
                 {

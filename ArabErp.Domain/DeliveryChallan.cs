@@ -78,7 +78,10 @@ namespace ArabErp.Domain
 
         public string PrintDescription { get; set; }
         public string PunchingNo { get; set; }
-
+        public string VehicleModelName { get; set; }
+        public string SerialNo { get; set; }
+        public DateTime WarrantyExpireDate { get; set; }
+           
         public List<PrintDescription> PrintDescriptions { get; set; }
     }
 }

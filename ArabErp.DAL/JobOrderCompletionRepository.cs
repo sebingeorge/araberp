@@ -167,16 +167,40 @@ namespace ArabErp.DAL
                 //                        where ISNULL(I.isConsumable,0)=0 and J.jobcardid=@JobCardId AND SII.WorkShopRequestItemId IS  NULL"; 
                 #endregion
                 sql = @"SELECT
-	                        ISNULL(SUM(ISNULL(WRI.Quantity, 0)) - SUM(ISNULL(SII.IssuedQuantity, 0)), 1)
+	                        WRI.ItemId,
+	                        SUM(WRI.Quantity) Quantity
+                        INTO #WORK
+                        FROM WorkShopRequest WR
+                        INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                        INNER JOIN Item I ON WRI.ItemId = I.ItemId
+                        WHERE ISNULL(I.isConsumable, 0) = 0 AND (WR.JobCardId = @JobCardId OR 
+                        WR.SaleOrderItemId = (SELECT SaleOrderItemId FROM JobCard WHERE JobCardId = @JobCardId)
+                        OR (WR.SaleOrderItemId = 0 AND ISNULL(WR.JobCardId, 0) = 0 AND WR.SaleOrderId = (SELECT SaleOrderId FROM JobCard WHERE JobCardId = @JobCardId)))
+                        GROUP BY WRI.ItemId
+
+                        SELECT
+	                        WRI.ItemId,
+	                        SUM(SII.IssuedQuantity) Quantity
+                        INTO #ISSUE
                         FROM WorkShopRequest WR
                         INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
                         INNER JOIN Item I ON WRI.ItemId = I.ItemId
                         LEFT JOIN StoreIssueItem SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
-                        WHERE ISNULL(I.isConsumable, 0) = 0 AND WR.JobCardId = @JobCardId OR 
+                        WHERE ISNULL(I.isConsumable, 0) = 0 AND (WR.JobCardId = @JobCardId OR 
                         WR.SaleOrderItemId = (SELECT SaleOrderItemId FROM JobCard WHERE JobCardId = @JobCardId)
-                        OR (WR.SaleOrderItemId = 0 AND WR.SaleOrderId = (SELECT SaleOrderId FROM JobCard WHERE JobCardId = @JobCardId))";
+                        OR (WR.SaleOrderItemId = 0 AND ISNULL(WR.JobCardId, 0) = 0 AND WR.SaleOrderId = (SELECT SaleOrderId FROM JobCard WHERE JobCardId = @JobCardId)))
+                        GROUP BY WRI.ItemId
+
+                        SELECT
+	                        COUNT(#WORK.ItemId)
+                        FROM #WORK
+	                        LEFT JOIN #ISSUE ON #WORK.ItemId = #ISSUE.ItemId
+                        WHERE #WORK.Quantity > ISNULL(#ISSUE.Quantity, 0)
+
+                        DROP TABLE #ISSUE;
+                        DROP TABLE #WORK;";
                 int val = connection.Query<int>(sql, new { JobCardId = JobCardId }).First();
-                jobcard.StoreIssued = val <= 0 ? true : false;
+                jobcard.StoreIssued = val == 0 ? true : false;
                 //jobcard.JobCardTask = new List<JobCardCompletionTask>();
 
                 //foreach (JobCardCompletionTask item in tasks)
