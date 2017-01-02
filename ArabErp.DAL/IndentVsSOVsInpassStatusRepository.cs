@@ -11,7 +11,7 @@ namespace ArabErp.DAL
     public class IndentVsSOVsInpassStatusRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<IndentVsSOVsInpassStatus> GetGRNRegister()
+        public IEnumerable<IndentVsSOVsInpassStatus> GetIndentRegister(string supplier = "", string item = "", string indentno = "", string sono = "", string grnno = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -33,9 +33,14 @@ namespace ArabErp.DAL
                         LEFT JOIN Supplier S ON S.SupplierId=SO.SupplierId
                         LEFT JOIN GRNItem GI ON GI.SupplyOrderItemId=SOI.SupplyOrderItemId AND GI.ItemId=I.ItemId
                         LEFT JOIN GRN G ON G.GRNId=GI.GRNId
-                        LEFT JOIN [User] GU ON GU.UserId=G.CreatedBy";
+                        LEFT JOIN [User] GU ON GU.UserId=G.CreatedBy
+                        WHERE isnull(S.SupplierName,'')  LIKE '%'+@supplier+'%'
+                        AND isnull(I.ItemName,'')  LIKE '%'+@item+'%'
+                        AND isnull(P.PurchaseRequestNo,'')  LIKE '%'+@indentno+'%'
+                        AND isnull(SO.SupplyOrderNo,'')  LIKE '%'+@sono+'%'
+                        AND isnull(G.GRNNo,'')  LIKE '%'+@grnno+'%'";
 
-                return connection.Query<IndentVsSOVsInpassStatus>(sql);
+                return connection.Query<IndentVsSOVsInpassStatus>(sql, new { supplier = supplier, item = item, indentno = indentno, sono = sono, grnno = grnno });
             }
         }
     }

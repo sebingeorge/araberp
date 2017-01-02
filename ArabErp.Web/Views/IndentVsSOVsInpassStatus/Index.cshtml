@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+
+    function Filter() {
+        $("#indentlist").addClass("fade");
+        var supplier = $("#supplier").val().trim();
+        var item = $("#item").val().trim();
+        var indentno = $("#indentno").val().trim();
+        var sono = $("#sono").val().trim();
+        var grnno = $("#grnno").val().trim();
+     
+        var url = '@Url.Action("IndentVsSOVsInpassStatus")';
+        url += "?supplier=" + encodeURIComponent(supplier) + "&item=" + encodeURIComponent(item) + "&indentno=" + encodeURIComponent(indentno)
+            + "&sono=" + encodeURIComponent(sono) + "&grnno=" + encodeURIComponent(grnno);
+        $("#indentlist").load(url, function () {
+            $("#indentlist").removeClass("fade");
+        });
+    }
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+</script>
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Indent Vs Supply Order Vs GRN Register</h4>
+    </div>
+
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="col-md-3">
+                <label>Supplier</label>
+                <input id="supplier" class="form_input" placeholder="Search for Supplier" onkeyup="Filter()" />
+            </div>
+            <div class="col-md-3">
+                <label>Item</label>
+                <input id="item" class="form_input" placeholder="Search for Item" onkeyup="Filter()" />
+            </div>
+            <div class="col-md-2">
+                <label>Indent No.</label>
+                <input id="indentno" class="form_input" placeholder="Search for Indent No." onkeyup="Filter()" />
+            </div>
+            <div class="col-md-2">
+                <label>SO No.</label>
+                <input id="sono" class="form_input" placeholder="Search for SO No." onkeyup="Filter()" />
+            </div>
+            <div class="col-md-2">
+                <label>GRN No.</label>
+                <input id="grnno" class="form_input" placeholder="Search for GRN No." onkeyup="Filter()" />
+            </div>
+
+        </div>
+        <br />
+        <div class="row">
+            <div class="main-grid main-grid-top ">
+                <div class="table-responsive" id="indentlist" style="overflow-x: scroll;overflow-y: scroll;max-height: 400px;">
+                    @Html.Action("IndentVsSOVsInpassStatus")
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+            </div>
+        </div>
+    </div>
+</div>
+
