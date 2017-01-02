@@ -22,9 +22,9 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public ActionResult IndentVsSOVsInpassStatus()
+        public ActionResult IndentVsSOVsInpassStatus(string supplier = "", string item = "", string indentno = "", string sono = "", string grnno = "")
         {
-            return PartialView("IndentVsSOVsInpassStatus", new IndentVsSOVsInpassStatusRepository().GetGRNRegister());
+            return PartialView("IndentVsSOVsInpassStatus", new IndentVsSOVsInpassStatusRepository().GetIndentRegister(supplier, item, indentno, sono, grnno));
         }
 
     }
