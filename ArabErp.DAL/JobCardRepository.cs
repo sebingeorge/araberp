@@ -185,6 +185,7 @@ namespace ArabErp
                     int i = 0;
                     foreach (var item in objJobCard.JobCardTasks)
                     {
+                        //if (item.isTaskUsed) continue;
                         item.JobCardId = objJobCard.JobCardId;
                         item.SlNo = i;
                         JobCardTaskRepository repo = new JobCardTaskRepository();
@@ -534,33 +535,47 @@ namespace ArabErp
 
                 JobCard jobcard = connection.Query<JobCard>(query, new { JobCardId = JobCardId }, txn).FirstOrDefault();
 
+                #region old query 3.1.2017 5.47p
+                //                query = @"SELECT
+                //	                            JobCardTaskMasterId JobCardTaskId,
+                //	                            EmployeeId,
+                //	                            CONVERT(VARCHAR, TaskDate, 106) TaskDate,
+                //	                            SlNo,
+                //	                            [Hours]
+                //                            FROM JobCardTask
+                //                            WHERE JobCardId = @JobCardId"; 
+                #endregion
+
                 query = @"SELECT
 	                            JobCardTaskMasterId JobCardTaskId,
-	                            EmployeeId,
+	                            JT.EmployeeId,
 	                            CONVERT(VARCHAR, TaskDate, 106) TaskDate,
 	                            SlNo,
-	                            [Hours]
-                            FROM JobCardTask
+	                            [Hours],
+	                            CASE WHEN DT.JobCardTaskId IS NULL THEN 0 ELSE 1 END isTaskUsed
+                            FROM JobCardTask JT
+	                            LEFT JOIN JobCardDailyActivityTask DT ON JT.JobCardTaskId = DT.JobCardTaskId
                             WHERE JobCardId = @JobCardId";
+
                 jobcard.JobCardTasks = connection.Query<JobCardTask>(query, new { JobCardId = JobCardId }, txn).ToList();
 
                 query = @"SELECT ISNULL(JodCardCompleteStatus, 0) FROM JobCard WHERE JobCardId=@JobCardId";
                 jobcard.IsUsed = Convert.ToBoolean(connection.Query<int>(query, new { JobCardId = jobcard.JobCardId }, txn).First());
                 if (jobcard.IsUsed) return jobcard;
 
-                try
-                {
-                    query = @"DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;
-                              DELETE FROM JobCard WHERE JobCardId = @JobCardId;";
-                    connection.Query<JobCardTask>(query, new { JobCardId = JobCardId }, txn).ToList();
-                    txn.Rollback();
-                    jobcard.IsTaskUsed = false;
-                }
-                catch
-                {
-                    txn.Rollback();
-                    jobcard.IsTaskUsed = true;
-                }
+//                try
+//                {
+//                    query = @"DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;
+//                              DELETE FROM JobCard WHERE JobCardId = @JobCardId;";
+//                    connection.Query<JobCardTask>(query, new { JobCardId = JobCardId }, txn).ToList();
+//                    txn.Rollback();
+//                    jobcard.IsTaskUsed = false;
+//                }
+//                catch
+//                {
+//                    txn.Rollback();
+//                    jobcard.IsTaskUsed = true;
+//                }
 
                 return jobcard;
             }

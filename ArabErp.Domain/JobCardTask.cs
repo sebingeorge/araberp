@@ -24,5 +24,6 @@ namespace ArabErp.Domain
         public decimal StartTime { get; set; }
         public decimal EndTime { get; set; }
         public string JobCardTaskName { get; set; }
+        public bool isTaskUsed { get; set; }
     }
 }
