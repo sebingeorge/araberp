@@ -31,6 +31,8 @@ namespace ArabErp.Domain
        public DateTime RequiredDate { get; set; }
        public int DaysLeft { get; set; }
        public int Age { get; set; }
+       public decimal? InTrans { get; set; }
+      
       
       
           

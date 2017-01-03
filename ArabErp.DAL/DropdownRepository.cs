@@ -953,7 +953,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item I  WHERE ISNULL(I.isActive, 1) = 1 AND ISNULL(I.BatchRequired,0)=0 AND (ISNULL(I.FreezerUnit,0)=0 OR ISNULL(I.Box,0)=0)").ToList();
+                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item I  WHERE ISNULL(I.isActive, 1) = 1 AND ISNULL(I.BatchRequired,0)=0 AND (ISNULL(I.FreezerUnit,0)=0 OR ISNULL(I.Box,0)=0) and isnull(MinLevel,0)>0").ToList();
             }
         }
         /// <summary>
