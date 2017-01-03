@@ -456,7 +456,7 @@ namespace ArabErp.DAL
                 SELECT PI.ItemId,(SUM(ISNULL(PI.Quantity,0))-T.SOQTY)PRQty  FROM PurchaseRequestItem PI  LEFT JOIN #TEMP1 T ON T.ItemId =PI.ItemId
                 GROUP BY  PI.ItemId,T.SOQTY
                 )
-                update T set T.PendingPRQty = (PR.PRQty) from PR INNER JOIN #TEMP T  on T.ItemId = PR.ItemId;
+                update T set T.PendingPRQty =  isnull(PR.PRQty,0) from PR INNER JOIN #TEMP T  on T.ItemId = PR.ItemId;
                 
                 update T set T.ShortorExcess = (T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
                      
