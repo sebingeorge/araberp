@@ -24,7 +24,19 @@ namespace ArabErp.Domain
         public string batch { get; set; }
         public decimal? IssuedQty { get; set; }
         public int? SlNo { get; set; }
+        public decimal? PENWRQTY { get; set; }
+       public string SupplierName { get; set; }
+       public string SupplyOrderNo { get; set; }
+       public DateTime SupplyOrderDate { get; set; }
+       public DateTime RequiredDate { get; set; }
+       public int DaysLeft { get; set; }
+       public int Age { get; set; }
+       public decimal? InTrans { get; set; }
       
+      
+      
+          
+                  
        
     }
 }

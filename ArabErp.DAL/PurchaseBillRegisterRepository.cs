@@ -18,11 +18,15 @@ namespace ArabErp.DAL
             {
                 //              
                 string qry = @"select PurchaseBillRefNo,PurchaseBillDate,PurchaseBillNoDate,S.SupplierName,ItemName,ItemRefNo,G.Quantity,PI.Rate,PI.Amount 
-                               from PurchaseBill P,PurchaseBillItem PI,Item I,Supplier S,GRNItem G
-                               where P.SupplierId=S.SupplierId AND P.PurchaseBillId=PI.PurchaseBillId AND PI.GRNItemId=G.GRNItemId AND G.ItemId =I.ItemId 
-                               and P.isActive=1 AND P.PurchaseBillDate BETWEEN @from AND @to 
-                               AND P.OrganizationId=@OrganizationId AND  I.ItemId = ISNULL(NULLIF(@itmid, 0), I.ItemId) and S.SupplierId=ISNULL(NULLIF(@id, 0), S.SupplierId) 
-                               ORDER BY PurchaseBillDate";
+                            ,SO.SupplyOrderNo,
+                             GR.GRNNo,GR.GRNDate
+                             from PurchaseBill P,PurchaseBillItem PI,Item I,Supplier S,GRNItem G,SupplyOrder SO,GRN GR
+                             where P.SupplierId=S.SupplierId AND P.PurchaseBillId=PI.PurchaseBillId AND PI.GRNItemId=G.GRNItemId AND G.ItemId =I.ItemId AND SO.SupplierId=S.SupplierId
+							  and GR.GRNId=G.GRNId
+                              and P.isActive=1
+							  AND P.PurchaseBillDate BETWEEN @from AND @to 
+                              AND P.OrganizationId=@OrganizationId AND  I.ItemId = ISNULL(NULLIF(@itmid, 0), I.ItemId) and S.SupplierId=ISNULL(NULLIF(@id, 0), S.SupplierId) 
+                             ORDER BY PurchaseBillDate";
 
 
 

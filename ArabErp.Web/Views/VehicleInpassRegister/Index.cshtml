@@ -13,8 +13,9 @@
         var InstallType = $("#cboType").val();
         var CustomerName = $("#txtCustomer").val().trim();
         var RegNo = $("#txtRegNo").val().trim();
+        var Status = $("#txtStatus").val().trim();
         var url = '@Url.Action("VehicleInpassRegister")';
-        url += "?InstallType=" + encodeURIComponent(InstallType) + "&CustomerName=" + encodeURIComponent(CustomerName) + "&RegNo=" + encodeURIComponent(RegNo);
+        url += "?InstallType=" + encodeURIComponent(InstallType) + "&CustomerName=" + encodeURIComponent(CustomerName) + "&RegNo=" + encodeURIComponent(RegNo) + "&Status=" + encodeURIComponent(Status);
         $("#VehicleInpass_Reg").load(url, function () {
             $("#VehicleInpass_Reg").removeClass("fade");
         });
@@ -44,6 +45,10 @@
             <div class="col-md-2">
                 <label for="txtRegNo">Chassis No./Reg No.</label>
                 <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Chassis No./Reg No." />
+            </div>
+            <div class="col-md-2">
+                <label for="txtStatus">Status</label>
+                <input type="text" class="form_input" id="txtStatus" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Status" />
             </div>
         </div>
         <br />

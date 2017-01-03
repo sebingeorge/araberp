@@ -15,5 +15,6 @@ namespace ArabErp.Domain
         public string VehicleModelName { get; set; }
         public string RegistrationNo { get; set; }
         public string ChasisNo { get; set; }
+        public bool isOnHold { get; set; }
     }
 }

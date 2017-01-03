@@ -285,7 +285,7 @@ namespace ArabErp.DAL
 
 
 
-        public IEnumerable<VehicleInPass> GetVehicleInpassRegister(string InstallType, string CustomerName, string RegNo)
+        public IEnumerable<VehicleInPass> GetVehicleInpassRegister(string InstallType, string CustomerName, string RegNo,string status)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -332,7 +332,8 @@ namespace ArabErp.DAL
                                when Isnull(J.JodCardCompleteStatus,0)=0 and JA.JobCardId is not null   then 'Work in Progress'  
                                when Isnull(J.JodCardCompleteStatus,0)=0 and JA.JobCardId is null   then 'Work not Started' 
                                when J.InPassId is null then 'Pending JC Creation'
-                               end as Status
+                               end as Status 
+                               INTO #TEMP2       
                                from VehicleInPass V
                                INNER JOIN  SaleOrder S on V.SaleOrderId=S.SaleOrderId
                                INNER JOIN SaleOrderItem SI on SI.SaleOrderId=S.SaleOrderId
@@ -345,12 +346,16 @@ namespace ArabErp.DAL
                                LEFT JOIN Item I ON I.ItemId=W.FreezerUnitId
                                LEFT JOIN Item IT ON IT.ItemId=W.BoxId
                                LEFT JOIN #TEMP1 T ON T.SaleOrderItemId=SI.SaleOrderItemId
-                               where  ISNULL(S.isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(S.isService, 0) END
-                               AND ISNULL(C.CustomerName,'') LIKE '%'+@CustomerName+'%'
-                               AND (ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%')";
-			                 
 
-                return connection.Query<VehicleInPass>(sql, new { InstallType = InstallType, CustomerName = CustomerName, RegNo = RegNo }).ToList();
+                               SELECT * INTO #TEMP3 FROM  #TEMP2 
+                               SELECT * FROM #TEMP3
+                               WHERE ISNULL(#TEMP3.isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(#TEMP3.isService, 0) END
+                               AND ISNULL(#TEMP3.CustomerName,'') LIKE '%'+@CustomerName+'%'  
+                               AND (ISNULL(#TEMP3.ChassisNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(#TEMP3.RegistrationNo, '') LIKE '%'+@RegNo+'%')
+                               AND ISNULL(#TEMP3.Status,'') LIKE '%'+@status+'%'";
+
+
+                return connection.Query<VehicleInPass>(sql, new { InstallType = InstallType, CustomerName = CustomerName, RegNo = RegNo, status = status }).ToList();
             }
         }
     }
