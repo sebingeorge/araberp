@@ -25,7 +25,7 @@
         window.location = url;
     }
 </script>
-<div class="row">
+<div class="row grid-wrap">
 
     <div class="form-head1">
         <h4>Indent Vs Supply Order Vs GRN Register</h4>
@@ -58,7 +58,7 @@
         <br />
         <div class="row">
             <div class="main-grid main-grid-top ">
-                <div class="table-responsive" id="indentlist">
+                <div id="indentlist" style="overflow:auto; max-height:400px;">
                     @Html.Action("IndentVsSOVsInpassStatus")
                 </div>
             </div>
