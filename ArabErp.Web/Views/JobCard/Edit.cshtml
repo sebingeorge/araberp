@@ -315,7 +315,7 @@
 
                                     <td>
                                         @Html.HiddenFor(m => m.JobCardTasks[row].isTaskUsed)
-                                        @if (Model.JobCardTasks[row].isTaskUsed)
+                                        @if (Model.IsTaskUsed)
                                         {
                                             <a id="del_@row" class="glyphicon glyphicon-minus hide" onclick="DeleteRowBelow(@row)" style="top:0;"></a>
                                         }
@@ -326,7 +326,7 @@
                                     </td>
 
                                     <td>
-                                        @if (Model.JobCardTasks[row].isTaskUsed)
+                                        @if (Model.IsTaskUsed)
                                         {
                                             @Html.DropDownListFor(m => Model.JobCardTasks[row].JobCardTaskId, new SelectList(ViewBag.TaskList, "Value", "Text", Model.JobCardTasks[row].JobCardTaskId), "Select Task",
                                         new { @class = "form_input", @autocomplete = "off", @disabled = Model.IsTaskUsed })
@@ -339,7 +339,7 @@
                                     </td>
 
                                     <td>
-                                        @if (Model.JobCardTasks[row].isTaskUsed)
+                                        @if (Model.IsTaskUsed)
                                         {
                                             @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", Model.JobCardTasks[row].EmployeeId), "Select Technician",
                                         new { @class = "form_input", @autocomplete = "off", @disabled = Model.IsTaskUsed })
@@ -352,7 +352,7 @@
                                     </td>
 
                                     <td>
-                                        @if (Model.JobCardTasks[row].isTaskUsed)
+                                        @if (Model.IsTaskUsed)
                                         {
                                             @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"),
                                         new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly", @disabled = Model.IsTaskUsed })
@@ -365,7 +365,7 @@
                                     </td>
 
                                     <td>
-                                        @if (Model.JobCardTasks[row].isTaskUsed)
+                                        @if (Model.IsTaskUsed)
                                         {
                                             @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off", @disabled = Model.IsTaskUsed })
                                         }

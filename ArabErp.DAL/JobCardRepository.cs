@@ -563,19 +563,19 @@ namespace ArabErp
                 jobcard.IsUsed = Convert.ToBoolean(connection.Query<int>(query, new { JobCardId = jobcard.JobCardId }, txn).First());
                 if (jobcard.IsUsed) return jobcard;
 
-//                try
-//                {
-//                    query = @"DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;
-//                              DELETE FROM JobCard WHERE JobCardId = @JobCardId;";
-//                    connection.Query<JobCardTask>(query, new { JobCardId = JobCardId }, txn).ToList();
-//                    txn.Rollback();
-//                    jobcard.IsTaskUsed = false;
-//                }
-//                catch
-//                {
-//                    txn.Rollback();
-//                    jobcard.IsTaskUsed = true;
-//                }
+                try
+                {
+                    query = @"DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;
+                              DELETE FROM JobCard WHERE JobCardId = @JobCardId;";
+                    connection.Query<JobCardTask>(query, new { JobCardId = JobCardId }, txn).ToList();
+                    txn.Rollback();
+                    jobcard.IsTaskUsed = false;
+                }
+                catch
+                {
+                    txn.Rollback();
+                    jobcard.IsTaskUsed = true;
+                }
 
                 return jobcard;
             }
