@@ -532,6 +532,11 @@ input[type="text"]:disabled {
     background-color:
 	#FA8072;
 }
+.detail 
+{
+    font-weight:bold;
+    padding-top:5px;
+}
 
 .links {
     list-style-type: none;

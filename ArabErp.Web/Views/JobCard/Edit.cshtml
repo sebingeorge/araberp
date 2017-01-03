@@ -126,7 +126,7 @@
         $("#JobCardTasks_" + index + "__TaskDate").val('');
         $("#JobCardTasks_" + index + "__TaskDate").removeAttr("disabled");
         $("#JobCardTasks_" + index + "__Hours").val(0);
-        $("#JobCardTasks_" + index + "__Hours").removeAttr("disabled");
+        $("#JobCardTasks_" + index + "__Hours").removeAttr("readonly");
         $("#del_" + index).removeClass('hide');
 
     }
@@ -314,6 +314,7 @@
                                 <tr id="Row_@row" class="TaskRow">
 
                                     <td>
+                                        @Html.HiddenFor(m => m.IsTaskUsed)
                                         @if (Model.IsTaskUsed)
                                         {
                                             <a id="del_@row" class="glyphicon glyphicon-minus hide" onclick="DeleteRowBelow(@row)" style="top:0;"></a>
@@ -366,7 +367,7 @@
                                     <td>
                                         @if (Model.IsTaskUsed)
                                         {
-                                            @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off", @disabled = Model.IsTaskUsed })
+                                            @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off", @readonly = Model.IsTaskUsed })
                                         }
                                         else
                                         {

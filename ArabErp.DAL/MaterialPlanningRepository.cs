@@ -59,7 +59,7 @@ namespace ArabErp.DAL
                 
                 update T set T.ShortorExcess = (T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
                 
-                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId);
+                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId) and MinLevel>0 ;
               
 
 
@@ -120,7 +120,7 @@ namespace ArabErp.DAL
                 
                 update T set T.ShortorExcess = (T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
                 
-                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId);
+                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId) and MinLevel>0;
               
 
                
@@ -227,7 +227,51 @@ namespace ArabErp.DAL
                 return connection.Query<MaterialPlanning>(sql, new { id = id }).ToList();
             }
         }
+        public IEnumerable<MaterialPlanning> GetSaleOrderDetails(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
 
+
+                string sql = @"    select * INTO #TEMP FROM (
+                                  select ItemId,SS.SaleOrderId,SS.SaleOrderRefNo,SS.SaleOrderDate,sum(Quantity) SOQuantity,0 WRQTY,0 PENWRQTY from SaleOrderItem S
+								  INNER JOIN SaleOrder SS ON S.SaleOrderId=SS.SaleOrderId
+                                  INNER JOIN WorkDescription W ON W.WorkDescriptionId = S.WorkDescriptionId
+                                  INNER JOIN Item I ON I.ItemId=W.FreezerUnitId
+                                  group by ItemId,SS.SaleOrderId,SS.SaleOrderRefNo,SS.SaleOrderDate
+
+                                  UNION ALL
+
+                                  select ItemId,SS.SaleOrderId,SS.SaleOrderRefNo,SS.SaleOrderDate ,sum(Quantity) SOQuantity,0 WRQTY,0 PENWRQTY from SaleOrderItem S
+								  INNER JOIN SaleOrder SS ON S.SaleOrderId=SS.SaleOrderId
+                                  INNER JOIN WorkDescription W ON W.WorkDescriptionId = S.WorkDescriptionId
+                                  INNER JOIN Item I ON I.ItemId=W.BoxId
+                                  group by ItemId,SS.SaleOrderId,SS.SaleOrderRefNo,SS.SaleOrderDate
+
+                                  UNION ALL
+
+                                  select ItemId,SS.SaleOrderId,SS.SaleOrderRefNo,SS.SaleOrderDate,sum(Quantity) SOQuantity,0 WRQTY,0 PENWRQTY from SaleOrderMaterial S
+								  INNER JOIN SaleOrder SS ON S.SaleOrderId=SS.SaleOrderId
+                                  group by ItemId,SS.SaleOrderId,SS.SaleOrderRefNo,SS.SaleOrderDate
+                                  )AS A;
+           
+                           
+                                  with W as (
+                                  select ItemId, SUM(Quantity)Quantity,W.SaleOrderId from WorkShopRequestItem WI
+								  inner join WorkShopRequest W on W.WorkShopRequestId=WI.WorkShopRequestId
+								  GROUP BY ItemId,W.SaleOrderId
+                                  )
+                                  update T set T.WRQTY = W.Quantity from W inner join #TEMP T on T.ItemId = W.ItemId AND W.SaleOrderId=T.SaleOrderId ;
+
+                                  update  T set T.PENWRQTY = ISNULL((T.SOQuantity-T.WRQTY),0) FROM #TEMP T;
+                                  SELECT * FROM #TEMP where itemid=@id AND PENWRQTY>0";
+                            
+                          
+
+
+                return connection.Query<MaterialPlanning>(sql, new { id = id }).ToList();
+            }
+        }
         public IEnumerable<MaterialPlanning> GetMaterialPlanningFGPrint(int itmid)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
