@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Quick Book Export";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Quick Book Export</h4>
+    </div>
+    <div class="main-part pad1">
+        <form method="post" onsubmit="return Validation()" action="@Url.Action("Export", "QuickBookExport")">
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <select autocomplete="off" class="form_input" data-val="true" data-val-number="The field SupplierId must be a number." data-val-required="The SupplierId field is required." id="SupplierId" name="SupplierId" onchange="OnTransactionChanged(this);" required="true">
+                        <option value="0" selected="selected">Select Transaction</option>
+                        <option value="1">Purchase Bills</option>
+                        <option value="2">Sales Invoice</option>
+                    </select>
+                </div>
+            </div>
+            <div id="divTransaction">
+
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function OnTransactionChanged(sender) {
+        var id = $(sender).val();
+        var url = '@Url.Action("LoadTransactions")';
+        url = url + "?TrnId=" + id;
+        $("#divTransaction").load(url)
+    }
+</script>
