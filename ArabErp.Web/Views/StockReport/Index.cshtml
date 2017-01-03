@@ -25,17 +25,16 @@
     }
 
     function Filter() {
-    
+
         $("#stock-grid").addClass("fade");
         var itmid = $("#filter-Material").val().trim();
         var PartNo = $("#filter-PartNo").val().trim();
         var itmcatid = $("#ItemCategoryId").val();
-        alert(itmcatid)
         var itmGrpId = $("#ItemGroupId").val();
-        alert(itmGrpId)
         var itmSubGrpId = $("#ItemSubGroupId").val();
         var url = '@Url.Action("Stockreport")';
         url += "?itmid=" + encodeURIComponent(itmid) + "&PartNo=" + encodeURIComponent(PartNo) + "&itmcatid=" + itmcatid + "&itmGrpId=" + itmGrpId + "&itmSubGrpId=" + itmSubGrpId;
+
         $("#stock-grid").load(url, function () {
             $("#stock-grid").removeClass("fade");
         });
@@ -57,12 +56,12 @@
     }
 
     function FillItemGroup() {
-        alert()
+       
         var Code = $('#ItemCategoryId').val();
         var Url = '@Url.Action("ItemGroup")';
         var UrlSubGroup = '@Url.Action("ItemSubGroup")';
 
-        //$("#stock-grid").addClass("fade");
+        $("#stock-grid").addClass("fade");
         var itmid = $("#filter-Material").val().trim();
         var PartNo = $("#filter-PartNo").val().trim();
         var itmcatid = $("#ItemCategoryId").val();
@@ -70,7 +69,7 @@
         var itmSubGrpId = $("#ItemSubGroupId").val();
         var url = '@Url.Action("Stockreport")';
         url += "?itmid=" + encodeURIComponent(itmid) + "&PartNo=" + encodeURIComponent(PartNo) + "&itmcatid=" + itmcatid + "&itmGrpId=" + itmGrpId + "&itmSubGrpId=" + itmSubGrpId;
-
+      
         $("#stock-grid").load(url, function () {
             $("#stock-grid").removeClass("fade");
 
@@ -88,12 +87,28 @@
     function FillItemSubGroup() {
         var Code = $('#ItemGroupId').val();
         var Url = '@Url.Action("ItemSubGroup")';
+
+        $("#stock-grid").addClass("fade");
+        var itmid = $("#filter-Material").val().trim();
+        var PartNo = $("#filter-PartNo").val().trim();
+        var itmcatid = $("#ItemCategoryId").val();
+        var itmGrpId = $("#ItemGroupId").val();
+        var itmSubGrpId = $("#ItemSubGroupId").val();
+        var url = '@Url.Action("Stockreport")';
+        url += "?itmid=" + encodeURIComponent(itmid) + "&PartNo=" + encodeURIComponent(PartNo) + "&itmcatid=" + itmcatid + "&itmGrpId=" + itmGrpId + "&itmSubGrpId=" + itmSubGrpId;
+      
+        $("#stock-grid").load(url, function () {
+            $("#stock-grid").removeClass("fade");
+
+
         if (Code == '') {
             $("#DivItemSubGroup").load(Url, { Code: 0 });
         }
         else {
             $("#DivItemSubGroup").load(Url, { Code: Code });
         }
+        })
+
     }
 
 
@@ -139,7 +154,7 @@
                 <div class="col-md-2">
                     <label for="code" class="label1">Item Group</label>
                     <div id="DivItemGroup">
-                        @Html.Action("ItemGroup", "Item", new { Code = Model.itmCatId})
+                        @Html.Action("ItemGroup", "Item", new { Code = Model.itmCatId })
                     </div>
                 </div>
 
