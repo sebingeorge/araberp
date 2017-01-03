@@ -1361,6 +1361,7 @@
     <Content Include="Views\QuickBookExport\Index.cshtml" />
     <Content Include="Views\QuickBookExport\_PurchaseGrid.cshtml" />
     <Content Include="Views\QuickBookExport\_SalesGrid.cshtml" />
+    <Content Include="Views\MaterialPlanning\_SODetailsDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

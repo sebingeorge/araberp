@@ -343,23 +343,71 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT
-	                                WR.WorkShopRequestRefNo,
-	                                SI.StoreIssueRefNo,
-	                                I.ItemName,
-	                                I.PartNo,
-	                                WRI.Quantity,
-	                                WRI.Remarks,
-									ISNULL(SR.Rate, 0.00) Rate,
-                                    CAST(ISNULL(SR.Rate, 0.00) * WRI.Quantity AS DECIMAL(18,2)) Amount
-                                FROM JobCard JC
-                                LEFT JOIN WorkShopRequest WR ON JC.JobCardId = WR.JobCardId
-                                INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
-                                INNER JOIN StoreIssue SI ON WR.WorkShopRequestId = SI.WorkShopRequestId
-                                INNER JOIN StoreIssueItem SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
-                                INNER JOIN Item I ON WRI.ItemId = I.ItemId
-								LEFT JOIN StandardRate SR ON I.ItemId = SR.ItemId
-                                WHERE JC.JobCardId = @id";
+                #region old query 3.1.2016 4.08p
+                //                string sql = @"SELECT
+                //	                                WR.WorkShopRequestRefNo,
+                //	                                SI.StoreIssueRefNo,
+                //	                                I.ItemName,
+                //	                                I.PartNo,
+                //	                                WRI.Quantity,
+                //	                                WRI.Remarks,
+                //									ISNULL(SR.Rate, 0.00) Rate,
+                //                                    CAST(ISNULL(SR.Rate, 0.00) * WRI.Quantity AS DECIMAL(18,2)) Amount
+                //                                FROM JobCard JC
+                //                                LEFT JOIN WorkShopRequest WR ON JC.JobCardId = WR.JobCardId
+                //                                INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                //                                INNER JOIN StoreIssue SI ON WR.WorkShopRequestId = SI.WorkShopRequestId
+                //                                INNER JOIN StoreIssueItem SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
+                //                                INNER JOIN Item I ON WRI.ItemId = I.ItemId
+                //								LEFT JOIN StandardRate SR ON I.ItemId = SR.ItemId
+                //                                WHERE JC.JobCardId = @id"; 
+                #endregion
+
+                string sql = @"SELECT DISTINCT
+		                            WRI.ItemId
+	                            INTO #ITEMS
+	                            FROM JobCard JC
+	                            LEFT JOIN WorkShopRequest WR ON JC.JobCardId = WR.JobCardId
+	                            INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+	                            INNER JOIN StoreIssue SI ON WR.WorkShopRequestId = SI.WorkShopRequestId
+	                            INNER JOIN StoreIssueItem SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
+	                            WHERE JC.JobCardId = @id
+
+	                            SELECT DISTINCT
+		                            I.ItemId,
+		                            --I.ItemName,
+		                            ISNULL(GI.Rate, ISNULL(SR.Rate, 0)) Rate
+	                            INTO #TEMP
+	                            FROM GRNItem GI
+	                            INNER JOIN (SELECT MAX(GRNItemId)GRNItemId FROM GRNItem 
+				                            WHERE ItemId IN (SELECT * FROM #ITEMS) 
+				                            GROUP BY ItemId) T1 ON GI.GRNItemId = T1.GRNItemId
+	                            RIGHT JOIN (SELECT * FROM #ITEMS) I ON GI.ItemId = I.ItemId
+	                            LEFT JOIN StandardRate SR ON I.ItemId = SR.ItemId
+
+	                            DROP TABLE #ITEMS;
+
+	                            SELECT
+		                            WR.WorkShopRequestRefNo,
+		                            SI.StoreIssueRefNo,
+		                            I.ItemId,
+		                            I.ItemName,
+		                            I.PartNo,
+		                            WRI.Quantity,
+		                            WRI.Remarks,
+		                            ISNULL(#TEMP.Rate, 0.00) Rate,
+		                            CAST(ISNULL(#TEMP.Rate, 0.00) * WRI.Quantity AS DECIMAL(18,2)) Amount
+	                            FROM JobCard JC
+	                            LEFT JOIN WorkShopRequest WR ON JC.JobCardId = WR.JobCardId
+	                            INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+	                            INNER JOIN StoreIssue SI ON WR.WorkShopRequestId = SI.WorkShopRequestId
+	                            INNER JOIN StoreIssueItem SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
+	                            INNER JOIN Item I ON WRI.ItemId = I.ItemId
+	                            LEFT JOIN #TEMP ON I.ItemId = #TEMP.ItemId
+	                            WHERE JC.JobCardId = @id;
+
+	                            DROP TABLE #TEMP;";
+
                 return connection.Query<MaterialCostForService>(sql, new { id = id }).ToList();
             }
         }

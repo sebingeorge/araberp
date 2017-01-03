@@ -120,11 +120,14 @@
         <div class="row">
             <div class="col-md-12 hrpart">
                 <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-                       @Html.RadioButtonFor(m => m.PrintCat, 0) Summary
-                       @Html.RadioButtonFor(m => m.PrintCat, 1) Detailed
-                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
 
-            </div>
+                    <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
+                <span class="right detail">@Html.RadioButtonFor(m => m.PrintCat, 0) Summary</span>
+                <span class="right detail">
+                    @Html.RadioButtonFor(m => m.PrintCat, 1) Detailed
+                </span>
+
+</div>
 
             @*<div class="editor-field">
                 
