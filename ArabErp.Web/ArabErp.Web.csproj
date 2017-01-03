@@ -1330,6 +1330,12 @@
     <Content Include="Views\StockReport\_ItemCategoryDropdown.cshtml" />
     <Content Include="Views\StockReport\_ItemGroupDropdown.cshtml" />
     <Content Include="Views\StockReport\_ItemSubGroupDropdown.cshtml" />
+    <Content Include="Views\JobOrderCompletion\_JobCardsOnHoldGrid.cshtml" />
+    <Content Include="Views\JobOrderCompletion\JobCardsOnHold.cshtml" />
+    <Content Include="Views\MaterialPlanning\_InTransitDetails.cshtml" />
+    <Content Include="Views\MaterialPlanning\_PlanningFG.cshtml" />
+    <Content Include="Views\MaterialPlanning\MaterialPlanningFG.cshtml" />
+    <Content Include="Views\IndentVsSOVsInpassStatus\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
