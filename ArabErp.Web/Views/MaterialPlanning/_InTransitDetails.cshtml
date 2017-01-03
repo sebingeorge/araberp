@@ -6,6 +6,7 @@
             <th nowrap>Supplier</th>
             <th nowrap>LPO No.</th>
             <th nowrap>LPO Date</th>
+            <th nowrap class="text-right">Qty</th>
             <th nowrap>Ageing</th>
             <th nowrap>Required Date</th>
             <th nowrap>Days Left</th>
@@ -20,6 +21,7 @@
                     <td nowrap>@item.SupplierName</td>
                     <td>@item.SupplyOrderNo</td>
                     <td>@item.SupplyOrderDate.ToString("dd/MMM/yyyy")</td>
+                    <td class="text-right">@item.InTrans</td>
                     <td>@item.Age</td>
                     <td>@item.RequiredDate.ToString("dd/MMM/yyyy")</td>
                     <td>@item.DaysLeft</td>
