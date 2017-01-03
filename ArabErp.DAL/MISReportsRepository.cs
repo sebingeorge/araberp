@@ -21,9 +21,10 @@ namespace ArabErp.DAL
                 {
                     string query = @"SELECT 
 	                                    JobCardId,
-	                                    CAST(SUM(EMP.HourlyCost * ISNULL(JCT.ActualHours, 0)) AS DECIMAL(18,2)) LabourCost
+	                                Sum(CAST((ISNULL(JCTM.MinimumRate, 0)*ISNULL(JCT.ActualHours, 0))AS DECIMAL(18,2)) ) LabourCost
                                     INTO #HourlyCost
                                     FROM JobCardTask JCT
+                                    INNER JOIN JobCardTaskMaster JCTM ON JCT.JobCardTaskMasterId = JCTM.JobCardTaskMasterId
                                     INNER JOIN Employee EMP ON JCT.EmployeeId = EMP.EmployeeId
                                     GROUP BY JobCardId
 

@@ -32,6 +32,11 @@ namespace ArabErp.Domain
        public int DaysLeft { get; set; }
        public int Age { get; set; }
        public decimal? InTrans { get; set; }
+      public decimal? SOQuantity { get; set; }
+      public string SaleOrderRefNo { get; set; }
+      public DateTime SaleOrderDate { get; set; }
+          
+          
       
       
       
