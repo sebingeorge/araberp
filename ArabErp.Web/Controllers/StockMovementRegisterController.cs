@@ -18,22 +18,24 @@ namespace ArabErp.Web.Controllers
             InitDropdown();
             FillWarehouse();
             FillItemCategory();
-            FillGroup();
-            FillSubGroup();
+            //FillGroup();
+            //FillSubGroup();
             ClosingStock cs = new ClosingStock();
             cs.itmCatId = 0;
+            cs.itmGrpId = 0;
+            cs.itmSubGrpId = 0;
             ViewBag.startdate = FYStartdate;
             return View("Index", cs);
         }
-        public void InitDropdown()
-        {
-            var List = "";
-            ViewBag.ItemList = new SelectList(List, "Id", "Name");
+        //public void InitDropdown()
+        //{
+        //    var List = "";
+        //    ViewBag.ItemList = new SelectList(List, "Id", "Name");
 
-        }
+        //}
         public void FillWarehouse()
         {
-            DropdownRepository repo = new DropdownRepository();
+             DropdownRepository repo = new DropdownRepository();
             var result = repo.StockpointDropdown();
             ViewBag.WarehouseList = new SelectList(result, "Id", "Name");
         }
@@ -44,12 +46,12 @@ namespace ArabErp.Web.Controllers
             ViewBag.ItemList = new SelectList(result, "Id", "Name");
         }
 
-        public void FillItemCategory()
-        {
-            DropdownRepository repo = new DropdownRepository();
-            var result = repo.ItemCategoryDropdown();
-            ViewBag.ItemCatList = new SelectList(result, "Id", "Name");
-        }
+        //public void FillItemCategory()
+        //{
+        //    DropdownRepository repo = new DropdownRepository();
+        //    var result = repo.ItemCategoryDropdown();
+        //    ViewBag.ItemCatList = new SelectList(result, "Id", "Name");
+        //}
         public void FillGroup()
         {
             DropdownRepository repo = new DropdownRepository();
@@ -62,17 +64,56 @@ namespace ArabErp.Web.Controllers
             var result = repo.ItemSubgroupDropdown();
             ViewBag.ItemSubgroup = new SelectList(result, "Id", "Name");
         }
-        public ActionResult StockMovementRegister(DateTime? from, DateTime? to, int itmcatid = 0, int itmid = 0)
-        {
+        public ActionResult StockMovementRegister(DateTime? from, DateTime? to, int stkid = 0, int itmcatid = 0, int itmid = 0, int ItemGroupId = 0, int ItemSubGroupId = 0, string PartNo="")
+      {
             from = from ?? FYStartdate;
             to = to ?? DateTime.Today;
-            return PartialView("_StockMovementRegister", new StockMovementRegisterRepository().GetStockMovementData(from, to, itmcatid, itmid, OrganizationId));
+            return PartialView("_StockMovementRegister", new StockMovementRegisterRepository().GetStockMovementData(from: from, to: to, stkid:stkid, itmcatid: itmcatid, itmid: itmid, OrganizationId: OrganizationId, ItemGroupId: ItemGroupId, ItemSubGroupId: ItemSubGroupId,PartNo:PartNo));
         }
         public ActionResult Item(int Code)
         {
             FillItem(Code);
             return PartialView("_ItemDropDown");
         }
-
+        public void FillItemGroup(int Id)
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillItemGroup(Id);
+            ViewBag.ItemGroupList = new SelectList(List, "Id", "Name");
+        }
+        public void FillItemSubGroup(int Id)
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillItemSubGroup(Id);
+            ViewBag.ItemSubGroupList = new SelectList(List, "Id", "Name");
+        }
+        public void FillItemCategory()
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillItemCategory();
+            ViewBag.ItemCategoryList = new SelectList(List, "Id", "Name");
+        }
+        public void InitDropdown()
+        {
+            var List = "";
+            ViewBag.ItemGroupList = new SelectList(List, "Id", "Name");
+            ViewBag.ItemSubGroupList = new SelectList(List, "Id", "Name");
+        }
+        public ActionResult ItemGroup(int Code)
+        {
+            FillItemGroup(Code);
+            return PartialView("_ItemGroupDropdown");
+        }
+        public ActionResult ItemSubGroup(int Code)
+        {
+            FillItemSubGroup(Code);
+            return PartialView("_ItemSubGroupDropdown");
+        }
+        public ActionResult ItemCategory()
+        {
+            FillItemCategory();
+            return PartialView("_ItemCategoryDropdown");
+        }
+        
     }
 }
