@@ -398,7 +398,7 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-        public ActionResult getMaterialCost(int id)
+        public ActionResult getMaterialCost(int id)//JobCardId is received here
         {
             var list = new SalesInvoiceRepository().getMaterialCost(id);
             if (list == null) list = new List<MaterialCostForService>();
