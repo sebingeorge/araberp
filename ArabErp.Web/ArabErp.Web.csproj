@@ -438,6 +438,12 @@
       <DependentUpon>MaterialPlanning.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\MaterialPlanningFG.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MaterialPlanningFG.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\OpeningStockReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1330,6 +1336,12 @@
     <Content Include="Views\StockReport\_ItemCategoryDropdown.cshtml" />
     <Content Include="Views\StockReport\_ItemGroupDropdown.cshtml" />
     <Content Include="Views\StockReport\_ItemSubGroupDropdown.cshtml" />
+    <Content Include="Views\JobOrderCompletion\_JobCardsOnHoldGrid.cshtml" />
+    <Content Include="Views\JobOrderCompletion\JobCardsOnHold.cshtml" />
+    <Content Include="Views\MaterialPlanning\_InTransitDetails.cshtml" />
+    <Content Include="Views\MaterialPlanning\_PlanningFG.cshtml" />
+    <Content Include="Views\MaterialPlanning\MaterialPlanningFG.cshtml" />
+    <Content Include="Views\IndentVsSOVsInpassStatus\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1427,6 +1439,10 @@
     <EmbeddedResource Include="Reports\MaterialPlanning.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>MaterialPlanning.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\MaterialPlanningFG.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>MaterialPlanningFG.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\OpeningStockReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
