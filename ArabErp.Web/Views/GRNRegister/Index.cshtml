@@ -1,4 +1,4 @@
-﻿
+﻿@model ArabErp.Domain.GRNRegister
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,7 +11,11 @@
         $("#txtTo").datepicker({
             dateFormat: "dd-MM-yy"
         });
+
+        $("#PrintCat").prop("checked", true)
+
     })
+
 
     function Filter() {
         $("#grnlist").addClass("fade");
@@ -32,6 +36,44 @@
         var url = '@Url.Action("Index", "Home")';
         window.location = url;
     }
+
+    function GoToPrint() {
+
+        var PrintCat = $('input[id="PrintCat"]:checked').val();
+        //alert(PrintCat);
+
+        var fromDate = $("#txtFrom").val();
+        var ToDate = $("#txtTo").val();
+        var Supplier = $("#supplier").val().trim();
+    
+        if (PrintCat == 0)
+        {
+          
+            var url = '@Url.Action("Summary")';
+            url += "?fromDate=" + fromDate + "&ToDate=" + ToDate + "&Supplier=" + encodeURIComponent(Supplier);
+            window.location = url;
+        }
+
+        else if (PrintCat == 1)
+        {
+           
+            var matGrpName = $("#cboItmGrp option:selected").text();
+            var matGrpid = $("#cboItmGrp").val();
+            var matName = $("#material").val().trim();
+            debugger
+            var PartNo = $("#partno").val().trim();
+
+            var url = '@Url.Action("Detailed")';
+            url += "?fromDate=" + fromDate + "&ToDate=" + ToDate
+                + "&matGrpid=" + matGrpid + "&matGrpName=" + (matGrpName == '' ? 0 : matGrpName)
+                + "&matName=" + encodeURIComponent(matName) + "&PartNo=" + encodeURIComponent(PartNo)
+                + "&Supplier=" + encodeURIComponent(Supplier);
+            window.location = url;
+        }
+
+    
+    }
+
 </script>
 <div class="row">
 
@@ -78,7 +120,17 @@
         <div class="row">
             <div class="col-md-12 hrpart">
                 <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                       @Html.RadioButtonFor(m => m.PrintCat, 0) Summary
+                       @Html.RadioButtonFor(m => m.PrintCat, 1) Detailed
+                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
+
             </div>
+
+            @*<div class="editor-field">
+                
+            </div>*@
+
+          
         </div>
     </div>
 </div>
