@@ -1,0 +1,43 @@
+﻿@model IList<ArabErp.Domain.JobCard>
+
+<table class="table table-responsive table-bordered">
+    <thead class="grid_heading">
+        <tr>
+            <th class="text-center" width="2%">#</th>
+            <th>Job Card No &amp; Date</th>
+            <th>Bay</th>
+            <th>Vehicle Model</th>
+            <th>Held By</th>
+            <th>Held On</th>
+            <th width="1%"></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @if (Model != null && Model.Count > 0)
+        {
+            int count = 0;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td align="center">@(++count)</td>
+                    <td><strong>@item.JobCardNo</strong> - @item.JobCardDate.ToString("dd/MMMM/yyyy")</td>
+                    <td>@item.BayName</td>
+                    <td>@item.VehicleModelName</td>
+                    <td>@item.HeldBy</td>
+                    <td>@item.HeldOn.ToString("dd/MMMM/yyyy")</td>
+                    <td align="center">
+                        <input type="button" value="Release" onclick="ReleaseJobCard(@item.JobCardId)" class="form-button4" />
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" align="center">
+                    <em>No items to show!</em>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

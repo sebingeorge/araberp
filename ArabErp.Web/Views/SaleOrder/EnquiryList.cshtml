@@ -49,7 +49,14 @@
                                         <td align="center">@(++i)</td>
                                         <td>@item.ServiceEnquiryRefNo - @item.ServiceEnquiryDate.ToString("dd/MMMM/yyyy")</td>
                                         <td>@item.CustomerName</td>
-                                        <td>@item.RegNo</td>
+                                        <td>
+                                            @item.RegistrationNo
+                                            @if ((item.RegistrationNo != null && item.RegistrationNo != "") && (item.ChassisNo != null && item.ChassisNo != ""))
+                                            {
+                                                @: -
+                                                 }
+                                            @item.ChassisNo
+                                        </td>
                                         <td>@item.BoxMake</td>
                                         <td>@item.FreezerModel</td>
                                         <td>@item.TailLiftMake</td>
