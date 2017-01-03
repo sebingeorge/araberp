@@ -9,24 +9,22 @@
                 <th width="10%" nowrap><h1>Item</h1></th>
 
                 <th width="10%" nowrap><h1>Indent No</h1></th>
-                <th width="10%" nowrap><h1>SO No</h1></th>
-                <th width="10%" nowrap><h1>GRN No</h1></th>
-
                 <th width="10%" nowrap><h1>Indent Date</h1></th>
+                <th width="10%" class="text-right" nowrap><h1>Indent Qty</h1></th>
+                <th width="10%" nowrap><h1>Indent User</h1></th>
+
+                <th width="10%" nowrap><h1>SO No</h1></th>
                 <th width="10%" nowrap><h1>SO Date</h1></th>
                 <th width="10%" nowrap><h1>SO Due Date</h1></th>
-                <th width="10%" nowrap><h1>GRN Date</h1></th>
-
-                <th width="10%" class="text-right" nowrap><h1>Indent Qty</h1></th>
                 <th width="10%" class="text-right" nowrap><h1>SO Qty</h1></th>
-                <th width="10%" class="text-right" nowrap><h1>GRN Qty</h1></th>
-                <th width="10%" class="text-right" nowrap><h1>Pending Qty</h1></th>
-
                 <th width="10%" class="text-right" nowrap><h1>SO Rate</h1></th>
                 <th width="10%" class="text-right" nowrap><h1>SO Amount</h1></th>
-
-                <th width="10%" nowrap><h1>Indent User</h1></th>
                 <th width="15%" nowrap><h1>SO User</h1></th>
+
+                <th width="10%" nowrap><h1>GRN No</h1></th>
+                <th width="10%" nowrap><h1>GRN Date</h1></th>
+                <th width="10%" class="text-right" nowrap><h1>GRN Qty</h1></th>
+                <th width="10%" class="text-right" nowrap><h1>Pending Qty</h1></th>
                 <th width="15%" nowrap><h1>GRN User</h1></th>
             </tr>
         </thead>
@@ -40,24 +38,22 @@
                     <td class="grid-cell" nowrap>@item.Item</td>
 
                     <td class="grid-cell" nowrap>@item.IndentNo</td>
-                    <td class="grid-cell" nowrap>@item.SONo</td>
-                    <td class="grid-cell" nowrap>@item.GRNNo</td>
-
                     <td class="grid-cell" nowrap>@item.IndenDate</td>
+                    <td class="grid-cell text-right" nowrap>@item.IndentQty</td>
+                    <td class="grid-cell" nowrap>@item.IndentUser</td>
+
+                    <td class="grid-cell" nowrap>@item.SONo</td>
                     <td class="grid-cell" nowrap>@item.SODate</td>
                     <td class="grid-cell" nowrap>@item.SODueDate</td>
-                    <td class="grid-cell" nowrap>@item.GRNDate</td>
-
-                    <td class="grid-cell text-right" nowrap>@item.IndentQty</td>
                     <td class="grid-cell text-right" nowrap>@item.SOQty</td>
-                    <td class="grid-cell text-right" nowrap>@item.GRNQty</td>
-                    <td class="grid-cell text-right" nowrap>@item.PendingQty</td>
-
                     <td class="grid-cell text-right" nowrap>@item.SORate</td>
                     <td class="grid-cell text-right" nowrap>@item.SOAmount</td>
-
-                    <td class="grid-cell" nowrap>@item.IndentUser</td>
                     <td class="grid-cell" nowrap>@item.SOUser</td>
+
+                    <td class="grid-cell" nowrap>@item.GRNNo</td>
+                    <td class="grid-cell" nowrap>@item.GRNDate</td>
+                    <td class="grid-cell text-right" nowrap>@item.GRNQty</td>
+                    <td class="grid-cell text-right" nowrap>@item.PendingQty</td>
                     <td class="grid-cell" nowrap>@item.GRNUser</td>
                 </tr>
             </tbody>
