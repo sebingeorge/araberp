@@ -13,12 +13,14 @@ namespace ArabErp.Domain
         public DateTime GRNDate { get; set; }
         public string SupplierName { get; set; }
         public string SupplyOrderNo { get; set; }
+        public string DCNo { get; set; }
         public string ItemName { get; set; }
         public string PartNo { get; set; }
         public string Quantity { get; set; }
         public string Rate { get; set; }
         public string Amount { get; set; }
         public string UnitName { get; set; }
+        public int PrintCat { get; set; }
 
     }
 }

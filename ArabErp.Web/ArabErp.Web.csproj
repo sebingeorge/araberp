@@ -286,6 +286,7 @@
     <Compile Include="Controllers\PurchaseRequestController.cs" />
     <Compile Include="Controllers\QCParameterController.cs" />
     <Compile Include="Controllers\QuerySheetController.cs" />
+    <Compile Include="Controllers\QuickBookExportController.cs" />
     <Compile Include="Controllers\QuotationApprovalController.cs" />
     <Compile Include="Controllers\RateSettingsController.cs" />
     <Compile Include="Controllers\ResourceAvailabilityController.cs" />
@@ -396,6 +397,18 @@
       <DependentUpon>Grn.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\GRNDetailed.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GRNDetailed.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\GRNSummary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GRNSummary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\ItemSellingPrice.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -436,6 +449,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MaterialPlanning.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\MaterialPlanningFG.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MaterialPlanningFG.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\OpeningStockReport.cs">
@@ -1336,6 +1355,12 @@
     <Content Include="Views\MaterialPlanning\_PlanningFG.cshtml" />
     <Content Include="Views\MaterialPlanning\MaterialPlanningFG.cshtml" />
     <Content Include="Views\IndentVsSOVsInpassStatus\Index.cshtml" />
+    <Content Include="Views\OpeningStock\Create.cshtml" />
+    <Content Include="Views\OpeningStock\OpeningStockList - Copy.cshtml" />
+    <Content Include="Views\OpeningStock\OpeningStockList.cshtml" />
+    <Content Include="Views\QuickBookExport\Index.cshtml" />
+    <Content Include="Views\QuickBookExport\_PurchaseGrid.cshtml" />
+    <Content Include="Views\QuickBookExport\_SalesGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1347,6 +1372,7 @@
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
     <Folder Include="Views\PendingSupplyOrderRegister\" />
+    <Folder Include="Views\StockJournel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -1406,6 +1432,14 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Grn.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\GRNDetailed.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>GRNDetailed.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\GRNSummary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>GRNSummary.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\ItemSellingPrice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ItemSellingPrice.cs</LastGenOutput>
@@ -1433,6 +1467,10 @@
     <EmbeddedResource Include="Reports\MaterialPlanning.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>MaterialPlanning.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\MaterialPlanningFG.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>MaterialPlanningFG.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\OpeningStockReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

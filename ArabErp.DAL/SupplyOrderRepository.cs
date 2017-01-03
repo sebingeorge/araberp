@@ -181,7 +181,7 @@ namespace ArabErp.DAL
 	                                P.PurchaseRequestId,
 	                                PurchaseRequestNo,
 	                                PurchaseRequestDate,
-	                                P.RequiredDate,
+	                                P.RequiredDate,U.UserName [User],
 	                                ISNULL(P.SpecialRemarks, '-') SpecialRemarks,
 	                                ISNULL(WRK.WorkShopRequestRefNo, '')+' - '+CONVERT(VARCHAR, WRK.WorkShopRequestDate, 106) WRNoAndDate,
 	                                DATEDIFF(dd,P.PurchaseRequestDate,GETDATE ()) Ageing,
@@ -189,6 +189,7 @@ namespace ArabErp.DAL
 	                                P.PurchaseRequestDate, P.CreatedDate
                                 from PurchaseRequest P
                                 INNER JOIN PurchaseRequestItem PRI ON P.PurchaseRequestId = PRI.PurchaseRequestId
+                                INNER JOIN [User] U ON U.UserId=P.CreatedBy
                                 LEFT JOIN WorkShopRequest WRK ON P.WorkShopRequestId = WRK.WorkShopRequestId
                                 LEFT JOIN #SUPPLY SUP ON PRI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
                                 WHERE P.isActive=1 and  ISNULL(PRI.Quantity, 0) > 0 AND 

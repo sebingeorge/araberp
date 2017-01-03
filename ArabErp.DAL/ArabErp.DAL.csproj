@@ -137,6 +137,7 @@
     <Compile Include="PurchaseRequestRepository.cs" />
     <Compile Include="QCParametersRepository.cs" />
     <Compile Include="QuerySheetRepository.cs" />
+    <Compile Include="QuickBookExportRepository.cs" />
     <Compile Include="QuotationApprovalRepository.cs" />
     <Compile Include="RateSettingsRepository.cs" />
     <Compile Include="ResourceAvailabilityRepository.cs" />
