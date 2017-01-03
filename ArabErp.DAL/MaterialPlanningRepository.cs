@@ -59,7 +59,7 @@ namespace ArabErp.DAL
                 
                 update T set T.ShortorExcess = (T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
                 
-                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId);
+                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId) and MinLevel>0 ;
               
 
 
@@ -120,7 +120,7 @@ namespace ArabErp.DAL
                 
                 update T set T.ShortorExcess = (T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
                 
-                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId);
+                SELECT * FROM #TEMP where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId) and MinLevel>0;
               
 
                
