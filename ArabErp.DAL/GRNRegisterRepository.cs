@@ -43,7 +43,7 @@ namespace ArabErp.DAL
             {
                 string sql = string.Empty;
 
-                sql = @"SELECT DISTINCT GRNNo,GRNDate,S.SupplierName,isnull(SupplyOrderNo,'-')SupplyOrderNo,
+                sql = @"SELECT DISTINCT G.GRNId,GRNNo,GRNDate,S.SupplierName,isnull(SupplyOrderNo,'-')SupplyOrderNo,
                         G.SupplierDCNoAndDate DCNo,G.GrandTotal Amount
                         FROM  GRN G
                         INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
@@ -51,7 +51,8 @@ namespace ArabErp.DAL
                         LEFT JOIN SupplyOrderItem SOI ON SOI.SupplyOrderItemId=GI.SupplyOrderItemId
                         LEFT JOIN SupplyOrder SO ON SO.SupplyOrderId=SOI.SupplyOrderId 
                         WHERE  GRNDate >= @from AND GRNDate <= @to
-                        AND isnull(S.SupplierName,'')  LIKE '%'+@supplier+'%'";
+                        AND isnull(S.SupplierName,'')  LIKE '%'+@supplier+'%'
+	                    ORDER BY G.GRNId";
 
                 return connection.Query<GRNRegister>(sql, new { from = from, to = to, supplier = supplier });
             }
@@ -63,7 +64,7 @@ namespace ArabErp.DAL
             {
                 string sql = string.Empty;
 
-                sql = @"SELECT GRNNo,GRNDate,S.SupplierName,isnull(SupplyOrderNo,'-')SupplyOrderNo,G.SupplierDCNoAndDate DCNo,
+                sql = @"SELECT G.GRNId,GRNNo,GRNDate,S.SupplierName,isnull(SupplyOrderNo,'-')SupplyOrderNo,G.SupplierDCNoAndDate DCNo,
                         I.ItemName,isnull (I.PartNo,'-')PartNo,GI.Quantity,GI.Rate,GI.Amount,U.UnitName 
                         FROM  GRN G
                         INNER JOIN GRNItem GI ON G.GRNId=GI.GRNId
@@ -76,7 +77,8 @@ namespace ArabErp.DAL
                         AND I.ItemGroupId=ISNULL(NULLIF(@id, 0),I.ItemGroupId)
                         AND isnull(I.ItemName,'')  LIKE '%'+@material+'%'
                         AND isnull(I.PartNo,'')  LIKE '%'+@partno+'%'
-                        AND isnull(S.SupplierName,'')  LIKE '%'+@supplier+'%'";
+                        AND isnull(S.SupplierName,'')  LIKE '%'+@supplier+'%'
+	                    ORDER BY G.GRNId";
 
                 return connection.Query<GRNRegister>(sql, new { from = from, to = to, id = id, material = material, partno = partno, supplier = supplier });
             }

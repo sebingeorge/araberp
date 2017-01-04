@@ -29,21 +29,21 @@ namespace ArabErp.DAL
                                     GROUP BY JobCardId
 
                                     SELECT
-	                                    JC.JobCardNo,
-	                                    CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
-	                                    CUS.CustomerName,
-	                                    VIP.RegistrationNo,
-	                                    VIP.ChassisNo,
-	                                    DC.DeliveryChallanRefNo,
-	                                    CONVERT(VARCHAR, DC.DeliveryChallanDate, 106) DeliveryChallanDate,
-	                                    SI.SalesInvoiceRefNo InvoiceNo,
-	                                    CONVERT(VARCHAR, SI.SalesInvoiceDate, 106) InvoiceDate,
-	                                    SI.TotalAmount Amount,
-	                                    BOX.ItemName BoxName,
-	                                    FREEZER.ItemName FreezerName,
-	                                    IB.SerialNo UnitSerialNo,
-	                                    CASE WHEN ISNULL(JC.isService, 0) = 1 THEN 'Service' ELSE 'New Installation' END InstallationType,
-	                                    HC.LabourCost
+	                                JC.JobCardNo,SO.SaleOrderId,
+	                                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
+	                                CUS.CustomerName,
+	                                VIP.RegistrationNo,
+	                                VIP.ChassisNo,
+	                                DC.DeliveryChallanRefNo,
+	                                CONVERT(VARCHAR, DC.DeliveryChallanDate, 106) DeliveryChallanDate,
+	                                SI.SalesInvoiceRefNo InvoiceNo,
+	                                CONVERT(VARCHAR, SI.SalesInvoiceDate, 106) InvoiceDate,
+	                                SI.TotalAmount Amount,
+	                                BOX.ItemName BoxName,
+	                                FREEZER.ItemName FreezerName,
+	                                IB.SerialNo UnitSerialNo,
+	                                CASE WHEN ISNULL(JC.isService, 0) = 1 THEN 'Service' ELSE 'New Installation' END InstallationType,
+	                                HC.LabourCost,0 MaterialCost,JC.isService, JC.OrganizationId INTO #Result
                                     FROM JobCard JC
                                     INNER JOIN SaleOrder SO ON JC.SaleOrderId = SO.SaleOrderId
                                     INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
@@ -54,15 +54,37 @@ namespace ArabErp.DAL
                                     LEFT JOIN Item FREEZER ON JC.FreezerUnitId = FREEZER.ItemId
                                     LEFT JOIN ItemBatch IB ON JC.SaleOrderItemId = IB.SaleOrderItemId
                                     LEFT JOIN #HourlyCost HC ON JC.JobCardId = HC.JobCardId
-                                    WHERE JC.OrganizationId = @org
-									AND MONTH(JC.JobCardDate) = ISNULL(@month, MONTH(GETDATE())) 
-									AND YEAR(JC.JobCardDate) = ISNULL(@year, YEAR(GETDATE()))
-                                    AND Concat(VIP.RegistrationNo,'/',VIP.ChassisNo) LIKE '%'+@ChassisNo+'%'
-                                    AND isnull(IB.SerialNo,0)  LIKE '%'+@UnitSlNo+'%'
-                                    AND isnull(CUS.CustomerName,'')  LIKE '%'+@Customer+'%'
-                                    AND isnull( JC.JobCardNo,'')  LIKE '%'+@JobcardNo+'%'
---                                  AND isnull( JC.isService,'')  LIKE '%'+@Installation+'%'
-                                    AND  ISNULL(JC.isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(JC.isService, 0) END
+
+                                    SELECT SO.SaleOrderId,WRI.ItemId,SUM(SII.IssuedQuantity)Quantity,0 Rate INTO #TEMP
+                                    FROM WorkShopRequest WR
+                                    INNER JOIN SaleOrder SO ON WR.SaleOrderId = SO.SaleOrderId
+                                    INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                                    INNER JOIN StoreIssueItem SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
+                                    GROUP BY SO.SaleOrderId, WRI.ItemId;
+
+                                    with A as(
+                                    SELECT I.ItemId,I.ItemName,
+                                    ISNULL(GI.Rate, ISNULL(SR.Rate, 0)) Rate
+                                    FROM GRNItem GI
+                                    INNER JOIN (SELECT MAX(GRNItemId)GRNItemId FROM GRNItem GROUP BY ItemId) T1 ON GI.GRNItemId = T1.GRNItemId
+                                    INNER JOIN GRN G ON GI.GRNId = G.GRNId
+                                    RIGHT OUTER JOIN Item I ON GI.ItemId = I.ItemId
+                                    LEFT JOIN StandardRate SR ON GI.ItemId = SR.ItemId
+                                    )
+                                    update T set T.Rate = A.Rate from A inner join #TEMP T on T.ItemId = A.ItemId;
+
+                                    update R set R.MaterialCost = (T.Quantity*T.Rate) from #TEMP T inner join #Result R on R.SaleOrderId = T.SaleOrderId 
+
+                                    SELECT * FROM  #Result
+                                    WHERE OrganizationId = @org
+									AND MONTH(JobCardDate) = ISNULL(@month, MONTH(GETDATE())) 
+									AND YEAR(JobCardDate) = ISNULL(@year, YEAR(GETDATE()))
+                                    AND Concat(RegistrationNo,'/',ChassisNo) LIKE '%'+@ChassisNo+'%'
+                                    AND isnull(UnitSerialNo,0)  LIKE '%'+@UnitSlNo+'%'
+                                    AND isnull(CustomerName,'')  LIKE '%'+@Customer+'%'
+                                    AND isnull(JobCardNo,'')  LIKE '%'+@JobcardNo+'%'
+--                                  AND isnull(isService,'')  LIKE '%'+@Installation+'%'
+                                    AND  ISNULL(isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(isService, 0) END
                                     DROP TABLE #HourlyCost";
                     return connection.Query<DCReport>(query, new { org = OrganizationId, month = month, year = year, ChassisNo = ChassisNo, UnitSlNo = UnitSlNo, Customer = Customer, JobcardNo = JobcardNo, InstallType = InstallType });
                 }

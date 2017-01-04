@@ -29,10 +29,10 @@ namespace ArabErp.Web.Controllers
             ViewBag.Year = FYStartdate.Year;
             return View();
         }
-        public ActionResult DCReportGrid(int? month, int? year, string ChassisNo = "", string UnitSlNo = "",
-            string Customer = "", string JobcardNo = "", string InstallType = "all")
+        public ActionResult DCReportGrid(int? month, int? year, string ChassisNo = "", string UnitSlNo = "", string Customer = "", string JobcardNo = "", string InstallType = "all")
+           
         {
-            return PartialView("_DCReportGrid", new MISReportsRepository().GetDCReport(OrganizationId, month, year, ChassisNo, UnitSlNo, Customer, JobcardNo, InstallType));
+            return PartialView("_DCReportGrid", new MISReportsRepository().GetDCReport(OrganizationId, month, year ?? FYStartdate.Year, ChassisNo, UnitSlNo, Customer, JobcardNo, InstallType));
         }
         #endregion
 

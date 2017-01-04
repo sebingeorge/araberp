@@ -98,8 +98,8 @@ namespace ArabErp.DAL
                 return objVehicleInPass;
             }
         }
-      
-        
+
+
         public List<VehicleInPass> GetVehicleInPasss()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -213,7 +213,7 @@ namespace ArabErp.DAL
                     DROP TABLE #VEHICLE_INPASS;
                     DROP TABLE #MODEL;
                     DROP TABLE #WORK;
-                    DROP TABLE #SALE;", new {OrganizationId = OrganizationId}).ToList();
+                    DROP TABLE #SALE;", new { OrganizationId = OrganizationId }).ToList();
             }
         }
         public PendingSO GetSaleOrderItemDetails(int saleOrderItemId)
@@ -285,7 +285,7 @@ namespace ArabErp.DAL
 
 
 
-        public IEnumerable<VehicleInPass> GetVehicleInpassRegister(string InstallType, string CustomerName, string RegNo,string status)
+        public IEnumerable<VehicleInPass> GetVehicleInpassRegister(string InstallType, string CustomerName, string RegNo, string status)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -351,10 +351,9 @@ namespace ArabErp.DAL
                                SELECT * FROM #TEMP3
                                WHERE ISNULL(#TEMP3.isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(#TEMP3.isService, 0) END
                                AND ISNULL(#TEMP3.CustomerName,'') LIKE '%'+@CustomerName+'%'  
-                               AND (ISNULL(#TEMP3.ChassisNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(#TEMP3.RegistrationNo, '') LIKE '%'+@RegNo+'%')
-                               AND ISNULL(#TEMP3.Status,'') LIKE '%'+@status+'%'";
-
-
+                               AND (ISNULL(#TEMP3.ChassisNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(#TEMP3.RegistrationNo, '') LIKE '%'+@RegNo+'%') ";
+                sql += status.Length == 0 ? "" : "AND [Status] IN ( " + status + ")";
+           
                 return connection.Query<VehicleInPass>(sql, new { InstallType = InstallType, CustomerName = CustomerName, RegNo = RegNo, status = status }).ToList();
             }
         }
