@@ -177,21 +177,55 @@ namespace ArabErp
 	                                EmployeeId=@EmployeeId,
                                     Complaints = @Complaints
                                 WHERE JobCardId = @JobCardId;
-                                DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;";
+                                --DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;";
                 try
                 {
                     var id = connection.Execute(sql, objJobCard, txn);
 
-                    int i = 0;
-                    foreach (var item in objJobCard.JobCardTasks)
+                    #region get the list of tasks in use
+                    var usedTasks = objJobCard.JobCardTasks.Where(x => x.isTaskUsed).Select(x => x.JobCardTaskId).ToList(); 
+                    #endregion
+
+                    #region delete tasks that are not in use
+                    sql = @"DELETE FROM JobCardTask WHERE JobCardId = @jobcard AND JobCardTaskId NOT IN @usedTasks";
+                    connection.Execute(sql, new { jobcard = objJobCard.JobCardId, usedTasks = usedTasks }, txn); 
+                    #endregion
+
+                    #region insert tasks that are not in use
+                    var taskList = objJobCard.JobCardTasks.Where(x => !x.isTaskUsed || x.JobCardTaskId == 0).Select(x => x).ToList();
+                    foreach (var item in taskList)
                     {
-                        //if (item.isTaskUsed) continue;
                         item.JobCardId = objJobCard.JobCardId;
-                        item.SlNo = i;
-                        JobCardTaskRepository repo = new JobCardTaskRepository();
-                        if (repo.InsertJobCardTask(item, connection, txn) == 0) throw new Exception("Some error occured while saving jobcard task");
-                        i++;
+                        item.JobCardTaskId = item.JobCardTaskMasterId;
+                        if (new JobCardTaskRepository().InsertJobCardTask(item, connection, txn) == 0)
+                            throw new Exception("Some error occured while saving jobcard task");
                     }
+                    #endregion
+
+                    //int i = 0;
+                    //foreach (var item in objJobCard.JobCardTasks)
+                    //{
+                        
+                    //    //insert tasks that are not used
+                    //    item.JobCardId = objJobCard.JobCardId;
+                    //    if (new JobCardTaskRepository().InsertJobCardTask(item, connection, txn) == 0)
+                    //        throw new Exception("Some error occured while saving jobcard task");
+
+                    //    //item.SlNo = i;
+                    //    JobCardTaskRepository repo = new JobCardTaskRepository();
+                    //    if (item.JobCardTaskId == 0)
+                    //    {
+                    //        //insert jobcard task
+                    //        i++;
+
+                    //    }
+                    //    else
+                    //    {
+                    //        //update jobcard task
+                    //        i++;
+                    //        sql = @"";
+                    //    }
+                    //}
 
                     InsertLoginHistory(dataConnection, objJobCard.CreatedBy, "Update", "Job Card", id.ToString(), objJobCard.OrganizationId.ToString());
                     txn.Commit();
@@ -546,8 +580,9 @@ namespace ArabErp
                 //                            WHERE JobCardId = @JobCardId"; 
                 #endregion
 
-                query = @"SELECT
-	                            JobCardTaskMasterId JobCardTaskId,
+                query = @"SELECT DISTINCT
+                                JT.JobCardTaskId,
+	                            JobCardTaskMasterId,
 	                            JT.EmployeeId,
 	                            CONVERT(VARCHAR, TaskDate, 106) TaskDate,
 	                            SlNo,
@@ -563,19 +598,19 @@ namespace ArabErp
                 jobcard.IsUsed = Convert.ToBoolean(connection.Query<int>(query, new { JobCardId = jobcard.JobCardId }, txn).First());
                 if (jobcard.IsUsed) return jobcard;
 
-                try
-                {
-                    query = @"DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;
-                              DELETE FROM JobCard WHERE JobCardId = @JobCardId;";
-                    connection.Query<JobCardTask>(query, new { JobCardId = JobCardId }, txn).ToList();
-                    txn.Rollback();
-                    jobcard.IsTaskUsed = false;
-                }
-                catch
-                {
-                    txn.Rollback();
-                    jobcard.IsTaskUsed = true;
-                }
+                //                try
+                //                {
+                //                    query = @"DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;
+                //                              DELETE FROM JobCard WHERE JobCardId = @JobCardId;";
+                //                    connection.Query<JobCardTask>(query, new { JobCardId = JobCardId }, txn).ToList();
+                //                    txn.Rollback();
+                //                    jobcard.IsTaskUsed = false;
+                //                }
+                //                catch
+                //                {
+                //                    txn.Rollback();
+                //                    jobcard.IsTaskUsed = true;
+                //                }
 
                 return jobcard;
             }
