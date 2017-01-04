@@ -210,15 +210,25 @@
                     <th width="10%" nowrap><h1>Product Details</h1></th>
                     <th width="5%" nowrap><h1>Product Incoming Temperature</h1></th>
                     <th width="5%" nowrap><h1>Pipe Length</h1></th>
+                    <th width="20%">
+                        <h1>
+                            Door&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </h1>
+                    </th>
                     <th width="5%" nowrap><h1>Door Size</h1></th>
+                    <th width="5%" class="text-right" nowrap><h1>Door Qty</h1></th>
+                    <th width="5%"><h1>Refrigerant</h1></th>
+                    <th width="5%" nowrap><h1>Electrical Power</h1></th>
                     @if (Model.Type != "RoomDetails")
                     {
 
-                        <th width="5%"><h1>Refrigerant</h1></th>
-                        <th width="5%" nowrap><h1>Electrical Power</h1></th>
+                       
                         <th width="5%"><h1>Kilowatt</h1></th>
-                        <th width="10%"><h1>Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
-                        <th width="5%"><h1>Cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
+                        <th width="10%"><h1>Condenser Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
+                        <th width="10%"><h1>Evaporator Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
+                        <th width="5%" class="text-right"><h1>Unit Qty</h1></th>
+                        <th width="5%" class="text-right"><h1>Cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
+
                     }
                     <th width="1%" class="text-center"></th>
 
@@ -243,15 +253,21 @@
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].FloorDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ProductDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ProductIncomingTemperature, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                        <td>@Html.DropDownListFor(m => m.QuerySheetItems[i].Door, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[i].Door), new { @class = "form_input" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].PipeLength, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].DoorSizeTypeAndNumberOfDoor, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].DoorQty, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
+                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Refrigerant, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         @if (Model.Type != "RoomDetails")
                         {
-                            <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Refrigerant, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                            <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                           
                             <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                            <td>@Html.DropDownListFor(m => m.QuerySheetItems[i].Unit, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[i].Unit), new { @class = "form_input" })</td>
+                            <td>@Html.DropDownListFor(m => m.QuerySheetItems[i].CondenserUnit, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[i].CondenserUnit), new { @class = "form_input" })</td>
+                            <td>@Html.DropDownListFor(m => m.QuerySheetItems[i].EvaporatorUnit, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[i].EvaporatorUnit), new { @class = "form_input" })</td>
+                            <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
                             <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Cost, new { @class = "form_input numbers-only", autocomplete = "off" })</td>
+                          
                         }
 
                         <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus del" style="top:0px" onclick="AddRow()"></a></td>
