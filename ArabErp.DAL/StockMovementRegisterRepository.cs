@@ -25,7 +25,8 @@ namespace ArabErp.DAL
 	                        AND S.StockPointId=ISNULL(NULLIF(@stkid,0),S.StockPointId)
 							AND I.ItemGroupId=ISNULL(NULLIF(@ItemGroupId,0),I.ItemGroupId)
 							AND I.ItemSubGroupId=ISNULL(NULLIF(@ItemSubGroupId, 0), I.ItemSubGroupId)
-                            and isnull(I.PartNo,'') like '%'+@PartNo+'%' 
+							AND I.ItemId=ISNULL(NULLIF(@itmid, 0), I.ItemId)
+                            and I.PartNo=ISNULL(NULLIF(@PartNo, 0), I.PartNo)
 							GROUP BY  I.ItemId,I.ItemRefNo,I.ItemName,ItemCategoryId,U.UnitName";
 
 
