@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Vehicle Inpass Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -9,17 +8,27 @@
         window.location = url;
     }
     function Filter() {
+        var str = '';
+        $('.status').each(function (index, object) {
+            if ($(object).is(":checked")) {
+                str += ",'" + $(object).val() + "'";
+            }
+        })
+
+        //var Status=(str.substring(1,str.length))
+  
         $("#VehicleInpass_Reg").addClass("fade");
         var InstallType = $("#cboType").val();
         var CustomerName = $("#txtCustomer").val().trim();
         var RegNo = $("#txtRegNo").val().trim();
-        var Status = $("#txtStatus").val().trim();
+        var Status = (str.substring(1, str.length));
         var url = '@Url.Action("VehicleInpassRegister")';
         url += "?InstallType=" + encodeURIComponent(InstallType) + "&CustomerName=" + encodeURIComponent(CustomerName) + "&RegNo=" + encodeURIComponent(RegNo) + "&Status=" + encodeURIComponent(Status);
         $("#VehicleInpass_Reg").load(url, function () {
             $("#VehicleInpass_Reg").removeClass("fade");
         });
 
+        //alert(url);
     }
 </script>
 <div class="row">
@@ -46,10 +55,18 @@
                 <label for="txtRegNo">Chassis No./Reg No.</label>
                 <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Chassis No./Reg No." />
             </div>
+
             <div class="col-md-2">
-                <label for="txtStatus">Status</label>
-                <input type="text" class="form_input" id="txtStatus" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Status" />
+                <div class="row">
+                    <label for="txtStatus">Status</label>
+                    <input type="checkbox" class="status" name="vehicle" onchange="Filter()" value="Completed" checked> Completed<br>
+                    <input type="checkbox" class="status" name="vehicle" onchange="Filter()" value="Delivered" checked> Delivered<br>
+                    <input type="checkbox" class="status" name="vehicle" onchange="Filter()" value="Work in Progress" checked> Work in Progress<br>
+                    <input type="checkbox" class="status" name="vehicle" onchange="Filter()" value="Work not Started" checked> Work not Started<br>
+                    <input type="checkbox" class="status" name="vehicle" onchange="Filter()" value="Pending JC Creation checked" checked> Pending JC Creation<br>
+                </div>
             </div>
+
         </div>
         <br />
         <div class="row">
@@ -63,10 +80,9 @@
         <div class="row">
             <div class="col-md-12 hrpart">
                 <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-                @*<input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />*@
             </div>
         </div>
+
     </div>
-</div>
 
-
+    </div>
