@@ -573,6 +573,38 @@ namespace ArabErp.DAL
 				                AND ISNULL(JC.JobCardNo, '') LIKE '%'+@Jobcard+'%'
 								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
 
+								UNION ALL
+
+								-----------------------including accessories
+								SELECT
+									SO.SaleOrderId SaleOrderItemId,
+									SO.SaleOrderRefNo,
+									CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+									CUS.CustomerName,
+									STUFF((SELECT ', '+T1.WorkShopRequestRefNo FROM WorkShopRequest T1 
+									    WHERE T1.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
+									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
+										WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')StoreIssueRefNo,
+									STUFF((SELECT ', '+T1.JobCardNo FROM JobCard T1 
+									    WHERE T1.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '') JobCardNo,
+									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
+										LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
+										WHERE T1.SaleOrderId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '')SerialNo,
+									SOM.Quantity,
+									I.ItemId,
+									R.ReservedQuantity,
+									I.ItemName,
+									'' WorkDescrShortName,
+									SO.SaleOrderDate,
+									'' ChassisNo,
+									'' RegistrationNo,
+									CUS.CustomerName
+								FROM SaleOrder SO
+								LEFT JOIN SaleOrderMaterial SOM ON SO.SaleOrderId = SOM.SaleOrderId
+								INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
+								INNER JOIN Item I ON SOM.ItemId = I.ItemId
+								LEFT JOIN #RESERVED R ON I.ItemId = R.ItemId
+								WHERE ISNULL(I.BatchRequired, 0) = 1
                                 ORDER BY SO.SaleOrderDate DESC, SO.SaleOrderRefNo DESC;
 
 								DROP TABLE #RESERVED;";
