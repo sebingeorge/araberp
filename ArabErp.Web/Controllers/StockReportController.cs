@@ -24,6 +24,7 @@ namespace ArabErp.Web.Controllers
             FillItemCategory();
             FillItemGroup();
             FillItemSubGroup();
+            //FillWarehouse();
             StockReportSummary stk = new StockReportSummary();
             stk.ItemId = 0;
             stk.itmGrpId = 0;
@@ -52,11 +53,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.ItemSubGrpList = new SelectList(result, "Id", "Name");
         }
 
-        //public ActionResult Stockreport(string itmid = "", string PartNo = "", int itmcatid = 0, int itmGrpId = 0, int itmSubGrpId = 0)
-        //{
 
-        //    return PartialView("_StockReportRegister", new StockReportRepository().GetStockData(itmid, PartNo,itmcatid,itmGrpId,itmSubGrpId));
-        //}
 
         public ActionResult Stockreport(string itmid = "", string PartNo = "", int itmcatid = 0, int itmGrpId = 0, int itmSubGrpId = 0)
         {
@@ -64,11 +61,7 @@ namespace ArabErp.Web.Controllers
             return PartialView("_StockReportRegister", new StockReportRepository().GetStockData(itmid, PartNo, itmcatid, itmGrpId, itmSubGrpId));
         }
 
-        //public ActionResult Stockreport(string itmid = "", string PartNo = "", int itmcatid = 0, int itmGrpId = 0, int itmSubGrpId = 0)
-        //{
-
-        //    return PartialView("_StockReportRegister", new StockReportRepository().GetStockData(itmid, PartNo, itmcatid, itmGrpId, itmSubGrpId));
-        //}
+        
         public ActionResult DrillDown(int itemId)
         {
             StockReportRepository repo = new StockReportRepository();
@@ -186,6 +179,12 @@ namespace ArabErp.Web.Controllers
             ItemRepository Repo = new ItemRepository();
             var List = Repo.FillItemSubGroup(Id);
             ViewBag.ItemSubGroupList = new SelectList(List, "Id", "Name");
+        }
+        public void FillWarehouse()
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.StockpointDropdown();
+            ViewBag.WarehouseList = new SelectList(result, "Id", "Name");
         }
     }
 }

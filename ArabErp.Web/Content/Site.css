@@ -537,6 +537,10 @@ input[type="text"]:disabled {
     font-weight:bold;
     padding-top:5px;
 }
+.status 
+{
+    padding-top:10px;
+}
 
 .links {
     list-style-type: none;

@@ -1355,6 +1355,10 @@
     <Content Include="Views\MaterialPlanning\_PlanningFG.cshtml" />
     <Content Include="Views\MaterialPlanning\MaterialPlanningFG.cshtml" />
     <Content Include="Views\IndentVsSOVsInpassStatus\Index.cshtml" />
+    <Content Include="Views\StockMovementRegister\_ItemCategoryDropdown.cshtml" />
+    <Content Include="Views\StockJournel\_ItemGroupDropdown.cshtml" />
+    <Content Include="Views\StockMovementRegister\_ItemGroupDropdown.cshtml" />
+    <Content Include="Views\StockMovementRegister\_ItemSubGroupDropdown.cshtml" />
     <Content Include="Views\OpeningStock\Create.cshtml" />
     <Content Include="Views\OpeningStock\OpeningStockList - Copy.cshtml" />
     <Content Include="Views\OpeningStock\OpeningStockList.cshtml" />

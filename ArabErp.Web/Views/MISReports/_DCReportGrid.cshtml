@@ -1,5 +1,7 @@
 ﻿@model IList<ArabErp.Domain.DCReport>
-
+@{
+    var GrandTotal = Model.Sum(a => a.Amount);
+ }
 <table class="table table-bordered table-hover">
     <thead>
         <tr class="grid_heading">
@@ -76,3 +78,9 @@
         }
     </tbody>
 </table>
+
+<div class="form-group right">
+    <div style="float:right">
+        <label for="Closing Stock">Grand Total:<span>@GrandTotal</span></label>
+    </div>
+</div>
