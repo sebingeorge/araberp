@@ -10,6 +10,7 @@
             <th width="12%" nowrap><h1>Unit Sl. No.</h1></th>
             <th width="12%" nowrap><h1>Unit/Box</h1></th>
             <th width="12%" nowrap><h1>New Installation/Service</h1></th>
+            <th width="12%" class="text-right" nowrap><h1>Material Cost</h1></th>
             <th width="12%" class="text-right" nowrap><h1>Labour Cost</h1></th>
             <th width="12%" nowrap><h1>Job Card No. &amp; Date</h1></th>
             <th width="12%" nowrap><h1>Invoice No. &amp; Date</h1></th>
@@ -47,6 +48,7 @@
                         } @item.BoxName
                     </td>
                     <td>@item.InstallationType</td>
+                    <td align="right">@item.MaterialCost</td>
                     <td align="right">@item.LabourCost</td>
                     <td>@item.JobCardNo - 
                     @if (item.JobCardDate != null)

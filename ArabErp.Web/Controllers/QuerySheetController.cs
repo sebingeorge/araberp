@@ -21,7 +21,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult CreateQuerySheet(string type)
         {
-
+            UnitSelection();
             string internalId = "";
             try
             {
@@ -323,6 +323,10 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.UnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
         }
+        //public void EvaporatorUnitSelection()
+        //{
+        //    ViewBag.EvaporatorUnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
+        //}
 
         public ActionResult PendingQuerySheetforCosting()
         {
