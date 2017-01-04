@@ -56,33 +56,36 @@
                 <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Chassis No./Reg No." />
             </div>
 
-            <div class="col-md-2">
-                <div class="row">
+
+
+        </div>
+        <div class="row">
+            <div class="col-md-12 status">
+             
                     <label for="txtStatus">Status</label>
-                    <input type="checkbox" class="status" name="vehicle" onchange="Filter()" value="Completed" checked> Completed<br>
-                    <input type="checkbox" class="status" name="vehicle" onchange="Filter()" value="Delivered" checked> Delivered<br>
-                    <input type="checkbox" class="status" name="vehicle" onchange="Filter()" value="Work in Progress" checked> Work in Progress<br>
-                    <input type="checkbox" class="status" name="vehicle" onchange="Filter()" value="Work not Started" checked> Work not Started<br>
-                    <input type="checkbox" class="status" name="vehicle" onchange="Filter()" value="Pending JC Creation checked" checked> Pending JC Creation<br>
+                    <input type="checkbox" class="status" name="vehicle" onchange="Filter()" value="Completed" checked> Completed
+                    <input type="checkbox" class="status" name="vehicle" onchange="Filter()" value="Delivered" checked> Delivered
+                    <input type="checkbox" class="status" name="vehicle" onchange="Filter()" value="Work in Progress" checked> Work in Progress
+                    <input type="checkbox" class="status" name="vehicle" onchange="Filter()" value="Work not Started" checked> Work not Started
+                    <input type="checkbox" class="status" name="vehicle" onchange="Filter()" value="Pending JC Creation checked" checked> Pending JC Creation
+            
+            </div>
+            </div>
+       
+            <div class="row">
+                <div class="main-grid main-grid-top scroll1">
+                    <div class="table-responsive" id="VehicleInpass_Reg">
+                        @Html.Action("VehicleInpassRegister")
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
                 </div>
             </div>
 
         </div>
-        <br />
-        <div class="row">
-            <div class="main-grid main-grid-top scroll1">
-                <div class="table-responsive" id="VehicleInpass_Reg">
-                    @Html.Action("VehicleInpassRegister")
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12 hrpart">
-                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-            </div>
-        </div>
-
-    </div>
 
     </div>
