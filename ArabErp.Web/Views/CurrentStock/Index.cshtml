@@ -46,12 +46,19 @@
     function GoToPrint() {
         var Spname = $("#cboStockpoint option:selected").text();
         var Spid = $("#cboStockpoint").val();
-        var ItmCatid = $("#itmCatId").val();
-        var ItmCatname = $("#itmCatId option:selected").text();
-        var Itmid = $("#filter-Material").val().trim();
-        var PartNo = $("#filter-PartNo").val().trim();
+        var ItmCatid = $("#ItemCategoryId").val();
+        var ItmCatname = $("#ItemCategoryId option:selected").text();
+        var ItemGroupId = $("#ItemGroupId").val();
+        var ItemGroupname = $("#ItemGroupId option:selected").text();
+        var ItemSubGroupId = $("#ItemSubGroupId").val();
+        var ItemSubGroupname = $("#ItemSubGroupId option:selected").text();
+        var Itmid = $("#ItemId").val().trim();
+        var Itmname = $("#ItemId option:selected").text();
+        var PartNo = $("#cboPartNo").val().trim();
+        var PartName = $("#cboPartNo option:selected").text();
         var url = '@Url.Action("Print")';
-        url += "?Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmid=" + Itmid + "&PartNo=" + encodeURIComponent(PartNo);
+        url += "?Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmid=" + Itmid + "&Itmname=" + (Itmname == '' ? 0 : Itmname) + "&PartNo=" + PartNo + "&PartName=" + (PartName == '' ? 0 : PartName) + "&ItemGroupId=" + ItemGroupId + "&ItemGroupname=" + (ItemGroupname == '' ? 0 : ItemGroupname) + "&ItemSubGroupId=" + ItemSubGroupId + "&ItemSubGroupname=" + (ItemSubGroupname == '' ? 0 : ItemSubGroupname);
+        alert(url)
         window.location = url;
     }
 
