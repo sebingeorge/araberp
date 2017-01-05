@@ -27,8 +27,7 @@
         });
      
       
-        if ('@ViewContext.RouteData.GetRequiredString("action")' == "CreateQuerySheetUnit")
-        {
+        if ('@ViewContext.RouteData.GetRequiredString("action")' == "CreateQuerySheetUnit") {
             $("#QuerySheetItems_0__Refrigerant").focus();
             $(".del").hide();
         }
@@ -114,41 +113,44 @@
 
 
      function Exit(type) {
-         if(type=='Unit')
-         {
+        if (type == 'Unit') {
              location.href = '@Url.Action("PendingQuerySheetforUnit")';
          }
         else if (type == 'Costing') {
              location.href = '@Url.Action("PendingQuerySheetforCosting")';
          }
 
-        else if (type == 'RoomDetails')
-         {
+        else if (type == 'RoomDetails') {
              location.href = '@Url.Action("Index", "Home")';
          }
       
         }
 
-    function PreviousList(type)
-        {
+    function PreviousList(type) {
         var url = '@Url.Action("Index")';
         url += "?Type=" + type;
         window.location = url;
         }
 
-        $(function ()
-        {
+    $(function () {
             $("#QuerySheetDate").datepicker({ dateFormat: "dd-MM-yy" });
         });
 
-        function OnCostingAmountChanged(){
+    function OnCostingAmountChanged() {
             var amount = 0;
-            $("input[id$='__Amount']").each(function(index, object){
-                if(!isNaN($(object).val()))
+        $("input[id$='__Amount']").each(function (index, object) {
+            if (!isNaN($(object).val()))
                     amount += Number($(object).val());
             })
             $("#costingTotal").text(amount.toFixed(2));
         }
+        @*function UnitSelection() {
+            var url = '@Url.Action("SODetailsDetails")';
+            url += '?id=' + Id;
+            $('#unitselection').html('Loading Sale Order Details...<br><br>');
+            $('#unitselection').load(url);
+
+        }*@
 </script>
 
 
@@ -159,11 +161,11 @@
             {
             <h4>Query Sheet</h4>
             }
-            else if (Model.Type  == "Unit")
+            else if (Model.Type == "Unit")
             {
             <h4>Query Sheet : Unit Selection</h4>
             }
-            else if (Model.Type  == "Costing")
+            else if (Model.Type == "Costing")
             {
             <h4>Query Sheet : Costing</h4>
             }
@@ -173,7 +175,7 @@
             @using (Html.BeginForm("CreateQuerySheet", null, FormMethod.Post))
             {
                 @Html.HiddenFor(m => m.QuerySheetId)
-                @Html.HiddenFor(m=>m.Type)
+            @Html.HiddenFor(m => m.Type)
                 <div class="row form-group">
 
                     @*@if (actionName == "Create")
@@ -281,7 +283,8 @@
                    
                        
                         <th width="5%"><h1>Kilowatt</h1></th>
-                        <th width="15%"><h1>
+                        <th width="5%"><h1>Unit Selection</h1></th>
+                        @*<th width="15%"><h1>
                             Condenser Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             </h1></th>
     <th width="15%">
@@ -289,7 +292,7 @@
             Evaporator Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </h1>
     </th>
-                        <th width="10%" class="text-right"><h1>Unit Qty</h1></th>
+                        <th width="10%" class="text-right"><h1>Unit Qty</h1></th>*@
                         <th width="5%" class="text-right"><h1>Cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
                        
                     }
@@ -325,9 +328,10 @@
                         @if (Model.Type != "RoomDetails")
                         {
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.DropDownListFor(m => m.QuerySheetItems[i].CondenserUnit, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[i].CondenserUnit), new { @class = "form_input" })</td>
+                        <td onclick="UnitSelection()" class="grid-cell text-right" value="Get Sale Order Details" style="width: 150px;cursor:pointer;" data-toggle="modal" data-target="#unitselectionpopup"><a href="#" class="unit">Select Unit</a></td>
+                        @*<td>@Html.DropDownListFor(m => m.QuerySheetItems[i].CondenserUnit, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[i].CondenserUnit), new { @class = "form_input" })</td>
                         <td>@Html.DropDownListFor(m => m.QuerySheetItems[i].EvaporatorUnit, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[i].EvaporatorUnit), new { @class = "form_input" })</td>
-                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
+                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>*@
                         <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Cost, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
                   
                         }
@@ -365,3 +369,64 @@
         </div>
     </div>
 
+  <!-- Unit Selection Column Click PopUp -->
+<div id="unitselectionpopup" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:800px">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Select Unit</h4>
+
+            </div>
+            <div class="modal-body">
+                <div id="unitselection">
+                    <div class="table-responsive scroll2 ">
+                        <table style="width:200%" class="table table-bordered" id="tab_logic" @*style="overflow-x:scroll;margin-bottom:0px"*@>
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th width="1%" class="text-center"></th>
+                                    <th width="2%" class="text-center"><h1>#</h1></th>
+                                    <th width="30%"><h1>
+                                                    &nbsp;&nbsp; Unit
+                                                    </h1></th>
+                                    <th width="30%">
+                                    <h1>
+                                        &nbsp;&nbsp; Evaporator Unit
+                                    </h1>
+                                    </th>
+                                    <th width="10%" class="text-right"><h1>Unit Qty</h1></th>
+                                    <th width="1%" class="text-center"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.QuerySheetItems.Count; i++)
+                                {
+                                    <tr id="@i">
+                                        <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus del" style="top:0px" onclick="Delete(@i)"></a></td>
+                                        <td align="center">
+                                            <input type="hidden" id="Row_@i" />
+                                            <span id="slno@(i + 1)">@(i + 1)</span>
+                                            @Html.HiddenFor(m => Model.QuerySheetItems[i].QuerySheetItemId)
+                                        </td>
+                                        <td>@Html.DropDownListFor(m => m.QuerySheetItems[i].CondenserUnit, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[i].CondenserUnit), new { @class = "form_input" })</td>
+                                        <td>@Html.DropDownListFor(m => m.QuerySheetItems[i].EvaporatorUnit, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[i].EvaporatorUnit), new { @class = "form_input" })</td>
+                                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
+                                        
+                                        <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus del" style="top:0px" onclick="AddRow()"></a></td>
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
