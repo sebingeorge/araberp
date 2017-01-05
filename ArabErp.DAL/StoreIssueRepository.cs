@@ -200,7 +200,8 @@ namespace ArabErp.DAL
         /// Return all active store issues
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<StoresIssuePreviousList> PreviousList(string StoreIssue = "", string Jobcard = "", string Customer = "", string RegNo = "", string Request="")
+
+        public IEnumerable<StoresIssuePreviousList> PreviousList(DateTime? from, DateTime? to, string StoreIssue = "", string Jobcard = "", string Customer = "", string RegNo = "", string Request = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
 
@@ -220,7 +221,8 @@ namespace ArabErp.DAL
 	                                LEFT JOIN Customer C ON WR.CustomerId = C.CustomerId
 									LEFT JOIN JobCard J  ON J.JobCardId=WR.JobCardId
 									LEFT JOIN VehicleInPass V ON V.VehicleInPassId=J.InPassId
-                                WHERE ISNULL(SI.isActive, 1) = 1
+                                WHERE SI.StoreIssueDate >= @from AND SI.StoreIssueDate <= @to 
+                                AND ISNULL(SI.isActive, 1) = 1
                                 AND  isnull(WR.WorkShopRequestRefNo,'') LIKE '%'+@Request+'%'
                                 AND isnull(CustomerName,'') LIKE '%'+@Customer+'%'
                                 AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%'
@@ -229,7 +231,7 @@ namespace ArabErp.DAL
 								AND ISNULL(SI.StoreIssueRefNo, '') LIKE '%'+@StoreIssue+'%'
                                 AND ISNULL(SI.StoreIssueDate, '') LIKE '%'+@StoreIssue+'%'
                                 ORDER BY StoreIssueDate DESC, SI.CreatedDate DESC;";
-                return connection.Query<StoresIssuePreviousList>(query, new { StoreIssue = StoreIssue, Jobcard = Jobcard, Customer = Customer, RegNo = RegNo, Request = Request }).ToList();
+                return connection.Query<StoresIssuePreviousList>(query, new { from = from, to = to, StoreIssue = StoreIssue, Jobcard = Jobcard, Customer = Customer, RegNo = RegNo, Request = Request }).ToList();
             }
         }
 
