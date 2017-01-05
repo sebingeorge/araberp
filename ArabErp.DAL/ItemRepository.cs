@@ -28,6 +28,18 @@ namespace ArabErp.DAL
             }
 
         }
+        public List<Dropdown> FillMaterial(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+
+                //return connection.Query<Dropdown>("x",
+                // return connection.Query<Dropdown>("dbo.usp_MvcGetDayClosingDetails", param, commandType: CommandType.StoredProcedure).ToList();
+                return connection.Query<Dropdown>("select ItemId Id,ItemName Name from Item WHERE isActive=1 AND ItemSubGroupId=ISNULL(NULLIF(@ID,0),ItemSubGroupId)", new { ID = Id }).ToList();
+            }
+
+        }
         public List<Dropdown> FillItemCategory()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -394,7 +406,14 @@ namespace ArabErp.DAL
             }
         }
 
-
+        public string GetPartNo(int itemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<string>("SELECT ISNULL(PartNo,'')PartNo FROM Item  WHERE ItemId = @itemId",
+                new { itemId = itemId }).First<string>();
+            }
+        }
         public IEnumerable<MaterialPlanning> GetCriticalMaterialsBelowMinStock(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

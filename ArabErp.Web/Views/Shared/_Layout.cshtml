@@ -1166,9 +1166,12 @@
                                 }
                                 @if (formPermission.Find(x => x.FormId == 108) != null)
                                 {
-                                    <li><a href="@Url.Action("Index","ProfitabilityReport")">job Profitability</a></li>
+                                    <li><a href="@Url.Action("Index","ProfitabilityReport")">Job Profitability</a></li>
                                 }
-                                <li><a href="@Url.Action("Index", "QuickBookExport")">Quick Book Export</a></li>
+                                @if (formPermission.Find(x => x.FormId == 151) != null)
+                                {
+                                    <li><a href="@Url.Action("Index", "QuickBookExport")">Quick Book Export</a></li>
+                                }
                             </ul>
                         </div>
                     </li>

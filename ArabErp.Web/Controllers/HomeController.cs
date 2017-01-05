@@ -79,6 +79,7 @@ namespace ArabErp.Web.Controllers
         [AllowAnonymous]
         public ActionResult LoadQuickView()
         {
+            if (Session["user"] == null) return RedirectToAction("LogOff", "Account");
             QuickView view = new QuickView();
             view.PendingDirectPurchaseRequests = true;
             view.PendingTransQuotations = true;

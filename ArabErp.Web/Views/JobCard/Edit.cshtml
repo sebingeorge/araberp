@@ -128,9 +128,9 @@
         $("#JobCardTasks_" + index + "__Hours").val(0);
         $("#JobCardTasks_" + index + "__Hours").removeAttr("disabled");
         $("#JobCardTasks_" + index + "__JobCardTaskId").val(0);
+        $("#JobCardTasks_" + index + "__isTaskUsed").val('False');
         $("#JobCardTasks_" + index + "__SlNo").val(Number($("#JobCardTasks_" + (index-1) + "__SlNo").val()) + 1);
         $("#del_" + index).removeClass('hide');
-
     }
 
     function Exit() {
