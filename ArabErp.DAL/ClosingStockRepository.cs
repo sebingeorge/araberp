@@ -55,21 +55,24 @@ namespace ArabErp.DAL
         }
 
 
-        public IEnumerable<ClosingStock> GetCurrentStockData(int stockPointId, int itemCategoryId, string itemId,string partno,int itmGroup, int itmSubgroup, int OrganizationId)
+        public IEnumerable<ClosingStock> GetCurrentStockData(int stockPointId, int itemCategoryId, int itemId,string partno,int itmGroup, int itmSubgroup, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
                 string qry = @"SELECT ItemName,PartNo,SUM(Quantity)Quantity,UnitName FROM StockUpdate SU INNER JOIN Item I ON I.ItemId=SU.ItemId
                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
-							     INNER JOIN ItemGroup  IG ON IG.ItemGroupId=I.ItemGroupId
-								INNER JOIN ItemSubGroup IGS ON IGS.ItemSubGroupId=I.ItemSubGroupId
-                               WHERE  I.ItemName LIKE '%'+@itmid+'%' AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) 
-                               AND SU.OrganizationId=@OrganizationId AND SU.StockPointId = ISNULL(NULLIF(@stkid, 0), SU.StockPointId) AND
-							    I.ItemGroupId=ISNULL(NULLIF(@itmGroup,0),I.ItemGroupId) and I.ItemSubGroupId=ISNULL(NULLIF(@itmSubgroup,0),I.ItemSubGroupId)
-                               and isnull(I.PartNo,'') like '%'+@partno+'%'
+							   INNER JOIN ItemGroup  IG ON IG.ItemGroupId=I.ItemGroupId
+							   INNER JOIN ItemSubGroup IGS ON IGS.ItemSubGroupId=I.ItemSubGroupId
+                               WHERE  I.ItemId=ISNULL(NULLIF(@itmid,0),I.ItemId) 
+							   AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) 
+                               AND SU.OrganizationId=@OrganizationId 
+							   AND SU.StockPointId = ISNULL(NULLIF(@stkid, 0), SU.StockPointId)
+							   AND I.ItemGroupId=ISNULL(NULLIF(@itmGroup,0),I.ItemGroupId)
+							   and I.ItemSubGroupId=ISNULL(NULLIF(@itmSubgroup,0),I.ItemSubGroupId)
+                               and I.PartNo=ISNULL(NULLIF(@PartNo, 0), I.PartNo)
                                GROUP BY  I.ItemName,I.PartNo,U.UnitName,IG.ItemGroupName,IGS.ItemSubGroupName
-                                ORDER BY I.ItemName";
+                               ORDER BY I.ItemName";
                 return connection.Query<ClosingStock>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, partno = partno , itmGroup = itmGroup, itmSubgroup = itmSubgroup, OrganizationId = OrganizationId}).ToList();
             }
         }
