@@ -18,6 +18,14 @@
     });
 
     function formValidation() {
+        var RegistrationNo=$("#RegistrationNo").val()
+        var ChassisNo = $("#ChassisNo").val()
+        if (RegistrationNo == '' && ChassisNo == '')
+            toastr.info("Either Vehicle Registration No. or Chassis No. is needed");
+         else if (RegistrationNo == ChassisNo) {
+            toastr.info("Vehicle Registration No. & Chassis No. should not be same");
+            return false
+        }
         return true;//confirm("Are you sure to Save?");
     }
 

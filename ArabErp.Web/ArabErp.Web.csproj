@@ -1156,7 +1156,6 @@
     <Content Include="Views\OpeningStockReport\_ItemDropDown.cshtml" />
     <Content Include="Views\OpeningStockReport\_OpeningStockRegister.cshtml" />
     <Content Include="Views\CurrentStock\Index.cshtml" />
-    <Content Include="Views\CurrentStock\_ItemDropDown.cshtml" />
     <Content Include="Views\CurrentStock\_CurrentStockRegister.cshtml" />
     <Content Include="Views\GINRegister\Index.cshtml" />
     <Content Include="Views\GINRegister\_GINRegister.cshtml" />
@@ -1368,6 +1367,10 @@
     <Content Include="Views\MaterialPlanning\_SODetailsDetails.cshtml" />
     <Content Include="Views\QuerySheet\_UnitSelection.cshtml" />
     <Content Include="Views\QuerySheet\_DoorSelection.cshtml" />
+    <Content Include="Views\CurrentStock\_ItemCategoryDropdown.cshtml" />
+    <Content Include="Views\CurrentStock\_ItemDropDown.cshtml" />
+    <Content Include="Views\CurrentStock\_ItemGroupDropdown.cshtml" />
+    <Content Include="Views\CurrentStock\_ItemSubGroupDropdown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

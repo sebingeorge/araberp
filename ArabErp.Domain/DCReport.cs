@@ -28,5 +28,6 @@ namespace ArabErp.Domain
         public string PaymentType { get; set; }
         public string ReceiptNo { get; set; }
         public DateTime? ReceiptDate { get; set; }
+        public string Accessories { get; set; }
     }
 }
