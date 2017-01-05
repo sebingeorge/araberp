@@ -1366,6 +1366,8 @@
     <Content Include="Views\QuickBookExport\_PurchaseGrid.cshtml" />
     <Content Include="Views\QuickBookExport\_SalesGrid.cshtml" />
     <Content Include="Views\MaterialPlanning\_SODetailsDetails.cshtml" />
+    <Content Include="Views\QuerySheet\_UnitSelection.cshtml" />
+    <Content Include="Views\QuerySheet\_DoorSelection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1377,7 +1379,6 @@
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
     <Folder Include="Views\PendingSupplyOrderRegister\" />
-    <Folder Include="Views\StockJournel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

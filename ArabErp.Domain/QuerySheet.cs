@@ -26,6 +26,8 @@ namespace ArabErp.Domain
         public bool isActive { get; set; }
         public List<QuerySheetItem> QuerySheetItems { get; set; }
         public List<ProjectCost> Items { get; set; }
+        public List<QuerySheetUnit>QuerySheetUnits { get; set; }
+        public List<QuerySheetDoor>QuerySheetDoors { get; set; }
         public bool isUsed { get; set; }
         public decimal CostingAmount { get; set; }
     }
@@ -38,5 +40,19 @@ namespace ArabErp.Domain
         public string Remarks { get; set; }
         public string Type { get; set; }
 
+    }
+    public class QuerySheetUnit
+    {
+        public int QuerySheetItemId { get; set; }
+        public string CondenserUnitId { get; set; }
+        public string EvaporatorUnitId { get; set; }
+        public decimal Quantity { get; set; }
+       
+    }
+    public class QuerySheetDoor
+    {
+        public int QuerySheetItemId { get; set; }
+        public decimal Quantity { get; set; }
+        public string DoorId { get; set; }
     }
 }

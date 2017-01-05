@@ -21,7 +21,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult CreateQuerySheet(string type)
         {
-            UnitSelection();
+            UnitDropDown();
             string internalId = "";
             try
             {
@@ -52,9 +52,8 @@ namespace ArabErp.Web.Controllers
         public ActionResult CreateQuerySheetUnit(string type, int QuerySheetId)
         {
             var repo = new QuerySheetRepository();
-            UnitSelection();
+            UnitDropDown();
             var qs = new QuerySheetRepository().GetQuerySheet(QuerySheetId);
-
             qs.Type = type;
             qs.QuerySheetItems = new ProjectCostRepository().GetQuerySheetItem(QuerySheetId);
             if (type == "Costing")
@@ -123,14 +122,14 @@ namespace ArabErp.Web.Controllers
                 int row;
                 if (qs.Type == "Unit")
                 {
-                    UnitSelection();
+                    UnitDropDown();
                     row = new QuerySheetRepository().UpdateQuerySheetUnit(qs);
                     TempData["success"] = "Saved Successfully (" + qs.QuerySheetRefNo + ")";
                     return RedirectToAction("PendingQuerySheetforUnit");
                 }
                 else if (qs.Type == "Costing")
                 {
-                    UnitSelection();
+                    UnitDropDown();
                     if (qs.Items == null || qs.Items.Count <= 0)
                     {
                         TempData["error"] = "Query Sheet cannot be saved without costing parameters.";
@@ -197,7 +196,7 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-                UnitSelection();
+                UnitDropDown();
                 if (id != 0)
                 {
                     QuerySheet QuerySheet = new QuerySheet();
@@ -319,15 +318,26 @@ namespace ArabErp.Web.Controllers
             return View("PendingQuerySheet", Pending);
         }
 
-        public void UnitSelection()
+        public void UnitDropDown()
         {
             ViewBag.UnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
         }
-        //public void EvaporatorUnitSelection()
-        //{
-        //    ViewBag.EvaporatorUnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
-        //}
-
+        public ActionResult UnitSelection()
+        {
+            UnitDropDown();
+            QuerySheet qs = new QuerySheet();
+            qs.QuerySheetUnits = new List<QuerySheetUnit>();
+            qs.QuerySheetUnits.Add(new QuerySheetUnit());
+            return PartialView("_UnitSelection", qs);
+        }
+        public ActionResult DoorSelection()
+        {
+            UnitDropDown();
+            QuerySheet qs = new QuerySheet();
+            qs.QuerySheetDoors = new List<QuerySheetDoor>();
+            qs.QuerySheetDoors.Add(new QuerySheetDoor());
+            return PartialView("_DoorSelection", qs);
+        }
         public ActionResult PendingQuerySheetforCosting()
         {
             var repo = new QuerySheetRepository();
