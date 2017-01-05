@@ -1,4 +1,6 @@
-﻿@model ArabErp.Domain.ClosingStock 
+﻿@model ArabErp.Domain.ClosingStock
+@Html.DropDownListFor(m => Model.ItemId, (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input", @onchange = "OnMaterialChange()" })
+@Html.HiddenFor(m => Model.ItemId)
 
-@Html.DropDownListFor(m => Model.ItemId, (SelectList)ViewBag.ItemList, "Any", new { @class = "form_input", @onchange = "Filter()" })
-@Html.HiddenFor(m=> Model.ItemId)
+
+

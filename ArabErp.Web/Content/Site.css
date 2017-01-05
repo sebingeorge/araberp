@@ -541,6 +541,14 @@ input[type="text"]:disabled {
 {
     padding-top:10px;
 }
+a.unit 
+{
+    text-decoration:underline;
+}
+a.unit:hover 
+{
+    text-decoration:none;
+}
 
 .links {
     list-style-type: none;

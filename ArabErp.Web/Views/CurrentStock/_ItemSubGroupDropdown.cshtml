@@ -1,0 +1,4 @@
+﻿@model ArabErp.Domain.Item
+@Html.DropDownListFor(m => Model.ItemSubGroupId, (SelectList)ViewBag.ItemSubGroupList, "Select Sub Group", new { @class = "form_input", @onchange = "FillItem()" })
+@*@Html.TextBoxFor(m => m.ItemName, new { @class = "form_input", autocomplete = "off" })*@
+@Html.HiddenFor(m => Model.ItemSubGroupId)
