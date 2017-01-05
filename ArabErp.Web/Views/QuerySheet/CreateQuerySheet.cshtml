@@ -27,8 +27,7 @@
         });
      
       
-        if ('@ViewContext.RouteData.GetRequiredString("action")' == "CreateQuerySheetUnit")
-        {
+        if ('@ViewContext.RouteData.GetRequiredString("action")' == "CreateQuerySheetUnit") {
             $("#QuerySheetItems_0__Refrigerant").focus();
             $(".del").hide();
         }
@@ -114,37 +113,33 @@
 
 
      function Exit(type) {
-         if(type=='Unit')
-         {
+        if (type == 'Unit') {
              location.href = '@Url.Action("PendingQuerySheetforUnit")';
          }
         else if (type == 'Costing') {
              location.href = '@Url.Action("PendingQuerySheetforCosting")';
          }
 
-        else if (type == 'RoomDetails')
-         {
+        else if (type == 'RoomDetails') {
              location.href = '@Url.Action("Index", "Home")';
          }
       
         }
 
-    function PreviousList(type)
-        {
+    function PreviousList(type) {
         var url = '@Url.Action("Index")';
         url += "?Type=" + type;
         window.location = url;
         }
 
-        $(function ()
-        {
+    $(function () {
             $("#QuerySheetDate").datepicker({ dateFormat: "dd-MM-yy" });
         });
 
-        function OnCostingAmountChanged(){
+    function OnCostingAmountChanged() {
             var amount = 0;
-            $("input[id$='__Amount']").each(function(index, object){
-                if(!isNaN($(object).val()))
+        $("input[id$='__Amount']").each(function (index, object) {
+            if (!isNaN($(object).val()))
                     amount += Number($(object).val());
             })
             $("#costingTotal").text(amount.toFixed(2));
@@ -166,11 +161,11 @@
             {
             <h4>Query Sheet</h4>
             }
-            else if (Model.Type  == "Unit")
+            else if (Model.Type == "Unit")
             {
             <h4>Query Sheet : Unit Selection</h4>
             }
-            else if (Model.Type  == "Costing")
+            else if (Model.Type == "Costing")
             {
             <h4>Query Sheet : Costing</h4>
             }
@@ -180,7 +175,7 @@
             @using (Html.BeginForm("CreateQuerySheet", null, FormMethod.Post))
             {
                 @Html.HiddenFor(m => m.QuerySheetId)
-                @Html.HiddenFor(m=>m.Type)
+            @Html.HiddenFor(m => m.Type)
                 <div class="row form-group">
 
                     @*@if (actionName == "Create")

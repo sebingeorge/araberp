@@ -1156,7 +1156,6 @@
     <Content Include="Views\OpeningStockReport\_ItemDropDown.cshtml" />
     <Content Include="Views\OpeningStockReport\_OpeningStockRegister.cshtml" />
     <Content Include="Views\CurrentStock\Index.cshtml" />
-    <Content Include="Views\CurrentStock\_ItemDropDown.cshtml" />
     <Content Include="Views\CurrentStock\_CurrentStockRegister.cshtml" />
     <Content Include="Views\GINRegister\Index.cshtml" />
     <Content Include="Views\GINRegister\_GINRegister.cshtml" />
@@ -1366,6 +1365,10 @@
     <Content Include="Views\QuickBookExport\_PurchaseGrid.cshtml" />
     <Content Include="Views\QuickBookExport\_SalesGrid.cshtml" />
     <Content Include="Views\MaterialPlanning\_SODetailsDetails.cshtml" />
+    <Content Include="Views\CurrentStock\_ItemCategoryDropdown.cshtml" />
+    <Content Include="Views\CurrentStock\_ItemDropDown.cshtml" />
+    <Content Include="Views\CurrentStock\_ItemGroupDropdown.cshtml" />
+    <Content Include="Views\CurrentStock\_ItemSubGroupDropdown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1377,7 +1380,6 @@
     <Folder Include="Views\LocalPurchase\" />
     <Folder Include="Views\MisReport\" />
     <Folder Include="Views\PendingSupplyOrderRegister\" />
-    <Folder Include="Views\StockJournel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

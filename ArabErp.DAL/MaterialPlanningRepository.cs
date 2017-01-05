@@ -234,25 +234,28 @@ namespace ArabErp.DAL
 
 
                 string sql = @"    select * INTO #TEMP FROM (
-                                  select ItemId,SS.SaleOrderId,SS.SaleOrderRefNo,SS.SaleOrderDate,sum(Quantity) SOQuantity,0 WRQTY,0 PENWRQTY from SaleOrderItem S
+                                  select ItemId,SS.SaleOrderId,C.CustomerName,SS.SaleOrderRefNo,SS.SaleOrderDate,sum(Quantity) SOQuantity,0 WRQTY,0 PENWRQTY from SaleOrderItem S
 								  INNER JOIN SaleOrder SS ON S.SaleOrderId=SS.SaleOrderId
+                                  INNER JOIN Customer C  on C.CustomerId=SS.CustomerId
                                   INNER JOIN WorkDescription W ON W.WorkDescriptionId = S.WorkDescriptionId
                                   INNER JOIN Item I ON I.ItemId=W.FreezerUnitId
-                                  group by ItemId,SS.SaleOrderId,SS.SaleOrderRefNo,SS.SaleOrderDate
+                                  group by ItemId,SS.SaleOrderId,SS.SaleOrderRefNo,SS.SaleOrderDate,C.CustomerName
 
                                   UNION ALL
 
-                                  select ItemId,SS.SaleOrderId,SS.SaleOrderRefNo,SS.SaleOrderDate ,sum(Quantity) SOQuantity,0 WRQTY,0 PENWRQTY from SaleOrderItem S
+                                  select ItemId,SS.SaleOrderId,C.CustomerName,SS.SaleOrderRefNo,SS.SaleOrderDate ,sum(Quantity) SOQuantity,0 WRQTY,0 PENWRQTY from SaleOrderItem S
 								  INNER JOIN SaleOrder SS ON S.SaleOrderId=SS.SaleOrderId
+                                  INNER JOIN Customer C  on C.CustomerId=SS.CustomerId
                                   INNER JOIN WorkDescription W ON W.WorkDescriptionId = S.WorkDescriptionId
                                   INNER JOIN Item I ON I.ItemId=W.BoxId
-                                  group by ItemId,SS.SaleOrderId,SS.SaleOrderRefNo,SS.SaleOrderDate
+                                  group by ItemId,SS.SaleOrderId,SS.SaleOrderRefNo,SS.SaleOrderDate,C.CustomerName
 
                                   UNION ALL
 
-                                  select ItemId,SS.SaleOrderId,SS.SaleOrderRefNo,SS.SaleOrderDate,sum(Quantity) SOQuantity,0 WRQTY,0 PENWRQTY from SaleOrderMaterial S
+                                  select ItemId,SS.SaleOrderId,C.CustomerName,SS.SaleOrderRefNo,SS.SaleOrderDate,sum(Quantity) SOQuantity,0 WRQTY,0 PENWRQTY from SaleOrderMaterial S
 								  INNER JOIN SaleOrder SS ON S.SaleOrderId=SS.SaleOrderId
-                                  group by ItemId,SS.SaleOrderId,SS.SaleOrderRefNo,SS.SaleOrderDate
+                                  INNER JOIN Customer C on C.CustomerId=SS.CustomerId
+                                  group by ItemId,SS.SaleOrderId,SS.SaleOrderRefNo,SS.SaleOrderDate,C.CustomerName
                                   )AS A;
            
                            

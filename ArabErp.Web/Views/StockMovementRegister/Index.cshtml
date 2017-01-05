@@ -201,17 +201,13 @@
 
                 <div class="col-md-2">
                     <label for="code" class="label1">Item Category</label>
-
                     @Html.Action("ItemCategory")
-
                 </div>
                 <div class="col-md-2">
                     <label for="code" class="label1">Item Group</label>
                     <div id="DivItemGroup">
-
                         @Html.Action("ItemGroup", "Item", new { Code = Model.itmCatId })
                     </div>
-
                 </div>
 
                 <div class="col-md-2">
