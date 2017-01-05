@@ -55,15 +55,13 @@
                         <input type="text" class="form_input" id="txtGRNRefNo" disabled />
                     </div>*@
                     <div class="col-md-3">
-                        <label for="txtSORefNo" title="Sale Order Reference No">SO.No.</label>
+                        <label for="txtSORefNo" title="Sale Order Reference No">SO No.</label>
                         @Html.TextBoxFor(m => m[0].SaleOrderRefNo, new { @class = "form_input", @readonly = "true" })
-                        @*<input type="text" class="form_input" id="txtSORefNo"  disabled />*@
                     </div>
-                    <div class="col-md-3">
-                        <label for="txtWDRefNo" title="Work Description No.">WD.No.</label>
+                    @*<div class="col-md-3">
+                        <label for="txtWDRefNo" title="Work Description No.">WD No.</label>
                         @Html.TextBoxFor(m => m[0].WorkDescrRefNo, new { @class = "form_input", @readonly = "true" })
-                        @*<input type="text" class="form_input" id="txtWDRefNo" disabled />*@
-                    </div>
+                    </div>*@
                 </div>
                 
                 if (Model.Count > 0)
