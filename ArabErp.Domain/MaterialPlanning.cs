@@ -35,6 +35,8 @@ namespace ArabErp.Domain
       public decimal? SOQuantity { get; set; }
       public string SaleOrderRefNo { get; set; }
       public DateTime SaleOrderDate { get; set; }
+      public string CustomerName { get; set; }
+      
           
           
       
