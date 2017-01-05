@@ -68,7 +68,8 @@ namespace ArabErp.Web.Controllers
             FillItem(Code);
             return PartialView("_ItemDropDown");
         }
-        public ActionResult Print(string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", string Itmid = "",string PartNo="")
+        public ActionResult Print(string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", int Itmid = 0,string Itmname="",string PartNo="", string PartName = "", string ItemGroupname = "",int ItemGroupId=0,int ItemSubGroupId=0,string ItemSubGroupname="")
+
         {
 
             ReportDocument rd = new ReportDocument();
@@ -84,7 +85,10 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Item");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
-            ds.Tables["Head"].Columns.Add("PartNum");
+            ds.Tables["Head"].Columns.Add("PartName");
+            ds.Tables["Head"].Columns.Add("ItemGroupname");
+            ds.Tables["Head"].Columns.Add("ItemSubGroupname");
+
 
             //-------DT
 
@@ -100,16 +104,19 @@ namespace ArabErp.Web.Controllers
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["Stkpoint"] = Spname;
             dr["ItemCat"] = ItmCatname;
-            dr["Item"] = Itmid;
+            dr["Item"] = Itmname;
+            dr["PartName"] = PartName;
+            dr["ItemGroupname"] = ItemGroupname;
+            dr["ItemSubGroupname"] = ItemSubGroupname;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
-            dr["PartNum"] = PartNo;
             ds.Tables["Head"].Rows.Add(dr);
 
 
             ClosingStockRepository repo1 = new ClosingStockRepository();
             //var Items = repo1.GetSOVarianceDataDTPrint(from, to, itmid, itmName, SupId, SupName);
-            var Items = repo1.GetCurrentStockDataDTPrint(stockPointId: Spid, itemCategoryId: ItmCatid, itemId: Itmid, OrganizationId: OrganizationId, partno: PartNo);
+            var Items = repo1.GetCurrentStockDataDTPrint(stockPointId: Spid, itemCategoryId: ItmCatid, itemId: Itmid, OrganizationId: OrganizationId, partno: PartNo, itmGroup: ItemGroupId, itmSubgroup: ItemSubGroupId);
+          
 
             foreach (var item in Items)
             {
