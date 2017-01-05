@@ -7,20 +7,34 @@
 
 <script type="text/javascript">
 
+    $(document).ready(function () {
+        $("#txtFrom").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+        $("#txtTo").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+       
+    })
+
     function Exit() {
-        var url = '@Url.Action("Pending")';
+        var url = '@Url.Action("Pending","StoresIssue")';
         window.location = url;
     }
 
     function Filter() {
-        $("#previous_workshop").addClass("fade");
+        //$("#previous_workshop").addClass("fade");
+        var from = $("#txtFrom").val();
+        var to = $("#txtTo").val();
+
         var StoreIssue = $("#txtStoreIssue").val().trim();
         var Jobcard = $("#txtJcNo").val().trim();
         var Customer = $("#txtCustomer").val().trim();
         var RegNo = $("#txtRegNo").val().trim();
         var Request = $("#txtRequest").val().trim();
         var url = '@Url.Action("PreviousListGrid")';
-        url += "?StoreIssue=" + encodeURIComponent(StoreIssue) + "&Jobcard=" + encodeURIComponent(Jobcard) + "&Customer=" + encodeURIComponent(Customer) + "&RegNo=" + encodeURIComponent(RegNo) + "&Request=" + encodeURIComponent(Request);
+
+        url += "?from=" + from + "&to=" + to + "&StoreIssue=" + encodeURIComponent(StoreIssue) + "&Jobcard=" + encodeURIComponent(Jobcard) + "&Customer=" + encodeURIComponent(Customer) + "&RegNo=" + encodeURIComponent(RegNo) + "&Request=" + encodeURIComponent(Request);
         $("#previous_workshop").load(url, function () {
             $("#previous_workshop").removeClass("fade");
         });
@@ -36,6 +50,14 @@
     <div class="main-part pad1">
         <div class="row">
             <div class="part">
+                <div class="col-md-2">
+                    <label>From</label> 
+                    <input id="txtFrom" value="@ViewBag.startdate.ToString("dd-MMMM-yyyy")" class="form_input" onchange="Filter()" />
+                </div>
+                <div class="col-md-2">
+                    <label>To</label>
+                    <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" class="form_input" onchange="Filter()" />
+                </div>
                 <div class="col-md-2">
                     <label for="txtJobcard">Store Issue.</label>
                     <input type="text" class="form_input" id="txtStoreIssue" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Store Issue" />
@@ -60,10 +82,12 @@
             </div>
         </div>
         <br />
+
+
         <div id="previous_workshop">
-            @Html.Action("PreviousListGrid")
-        </div>
-        <br />
+           @Html.Action("PreviousListGrid")
+       </div>
+        @*<br />*@
 
         <div class="row">
             <div class="col-md-12 hrpart">

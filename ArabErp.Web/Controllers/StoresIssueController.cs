@@ -147,12 +147,24 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PreviousList()
         {
+            var today = DateTime.Today;
+            var fd = new DateTime(today.Year, today.Month, 1);
+            ViewBag.startdate = fd;
+            //ViewBag.startdate = fd.ToString("MM/dd/yyyy");
+            //alert(firstday);
+
+            //ViewBag.startdate = FYStartdate;
             return View();
         }
 
-        public ActionResult PreviousListGrid(string StoreIssue = "", string Jobcard = "", string Customer = "", string RegNo = "",string Request = "")
+        public ActionResult PreviousListGrid(DateTime? from, DateTime? to, string StoreIssue = "", string Jobcard = "", string Customer = "", string RegNo = "", string Request = "")
         {
-            return PartialView("_PreviousListStoreIssue", new StoreIssueRepository().PreviousList(StoreIssue, Jobcard, Customer, RegNo, Request));
+            var today = DateTime.Today;
+            var fd = new DateTime(today.Year, today.Month, 1);
+
+            from = from ?? fd;
+            to = to ?? DateTime.Today;
+            return PartialView("_PreviousListStoreIssue", new StoreIssueRepository().PreviousList(from, to, StoreIssue, Jobcard, Customer, RegNo, Request));
         }
         public ActionResult GetStockQuantity(string date, int item = 0, int stockpoint = 0)
         {

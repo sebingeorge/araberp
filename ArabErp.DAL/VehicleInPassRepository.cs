@@ -331,7 +331,7 @@ namespace ArabErp.DAL
                                when Isnull(J.JodCardCompleteStatus,0)=1  then 'Completed'
                                when Isnull(J.JodCardCompleteStatus,0)=0 and JA.JobCardId is not null   then 'Work in Progress'  
                                when Isnull(J.JodCardCompleteStatus,0)=0 and JA.JobCardId is null   then 'Work not Started' 
-                               when J.InPassId is null then 'Pending JC Creation'
+                               when J.InPassId is null then 'JC Not Created'
                                end as Status 
                                INTO #TEMP2       
                                from VehicleInPass V
