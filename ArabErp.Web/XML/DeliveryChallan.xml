@@ -67,21 +67,25 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DV/17/8</DeliveryChallanRefNo>
-    <DeliveryChallanDate>03-Jan-2017</DeliveryChallanDate>
-    <Customer>UNITED CAR RENTALS Co W.L.L</Customer>
-    <CDoorNo>Doha</CDoorNo>
-    <CCountry>QATAR</CCountry>
-    <SaleRefNo>AARC/SER/17/12</SaleRefNo>
-    <SONoDate>03 Jan 2017</SONoDate>
-    <JobcardNo>AARC/17/JC-S/11</JobcardNo>
-    <JCDate>03-Jan-2017 00:00:00</JCDate>
-    <RegistrationNo>301139</RegistrationNo>
-    <WorkDesc>General Checkup &amp; Repair</WorkDesc>
-    <VehicleModel>Toyota Hiace Standard Glass Van , 3 seater</VehicleModel>
+    <DeliveryChallanRefNo>DV/17/1</DeliveryChallanRefNo>
+    <DeliveryChallanDate>02-Jan-2017</DeliveryChallanDate>
+    <Customer>National Car Company</Customer>
+    <CDoorNo>Doha ,Qatar</CDoorNo>
+    <CCountry>INDIA</CCountry>
+    <SaleRefNo>AARC/SO/TR/9</SaleRefNo>
+    <SONoDate>03 Dec 2016</SONoDate>
+    <JobcardNo>AARC/JC/31</JobcardNo>
+    <JCDate>26-Dec-2016 00:00:00</JCDate>
+    <RegistrationNo>UG9013226</RegistrationNo>
+    <WorkDesc>Thermoking T600-R + 100mm 5600x2200x2200mm ,BAM</WorkDesc>
+    <VehicleModel>Hyundai EX 9</VehicleModel>
     <Employee>Mohammed Safiq</Employee>
-    <FreezerName>T1400</FreezerName>
-    <FreezerPartNo>TH-11VP-56</FreezerPartNo>
+    <PaymentTerms>Net 30</PaymentTerms>
+    <QuotationRefNo>AARC/SQ/9</QuotationRefNo>
+    <FreezerName>Thermoking T600-R</FreezerName>
+    <FreezerPartNo>GLW1072043</FreezerPartNo>
+    <FreezerId>1253</FreezerId>
+    <Box>1251</Box>
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -93,17 +97,34 @@
     <Zip>13037</Zip>
     <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo xml:space="preserve"> </LPONo>
-    <LPODate>03-Jan-2017</LPODate>
+    <LPONo>SQ9/NCC/03/12/2016</LPONo>
+    <LPODate>03-Dec-2016</LPODate>
     <CreatedUser>safiq</CreatedUser>
     <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
     <ApprovedUsersig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
   </Head>
   <Items>
-    <Description>First Free General Service of TM T1400:
-Compressor Belt Tension Check-up &amp; Bracket Checking
-General Check-up &amp; Check Cooling
-Electrical Connection Check-up &amp; Adjustments
+    <Description>Supply &amp; Installation of 100mm 5.6x2.2x2.2mtr PUB
+into Suitable Hyundai EX8 Truck
+
+Box No: AARC 1251
+Part No: 2953</Description>
+    <UoM>ea</UoM>
+    <Quantity>1</Quantity>
+  </Items>
+  <Items>
+    <Description>Supply, Installation &amp; Commissioning of Thermo-king
+T600-R (12V with Stand-by) into Hyundai EX8 Truck
+
+Srl No: GLW1072043</Description>
+    <UoM>ea</UoM>
+    <Quantity>1</Quantity>
+  </Items>
+  <Items>
+    <Description>Supply, Installation &amp; Commissioning of Zepro 1.5T
+Tail Lift into Hyundai EX8 Truck
+
+TL Srl No: 319463
 </Description>
     <UoM>ea</UoM>
     <Quantity>1</Quantity>
