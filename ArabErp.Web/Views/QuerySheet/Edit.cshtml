@@ -210,13 +210,7 @@
                     <th width="10%" nowrap><h1>Product Details</h1></th>
                     <th width="5%" nowrap><h1>Product Incoming Temperature</h1></th>
                     <th width="5%" nowrap><h1>Pipe Length</h1></th>
-                    <th width="20%">
-                        <h1>
-                            Door&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </h1>
-                    </th>
                     <th width="5%" nowrap><h1>Door Size</h1></th>
-                    <th width="5%" class="text-right" nowrap><h1>Door Qty</h1></th>
                     <th width="5%"><h1>Refrigerant</h1></th>
                     <th width="5%" nowrap><h1>Electrical Power</h1></th>
                     @if (Model.Type != "RoomDetails")
@@ -250,10 +244,8 @@
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].FloorDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ProductDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ProductIncomingTemperature, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.DropDownListFor(m => m.QuerySheetItems[i].Door, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[i].Door), new { @class = "form_input" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].PipeLength, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].DoorSizeTypeAndNumberOfDoor, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].DoorQty, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Refrigerant, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         @if (Model.Type != "RoomDetails")

@@ -1365,6 +1365,8 @@
     <Content Include="Views\QuickBookExport\_PurchaseGrid.cshtml" />
     <Content Include="Views\QuickBookExport\_SalesGrid.cshtml" />
     <Content Include="Views\MaterialPlanning\_SODetailsDetails.cshtml" />
+    <Content Include="Views\QuerySheet\_UnitSelection.cshtml" />
+    <Content Include="Views\QuerySheet\_DoorSelection.cshtml" />
     <Content Include="Views\CurrentStock\_ItemCategoryDropdown.cshtml" />
     <Content Include="Views\CurrentStock\_ItemDropDown.cshtml" />
     <Content Include="Views\CurrentStock\_ItemGroupDropdown.cshtml" />

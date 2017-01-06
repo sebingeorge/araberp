@@ -237,7 +237,25 @@ namespace ArabErp.DAL
                         row = connection.Execute(sql, item, txn);
                          
                      }
+                    foreach (QuerySheetUnit item in model.QuerySheetUnits)
+                    {
+                        item.QuerySheetItemId = model.QuerySheetItems[0].QuerySheetItemId;
+                      
+                        string sql = @"insert  into QuerySheetItemUnit(QuerySheetItemId,EvaporatorUnitId,CondenserUnitId,Quantity) 
+                                       Values (@QuerySheetItemId,@EvaporatorUnitId,@CondenserUnitId,@Quantity)";
 
+                        row = connection.Execute(sql, item, txn);
+
+                    }
+                    foreach (QuerySheetDoor item in model.QuerySheetDoors)
+                    {
+                        item.QuerySheetItemId = model.QuerySheetItems[0].QuerySheetItemId;
+                        string sql = @"insert  into QuerySheetItemDoor(QuerySheetItemId,DoorId,Quantity) 
+                                       Values (@QuerySheetItemId,@DoorId,@Quantity)";
+
+                        row = connection.Execute(sql, item, txn);
+
+                    }
                     InsertLoginHistory(dataConnection,model.CreatedBy, "Update", typeof(QuerySheet).Name, model.QuerySheetId.ToString(), model.OrganizationId.ToString());
                     txn.Commit();
                     return row;

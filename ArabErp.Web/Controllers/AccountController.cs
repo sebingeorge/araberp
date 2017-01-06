@@ -127,9 +127,13 @@ namespace ArabErp.Web.Controllers
         public ActionResult Login(string returnUrl)
         {
             //Account/LogOff
-            string[] url = returnUrl.Split('/');
-            if (url[url.Length - 1] == "LogOff")
-                returnUrl = "/";
+            try
+            {
+                string[] url = returnUrl.Split('/');
+                if (url[url.Length - 1] == "LogOff")
+                    returnUrl = "/";
+            }
+            catch (NullReferenceException) { returnUrl = "/"; }
             ViewBag.ReturnUrl = returnUrl;
             FillOrganization();
             return View();
@@ -195,6 +199,8 @@ namespace ArabErp.Web.Controllers
             userCookie.Values.Add("Organization", OrganizationId.ToString());
             cookiecollection.Add(userCookie);
             Session.Add("user", userCookie);
+
+            Session.Timeout = 120;
 
             UserRepository repo = new UserRepository();
             string ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
@@ -298,7 +304,7 @@ namespace ArabErp.Web.Controllers
                 //User model = (from a in users where a.UserId == Id select a).Single();
                 FillDesignation();
                 User model = new UserRepository().GetUserInfo(Id);
-               // model.DesignationId = System.Collections.Generic.List< DropdownRepository().Designation(), "Id", "Name");
+                // model.DesignationId = System.Collections.Generic.List< DropdownRepository().Designation(), "Id", "Name");
                 model.Module = new System.Collections.Generic.List<ModuleVsUser>();
                 model.ERPAlerts = new System.Collections.Generic.List<ERPAlerts>();
                 model.ERPGraphs = new System.Collections.Generic.List<ERPGraphs>();
@@ -679,7 +685,7 @@ namespace ArabErp.Web.Controllers
             string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
             string qualifiedName = Server.MapPath("~/App_Images/") + fileName;
             file.SaveAs(qualifiedName);
-            if (new UserRepository().UpdateSignature(fileName, id??0) > 0)
+            if (new UserRepository().UpdateSignature(fileName, id ?? 0) > 0)
                 return Json(fileName, JsonRequestBehavior.AllowGet);
             else
                 return Json("0", JsonRequestBehavior.AllowGet);
