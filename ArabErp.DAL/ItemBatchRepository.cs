@@ -587,7 +587,7 @@ namespace ArabErp.DAL
 	                                JC.JobCardNo,
 	                                STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
 			                                LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
-			                                WHERE T1.SaleOrderId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '') SerialNo,
+			                                WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '') SerialNo,
 	                                SOM.Quantity,
 	                                I.ItemId,
 	                                R.ReservedQuantity,
