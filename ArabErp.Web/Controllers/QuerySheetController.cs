@@ -204,6 +204,7 @@ namespace ArabErp.Web.Controllers
                     var repo = new ProjectCostRepository();
                     QuerySheet.Items = repo.GetProjectCost(id);
                     QuerySheet.QuerySheetItems = repo.GetQuerySheetItem(id);
+                
                     return View(QuerySheet);
                 }
                 else
@@ -322,22 +323,41 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.UnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
         }
-        public ActionResult UnitSelection()
+        public ActionResult UnitSelection(int id = 0)
         {
             UnitDropDown();
+
             QuerySheet qs = new QuerySheet();
-            qs.QuerySheetUnits = new List<QuerySheetUnit>();
-            qs.QuerySheetUnits.Add(new QuerySheetUnit());
+            if (id < 0)
+            {
+                qs.QuerySheetUnits = new List<QuerySheetUnit>();
+                qs.QuerySheetUnits.Add(new QuerySheetUnit());
+               
+            }
+            else
+            {
+                qs.QuerySheetUnits = new QuerySheetRepository().GetQuerySheetItemUnit(id);
+            }
             return PartialView("_UnitSelection", qs);
         }
-        public ActionResult DoorSelection()
+
+
+        public ActionResult DoorSelection(int? id)
         {
             UnitDropDown();
             QuerySheet qs = new QuerySheet();
-            qs.QuerySheetDoors = new List<QuerySheetDoor>();
-            qs.QuerySheetDoors.Add(new QuerySheetDoor());
+            if (id < 0)
+            {
+                qs.QuerySheetDoors = new List<QuerySheetDoor>();
+                qs.QuerySheetDoors.Add(new QuerySheetDoor());
+            }
+            else
+            {
+                qs.QuerySheetDoors = new QuerySheetRepository().GetQuerySheetItemDoor(id??0);
+            }
             return PartialView("_DoorSelection", qs);
         }
+
         public ActionResult PendingQuerySheetforCosting()
         {
             var repo = new QuerySheetRepository();
