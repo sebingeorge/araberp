@@ -102,7 +102,7 @@ namespace ArabErp.DAL
                                     AND isnull(CustomerName,'')  LIKE '%'+@Customer+'%'
                                     AND isnull(JobCardNo,'')  LIKE '%'+@JobcardNo+'%'
 --                                  AND isnull(isService,'')  LIKE '%'+@Installation+'%'
-                                    AND  ISNULL(isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(isService, 0) END
+                                    AND ISNULL(isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(isService, 0) END
                                     ORDER BY DeliveryChallanId desc
                                     DROP TABLE #HourlyCost";
                     return connection.Query<DCReport>(query, new { org = OrganizationId, month = month, year = year, ChassisNo = ChassisNo, UnitSlNo = UnitSlNo, Customer = Customer, JobcardNo = JobcardNo, InstallType = InstallType });
