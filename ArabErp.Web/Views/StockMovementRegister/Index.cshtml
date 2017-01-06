@@ -221,13 +221,13 @@
         <div class="row form-group">
             <div class="part">
                 <div class="col-md-3">
-                    <label for="code" class="label1">Material/Spares</label>
+                    <label for="code">Material/Spares</label>
                     <div id="DivItem">
                         @Html.Action("Material", "StockMovementRegister", new { Code = Model.itmSubGrpId })
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label for="cboPart no">Part No.</label>
                     <div >
                         @Html.DropDownList("cboPartNo", (SelectList)ViewBag.partNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })

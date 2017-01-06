@@ -213,7 +213,7 @@ namespace ArabErp.Web.Controllers
             var repo = new SalesInvoiceRepository();
             SalesInvoice model = repo.GetInvoiceHd(id ?? 0, type);
             model.SaleInvoiceItems = repo.GetInvoiceItems(id ?? 0);
-
+           
             //var saleinvoice = new SalesInvoiceRepository().GetInvoiceHd(id, type);
             //model.Items = repo.GetSaleOrderItem(SaleOrderId ?? 0);
 
@@ -237,6 +237,7 @@ namespace ArabErp.Web.Controllers
             var repo = new SalesInvoiceRepository();
             SalesInvoice si = (new SalesInvoiceRepository()).GetInvoiceHd(id ?? 0, type);
             new SalesInvoiceRepository().UpdateSIApproval(id ?? 0, model.IsApprovedDate, model.IsApprovedBy);
+            TempData["success"] = "Approved successfully";
             return RedirectToAction("PendingApproval");
         }
 
