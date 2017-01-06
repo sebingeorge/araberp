@@ -55,6 +55,42 @@
             }
         }
     }
+    function Amountchanged() {
+        var qty = 0;
+        var rate = 0;
+        var discount = 0;
+        var amount = 0;
+        var total = 0;
+        var addition = 0;
+        var deduction = 0;
+        var net = 0;
+      
+        $('.PriceEach').each(function (i, obj) {
+            var amount = 0;
+            var qty = 0;
+            var rate = 0;
+            console.log(obj);
+            qty=$("#PrintDescriptions_" + i + "__Quantity").val();
+            if(eval($("#PrintDescriptions_" + i + "__PriceEach").val() != 0 && eval($("#PrintDescriptions_" + i + "__PriceEach").val() != '')))
+                rate = rate + eval($("#PrintDescriptions_" + i + "__PriceEach").val());
+            //if (eval($("#SaleInvoiceItems_" + i + "__Discount").val() != 0 && eval($("#SaleInvoiceItems_" + i + "__Discount").val() != '')))
+            //    discount = discount + eval($("#SaleInvoiceItems_" + i + "__Discount").val());
+       
+            amount = (qty * rate) ;
+            //total = total + amount;
+            $("#PrintDescriptions_" + i + "__Amount").val(amount);
+            //$("#totalDiscount").text(discount);
+        });
+        //$("#gridTotal").text(total);
+        //if (eval($("#Addition").val() != 0 && eval($("#Addition").val() != '')))
+        //    addition = eval($("#Addition").val());
+        //if (eval($("#Deduction").val() != 0 && eval($("#Deduction").val() != '')))
+        //    deduction = eval($("#Deduction").val());
+
+        //net = total + addition - deduction;
+        //$("#TotalAmount").val(total.toFixed(2));
+        //$("#lblTotalAmount").text(net.toFixed(2));
+    } 
 
 </script>
 
@@ -94,13 +130,13 @@
                             @Html.TextBoxFor(m => m.PrintDescriptions[i].UoM, new { @class = "form_input", @readonly = "readonly", @tabindex = "-1" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Quantity, new { @class = "form_input numbers-only", @readonly = "readonly", @tabindex = "-1" })
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Quantity, new { @class = "form_input Quantity", @readonly = "readonly", @tabindex = "-1" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.PrintDescriptions[i].PriceEach, new { @class = "form_input numbers-only", @required = "true" })
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].PriceEach, new { @class = "form_input PriceEach", @required = "true", @onchange = "Amountchanged()",@onkeyup = "Amountchanged()" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Amount, new { @class = "form_input numbers-only"@*, @readonly = "readonly"*@, @tabindex = "-1", @required = "true" })
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Amount, new { @class = "form_input numbers-only", @readonly = "readonly", @tabindex = "-1", @required = "true" })
                         </td>
                         <td style="vertical-align:middle">
                             <a class="glyphicon glyphicon-plus" style="top:0px" onclick="AddPrintDescRow()"></a>
