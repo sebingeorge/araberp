@@ -460,7 +460,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="unitselection">
-                        @Html.Action("UnitSelection", new { id = Model.QuerySheetId })
+                        @Html.Action("UnitSelection", new { id = Model.QuerySheetId,Type=Model.Type })
                     </div>
                 </div>
                 @*............Door Selection Grid...................*@
@@ -471,7 +471,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="doorselection">
-                        @Html.Action("DoorSelection", new { id = Model.QuerySheetId })
+                        @Html.Action("DoorSelection", new { id = Model.QuerySheetId, Type = Model.Type })
                     </div>
                 </div>
             </div>
