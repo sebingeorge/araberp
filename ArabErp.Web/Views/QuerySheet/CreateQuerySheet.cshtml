@@ -413,7 +413,6 @@
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         @if (Model.Type != "RoomDetails")
                         {
-                      
                         <td onclick="UnitSelection()" class="grid-cell" value="Unit Selection"  data-toggle="modal" data-target="#unitselectionpopup"><a href="#" class="unit">Select Unit & Door</a></td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Cost, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
@@ -461,7 +460,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="unitselection">
-                        @Html.Action("UnitSelection")
+                        @Html.Action("UnitSelection", new { id = Model.QuerySheetId })
                     </div>
                 </div>
                 @*............Door Selection Grid...................*@
@@ -472,7 +471,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="doorselection">
-                        @Html.Action("DoorSelection")
+                        @Html.Action("DoorSelection", new { id = Model.QuerySheetId })
                     </div>
                 </div>
             </div>

@@ -480,7 +480,7 @@ namespace ArabErp.DAL
                 update T set T.ShortorExcess = (T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
                      
 
-                SELECT row_number() over (order by (select NULL)) as SlNo,* FROM #TEMP WHERE ShortorExcess < 1
+                SELECT row_number() over (order by (select NULL)) as SlNo,* FROM #TEMP WHERE ShortorExcess < 0
 			
 
                 drop table #TEMP;

@@ -197,7 +197,7 @@ namespace ArabErp.DAL
                         new ProjectCostRepository().InsertQuerySheetItem(item, connection, txn);
                     }
 
-                    query = @"UPDATE QuerySheetItem SET  QuerySheetRefNo = @QuerySheetRefNo,QuerySheetDate = @QuerySheetDate,ProjectName = @ProjectName,ContactPerson = @ContactPerson,ContactNumber = @ContactNumber,
+                    query = @"UPDATE QuerySheet SET  QuerySheetRefNo = @QuerySheetRefNo,QuerySheetDate = @QuerySheetDate,ProjectName = @ProjectName,ContactPerson = @ContactPerson,ContactNumber = @ContactNumber,
 	   	                      Email = @Email
 	                          OUTPUT inserted.QuerySheetRefNo
                               WHERE QuerySheetId = @QuerySheetId";
@@ -224,24 +224,24 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                   
+                    string sql = "";
 //                  
                     var row = 0;
+
                     foreach (QuerySheetItem item in model.QuerySheetItems)
                     {
-                        item.QuerySheetId = model.QuerySheetId;
-                        item.Type = model.Type;
-                        string sql = @"UPDATE QuerySheetItem SET Refrigerant = @Refrigerant,EletricalPowerAvailability = @EletricalPowerAvailability ,Kilowatt = @Kilowatt,Cost = @Cost,PipeLength = @PipeLength WHERE QuerySheetId = @QuerySheetId
-                                       UPDATE QuerySheet  SET Type=@Type WHERE QuerySheetId = @QuerySheetId";
 
+                        sql = @"UPDATE QuerySheetItem SET Kilowatt = @Kilowatt,Cost = @Cost WHERE QuerySheetItemId = @QuerySheetItemId";
                         row = connection.Execute(sql, item, txn);
                          
                      }
+                     sql = @"UPDATE QuerySheet  SET Type=@Type WHERE QuerySheetId = @QuerySheetId";
+                    row = connection.Execute(sql,model, txn);
                     foreach (QuerySheetUnit item in model.QuerySheetUnits)
                     {
                         item.QuerySheetItemId = model.QuerySheetItems[0].QuerySheetItemId;
                       
-                        string sql = @"insert  into QuerySheetItemUnit(QuerySheetItemId,EvaporatorUnitId,CondenserUnitId,Quantity) 
+                         sql = @"insert  into QuerySheetItemUnit(QuerySheetItemId,EvaporatorUnitId,CondenserUnitId,Quantity) 
                                        Values (@QuerySheetItemId,@EvaporatorUnitId,@CondenserUnitId,@Quantity)";
 
                         row = connection.Execute(sql, item, txn);
@@ -250,7 +250,7 @@ namespace ArabErp.DAL
                     foreach (QuerySheetDoor item in model.QuerySheetDoors)
                     {
                         item.QuerySheetItemId = model.QuerySheetItems[0].QuerySheetItemId;
-                        string sql = @"insert  into QuerySheetItemDoor(QuerySheetItemId,DoorId,Quantity) 
+                         sql = @"insert  into QuerySheetItemDoor(QuerySheetItemId,DoorId,Quantity) 
                                        Values (@QuerySheetItemId,@DoorId,@Quantity)";
 
                         row = connection.Execute(sql, item, txn);
@@ -310,6 +310,26 @@ namespace ArabErp.DAL
                 {
                     return 0;
                 }
+            }
+        }
+
+
+        public List<QuerySheetUnit> GetQuerySheetItemUnit(int QuerySheetId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT * from QuerySheetItemUnit Q INNER JOIN QuerySheetItem QI ON Q.QuerySheetItemId=QI.QuerySheetItemId
+                                  WHERE QI.QuerySheetId = @QuerySheetId";
+                return connection.Query<QuerySheetUnit>(sql, new { QuerySheetId = QuerySheetId }).ToList();
+            }
+        }
+        public List<QuerySheetDoor> GetQuerySheetItemDoor(int QuerySheetId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT * from QuerySheetItemDoor Q INNER JOIN QuerySheetItem QI ON Q.QuerySheetItemId=QI.QuerySheetItemId
+                                  WHERE QI.QuerySheetId = @QuerySheetId";
+                return connection.Query<QuerySheetDoor>(sql, new { QuerySheetId = QuerySheetId }).ToList();
             }
         }
     }
