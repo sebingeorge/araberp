@@ -141,7 +141,7 @@ namespace ArabErp.DAL
 
 
                 string sql = @"select I.ItemId,I.PartNo,ItemName,UnitName,isnull(MinLevel,0)MinLevel
-                ,ISNULL(sum(S.Quantity),0)CurrentStock,0SOQTY,0WRQTY,0PENWRQTY,0 WRPndIssQty ,0TotalQty,0InTransitQty,0PendingPRQty,0ShortorExcess,BatchRequired INTO #TEMP FROM item I
+                ,ISNULL(sum(S.Quantity),0)CurrentStock,0SOQTY,0WRQTY,0PENWRQTY,0 WRPndIssQty ,0TotalQty,0InTransitQty,0PendingPRQty,0ShortorExcess,BatchRequired,0 Reserved INTO #TEMP FROM item I
                 INNER JOIN Unit U on U.UnitId =I.ItemUnitId
                 LEFT JOIN StockUpdate S ON I.ItemId=S.ItemId
                 WHERE I.BatchRequired=1 AND (I.FreezerUnit=1 OR I.Box=1)
@@ -199,7 +199,14 @@ namespace ArabErp.DAL
                 update T set T.PendingPRQty = isnull(PR.PRQty,0) from PR INNER JOIN #TEMP T  on T.ItemId = PR.ItemId;
                 
                 update T set T.ShortorExcess = (T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
-                                
+
+                with A as (
+                select DISTINCT I.ItemId from ItemBatch IB LEFT JOIN GRNItem G ON  G.GRNItemId=IB.GRNItemId
+				LEFT JOIN OpeningStock O ON  O.OpeningStockId=IB.OpeningStockId
+				LEFT JOIN Item I ON I.ItemId=G.ItemId OR O.ItemId=I.ItemId
+                )
+
+                update T set T.Reserved = 1 from A inner join #TEMP T on T.ItemId = A.ItemId;               
                 SELECT * FROM #TEMP  where ItemId = ISNULL(NULLIF(@itmid, 0),ItemId);
          
 
@@ -270,6 +277,24 @@ namespace ArabErp.DAL
                                   SELECT * FROM #TEMP where itemid=@id AND PENWRQTY>0";
                             
                           
+
+
+                return connection.Query<MaterialPlanning>(sql, new { id = id }).ToList();
+            }
+        }
+        public IEnumerable<MaterialPlanning> GetReservedItemDetails(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+
+                string sql = @"select  I.ItemId,IB.SerialNo INTO #TEMP from  ItemBatch IB LEFT JOIN GRNItem G ON  G.GRNItemId=IB.GRNItemId
+				                LEFT JOIN OpeningStock O ON  O.OpeningStockId=IB.OpeningStockId
+				                LEFT JOIN Item I ON I.ItemId=G.ItemId OR O.ItemId=I.ItemId
+                                where I.itemid=@id
+
+                               SELECT ItemId,SerialNo,COUNT(ItemId)Quantity FROM #TEMP GROUP BY ItemId,SerialNo";
+                            
 
 
                 return connection.Query<MaterialPlanning>(sql, new { id = id }).ToList();
