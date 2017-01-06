@@ -323,12 +323,12 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.UnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
         }
-        public ActionResult UnitSelection(int id = 0)
+        public ActionResult UnitSelection(int id = 0,string Type = "")
         {
             UnitDropDown();
 
             QuerySheet qs = new QuerySheet();
-            if (id < 0)
+            if (id < 0 || Type == "Unit") 
             {
                 qs.QuerySheetUnits = new List<QuerySheetUnit>();
                 qs.QuerySheetUnits.Add(new QuerySheetUnit());
@@ -342,18 +342,18 @@ namespace ArabErp.Web.Controllers
         }
 
 
-        public ActionResult DoorSelection(int? id)
+        public ActionResult DoorSelection(int id = 0, string Type = "")
         {
             UnitDropDown();
             QuerySheet qs = new QuerySheet();
-            if (id < 0)
+            if (id < 0 || Type == "Unit")
             {
                 qs.QuerySheetDoors = new List<QuerySheetDoor>();
                 qs.QuerySheetDoors.Add(new QuerySheetDoor());
             }
             else
             {
-                qs.QuerySheetDoors = new QuerySheetRepository().GetQuerySheetItemDoor(id??0);
+                qs.QuerySheetDoors = new QuerySheetRepository().GetQuerySheetItemDoor(id);
             }
             return PartialView("_DoorSelection", qs);
         }
