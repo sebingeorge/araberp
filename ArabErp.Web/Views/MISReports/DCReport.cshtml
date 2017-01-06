@@ -2,6 +2,7 @@
     ViewBag.Title = "DC Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <script type="text/javascript">
     function Filter() {
         var month = Number($("#month-filter").val()) + 1;
@@ -14,7 +15,7 @@
         var url = '@Url.Action("DCReportGrid")';
         url += "?month=" + month + "&year=" + year + "&ChassisNo=" + encodeURIComponent(ChassisNo) + "&UnitSlNo=" + encodeURIComponent(UnitSlNo) + "&Customer=" + encodeURIComponent(Customer) + "&JobcardNo=" + encodeURIComponent(JobcardNo) + "&InstallType=" + encodeURIComponent(InstallType);
         $("#dc_report_table").load(url, function () {
-            $("#dc_report_table").removeClass("fade");
+            $("#dc_report_table")
 
         });
     }
@@ -29,12 +30,11 @@
     </div>
     <div class="main-part pad1">
         <div class="row">
-            @*<div class="main-grid main-grid-top scroll1">
-                <div class="row form-group">*@
-
-            <div class="col-md-2">
-                <label for="">Month</label>
-                @Html.DropDownList("month-filter", new SelectList(
+            <div class="main-grid main-grid-top">
+                <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="">Month</label>
+                    @Html.DropDownList("month-filter", new SelectList(
                   new List<Object>{
                        new { value = 0 , text = "January"  },
                        new { value = 1 , text = "February" },
@@ -51,47 +51,44 @@
                     },
                   "value",
                   "text", DateTime.Today.Month - 1), "Select Month", new { @class = "form_input", @onchange = "Filter()" })
-            </div>
-            <div class="col-md-2">
-                <label for="">Year</label>
-                @Html.DropDownList("year-filter", new SelectList(
+                </div>
+                <div class="col-md-2">
+                    <label for="">Year</label>
+                    @Html.DropDownList("year-filter", new SelectList(
                   new List<Object>{
                        new { value = ViewBag.Year, text = ViewBag.Year },
                        new { value = ViewBag.Year + 1, text = ViewBag.Year + 1 }
                     },
                   "value",
                   "text", ViewBag.Year), "Select Year", new { @class = "form_input", @onchange = "Filter()" })
-            </div>
-            <div class="col-md-2">
-                <label>Reg No./Chassis No.</label>
-                <input id="chassisno" class="form_input" placeholder="Search for Vehicle/Chassis No." onkeyup="Filter()" />
-            </div>
-            <div class="col-md-2">
-                <label>Unit Sl.No.</label>
-                <input id="unitserialno" class="form_input" placeholder="Search for Unit Sl.No" onkeyup="Filter()" />
-            </div>
-            <div class="col-md-2">
-                <label>Customer</label>
-                <input id="Customer" class="form_input" placeholder="Search for Customer " onkeyup="Filter()" />
-            </div>
-            <div class="col-md-2">
-                <label>Jobcard No.</label>
-                <input id="JobcardNo" class="form_input" placeholder="Search for Jobcard No." onkeyup="Filter()" />
-            </div>
-            <div class="col-md-2">
-                <label for="txtCustomer">Service/New Installation</label>
-                <select id="cboType" class="form_input" onchange="Filter()">
-                    <option value="all" selected>All</option>
-                    <option value="service">Service</option>
-                    <option value="new">New Installation</option>
-                </select>
-            </div>
+                </div>
+                    <div class="col-md-2">
+                        <label>Reg No./Chassis No.</label>
+                        <input id="chassisno" class="form_input" placeholder="Search for Vehicle/Chassis No." onkeyup="Filter()" />
+                    </div>
+                    <div class="col-md-2">
+                        <label>Unit Sl.No.</label>
+                        <input id="unitserialno" class="form_input" placeholder="Search for Unit Sl.No" onkeyup="Filter()" />
+                    </div>
+                    <div class="col-md-2">
+                        <label>Customer</label>
+                        <input id="Customer" class="form_input" placeholder="Search for Customer " onkeyup="Filter()" />
+                    </div>
+                    <div class="col-md-2">
+                        <label>Jobcard No.</label>
+                        <input id="JobcardNo" class="form_input" placeholder="Search for Jobcard No." onkeyup="Filter()" />
+                    </div>
+                    <div class="col-md-2">
+                        <label for="txtCustomer">Service/New Installation</label>
+                        <select id="cboType" class="form_input" onchange="Filter()">
+                            <option value="all" selected>All</option>
+                            <option value="service">Service</option>
+                            <option value="new">New Installation</option>
+                        </select>
+                    </div>
 
-        </div>
-        <br />
-        <div class="row">
-            <div class="main-grid main-grid-top scroll1">
-                <div class="table-responsive" id="dc_report_table">
+            </div>
+                <div class="table-responsive scroll3" id="dc_report_table">
                     @Html.Action("DCReportGrid")
                 </div>
             </div>
@@ -104,5 +101,5 @@
             </div>
         </div>
 
-    </div>
+</div>
 </div>
