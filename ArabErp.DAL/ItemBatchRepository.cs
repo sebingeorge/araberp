@@ -587,15 +587,15 @@ namespace ArabErp.DAL
 	                                JC.JobCardNo,
 	                                STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
 			                                LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
-			                                WHERE T1.SaleOrderId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '') SerialNo,
+			                                WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '') SerialNo,
 	                                SOM.Quantity,
 	                                I.ItemId,
 	                                R.ReservedQuantity,
 	                                I.ItemName,
 	                                '' WorkDescrShortName,
 	                                SO.SaleOrderDate,
-	                                '' ChassisNo,
-	                                '' RegistrationNo,
+	                                VIP.ChassisNo,
+	                                VIP.RegistrationNo,
 	                                C.CustomerName
                                 FROM WorkShopRequest WR
                                 INNER JOIN JobCard JC ON WR.JobCardId = JC.JobCardId OR WR.SaleOrderItemId = JC.SaleOrderItemId
@@ -607,6 +607,7 @@ namespace ArabErp.DAL
                                 INNER JOIN SaleOrder SO ON JC.SaleOrderId = SO.SaleOrderId
                                 INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
 								LEFT JOIN #RESERVED R ON JC.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
+								INNER JOIN VehicleInPass VIP ON JC.InPassId = VIP.VehicleInPassId
                                 WHERE ISNULL(I.BatchRequired, 0) = 1 AND SO.SaleOrderApproveStatus = 1
 								AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
 								AND I.ItemName LIKE '%'+@itemName+'%'
@@ -614,6 +615,8 @@ namespace ArabErp.DAL
                                 AND ISNULL(JC.JobCardNo, '') LIKE '%'+@Jobcard+'%'
 								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
 								AND ISNULL(R.ReservedQuantity, 0) < ISNULL(SOM.Quantity, 0)
+                                AND (ISNULL(VIP.RegistrationNo, '') LIKE '%'+@RegNo+'%'
+			                    OR ISNULL(VIP.ChassisNo, '') LIKE '%'+@RegNo+'%')
                                 --ORDER BY SO.SaleOrderDate DESC, SO.SaleOrderRefNo DESC;
 
 								DROP TABLE #RESERVED;";
@@ -826,11 +829,11 @@ namespace ArabErp.DAL
 	                                '' WorkDescrRefNo
                                 FROM ItemBatch IB
                                 LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId AND GI.ItemId = @item
-                                INNER JOIN GRN ON GI.GRNId = GRN.GRNId
+                                LEFT JOIN GRN ON GI.GRNId = GRN.GRNId
                                 LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId AND OS.ItemId = @item
                                 INNER JOIN Item I ON GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId
                                 INNER JOIN SaleOrderMaterial SOM ON I.ItemId = SOM.ItemId AND SOM.SaleOrderId = @SaleOrderId AND I.ItemId = @item
-                                WHERE IB.SaleOrderItemId IS NULL AND IB.SaleOrderId IS NULL
+                                WHERE IB.SaleOrderItemId IS NULL
 
                                 DROP TABLE #BATCH;
 								DROP TABLE #RESERVED;";
