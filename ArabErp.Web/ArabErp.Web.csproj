@@ -1371,6 +1371,8 @@
     <Content Include="Views\CurrentStock\_ItemDropDown.cshtml" />
     <Content Include="Views\CurrentStock\_ItemGroupDropdown.cshtml" />
     <Content Include="Views\CurrentStock\_ItemSubGroupDropdown.cshtml" />
+    <Content Include="Views\SupplyOrder\ApprovalCancellation.cshtml" />
+    <Content Include="Views\SupplyOrder\_ApprovalCancellationGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

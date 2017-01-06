@@ -456,6 +456,10 @@
                                 {
                                     <li><a href="@Url.Action("PendingApproval", "SupplyOrder")">Supply Order / LPO Approval</a></li>
                                 }
+                                @if (formPermission.Find(x => x.FormId == 155) != null)
+                                {
+                                    <li><a href="@Url.Action("ApprovalCancellation", "SupplyOrder")">LPO Approval Cancellation</a></li>
+                                }
                                 @if (formPermission.Find(x => x.FormId == 41) != null)
                                 {
                                     <li><a href="@Url.Action("Index", "SupplyOrderFollowup")">Supply Order / LPO Follow-up</a></li>
