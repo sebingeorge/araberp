@@ -1,0 +1,31 @@
+﻿@model IList<ArabErp.Domain.MaterialPlanning>
+
+<table class="table table-responsive table-bordered">
+    <thead class="grid_heading">
+        <tr>
+            <th nowrap>Serial No.</th>
+            <th nowrap class="text-right">Qty</th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.SerialNo</td>
+                    <td class="text-right">@item.Quantity</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td align="center" colspan="7">
+                    <em>No Materials/Spares found!</em>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

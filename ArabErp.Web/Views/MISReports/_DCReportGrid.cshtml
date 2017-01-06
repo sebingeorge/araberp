@@ -2,18 +2,18 @@
 @{
     var GrandTotal = Model.Sum(a => a.Amount);
  }
-<table class="table table-bordered table-hover">
+<table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
             <th width="1%" class="text-center">#</th>
-            <th width="10%" ><h1>Delivery Challan No. & Date</h1></th>
+            <th width="10%"><h1>Delivery Challan No. & Date</h1></th>
             <th width="12%" nowrap><h1>Customer</h1></th>
             <th width="10%" nowrap><h1>Reg No./Chassis No.</h1></th>
             <th width="5%" nowrap><h1>Unit Sl. No.</h1></th>
             <th width="5%" nowrap><h1>Unit/Box</h1></th>
-            <th width="3%" ><h1>New Installation/Service</h1></th>
-            <th width="5%" class="text-right" ><h1>Material Cost</h1></th>
-            <th width="5%" class="text-right" ><h1>Labour Cost</h1></th>
+            <th width="3%"><h1>New Installation/Service</h1></th>
+            <th width="5%" class="text-right"><h1>Material Cost</h1></th>
+            <th width="5%" class="text-right"><h1>Labour Cost</h1></th>
             <th width="10%"><h1>Job Card No. &amp; Date</h1></th>
             <th width="10%"><h1>Invoice No. &amp; Date</h1></th>
             <th width="10%"><h1>Accessories</h1></th>
@@ -28,18 +28,19 @@
             {
                 <tr>
                     <td align="center">@(++i)</td>
-                    <td>@item.DeliveryChallanRefNo - 
+                    <td>
+                        @item.DeliveryChallanRefNo -
                     @if (@item.DeliveryChallanDate != null)
                     {
                         @item.DeliveryChallanDate.Value.ToString("dd/MMMM/yyyy")
                     }
-                    </td>
-                    <td>@item.CustomerName</td>
-                    <td>
-                        @item.RegistrationNo
-                        @if (item.ChassisNo != null && item.ChassisNo != "" && item.RegistrationNo != null && item.RegistrationNo != "")
-                        {
-                            @:/
+                </td>
+                <td>@item.CustomerName</td>
+                <td>
+                    @item.RegistrationNo
+                    @if (item.ChassisNo != null && item.ChassisNo != "" && item.RegistrationNo != null && item.RegistrationNo != "")
+                    {
+                        @:/
                         } @item.ChassisNo
                     </td>
                     <td>@item.UnitSerialNo</td>
@@ -53,21 +54,23 @@
                     <td>@item.InstallationType</td>
                     <td align="right">@item.MaterialCost</td>
                     <td align="right">@item.LabourCost</td>
-                    <td>@item.JobCardNo - 
+                    <td>
+                        @item.JobCardNo -
                     @if (item.JobCardDate != null)
                     {
                         @item.JobCardDate.Value.ToString("dd/MMMM/yyyy")
                     }
-                    </td>
-                    <td>@item.InvoiceNo - 
-                    @if (@item.InvoiceDate != null)
-                    {
-                        @item.InvoiceDate.Value.ToString("dd/MMMM/yyyy")
-                    }
-                    </td>
-                    <td align="left">@item.Accessories</td>
-                    <td align="right">@item.Amount</td>
-                </tr>
+                </td>
+                <td>
+                    @item.InvoiceNo -
+                @if (@item.InvoiceDate != null)
+                {
+                    @item.InvoiceDate.Value.ToString("dd/MMMM/yyyy")
+                }
+            </td>
+            <td align="left">@item.Accessories</td>
+            <td align="right">@item.Amount</td>
+        </tr>
             }
         }
         else
@@ -80,6 +83,8 @@
         }
     </tbody>
 </table>
+
+
 
 <div class="form-group right">
     <div style="float:right">

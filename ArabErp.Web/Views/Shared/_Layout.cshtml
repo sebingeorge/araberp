@@ -1089,7 +1089,8 @@
                                     || formPermission.Find(x => x.FormId == 128) != null
                                     || formPermission.Find(x => x.FormId == 145) != null
                                     || formPermission.Find(x => x.FormId == 129) != null
-                                    || formPermission.Find(x => x.FormId == 148) != null)
+                                    || formPermission.Find(x => x.FormId == 148) != null
+                                    || formPermission.Find(x => x.FormId == 154) != null)
                                     {
                                         <li>
                                             <a href="#" data-toggle="collapse" data-target="#misreports-tracking-reports">Tracking Reports<span class="caret arrow"></span></a>
@@ -1131,6 +1132,10 @@
                                 {
                                     <li><a href="@Url.Action("Index", "VehicleInpassRegister")">Vehicle Inpass Register</a></li>
                                 }
+                                @if (formPermission.Find(x => x.FormId == 154) != null)
+                                {
+                                    <li><a href="@Url.Action("Index", "ServiceRegister")">Service Due Register</a></li>
+                                }
                                 @if (formPermission.Find(x => x.FormId == 129) != null)
                                 {
                                     <li><a href="@Url.Action("Index","WorkshopRequestRegister")">Workshop Request Register</a></li>
@@ -1139,6 +1144,9 @@
                                 {
                                 <li><a href="@Url.Action("Index", "WarrantyExtensionRegister")">Warranty Extension Register</a></li>
                                 }
+                                
+                               
+                                                    
                                                 </ul>
                                             </div>
                                         </li>
