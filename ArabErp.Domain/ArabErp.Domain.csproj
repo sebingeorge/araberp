@@ -170,6 +170,7 @@
     <Compile Include="SalesRegister.cs" />
     <Compile Include="SalesTarget.cs" />
     <Compile Include="ServiceEnquiry.cs" />
+    <Compile Include="ServiceRegister.cs" />
     <Compile Include="StandardSellingRate.cs" />
     <Compile Include="StockCreation.cs" />
     <Compile Include="StockCreationConsumedItem.cs" />

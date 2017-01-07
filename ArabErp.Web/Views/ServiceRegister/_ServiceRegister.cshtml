@@ -1,0 +1,32 @@
+﻿@model IList<ArabErp.Domain.ServiceRegister>
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="20%"><h1>Customer</h1></th>
+            <th width="10%"><h1>Vehicle Model</h1></th>
+            <th width="5%"><h1>Service</h1></th>
+            <th width="5%"><h1>Registration No.</h1></th>            
+            <th width="10%"><h1>Unit</h1></th>
+            <th width="5%"><h1>Last Service</h1></th>
+            <th width="5%"><h1>Next Service</h1></th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tbody class="grid_row">
+            <tr>
+                <td class="grid-cell">@item.CustomerName</td>
+                <td class="grid-cell">@item.VehicleModelName</td>
+                <td class="grid-cell">@item.SERVICE</td>
+                <td class="grid-cell">@item.RegistrationNo</td>
+                <td class="grid-cell">@item.Unit</td>
+                <td class="grid-cell">@item.LASTSERVICE.ToString("dd/MMM/yyyy")</td>
+                <td class="grid-cell">@item.NEXTESERVICE.ToString("dd/MMM/yyyy")</td>
+            </tr>
+
+
+        </tbody>
+    }
+</table>
+
