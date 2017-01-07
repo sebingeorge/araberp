@@ -225,7 +225,7 @@ namespace ArabErp.DAL
                 try
                 {
                     string sql = "";
-//                  
+                    //                  
                     var row = 0;
 
                     foreach (QuerySheetItem item in model.QuerySheetItems)
@@ -233,15 +233,15 @@ namespace ArabErp.DAL
 
                         sql = @"UPDATE QuerySheetItem SET Kilowatt = @Kilowatt,Cost = @Cost WHERE QuerySheetItemId = @QuerySheetItemId";
                         row = connection.Execute(sql, item, txn);
-                         
-                     }
-                     sql = @"UPDATE QuerySheet  SET Type=@Type WHERE QuerySheetId = @QuerySheetId";
-                    row = connection.Execute(sql,model, txn);
+
+                    }
+                    sql = @"UPDATE QuerySheet  SET Type=@Type WHERE QuerySheetId = @QuerySheetId";
+                    row = connection.Execute(sql, model, txn);
                     foreach (QuerySheetUnit item in model.QuerySheetUnits)
                     {
                         item.QuerySheetItemId = model.QuerySheetItems[0].QuerySheetItemId;
-                      
-                         sql = @"insert  into QuerySheetItemUnit(QuerySheetItemId,EvaporatorUnitId,CondenserUnitId,Quantity) 
+
+                        sql = @"insert  into QuerySheetItemUnit(QuerySheetItemId,EvaporatorUnitId,CondenserUnitId,Quantity) 
                                        Values (@QuerySheetItemId,@EvaporatorUnitId,@CondenserUnitId,@Quantity)";
 
                         row = connection.Execute(sql, item, txn);
@@ -250,17 +250,17 @@ namespace ArabErp.DAL
                     foreach (QuerySheetDoor item in model.QuerySheetDoors)
                     {
                         item.QuerySheetItemId = model.QuerySheetItems[0].QuerySheetItemId;
-                         sql = @"insert  into QuerySheetItemDoor(QuerySheetItemId,DoorId,Quantity) 
+                        sql = @"insert  into QuerySheetItemDoor(QuerySheetItemId,DoorId,Quantity) 
                                        Values (@QuerySheetItemId,@DoorId,@Quantity)";
 
                         row = connection.Execute(sql, item, txn);
 
                     }
-                    InsertLoginHistory(dataConnection,model.CreatedBy, "Update", typeof(QuerySheet).Name, model.QuerySheetId.ToString(), model.OrganizationId.ToString());
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Update", typeof(QuerySheet).Name, model.QuerySheetId.ToString(), model.OrganizationId.ToString());
                     txn.Commit();
                     return row;
-                   
-                    
+
+
                 }
                 catch (Exception ex)
                 {
