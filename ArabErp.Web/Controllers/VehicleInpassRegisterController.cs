@@ -20,11 +20,14 @@ namespace ArabErp.Web.Controllers
         // GET: VehicleInpassRegister
         public ActionResult Index(string InstallType = "all")
         {
+            ViewBag.startdate = FYStartdate;
             return View();
         }
-        public ActionResult VehicleInpassRegister(string InstallType = "all", string CustomerName = "", string RegNo = "", string status = "'Delivered','Completed','Work in Progress','Work not Started','Pending JC Creation'")
+        public ActionResult VehicleInpassRegister(DateTime? from, DateTime? to, string InstallType = "all", string CustomerName = "", string RegNo = "", string status = "'Delivered','Completed','Work in Progress','Work not Started','Pending JC Creation'")
         {
-            return PartialView("_VehicleInpassRegister", new VehicleInPassRepository().GetVehicleInpassRegister(InstallType, CustomerName, RegNo, status));
+            from = from ?? FYStartdate;
+            to = to ?? DateTime.Today;
+            return PartialView("_VehicleInpassRegister", new VehicleInPassRepository().GetVehicleInpassRegister(from, to,InstallType, CustomerName, RegNo, status));
         }
     }
 }
