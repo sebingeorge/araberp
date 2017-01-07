@@ -288,12 +288,19 @@ namespace ArabErp.DAL
             {
 
 
-                string sql = @"select  I.ItemId,IB.SerialNo INTO #TEMP from  ItemBatch IB LEFT JOIN GRNItem G ON  G.GRNItemId=IB.GRNItemId
-				                LEFT JOIN OpeningStock O ON  O.OpeningStockId=IB.OpeningStockId
-				                LEFT JOIN Item I ON I.ItemId=G.ItemId OR O.ItemId=I.ItemId
-                                where I.itemid=@id
-
-                               SELECT ItemId,SerialNo,COUNT(ItemId)Quantity FROM #TEMP GROUP BY ItemId,SerialNo";
+                string sql = @"select  I.ItemId,IB.SerialNo  from  ItemBatch IB LEFT JOIN GRNItem G ON  G.GRNItemId=IB.GRNItemId
+                               LEFT JOIN OpeningStock O ON  O.OpeningStockId=IB.OpeningStockId
+                               LEFT JOIN Item I ON I.ItemId=G.ItemId OR O.ItemId=I.ItemId
+                               where I.itemid=@id AND IB.SerialNo NOT IN ( 
+                               SELECT IB.SerialNo 
+                               FROM WorkShopRequest WR
+                               INNER JOIN SaleOrder SO ON WR.SaleOrderId = SO.SaleOrderId
+                               LEFT JOIN SaleOrderItem SI ON SI.SaleOrderId=SO.SaleOrderId
+                               INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                               INNER JOIN StoreIssueItem SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
+                               INNER JOIN  ItemBatch IB ON SI.SaleOrderItemId=IB.SaleOrderItemId
+                               where WRI.itemid=@id)";
+                             
                             
 
 
