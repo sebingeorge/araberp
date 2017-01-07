@@ -20,7 +20,9 @@ namespace ArabErp.DAL
                 //              
                 string qry = @" SELECT C.CustomerName,VM.VehicleModelName,
                                 CASE WHEN J.isService=1 THEN'Delivered' ELSE 'New Vechile' END SERVICE,
-                                ISNULL(VI.RegistrationNo,'-')RegistrationNo,ISNULL(I.ItemName,'-') Unit,
+                                ISNULL(VI.RegistrationNo,'-')RegistrationNo,
+                                CASE WHEN S.isService=0 THEN I.ItemName
+                                ELSE SE.FreezerModel END Unit,
                                 D.DeliveryChallanDate LASTSERVICE,
                                 DATEADD(m,3,D.DeliveryChallanDate )NEXTESERVICE
                                 FROM JobCard J
@@ -32,6 +34,7 @@ namespace ArabErp.DAL
                                 INNER JOIN WorkDescription W ON W.WorkDescriptionId=J.WorkDescriptionId
                                 INNER JOIN DeliveryChallan D ON D.JobCardId=J.JobCardId
                                 LEFT JOIN Item I ON I.ItemId=W.FreezerUnitId
+                                LEFT JOIN ServiceEnquiry SE ON SE.ServiceEnquiryId=S.ServiceEnquiryId
                                 WHERE isnull(C.CustomerName,'') like '%'+@Customer+'%'
                                 ORDER BY DATEADD(m,3,D.DeliveryChallanDate ) Asc";
 

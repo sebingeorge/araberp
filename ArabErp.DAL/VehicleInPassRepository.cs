@@ -310,8 +310,15 @@ namespace ArabErp.DAL
                                INNER JOIN JobCardTaskMaster JM ON JM.JobCardTaskMasterId=BOX.JobCardTaskMasterId
                                )T1
 
-                               select DISTINCT V.VehicleInPassNo,V.VehicleInPassDate,C.CustomerName,V.ChassisNo,V.RegistrationNo,
-                               FU.ItemName FreezerUnitName,B.ItemName BoxName,S.isService,
+                               select DISTINCT V.VehicleInPassId,V.VehicleInPassNo,V.VehicleInPassDate,C.CustomerName,V.ChassisNo,V.RegistrationNo,
+                               S.isService,
+
+                               CASE WHEN S.isService=0 THEN FU.ItemName
+                               ELSE SE.FreezerModel END FreezerUnitName,
+
+                               CASE WHEN S.isService=0 THEN B.ItemName
+                               ELSE SE.TailLiftModel END BoxName,
+
                                STUFF((SELECT ', ' + CAST(I.ItemName AS VARCHAR(MAX)) [text()]
                                FROM Item I inner join SaleOrderMaterial SM on I.ItemId=SM.ItemId
                                WHERE SM.SaleOrderId = S.SaleOrderId
@@ -356,6 +363,7 @@ namespace ArabErp.DAL
                                LEFT JOIN DeliveryChallan D ON D.JobCardId=J.JobCardId
                                LEFT JOIN Item FU ON FU.ItemId=W.FreezerUnitId
                                LEFT JOIN Item B ON B.ItemId=W.BoxId
+                               LEFT JOIN ServiceEnquiry SE ON SE.ServiceEnquiryId=S.ServiceEnquiryId
                                LEFT JOIN #TEMP1 T ON T.SaleOrderItemId=SI.SaleOrderItemId
 
                                SELECT * INTO #TEMP3 FROM  #TEMP2 
@@ -364,7 +372,7 @@ namespace ArabErp.DAL
                                ISNULL(#TEMP3.isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(#TEMP3.isService, 0) END
                                AND ISNULL(#TEMP3.CustomerName,'') LIKE '%'+@CustomerName+'%'  
                                AND (ISNULL(#TEMP3.ChassisNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(#TEMP3.RegistrationNo, '') LIKE '%'+@RegNo+'%') ";
-                sql += status.Length == 0 ? "" : "AND [Status] IN ( " + status + ") ORDER BY VehicleInPassNo Desc";
+                sql += status.Length == 0 ? "" : "AND [Status] IN ( " + status + ") ORDER BY VehicleInPassId Desc";
                
                 return connection.Query<VehicleInPass>(sql, new {from = from, to = to ,InstallType = InstallType, CustomerName = CustomerName, RegNo = RegNo, status = status }).ToList();
             }
