@@ -55,8 +55,8 @@
                         <th width="36%"><h1>Special Remarks</h1></th>
                         <th width="5%" style="vertical-align:middle" title="Check this to select all checkboxes below" nowrap>
                             <h1>
-                                <input id="checkAll" type="checkbox"> Select all
-                                <input type="hidden" value="0" id="hidden-check" />
+                                @*<input id="checkAll" type="checkbox"> Select all
+                                <input type="hidden" value="0" id="hidden-check" />*@
                             </h1>
                         </th>
                     </tr>
@@ -83,7 +83,7 @@
                                         <input type="text" class="form_input" value="@Model[i].SpecialRemarks" disabled />
                                     </td>
                                     <td align="center">
-                                        <input type="button" class="form-button" onclick="cancellation(@Model[i].SupplierId)" value="Cancel">
+                                        <input type="button" class="form-button" onclick="cancellation(@Model[i].SupplyOrderId)" value="Cancel">
                                     </td>
                                 </tr>
                             }

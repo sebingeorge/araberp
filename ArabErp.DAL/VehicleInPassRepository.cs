@@ -285,7 +285,7 @@ namespace ArabErp.DAL
 
 
 
-        public IEnumerable<VehicleInPass> GetVehicleInpassRegister(string InstallType, string CustomerName, string RegNo, string status)
+        public IEnumerable<VehicleInPass> GetVehicleInpassRegister(DateTime? from, DateTime? to,string InstallType, string CustomerName, string RegNo, string status)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -310,32 +310,40 @@ namespace ArabErp.DAL
                                INNER JOIN JobCardTaskMaster JM ON JM.JobCardTaskMasterId=BOX.JobCardTaskMasterId
                                )T1
 
-                               select DISTINCT V.VehicleInPassNo,C.CustomerName,V.ChassisNo,V.RegistrationNo,FU.ItemName FreezerUnitName,B.ItemName BoxName,S.isService,
+                               select DISTINCT V.VehicleInPassId,V.VehicleInPassNo,V.VehicleInPassDate,C.CustomerName,V.ChassisNo,V.RegistrationNo,
+                               S.isService,
+
+                               CASE WHEN S.isService=0 THEN FU.ItemName
+                               ELSE SE.FreezerModel END FreezerUnitName,
+
+                               CASE WHEN S.isService=0 THEN B.ItemName
+                               ELSE SE.TailLiftModel END BoxName,
+
                                STUFF((SELECT ', ' + CAST(I.ItemName AS VARCHAR(MAX)) [text()]
                                FROM Item I inner join SaleOrderMaterial SM on I.ItemId=SM.ItemId
                                WHERE SM.SaleOrderId = S.SaleOrderId
                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ')  Accessories,J.JobCardNo,VM.VehicleModelName,S.EDateDelivery,
                               
 
-                            Task = case when ISNULL(J.JobCardNo,'') ='' then 
+                               Task = case when ISNULL(J.JobCardNo,'') ='' then 
                                
-                            STUFF((SELECT DISTINCT ', ' + CAST(T3.JobCardTaskName AS VARCHAR(MAX)) [text()]
-                            FROM SaleOrderItem T1
-                                inner join WorkDescription W on W.WorkDescriptionId=T1.WorkDescriptionId
-                            INNER JOIN ItemVsTasks T2 ON T2.ItemId = W.FreezerUnitId 
-                            INNER JOIN JobCardTaskMaster T3 ON T3.JobCardTaskMasterId=T2.JobCardTaskMasterId
-                            WHERE T1.SaleOrderItemId=SI.SaleOrderItemId 
-                            FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ')
+                                STUFF((SELECT DISTINCT ', ' + CAST(T3.JobCardTaskName AS VARCHAR(MAX)) [text()]
+                                FROM SaleOrderItem T1
+                                    inner join WorkDescription W on W.WorkDescriptionId=T1.WorkDescriptionId
+                                INNER JOIN ItemVsTasks T2 ON T2.ItemId = W.FreezerUnitId 
+                                INNER JOIN JobCardTaskMaster T3 ON T3.JobCardTaskMasterId=T2.JobCardTaskMasterId
+                                WHERE T1.SaleOrderItemId=SI.SaleOrderItemId 
+                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ')
 
-                            ELSE 
+                               ELSE 
 
-                            STUFF((SELECT DISTINCT ', ' + CAST(T4.JobCardTaskName AS VARCHAR(MAX)) [text()]
-                            FROM JobCard T2 
-                            inner join JobCardTask T3 on T3.JobCardId=T2.JobCardId
-                            inner join JobCardTaskMaster T4 on T4.JobCardTaskMasterId=T3.JobCardTaskMasterId
-                            WHERE T2.JobCardId=J.JobCardId  
-                            FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ')
-                            END,
+                                STUFF((SELECT DISTINCT ', ' + CAST(T4.JobCardTaskName AS VARCHAR(MAX)) [text()]
+                                FROM JobCard T2 
+                                inner join JobCardTask T3 on T3.JobCardId=T2.JobCardId
+                                inner join JobCardTaskMaster T4 on T4.JobCardTaskMasterId=T3.JobCardTaskMasterId
+                                WHERE T2.JobCardId=J.JobCardId  
+                                FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ')
+                              END,
 
                                case when D.JobCardId is not null then 'Delivered'
                                when Isnull(J.JodCardCompleteStatus,0)=1  then 'Completed'
@@ -355,16 +363,18 @@ namespace ArabErp.DAL
                                LEFT JOIN DeliveryChallan D ON D.JobCardId=J.JobCardId
                                LEFT JOIN Item FU ON FU.ItemId=W.FreezerUnitId
                                LEFT JOIN Item B ON B.ItemId=W.BoxId
+                               LEFT JOIN ServiceEnquiry SE ON SE.ServiceEnquiryId=S.ServiceEnquiryId
                                LEFT JOIN #TEMP1 T ON T.SaleOrderItemId=SI.SaleOrderItemId
 
                                SELECT * INTO #TEMP3 FROM  #TEMP2 
                                SELECT * FROM #TEMP3
-                               WHERE ISNULL(#TEMP3.isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(#TEMP3.isService, 0) END
+                               WHERE VehicleInPassDate BETWEEN  @from  AND @to   AND
+                               ISNULL(#TEMP3.isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(#TEMP3.isService, 0) END
                                AND ISNULL(#TEMP3.CustomerName,'') LIKE '%'+@CustomerName+'%'  
                                AND (ISNULL(#TEMP3.ChassisNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(#TEMP3.RegistrationNo, '') LIKE '%'+@RegNo+'%') ";
-                sql += status.Length == 0 ? "" : "AND [Status] IN ( " + status + ") ORDER BY VehicleInPassNo Desc";
-           
-                return connection.Query<VehicleInPass>(sql, new { InstallType = InstallType, CustomerName = CustomerName, RegNo = RegNo, status = status }).ToList();
+                sql += status.Length == 0 ? "" : "AND [Status] IN ( " + status + ") ORDER BY VehicleInPassId Desc";
+               
+                return connection.Query<VehicleInPass>(sql, new {from = from, to = to ,InstallType = InstallType, CustomerName = CustomerName, RegNo = RegNo, status = status }).ToList();
             }
         }
     }
