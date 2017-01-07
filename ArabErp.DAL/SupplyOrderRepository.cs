@@ -646,7 +646,7 @@ namespace ArabErp.DAL
 	                                    INNER JOIN SupplyOrderItem SOI ON SO.SupplyOrderId = SOI.SupplyOrderId
 	                                    INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId 
 	                                    LEFT JOIN GRNItem GI ON SOI.SupplyOrderItemId = GI.SupplyOrderItemId
-                                    WHERE SO.isActive=1 and 
+                                    WHERE SO.isActive=1 and SO.isApproved=1 and 
                                     (GI.SupplyOrderItemId IS NULL OR ISNULL(GI.Quantity, 0) < ISNULL(SOI.OrderedQty, 0))
 									AND ISNULL(S.SupplierName,'') like'%'+@Supplier+'%'
 	                                AND (ISNULL(SO.SupplyOrderNo,'') like '%'+@LPO+'%'

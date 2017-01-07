@@ -133,7 +133,7 @@ namespace ArabErp.DAL
             {
                 string sql = @"select top 7 left(convert(varchar(50),JobCardDate,106),6) JobcardDate, count(*) JobCardCount from JobCard where JodCardCompleteStatus = 1
                 group by JobCardDate
-                order by JobCardDate desc";
+                order by JobCard.JobCardDate desc";
 
                 return connection.Query<DashboardJobCardCompletedDaily>(sql);
             }
