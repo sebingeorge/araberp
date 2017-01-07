@@ -131,9 +131,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select top 7 left(convert(varchar(50),JobCardDate,106),6) JobcardDate, count(*) JobCardCount from JobCard where JodCardCompleteStatus = 1
-                group by JobCardDate
-                order by JobCardDate desc";
+                string sql = @"select top 7 left(convert(varchar(50),JodCardCompletedDate,106),6) JobcardDate, COUNT(JobCardId) JobCardCount 
+				                from JobCard where JodCardCompletedDate is not null
+				                GROUP BY JobCard.JodCardCompletedDate
+				                order by JodCardCompletedDate desc";
 
                 return connection.Query<DashboardJobCardCompletedDaily>(sql);
             }
