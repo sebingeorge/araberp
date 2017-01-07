@@ -2,7 +2,7 @@
 @model IList<PendingForGRN>
 
 @{
-    ViewBag.Title = "LPO/Approval Cancellation";
+    ViewBag.Title = "LPO Approval Cancellation";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -73,7 +73,7 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>LPO/Approval Cancellation</h4>
+        <h4>LPO Approval Cancellation</h4>
     </div>
     <div class="main-part pad1">
         <form role="form" method="post" action="Create" onsubmit="return formValidation()">
@@ -100,14 +100,14 @@
             </div>
 
 
-            <div class="row">
+            @*<div class="row">
                 <div class="col-md-12 hrpart">
 
                     <input type="button" class="form-button" onclick="PreviousList()" value="Previous" title="Previously accepted GRNs">
                     <input type="submit" class="form-button right" value="Proceed" id="btnProceed" title="Proceed" />
                 </div>
 
-            </div>
+            </div>*@
 
 
         </form>
