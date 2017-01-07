@@ -73,23 +73,10 @@
             qty=$("#PrintDescriptions_" + i + "__Quantity").val();
             if(eval($("#PrintDescriptions_" + i + "__PriceEach").val() != 0 && eval($("#PrintDescriptions_" + i + "__PriceEach").val() != '')))
                 rate = rate + eval($("#PrintDescriptions_" + i + "__PriceEach").val());
-            //if (eval($("#SaleInvoiceItems_" + i + "__Discount").val() != 0 && eval($("#SaleInvoiceItems_" + i + "__Discount").val() != '')))
-            //    discount = discount + eval($("#SaleInvoiceItems_" + i + "__Discount").val());
-       
             amount = (qty * rate) ;
-            //total = total + amount;
             $("#PrintDescriptions_" + i + "__Amount").val(amount);
-            //$("#totalDiscount").text(discount);
         });
-        //$("#gridTotal").text(total);
-        //if (eval($("#Addition").val() != 0 && eval($("#Addition").val() != '')))
-        //    addition = eval($("#Addition").val());
-        //if (eval($("#Deduction").val() != 0 && eval($("#Deduction").val() != '')))
-        //    deduction = eval($("#Deduction").val());
-
-        //net = total + addition - deduction;
-        //$("#TotalAmount").val(total.toFixed(2));
-        //$("#lblTotalAmount").text(net.toFixed(2));
+  
     } 
 
 </script>

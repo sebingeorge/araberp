@@ -1375,6 +1375,8 @@
     <Content Include="Views\ServiceRegister\Index.cshtml" />
     <Content Include="Views\ServiceRegister\_ServiceRegister.cshtml" />
     <Content Include="Views\MaterialPlanning\_ReservedItemDetails.cshtml" />
+    <Content Include="Views\SupplyOrder\ApprovalCancellation.cshtml" />
+    <Content Include="Views\SupplyOrder\_ApprovalCancellationGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
