@@ -547,5 +547,33 @@ namespace ArabErp.Web.Controllers
             var data = new SupplyOrderRepository().GetLastSupplyOrderRate(itemId, OrganizationId);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult ApprovalCancellation()
+        {
+            return View();
+        }
+
+        public PartialViewResult ApprovalCancellationGrid(string Supplier = "", string LPO = "")
+        {
+            try
+            {
+                return PartialView("_ApprovalCancellationGrid", new SupplyOrderRepository().ApprovalList(Supplier, LPO));
+            }
+            catch (Exception)
+            {
+                return PartialView("_ApprovalCancellationGrid", new List<PendingForGRN>());
+            }
+        }
+        public ActionResult ApprovalChange(int id = 0)
+        {
+            SupplyOrder model = new SupplyOrder();
+            //model.IsApprovedDate = System.DateTime.Now;
+            //model.IsApprovedBy = UserID;
+            var repo = new SupplyOrderRepository();
+
+            new SupplyOrderRepository().Approvalcancel(id);
+            TempData["success"] = "Approval cancelled successfully";
+            return RedirectToAction("ApprovalCancellation");
+        }
     }
 }

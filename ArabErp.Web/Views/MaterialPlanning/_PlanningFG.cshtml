@@ -18,12 +18,20 @@
         $('#sodetails').load(url);
 
     }
+    function getReservedItemDetails(Id) {
+        var url = '@Url.Action("ReservedItemDetails")';
+        url += '?id=' + Id;
+        $('#reserveditemdetails').html('Loading Reserved Item Details...<br><br>');
+        $('#reserveditemdetails').load(url);
+
+    }
+    
     
 
 </script>
 
 <div id="availability1" class="table-responsive">
-    <table border="0" cellpadding="0" cellspacing="0" class="scrollTable table table-bordered table-hover">
+    <table border="0" cellpadding="0" cellspacing="0" class="scrollTable table table-bordered ">
         <thead>
             <tr class="grid_heading">
                 <th width="1%" class="text-center"><h1>#</h1></th>
@@ -61,11 +69,16 @@
                     <td onclick="getSODetails(@item.ItemId)" class="grid-cell text-right lblue" value="Get Sale Order Details" style="width: 150px;cursor:pointer;" data-toggle="modal" data-target="#Saleorderdetailspopup">@item.PENWRQTY</td>
                     <td class="grid-cell text-right ">@item.WRPndIssQty</td>
                     <td class="grid-cell text-right">@item.MinLevel</td>
-                    <td class="grid-cell text-right">@item.CurrentStock</td>
-
-
+                    @if (item.Reserved == 1)
+                    {
+                        @*<td class="grid-cell text-right lreserved">@item.CurrentStock</td>*@
+                        <td onclick="getReservedItemDetails(@item.ItemId)" class="grid-cell text-right lreserved" value="Get Reserved Details" style="width: 150px;cursor:pointer;" data-toggle="modal" data-target="#ReservedItemdetailspopup">@item.CurrentStock</td>
+                    }
+                    else
+                    {
+                        <td class="grid-cell text-right">@item.CurrentStock</td>
+                    }
                     <td class="grid-cell text-right">@item.TotalQty</td>
-
                     <td onclick="getInTransDetails(@item.ItemId)" class="grid-cell text-right lblue" value="Get In-Transit Details" style="width: 150px;cursor:pointer;" data-toggle="modal" data-target="#intransitdetailspopup">@item.InTransitQty</td>
                     <td class="grid-cell text-right">@item.PendingPRQty</td>
                     <td class="grid-cell text-right">@item.ShortorExcess</td>
@@ -110,6 +123,26 @@
             </div>
             <div class="modal-body">
                 <div id="sodetails"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+  <!-- Pending Reserved Coloumn Click PopUp -->
+<div id="ReservedItemdetailspopup" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:500px">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Reserved Item Details</h4>
+            </div>
+            <div class="modal-body">
+                <div id="reserveditemdetails"></div>
             </div>
 
         </div>
