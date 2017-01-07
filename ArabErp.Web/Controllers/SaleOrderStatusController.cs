@@ -18,13 +18,16 @@ namespace ArabErp.Web.Controllers
         // GET: SaleOrderStatus
         public ActionResult Index()
         {
+            ViewBag.startdate = FYStartdate;
             FillNeworService();
            return View();
         }
 
-        public ActionResult SaleOrderStatus(string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "", string InstallType = "all")
+        public ActionResult SaleOrderStatus( DateTime? from, DateTime? to,string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "", string InstallType = "all")
         {
-            return PartialView("_SaleOrderStatus", new SaleOrderStatusRepository().GetSaleOrderStatus(customer, sono, lpoNo, ChassisNo, InstallType));
+            from = from ?? FYStartdate;
+            to = to ?? DateTime.Today;
+            return PartialView("_SaleOrderStatus", new SaleOrderStatusRepository().GetSaleOrderStatus(from,to,customer, sono, lpoNo, ChassisNo, InstallType));
         }
         public ActionResult Print(string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "")
         {

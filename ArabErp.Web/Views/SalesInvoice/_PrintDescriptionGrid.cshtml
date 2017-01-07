@@ -55,7 +55,7 @@
             }
         }
     }
-    function Amountchanged() {
+    function Amountchanges() {
         var qty = 0;
         var rate = 0;
         var discount = 0;
@@ -120,7 +120,7 @@
                             @Html.TextBoxFor(m => m.PrintDescriptions[i].Quantity, new { @class = "form_input Quantity", @readonly = "readonly", @tabindex = "-1" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.PrintDescriptions[i].PriceEach, new { @class = "form_input PriceEach", @required = "true", @onchange = "Amountchanged()",@onkeyup = "Amountchanged()" })
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].PriceEach, new { @class = "form_input PriceEach", @required = "true", @onchange = "Amountchanges()",@onkeyup = "Amountchanges()" })
                         </td>
                         <td>
                             @Html.TextBoxFor(m => m.PrintDescriptions[i].Amount, new { @class = "form_input numbers-only", @readonly = "readonly", @tabindex = "-1", @required = "true" })
