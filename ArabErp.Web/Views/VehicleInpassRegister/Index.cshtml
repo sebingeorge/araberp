@@ -2,7 +2,17 @@
     ViewBag.Title = "Vehicle Inpass Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#txtFrom").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+        $("#txtTo").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+    })
+
     function Exit() {
         var url = '@Url.Action("Index", "Home")';
         window.location = url;
@@ -16,14 +26,17 @@
         })
 
         //var Status=(str.substring(1,str.length))
-  
+
         $("#VehicleInpass_Reg").addClass("fade");
+        var from = $("#txtFrom").val();
+        var to = $("#txtTo").val();
+
         var InstallType = $("#cboType").val();
         var CustomerName = $("#txtCustomer").val().trim();
         var RegNo = $("#txtRegNo").val().trim();
         var Status = (str.substring(1, str.length));
         var url = '@Url.Action("VehicleInpassRegister")';
-        url += "?InstallType=" + encodeURIComponent(InstallType) + "&CustomerName=" + encodeURIComponent(CustomerName) + "&RegNo=" + encodeURIComponent(RegNo) + "&Status=" + encodeURIComponent(Status);
+        url += "?from=" + encodeURIComponent(from) + "&to=" + encodeURIComponent(to) + "&InstallType=" + encodeURIComponent(InstallType) + "&CustomerName=" + encodeURIComponent(CustomerName) + "&RegNo=" + encodeURIComponent(RegNo) + "&Status=" + encodeURIComponent(Status);
         $("#VehicleInpass_Reg").load(url, function () {
             $("#VehicleInpass_Reg").removeClass("fade");
         });
@@ -31,6 +44,7 @@
         //alert(url);
     }
 </script>
+
 <div class="row">
 
     <div class="form-head1">
@@ -39,7 +53,17 @@
 
     <div class="main-part pad1">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
+                <label>From</label>
+                <input id="txtFrom" value="@ViewBag.startdate.ToString("dd-MMMM-yyyy")" class="form_input" onchange="Filter()" />
+            </div>
+
+            <div class="col-md-2">
+                <label>To</label>
+                <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyy")" class="form_input" onchange="Filter()" />
+            </div>
+
+            <div class="col-md-2">
                 <label for="txtCustomer">Service/New Installation</label>
                 <select id="cboType" class="form_input" onchange="Filter()">
                     <option value="all" selected>All</option>
@@ -47,7 +71,7 @@
                     <option value="new">New Installation</option>
                 </select>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <label for="txtCustomer">Customer</label>
                 <input type="text" class="form_input" id="txtCustomer" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Customer" />
             </div>
