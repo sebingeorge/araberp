@@ -64,7 +64,7 @@
             <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
             @if (true)//Model.Type != "RoomDetails"
             {
-                <td onclick="ShowUnitSelectionGrid(@i)" class="grid-cell" data-toggle="modal" data-target="#unitselectionpopup"><a href="#" class="unit">Select Unit & Door</a></td>
+                <td nowrap onclick="ShowUnitSelectionGrid(@i)" class="grid-cell" data-toggle="modal" data-target="#unitselectionpopup"><a href="#" class="unit">Select Unit & Door</a></td>
                 <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                 <td>@Html.TextBoxFor(m => Model.ProjectRooms[i].Cost, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
             }
