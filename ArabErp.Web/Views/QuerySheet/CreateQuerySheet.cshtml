@@ -25,13 +25,13 @@
                 return false;
             }
         });
-     
-      
+
+
         if ('@ViewContext.RouteData.GetRequiredString("action")' == "CreateQuerySheetUnit") {
             $("#QuerySheetItems_0__Refrigerant").focus();
             $(".del").hide();
         }
-        
+
     })
     function AddRow() {
 
@@ -98,7 +98,7 @@
         $("#tab_logic_unit").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
         $("#sno" + (i + 1)).html((i + 1));
 
-      
+
     }
     function AddDoorRow() {
 
@@ -162,97 +162,97 @@
     }
     function DeleteUnit(index) {
 
-         var i = 0;
-         var no = 1;
-         $('#tab_logic_unit input[id^="Rowunit_"]').each(function () {
-             var id = this.id;
-             no++;
-             var row = Number(id.replace("Rowunit_", ""));
-             if (row > i) {
-                 i = row;
-             }
-         });
-         i++;
+        var i = 0;
+        var no = 1;
+        $('#tab_logic_unit input[id^="Rowunit_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Rowunit_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
 
-         if (i > 1) {
-             $("#tab_logic_unit #" + index).remove();
-             for (var j = index + 1; j < i; j++) {
-                 var clone = $("#" + j).clone(true, true);
-                 clone.html($(clone).html().replace(new RegExp("QuerySheetUnits_" + j + "__", "g"), 'QuerySheetUnits_' + (j - 1) + '__'));
-                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
-                 clone.html($(clone).html().replace(new RegExp('sno' + (j + 1) + '">' + (j + 1), "g"), 'sno' + (j) + '">' + (j)));
-                 clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
-                 clone.html($(clone).html().replace("Rowunit_" + j, "Rowunit_" + (j - 1)));
-                 clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
-                 $("#tab_logic_unit #" + j).html(clone.html());
-                 $("#QuerySheetUnits_" + (j - 1) + "__SlNo").val(j);
-                 $("#tab_logic_unit #" + (j)).attr('id', (j - 1));
-             }
-         }
-     }
+        if (i > 1) {
+            $("#tab_logic_unit #" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+                var clone = $("#" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("QuerySheetUnits_" + j + "__", "g"), 'QuerySheetUnits_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace(new RegExp('sno' + (j + 1) + '">' + (j + 1), "g"), 'sno' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
+                clone.html($(clone).html().replace("Rowunit_" + j, "Rowunit_" + (j - 1)));
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#tab_logic_unit #" + j).html(clone.html());
+                $("#QuerySheetUnits_" + (j - 1) + "__SlNo").val(j);
+                $("#tab_logic_unit #" + (j)).attr('id', (j - 1));
+            }
+        }
+    }
     function DeleteDoor(index) {
 
-         var i = 0;
-         var no = 1;
-         $('#tab_logic_door input[id^="Rowdoor_"]').each(function () {
-             var id = this.id;
-             no++;
-             var row = Number(id.replace("Rowdoor_", ""));
-             if (row > i) {
-                 i = row;
-             }
-         });
-         i++;
+        var i = 0;
+        var no = 1;
+        $('#tab_logic_door input[id^="Rowdoor_"]').each(function () {
+            var id = this.id;
+            no++;
+            var row = Number(id.replace("Rowdoor_", ""));
+            if (row > i) {
+                i = row;
+            }
+        });
+        i++;
 
-         if (i > 1) {
-             $("#tab_logic_door #" + index).remove();
-             for (var j = index + 1; j < i; j++) {
-                 var clone = $("#" + j).clone(true, true);
-                 clone.html($(clone).html().replace(new RegExp("QuerySheetDoors_" + j + "__", "g"), 'QuerySheetDoors_' + (j - 1) + '__'));
-                 clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
-                 clone.html($(clone).html().replace(new RegExp('sldono' + (j + 1) + '">' + (j + 1), "g"), 'sldono' + (j) + '">' + (j)));
-                 clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
-                 clone.html($(clone).html().replace("Rowdoor_" + j, "Rowdoor_" + (j - 1)));
-                 clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
-                 $("#tab_logic_door #" + j).html(clone.html());
-                 $("#QuerySheetDoors_" + (j - 1) + "__SlNo").val(j);
-                 $("#tab_logic_door #" + (j)).attr('id', (j - 1));
-             }
-         }
-     }
+        if (i > 1) {
+            $("#tab_logic_door #" + index).remove();
+            for (var j = index + 1; j < i; j++) {
+                var clone = $("#" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("QuerySheetDoors_" + j + "__", "g"), 'QuerySheetDoors_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                clone.html($(clone).html().replace(new RegExp('sldono' + (j + 1) + '">' + (j + 1), "g"), 'sldono' + (j) + '">' + (j)));
+                clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
+                clone.html($(clone).html().replace("Rowdoor_" + j, "Rowdoor_" + (j - 1)));
+                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                $("#tab_logic_door #" + j).html(clone.html());
+                $("#QuerySheetDoors_" + (j - 1) + "__SlNo").val(j);
+                $("#tab_logic_door #" + (j)).attr('id', (j - 1));
+            }
+        }
+    }
     function Exit(type) {
         if (type == 'Unit') {
-             location.href = '@Url.Action("PendingQuerySheetforUnit")';
-         }
+            location.href = '@Url.Action("PendingQuerySheetforUnit")';
+        }
         else if (type == 'Costing') {
-             location.href = '@Url.Action("PendingQuerySheetforCosting")';
-         }
+            location.href = '@Url.Action("PendingQuerySheetforCosting")';
+        }
 
         else if (type == 'RoomDetails') {
-             location.href = '@Url.Action("Index", "Home")';
-         }
-      
+            location.href = '@Url.Action("Index", "Home")';
         }
+
+    }
 
     function PreviousList(type) {
         var url = '@Url.Action("Index")';
         url += "?Type=" + type;
         window.location = url;
-        }
+    }
 
     $(function () {
-            $("#QuerySheetDate").datepicker({ dateFormat: "dd-MM-yy" });
-        });
+        $("#QuerySheetDate").datepicker({ dateFormat: "dd-MM-yy" });
+    });
 
     function OnCostingAmountChanged() {
-            var amount = 0;
+        var amount = 0;
         $("input[id$='__Amount']").each(function (index, object) {
             if (!isNaN($(object).val()))
-                    amount += Number($(object).val());
-            })
-            $("#costingTotal").text(amount.toFixed(2));
-        }
-        @*function UnitSelection() {
+                amount += Number($(object).val());
+        })
+        $("#costingTotal").text(amount.toFixed(2));
+    }
+    @*function UnitSelection() {
             var url = '@Url.Action("UnitSelection")';
             url += '?id=' + Id;
             $('#unitselection').html('Loading Sale Order Details...<br><br>');
@@ -262,222 +262,222 @@
 </script>
 
 
-    <div class="row">
-        <div class="form-head1">
-            @{
-                if (Model.Type == "RoomDetails")
+<div class="row">
+    <div class="form-head1">
+        @{
+            if (Model.Type == "RoomDetails")
             {
-            <h4>Query Sheet</h4>
+                <h4>Query Sheet</h4>
             }
             else if (Model.Type == "Unit")
             {
-            <h4>Query Sheet : Unit Selection</h4>
+                <h4>Query Sheet : Unit Selection</h4>
             }
             else if (Model.Type == "Costing")
             {
-            <h4>Query Sheet : Costing</h4>
+                <h4>Query Sheet : Costing</h4>
             }
-            }
-        </div>
-        <div class="main-part pad1">
-            @using (Html.BeginForm("CreateQuerySheet", null, FormMethod.Post))
-            {
-                @Html.HiddenFor(m => m.QuerySheetId)
+        }
+    </div>
+    <div class="main-part pad1">
+        @using (Html.BeginForm("CreateQuerySheet", null, FormMethod.Post))
+        {
+            @Html.HiddenFor(m => m.QuerySheetId)
             @Html.HiddenFor(m => m.Type)
-                <div class="row form-group">
+            <div class="row form-group">
 
-                    @*@if (actionName == "Create")
+                @*@if (actionName == "Create")
                     {*@
-                        <div class="col-md-2">
-                            <label for="QuerySheetRefNo">Query Sheet No.</label>
-                            @Html.TextBoxFor(m => m.QuerySheetRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        </div>
-                 <div class="col-md-2">
-                     <label for="QuerySheetDate">Date</label>
-                   @Html.TextBoxFor(m => m.QuerySheetDate, Model.QuerySheetDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
-                 </div>
-                    @*}*@
+                <div class="col-md-2">
+                    <label for="QuerySheetRefNo">Query Sheet No.</label>
+                    @Html.TextBoxFor(m => m.QuerySheetRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                 </div>
-           
-                <hr />
-
-
-                <div class="row form-group">
-                    <div class="col-md-3">
-                        <label for="ProjectName">Project Name</label>
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.ProjectName, new { @class = "form_input", autocomplete = "off", @required = "true" })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.ProjectName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-
-
-                    <div class="col-md-3">
-
-                        <label for="ContactPerson">Contact Person</label>
-
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
-                            
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-                    <div class="col-md-3">
-
-                        <label for="ContactNumber">Contact Number</label>
-
-                        @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form_input", autocomplete = "off" })
-                            @*@Html.ValidationMessageFor(model => model.ContactNumber)*@
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
-                    <div class="col-md-3">
-                       <label for="Email">Email</label>
-                         @if (actionName == "Create")
-                        {
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form_input", autocomplete = "off" })
-                        }
-                        else
-                        {
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                        }
-                    </div>
+                <div class="col-md-2">
+                    <label for="QuerySheetDate">Date</label>
+                    @Html.TextBoxFor(m => m.QuerySheetDate, Model.QuerySheetDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                 </div>
-    <div class="row form-group">
-    </div>
-    <div class="table-responsive scroll2 ">
-        <table style="width:200%" class="table table-bordered" id="tab_logic" @*style="overflow-x:scroll;margin-bottom:0px"*@>
-            <thead>
-                <tr class="grid_heading">
-                    <th width="1%" class="text-center"></th>
-                    <th width="2%" class="text-center"><h1>#</h1></th>
-                    <th width="10%" nowrap><h1>Room Details</h1></th>
-                    <th width="5%" nowrap><h1>External Room Dimension</h1></th>
-                    <th width="5%" nowrap><h1>Cold Room Area</h1></th>
-                    <th width="5%" nowrap><h1>Cold Room Location</h1></th>
-                    <th width="5%"><h1>Temperature</h1></th>
-                    <th width="5%" nowrap><h1>Panel Thickness</h1></th>
-                    <th width="6%" nowrap><h1>Floor Details</h1></th>
-                    <th width="10%" nowrap><h1>Product Details</h1></th>
-                    <th width="5%" nowrap><h1>Product Incoming Temperature</h1></th>
-                    <th width="5%" nowrap><h1>Pipe Length</h1></th>
-                    <th width="5%" nowrap><h1>Door Size</h1></th>
-                    <th width="5%"><h1>Refrigerant</h1></th>
-                    <th width="5%" nowrap><h1>Electrical Power</h1></th>
-                    @if (Model.Type != "RoomDetails")
+                @*}*@
+            </div>
+
+            <hr />
+
+
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label for="ProjectName">Project Name</label>
+                    @if (actionName == "Create")
                     {
-                        <th nowrap width="15%"><h1></h1></th>
-                        <th width="5%"><h1>Kilowatt</h1></th>
-                        <th width="5%" class="text-right"><h1>Cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
+                        @Html.TextBoxFor(m => m.ProjectName, new { @class = "form_input", autocomplete = "off", @required = "true" })
                     }
-                    <th width="1%" class="text-center"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < Model.QuerySheetItems.Count; i++)
-                {
-                    <tr id="@i">
-                        <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus del" style="top:0px" onclick="Delete(@i)"></a></td>
-                        <td align="center">
-                            <input type="hidden" id="Row_@i" />
-                            <span id="slno@(i + 1)">@(i + 1)</span>
-                            @Html.HiddenFor(m => Model.QuerySheetItems[i].QuerySheetItemId)
-                        </td>
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].RoomDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ExternalRoomDimension, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ColdRoomArea, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ColdRoomLocation, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].TemperatureRequired, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].PanelThicknessANDSpec, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].FloorDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ProductDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ProductIncomingTemperature, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].PipeLength, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                     
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].DoorSizeTypeAndNumberOfDoor, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                       
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Refrigerant, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        @if (Model.Type != "RoomDetails")
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.ProjectName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+
+
+                <div class="col-md-3">
+
+                    <label for="ContactPerson">Contact Person</label>
+
+                    @if (actionName == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off" })
+
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+                <div class="col-md-3">
+
+                    <label for="ContactNumber">Contact Number</label>
+
+                    @if (actionName == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form_input", autocomplete = "off" })
+                        @*@Html.ValidationMessageFor(model => model.ContactNumber)*@
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.ContactNumber, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+                <div class="col-md-3">
+                    <label for="Email">Email</label>
+                    @if (actionName == "Create")
+                    {
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
+                </div>
+            </div>
+            <div class="row form-group">
+            </div>
+            <div class="table-responsive scroll2 ">
+                <table style="width:200%" class="table table-bordered" id="tab_logic" @*style="overflow-x:scroll;margin-bottom:0px"*@>
+                    <thead>
+                        <tr class="grid_heading">
+                            <th width="1%" class="text-center"></th>
+                            <th width="2%" class="text-center"><h1>#</h1></th>
+                            <th width="10%" nowrap><h1>Room Details</h1></th>
+                            <th width="5%" nowrap><h1>External Room Dimension</h1></th>
+                            <th width="5%" nowrap><h1>Cold Room Area</h1></th>
+                            <th width="5%" nowrap><h1>Cold Room Location</h1></th>
+                            <th width="5%"><h1>Temperature</h1></th>
+                            <th width="5%" nowrap><h1>Panel Thickness</h1></th>
+                            <th width="6%" nowrap><h1>Floor Details</h1></th>
+                            <th width="10%" nowrap><h1>Product Details</h1></th>
+                            <th width="5%" nowrap><h1>Product Incoming Temperature</h1></th>
+                            <th width="5%" nowrap><h1>Pipe Length</h1></th>
+                            <th width="5%" nowrap><h1>Door Size</h1></th>
+                            <th width="5%"><h1>Refrigerant</h1></th>
+                            <th width="5%" nowrap><h1>Electrical Power</h1></th>
+                            @if (Model.Type != "RoomDetails")
+                            {
+                                <th nowrap width="15%"><h1></h1></th>
+                                <th width="5%"><h1>Kilowatt</h1></th>
+                                <th width="5%" class="text-right"><h1>Cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
+                            }
+                            <th width="1%" class="text-center"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.QuerySheetItems.Count; i++)
                         {
-                        <td onclick="UnitSelection()" class="grid-cell" value="Unit Selection"  data-toggle="modal" data-target="#unitselectionpopup"><a href="#" class="unit">Select Unit & Door</a></td>
-                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                        <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Cost, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
+                            <tr id="@i">
+                                <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus del" style="top:0px" onclick="Delete(@i)"></a></td>
+                                <td align="center">
+                                    <input type="hidden" id="Row_@i" />
+                                    <span id="slno@(i + 1)">@(i + 1)</span>
+                                    @Html.HiddenFor(m => Model.QuerySheetItems[i].QuerySheetItemId)
+                                </td>
+                                <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].RoomDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                                <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ExternalRoomDimension, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                                <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ColdRoomArea, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                                <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ColdRoomLocation, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                                <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].TemperatureRequired, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                                <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].PanelThicknessANDSpec, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                                <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].FloorDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                                <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ProductDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                                <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ProductIncomingTemperature, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                                <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].PipeLength, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+
+                                <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].DoorSizeTypeAndNumberOfDoor, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+
+                                <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Refrigerant, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                                <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                                @if (Model.Type != "RoomDetails")
+                                {
+                                    <td onclick="UnitSelection()" class="grid-cell" value="Unit Selection" data-toggle="modal" data-target="#unitselectionpopup"><a href="#" class="unit">Select Unit & Door</a></td>
+                                    <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                                    <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Cost, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
+                                }
+
+                                <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus del" style="top:0px" onclick="AddRow()"></a></td>
+                            </tr>
                         }
-                        
-                        <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus del" style="top:0px" onclick="AddRow()"></a></td>
-                    </tr>
-                }
 
-            </tbody>
+                    </tbody>
 
-        </table>
-    </div>
-                <br />
-                if (@Model.Type == "Costing")
-                {
-                 @Html.Partial("_ProjectCosting", Model)
-                }
+                </table>
+            </div>
+            <br />
+            if (@Model.Type == "Costing")
+            {
+                @Html.Partial("_ProjectCosting", Model)
+            }
 
-                <div class="row">
-                    <div class="col-md-12 hrpart">
+            <div class="row">
+                <div class="col-md-12 hrpart">
 
-                        <input type="button" class=" form-button right" onclick="Exit('@Model.Type')" value="Exit">
-                        @if (actionName == "Create")
-                        {
-                            <input type="button" class="form-button" onclick="PreviousList('@Model.Type')" value="Previous">
-                        }
-                       
-                        @*@if (actionName == "Create" || actionName == "CreateQuerySheetUnit")
+                    <input type="button" class=" form-button right" onclick="Exit('@Model.Type')" value="Exit">
+                    @if (actionName == "Create")
+                    {
+                        <input type="button" class="form-button" onclick="PreviousList('@Model.Type')" value="Previous">
+                    }
+
+                    @*@if (actionName == "Create" || actionName == "CreateQuerySheetUnit")
                         {*@
-                            <button type="submit" class="form-button right">Save</button>
-                        @*}*@
-                    </div>
-                </div>
-
-  <!-- Unit & Door Selection Column Click PopUp -->
-    <div id="unitselectionpopup" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-lg" style="width:800px">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Select Unit</h4>
-                </div>
-                <div class="modal-body">
-                    <div id="unitselection">
-                        @Html.Action("UnitSelection", new { id = Model.QuerySheetId,Type=Model.Type })
-                    </div>
-                </div>
-                @*............Door Selection Grid...................*@
-
-                <div class="modal-header">
-                    @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
-                    <h4 class="modal-title">Select Door</h4>
-                </div>
-                <div class="modal-body">
-                    <div id="doorselection">
-                        @Html.Action("DoorSelection", new { id = Model.QuerySheetId, Type = Model.Type })
-                    </div>
+                    <button type="submit" class="form-button right">Save</button>
+                    @*}*@
                 </div>
             </div>
 
-        </div>
+  <!-- Unit & Door Selection Column Click PopUp -->
+            <div id="unitselectionpopup" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg" style="width:800px">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Select Unit</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="unitselection">
+                                @Html.Action("UnitSelection", new { id = Model.QuerySheetId, Type = Model.Type })
+                            </div>
+                        </div>
+                        @*............Door Selection Grid...................*@
+
+                        <div class="modal-header">
+                            @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                            <h4 class="modal-title">Select Door</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="doorselection">
+                                @Html.Action("DoorSelection", new { id = Model.QuerySheetId, Type = Model.Type })
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        }
     </div>
-            }
-        </div>
-    </div>
+</div>

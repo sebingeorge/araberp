@@ -1,0 +1,133 @@
+﻿@model ArabErp.Domain.SalesQuotation
+
+<script type="text/javascript">
+    function ShowUnitSelectionGrid(index) {
+        $('div[id$="_units_popup"]').addClass('hide');
+        $('div[id$="_doors_popup"]').addClass('hide');
+        $('#room_' + index + '_units_popup').removeClass('hide');
+        $('#room_' + index + '_doors_popup').removeClass('hide');
+    }
+</script>
+
+<div class="scroll2">
+    <table style="width:200%;margin: 0" class="table table-bordered" id="tab_logic" @*style="overflow-x:scroll;margin-bottom:0px"*@>
+        <thead>
+            <tr class="grid_heading">
+                @*<th width="1%" class="text-center"></th>*@
+                <th width="2%" class="text-center"><h1>#</h1></th>
+                <th width="10%" nowrap><h1>Room Details</h1></th>
+                <th width="5%" nowrap><h1>External Room Dimension</h1></th>
+                <th width="5%" nowrap><h1>Cold Room Area</h1></th>
+                <th width="5%" nowrap><h1>Cold Room Location</h1></th>
+                <th width="5%"><h1>Temperature</h1></th>
+                <th width="5%" nowrap><h1>Panel Thickness</h1></th>
+                <th width="6%" nowrap><h1>Floor Details</h1></th>
+                <th width="10%" nowrap><h1>Product Details</h1></th>
+                <th width="5%" nowrap><h1>Product Incoming Temperature</h1></th>
+                <th width="5%" nowrap><h1>Pipe Length</h1></th>
+                <th width="5%" nowrap><h1>Door Size</h1></th>
+                <th width="5%"><h1>Refrigerant</h1></th>
+                <th width="5%" nowrap><h1>Electrical Power</h1></th>
+                @if (true)
+                {@*Model.Type != "RoomDetails"*@
+                        <th nowrap width="15%"><h1></h1></th>
+                        <th width="5%"><h1>Kilowatt</h1></th>
+                        <th width="5%" class="text-right"><h1>Cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
+                    }
+                @*<th width="1%" class="text-center"></th>*@
+            </tr>
+        </thead>
+        <tbody>
+    @for (int i = 0; i < Model.ProjectRooms.Count; i++)
+    {
+        <tr id="@i">
+            @*<td style="vertical-align:middle"><a class="glyphicon glyphicon-minus del" style="top:0px" onclick="Delete(@i)"></a></td>*@
+            <td align="center">
+                <input type="hidden" id="Row_@i" />
+                <span id="slno@(i + 1)">@(i + 1)</span>
+                @Html.HiddenFor(m => Model.ProjectRooms[i].QuerySheetItemId)
+            </td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].RoomDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].ExternalRoomDimension, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].ColdRoomArea, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].ColdRoomLocation, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].TemperatureRequired, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].PanelThicknessANDSpec, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].FloorDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].ProductDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].ProductIncomingTemperature, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].PipeLength, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].DoorSizeTypeAndNumberOfDoor, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].Refrigerant, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+            @if (true)//Model.Type != "RoomDetails"
+            {
+                <td onclick="ShowUnitSelectionGrid(@i)" class="grid-cell" data-toggle="modal" data-target="#unitselectionpopup"><a href="#" class="unit">Select Unit & Door</a></td>
+                <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                <td>@Html.TextBoxFor(m => Model.ProjectRooms[i].Cost, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
+            }
+
+            @*<td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus del" style="top:0px" onclick="AddRow()"></a></td>*@
+        </tr>
+    }
+
+        </tbody>
+
+    </table>
+</div>
+
+<!-- Unit & Door Selection Column Click PopUp -->
+<div id="unitselectionpopup" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:800px">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Select Unit</h4>
+            </div>
+            <div class="modal-body">
+                <div id="unitselection">
+                    @if (Model.ProjectRooms != null && Model.ProjectRooms.Count > 0)
+                    {
+                        for (int i = 0; i < Model.ProjectRooms.Count; i++)
+                        {
+                            ViewBag.currentIndex = i;
+                            <div id="room_@(i)_units_popup" class="hide">
+                                @Html.Partial("_UnitSelection", Model)
+                            </div>
+                        }
+                    }
+                    @*@Html.Action("UnitSelection", new { id = Model.QuerySheetId, Type = Model.Type })*@
+                </div>
+            </div>
+            @*............Door Selection Grid...................*@
+
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                <h4 class="modal-title">Select Door</h4>
+            </div>
+            <div class="modal-body">
+                <div id="doorselection">
+                    @if (Model.ProjectRooms != null && Model.ProjectRooms.Count > 0)
+                    {
+                        for (int i = 0; i < Model.ProjectRooms.Count; i++)
+                        {
+                            ViewBag.currentIndex = i;
+                            <div id="room_@(i)_doors_popup" class="hide">
+                                @Html.Partial("_DoorSelection", Model)
+                            </div>
+                        }
+                    }
+                    @*@Html.Action("DoorSelection", new { id = Model.QuerySheetId, Type = Model.Type })*@
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+

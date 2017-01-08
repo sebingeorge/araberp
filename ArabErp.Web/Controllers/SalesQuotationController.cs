@@ -1102,5 +1102,17 @@ namespace ArabErp.Web.Controllers
                 throw;
             }
         }
+
+        public ActionResult GetRoomDetailsFromQuerySheet(int querySheetId)
+        {
+            UnitDropDown();
+            SalesQuotation model = new SalesQuotationRepository().GetRoomDetailsFromQuerySheet(querySheetId);
+            return PartialView("_ProjectRooms", model);
+        }
+
+        public void UnitDropDown()
+        {
+            ViewBag.UnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
+        }
     }
 }
