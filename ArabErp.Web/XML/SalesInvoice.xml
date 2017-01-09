@@ -64,16 +64,15 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>AARC/SI/16/1008</SalesInvoiceRefNo>
-    <SalesInvoiceDate>22-Dec-2016</SalesInvoiceDate>
-    <VehicleOutPassNo>DV/16/1492</VehicleOutPassNo>
-    <CustomerName>Al Irfan Fruits and Vegetables .</CustomerName>
-    <Address>Doha , Qatar,,0</Address>
-    <CustomerOrderRef>qqwweerrttg</CustomerOrderRef>
-    <PaymentTerms>aaaaa</PaymentTerms>
-    <RegistrationNo>293139</RegistrationNo>
-    <JobCardNo>AARC/JC-S/43</JobCardNo>
-    <TotalAmount>760.00</TotalAmount>
+    <SalesInvoiceRefNo>AARC/SI/17/27</SalesInvoiceRefNo>
+    <SalesInvoiceDate>09-Jan-2017</SalesInvoiceDate>
+    <VehicleOutPassNo>DV/17/4</VehicleOutPassNo>
+    <CustomerName>Amwaj Catering Services</CustomerName>
+    <Address>Doha ,Qatar,,0</Address>
+    <CustomerOrderRef>Mail Confirm</CustomerOrderRef>
+    <RegistrationNo>202313</RegistrationNo>
+    <JobCardNo>AARC/17/JC-S/2</JobCardNo>
+    <TotalAmount>4490.00</TotalAmount>
     <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
@@ -86,25 +85,45 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <CreateUser>ihits</CreateUser>
-    <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\717535aa-1a23-4c12-b77b-a232fad1da2b.jpg</CreateSig>
-    <CreatedDes>Asst.Sales Manager</CreatedDes>
+    <CreateUser>safiq</CreateUser>
+    <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSig>
+    <CreatedDes>Workshop Controller</CreatedDes>
     <ApproveSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</ApproveSig>
   </Head>
   <Items>
-    <PrintDescription>General Service of TM T2500:
-Compressor Belt Tension Check-up &amp; Bracket Checking
-General Check-up &amp; Check Cooling
-Electrical Connection Check-up &amp; Adjustments
-</PrintDescription>
+    <PrintDescription>Compressor Shaft Seal
+Battery
+Engine Rear Seal
+Regulator Brush
+O-ring
+Filter Drier
+Gasket
+Engine to Compressor Belt
+Compressor to Motor Belt
+Alternator Belt
+Evaporator Shaft Belt
+Water Pump Belt
+Pressure Testing, Vacuuming &amp; Gas Charging
+Labor Charges</PrintDescription>
     <Quantity>1.00</Quantity>
     <UoM>ea</UoM>
-    <PriceEach>760.00</PriceEach>
-    <Amount>760.00</Amount>
+    <PriceEach>4490.00</PriceEach>
+    <Amount>4490.00</Amount>
+  </Items>
+  <Items>
+    <PrintDescription>Oil Service of TK MD 200:
+Replace Engine Oil, Oil Filter, Fuel Filter, Air Filter,
+Replace By-pass Oil Filter
+Top-up Refrigerant &amp; Coolant Water
+General Check-up &amp; Maintenance</PrintDescription>
+    <Quantity>1.00</Quantity>
+    <UoM>ea</UoM>
+    <PriceEach>0.00</PriceEach>
+    <Amount>0.00</Amount>
   </Items>
   <DeliveryChallans>
-    <DeliveryChallanRefNo>DV/16/1492</DeliveryChallanRefNo>
-    <JobCardNo>AARC/JC-S/43</JobCardNo>
-    <Chassiss_RegNo>293139</Chassiss_RegNo>
+    <DeliveryChallanRefNo>DV/17/4</DeliveryChallanRefNo>
+    <JobCardNo>AARC/17/JC-S/2</JobCardNo>
+    <Chassiss_RegNo>202313</Chassiss_RegNo>
   </DeliveryChallans>
 </NewDataSet>
