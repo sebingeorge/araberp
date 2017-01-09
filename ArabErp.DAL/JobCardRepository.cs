@@ -68,7 +68,7 @@ namespace ArabErp
                     0 GoodsLanded, 0 BayId, W.FreezerUnitId FreezerUnitId, FU.ItemName FreezerUnitName, W.BoxId BoxId, 
                     B.ItemName BoxName, 
                     VI.RegistrationNo + CASE WHEN ISNULL(VI.RegistrationNo, '') <> '' AND ISNULL(VI.ChassisNo, '') <> '' THEN ' - ' END + VI.ChassisNo RegistrationNo, 
-                    VI.VehicleInPassId InPassId, S.isService, S.isProjectBased, S.SaleOrderRefNo
+                    VI.VehicleInPassId InPassId, S.isService, S.isProjectBased, S.SaleOrderRefNo,S.SpecialRemarks
                     FROM SaleOrder S 
                     INNER JOIN Customer C ON S.CustomerId = C.CustomerId
                     INNER JOIN SaleOrderItem SI ON SI.SaleOrderId = S.SaleOrderId
