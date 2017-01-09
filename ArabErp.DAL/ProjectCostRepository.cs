@@ -94,15 +94,6 @@ namespace ArabErp.DAL
               }
           }
 
-          public List<QuerySheetItem> GetQuerySheetItem(int QuerySheetId)
-          {
-              using (IDbConnection connection = OpenConnection(dataConnection))
-              {
-                  string sql = @" SELECT * from QuerySheetItem
-                                  WHERE QuerySheetId = @QuerySheetId";
-                  return connection.Query<QuerySheetItem>(sql, new { QuerySheetId = QuerySheetId }).ToList();
-              }
-          }
 
 
       

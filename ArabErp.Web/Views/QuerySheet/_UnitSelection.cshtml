@@ -1,4 +1,7 @@
 ﻿@model ArabErp.Domain.QuerySheet
+@{
+    int currentIndex = ViewBag.currentIndex;
+}
 <div class="table-responsive scroll2 ">
     <table style="width:200%" class="table table-bordered" id="tab_logic_unit" @*style="overflow-x:scroll;margin-bottom:0px"*@>
         <thead>
@@ -20,7 +23,7 @@
             </tr>
         </thead>
         <tbody>
-            @for (int i = 0; i < Model.QuerySheetUnits.Count; i++)
+            @for (int i = 0; i < Model.QuerySheetItems[currentIndex].ProjectRoomUnits.Count; i++)
             {
                 <tr id="@i">
                     <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeleteUnit(@i)"></a></td>
@@ -29,9 +32,10 @@
                         <span id="sno@(i + 1)">@(i + 1)</span>
                         @Html.HiddenFor(m => Model.QuerySheetItems[i].QuerySheetItemId)
                     </td>
-                    <td>@Html.DropDownListFor(m => m.QuerySheetUnits[i].CondenserUnitId, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetUnits[i].CondenserUnitId), new { @class = "form_input" })</td>
-                    <td>@Html.DropDownListFor(m => m.QuerySheetUnits[i].EvaporatorUnitId, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetUnits[i].EvaporatorUnitId), new { @class = "form_input" })</td>
-                    <td>@Html.TextBoxFor(m => Model.QuerySheetUnits[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
+                    
+                    <td>@Html.DropDownListFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].CondenserUnitId, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].CondenserUnitId), new { @class = "form_input" })</td>
+                    <td>@Html.DropDownListFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].EvaporatorUnitId, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].EvaporatorUnitId), new { @class = "form_input" })</td>
+                    <td>@Html.TextBoxFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
 
                     <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddUnitRow()"></a></td>
                 </tr>

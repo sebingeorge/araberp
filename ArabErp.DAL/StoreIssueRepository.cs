@@ -228,8 +228,8 @@ namespace ArabErp.DAL
                                 AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%'
 			                    OR ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%')
 				                AND ISNULL(J.JobCardNo, '') LIKE '%'+@Jobcard+'%'
-								AND ISNULL(SI.StoreIssueRefNo, '') LIKE '%'+@StoreIssue+'%'
-                                AND ISNULL(SI.StoreIssueDate, '') LIKE '%'+@StoreIssue+'%'
+								AND (ISNULL(SI.StoreIssueRefNo, '') LIKE '%'+@StoreIssue+'%'
+                                OR ISNULL(SI.StoreIssueDate, '') LIKE '%'+@StoreIssue+'%')
                                 ORDER BY StoreIssueDate DESC, SI.CreatedDate DESC;";
                 return connection.Query<StoresIssuePreviousList>(query, new { from = from, to = to, StoreIssue = StoreIssue, Jobcard = Jobcard, Customer = Customer, RegNo = RegNo, Request = Request }).ToList();
             }

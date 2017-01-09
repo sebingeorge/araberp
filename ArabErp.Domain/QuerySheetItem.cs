@@ -31,5 +31,19 @@ namespace ArabErp.Domain
         public List<QuerySheetUnit> ProjectRoomUnits { get; set; }
         public List<QuerySheetDoor> ProjectRoomDoors { get; set; }
     }
+  public class QuerySheetUnit
+  {
+      public int QuerySheetItemId { get; set; }
+      public string CondenserUnitId { get; set; }
+      public string EvaporatorUnitId { get; set; }
+      public decimal Quantity { get; set; }
+
+  }
+  public class QuerySheetDoor
+  {
+      public int QuerySheetItemId { get; set; }
+      public decimal Quantity { get; set; }
+      public string DoorId { get; set; }
+  }
 
 }
