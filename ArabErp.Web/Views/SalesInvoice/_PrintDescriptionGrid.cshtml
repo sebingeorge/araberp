@@ -1,5 +1,10 @@
 ﻿@model ArabErp.Domain.SalesInvoice
 
+@{
+    //var totalPrintAmount = Model.SaleInvoiceItems.Sum(a => a.Amount);
+ }
+
+
 <script type="text/javascript">
 
     $(document).ready(function(){
@@ -58,25 +63,34 @@
     function Amountchanges() {
         var qty = 0;
         var rate = 0;
-        var discount = 0;
         var amount = 0;
         var total = 0;
-        var addition = 0;
-        var deduction = 0;
         var net = 0;
       
         $('.PriceEach').each(function (i, obj) {
-            var amount = 0;
+            //var amount = 0;
             var qty = 0;
             var rate = 0;
+
             console.log(obj);
             qty=$("#PrintDescriptions_" + i + "__Quantity").val();
             if(eval($("#PrintDescriptions_" + i + "__PriceEach").val() != 0 && eval($("#PrintDescriptions_" + i + "__PriceEach").val() != '')))
                 rate = rate + eval($("#PrintDescriptions_" + i + "__PriceEach").val());
-            amount = (qty * rate) ;
+            amount = (qty * rate);
+            total = total + amount;
+             //$("#PrintDescriptions_" + i + "__Quantity").val();
             $("#PrintDescriptions_" + i + "__Amount").val(amount);
+           
         });
-  
+        $("#gridTotals").text(total);
+        net = total;
+        $("#TotalAmount").val(total.toFixed(2));
+        //$("#lblTotalAmount").text(net.toFixed(2));
+      
+        //net += amount;
+        //alert(net);
+        //$("#TotalAmount").val(total.toFixed(2));
+        //$("#lblTotalAmount").text(net.toFixed(2));
     } 
 
 </script>
@@ -141,4 +155,22 @@
             }
         }
     </tbody>
+    <tfoot>
+        <tr class="grid_heading">
+            <th class="text-center"><h1></h1></th>
+            <th class="text-center"></th>
+            @if (Model.InvoiceType == "Final")
+            {
+                <th class="text-center"><h1></h1></th>
+            }
+            <th class="text-right"></th>
+            <th></th>
+            <th class="text-right"><h1>Total</h1></th>
+            @*<th class="text-right">
+            </th>*@
+            <th class="text-right"><span id="gridTotals">@Model.TotalAmount</span></th>
+            @Html.HiddenFor(m => m.TotalAmount)
+        </tr>
+    </tfoot>
+
 </table>
