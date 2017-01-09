@@ -758,10 +758,26 @@ namespace ArabErp.DAL
                     }
                     #endregion
                     #region saving project quotation units
-                    sql = @"";
+                    foreach (QuerySheetItem items in model.ProjectRooms)
+                    {
+                        foreach (QuerySheetUnit item in items.ProjectRoomUnits)
+                        {
+                            item.QuerySheetItemId = items.QuerySheetItemId;
+                            sql = @"insert  into ProjectQuotationItemUnit(SalesQuotationItemId,EvaporatorUnitId,CondenserUnitId,Quantity) 
+                                    Values (@QuerySheetItemId,@EvaporatorUnitId,@CondenserUnitId,@Quantity)";
+                            connection.Execute(sql, item, txn);
+                        }
+                        foreach (QuerySheetDoor item in items.ProjectRoomDoors)
+                        {
+                            item.QuerySheetItemId = items.QuerySheetItemId;
+                            sql = @"insert  into ProjectQuotationItemDoor(SalesQuotationItemId,DoorId,Quantity) 
+                                    Values (@QuerySheetItemId,@DoorId,@Quantity)";
+                            connection.Execute(sql, item, txn);
+                        }
+                    }
                     #endregion
                     txn.Commit();
-                    return new SalesQuotation();
+                    return model;
                 }
                 catch (Exception)
                 {
