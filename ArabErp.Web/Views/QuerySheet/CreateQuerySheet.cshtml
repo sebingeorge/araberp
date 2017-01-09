@@ -87,9 +87,9 @@
         var index = (new Date()).getTime(); // unique indexer
         var clone = $('#tab_logic_unit #0').clone(); // clone the BatchProducts item
         //Update the index of the clone
-
-        clone.html($(clone).html().replace(/\QuerySheetUnits_0__/g, 'QuerySheetUnits_' + i + '__'));
-        clone.html($(clone).html().replace(/\QuerySheetUnits[0]./g, 'QuerySheetUnits[' + i + '].'));
+      
+        clone.html($(clone).html().replace(/\QuerySheetItems_0__ProjectRoomUnits_0__/g, 'QuerySheetItems_' + i + '__ProjectRoomUnits_' + i + '__'));
+        //clone.html($(clone).html().replace(/\QuerySheetUnits[0]./g, 'QuerySheetUnits[' + i + '].'));
         clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
         clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
         clone.html($(clone).html().replace(/Rowunit_0/, 'Rowunit_' + i));
