@@ -132,7 +132,8 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = UserID.ToString();
 
-            SalesQuotation result = new SalesQuotationRepository().InsertSalesQuotation(model);
+            //SalesQuotation result = new SalesQuotationRepository().InsertSalesQuotation(model);
+            SalesQuotation result = new SalesQuotationRepository().InsertProjectQuotation(model);
             if (result.SalesQuotationId > 0)
             {
                 TempData["Success"] = "Added Successfully!";

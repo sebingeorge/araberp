@@ -369,7 +369,8 @@
         if (id != '' || id != 0) {
             var url = '@Url.Action("GetQuerySheetCostingAmount")';
             $.getJSON(url, { id: id }, function (data) {
-                $("#costing-amount-notifier").html("<em>Project cost for Query Sheet <strong>" + $("#QuerySheetId option:selected").text() + "</strong> is <strong>" + $("#CurrencyId option:selected").text() + " " + data + "/-</strong></em>");
+                $("#costing-amount-notifier").html("<em>Project cost for Query Sheet <strong>" + $("#QuerySheetId option:selected").text() + "</strong> is <strong>" + $("#CurrencyId option:selected").text() + " " + data + "</strong></em>");
+                $('#GrandTotal').val(data);
             })
             $('#project_rooms_grid').html('<div style="border: 1px solid white;'+
                                             'padding: 10px;'+
@@ -423,6 +424,7 @@
             @Html.HiddenFor(m => m.SalesQuotationId)
             @Html.HiddenFor(m => m.isProjectBased)
             @Html.HiddenFor(m => m.isAfterSales)
+            @Html.HiddenFor(m => m.GrandTotal)
             if (Model.ProjectCompletionId != null && Model.ProjectCompletionId != 0)
             {
                 @Html.HiddenFor(m => m.ProjectCompletionId)

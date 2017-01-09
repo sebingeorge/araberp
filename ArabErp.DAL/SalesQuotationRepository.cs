@@ -676,7 +676,6 @@ namespace ArabErp.DAL
         }
 
 
-
         public SalesQuotation GetRoomDetailsFromQuerySheet(int querySheetId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -713,6 +712,62 @@ namespace ArabErp.DAL
                     }
                 }
                 return model;
+            }
+        }
+
+        public SalesQuotation InsertProjectQuotation(SalesQuotation model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    #region saving quotation head [SalesQuotation]
+                    string sql = @"insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,
+                                    QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,TotalWorkAmount,TotalMaterialAmount,GrandTotal,CurrencyId,QuotationStatus,Remarks,SalesQuotationStatusId,
+                                    QuotationStage,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,isProjectBased,isAfterSales,QuerySheetId,isWarranty, ProjectCompletionId, DeliveryChallanId, Discount, DeliveryTerms)
+                                    Values (@QuotationRefNo,@QuotationDate,@CustomerId,@ContactPerson,@SalesExecutiveId,@PredictedClosingDate,@QuotationValidToDate,
+                                    @ExpectedDeliveryDate,@IsQuotationApproved,@ApprovedBy,@TotalWorkAmount,@TotalMaterialAmount,@GrandTotal,@CurrencyId,@QuotationStatus,@Remarks,@SalesQuotationStatusId,
+                                    @QuotationStage,@Competitors,@PaymentTerms,@DiscountRemarks,@CreatedBy,@CreatedDate,@OrganizationId,@isProjectBased,@isAfterSales,NULLIF(@QuerySheetId, 0),@isWarranty, NULLIF(@ProjectCompletionId, 0), NULLIF(@DeliveryChallanId, 0), @Discount, @DeliveryTerms);
+                                    SELECT CAST(SCOPE_IDENTITY() AS INT) SalesQuotationId";
+                    model.SalesQuotationId = connection.Query<int>(sql, model, txn).First();
+                    #endregion
+                    #region saving quotation rooms [SalesQuotationItem]
+                    sql = @"INSERT INTO SalesQuotationItem 
+                            (
+	                            [SalesQuotationId],
+	                            [Quantity],
+	                            [OrganizationId],
+	                            [isActive]
+                            )
+                            VALUES
+                            (
+	                            @SalesQuotationId,
+                                @Quantity,
+                                @OrganizationId,
+                                @isActive
+                            )
+                            SELECT CAST(SCOPE_IDENTITY() AS INT) SalesQuotationItemId";
+                    foreach (var item in model.SalesQuotationItems)
+                    {
+                        item.SalesQuotationId = model.SalesQuotationId;
+                        item.Quantity = 1;
+                        item.OrganizationId = model.OrganizationId;
+                        item.isActive = true;
+                        item.SalesQuotationItemId = connection.Query<int>(sql, item, txn).First();
+                    }
+                    #endregion
+                    #region saving project quotation units
+                    sql = @"";
+                    #endregion
+                    txn.Commit();
+                    return new SalesQuotation();
+                }
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    throw;
+                }
             }
         }
     }
