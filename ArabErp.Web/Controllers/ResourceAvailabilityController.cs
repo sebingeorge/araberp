@@ -17,15 +17,20 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Employee()
         {
-            ViewBag.Year = FYStartdate.Year;
+            ViewBag.StartYear = FYStartdate.Year;// == DateTime.Today.Year ? FYStartdate.Year : FYEnddate.Year;
+            ViewBag.EndYear = FYEnddate.Year;// == DateTime.Today.Year ? FYStartdate.Year : FYEnddate.Year;
             return View();
         }
 
-        public ActionResult EmployeeGrid(int? month, int? year)
+        public ActionResult EmployeeGrid(int? month, int? year, int isProject = 0)
         {
-            var list = new ResourceAvailabilityRepository().GetEmployeeAvailability(month ?? DateTime.Today.Month, year ?? DateTime.Today.Year, OrganizationId);
-            list[0].Month = month ?? DateTime.Today.Month;
-            list[0].Year = year ?? FYStartdate.Year;
+            var list = new ResourceAvailabilityRepository().GetEmployeeAvailability(month ?? DateTime.Today.Month, year ?? DateTime.Today.Year, isProject, OrganizationId);
+            try
+            {
+                ViewBag.Month = month ?? DateTime.Today.Month;
+                ViewBag.Year = year ?? DateTime.Today.Year;
+            }
+            catch (Exception) { }
             return PartialView("_EmployeeGrid", list);
         }
     }

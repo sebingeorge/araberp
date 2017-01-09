@@ -676,5 +676,44 @@ namespace ArabErp.DAL
         }
 
 
+
+        public SalesQuotation GetRoomDetailsFromQuerySheet(int querySheetId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                SalesQuotation model = new SalesQuotation();
+                string query = @"SELECT
+	                                *
+                                FROM QuerySheetItem
+                                WHERE QuerySheetId = @id
+
+                                SELECT QuerySheetItemId INTO #Rooms FROM QuerySheetItem WHERE QuerySheetId = @id
+
+                                SELECT
+	                                *
+                                FROM QuerySheetItemUnit
+                                WHERE QuerySheetItemId IN (SELECT QuerySheetItemId FROM #Rooms)
+
+                                SELECT
+	                                *
+                                FROM QuerySheetItemDoor
+                                WHERE QuerySheetItemId IN (SELECT QuerySheetItemId FROM #Rooms)
+
+                                DROP TABLE #Rooms;";
+
+                using (var dataset = connection.QueryMultiple(query, new { id = querySheetId }))
+                {
+                    model.ProjectRooms = dataset.Read<QuerySheetItem>().AsList();
+                    List<QuerySheetUnit> units = dataset.Read<QuerySheetUnit>().AsList();
+                    List<QuerySheetDoor> doors = dataset.Read<QuerySheetDoor>().AsList();
+                    foreach (var item in model.ProjectRooms)
+                    {
+                        item.ProjectRoomUnits = units.Where(x => x.QuerySheetItemId == item.QuerySheetItemId).Select(x => x).ToList();
+                        item.ProjectRoomDoors = doors.Where(x => x.QuerySheetItemId == item.QuerySheetItemId).Select(x => x).ToList();
+                    }
+                }
+                return model;
+            }
+        }
     }
 }

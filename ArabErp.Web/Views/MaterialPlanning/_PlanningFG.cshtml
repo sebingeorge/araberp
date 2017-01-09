@@ -69,7 +69,7 @@
                     <td onclick="getSODetails(@item.ItemId)" class="grid-cell text-right lblue" value="Get Sale Order Details" style="width: 150px;cursor:pointer;" data-toggle="modal" data-target="#Saleorderdetailspopup">@item.PENWRQTY</td>
                     <td class="grid-cell text-right ">@item.WRPndIssQty</td>
                     <td class="grid-cell text-right">@item.MinLevel</td>
-                    @if (item.Reserved == 1)
+                    @if (item.Reserved == 1 && item.CurrentStock > 0 )
                     {
                         @*<td class="grid-cell text-right lreserved">@item.CurrentStock</td>*@
                         <td onclick="getReservedItemDetails(@item.ItemId)" class="grid-cell text-right lreserved" value="Get Reserved Details" style="width: 150px;cursor:pointer;" data-toggle="modal" data-target="#ReservedItemdetailspopup">@item.CurrentStock</td>

@@ -28,7 +28,8 @@ namespace ArabErp.Domain
         public string EletricalPowerAvailability { get; set; }
         public decimal Cost { get; set; }
         public string Type { get; set; }
-      
+        public List<QuerySheetUnit> ProjectRoomUnits { get; set; }
+        public List<QuerySheetDoor> ProjectRoomDoors { get; set; }
     }
 
 }

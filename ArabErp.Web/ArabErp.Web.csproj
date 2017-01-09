@@ -1377,6 +1377,9 @@
     <Content Include="Views\MaterialPlanning\_ReservedItemDetails.cshtml" />
     <Content Include="Views\SupplyOrder\ApprovalCancellation.cshtml" />
     <Content Include="Views\SupplyOrder\_ApprovalCancellationGrid.cshtml" />
+    <Content Include="Views\SalesQuotation\_ProjectRooms.cshtml" />
+    <Content Include="Views\SalesQuotation\_UnitSelection.cshtml" />
+    <Content Include="Views\SalesQuotation\_DoorSelection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

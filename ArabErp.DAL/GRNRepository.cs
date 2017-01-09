@@ -806,15 +806,24 @@ namespace ArabErp.DAL
             {
                 IDbTransaction txn = connection.BeginTransaction();
 
-                int output = new GRNItemRepository().DeleteGRNADDDED(GRNId, connection, txn);
+                try
+                {
+                    int output = new GRNItemRepository().DeleteGRNADDDED(GRNId, connection, txn);
 
-                output = new GRNItemRepository().DeleteGRNItem(GRNId, connection, txn);
+                    output = new GRNItemRepository().DeleteGRNItem(GRNId, connection, txn);
 
-                output = new StockUpdateRepository().DeleteGRNStockUpdate(GRNId, connection, txn);
+                    output = new StockUpdateRepository().DeleteGRNStockUpdate(GRNId, connection, txn);
 
-                string sql = @"Delete FROM GRN  WHERE GRNId=@GRNId";
-                output = connection.Execute(sql, new { GRNId = GRNId });
-                return output;
+                    string sql = @"Delete FROM GRN  WHERE GRNId=@GRNId";
+                    output = connection.Execute(sql, new { GRNId = GRNId }, txn);
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    return 0;
+                }
             }
 
         }

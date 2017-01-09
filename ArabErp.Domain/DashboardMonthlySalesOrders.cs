@@ -36,5 +36,7 @@ namespace ArabErp.Domain
     {
         public string JobcardDate { get; set; }
         public int JobCardCount { get; set; }
+        public int JobCardCount_Transport { get; set; }
+        public int JobCardCount_Project { get; set; }
     }
 }

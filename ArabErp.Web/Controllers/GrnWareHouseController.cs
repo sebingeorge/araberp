@@ -318,9 +318,10 @@ namespace ArabErp.Web.Controllers
                 //var result5 = new GRNItemRepository().DeleteGRNADDDED(Id);
                 //var result2 = new GRNItemRepository().DeleteGRNItem(Id);
                 //var result4 = new StockUpdateRepository().DeleteGRNStockUpdate(Id);
-                var result3 = new GRNRepository().DeleteGRNHD(Id);
+                //var result3 = new GRNRepository().DeleteGRNHD(Id);
+                var result3 = new GRNRepository().DeleteGRN(Id);
 
-                if (Id > 0)
+                if (result3 > 0)
                 {
                     TempData["success"] = "Deleted succesfully";
                     return RedirectToAction("PreviousList");
