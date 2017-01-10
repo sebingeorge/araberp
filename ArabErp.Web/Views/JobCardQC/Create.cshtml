@@ -14,6 +14,48 @@
         //$("#JcDate").datepicker({ dateFormat: "dd-MM-yy" });
         $("#EmployeeId").focus();
     });
+
+
+    function formValidation() {
+
+        //var Workamt = $("#TotalAmount").val();
+        //var Printamt = $("#PrintTotalAmount").val();
+
+        //if (Number(Printamt) != Number(Workamt)) {
+        //    toastr.info("Total workdescription amount and print description amounts are different");
+        //    return false;
+        //}
+        //return true;
+        //$('.Value').each(function (i, obj) {
+        //    alert(i)
+        //    console.log(obj);
+        //    if (eval($("#JobCardQCParams_" + i + "__QCParamValue").val() != 0 && eval($("#JobCardQCParams_" + i + "__QCParamValue").val() != '')))
+        //        qty = qty + eval($("#JobCardQCParams_" + i + "_QCParamValue").val());
+        //    alert(i)
+        //if (eval($("#SaleInvoiceItems_" + i + "__Rate").val() != 0 && eval($("#SaleInvoiceItems_" + i + "__Rate").val() != '')))
+        //    rate = rate + eval($("#SaleInvoiceItems_" + i + "__Rate").val());
+        //if (eval($("#SaleInvoiceItems_" + i + "__Discount").val() != 0 && eval($("#SaleInvoiceItems_" + i + "__Discount").val() != '')))
+        //    discount = discount + eval($("#SaleInvoiceItems_" + i + "__Discount").val());
+
+        var totcount = 0;
+        var count = 0;
+        var limit = 10;
+        $('.QcValue').each(function (i, obj) {
+            if ($(obj).val() != '') {
+                count++;
+            }
+            totcount = i;
+        });
+
+        if (totcount < limit)
+            limit = totcount;
+
+        if (Number(count) < Number(limit)) {
+            toastr.info("Atleast " + limit + " values must be filled");
+            return false;
+        }
+        return true;
+    }
 </script>
 
 
@@ -22,7 +64,7 @@
     <div class="form-head1">
         <h4>Job Card QC</h4>
     </div>
-    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
+    @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", @onsubmit = "return formValidation()" }))
     {
         <div class="main-part pad1">
             <div class="row form-group">
@@ -83,7 +125,7 @@
                                     </td>
                                     <td>@Html.TextBoxFor(model => Model.JobCardQCParams[i].ParaName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
                                     <td>@Html.TextBoxFor(model => model.JobCardQCParams[i].QCParamName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                                    <td>@Html.TextBoxFor(model => model.JobCardQCParams[i].QCParamValue, new { @class = "form_input", autocomplete = "off" })</td>
+                                    <td>@Html.TextBoxFor(model => model.JobCardQCParams[i].QCParamValue, new { @class = "form_input QcValue", autocomplete = "off" })</td>
 
                                 </tr>
                             }

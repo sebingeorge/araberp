@@ -146,7 +146,7 @@ namespace ArabErp.Web.Controllers
                     FillSO();
                     FillJC();
                     GetMaterials();
-
+                    FillPartNo();
                     DirectPurchaseRequest DirectPurchaseRequest = new DirectPurchaseRequest();
                     DirectPurchaseRequest = new DirectPurchaseRepository().GetDirectPurchaseRequest(id);
                     DirectPurchaseRequest.items = new DirectPurchaseRepository().GetDirectPurchaseRequestItems(id);
