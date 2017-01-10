@@ -1380,6 +1380,10 @@
     <Content Include="Views\SalesQuotation\_ProjectRooms.cshtml" />
     <Content Include="Views\SalesQuotation\_UnitSelection.cshtml" />
     <Content Include="Views\SalesQuotation\_DoorSelection.cshtml" />
+    <Content Include="Views\SaleOrder\_DoorSelection.cshtml" />
+    <Content Include="Views\SaleOrder\_ProjectRooms.cshtml" />
+    <Content Include="Views\SaleOrder\_UnitSelection.cshtml" />
+    <Content Include="Views\SaleOrder\CreateProject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
