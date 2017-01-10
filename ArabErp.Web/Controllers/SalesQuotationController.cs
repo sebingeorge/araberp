@@ -64,14 +64,14 @@ namespace ArabErp.Web.Controllers
             //    var allErrors = ModelState.Values.SelectMany(v => v.Errors);
 
 
-                DropDowns();
-                FillWrkDesc();
-                FillVehicle();
-                FillUnit();
-                FillSalesQuotationStatus();
-                FillRateSettings();
+            DropDowns();
+            FillWrkDesc();
+            FillVehicle();
+            FillUnit();
+            FillSalesQuotationStatus();
+            FillRateSettings();
 
-                //return View(model);
+            //return View(model);
             //}
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
@@ -132,29 +132,22 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = UserID.ToString();
 
-            //SalesQuotation result = new SalesQuotationRepository().InsertSalesQuotation(model);
             SalesQuotation result = new SalesQuotationRepository().InsertProjectQuotation(model);
             if (result.SalesQuotationId > 0)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["QuotationRefNo"] = result.QuotationRefNo;
+                TempData["Success"] = "Saved Successfully. Reference No. is " + model.QuotationRefNo;
                 return RedirectToAction("CreateProject");
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
-                TempData["SaleOrderRefNo"] = null;
-
+                TempData["error"] = "Some error occurred. Please try again.";
                 DropDowns();
                 FillWrkDescForProject();
                 FillVehicle();
                 FillQuerySheet();
                 FillUnit();
-
-
                 return View("Create", model);
             }
-
         }
 
         public ActionResult CreateAfterSalesTrans(int id = 0)//DeliveryChallanId is received here
@@ -904,7 +897,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Designation");
             ds.Tables["Head"].Columns.Add("Image1");
             ds.Tables["Head"].Columns.Add("UserName");
-           // ds.Tables["Head"].Columns.Add("EmpDesignation");
+            // ds.Tables["Head"].Columns.Add("EmpDesignation");
             ds.Tables["Head"].Columns.Add("Sign");
 
 
@@ -954,7 +947,7 @@ namespace ArabErp.Web.Controllers
             dr["UserName"] = Head.EmpNmae;
             //dr["EmpDesignation"] = Head.EmpDesignation;
             dr["Sign"] = Server.MapPath("~/App_images/") + Head.ApprovedUsersig;
-           
+
             ds.Tables["Head"].Rows.Add(dr);
 
             SalesQuotationRepository repo1 = new SalesQuotationRepository();
@@ -1027,7 +1020,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Image1");
 
             //-------DT
-           
+
             ds.Tables["Items"].Columns.Add("QuotRef");
             ds.Tables["Items"].Columns.Add("Date");
             ds.Tables["Items"].Columns.Add("Customer");

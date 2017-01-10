@@ -65,7 +65,7 @@ namespace ArabErp.Domain
         public int isService { get; set; }
         public string CreatedDes { get; set; }
         public string ApprovedDes { get; set; }
-
+     
         public List<PrintDescription> PrintDescriptions { get; set; }
         public List<SalesInvoiceItem> SaleInvoiceItems { get; set; }
     }

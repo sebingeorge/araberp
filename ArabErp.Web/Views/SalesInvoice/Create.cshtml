@@ -145,6 +145,8 @@
     }
 
     function formValidation() {
+        var check = Number($("#TotalAmount").text());
+        alert(check)
         var total = Number($("#lblTotalAmount").text());
         //alert(total);
         if (total <= 0) {
@@ -152,6 +154,7 @@
             return false;
         }
         return true;
+      
     }
 
     function calculateFinalSummary() {
