@@ -119,8 +119,8 @@
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         }
-        if ('@TempData["success"]' != "" && '@TempData["QuotationRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '   Sales Quotation No. is : ' + '@TempData["QuotationRefNo"]');
+        if ('@TempData["success"]' != "") {
+            toastr.success('@TempData["success"]');
         }
         else if ('@TempData["error"]' != "") {
             toastr.error('@TempData["error"]');
