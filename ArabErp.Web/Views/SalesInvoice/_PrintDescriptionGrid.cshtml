@@ -2,7 +2,7 @@
 
 @{
     //var totalPrintAmount = Model.SaleInvoiceItems.Sum(a => a.Amount);
- }
+}
 
 
 <script type="text/javascript">
@@ -66,7 +66,7 @@
         var amount = 0;
         var total = 0;
         var net = 0;
-      
+
         $('.PriceEach').each(function (i, obj) {
             //var amount = 0;
             var qty = 0;
@@ -78,20 +78,20 @@
                 rate = rate + eval($("#PrintDescriptions_" + i + "__PriceEach").val());
             amount = (qty * rate);
             total = total + amount;
-             //$("#PrintDescriptions_" + i + "__Quantity").val();
+            //$("#PrintDescriptions_" + i + "__Quantity").val();
             $("#PrintDescriptions_" + i + "__Amount").val(amount);
-           
+
         });
         $("#gridTotals").text(total);
         net = total;
-        $("#TotalAmount").val(total.toFixed(2));
+        $("#PrintTotalAmount").val(total.toFixed(2));
         //$("#lblTotalAmount").text(net.toFixed(2));
-      
+
         //net += amount;
         //alert(net);
         //$("#TotalAmount").val(total.toFixed(2));
         //$("#lblTotalAmount").text(net.toFixed(2));
-    } 
+    }
 
 </script>
 
@@ -134,7 +134,7 @@
                             @Html.TextBoxFor(m => m.PrintDescriptions[i].Quantity, new { @class = "form_input Quantity", @readonly = "readonly", @tabindex = "-1" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.PrintDescriptions[i].PriceEach, new { @class = "form_input PriceEach", @required = "true", @onchange = "Amountchanges()",@onkeyup = "Amountchanges()" })
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].PriceEach, new { @class = "form_input PriceEach", @required = "true", @onchange = "Amountchanges()", @onkeyup = "Amountchanges()" })
                         </td>
                         <td>
                             @Html.TextBoxFor(m => m.PrintDescriptions[i].Amount, new { @class = "form_input numbers-only", @readonly = "readonly", @tabindex = "-1", @required = "true" })
@@ -167,9 +167,10 @@
             <th></th>
             <th class="text-right"><h1>Total</h1></th>
             @*<th class="text-right">
-            </th>*@
-            <th class="text-right"><span id="gridTotals">@Model.TotalAmount</span></th>
-            @Html.HiddenFor(m => m.TotalAmount)
+                </th>*@
+            <th class="text-right"><span id="gridTotals">@Model.PrintTotalAmount</span></th>
+            @Html.HiddenFor(m => m.PrintTotalAmount)
+            <th></th>
         </tr>
     </tfoot>
 
