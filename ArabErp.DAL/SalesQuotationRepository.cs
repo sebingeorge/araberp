@@ -736,6 +736,7 @@ namespace ArabErp.DAL
                     sql = @"INSERT INTO SalesQuotationItem 
                             (
 	                            [SalesQuotationId],
+                                [SlNo],
 	                            [Quantity],
 	                            [OrganizationId],
 	                            [isActive]
@@ -743,18 +744,23 @@ namespace ArabErp.DAL
                             VALUES
                             (
 	                            @SalesQuotationId,
+                                @SlNo,
                                 @Quantity,
                                 @OrganizationId,
                                 @isActive
                             )
                             SELECT CAST(SCOPE_IDENTITY() AS INT) SalesQuotationItemId";
-                    foreach (var item in model.SalesQuotationItems)
+                    model.SalesQuotationItems = new List<SalesQuotationItem>();
+                    for (int i = 0; i < model.ProjectRooms.Count; i++ )
                     {
-                        item.SalesQuotationId = model.SalesQuotationId;
-                        item.Quantity = 1;
-                        item.OrganizationId = model.OrganizationId;
-                        item.isActive = true;
-                        item.SalesQuotationItemId = connection.Query<int>(sql, item, txn).First();
+                        model.SalesQuotationItems.Add(new SalesQuotationItem());
+                        model.SalesQuotationItems[i].SalesQuotationId = model.SalesQuotationId;
+                        model.SalesQuotationItems[i].SlNo = i;
+                        model.SalesQuotationItems[i].Quantity = 1;
+                        model.SalesQuotationItems[i].OrganizationId = model.OrganizationId;
+                        model.SalesQuotationItems[i].isActive = true;
+                        model.SalesQuotationItems[i].SalesQuotationItemId = model.ProjectRooms[i].QuerySheetItemId = 
+                            connection.Query<int>(sql, model.SalesQuotationItems[i], txn).First();
                     }
                     #endregion
                     #region saving project quotation units

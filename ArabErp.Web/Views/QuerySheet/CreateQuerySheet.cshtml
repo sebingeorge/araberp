@@ -91,7 +91,7 @@
         //.replace(new RegExp("QuerySheetItems_" + j + "__", "g"),
         clone.html($(clone).html().replace(new RegExp("QuerySheetItems_" + roomindex + "__ProjectRoomUnits_0__", "g"), 'QuerySheetItems_' + roomindex + '__ProjectRoomUnits_' + i + '__'));
         //clone.html($(clone).html().replace(/\QuerySheetUnits[0]./g, 'QuerySheetUnits[' + i + '].'));
-        clone.html($(clone).html().replace(new RegExp("QuerySheetItems/[" + roomindex + "/].ProjectRoomUnits/[0/]", "g"), 'QuerySheetItems/[' + roomindex + '/].ProjectRoomUnits/[' + i + '/].'));
+        clone.html($(clone).html().replace(new RegExp("\\QuerySheetItems[" + roomindex + "].ProjectRoomUnits[0]", "g"), "QuerySheetItems[" + roomindex + "].ProjectRoomUnits[" + i + "]."));
         //clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
         clone.html($(clone).html().replace(/Rowunit_0/, 'Rowunit_' + i));
         clone.html($(clone).html().replace(/sno1/, 'sno' + (i + 1) + ''));
