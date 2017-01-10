@@ -592,7 +592,7 @@ namespace ArabErp.DAL
                 query += " sum(Quantity) AcceptedQuantity,(isnull(G.ReceivedQty,0)-isnull(Quantity,0)) RejectedQuantity,";
                 query += " U.UnitName Unit,G.Rate,G.Discount,G.Amount,Remarks,0 GRNQTY,0 PendingQuantity,sum(G.ReceivedQty)";
                 query += " FROM GRNItem G";
-                query += " INNER JOIN SupplyOrderItem S ON S.SupplyOrderItemId=G.SupplyOrderItemId";
+                query += " left JOIN SupplyOrderItem S ON S.SupplyOrderItemId=G.SupplyOrderItemId";
                 query += " INNER JOIN Item I ON I.ItemId=G.ItemId";
                 query += " INNER JOIN Unit U ON U.UnitId=I.ItemUnitId";
                 query += " WHERE G.GRNId = " + GRNId.ToString();
