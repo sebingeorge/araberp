@@ -37,7 +37,7 @@ namespace ArabErp.Domain
       public string CondenserUnitId { get; set; }
       public string EvaporatorUnitId { get; set; }
       public decimal Quantity { get; set; }
-
+      public int sno { get; set; }
   }
   public class QuerySheetDoor
   {

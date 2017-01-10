@@ -180,11 +180,16 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    string query = @"DELETE FROM QuerySheetItem WHERE QuerySheetId = @QuerySheetId
-                                DELETE FROM ProjectCosting WHERE QuerySheetId = @QuerySheetId";
+
+                    string query = @" DELETE FROM QuerySheetItem WHERE QuerySheetId = @QuerySheetId";
+                                    
+                                    //DELETE FROM QuerySheetItemUnit U inner join QuerySheetItem I on U.QuerySheetItemId=I.QuerySheetItemId WHERE I.QuerySheetId = @QuerySheetId
+                                   //DELETE FROM QuerySheetItemDoor D inner join QuerySheetItem I on D.QuerySheetItemId=I.QuerySheetItemId WHERE I.QuerySheetId = @QuerySheetId
+                                  //DELETE FROM ProjectCosting WHERE QuerySheetId = @QuerySheetId
 
                     connection.Execute(query, new { QuerySheetId = model.QuerySheetId }, txn);
-
+                  
+                    //var row = 0;
                     //foreach (ProjectCost item in model.Items)
                     //{
                     //    item.QuerySheetId = model.QuerySheetId;
@@ -196,7 +201,32 @@ namespace ArabErp.DAL
                         item.QuerySheetId = model.QuerySheetId;
                         new ProjectCostRepository().InsertQuerySheetItem(item, connection, txn);
                     }
+//                    foreach (QuerySheetItem items in model.QuerySheetItems)
+//                    {
+//                        items.QuerySheetId = model.QuerySheetId;
+//                        new ProjectCostRepository().InsertQuerySheetItem(items, connection, txn);
 
+//                        foreach (QuerySheetUnit item in items.ProjectRoomUnits)
+//                        {
+//                            item.QuerySheetItemId = items.QuerySheetItemId;
+
+//                            query = @"insert  into QuerySheetItemUnit(QuerySheetItemId,EvaporatorUnitId,CondenserUnitId,Quantity) 
+//                                       Values (@QuerySheetItemId,@EvaporatorUnitId,@CondenserUnitId,@Quantity)";
+
+//                            row = connection.Execute(query, item, txn);
+
+//                        }
+//                        foreach (QuerySheetDoor item in items.ProjectRoomDoors)
+//                        {
+//                            item.QuerySheetItemId = items.QuerySheetItemId;
+//                            query = @"insert  into QuerySheetItemDoor(QuerySheetItemId,DoorId,Quantity) 
+//                                       Values (@QuerySheetItemId,@DoorId,@Quantity)";
+
+//                            row = connection.Execute(query, item, txn);
+
+//                        }
+//                    }
+                  
                     query = @"UPDATE QuerySheet SET  QuerySheetRefNo = @QuerySheetRefNo,QuerySheetDate = @QuerySheetDate,ProjectName = @ProjectName,ContactPerson = @ContactPerson,ContactNumber = @ContactNumber,
 	   	                      Email = @Email
 	                          OUTPUT inserted.QuerySheetRefNo

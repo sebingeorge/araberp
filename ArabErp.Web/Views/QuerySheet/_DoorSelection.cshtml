@@ -21,11 +21,11 @@
             @for (int i = 0; i < Model.QuerySheetItems[currentIndex].ProjectRoomDoors.Count; i++)
             {
                 <tr id="@i">
-                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeleteDoor(@i)"></a></td>
+                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeleteDoor(@i,@currentIndex)"></a></td>
                     <td align="center">
                         <input type="hidden" id="Rowdoor_@i" />
                         <span id="sldono@(i + 1)">@(i + 1)</span>
-                        @Html.HiddenFor(m => Model.QuerySheetItems[i].QuerySheetItemId)
+                        @Html.HiddenFor(m=>Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].QuerySheetItemId)
                     </td>
                     <td>@Html.DropDownListFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].DoorId, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].DoorId), "Select Door", new { @class = "form_input" })</td>
                     <td>@Html.TextBoxFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
