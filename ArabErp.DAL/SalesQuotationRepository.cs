@@ -763,7 +763,7 @@ namespace ArabErp.DAL
                             connection.Query<int>(sql, model.SalesQuotationItems[i], txn).First();
                     }
                     #endregion
-                    #region saving project quotation units
+                    #region saving project quotation units and doors
                     foreach (QuerySheetItem items in model.ProjectRooms)
                     {
                         foreach (QuerySheetUnit item in items.ProjectRoomUnits)

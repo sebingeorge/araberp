@@ -30,7 +30,7 @@
                     <td align="center">
                         <input type="hidden" id="Rowunit_@i" />
                         <span id="sno@(i + 1)">@(i + 1)</span>
-                        @Html.HiddenFor(m => Model.QuerySheetItems[i].QuerySheetItemId)
+                        @Html.HiddenFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].QuerySheetItemId)
                     </td>
                     
                     <td>@Html.DropDownListFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].CondenserUnitId, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].CondenserUnitId),"Select Condenser Unit", new { @class = "form_input" })</td>

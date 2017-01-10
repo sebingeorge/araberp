@@ -1,0 +1,46 @@
+﻿@model ArabErp.Domain.SaleOrder
+@{
+    int currentIndex = ViewBag.currentIndex;
+}
+<div class="table-responsive scroll2 ">
+    <table style="width:200%" class="table table-bordered" id="tab_logic_unit" @*style="overflow-x:scroll;margin-bottom:0px"*@>
+        <thead>
+            <tr class="grid_heading">
+                @*<th width="1%" class="text-center"></th>*@
+                <th width="2%" class="text-center"><h1>#</h1></th>
+                <th width="30%">
+                    <h1>
+                        &nbsp;&nbsp; Condenser Unit
+                    </h1>
+                </th>
+                <th width="30%">
+                    <h1>
+                        &nbsp;&nbsp; Evaporator Unit
+                    </h1>
+                </th>
+                <th width="10%" class="text-right"><h1>Unit Qty</h1></th>
+                @*<th width="1%" class="text-center"></th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.ProjectRooms[currentIndex].ProjectRoomUnits.Count; i++)
+            {
+                <tr id="@i">
+                    @*<td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeleteUnit(@i)"></a></td>*@
+                    <td align="center">
+                        <input type="hidden" id="Rowunit_@i" />
+                        <span id="sno@(i + 1)">@(i + 1)</span>
+                        @Html.HiddenFor(m => Model.ProjectRooms[currentIndex].QuerySheetItemId)
+                    </td>
+                    <td>@Html.DropDownListFor(m => m.ProjectRooms[currentIndex].ProjectRoomUnits[i].CondenserUnitId, new SelectList(ViewBag.freezerUnitList, "Value", "Text", Model.ProjectRooms[currentIndex].ProjectRoomUnits[i].CondenserUnitId), new { @class = "form_input" })</td>
+                    <td>@Html.DropDownListFor(m => m.ProjectRooms[currentIndex].ProjectRoomUnits[i].EvaporatorUnitId, new SelectList(ViewBag.freezerUnitList, "Value", "Text", Model.ProjectRooms[currentIndex].ProjectRoomUnits[i].EvaporatorUnitId), new { @class = "form_input" })</td>
+                    <td>@Html.TextBoxFor(m => m.ProjectRooms[currentIndex].ProjectRoomUnits[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
+
+                    @*<td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddUnitRow()"></a></td>*@
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+</div>

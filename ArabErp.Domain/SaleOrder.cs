@@ -56,7 +56,7 @@ namespace ArabErp.Domain
         public DateTime SaleOrderHoldDate { get; set; }
         [Required]
         public DateTime SaleOrderReleaseDate { get; set; }
-        [Required]
+        //[Required]
         public List<SaleOrderItem> Items { get; set; }
         public List<SalesQuotationMaterial> Materials { get; set; }
         public bool Select { get; set; }
@@ -97,8 +97,7 @@ namespace ArabErp.Domain
         public DateTime ServiceEnquiryDate { get; set; }
         public string WorkDescr { get; set; }
         public string VehicleModelName { get; set; }
-
-
+        public List<QuerySheetItem> ProjectRooms { get; set; }
     }
 }
 

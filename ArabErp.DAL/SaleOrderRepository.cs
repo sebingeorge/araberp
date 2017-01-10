@@ -32,9 +32,7 @@ namespace ArabErp.DAL
                     }
                     else
                     {
-
                         internalId = DatabaseCommonRepository.GetNewDocNo(connection, objSaleOrder.OrganizationId ?? 0, 4, true, txn);
-
                     }
 
                     objSaleOrder.SaleOrderRefNo = internalId;
@@ -42,19 +40,15 @@ namespace ArabErp.DAL
                     //if (objSaleOrder.isAfterSales == 1)
                     if (objSaleOrder.Materials != null && objSaleOrder.Materials.Count > 0)
                     {
-
                         MaterialAmt = objSaleOrder.Materials.Sum(m => m.Amount ?? 0);
                     }
                     objSaleOrder.TotalAmount = objSaleOrder.Items.Sum(m => m.Amount) + MaterialAmt;
                     //objSaleOrder.TotalDiscount = objSaleOrder.Items.Sum(m => m.Discount);
 
-
                     string sql = @"
                     insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,TotalAmount,TotalDiscount,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId,SaleOrderApproveStatus,isProjectBased,isAfterSales,SalesQuotationId)
                                    Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@TotalAmount,@TotalDiscount,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId,1,@isProjectBased,@isAfterSales,@SalesQuotationId);
                     SELECT CAST(SCOPE_IDENTITY() as int) SaleOrderId";
-
-
 
                     var id = connection.Query<int>(sql, objSaleOrder, txn).Single();
 
@@ -84,8 +78,6 @@ namespace ArabErp.DAL
                 }
             }
         }
-
-
 
         public SaleOrder GetSaleOrderFrmQuotation(int Id)
         {
@@ -1162,7 +1154,7 @@ namespace ArabErp.DAL
                     if (output > 0)
                     {
                         string sql = @"delete from SaleOrderItem where SaleOrderId=@SaleOrderId";
-                       connection.Execute(sql, model, txn);
+                        connection.Execute(sql, model, txn);
                         foreach (SaleOrderItem item in model.Items)
                         {
                             item.SaleOrderId = model.SaleOrderId;
@@ -1203,6 +1195,136 @@ namespace ArabErp.DAL
                 {
                     txn.Rollback();
                     throw ex;
+                }
+            }
+        }
+
+        public List<QuerySheetItem> GetRoomDetailsFromQuotation(int salesQuotationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string sql = @"DECLARE @QuerySheetId INT = (SELECT
+	                                    QuerySheetId
+                                    FROM SalesQuotation
+                                    WHERE SalesQuotationId = @id)
+
+                                    SELECT
+	                                    *
+                                    FROM QuerySheetItem
+                                    WHERE QuerySheetId = @QuerySheetId
+
+                                    SELECT QuerySheetItemId INTO #QuerySheetItems FROM QuerySheetItem WHERE QuerySheetId = @QuerySheetId
+
+                                    SELECT
+	                                    *
+                                    FROM QuerySheetItemUnit
+                                    WHERE QuerySheetItemId IN (SELECT QuerySheetItemId FROM #QuerySheetItems)
+
+                                    SELECT
+	                                    *
+                                    FROM QuerySheetItemDoor
+                                    WHERE QuerySheetItemId IN (SELECT QuerySheetItemId FROM #QuerySheetItems)
+
+                                    DROP TABLE #QuerySheetItems";
+                    using (var dataset = connection.QueryMultiple(sql, new { id = salesQuotationId }))
+                    {
+                        SaleOrder model = new SaleOrder();
+                        model.ProjectRooms = dataset.Read<QuerySheetItem>().ToList();
+                        var units = dataset.Read<QuerySheetUnit>().ToList();
+                        var doors = dataset.Read<QuerySheetDoor>().ToList();
+                        foreach (var item in model.ProjectRooms)
+                        {
+                            item.ProjectRoomUnits = units
+                                .Where(x => x.QuerySheetItemId == item.QuerySheetItemId)
+                                .Select(x => x).ToList();
+                            item.ProjectRoomDoors = doors
+                                .Where(x => x.QuerySheetItemId == item.QuerySheetItemId)
+                                .Select(x => x).ToList();
+                        }
+                        return model.ProjectRooms;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Insert data into [SaleOrder], [SaleOrderItem], [SaleOrderItemUnit], [SaleOrderItemDoor]
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>SaleOrder model with new transaction id</returns>
+        public SaleOrder InsertProjectSaleOrder(SaleOrder model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    #region saving sale order head [SaleOrder]
+                    string sql = @"insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,TotalAmount,TotalDiscount,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId,SaleOrderApproveStatus,isProjectBased,isAfterSales,SalesQuotationId)
+                                   Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@TotalAmount,@TotalDiscount,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId,1,@isProjectBased,@isAfterSales,@SalesQuotationId);
+                                    SELECT CAST(SCOPE_IDENTITY() as int) SaleOrderId";
+                    model.SaleOrderId = connection.Query<int>(sql, model, txn).First();
+                    #endregion
+                    #region saving sale order details [SaleOrderItem]
+                    sql = @"INSERT INTO SaleOrderItem
+                            (
+	                            [SaleOrderId],
+	                            [SlNo],
+	                            [Quantity],
+	                            [isActive]
+                            )
+                            VALUES
+                            (
+	                            @SaleOrderId,
+	                            @SlNo,
+	                            @Quantity,
+	                            1
+                            )
+                            SELECT CAST(SCOPE_IDENTITY() AS INT)";
+                    model.Items = new List<SaleOrderItem>();
+                    for (int i = 0; i < model.ProjectRooms.Count; i++)
+                    {
+                        model.Items.Add(new SaleOrderItem());
+                        model.Items[i].SaleOrderId = model.SaleOrderId;
+                        model.Items[i].SlNo = i;
+                        model.Items[i].Quantity = 1;
+                        model.Items[i].SaleOrderItemId =
+                            model.ProjectRooms[i].QuerySheetItemId =
+                            connection.Query<int>(sql, model.Items[i], txn).First();
+                    }
+                    #endregion
+                    #region saving room units [SaleOrderItemUnit]
+                    foreach (var room in model.ProjectRooms)
+                    {
+                        foreach (QuerySheetUnit item in room.ProjectRoomUnits)
+                        {
+                            item.QuerySheetItemId = room.QuerySheetItemId;
+                            sql = @"insert  into SaleOrderItemUnit(SaleOrderItemId,EvaporatorUnitId,CondenserUnitId,Quantity) 
+                                    Values (@QuerySheetItemId,@EvaporatorUnitId,@CondenserUnitId,@Quantity)";
+                            connection.Execute(sql, item, txn);
+                        }
+                        foreach (QuerySheetDoor item in room.ProjectRoomDoors)
+                        {
+                            item.QuerySheetItemId = room.QuerySheetItemId;
+                            sql = @"insert  into SaleOrderItemDoor(SaleOrderItemId,DoorId,Quantity) 
+                                    Values (@QuerySheetItemId,@DoorId,@Quantity)";
+                            connection.Execute(sql, item, txn);
+                        }
+                    }
+                    #endregion
+                    txn.Commit();
+                    return model;
+                }
+                catch (Exception)
+                {
+                    txn.Rollback();
+                    throw;
                 }
             }
         }

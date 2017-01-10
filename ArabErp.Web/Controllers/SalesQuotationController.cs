@@ -411,6 +411,7 @@ namespace ArabErp.Web.Controllers
 
             if (!salesquotation.isProjectBased && !salesquotation.isAfterSales)
             {
+                salesquotation.SalesQuotationItems[0].UnitName = "Nos";
                 FillWrkDesc();
             }
             else if (salesquotation.isProjectBased && !salesquotation.isAfterSales)
@@ -420,13 +421,13 @@ namespace ArabErp.Web.Controllers
 
             else if (salesquotation.isAfterSales)
             {
+                salesquotation.SalesQuotationItems[0].UnitName = "Nos";
                 FillWrkDescAfterSales();
 
             }
             salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(SalesQuotationId);
             salesquotation.Materials = repo.GetSalesQuotationMaterials(SalesQuotationId);
-            salesquotation.SalesQuotationItems[0].UnitName = "Nos";
             ViewBag.SubmitAction = "Approve";
             return View("Create", salesquotation);
         }

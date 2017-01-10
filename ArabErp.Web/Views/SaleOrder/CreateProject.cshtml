@@ -1,10 +1,10 @@
 ﻿@model  ArabErp.Domain.SaleOrder
-@{ ViewBag.Title = "Edit Sale Order"; Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{ ViewBag.Title = "Sale Order"; Layout = "~/Views/Shared/_Layout.cshtml"; }
 @{ string actionName = ViewContext.RouteData.GetRequiredString("action");
- if (actionName == "CreateProject")
- {
-     actionName = "Create";
- }
+   if (actionName == "CreateProject")
+   {
+       actionName = "Create";
+   }
 }
 
 <script>
@@ -15,22 +15,14 @@
         $("#EDateArrival").datepicker({ dateFormat: "dd-MM-yy" });
         $("#EDateDelivery").datepicker({ dateFormat: "dd-MM-yy" });
 
+
     });
-
-
-    function GoToPrint(id) {
-        var url = '@Url.Action("Print")';
-        url += "?Id=" + id;
-        window.location = url;
-    }
-
-
-
-    function CustomerChanged(cust) {
+    function CustomerChanged(cust)
+    {
         var cusId = cust.value;
 
         $.ajax({
-            url: "@Url.Action("GetCustomerDetailsByKey", "SaleOrder")",
+            url:  "@Url.Action("GetCustomerDetailsByKey", "SaleOrder")",
             data: { cusKey: cusId },
             cache: false,
             type: "GET",
@@ -51,12 +43,13 @@
 
     }
 
-    function QuotationChanged(quot) {
+    function QuotationChanged(quot)
+    {
         var quoId = quot.value;
 
         $.ajax({
 
-            url: "@Url.Action("GetQuationDetailsByKey","SaleOrder")",
+            url:  "@Url.Action("GetQuationDetailsByKey","SaleOrder")",
             data: { quoKey: quoId },
             cache: false,
             type: "GET",
@@ -80,7 +73,8 @@
             }
         });
     }
-    function LoadWorkDescriptions(quoId, currid) {
+    function LoadWorkDescriptions(quoId, currid)
+    {
 
         var isProjectBased = $("#isProjectBased").val();
         var url = '@Url.Action("RefreshDisplaySOList")';
@@ -91,11 +85,10 @@
     function Validation() {
         var count = 0;
         if ($("#CommissionAgentId").val() != '' && (Number($("#CommissionAmount").val()) == '' || Number($("#CommissionAmount").val()) <= 0)) {
-            toastr.info("Sales Executive incentive amount is required");
+            toastr.info("Success fee incentive amount is required");
             return false;
         }
         return true;
-
 
 
         $(".validateqty").each(function (i, obj) {
@@ -147,19 +140,8 @@
             return false;
         }
 
-        var orderDate = new Date($("#SaleOrderDate").val());
-        var arrivalDate = new Date($("#EDateArrival").val());
-        var deliveryDate = new Date($("#EDateDelivery").val());
 
-        if (orderDate >= arrivalDate) {
-            toastr.info("Sale Order date should be less than the date of arrival.")
-            return false;
-        }
-        else if (arrivalDate >= deliveryDate) {
-            toastr.info("Date of arrival should be less than the date of delivery.")
-            return false;
-        }
-        return true;
+        return (confirm("Are you sure to save?")) ? true : false;
 
 
 
@@ -170,64 +152,73 @@
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
         });
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-full-width",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "0",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
     });
 
-    function Exit() {
-
-        location.href = '@Url.Action("Index", new { type = Request.QueryString["type"] })';
-
-    }
-    function DeleteItem(id, isProjectBased, isAfterSales) {
-
-        var url = '@Url.Action("Delete")';
-        url += "?id=" + id + "&isProjectBased=" + isProjectBased + "&isAfterSales=" + isAfterSales;
+    function Exit(projectbased) {
+        var url = '@Url.Action("PendingSalesQutoforSaleOrder")';
+        url += "?ProjectBased=" + projectbased;
         window.location = url;
+       
 
     }
-
 </script>
 @Html.HiddenFor(m => m.SaleOrderId)
 
-<div class="row">
-    <div class="form-head1">
-        <h4>Sale Order Confirmation</h4>
-    </div>
-
-    <div class="main-part pad1">
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", onsubmit = "return Validation()" }))
-        {
-            @Html.HiddenFor(m => m.SalesQuotationId)
-            @Html.HiddenFor(m => m.SaleOrderId)
-            @Html.HiddenFor(m => m.isProjectBased)
-            @Html.HiddenFor(m => m.isAfterSales)
-            @Html.Partial("_SaleOrderHead", Model)
-            <div id="wordescriptions">
-                @Html.Partial("_DisplaySOList", Model)
-            </div>
-            <strong>Tail lift/accessories:</strong>
-            if (Model.Materials != null && Model.Materials.Count > 0)
-            {
-                @Html.Partial("_MaterialList", Model)
-            }
-            @Html.Partial("_SaleOrderFooter", Model)
-            <div class="row">
-                <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                    @if (Model.isUsed)
-                    {
-                        <span class="perm">**Cannot edit/delete, because it is already approved or used somewhere else.</span>
-                    }
-                    else
-                    {
-                        <button type="submit" class="form-button right">Edit</button>
-                        <input type="button" value="Delete" onclick="DeleteItem(@Model.SaleOrderId,@Model.isProjectBased,@Model.isAfterSales)" class="form-button left" />
-                    }
-                    <input type="button" value="Print" onclick="GoToPrint(@Model.SaleOrderId)" class="form-button right" />
+        <div class="row">
+                <div class="form-head1">
+    <h4>Sale Order Confirmation</h4>
                 </div>
-            </div>
-        }
-    </div>
-</div>
+              
+                <div class="main-part pad1">
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", onsubmit = "return Validation()" }))
+                    {
+                        @Html.HiddenFor(m=>m.isProjectBased)
+                        @Html.HiddenFor(m => m.isAfterSales)
+                        @Html.HiddenFor(m => m.CurrencyId)
+                        @Html.Partial("_SaleOrderHead",Model)
+                        <div id="wordescriptions">
+                        @*@Html.Partial("_DisplaySOList", Model)*@
+                        </div>
+                        @*<strong>Tail lift/accessories:</strong>
+                        if (Model.Materials != null && Model.Materials.Count > 0)
+                        {
+                            @Html.Partial("_MaterialList", Model)
+                        }*@
+                        
+                        @Html.Partial("_ProjectRooms", Model)
+                        
+                        @Html.Partial("_SaleOrderFooter", Model)
+                        <div class="row">
+                            <div class="col-md-12 hrpart">
+                                <button type="button" class="form-button right" onclick="Exit(@Model.isProjectBased)">Exit</button>
+                                <button type="submit" class="form-button right">Save</button>
+                            </div>
+                        </div>      
+                    }
+                </div>
+        </div>
 
 
 

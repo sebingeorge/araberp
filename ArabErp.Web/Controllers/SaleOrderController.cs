@@ -89,21 +89,46 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult CreateProject(int? SalesQuotationId)
         {
-
+            if (SalesQuotationId == null || SalesQuotationId == 0)
+            {
+                TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                return RedirectToAction("Index", "Home");
+            }
+            SaleOrder model = new SaleOrder();
             string internalId = "";
             try
             {
                 internalId = DatabaseCommonRepository.GetNextDocNo(4, OrganizationId);
                 FillCustomer();
-                FillCurrency();
+                FillFreezerUnit();
+                //FillCurrency();
                 FillCommissionAgent();
-                FillWrkDescProject();
-                FillVehicle();
-                FillUnit();
+                //FillWrkDescProject();
+                //FillVehicle();
+                //FillUnit();
                 FillEmployee();
-                FillQuotationNo(1);
+                //FillQuotationNo(1);
 
+                var repo = new SaleOrderRepository();
+                model = repo.GetSaleOrderFrmQuotation(SalesQuotationId ?? 0);
+                model.ProjectRooms = new SaleOrderRepository().GetRoomDetailsFromQuotation(SalesQuotationId ?? 0);
 
+                //model.Items = repo.GetSaleOrderItemFrmQuotation(SalesQuotationId ?? 0);
+
+                //for (int i = 0; i < model.Items.Count; i++)
+                //{
+                //    while (model.Items[i].Quantity > 1)
+                //    {
+                //        model.Items.Insert(i + 1, model.Items[i]);
+                //        model.Items[i].Quantity -= model.Items[i + 1].Quantity = 1;
+                //    }
+                //}
+                //model.Materials = repo.GetSaleOrderMaterialFrmQuotation(SalesQuotationId ?? 0);
+
+                model.SaleOrderRefNo = internalId;
+                model.SaleOrderDate = DateTime.Now;
+                model.EDateArrival = DateTime.Now;
+                model.EDateDelivery = DateTime.Now;
             }
             catch (NullReferenceException nx)
             {
@@ -115,27 +140,7 @@ namespace ArabErp.Web.Controllers
                 TempData["success"] = "";
                 TempData["error"] = "Some error occurred. Please try again.|" + ex.Message;
             }
-            var repo = new SaleOrderRepository();
-            SaleOrder model = repo.GetSaleOrderFrmQuotation(SalesQuotationId ?? 0);
-
-            model.Items = repo.GetSaleOrderItemFrmQuotation(SalesQuotationId ?? 0);
-
-            for (int i = 0; i < model.Items.Count; i++)
-            {
-                while (model.Items[i].Quantity > 1)
-                {
-                    model.Items.Insert(i + 1, model.Items[i]);
-                    model.Items[i].Quantity -= model.Items[i + 1].Quantity = 1;
-                }
-            }
-            model.Materials = repo.GetSaleOrderMaterialFrmQuotation(SalesQuotationId ?? 0);
-
-
-            model.SaleOrderRefNo = internalId;
-            model.SaleOrderDate = DateTime.Now;
-            model.EDateArrival = DateTime.Now;
-            model.EDateDelivery = DateTime.Now;
-            return View("Create", model);
+            return View(model);
         }
         public ActionResult DisplaySOList()
         {
@@ -270,6 +275,10 @@ namespace ArabErp.Web.Controllers
             var list = repo.QuotationInSaleOrderDropdown(isProjectBased);
             ViewBag.QuotationNolist = new SelectList(list, "Id", "Name");
         }
+        private void FillFreezerUnit()
+        {
+            ViewBag.freezerUnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
+        }
 
         [HttpPost]
         public ActionResult Create(SaleOrder model)
@@ -329,24 +338,14 @@ namespace ArabErp.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
                     model.OrganizationId = OrganizationId;
                     model.CreatedDate = System.DateTime.Now;
                     model.CreatedBy = UserID.ToString();
-                    string id = new SaleOrderRepository().InsertSaleOrder(model);
-                    if (id.Split('|')[0] != "0")
+                    SaleOrder _model = new SaleOrderRepository().InsertProjectSaleOrder(model);
+                    if (_model.SaleOrderId > 0)
                     {
-                        TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
-                        TempData["error"] = "";
-                        //if (model.isProjectBased == 0)
-                        //{
-                        //    return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 0 });
-                        //}
-                        //else
-                        //{
+                        TempData["success"] = "Saved successfully. Sale Order Reference No. is " + _model.SaleOrderRefNo;
                         return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 1 });
-                        //}
-
                     }
                     else
                     {
@@ -359,27 +358,28 @@ namespace ArabErp.Web.Controllers
                     var allErrors = ModelState.Values.SelectMany(v => v.Errors);
                 }
             }
-            catch (SqlException sx)
+            catch (SqlException)
             {
-                TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+                TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.";
             }
-            catch (NullReferenceException nx)
+            catch (NullReferenceException)
             {
-                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+                TempData["error"] = "Some required data was missing. Please try again.";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+                TempData["error"] = "Some error occured. Please try again.";
             }
             TempData["success"] = "";
-            FillWrkDescProject();
-            FillUnit();
+            //FillWrkDescProject();
+            //FillUnit();
             FillCustomer();
-            FillVehicle();
-            FillCurrency();
+            //FillVehicle();
+            //FillCurrency();
             FillCommissionAgent();
             FillEmployee();
-            return View("Create", model);
+            FillFreezerUnit();
+            return View(model);
 
         }
         [HttpGet]
