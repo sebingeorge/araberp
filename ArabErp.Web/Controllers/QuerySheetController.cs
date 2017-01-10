@@ -61,14 +61,16 @@ namespace ArabErp.Web.Controllers
             
             var qs = new QuerySheetRepository().GetQuerySheetItem(QuerySheetId);
             qs.Type = type;
-            foreach( var item in qs.QuerySheetItems)
+            if (type == "Unit")
             {
-                item.ProjectRoomUnits = new List<QuerySheetUnit>();
-                item.ProjectRoomUnits.Add(new QuerySheetUnit());
-                item.ProjectRoomDoors = new List<QuerySheetDoor>();
-                item.ProjectRoomDoors.Add(new QuerySheetDoor());
+                foreach (var item in qs.QuerySheetItems)
+                {
+                    item.ProjectRoomUnits = new List<QuerySheetUnit>();
+                    item.ProjectRoomUnits.Add(new QuerySheetUnit());
+                    item.ProjectRoomDoors = new List<QuerySheetDoor>();
+                    item.ProjectRoomDoors.Add(new QuerySheetDoor());
+                }
             }
-           
             if (type == "Costing")
             {
                 var PCList = repo.GetProjectCostingParameter();
@@ -214,11 +216,11 @@ namespace ArabErp.Web.Controllers
                 if (id != 0)
                 {
                     QuerySheet QuerySheet = new QuerySheet();
-                    //QuerySheet = new QuerySheetRepository().GetQuerySheet(id);
                     var repo = new ProjectCostRepository();
                     QuerySheet.Items = repo.GetProjectCost(id);
                     QuerySheet = new QuerySheetRepository().GetQuerySheetItem(id);
-                
+                   
+           
                     return View(QuerySheet);
                 }
                 else
@@ -337,41 +339,7 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.UnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
         }
-        //public ActionResult UnitSelection(int id = 0,string Type = "")
-        //{
-        //    UnitDropDown();
-
-        //    QuerySheet qs = new QuerySheet();
-        //    if (id < 0 || Type == "Unit") 
-        //    {
-        //        qs.QuerySheetUnits = new List<QuerySheetUnit>();
-        //        qs.QuerySheetUnits.Add(new QuerySheetUnit());
-               
-        //    }
-        //    else
-        //    {
-        //        qs.QuerySheetUnits = new QuerySheetRepository().GetQuerySheetItemUnit(id);
-        //    }
-        //    return PartialView("_UnitSelection", qs);
-        //}
-
-
-        //public ActionResult DoorSelection(int id = 0, string Type = "")
-        //{
-        //    UnitDropDown();
-        //    QuerySheet qs = new QuerySheet();
-        //    if (id < 0 || Type == "Unit")
-        //    {
-        //        qs.QuerySheetDoors = new List<QuerySheetDoor>();
-        //        qs.QuerySheetDoors.Add(new QuerySheetDoor());
-        //    }
-        //    else
-        //    {
-        //        qs.QuerySheetDoors = new QuerySheetRepository().GetQuerySheetItemDoor(id);
-        //    }
-        //    return PartialView("_DoorSelection", qs);
-        //}
-
+    
         public ActionResult PendingQuerySheetforCosting()
         {
             var repo = new QuerySheetRepository();

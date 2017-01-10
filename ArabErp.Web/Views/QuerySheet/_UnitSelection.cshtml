@@ -30,14 +30,14 @@
                     <td align="center">
                         <input type="hidden" id="Rowunit_@i" />
                         <span id="sno@(i + 1)">@(i + 1)</span>
-                        @Html.HiddenFor(m => Model.QuerySheetItems[i].QuerySheetItemId)
+                        @Html.HiddenFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].QuerySheetItemId)
                     </td>
                     
                     <td>@Html.DropDownListFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].CondenserUnitId, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].CondenserUnitId),"Select Condenser Unit", new { @class = "form_input" })</td>
                     <td>@Html.DropDownListFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].EvaporatorUnitId, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].EvaporatorUnitId), "Select Evaporator Unit", new { @class = "form_input" })</td>
                     <td>@Html.TextBoxFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
 
-                    <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddUnitRow(@i,@currentIndex)"></a></td>
+                    <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddUnitRow(@currentIndex)"></a></td>
                 </tr>
             }
 

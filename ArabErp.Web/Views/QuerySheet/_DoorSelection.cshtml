@@ -3,7 +3,7 @@
     int currentIndex = ViewBag.currentIndex;
 }
 <div class="table-responsive scroll2 ">
-    <table style="width:200%" class="table table-bordered" id="tab_logic_door" @*style="overflow-x:scroll;margin-bottom:0px"*@>
+    <table style="width:200%" class="table table-bordered" id="tab_logic_door@(currentIndex)" @*style="overflow-x:scroll;margin-bottom:0px"*@>
         <thead>
             <tr class="grid_heading">
                 <th width="1%" class="text-center"></th>
@@ -21,15 +21,15 @@
             @for (int i = 0; i < Model.QuerySheetItems[currentIndex].ProjectRoomDoors.Count; i++)
             {
                 <tr id="@i">
-                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeleteDoor(@i)"></a></td>
+                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeleteDoor(@i,@currentIndex)"></a></td>
                     <td align="center">
                         <input type="hidden" id="Rowdoor_@i" />
                         <span id="sldono@(i + 1)">@(i + 1)</span>
-                        @Html.HiddenFor(m => Model.QuerySheetItems[i].QuerySheetItemId)
+                        @Html.HiddenFor(m=>Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].QuerySheetItemId)
                     </td>
-                    <td>@Html.DropDownListFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].DoorId, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].DoorId),"Select Door",new { @class = "form_input" })</td>
+                    <td>@Html.DropDownListFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].DoorId, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].DoorId), "Select Door", new { @class = "form_input" })</td>
                     <td>@Html.TextBoxFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
-                    <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddDoorRow()"></a></td>
+                    <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddDoorRow(@currentIndex)"></a></td>
                 </tr>
             }
         </tbody>

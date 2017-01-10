@@ -147,9 +147,7 @@
     function formValidation() {
   
         var Workamt = $("#TotalAmount").val();
-        alert(Workamt)
         var Printamt=$("#PrintTotalAmount").val();
-        alert(Printamt)
        
         if (Number(Printamt) != Number(Workamt)) {
             toastr.info("Total workdescription amount and print description amounts are different");

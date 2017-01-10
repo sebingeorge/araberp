@@ -70,9 +70,8 @@
             }
         });
     }
-    function AddUnitRow(unitindex,roomindex) {
-        alert(unitindex);
-        alert(roomindex);
+    function AddUnitRow(roomindex) {
+
         var i = 0;
         var no = 1;
         $('#tab_logic_unit' + roomindex + ' input[id^="Rowunit_"]').each(function () {
@@ -87,24 +86,21 @@
 
         var index = (new Date()).getTime(); // unique indexer
         var clone = $('#tab_logic_unit' + roomindex + ' #0').clone(); // clone the BatchProducts item
-        //Update the index of the clone /\QuerySheetItems_0__ProjectRoomUnits_0__/g
-        //.replace(new RegExp("QuerySheetItems_" + j + "__", "g"),
+      
         clone.html($(clone).html().replace(new RegExp("QuerySheetItems_" + roomindex + "__ProjectRoomUnits_0__", "g"), 'QuerySheetItems_' + roomindex + '__ProjectRoomUnits_' + i + '__'));
-        //clone.html($(clone).html().replace(/\QuerySheetUnits[0]./g, 'QuerySheetUnits[' + i + '].'));
         clone.html($(clone).html().replace(new RegExp(".ProjectRoomUnits\\[0].", "g"), ".ProjectRoomUnits[" + i + "]."));
-        //clone.html($(clone).html().replace(new RegExp("\\QuerySheetItems[\\" + roomindex + "].ProjectRoomUnits[0].", "g"), "QuerySheetItems[" + roomindex + "].ProjectRoomUnits[" + i + "]."));
-        //clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
         clone.html($(clone).html().replace(/Rowunit_0/, 'Rowunit_' + i));
+        clone.html($(clone).html().replace(new RegExp("DeleteUnit\\(0", "g"),"DeleteUnit(" + i ));
         clone.html($(clone).html().replace(/sno1/, 'sno' + (i + 1) + ''));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
         $("#tab_logic_unit" + roomindex).append('<tr id="' + i + '">' + clone.html() + '  </tr>');
-        $("#sno" + (i + 1)).html((i + 1));
+        $("#tab_logic_unit" + roomindex +" #sno" + (i + 1)).html((i + 1));
     }
-    function AddDoorRow() {
-
+    function AddDoorRow(roomindex) {
+       
         var i = 0;
         var no = 1;
-        $('#tab_logic_door input[id^="Rowdoor_"]').each(function () {
+        $('#tab_logic_door' + roomindex + ' input[id^="Rowdoor_"]').each(function () {
             var id = this.id;
             no++;
             var row = Number(id.replace("Rowdoor_", ""));
@@ -115,19 +111,19 @@
         i++;
 
         var index = (new Date()).getTime(); // unique indexer
-        var clone = $('#tab_logic_door #0').clone(); // clone the BatchProducts item
+        var clone = $('#tab_logic_door' + roomindex + ' #0').clone(); // clone the BatchProducts item
+     
         //Update the index of the clone
-
-        clone.html($(clone).html().replace(/\QuerySheetDoors_0__/g, 'QuerySheetDoors_' + i + '__'));
-        clone.html($(clone).html().replace(/\QuerySheetDoors[0]./g, 'QuerySheetDoors[' + i + '].'));
-        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
-        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+       
+        clone.html($(clone).html().replace(new RegExp("QuerySheetItems_" + roomindex + "__ProjectRoomDoors_0__", "g"), 'QuerySheetItems_' + roomindex + '__ProjectRoomDoors_' + i + '__'));
+        clone.html($(clone).html().replace(new RegExp(".ProjectRoomDoors\\[0].", "g"), ".ProjectRoomDoors[" + i + "]."));
         clone.html($(clone).html().replace(/Rowdoor_0/, 'Rowdoor_' + i));
+        clone.html($(clone).html().replace(new RegExp("DeleteDoor\\(0", "g"), "DeleteDoor(" + i));
         clone.html($(clone).html().replace(/sldono1/, 'sldono' + (i + 1) + ''));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
-        $("#tab_logic_door").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
-        $("#sldono" + (i + 1)).html((i + 1));
-
+        $("#tab_logic_door" + roomindex).append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+        $("#tab_logic_door" + roomindex +" #sldono" + (i + 1)).html((i + 1));
+       
 
     }
     function Delete(index) {
@@ -160,11 +156,11 @@
             }
         }
     }
-    function DeleteUnit(index, baseindex) {
+    function DeleteUnit(index, roomindex) {
 
         var i = 0;
         var no = 1;
-        $('#tab_logic_unit' + baseindex + ' input[id^="Rowunit_"]').each(function () {
+        $('#tab_logic_unit' + roomindex + ' input[id^="Rowunit_"]').each(function () {
             var id = this.id;
             no++;
             var row = Number(id.replace("Rowunit_", ""));
@@ -175,26 +171,25 @@
         i++;
 
         if (i > 1) {
-            $("#tab_logic_unit"+baseindex+" #" + index).remove();
+            $("#tab_logic_unit" + roomindex + " #" + index).remove();
             for (var j = index + 1; j < i; j++) {
-                var clone = $("#" + j).clone(true, true);
-                clone.html($(clone).html().replace(new RegExp("QuerySheetUnits_" + j + "__", "g"), 'QuerySheetUnits_' + (j - 1) + '__'));
-                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                var clone = $("#tab_logic_unit" + roomindex + "#" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("QuerySheetItems_" + roomindex + "__ProjectRoomUnits_" + j + "__", "g"), 'QuerySheetItems_' + roomindex + '__ProjectRoomUnits_' + j - 1 + '__'));
+                clone.html($(clone).html().replace(new RegExp(".ProjectRoomUnits\\[" + j + "].", "g"), ".ProjectRoomUnits[" + j - 1 + "]."));
                 clone.html($(clone).html().replace(new RegExp('sno' + (j + 1) + '">' + (j + 1), "g"), 'sno' + (j) + '">' + (j)));
                 clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
                 clone.html($(clone).html().replace("Rowunit_" + j, "Rowunit_" + (j - 1)));
                 clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
-                $("#tab_logic_unit" + baseindex + " #" + j).html(clone.html());
-                $("#QuerySheetUnits_" + (j - 1) + "__SlNo").val(j);
-                $("#tab_logic_unit" + baseindex + " #" + (j)).attr('id', (j - 1));
+                $("#tab_logic_unit" + roomindex + " #" + j).html(clone.html());
+                $("#ProjectRoomUnits_" + (j - 1) + "__SlNo").val(j);
+                $("#tab_logic_unit" + roomindex + " #" + (j)).attr('id', (j - 1));
             }
         }
     }
-    function DeleteDoor(index) {
-
+    function DeleteDoor(index, roomindex) {
         var i = 0;
         var no = 1;
-        $('#tab_logic_door input[id^="Rowdoor_"]').each(function () {
+        $('#tab_logic_door' + roomindex + ' input[id^="Rowdoor_"]').each(function () {
             var id = this.id;
             no++;
             var row = Number(id.replace("Rowdoor_", ""));
@@ -205,18 +200,18 @@
         i++;
 
         if (i > 1) {
-            $("#tab_logic_door #" + index).remove();
+            $("#tab_logic_door" + roomindex + " #" + index).remove();
             for (var j = index + 1; j < i; j++) {
-                var clone = $("#" + j).clone(true, true);
-                clone.html($(clone).html().replace(new RegExp("QuerySheetDoors_" + j + "__", "g"), 'QuerySheetDoors_' + (j - 1) + '__'));
-                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                var clone = $("#tab_logic_door" + roomindex + "#" + j).clone(true, true);
+                clone.html($(clone).html().replace(new RegExp("QuerySheetItems_" + roomindex + "__ProjectRoomDoors_" + j + "__", "g"), 'QuerySheetItems_' + roomindex + '__ProjectRoomDoors_' + j - 1 + '__'));
+                clone.html($(clone).html().replace(new RegExp(".ProjectRoomDoors\\[" + j + "].", "g"), ".ProjectRoomDoors[" + j - 1 + "]."));
                 clone.html($(clone).html().replace(new RegExp('sldono' + (j + 1) + '">' + (j + 1), "g"), 'sldono' + (j) + '">' + (j)));
                 clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
                 clone.html($(clone).html().replace("Rowdoor_" + j, "Rowdoor_" + (j - 1)));
                 clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
-                $("#tab_logic_door #" + j).html(clone.html());
-                $("#QuerySheetDoors_" + (j - 1) + "__SlNo").val(j);
-                $("#tab_logic_door #" + (j)).attr('id', (j - 1));
+                $("#tab_logic_door" + roomindex + " #" + j).html(clone.html());
+                $("#ProjectRoomDoors_" + (j - 1) + "__SlNo").val(j);
+                $("#tab_logic_door" + roomindex + " #" + (j)).attr('id', (j - 1));
             }
         }
     }
