@@ -455,7 +455,7 @@ namespace ArabErp.Web.Controllers
             FillCommissionAgent();
             FillUnit();
             FillEmployee();
-
+             FillWrkDesc();
             FillVehicle();
             var repo = new SaleOrderRepository();
             SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
@@ -474,7 +474,9 @@ namespace ArabErp.Web.Controllers
                         UnitId = item.UnitId,
                         Rate = item.Rate,
                         Amount = item.Amount,
-                        Discount = item.Discount
+                        Discount = item.Discount,
+                        WorkDescr =item.WorkDescr,
+                        VehicleModelName =item.VehicleModelName
                     };
                     model.Items.Add(soitem);
 
@@ -494,7 +496,7 @@ namespace ArabErp.Web.Controllers
             }
             model.Materials = new SaleOrderRepository().GetSaleOrderMaterial(SaleOrderId ?? 0);
             ViewBag.AppType = AppType;
-            FillWrkDesc();
+           
             return View("Approval", model);
         }
         public ActionResult UpdateApprovalForTrn(SaleOrder model)
