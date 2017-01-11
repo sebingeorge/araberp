@@ -217,9 +217,9 @@ namespace ArabErp.Web.Controllers
                 {
                     QuerySheet QuerySheet = new QuerySheet();
                     var repo = new ProjectCostRepository();
-                    QuerySheet.Items = repo.GetProjectCost(id);
+                 
                     QuerySheet = new QuerySheetRepository().GetQuerySheetItem(id);
-                   
+                    QuerySheet.Items = repo.GetProjectCost(id);
            
                     return View(QuerySheet);
                 }
