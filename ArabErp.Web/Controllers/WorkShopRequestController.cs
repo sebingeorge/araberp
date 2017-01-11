@@ -32,7 +32,16 @@ namespace ArabErp.Web.Controllers
             WorkShopRequest model = repo.GetSaleOrderForWorkshopRequest(SaleOrderId ?? 0);
             model.SaleOrderItemId = saleorderitem ?? 0;
             model.WorkDescription = repo.GetCombinedWorkDescriptionSaleOrderForWorkshopRequest(SaleOrderId ?? 0).WorkDescription;
-            var WSList = repo.GetWorkShopRequestData(SaleOrderId ?? 0, saleorderitem ?? 0);
+            List<WorkShopRequestItem> WSList = new List<WorkShopRequestItem>();
+            if(model.isProjectBased==1)
+            {
+                WSList = repo.GetWorkShopRequestDataForProject(SaleOrderId ?? 0, saleorderitem ?? 0);
+            }
+            else
+            {
+               WSList = repo.GetWorkShopRequestData(SaleOrderId ?? 0, saleorderitem ?? 0);
+            }
+          
             model.Items = new List<WorkShopRequestItem>();
             //model.Isused = true;
             foreach (var item in WSList)

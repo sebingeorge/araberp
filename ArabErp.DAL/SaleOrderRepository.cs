@@ -256,15 +256,43 @@ namespace ArabErp.DAL
                 //                     AND ISNULL(SO.isService, 0) = 0
                 //                    order by SO.EDateDelivery, SO.SaleOrderDate"; 
                 #endregion
+                string sql = "";
+                if(isProjectBased==1)
+                {
+                     sql = @"SELECT * INTO #WORK_REQUEST FROM WorkShopRequest WHERE SaleOrderItemId <> 0;
+                                 
+		                          SELECT  S.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106) SaleOrderRefNo,I.ItemName, C.CustomerName,S.CustomerOrderRef,U.SaleOrderItemUnitId,U.EvaporatorUnitId,S.isProjectBased FROM SaleOrder S 
+								  INNER JOIN SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
+								  INNER JOIN SaleOrderItemUnit U ON U.SaleOrderItemId=SI.SaleOrderItemId
+								  INNER JOIN  ITEM I ON I.ItemId=U.EvaporatorUnitId
+                                  INNER JOIN Customer C ON S.CustomerId = C.CustomerId
+								  UNION ALL
+								  SELECT S.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106),I.ItemName, C.CustomerName,S.CustomerOrderRef,U.SaleOrderItemUnitId,U.CondenserUnitId,S.isProjectBased FROM SaleOrder S 
+								  INNER JOIN SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
+								  INNER JOIN SaleOrderItemUnit U ON U.SaleOrderItemId=SI.SaleOrderItemId
+								  INNER JOIN  ITEM I ON I.ItemId=U.CondenserUnitId
+								  INNER JOIN Customer C ON S.CustomerId = C.CustomerId
 
-                string sql = @"SELECT * INTO #WORK_REQUEST FROM WorkShopRequest WHERE SaleOrderItemId <> 0;
 
-                                SELECT
+
+
+
+
+
+
+
+   
+                                DROP TABLE #WORK_REQUEST;";
+                }
+                else
+                {
+                     sql = @"SELECT * INTO #WORK_REQUEST FROM WorkShopRequest WHERE SaleOrderItemId <> 0;
+                                    SELECT
 	                                SOI.SaleOrderId, 
 	                                SOI.SaleOrderItemId,
 	                                SO.CustomerOrderRef,
 	                                SO.SaleOrderDate,
-	                                SO.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106) SaleOrderRefNo,
+	                                SO.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106) SaleOrderRefNo,SO.isProjectBased,
 	                                SO.EDateArrival,
 	                                SO.EDateDelivery,
 	                                SO.CustomerId,
@@ -287,6 +315,11 @@ namespace ArabErp.DAL
 	                                AND SO.SaleOrderId NOT IN (SELECT isnull(SaleOrderId,0) FROM WorkShopRequest WHERE SaleOrderItemId = 0)
                                 ORDER BY SO.EDateDelivery, SO.SaleOrderDate
                                 DROP TABLE #WORK_REQUEST;";
+                }
+
+
+
+
                 var objSaleOrders = connection.Query<SaleOrder>(sql, new { OrganizationId = OrganizationId, isProjectBased = isProjectBased, saleOrder = saleOrder }).ToList<SaleOrder>();
 
                 return objSaleOrders;

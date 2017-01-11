@@ -234,6 +234,86 @@ namespace ArabErp.DAL
                 new { SaleOrderId = SaleOrderId, SaleOrderItemId = SaleOrderItemId }).ToList();
             }
         }
+        public List<WorkShopRequestItem> GetWorkShopRequestDataForProject(int SaleOrderId, int SaleOrderItemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+           
+
+                string query = @"SELECT T1.* 
+                                INTO #TEMP1 FROM 
+                                (SELECT
+                	                    I_FRZR.ItemId, I_FRZR.ItemName, I_FRZR.PartNo, FRZR.Quantity, U.UnitName
+                                    FROM SaleOrder SO
+                                    INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
+                                    INNER JOIN WorkDescription WD ON WD.WorkDescriptionId = SOI.WorkDescriptionId
+                                    INNER JOIN ItemVsBom FRZR ON WD.FreezerUnitId = FRZR.ItemId
+                                    INNER JOIN Item I_FRZR ON FRZR.BomItemId = I_FRZR.ItemId
+                                    INNER JOIN Unit U ON I_FRZR.ItemUnitId = U.UnitId
+                                    WHERE SOI.SaleOrderItemId=@SaleOrderItemId
+                                    UNION ALL
+                                    SELECT
+                	                    I_BOX.ItemId, I_BOX.ItemName, I_BOX.PartNo, BOX.Quantity, U.UnitName
+                                    FROM SaleOrder SO
+                                    INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
+                                    INNER JOIN WorkDescription WD ON WD.WorkDescriptionId = SOI.WorkDescriptionId
+                                    INNER JOIN ItemVsBom BOX ON WD.BoxId = BOX.ItemId
+                                    INNER JOIN Item I_BOX ON BOX.BomItemId = I_BOX.ItemId
+                                    INNER JOIN Unit U ON I_BOX.ItemUnitId = U.UnitId
+                                    WHERE SOI.SaleOrderItemId=@SaleOrderItemId
+                                    UNION ALL
+                                    SELECT
+                	                    I1.ItemId, I1.ItemName, I1.PartNo, COUNT(ItemId), U.UnitName
+                                    FROM SaleOrder SO
+                                    INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
+                                    INNER JOIN WorkDescription WD ON WD.WorkDescriptionId = SOI.WorkDescriptionId
+                                    INNER JOIN Item I1 ON WD.FreezerUnitId = I1.ItemId
+                                    INNER JOIN Unit U ON I1.ItemUnitId = U.UnitId
+                                    WHERE SOI.SaleOrderItemId=@SaleOrderItemId
+                                    GROUP BY I1.ItemId, I1.ItemName, I1.PartNo, U.UnitName
+                                    UNION ALL
+                                    SELECT
+                	                    I2.ItemId, I2.ItemName, I2.PartNo, COUNT(ItemId), U.UnitName
+                                    FROM SaleOrder SO
+                                    INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
+                                    INNER JOIN WorkDescription WD ON WD.WorkDescriptionId = SOI.WorkDescriptionId
+                                    INNER JOIN Item I2 ON WD.BoxId = I2.ItemId
+                                    INNER JOIN Unit U ON I2.ItemUnitId = U.UnitId
+                                    WHERE SOI.SaleOrderItemId=@SaleOrderItemId
+                                    GROUP BY I2.ItemId, I2.ItemName, I2.PartNo, U.UnitName
+                					UNION ALL
+                					SELECT
+                						I3.ItemId, I3.ItemName, I3.PartNo, SOM.Quantity, U.UnitName
+                					FROM SaleOrderMaterial SOM
+                					INNER JOIN SaleOrder SO ON SOM.SaleOrderId = SO.SaleOrderId
+                					INNER JOIN Item I3 ON SOM.ItemId = I3.ItemId
+                					INNER JOIN Unit U ON I3.ItemUnitId = U.UnitId
+                					WHERE SO.SaleOrderId = @SaleOrderId
+                                    UNION ALL
+                                    SELECT 
+                                        I.ItemId, I.ItemName, I.PartNo, IVB.Quantity, U.UnitName FROM ItemVsBom IVB
+                                    INNER JOIN Item I ON IVB.BomItemId = I.ItemId
+                                    INNER JOIN Unit U ON I.ItemUnitId = U.UnitId
+                                    WHERE IVB.ItemId IN
+                                    (
+	                                    SELECT
+		                                    SOM.ItemId
+	                                    FROM SaleOrderMaterial SOM
+	                                    WHERE SOM.SaleOrderId = @SaleOrderId
+                                    )) T1;
+                
+                                    SELECT
+                	                    ItemId, ItemName, PartNo, SUM(Quantity) Quantity, UnitName
+                                    FROM #TEMP1
+                                    GROUP BY ItemId, ItemName, PartNo, UnitName
+                
+                                    DROP TABLE #TEMP1;";
+
+                return connection.Query<WorkShopRequestItem>(query,
+                new { SaleOrderId = SaleOrderId, SaleOrderItemId = SaleOrderItemId }).ToList();
+            }
+        }
         /// <summary>
         /// Sale order data for workshop request transaction
         /// </summary>

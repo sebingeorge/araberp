@@ -18,6 +18,7 @@ namespace ArabErp.Domain
         public string SaleOrderNoDate { get; set; }
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
+        public string ItemName { get; set; }
         public string CustomerAddress { get; set; }
         //[Required]
         public string CustomerOrderRef { get; set; }
