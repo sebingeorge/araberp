@@ -17,17 +17,49 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 //              
-                string qry = @"select PurchaseBillRefNo,PurchaseBillDate,PurchaseBillNoDate,S.SupplierName,ItemName,ItemRefNo,G.Quantity,PI.Rate,PI.Amount 
-                            ,SO.SupplyOrderNo,
-                             GR.GRNNo,GR.GRNDate
-                             from PurchaseBill P,PurchaseBillItem PI,Item I,Supplier S,GRNItem G,SupplyOrder SO,GRN GR
-                             where P.SupplierId=S.SupplierId AND P.PurchaseBillId=PI.PurchaseBillId AND PI.GRNItemId=G.GRNItemId AND G.ItemId =I.ItemId AND SO.SupplierId=S.SupplierId
-							  and GR.GRNId=G.GRNId
-                              and P.isActive=1
-							  AND P.PurchaseBillDate BETWEEN @from AND @to 
-                              AND P.OrganizationId=@OrganizationId AND  I.ItemId = ISNULL(NULLIF(@itmid, 0), I.ItemId) and S.SupplierId=ISNULL(NULLIF(@id, 0), S.SupplierId) 
-                             ORDER BY PurchaseBillDate";
-
+                #region old query 11.1.2017 4.05p
+                //                string qry = @"select PurchaseBillRefNo,PurchaseBillDate,PurchaseBillNoDate,S.SupplierName,ItemName,ItemRefNo,G.Quantity,PI.Rate,PI.Amount 
+                //                            ,SO.SupplyOrderNo,
+                //                             GR.GRNNo,GR.GRNDate
+                //                             from PurchaseBill P,PurchaseBillItem PI,Item I,Supplier S,GRNItem G,SupplyOrder SO,GRN GR
+                //                             where P.SupplierId=S.SupplierId AND P.PurchaseBillId=PI.PurchaseBillId AND PI.GRNItemId=G.GRNItemId AND G.ItemId =I.ItemId AND SO.SupplierId=S.SupplierId
+                //							  and GR.GRNId=G.GRNId
+                //                              and P.isActive=1
+                //							  AND P.PurchaseBillDate BETWEEN @from AND @to 
+                //                              AND P.OrganizationId=@OrganizationId AND  I.ItemId = ISNULL(NULLIF(@itmid, 0), I.ItemId) and S.SupplierId=ISNULL(NULLIF(@id, 0), S.SupplierId) 
+                //                             ORDER BY PurchaseBillDate"; 
+                #endregion
+                string qry = @"select p.PurchaseBillId,	P.PurchaseBillRefNo,P.PurchaseBillNoDate,
+									P.PurchaseBillDate,S.SupplierName,SUM(pub.Amount)Amount,
+									 STUFF((SELECT distinct', ' + CAST(ItemName AS VARCHAR(MAX)) [text()]
+									 FROM PurchaseBillItem PBI
+									 INNER JOIN GRNItem T1 ON PBI.GRNItemId = T1.GRNItemId
+									 INNER JOIN Item I ON T1.ItemId=I.ItemId 
+									 where PBI.PurchaseBillId=P.PurchaseBillId FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') ItemName, 
+									 STUFF((SELECT distinct', ' + CAST(R.GRNNo + ' - ' + CONVERT(VARCHAR, R.GRNDate, 106) AS VARCHAR(MAX)) [text()]
+									 FROM PurchaseBillItem PM INNER JOIN GRNItem IT ON PM.GRNItemId=IT.GRNItemId 
+									 left join GRN R on R.GRNId=IT.GRNId
+									 where PM.PurchaseBillId=P.PurchaseBillId FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') GRNNo,
+									 STUFF((SELECT distinct', ' + CAST(S.SupplyOrderNo AS VARCHAR(MAX)) [text()]
+									 FROM PurchaseBillItem  PB
+									 INNER JOIN GRNItem  GI on GI.GRNItemId=PB.GRNItemId
+									 INNER JOIN SupplyOrderItem SI ON SI.SupplyOrderItemId=GI.SupplyOrderItemId
+									 INNER JOIN SupplyOrder S ON S.SupplyOrderId=SI.SupplyOrderId
+									WHERE PB.PurchaseBillId=P.PurchaseBillId
+									FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') SupplyOrderNo
+									from PurchaseBill P
+									left join Supplier S ON S.SupplierId=P.SupplierId
+									left JOIN PurchaseBillItem  PUB on PUB.PurchaseBillId=P.PurchaseBillId
+									left JOIN GRNItem  GI on GI.GRNItemId=PUB.GRNItemId
+									left JOIN Item I ON GI.ItemId=I.ItemId 
+									and P.isActive=1
+									AND P.PurchaseBillDate BETWEEN @from AND @to 
+									AND P.OrganizationId=1 
+									AND I.ItemId = ISNULL(NULLIF(@itmid, 0), I.ItemId)
+									 and S.SupplierId=ISNULL(NULLIF(@id, 0), S.SupplierId) 
+									  group by p.PurchaseBillId,	P.PurchaseBillRefNo,P.PurchaseBillNoDate,
+									P.PurchaseBillDate,S.SupplierName
+									ORDER BY PurchaseBillDate"; 
 
 
                 return connection.Query<PurchaseBillRegister>(qry, new { id = id, itmid = itmid, OrganizationId = OrganizationId, from = from, to = to }).ToList();
@@ -60,16 +92,54 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 //              
-                string qry = @"SELECT convert(varchar,P.PurchaseBillDate,106)PurchaseBillDate,SUM(PI.Amount)Amount
-                                FROM PurchaseBill P
-                                INNER JOIN PurchaseBillItem PI ON P.PurchaseBillId=PI.PurchaseBillId
-                                INNER JOIN GRNItem G ON P.PurchaseBillId=PI.PurchaseBillId
-                                INNER JOIN Item I ON G.ItemId =I.ItemId 
-                                INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
-                                WHERE P.isActive=1  AND P.PurchaseBillDate BETWEEN @from AND @to
-                                AND P.OrganizationId=@OrganizationId AND  P.SupplierId = ISNULL(NULLIF(@supid, 0), P.SupplierId) and IC.itmCatId=ISNULL(NULLIF(@id, 0), IC.itmCatId) 
-                                GROUP BY  PurchaseBillDate
-                                ORDER BY PurchaseBillDate";
+//                string qry = @"SELECT convert(varchar,P.PurchaseBillDate,106)PurchaseBillDate,SUM(PI.Amount)Amount
+//                                FROM PurchaseBill P
+//                                INNER JOIN PurchaseBillItem PI ON P.PurchaseBillId=PI.PurchaseBillId
+//                                INNER JOIN GRNItem G ON P.PurchaseBillId=PI.PurchaseBillId
+//                                INNER JOIN Item I ON G.ItemId =I.ItemId 
+//                                INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
+//                                WHERE P.isActive=1  AND P.PurchaseBillDate BETWEEN @from AND @to
+//                                AND P.OrganizationId=@OrganizationId AND  P.SupplierId = ISNULL(NULLIF(@supid, 0), P.SupplierId) and IC.itmCatId=ISNULL(NULLIF(@id, 0), IC.itmCatId) 
+//                                GROUP BY  PurchaseBillDate
+//                                ORDER BY PurchaseBillDate";
+
+
+                string qry = @"SELECT convert(varchar,P.PurchaseBillDate,106)PurchaseBillDate,SUM(PI.Amount)Amount,
+
+						STUFF((SELECT distinct', ' + CAST(t1.PurchaseBillRefNo AS VARCHAR(MAX)) [text()]
+						FROM PurchaseBill t1
+						where t1.PurchaseBillDate=p.PurchaseBillDate FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') PurchaseBillRefNo,
+
+						STUFF((SELECT distinct', ' + CAST(R.GRNNo + ' - ' + CONVERT(VARCHAR, R.GRNDate, 106) AS VARCHAR(MAX)) [text()]
+						FROM PurchaseBillItem PM INNER JOIN GRNItem IT ON PM.GRNItemId=IT.GRNItemId 
+						left join GRN R on R.GRNId=IT.GRNId
+						inner join PurchaseBill on PurchaseBill.PurchaseBillId=pm.PurchaseBillId
+						where PurchaseBill.PurchaseBillDate=p.PurchaseBillDate FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') GRNNo,
+
+						STUFF((SELECT distinct', ' + CAST(S.SupplyOrderNo+'-'+CONVERT(varchar,S.SupplyOrderDate,106) AS VARCHAR(MAX)) [text()]
+						FROM PurchaseBillItem  PB
+						INNER JOIN GRNItem  GI on GI.GRNItemId=PB.GRNItemId
+						INNER JOIN SupplyOrderItem SI ON SI.SupplyOrderItemId=GI.SupplyOrderItemId
+						INNER JOIN SupplyOrder S ON S.SupplyOrderId=SI.SupplyOrderId
+						inner join PurchaseBill on PurchaseBill.PurchaseBillId=PB.PurchaseBillId
+						WHERE PurchaseBill.PurchaseBillDate=p.PurchaseBillDate
+						FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') SupplyOrderNo
+
+						FROM PurchaseBill P
+						INNER JOIN PurchaseBillItem PI ON P.PurchaseBillId=PI.PurchaseBillId
+						INNER JOIN GRNItem G ON P.PurchaseBillId=PI.PurchaseBillId
+						INNER JOIN Item I ON G.ItemId =I.ItemId 
+						INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
+						WHERE P.isActive=1  
+						--AND P.PurchaseBillDate BETWEEN @from AND @to
+						AND P.OrganizationId=1 AND  P.SupplierId = ISNULL(NULLIF(0, 0), P.SupplierId) and IC.itmCatId=ISNULL(NULLIF(0, 0), IC.itmCatId) 
+						GROUP BY  PurchaseBillDate
+						ORDER BY PurchaseBillDate";
+
+
+
+
+
 
                 return connection.Query<PurchaseBillRegister>(qry, new { id = id, supid = supid, OrganizationId = OrganizationId, from = from, to = to }).ToList();
             }
