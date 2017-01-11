@@ -751,17 +751,27 @@ namespace ArabErp.DAL
                             )
                             SELECT CAST(SCOPE_IDENTITY() AS INT) SalesQuotationItemId";
                     model.SalesQuotationItems = new List<SalesQuotationItem>();
-                    for (int i = 0; i < model.ProjectRooms.Count; i++ )
+                    model.SalesQuotationItems.Add(new SalesQuotationItem
                     {
-                        model.SalesQuotationItems.Add(new SalesQuotationItem());
-                        model.SalesQuotationItems[i].SalesQuotationId = model.SalesQuotationId;
-                        model.SalesQuotationItems[i].SlNo = i;
-                        model.SalesQuotationItems[i].Quantity = 1;
-                        model.SalesQuotationItems[i].OrganizationId = model.OrganizationId;
-                        model.SalesQuotationItems[i].isActive = true;
-                        model.SalesQuotationItems[i].SalesQuotationItemId = model.ProjectRooms[i].QuerySheetItemId = 
-                            connection.Query<int>(sql, model.SalesQuotationItems[i], txn).First();
-                    }
+                        SalesQuotationId = model.SalesQuotationId,
+                        SlNo = 1,
+                        Quantity = 1,
+                        OrganizationId = model.OrganizationId,
+                        isActive = true
+                    });
+                    model.SalesQuotationItems[0].SalesQuotationItemId = connection.Query<int>(sql, model.SalesQuotationItems[0], txn).First();
+
+                    //for (int i = 0; i < model.ProjectRooms.Count; i++ )
+                    //{
+                    //    model.SalesQuotationItems.Add(new SalesQuotationItem());
+                    //    model.SalesQuotationItems[i].SalesQuotationId = model.SalesQuotationId;
+                    //    model.SalesQuotationItems[i].SlNo = i;
+                    //    model.SalesQuotationItems[i].Quantity = 1;
+                    //    model.SalesQuotationItems[i].OrganizationId = model.OrganizationId;
+                    //    model.SalesQuotationItems[i].isActive = true;
+                    //    model.SalesQuotationItems[i].SalesQuotationItemId = model.ProjectRooms[i].QuerySheetItemId = 
+                    //        connection.Query<int>(sql, model.SalesQuotationItems[i], txn).First();
+                    //}
                     #endregion
                     #region saving project quotation units and doors
                     foreach (QuerySheetItem items in model.ProjectRooms)
