@@ -606,7 +606,7 @@ namespace ArabErp.DAL
                     //								AND ISNULL(GI1.ItemId, OS1.ItemId) = JC.BoxId"; 
                     #endregion
 
-                    sq = @"DECLARE @FreezerSerialNo VARCHAR(MAX), @BoxSerialNo VARCHAR(MAX);
+                    sq = @"DECLARE @FreezerSerialNo VARCHAR(MAX), @BoxSerialNo VARCHAR(MAX), @TailLiftSerialNo VARCHAR(MAX), @TailLiftName VARCHAR(MAX);
                             SELECT
 	                            @FreezerSerialNo = IB.SerialNo
                             FROM DeliveryChallan DC
@@ -627,6 +627,18 @@ namespace ArabErp.DAL
                             LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId AND I.ItemId = OS.ItemId
                             WHERE DC.DeliveryChallanId = @DeliveryChallanId
                             AND ISNULL(GI.ItemId, OS.ItemId) = JC.BoxId
+                            SELECT
+	                            @TailLiftSerialNo = IB.SerialNo,
+								@TailLiftName = I.ItemName
+                            FROM DeliveryChallan DC
+							INNER JOIN JobCard JC ON DC.JobCardId = JC.JobCardId
+                            INNER JOIN ItemBatch IB ON DC.DeliveryChallanId = IB.DeliveryChallanId
+                            LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId --AND I.ItemId = GI.ItemId
+                            LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId --AND I.ItemId = OS.ItemId
+							LEFT JOIN Item I ON GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId
+							INNER JOIN SaleOrderMaterial SOM ON SOM.SaleOrderId = JC.SaleOrderId 
+								AND (GI.ItemId = SOM.ItemId OR OS.ItemId = SOM.ItemId)
+                            WHERE DC.DeliveryChallanId = @DeliveryChallanId AND ISNULL(I.BatchRequired, 0) = 1
 
                             SELECT DISTINCT O.*,
 								ORR.CountryName,
@@ -646,8 +658,13 @@ namespace ArabErp.DAL
 								SO.PaymentTerms,
 								DC.Remarks,
 								SQ.QuotationRefNo,
-								I.[ItemName] FreezerName,I.ItemId ReeferId,
-								@FreezerSerialNo FreezerPartNo,
+								ISNULL(I.[ItemName], '') + (CASE WHEN (ISNULL(I.[ItemName], '') = '' OR ISNULL(@TailLiftName, '') = '')
+									THEN '' ELSE ' / ' END)  + ISNULL(@TailLiftName, '') FreezerName,
+								I.ItemId ReeferId,
+								(ISNULL(@FreezerSerialNo, '') + 
+									(CASE WHEN (ISNULL(@FreezerSerialNo, '') = '' OR ISNULL(@TailLiftSerialNo, '') = '')
+									THEN '' ELSE ' / ' END)
+									+ ISNULL(@TailLiftSerialNo, '')) FreezerPartNo,
 								--IB.SerialNo FreezerPartNo,
 								--ISNULL(I.PartNo,'') FreezerPartNo,
                                 QC.PunchingNo Box,

@@ -18,5 +18,8 @@ namespace ArabErp.Domain
         public string Class { get; set; }
         public string Debit { get; set; }
         public string Credit { get; set; }
+        public string Terms { get; set; }
+        public string DueDate { get; set; }
+        public string Amount { get; set; }
     }
 }
