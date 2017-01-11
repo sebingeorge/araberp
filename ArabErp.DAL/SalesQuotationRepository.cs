@@ -759,7 +759,8 @@ namespace ArabErp.DAL
                         OrganizationId = model.OrganizationId,
                         isActive = true
                     });
-                    model.SalesQuotationItems[0].SalesQuotationItemId = connection.Query<int>(sql, model.SalesQuotationItems[0], txn).First();
+                    var _SalesQuotationItemId = connection.Query<int>(sql, model.SalesQuotationItems[0], txn).First();
+
 
                     //for (int i = 0; i < model.ProjectRooms.Count; i++ )
                     //{
@@ -778,14 +779,14 @@ namespace ArabErp.DAL
                     {
                         foreach (QuerySheetUnit item in items.ProjectRoomUnits)
                         {
-                            item.QuerySheetItemId = items.QuerySheetItemId;
+                            item.QuerySheetItemId = _SalesQuotationItemId;
                             sql = @"insert  into ProjectQuotationItemUnit(SalesQuotationItemId,EvaporatorUnitId,CondenserUnitId,Quantity) 
                                     Values (@QuerySheetItemId,@EvaporatorUnitId,@CondenserUnitId,@Quantity)";
                             connection.Execute(sql, item, txn);
                         }
                         foreach (QuerySheetDoor item in items.ProjectRoomDoors)
                         {
-                            item.QuerySheetItemId = items.QuerySheetItemId;
+                            item.QuerySheetItemId = _SalesQuotationItemId;
                             sql = @"insert  into ProjectQuotationItemDoor(SalesQuotationItemId,DoorId,Quantity) 
                                     Values (@QuerySheetItemId,@DoorId,@Quantity)";
                             connection.Execute(sql, item, txn);

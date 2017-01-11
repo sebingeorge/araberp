@@ -1288,30 +1288,37 @@ namespace ArabErp.DAL
                             )
                             SELECT CAST(SCOPE_IDENTITY() AS INT)";
                     model.Items = new List<SaleOrderItem>();
-                    for (int i = 0; i < model.ProjectRooms.Count; i++)
+                    model.Items.Add(new SaleOrderItem
                     {
-                        model.Items.Add(new SaleOrderItem());
-                        model.Items[i].SaleOrderId = model.SaleOrderId;
-                        model.Items[i].SlNo = i;
-                        model.Items[i].Quantity = 1;
-                        model.Items[i].SaleOrderItemId =
-                            model.ProjectRooms[i].QuerySheetItemId =
-                            connection.Query<int>(sql, model.Items[i], txn).First();
-                    }
+                        SaleOrderId = model.SaleOrderId,
+                        SlNo = 1,
+                        Quantity = 1
+                    });
+                    var _SaleOrderItemId = connection.Query<int>(sql, model.Items[0], txn).First();
+                    //for (int i = 0; i < model.ProjectRooms.Count; i++)
+                    //{
+                    //    model.Items.Add(new SaleOrderItem());
+                    //    model.Items[i].SaleOrderId = model.SaleOrderId;
+                    //    model.Items[i].SlNo = i;
+                    //    model.Items[i].Quantity = 1;
+                    //    model.Items[i].SaleOrderItemId =
+                    //        model.ProjectRooms[i].QuerySheetItemId =
+                    //        connection.Query<int>(sql, model.Items[i], txn).First();
+                    //}
                     #endregion
                     #region saving room units [SaleOrderItemUnit]
                     foreach (var room in model.ProjectRooms)
                     {
                         foreach (QuerySheetUnit item in room.ProjectRoomUnits)
                         {
-                            item.QuerySheetItemId = room.QuerySheetItemId;
+                            item.QuerySheetItemId = _SaleOrderItemId;
                             sql = @"insert  into SaleOrderItemUnit(SaleOrderItemId,EvaporatorUnitId,CondenserUnitId,Quantity) 
                                     Values (@QuerySheetItemId,@EvaporatorUnitId,@CondenserUnitId,@Quantity)";
                             connection.Execute(sql, item, txn);
                         }
                         foreach (QuerySheetDoor item in room.ProjectRoomDoors)
                         {
-                            item.QuerySheetItemId = room.QuerySheetItemId;
+                            item.QuerySheetItemId = _SaleOrderItemId;
                             sql = @"insert  into SaleOrderItemDoor(SaleOrderItemId,DoorId,Quantity) 
                                     Values (@QuerySheetItemId,@DoorId,@Quantity)";
                             connection.Execute(sql, item, txn);
