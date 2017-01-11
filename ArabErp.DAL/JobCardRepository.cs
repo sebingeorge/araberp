@@ -36,7 +36,7 @@ namespace ArabErp
                 query += @" select SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName, W.WorkDescr WorkDescription,IsPaymentApprovedForJobOrder, ISNULL(VIP.RegistrationNo, '-')RegistrationNo,DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) Remaindays,S.isService
                   from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId
                   inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId
-                  inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
+                  LEFT join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
                   left join VehicleModel V on V.VehicleModelId = W.VehicleModelId
                   left join JobCard J on J.SaleOrderItemId = SI.SaleOrderItemId ";
                 if (isProjectBased == 1)
