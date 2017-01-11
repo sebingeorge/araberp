@@ -79,13 +79,52 @@ namespace ArabErp.DAL
                 var objSalesInvoiceDT = new List<SalesInvoiceItem>();
                 try
                 {
-                    string sql = @"SELECT * INTO #SaleOrderItem FROM SaleOrderItem WHERE SaleOrderId=@SaleOrderId AND SaleOrderItemId IN @SaleOrderItemIdList
-                               SELECT s.SaleOrderId SaleOrderId,S.SaleOrderItemId SaleOrderItemId, W.WorkDescr WorkDescription, V.VehicleModelName, S.Quantity QuantityTxt,U.UnitName Unit,S.Rate Rate,S.Discount Discount,S.Amount Amount,j.JobCardId JobCardId
-                               FROM #SaleOrderItem S LEFT JOIN Unit U on S.UnitId=U.UnitId
-                               LEFT JOIN WorkDescription W on S.WorkDescriptionId=W.WorkDescriptionId
-                               Left JOIN VehicleModel V on S.VehicleModelId=V.VehicleModelId
-							   left join JobCard J on J.SaleOrderItemId=S.SaleOrderItemId
-                               DROP TABLE #SaleOrderItem";
+                    #region old query 11.1.2016 10.00a
+                    //                    string sql = @"SELECT * INTO #SaleOrderItem FROM SaleOrderItem WHERE SaleOrderId=@SaleOrderId AND SaleOrderItemId IN @SaleOrderItemIdList
+                    //                               SELECT s.SaleOrderId SaleOrderId,S.SaleOrderItemId SaleOrderItemId, W.WorkDescr WorkDescription, V.VehicleModelName, S.Quantity QuantityTxt,U.UnitName Unit,S.Rate Rate,S.Discount Discount,S.Amount Amount,j.JobCardId JobCardId
+                    //                               FROM #SaleOrderItem S LEFT JOIN Unit U on S.UnitId=U.UnitId
+                    //                               LEFT JOIN WorkDescription W on S.WorkDescriptionId=W.WorkDescriptionId
+                    //                               Left JOIN VehicleModel V on S.VehicleModelId=V.VehicleModelId
+                    //							   left join JobCard J on J.SaleOrderItemId=S.SaleOrderItemId
+                    //                               DROP TABLE #SaleOrderItem"; 
+                    #endregion
+
+                    string sql = @"SELECT * INTO #SaleOrderItem FROM SaleOrderItem WHERE SaleOrderId=@SaleOrderId AND SaleOrderItemId IN (@SaleOrderItemIdList)
+                                    SELECT s.SaleOrderId SaleOrderId,S.SaleOrderItemId SaleOrderItemId, W.WorkDescr WorkDescription, V.VehicleModelName, 
+                                    S.Quantity QuantityTxt,U.UnitName Unit,S.Rate Rate,S.Discount Discount,S.Amount Amount,j.JobCardId JobCardId
+                                    FROM #SaleOrderItem S LEFT JOIN Unit U on S.UnitId=U.UnitId
+                                    LEFT JOIN WorkDescription W on S.WorkDescriptionId=W.WorkDescriptionId
+                                    Left JOIN VehicleModel V on S.VehicleModelId=V.VehicleModelId
+                                    left join JobCard J on J.SaleOrderItemId=S.SaleOrderItemId
+
+                                    UNION ALL
+
+                                    SELECT
+	                                    @SaleOrderId SaleOrderId,
+	                                    @SaleOrderItemIdList SaleOrderItemId,
+	                                    I.ItemName WorkDescription,
+	                                    V.VehicleModelName,
+	                                    SII.IssuedQuantity,
+	                                    NULL Unit,
+	                                    SOM.Rate,
+	                                    SOM.Discount,
+	                                    ((ISNULL(SII.IssuedQuantity, 0) * ISNULL(SOM.Rate, 0)) - ISNULL(SOM.Discount, 0))Amount,
+	                                    JC.JobCardId
+                                    FROM WorkShopRequest WR
+                                    INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                                    INNER JOIN SaleOrderMaterial SOM ON WRI.ItemId = SOM.ItemId AND SOM.SaleOrderId = @SaleOrderId
+                                    INNER JOIN (SELECT WorkShopRequestItemId, SUM(IssuedQuantity)IssuedQuantity
+			                                    FROM StoreIssueItem
+			                                    GROUP BY WorkShopRequestItemId) SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
+                                    INNER JOIN Item I ON WRI.ItemId = I.ItemId
+                                    LEFT JOIN SaleOrderItem SOI ON SOI.SaleOrderItemId = @SaleOrderItemIdList
+                                    LEFT JOIN VehicleModel V on SOI.VehicleModelId = V.VehicleModelId
+                                    INNER JOIN JobCard JC ON SOI.SaleOrderItemId = JC.SaleOrderItemId
+                                    WHERE (WR.SaleOrderItemId IN (@SaleOrderItemIdList)
+                                    OR WR.JobCardId IN (SELECT JobCardId FROM JobCard WHERE SaleOrderItemId IN (@SaleOrderItemIdList))
+                                    OR (WR.SaleOrderId = @SaleOrderId AND ISNULL(WR.SaleOrderItemId, 0) = 0 AND ISNULL(WR.JobCardId, 0) = 0))
+
+                                    DROP TABLE #SaleOrderItem";
 
                      objSalesInvoiceDT = connection.Query<SalesInvoiceItem>(sql, new { SaleOrderItemIdList = salesorderitemid, SaleOrderId = saleorderid }).ToList<SalesInvoiceItem>();
                 }
