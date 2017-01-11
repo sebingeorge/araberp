@@ -237,22 +237,22 @@
                     </div>
                     @if (Model.isProjectBased == 0)
                     {
-                    <div class="col-md-2">
-                        <label for="vechmodel">Vehicle Model</label>
-                        @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                    </div>
-                    <div class="col-md-2">
-                        <label for="chasisno">Reg No./Chassis No.</label>
-                        @Html.HiddenFor(m => m.InPassId)
-                        @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                        @*@Html.DropDownListFor(m => m.InPassId, (SelectList)ViewBag.inpassList, "Select Chassis/Reg No.", new { @class = "form_input", autocomplete = "off" })*@
-                    </div>
-                    <div class="col-md-2">
-                        <label for="freezer">Freezer Unit</label>
-                        @Html.HiddenFor(m => m.FreezerUnitId)
-                        @Html.TextBoxFor(m => m.FreezerUnitName, new { @class = "form_input", @readonly = "true" })
-                        @*@Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off", @required = "true" })*@
-                    </div>
+                        <div class="col-md-2">
+                            <label for="vechmodel">Vehicle Model</label>
+                            @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                        </div>
+                        <div class="col-md-2">
+                            <label for="chasisno">Reg No./Chassis No.</label>
+                            @Html.HiddenFor(m => m.InPassId)
+                            @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                            @*@Html.DropDownListFor(m => m.InPassId, (SelectList)ViewBag.inpassList, "Select Chassis/Reg No.", new { @class = "form_input", autocomplete = "off" })*@
+                        </div>
+                        <div class="col-md-2">
+                            <label for="freezer">Freezer Unit</label>
+                            @Html.HiddenFor(m => m.FreezerUnitId)
+                            @Html.TextBoxFor(m => m.FreezerUnitName, new { @class = "form_input", @readonly = "true" })
+                            @*@Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off", @required = "true" })*@
+                        </div>
                     }
                 </div>
                 <div class="row form-group">
@@ -263,14 +263,14 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-2">
+                    @*<div class="col-md-2">
                         <label for="wrkreqref">Workshop Request Ref.</label>
                         @Html.TextBoxFor(m => m.WorkShopRequestRef, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                    </div>
-                    <div class="col-md-2">
+                    </div>*@
+                    @*<div class="col-md-2">
                         <label for="goodsland">Goods Landed</label>
                         @Html.TextBoxFor(m => m.GoodsLanded, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                    </div>
+                    </div>*@
                     <div class="col-md-2">
                         <label for="box">Box</label>
                         @Html.HiddenFor(m => m.BoxId)
@@ -280,10 +280,10 @@
 
                     @if (Model.isProjectBased == 0)
                     {
-                    <div class="col-md-2">
-                        <label for="bay">Bay</label>
-                        @Html.DropDownListFor(m => Model.BayId, new SelectList(ViewBag.BayList, "Value", "Text", Model.BayId), "Select Bay", new { @class = "form_input", autocomplete = "off", @required = "true" })
-                    </div>
+                        <div class="col-md-2">
+                            <label for="bay">Bay</label>
+                            @Html.DropDownListFor(m => Model.BayId, new SelectList(ViewBag.BayList, "Value", "Text", Model.BayId), "Select Bay", new { @class = "form_input", autocomplete = "off", @required = "true" })
+                        </div>
                     }
                 </div>
 
@@ -303,7 +303,10 @@
                             <tr class="grid_heading">
                                 <td width="2%"></td>
                                 <th width="35%"><h1>Task</h1></th>
-                                <th width="35%"><h1>Technician</h1></th>
+                                @if (Model.isProjectBased == 0)
+                                {
+                                    <th width="35%"><h1>Technician</h1></th>
+                                }
                                 <th width="12%"><h1>Date</h1></th>
                                 <th width="5%"><h1>Hours</h1></th>
                                 <td width="2%"></td>
@@ -342,18 +345,21 @@
                                         }
                                     </td>
 
-                                    <td>
-                                        @if (Model.JobCardTasks[row].isTaskUsed)
-                                        {
-                                            @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", Model.JobCardTasks[row].EmployeeId), "Select Technician",
+                                    @if (Model.isProjectBased == 0)
+                                    {
+                                        <td>
+                                            @if (Model.JobCardTasks[row].isTaskUsed)
+                                            {
+                                                @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", Model.JobCardTasks[row].EmployeeId), "Select Technician",
                                              new { @class = "form_input", @autocomplete = "off", @disabled = Model.JobCardTasks[row].isTaskUsed })
-                                        }
-                                        else
-                                        {
-                                            @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", Model.JobCardTasks[row].EmployeeId), "Select Technician",
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, new SelectList(ViewBag.EmployeeList, "Value", "Text", Model.JobCardTasks[row].EmployeeId), "Select Technician",
                                              new { @class = "form_input", @autocomplete = "off", @onchange = "CheckDuplication(this," + row + ")" })
-                                        }
-                                    </td>
+                                            }
+                                        </td>
+                                    }
 
                                     <td>
                                         @if (Model.JobCardTasks[row].isTaskUsed)
