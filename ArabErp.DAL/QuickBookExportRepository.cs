@@ -13,15 +13,16 @@ namespace ArabErp.DAL
     public class QuickBookExportRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public List<PurchaseBillPostingList> GetPurchaseBillsForPosting()
+        public List<PurchaseBillPostingList> GetPurchaseBillsForPosting(string Status)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"select P.PurchaseBillId, P.PurchaseBillRefNo, P.PurchaseBillDate, S.SupplierName,  
-                P.PurchaseBillNoDate, P.PurchaseBillAmount, C.CurrencyName, 0 IsSelected
+                P.PurchaseBillNoDate, P.PurchaseBillAmount, C.CurrencyName, 0 IsSelected,
+                PostStatus = case when isnull(P.PostStatus, 0) = 0 then 'No' else 'Yes' end
                 from PurchaseBill P inner join Supplier S on P.SupplierId = S.SupplierId
                 inner join Currency C on C.CurrencyId = P.CurrencyId
-                where isnull(P.PostStatus, 0) = 0";
+                where isnull(P.PostStatus, 0) = " + Status;
 
                 return connection.Query<PurchaseBillPostingList>(sql).ToList();
             }
@@ -49,6 +50,53 @@ namespace ArabErp.DAL
                 where P.PurchaseBillId = " + Id.ToString() + @"";
 
                 return connection.Query<PurchaseBillPostingTransaction>(sql).ToList();
+            }
+        }
+        public List<PurchaseBillPostingTransaction> GetPurchaseBillDetailsForExportExcel(PendingPurchaseBillsForPosting model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string Id = "0";
+                foreach (var item in model.PurchaseBillPostingList)
+                {
+                    if(item.IsSelected == 1)
+                    {
+                        Id += ", " + item.PurchaseBillId.ToString();
+                    }
+                }
+                string sql = @"select convert(varchar(50), PurchaseBillDate, 105)[Date],
+                PurchaseBillRefNo Num, S.SupplierName [Name], 'credit' Terms,
+				convert(varchar(50), PurchaseBillDueDate, 105)[DueDate],
+				case when
+				(select top 1 I.ItemCategoryId from PurchaseBillItem PB 
+				inner join GRNItem G on PB.GRNItemId = G.GRNItemId
+				inner join Item I on G.ItemId = I.ItemId
+				where PB.PurchaseBillId = P.PurchaseBillId) = 2 then 'Inventory Asset' else 'Inventory Consumable' end Account, 
+				cast(P.PurchaseBillAmount as varchar(25)) Amount,
+				Remarks Memo
+                from PurchaseBill P 
+                inner join Supplier S on P.SupplierId = S.SupplierId
+                where P.PurchaseBillId in ("+ Id +")";
+
+                string query = "update PurchaseBill set PostStatus = 1 where PurchaseBillId in (" + Id + ")";
+                connection.Query(query);
+
+                return connection.Query<PurchaseBillPostingTransaction>(sql).ToList();
+            }
+        }
+        public List<SalesInvoicePostingList> GetSalesInvoicePostingList()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"select SalesInvoiceId, SalesInvoiceRefNo, SalesInvoiceDate, C.CustomerName,
+                S.PaymentTerms, S.TotalAmount, CR.CurrencyName
+                from SalesInvoice S
+                inner join SaleOrder SO on S.SaleOrderId = SO.SaleOrderId
+                inner join Customer C on SO.CustomerId = C.CustomerId
+                inner join Currency CR on CR.CurrencyId = SO.CurrencyId
+                where isnull(S.PostStatus, 0) = 0";
+
+                return connection.Query<SalesInvoicePostingList>(sql).ToList();
             }
         }
     }
