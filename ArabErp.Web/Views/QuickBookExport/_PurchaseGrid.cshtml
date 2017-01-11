@@ -1,51 +1,73 @@
-﻿@model List<ArabErp.Domain.PurchaseBillPostingList>
-<div class="row">
-    <div class="main-grid main-grid-top scroll1">
-        <div class="table-responsive">
-            <table class="table table-b table-bordered">
-                <thead>
-                    <tr class="grid_heading">
-                        <th width="35% "><h1>Bill No</h1></th>
-                        <th width="20% "><h1>Bill Date</h1></th>
-                        <th width="25% "><h1>Supplier</h1></th>
-                        <th width="20%"><h1>Bill Ref.</h1></th>
-                        <th width="10%" class="text-right" nowrap><h1>Bill Amount</h1></th>
-                        <th width="5% "><h1>Currency</h1></th>
-                        <th width="5%" style="vertical-align:middle" title="Check this to select all checkboxes below" nowrap>
-                            <h1>Export</h1>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="grid_row">
-                    @for (int i = 0; i < Model.Count; i++)
-                    {
-                        @Html.HiddenFor(m => m[i].PurchaseBillId)
-                        <tr>
-                            <td><input type="text" class="form_input" value="@Model[i].PurchaseBillRefNo" disabled /></td>
-                            <td><input type="text" class="form_input" value="@Model[i].PurchaseBillDate.ToString("dd-MMM-yyyy")" disabled /></td>
-                            <td><input type="text" class="form_input" value="@Model[i].SupplierName" disabled /></td>
-                            <td><input type="text" class="form_input" value="@Model[i].PurchaseBillNoDate" disabled /></td>
-                            <td align="right"><input type="text" class="form_input" value="@Model[i].PurchaseBillAmount" disabled /></td>
-                            <td><input type="text" class="form_input" value="@Model[i].CurrencyName" disabled /></td>
-                            @*<td><a href="" onclick="ExportPurchaseBill(@Model[i].PurchaseBillId)">Export</a></td>*@
-                            <td><input type="button" id="btnExportToExcel_@Model[i].PurchaseBillId" value="Export" onclick="ExportPurchaseBill(@Model[i].PurchaseBillId)" /></td>
+﻿@model ArabErp.Domain.PendingPurchaseBillsForPosting
+@using (Html.BeginForm("ExportPurchaseBillToExcel", null, FormMethod.Post, new { @class = "createFrom", @id = "stock_return_form" }))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <input type="submit" id="btnExportToExcel" value="Export to Excel" onclick="ExportPurchaseToExcel()" />
+        </div>
+        <div class="main-grid main-grid-top scroll1">
+            <div class="table-responsive">
+                <table class="table table-b table-bordered">
+                    <thead>
+                        <tr class="grid_heading">
+                            <th width="35% "><h1>Bill No</h1></th>
+                            <th width="20% "><h1>Bill Date</h1></th>
+                            <th width="25% "><h1>Supplier</h1></th>
+                            <th width="20%"><h1>Bill Ref.</h1></th>
+                            <th width="10%" class="text-right" nowrap><h1>Bill Amount</h1></th>
+                            <th width="5% "><h1>Currency</h1></th>
+                            <th width="5% "><h1>Posting Status</h1></th>
+                            <th width="5% "><h1>Select</h1></th>
+                            @*<th width="5%" style="vertical-align:middle" title="Check this to select all checkboxes below" nowrap>
+                                    <h1>Export</h1>
+                                </th>*@
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="grid_row">
+                        @for (int i = 0; i < Model.PurchaseBillPostingList.Count; i++)
+                        {
+                            <tr>
+                                @Html.HiddenFor(m => m.PurchaseBillPostingList[i].PurchaseBillId)
+                                @Html.HiddenFor(m => m.PurchaseBillPostingList[i].IsSelected)
+                                <td><input type="text" class="form_input" value="@Model.PurchaseBillPostingList[i].PurchaseBillRefNo" disabled /></td>
+                                <td><input type="text" class="form_input" value="@Model.PurchaseBillPostingList[i].PurchaseBillDate.ToString("dd-MMM-yyyy")" disabled /></td>
+                                <td><input type="text" class="form_input" value="@Model.PurchaseBillPostingList[i].SupplierName" disabled /></td>
+                                <td><input type="text" class="form_input" value="@Model.PurchaseBillPostingList[i].PurchaseBillNoDate" disabled /></td>
+                                <td align="right"><input type="text" class="form_input" value="@Model.PurchaseBillPostingList[i].PurchaseBillAmount" disabled /></td>
+                                <td><input type="text" class="form_input" value="@Model.PurchaseBillPostingList[i].CurrencyName" disabled /></td>
+                                <td><input type="text" class="form_input" value="@Model.PurchaseBillPostingList[i].PostStatus" disabled /></td>
+                                <td><input type="checkbox" id="ChkBox_@Model.PurchaseBillPostingList[i].PurchaseBillId" onchange="CheckChanged(@Model.PurchaseBillPostingList[i].PurchaseBillId, @i)" /></td>
+                                @*<td><input type="button" id="btnExportToExcel_@Model.PurchaseBillPostingList[i].PurchaseBillId" value="Export" onclick="ExportPurchaseBill(@Model.PurchaseBillPostingList[i].PurchaseBillId)" /></td>*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
 
+            </div>
+        </div>
+
+        <div class="row-count1">
+            <h5>Row Count:- @Model.PurchaseBillPostingList.Count()</h5>
         </div>
     </div>
+}
 
-    <div class="row-count1">
-        <h5>Row Count:- @Model.Count()</h5>
-    </div>
-</div>
 <script>
     function ExportPurchaseBill(Id)
     {
         var url = '@Url.Action("ExportPurchaseBill")';
         url = url + "?Id=" + Id;
         location.href = url;
+    }
+    function CheckChanged(Id, rowId)
+    {
+        var isChecked = $("#ChkBox_" + Id).is(":checked");
+        if (isChecked) {
+            $("#PurchaseBillPostingList_" + rowId + "__IsSelected").val(1);
+            //alert("CheckBox checked.");
+        } else {
+            $("#PurchaseBillPostingList_" + rowId + "__IsSelected").val(0);
+            //alert("CheckBox not checked.");
+        }
     }
 </script>
