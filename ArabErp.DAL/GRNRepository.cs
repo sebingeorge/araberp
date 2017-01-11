@@ -442,13 +442,14 @@ namespace ArabErp.DAL
 //                                    OR ISNULL(SupplyOrderDate,'') like '%'+@LPO+'%')
 //                                    ORDER BY SO.RequiredDate, SO.SupplyOrderDate DESC";
 
-                   string qry = @"SELECT DISTINCT  SOI.SupplyOrderId,SO.SupplyOrderDate,SO.CreatedDate,
+                    string qry = @"SELECT DISTINCT SO.SupplyOrderId,SO.SupplyOrderDate,SO.CreatedDate,
                     CONCAT(SO.SupplyOrderNo,' - ',ISNULL(CONVERT(VARCHAR(15),SupplyOrderDate,106), ''))SoNoWithDate,
-                    ISNULL(QuotaionNoAndDate, '-')QuotaionNoAndDate,DATEDIFF(day, SupplyOrderDate, GETDATE()) Age,
+                    ISNULL(QuotaionNoAndDate, '-')QuotaionNoAndDate,
+                    DATEDIFF(day, SupplyOrderDate, GETDATE()) Age,
                     DATEDIFF(day, GETDATE(), RequiredDate) DaysLeft,
-                    ISNULL(SpecialRemarks, '-') SpecialRemarks,ISNULL(CONVERT(VARCHAR(15),RequiredDate,106), '-') RequiredDate,
-                    S.SupplierId,S.SupplierName,SO.RequiredDate,
-                    SUM(SOI.OrderedQty)ORDERQTY 
+                    ISNULL(SpecialRemarks, '-') SpecialRemarks,
+                    ISNULL(CONVERT(VARCHAR(15),RequiredDate,106), '-') RequiredDate,
+                    S.SupplierId,S.SupplierName,SO.RequiredDate
                     FROM SupplyOrder SO
                     INNER JOIN SupplyOrderItem SOI ON SO.SupplyOrderId=SOI.SupplyOrderId
                     INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId 
@@ -457,7 +458,8 @@ namespace ArabErp.DAL
                     AND (ISNULL(SO.SupplyOrderNo,'') like '%'+@LPO+'%'
                     OR ISNULL(SupplyOrderDate,'') like '%'+@LPO+'%')
                     GROUP BY SOI.SupplyOrderId,SOI.SupplyOrderItemId,SO.SupplyOrderDate,
-                    SO.CreatedDate,SO.SupplyOrderNo,QuotaionNoAndDate,RequiredDate,SO.SpecialRemarks,S.SupplierId,S.SupplierName
+                    SO.CreatedDate,SO.SupplyOrderNo,QuotaionNoAndDate,RequiredDate,SO.SpecialRemarks,S.SupplierId,
+                    S.SupplierName,SO.SupplyOrderId
                     HAVING round((sum(SOI.OrderedQty) - (select isnull(sum(GI.Quantity),0) from GRNItem GI
                     where SOI.SupplyOrderItemId = GI.SupplyOrderItemId)),2)>0
                     ORDER BY SO.RequiredDate, SO.SupplyOrderDate DESC";
