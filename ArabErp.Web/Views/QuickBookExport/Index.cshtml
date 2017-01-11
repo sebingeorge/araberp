@@ -12,10 +12,16 @@
         <form method="post" onsubmit="return Validation()" action="@Url.Action("Export", "QuickBookExport")">
             <div class="row form-group">
                 <div class="col-md-4">
-                    <select autocomplete="off" class="form_input" data-val="true" data-val-number="The field SupplierId must be a number." data-val-required="The SupplierId field is required." id="SupplierId" name="SupplierId" onchange="OnTransactionChanged(this);" required="true">
+                    <select autocomplete="off" class="form_input" data-val="true" data-val-number="The field SupplierId must be a number." data-val-required="The SupplierId field is required." id="Transaction" name="Transaction" onchange="OnTransactionChanged();" required="true">
                         <option value="0" selected="selected">Select Transaction</option>
                         <option value="1">Purchase Bills</option>
                         <option value="2">Sales Invoice</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select autocomplete="off" class="form_input" data-val="true" data-val-number="The field SupplierId must be a number." data-val-required="The SupplierId field is required." id="PostingStatus" name="PostingStatus" onchange="OnTransactionChanged();" required="true">
+                        <option value="0">Not Posted</option>
+                        <option value="1">Posted</option>
                     </select>
                 </div>
             </div>
@@ -26,10 +32,21 @@
     </div>
 </div>
 <script>
-    function OnTransactionChanged(sender) {
-        var id = $(sender).val();
+    function OnTransactionChanged() {
+        var id = $("#Transaction").val();
+        var status = $("#PostingStatus").val();
         var url = '@Url.Action("LoadTransactions")';
-        url = url + "?TrnId=" + id;
+        url = url + "?TrnId=" + id + "&Status=" + status;
         $("#divTransaction").load(url)
     }
+    $(document).ready(function () {
+        // executes when HTML-Document is loaded and DOM is ready
+        alert("document is ready");
+    });
+
+
+    $(window).load(function () {
+        // executes when complete page is fully loaded, including all frames, objects and images
+        alert("window is loaded");
+    });
 </script>

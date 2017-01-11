@@ -163,6 +163,7 @@
     <Compile Include="SalesExecutive.cs" />
     <Compile Include="SalesInvoice.cs" />
     <Compile Include="SalesInvoiceItem.cs" />
+    <Compile Include="SalesInvoicePostingList.cs" />
     <Compile Include="SalesQuotation.cs" />
     <Compile Include="SalesQuotationItem.cs" />
     <Compile Include="SalesQuotationList.cs" />
