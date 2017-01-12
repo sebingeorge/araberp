@@ -58,6 +58,12 @@
     </xs:element>
   </xs:schema>
   <Head>
+    <JobCardNo>AARC/JC/40</JobCardNo>
+    <JobCardDate>31-Dec-2016</JobCardDate>
+    <Unit>MRA BUS AC UNIT</Unit>
+    <Customer>Crompton International</Customer>
+    <ChasisNo>0 - 153619</ChasisNo>
+    <VModel>TATA 66 SEATER</VModel>
     <JobCardNo>AARC/JC/17/7</JobCardNo>
     <JobCardDate>07-Jan-2017</JobCardDate>
     <Unit>Thermal Matser T1400-R</Unit>
@@ -71,25 +77,22 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Box>50MM INSULATED PANEL STD -AL FURATH</Box>
-    <Complaints>1) 50mm Panelling Installation
-2) TM T1400</Complaints>
-    <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
-    <CreatedDes>Workshop Controller</CreatedDes>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <CreatedUser>murali</CreatedUser>
+    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
+    <CreatedDes>Inventory Controller </CreatedDes>
   </Head>
   <Items>
-    <TaskDate>07-Jan-2017</TaskDate>
-    <Employee>Ei Maung</Employee>
-    <Description>Panelling</Description>
-    <Hours>4.00</Hours>
+    <TaskDate>01-Jan-2017</TaskDate>
+    <Employee>KAMAL DAYANANDA </Employee>
+    <Description>Bracket Fitting</Description>
+    <Hours>40.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>04-Jan-2017</TaskDate>
+    <Employee>KAMAL DAYANANDA </Employee>
+    <Description>Unit Fixing</Description>
+    <Hours>16.00</Hours>
   </Items>
   <Items>
     <TaskDate />
