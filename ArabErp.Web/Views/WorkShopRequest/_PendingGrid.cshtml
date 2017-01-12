@@ -29,6 +29,7 @@
 
                                     <tr>
                                         <td align="left">
+                                           
                                             <span id="slno@(row1)">@(row1 + 1)</span>
                                         </td>
                                        <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).SaleOrderRefNo@*" /></td>*@
@@ -48,11 +49,12 @@
                                         <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).EDateDelivery.ToString("dd/MMM/yyyy")@*" /></td>*@
                                         <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).Remaindays@*" /></td>*@
                                         <td>
+                                      
                                             <center>
-
-                                                @Html.ActionLink("Select", "Create", "WorkShopRequest", new { SaleOrderId = Model.ElementAt(i).SaleOrderId, saleorderitem = Model.ElementAt(i).SaleOrderItemId }, new { @class = "form-button5" })
-
+                                                @Html.ActionLink("Select", "Create", "WorkShopRequest", new { SaleOrderId = Model.ElementAt(i).SaleOrderId, saleorderitem = Model.ElementAt(i).SaleOrderItemId, SaleOrderItemUnitId = Model.ElementAt(i).SaleOrderItemUnitId,EvaConUnitId = Model.ElementAt(i).EvaporatorUnitId }, new { @class = "form-button5" })
                                             </center>
+                                     
+                                      
                                         </td>
 
                                     </tr>

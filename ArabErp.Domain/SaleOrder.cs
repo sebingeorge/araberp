@@ -98,6 +98,10 @@ namespace ArabErp.Domain
         public DateTime ServiceEnquiryDate { get; set; }
         public string WorkDescr { get; set; }
         public string VehicleModelName { get; set; }
+        public int SaleOrderItemUnitId { get; set; }
+        public int EvaporatorUnitId { get; set; }
+        
+        
         public List<QuerySheetItem> ProjectRooms { get; set; }
     }
 }

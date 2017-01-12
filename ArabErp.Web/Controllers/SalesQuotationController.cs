@@ -408,10 +408,10 @@ namespace ArabErp.Web.Controllers
 
 
             SalesQuotation salesquotation = repo.GetSalesQuotation(SalesQuotationId);
-
+            //salesquotation.SalesQuotationItems[0].UnitName = "Nos";
             if (!salesquotation.isProjectBased && !salesquotation.isAfterSales)
             {
-                salesquotation.SalesQuotationItems[0].UnitName = "Nos";
+                
                 FillWrkDesc();
             }
             else if (salesquotation.isProjectBased && !salesquotation.isAfterSales)
@@ -421,7 +421,7 @@ namespace ArabErp.Web.Controllers
 
             else if (salesquotation.isAfterSales)
             {
-                salesquotation.SalesQuotationItems[0].UnitName = "Nos";
+              
                 FillWrkDescAfterSales();
 
             }
