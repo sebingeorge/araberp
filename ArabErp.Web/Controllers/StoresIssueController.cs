@@ -225,6 +225,8 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
             ds.Tables["Head"].Columns.Add("JobCardNo");
+            ds.Tables["Head"].Columns.Add("CreateUser");
+            ds.Tables["Head"].Columns.Add("CreateSig");
 
 
             //-------DT
@@ -263,7 +265,8 @@ namespace ArabErp.Web.Controllers
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Head.Image1;
             dr["JobCardNo"] = Head.JobCardNo;
-
+            dr["CreateUser"] = Head.UserName;
+            dr["CreateSig"] = Server.MapPath("~/App_images/") + Head.Signature;
             ds.Tables["Head"].Rows.Add(dr);
 
             StoreIssueItemRepository repo1 = new StoreIssueItemRepository();
