@@ -260,7 +260,7 @@ namespace ArabErp.DAL
                 if(isProjectBased==1)
                 {
                      sql = @"SELECT * INTO #WORK_REQUEST FROM WorkShopRequest WHERE SaleOrderItemId <> 0;
-                                 
+                                 SELECT * INTO #TEMP FROM(
 		                          SELECT  S.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106) SaleOrderRefNo,I.ItemName, C.CustomerName,S.CustomerOrderRef,SI.SaleOrderId,SI.SaleOrderItemId,U.SaleOrderItemUnitId
                                   ,U.EvaporatorUnitId,S.isProjectBased,S.EDateArrival,S.EDateDelivery,DATEDIFF(dd,S.SaleOrderDate,GETDATE ()) Ageing,
 	                              DATEDIFF(dd,GETDATE (),S.EDateDelivery)Remaindays  FROM SaleOrder S 
@@ -275,7 +275,9 @@ namespace ArabErp.DAL
 								  INNER JOIN SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
 								  INNER JOIN SaleOrderItemUnit U ON U.SaleOrderItemId=SI.SaleOrderItemId
 								  INNER JOIN  ITEM I ON I.ItemId=U.CondenserUnitId
-								  INNER JOIN Customer C ON S.CustomerId = C.CustomerId
+								  INNER JOIN Customer C ON S.CustomerId = C.CustomerId)T1
+
+                                  SELECT * FROM #TEMP T LEFT JOIN #WORK_REQUEST WR ON T.SaleOrderItemUnitId = WR.SaleOrderItemUnitId and T.EvaporatorUnitId=WR.EvaConUnitId  WHERE WR.SaleOrderItemUnitId IS  NULL and WR.EvaConUnitId is  null
 
                                   DROP TABLE #WORK_REQUEST;";
                 }

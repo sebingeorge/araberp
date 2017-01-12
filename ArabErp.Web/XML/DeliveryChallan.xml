@@ -67,26 +67,22 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DV/17/20</DeliveryChallanRefNo>
-    <DeliveryChallanDate>09-Jan-2017</DeliveryChallanDate>
-    <Customer>Crompton International</Customer>
+    <DeliveryChallanRefNo>DV/17/30</DeliveryChallanRefNo>
+    <DeliveryChallanDate>11-Jan-2017</DeliveryChallanDate>
+    <Customer>Newrest Gulf</Customer>
     <CDoorNo>Doha , Qatar</CDoorNo>
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SO/TR/18</SaleRefNo>
-    <SONoDate>14 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC/40</JobcardNo>
-    <JCDate>31-Dec-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>153619</RegistrationNo>
-    <ChassisNo>0</ChassisNo>
-    <WorkDesc>MRA BUS AC UNIT</WorkDesc>
-    <VehicleModel>TATA 66 SEATER</VehicleModel>
+    <SaleRefNo>AARC/SER/17/25</SaleRefNo>
+    <SONoDate>10 Jan 2017</SONoDate>
+    <JobcardNo>AARC/17/JC-S/24</JobcardNo>
+    <JCDate>10-Jan-2017 00:00:00</JCDate>
+    <RegistrationNo>285004</RegistrationNo>
+    <WorkDesc>General Checkup &amp; Repair</WorkDesc>
+    <VehicleModel>HYUNDAI HD-65</VehicleModel>
     <Employee>Mohammed Safiq</Employee>
-    <PaymentTerms>100% before Delivery</PaymentTerms>
-    <QuotationRefNo>AARC/SQ/18</QuotationRefNo>
-    <FreezerName>MRA BUS AC UNIT</FreezerName>
-    <FreezerPartNo>D4BB G015387</FreezerPartNo>
-    <FreezerId>952</FreezerId>
-    <Box>1260</Box>
+    <QuotationRefNo>AARC/SER/23/01/17</QuotationRefNo>
+    <FreezerName>DHLM 1.5</FreezerName>
+    <FreezerPartNo />
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -96,17 +92,22 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo>CITC/179/2016</LPONo>
-    <LPODate>14-Dec-2016</LPODate>
+    <LPONo>017110</LPONo>
+    <LPODate>10-Jan-2017</LPODate>
     <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
-    <ApprovedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
+    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <ApprovedUsersig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
   </Head>
   <Items>
-    <Description>Supply, Installation &amp; Commissioning of MRA 512PN
-Bus AC Unit into Tata 66Seater Bus
+    <Description>Replace Tail Lift Hydraulic Filter
+Electrical Check-up
+
+General Service of Tail Lift:
+Replace Hydraulic Oil
+Tail Lift Greasing
+General Check-up &amp; Maintenance
 </Description>
     <UoM>ea</UoM>
     <Quantity>1</Quantity>
