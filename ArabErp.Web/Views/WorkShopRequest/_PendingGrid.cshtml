@@ -10,6 +10,7 @@
                                 <th width="12%"><h1>SO.No. & Date</h1></th>
                                 <th width="13%"><h1>Customer</h1></th>
                                 <th width="12%"><h1>Customer Order Ref.</h1></th>
+
                                 <th width="27%"><h1>Work Description</h1></th>
                                 <th width="5%"><h1>Ageing</h1></th>
                                 <th width="7%"><h1>EDA</h1></th>
@@ -28,22 +29,32 @@
 
                                     <tr>
                                         <td align="left">
+                                           
                                             <span id="slno@(row1)">@(row1 + 1)</span>
                                         </td>
                                        <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).SaleOrderRefNo@*" /></td>*@
                                         <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).CustomerName@*" /></td>*@
                                         <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).CustomerOrderRef@*" /></td>*@
-                                        <td class="grid-cell">@*<input type="text" class="form_input" value="*@ @Model.ElementAt(i).WorkDescription@*" data-toggle="popover" data-placement="right" data-content="@Model.ElementAt(i).WorkDescription" />*@</td>
+                                            @if(Model.ElementAt(i).isProjectBased==1)
+                                            {
+                                               <td class="grid-cell">@*<input type="text" class="form_input" value="*@ @Model.ElementAt(i).ItemName@*" data-toggle="popover" data-placement="right" data-content="@Model.ElementAt(i).WorkDescription" />*@</td>
+                                            }
+                                            else
+                                            {
+                                                <td class="grid-cell">@*<input type="text" class="form_input" value="*@ @Model.ElementAt(i).WorkDescription@*" data-toggle="popover" data-placement="right" data-content="@Model.ElementAt(i).WorkDescription" />*@</td>
+                                            }
+                                        
                                         <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).Ageing@*" /></td>*@
                                         <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).EDateArrival.ToString("dd/MMM/yyyy")@*" /></td>*@
                                         <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).EDateDelivery.ToString("dd/MMM/yyyy")@*" /></td>*@
                                         <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).Remaindays@*" /></td>*@
                                         <td>
+                                      
                                             <center>
-
-                                                @Html.ActionLink("Select", "Create", "WorkShopRequest", new { SaleOrderId = Model.ElementAt(i).SaleOrderId, saleorderitem = Model.ElementAt(i).SaleOrderItemId }, new { @class = "form-button5" })
-
+                                                @Html.ActionLink("Select", "Create", "WorkShopRequest", new { SaleOrderId = Model.ElementAt(i).SaleOrderId, saleorderitem = Model.ElementAt(i).SaleOrderItemId, SaleOrderItemUnitId = Model.ElementAt(i).SaleOrderItemUnitId,EvaConUnitId = Model.ElementAt(i).EvaporatorUnitId }, new { @class = "form-button5" })
                                             </center>
+                                     
+                                      
                                         </td>
 
                                     </tr>

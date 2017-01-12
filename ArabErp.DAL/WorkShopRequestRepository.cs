@@ -299,9 +299,40 @@ namespace ArabErp.DAL
                                     FROM #TEMP1
                                     GROUP BY ItemId, ItemName, PartNo, UnitName,orderkey
                                     ORDER BY  orderkey    
-                                    DROP TABLE #TEMP1;";
+                                    DROP TABLE #TEMP1;"; 
                 return connection.Query<WorkShopRequestItem>(query,
                 new { SaleOrderId = SaleOrderId, SaleOrderItemId = SaleOrderItemId }).ToList();
+            }
+        }
+        public List<WorkShopRequestItem> GetWorkShopRequestDataForProject(int SaleOrderItemUnitId, int SaleOrderUnitId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+           
+
+                string query = @"SELECT T1.* 
+                                INTO #TEMP1 FROM 
+                                (SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName FROM SaleOrderItemUnit U
+                                    INNER JOIN ITEM I ON I.ItemId=U.EvaporatorUnitId
+                                    INNER JOIN Unit IU ON I.ItemUnitId = IU.UnitId
+                                    WHERE U.SaleOrderItemUnitId = @SaleOrderItemUnitId 
+                                    and U.EvaporatorUnitId = @SaleOrderUnitId
+                                    UNION ALL
+                                    SELECT I.ItemId,I.ItemName,I.PartNo,B.Quantity,IU.UnitName FROM ItemVsBom B 
+                                    INNER JOIN ITEM I ON I.ItemId = B.BomItemId
+                                    INNER JOIN Unit IU ON I.ItemUnitId = IU.UnitId
+                                    WHERE B.ItemId = @SaleOrderUnitId) T1;
+                
+                                    SELECT
+                	                    ItemId, ItemName, PartNo, SUM(Quantity) Quantity, UnitName
+                                    FROM #TEMP1
+                                    GROUP BY ItemId, ItemName, PartNo, UnitName
+                
+                                    DROP TABLE #TEMP1;";
+
+                return connection.Query<WorkShopRequestItem>(query,
+                new { SaleOrderItemUnitId = SaleOrderItemUnitId, SaleOrderUnitId = SaleOrderUnitId }).ToList();
             }
         }
         /// <summary>
