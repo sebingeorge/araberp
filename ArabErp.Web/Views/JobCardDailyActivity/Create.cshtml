@@ -91,7 +91,7 @@
 
     //    var actual_h = Number(endtime_h) - Number(starttime_h);
     //    var actual_m = 0;
-        
+
     //    if (endtime_m > starttime_m) {
     //        actual_m = Number(endtime_m) - Number(starttime_m);
     //    }
@@ -161,10 +161,13 @@
 
                                 <td width="1%" align="center">@(i + 1)</td>
                                 @*<td width="26%">@Html.DropDownListFor(m => Model.JobCardDailyActivityTask[i].JobCardTaskId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off" })</td>*@
-                                <td width="5%">
-                                    @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].EmployeeId)
-                                    @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].EmployeeName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                                </td>
+                                @*@if (Model.isProjectBased == 0)
+                                {*@
+                                    <td width="5%">
+                                        @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].EmployeeId)
+                                        @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].EmployeeName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                                    </td>
+                                @*}*@
                                 <td width="5%">
                                     @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].JobCardTaskMasterId)
                                     @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].JobCardTaskId)
@@ -178,7 +181,7 @@
                                 <td width="10%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].ActualHours, new { @class = "form_input numbers-only", autocomplete = "off", @placeholder = "0", @required = "true" })</td>
                                 @*<td style="vertical-align:middle"><a id="add_@i" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>*@
                             </tr>
-                            i++;
+                                i++;
                         }
                     </tbody>
                 </table>

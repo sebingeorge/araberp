@@ -1293,6 +1293,14 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
+                    if (model.isProjectBased == 0)
+                    {
+                        model.SaleOrderRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 3, true, txn);
+                    }
+                    else
+                    {
+                        model.SaleOrderRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 4, true, txn);
+                    }
                     #region saving sale order head [SaleOrder]
                     string sql = @"insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,TotalAmount,TotalDiscount,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId,SaleOrderApproveStatus,isProjectBased,isAfterSales,SalesQuotationId)
                                    Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@TotalAmount,@TotalDiscount,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId,1,@isProjectBased,@isAfterSales,@SalesQuotationId);
