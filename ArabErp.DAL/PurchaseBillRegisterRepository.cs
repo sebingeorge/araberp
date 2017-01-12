@@ -29,13 +29,20 @@ namespace ArabErp.DAL
                 //                              AND P.OrganizationId=@OrganizationId AND  I.ItemId = ISNULL(NULLIF(@itmid, 0), I.ItemId) and S.SupplierId=ISNULL(NULLIF(@id, 0), S.SupplierId) 
                 //                             ORDER BY PurchaseBillDate"; 
                 #endregion
-                string qry = @"select p.PurchaseBillId,P.PurchaseBillRefNo,P.PurchaseBillNoDate,S.SupplierId,I.ItemId,
+                string qry = @"select p.PurchaseBillId,P.PurchaseBillRefNo,P.PurchaseBillNoDate,S.SupplierId,
 									P.PurchaseBillDate,S.SupplierName,SUM(pub.Amount)Amount,
 									 STUFF((SELECT distinct', ' + CAST(ItemName AS VARCHAR(MAX)) [text()]
 									 FROM PurchaseBillItem PBI
 									 INNER JOIN GRNItem T1 ON PBI.GRNItemId = T1.GRNItemId
-									 INNER JOIN Item I ON T1.ItemId=I.ItemId 
+									 INNER JOIN Item IT ON T1.ItemId=IT.ItemId 
 									 where PBI.PurchaseBillId=P.PurchaseBillId FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') ItemName, 
+
+									 STUFF((SELECT distinct', ' + CAST(IM.ItemId AS VARCHAR(MAX)) [text()]
+									 FROM PurchaseBillItem PB1
+									 INNER JOIN GRNItem T2 ON PB1.GRNItemId = T2.GRNItemId
+									 INNER JOIN Item IM ON T2.ItemId=IM.ItemId 
+									 where PB1.PurchaseBillId=P.PurchaseBillId FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') ItemId,
+									  
 									 STUFF((SELECT distinct', ' + CAST(R.GRNNo + ' - ' + CONVERT(VARCHAR, R.GRNDate, 106) AS VARCHAR(MAX)) [text()]
 									 FROM PurchaseBillItem PM INNER JOIN GRNItem IT ON PM.GRNItemId=IT.GRNItemId 
 									 left join GRN R on R.GRNId=IT.GRNId
@@ -52,13 +59,14 @@ namespace ArabErp.DAL
 									left JOIN PurchaseBillItem  PUB on PUB.PurchaseBillId=P.PurchaseBillId
 									left JOIN GRNItem  GI on GI.GRNItemId=PUB.GRNItemId
 									left JOIN Item I ON GI.ItemId=I.ItemId 
-									and P.isActive=1
+									where
+									 P.isActive=1
 									AND P.PurchaseBillDate BETWEEN @from AND @to 
 									AND P.OrganizationId=1 
 									AND I.ItemId = ISNULL(NULLIF(@itmid, 0), I.ItemId)
 									and S.SupplierId=ISNULL(NULLIF(@id, 0), S.SupplierId) 
-									group by p.PurchaseBillId,	P.PurchaseBillRefNo,P.PurchaseBillNoDate,
-									P.PurchaseBillDate,S.SupplierName,S.SupplierId,I.ItemId
+								    group by p.PurchaseBillId,	P.PurchaseBillRefNo,P.PurchaseBillNoDate,
+									P.PurchaseBillDate,S.SupplierName,S.SupplierId
 									ORDER BY PurchaseBillDate"; 
 
 
