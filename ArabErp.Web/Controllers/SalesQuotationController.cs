@@ -299,17 +299,18 @@ namespace ArabErp.Web.Controllers
         {
             FillQuotationNo(ProjectBased, AfterSales);
             FillSQCustomer(ProjectBased, AfterSales);
+            FillSQEmployee(ProjectBased, AfterSales);
             ViewBag.isProjectBased = ProjectBased;
             ViewBag.isAfterSales = AfterSales;
             return View();
         }
 
-        public ActionResult SalesQuotationsList(DateTime? from, DateTime? to, int ProjectBased, int AfterSales, int id = 0, int cusid = 0)
+        public ActionResult SalesQuotationsList(DateTime? from, DateTime? to, int ProjectBased, int AfterSales, int id = 0, int cusid = 0, int Employee=0)
         {
             from = from ?? DateTime.Today.AddMonths(-1);
             to = to ?? DateTime.Today;
             ViewBag.ProjectBased = ProjectBased;
-            return PartialView("_SalesQuotationsList", new SalesQuotationRepository().GetPreviousList(ProjectBased, AfterSales, id, cusid, OrganizationId, from, to));
+            return PartialView("_SalesQuotationsList", new SalesQuotationRepository().GetPreviousList(ProjectBased, AfterSales, id, cusid, OrganizationId, from, to, Employee));
         }
 
         public ActionResult Edit(int id = 0)
@@ -697,6 +698,10 @@ namespace ArabErp.Web.Controllers
         public void FillSQCustomer(int ProjectBased, int AfterSales)
         {
             ViewBag.customerlist = new SelectList(new DropdownRepository().FillSQCustomer(OrganizationId, ProjectBased, AfterSales), "Id", "Name");
+        }
+        public void FillSQEmployee(int ProjectBased, int AfterSales)
+        {
+            ViewBag.Employeelist = new SelectList(new DropdownRepository().FillSQEmployee(OrganizationId, ProjectBased, AfterSales), "Id", "Name");
         }
         public void FillWrkDesc()
         {

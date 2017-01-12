@@ -65,7 +65,7 @@ namespace ArabErp.DAL
                     }
                 }
                 string sql = @"select convert(varchar(50), PurchaseBillDate, 105)[Date],
-                PurchaseBillRefNo Num, S.SupplierName [Name], 'credit' Terms,
+                PurchaseBillNoDate Num, S.SupplierName [Name], 'credit' Terms,
 				convert(varchar(50), PurchaseBillDueDate, 105)[DueDate],
 				case when
 				(select top 1 I.ItemCategoryId from PurchaseBillItem PB 

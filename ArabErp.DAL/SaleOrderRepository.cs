@@ -260,7 +260,7 @@ namespace ArabErp.DAL
                 if(isProjectBased==1)
                 {
                      sql = @"SELECT * INTO #WORK_REQUEST FROM WorkShopRequest WHERE SaleOrderItemId <> 0;
-                                 
+                                 SELECT * INTO #TEMP FROM(
 		                          SELECT  S.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106) SaleOrderRefNo,I.ItemName, C.CustomerName,S.CustomerOrderRef,SI.SaleOrderId,SI.SaleOrderItemId,U.SaleOrderItemUnitId
                                   ,U.EvaporatorUnitId,S.isProjectBased,S.EDateArrival,S.EDateDelivery,DATEDIFF(dd,S.SaleOrderDate,GETDATE ()) Ageing,
 	                              DATEDIFF(dd,GETDATE (),S.EDateDelivery)Remaindays  FROM SaleOrder S 
@@ -275,7 +275,9 @@ namespace ArabErp.DAL
 								  INNER JOIN SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
 								  INNER JOIN SaleOrderItemUnit U ON U.SaleOrderItemId=SI.SaleOrderItemId
 								  INNER JOIN  ITEM I ON I.ItemId=U.CondenserUnitId
-								  INNER JOIN Customer C ON S.CustomerId = C.CustomerId
+								  INNER JOIN Customer C ON S.CustomerId = C.CustomerId)T1
+
+                                  SELECT * FROM #TEMP T LEFT JOIN #WORK_REQUEST WR ON T.SaleOrderItemUnitId = WR.SaleOrderItemUnitId and T.EvaporatorUnitId=WR.EvaConUnitId  WHERE WR.SaleOrderItemUnitId IS  NULL and WR.EvaConUnitId is  null
 
                                   DROP TABLE #WORK_REQUEST;";
                 }
@@ -1293,6 +1295,14 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
+                    if (model.isProjectBased == 0)
+                    {
+                        model.SaleOrderRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 3, true, txn);
+                    }
+                    else
+                    {
+                        model.SaleOrderRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 4, true, txn);
+                    }
                     #region saving sale order head [SaleOrder]
                     string sql = @"insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,TotalAmount,TotalDiscount,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId,SaleOrderApproveStatus,isProjectBased,isAfterSales,SalesQuotationId)
                                    Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@TotalAmount,@TotalDiscount,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId,1,@isProjectBased,@isAfterSales,@SalesQuotationId);

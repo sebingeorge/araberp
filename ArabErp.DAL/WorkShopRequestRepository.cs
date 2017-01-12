@@ -39,8 +39,8 @@ namespace ArabErp.DAL
 
                     objWorkShopRequest.WorkShopRequestRefNo = internalId;
 
-                    string sql = @"insert  into WorkShopRequest(WorkShopRequestRefNo,WorkShopRequestDate,SaleOrderId,CustomerId,CustomerOrderRef,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId) 
-                                    Values (@WorkShopRequestRefNo,@WorkShopRequestDate,@SaleOrderId,@CustomerId,@CustomerOrderRef,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId, @SaleOrderItemId);
+                    string sql = @"insert  into WorkShopRequest(WorkShopRequestRefNo,WorkShopRequestDate,SaleOrderId,CustomerId,CustomerOrderRef,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId,SaleOrderItemUnitId,EvaConUnitId) 
+                                    Values (@WorkShopRequestRefNo,@WorkShopRequestDate,@SaleOrderId,@CustomerId,@CustomerOrderRef,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId, @SaleOrderItemId,@SaleOrderItemUnitId,@EvaConUnitId);
                                SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -317,7 +317,7 @@ namespace ArabErp.DAL
                                     INNER JOIN ITEM I ON I.ItemId=U.EvaporatorUnitId
                                     INNER JOIN Unit IU ON I.ItemUnitId = IU.UnitId
                                     WHERE U.SaleOrderItemUnitId = @SaleOrderItemUnitId 
-                                    and U.EvaporatorUnitId = @SaleOrderUnitId
+                                    and (U.EvaporatorUnitId = @SaleOrderUnitId  or U.CondenserUnitId = @SaleOrderUnitId)
                                     UNION ALL
                                     SELECT I.ItemId,I.ItemName,I.PartNo,B.Quantity,IU.UnitName FROM ItemVsBom B 
                                     INNER JOIN ITEM I ON I.ItemId = B.BomItemId
@@ -325,7 +325,7 @@ namespace ArabErp.DAL
                                     WHERE B.ItemId = @SaleOrderUnitId) T1;
                 
                                     SELECT
-                	                    ItemId, ItemName, PartNo, SUM(Quantity) Quantity, UnitName
+                	                ItemId, ItemName, PartNo, SUM(Quantity) Quantity, UnitName
                                     FROM #TEMP1
                                     GROUP BY ItemId, ItemName, PartNo, UnitName
                 

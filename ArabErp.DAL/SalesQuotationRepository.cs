@@ -532,7 +532,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<SalesQuotationList> GetPreviousList(int isProjectBased, int AfterSales, int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
+        public IEnumerable<SalesQuotationList> GetPreviousList(int isProjectBased, int AfterSales, int id, int cusid, int OrganizationId, DateTime? from, DateTime? to, int Employee)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -541,12 +541,15 @@ namespace ArabErp.DAL
                                inner join Customer C on C.CustomerId = Q.CustomerId
                                inner join Employee E on E.EmployeeId = Q.SalesExecutiveId
                                inner join SalesQuotationStatus RR on RR.SalesQuotationStatusId=q.SalesQuotationStatusId
-                               where Q.SalesQuotationId= ISNULL(NULLIF(@id, 0), Q.SalesQuotationId) AND C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId) 
+                               where
+                               E.EmployeeId = ISNULL(NULLIF(@Employee, 0),  E.EmployeeId) 
+                               AND Q.SalesQuotationId= ISNULL(NULLIF(@id, 0), Q.SalesQuotationId) 
+                               AND C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId) 
                                and Q.QuotationDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
                                and Q.OrganizationId = @OrganizationId  and isProjectBased =" + isProjectBased + " and isAfterSales=" + AfterSales + @" 
-                                AND ISNULL(Q.isActive, 1) = 1 ORDER BY Q.QuotationDate DESC, Q.SalesQuotationId DESC";
+                               AND ISNULL(Q.isActive, 1) = 1 ORDER BY Q.QuotationDate DESC, Q.SalesQuotationId DESC";
 
-                return connection.Query<SalesQuotationList>(sql, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList();
+                return connection.Query<SalesQuotationList>(sql, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from, Employee = Employee }).ToList();
             }
         }
 
