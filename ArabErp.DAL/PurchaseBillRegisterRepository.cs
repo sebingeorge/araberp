@@ -29,7 +29,7 @@ namespace ArabErp.DAL
                 //                              AND P.OrganizationId=@OrganizationId AND  I.ItemId = ISNULL(NULLIF(@itmid, 0), I.ItemId) and S.SupplierId=ISNULL(NULLIF(@id, 0), S.SupplierId) 
                 //                             ORDER BY PurchaseBillDate"; 
                 #endregion
-                string qry = @"select p.PurchaseBillId,	P.PurchaseBillRefNo,P.PurchaseBillNoDate,
+                string qry = @"select p.PurchaseBillId,P.PurchaseBillRefNo,P.PurchaseBillNoDate,S.SupplierId,I.ItemId,
 									P.PurchaseBillDate,S.SupplierName,SUM(pub.Amount)Amount,
 									 STUFF((SELECT distinct', ' + CAST(ItemName AS VARCHAR(MAX)) [text()]
 									 FROM PurchaseBillItem PBI
@@ -56,9 +56,9 @@ namespace ArabErp.DAL
 									AND P.PurchaseBillDate BETWEEN @from AND @to 
 									AND P.OrganizationId=1 
 									AND I.ItemId = ISNULL(NULLIF(@itmid, 0), I.ItemId)
-									 and S.SupplierId=ISNULL(NULLIF(@id, 0), S.SupplierId) 
-									  group by p.PurchaseBillId,	P.PurchaseBillRefNo,P.PurchaseBillNoDate,
-									P.PurchaseBillDate,S.SupplierName
+									and S.SupplierId=ISNULL(NULLIF(@id, 0), S.SupplierId) 
+									group by p.PurchaseBillId,	P.PurchaseBillRefNo,P.PurchaseBillNoDate,
+									P.PurchaseBillDate,S.SupplierName,S.SupplierId,I.ItemId
 									ORDER BY PurchaseBillDate"; 
 
 
@@ -123,20 +123,31 @@ namespace ArabErp.DAL
 						INNER JOIN SupplyOrder S ON S.SupplyOrderId=SI.SupplyOrderId
 						inner join PurchaseBill on PurchaseBill.PurchaseBillId=PB.PurchaseBillId
 						WHERE PurchaseBill.PurchaseBillDate=p.PurchaseBillDate
-						FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') SupplyOrderNo
+						FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') SupplyOrderNo,
 
+						
+						STUFF((SELECT distinct', ' + CAST(t2.SupplierId AS VARCHAR(MAX)) [text()]
+						FROM PurchaseBill t2
+						where t2.PurchaseBillDate=p.PurchaseBillDate FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') SupplierId,
+
+	                    STUFF((SELECT distinct', ' + CAST(IC.itmCatId AS VARCHAR(MAX)) [text()]
+						FROM PurchaseBill t3
+						INNER JOIN PurchaseBillItem P1 ON t3.PurchaseBillId=P1.PurchaseBillId
+						INNER JOIN GRNItem G ON G.GRNItemId=P1.GRNItemId
+						INNER JOIN Item I1 ON G.ItemId =I1.ItemId 
+						INNER JOIN ItemCategory IC ON IC.itmCatId=I1.ItemCategoryId
+						where t3.PurchaseBillDate=p.PurchaseBillDate FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') ItemCategoryId
+						
 						FROM PurchaseBill P
 						INNER JOIN PurchaseBillItem PI ON P.PurchaseBillId=PI.PurchaseBillId
-						INNER JOIN GRNItem G ON P.PurchaseBillId=PI.PurchaseBillId
+						INNER JOIN GRNItem G ON G.GRNItemId=PI.GRNItemId
 						INNER JOIN Item I ON G.ItemId =I.ItemId 
 						INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId
-						WHERE P.isActive=1  
-						--AND P.PurchaseBillDate BETWEEN @from AND @to
-						AND P.OrganizationId=1 AND  P.SupplierId = ISNULL(NULLIF(0, 0), P.SupplierId) and IC.itmCatId=ISNULL(NULLIF(0, 0), IC.itmCatId) 
+						WHERE P.isActive=1   AND  P.SupplierId = ISNULL(NULLIF(@supid, 0), P.SupplierId) and IC.itmCatId=ISNULL(NULLIF(@id, 0), IC.itmCatId) 
+						AND P.PurchaseBillDate BETWEEN @from AND @to
+						AND P.OrganizationId=@OrganizationId
 						GROUP BY  PurchaseBillDate
 						ORDER BY PurchaseBillDate";
-
-
 
 
 
