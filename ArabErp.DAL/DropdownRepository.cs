@@ -770,7 +770,18 @@ namespace ArabErp.DAL
                                                     new { OrganizationId = OrganizationId, ProjectBased = ProjectBased, AfterSales = AfterSales }).ToList();
             }
         }
+       public List<Dropdown> FillSQEmployee(int OrganizationId, int ProjectBased, int AfterSales)
+       {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
 
+                return connection.Query<Dropdown>(@"SELECT  Distinct E.[EmployeeId] Id,E.[EmployeeName] Name
+                                                    FROM SalesQuotation S
+                                                    INNER JOIN Employee E on E.EmployeeId = S.[SalesExecutiveId]
+                                                    WHERE S.OrganizationId = @OrganizationId AND S.isProjectBased = " + ProjectBased + " and S.isAfterSales=" + AfterSales,
+                                                    new { OrganizationId = OrganizationId, ProjectBased = ProjectBased, AfterSales = AfterSales }).ToList();
+            }
+        }
         public List<Dropdown> PurchaseBillNoDropdown()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
