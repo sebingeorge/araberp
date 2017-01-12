@@ -81,19 +81,31 @@ namespace ArabErp
                 }
                 else
                 {
-                    query = "SELECT S.SaleOrderId, SI.SaleOrderItemId,";
-                    query += " GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef,";
-                    query += " ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, ";
-                    query += " 0 GoodsLanded, 0 BayId, 0 FreezerUnitId, W.BoxId BoxId,B.ItemName BoxName, S.isService, S.isProjectBased";
-                    query += " FROM SaleOrder S ";
-                    query += " INNER JOIN Customer C ON S.CustomerId = C.CustomerId";
-                    query += " INNER JOIN SaleOrderItem SI ON SI.SaleOrderId = S.SaleOrderId";
-                    query += " INNER JOIN WorkDescription W ON W.WorkDescriptionId = SI.WorkDescriptionId ";
-                    query += " LEFT JOIN Item B ON W.BoxId = B.ItemId";
-                    query += " WHERE SI.SaleOrderItemId = " + SoItemId.ToString();
+                    query = @"SELECT 
+	                            S.SaleOrderId,
+                                S.SaleOrderRefNo,
+	                            SI.SaleOrderItemId,
+	                            GETDATE() JobCardDate,
+	                            C.CustomerId,
+	                            C.CustomerName,
+	                            S.CustomerOrderRef,
+	                            ''ChasisNoRegNo,
+	                            NULL WorkDescriptionId,
+	                            '' as WorkDescription,
+	                            '' WorkShopRequestRef, 
+	                            0 GoodsLanded,
+	                            NULL BayId,
+	                            NULL FreezerUnitId,
+	                            NULL BoxId,
+	                            '' BoxName,
+	                            S.isService,
+	                            S.isProjectBased
+                            FROM SaleOrder S 
+                            INNER JOIN Customer C ON S.CustomerId = C.CustomerId
+                            INNER JOIN SaleOrderItem SI ON SI.SaleOrderId = S.SaleOrderId
+
+                            WHERE SI.SaleOrderItemId = "+ SoItemId.ToString();
                 }
-
-
                 JobCard jobcard = connection.Query<JobCard>(query).FirstOrDefault();
                 return jobcard;
             }
@@ -137,7 +149,7 @@ namespace ArabErp
                     objJobCard.JobCardNo = internalId.ToString();
                     int id = 0;
                     string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,InPassId,WorkDescriptionId,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId,isProjectBased, isService, Complaints) Values 
-                                                       (@JobCardNo,@JobCardDate,@SaleOrderId,@InPassId,@WorkDescriptionId,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId,@isProjectBased, @isService, @Complaints);
+                                                       (@JobCardNo,@JobCardDate,@SaleOrderId,@InPassId,NULLIF(@WorkDescriptionId, 0),@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId,@isProjectBased, @isService, @Complaints);
                     SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = connection.Query<int>(sql, objJobCard, trn).Single();
@@ -149,6 +161,7 @@ namespace ArabErp
                         item.SlNo = i;
                         JobCardTaskRepository repo = new JobCardTaskRepository();
                         var taskid = repo.InsertJobCardTask(item, connection, trn);
+                        if (taskid == 0) throw new Exception();
                         i++;
                     }
                     InsertLoginHistory(dataConnection, objJobCard.CreatedBy, "Create", "Job Card", id.ToString(), "0");
@@ -441,7 +454,7 @@ namespace ArabErp
                                FROM JobCard J 
                                INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
                                INNER JOIN Customer C ON C.CustomerId=S.CustomerId
-                               INNER JOIN VehicleInPass V ON VehicleInPassId=J.InPassId
+                               LEFT JOIN VehicleInPass V ON VehicleInPassId=J.InPassId
 							   LEFT JOIN ITEM I1 ON J.FreezerUnitId = I1.ItemId
 							   LEFT JOIN ITEM I2 ON J.BoxId = I2.ItemId
 							   LEFT JOIN Employee E ON J.EmployeeId = E.EmployeeId
@@ -547,7 +560,7 @@ namespace ArabErp
                     JC.SpecialRemarks, JC.Complaints
                     from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId
                     inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId
-                    inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
+                    LEFT join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
                     LEFT join VehicleModel V on V.VehicleModelId = W.VehicleModelId
 					LEFT JOIN VehicleInPass VI ON SI.SaleOrderItemId = VI.SaleOrderItemId
 					LEFT JOIN Item FU ON W.FreezerUnitId = FU.ItemId
