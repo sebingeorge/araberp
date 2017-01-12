@@ -34,7 +34,7 @@ namespace ArabErp.DAL
                         item.JobCardDailyActivityId = id;
                         item.CreatedDate = DateTime.Now;
                         sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
-                                                                      (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, @EmployeeId, @StartTime, @EndTime);
+                                (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, NULLIF(@EmployeeId, 0), @StartTime, @EndTime);
                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -63,7 +63,7 @@ namespace ArabErp.DAL
                                JC.isProjectBased,ISNULL(JC.JodCardCompleteStatus,0)IsUsed
                                FROM JobCardDailyActivity DA
                                INNER JOIN JobCard JC ON DA.JobCardId = JC.JobCardId
-                               INNER JOIN Employee EMP ON JC.EmployeeId = EMP.EmployeeId
+                               LEFT JOIN Employee EMP ON JC.EmployeeId = EMP.EmployeeId
                                WHERE DA.JobCardDailyActivityId = @JobCardDailyActivityId
                                AND DA.isActive = 1";
 
@@ -167,8 +167,8 @@ namespace ArabErp.DAL
                                 from JobCard J
                                 inner join SaleOrder S on S.SaleOrderId=J.SaleOrderId
                                 inner join Employee E on E.EmployeeId = J.EmployeeId
-                                inner join WorkDescription W on W.WorkDescriptionId = J.WorkDescriptionId
-                                inner join VehicleInPass on VehicleInPassId=InPassId
+                                LEFT join WorkDescription W on W.WorkDescriptionId = J.WorkDescriptionId
+                                LEFT join VehicleInPass on VehicleInPassId=InPassId
                                 inner join Customer C on C.CustomerId=S.CustomerId
                                 where J.JodCardCompleteStatus is null
 						        AND J.OrganizationId = @OrganizationId
@@ -210,7 +210,7 @@ namespace ArabErp.DAL
 									CONVERT(VARCHAR, T.TaskDate, 106) TaskEndDate
                                 FROM JobCardTask T
 									INNER JOIN JobCard J ON T.JobCardId = J.JobCardId
-	                                INNER JOIN Employee E ON T.EmployeeId = E.EmployeeId
+	                                LEFT JOIN Employee E ON T.EmployeeId = E.EmployeeId
 	                                INNER JOIN JobCardTaskMaster M ON T.JobCardTaskMasterId = M.JobCardTaskMasterId
                                 WHERE T.isActive = 1 AND T.JobCardId = @id AND J.OrganizationId = @OrganizationId";
                 return connection.Query<JobCardDailyActivityTask>(query, new { id = Id, OrganizationId = OrganizationId }).ToList();

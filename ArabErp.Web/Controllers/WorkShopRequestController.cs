@@ -74,6 +74,8 @@ namespace ArabErp.Web.Controllers
             model.WorkShopRequestRefNo = internalId;
             model.WorkShopRequestDate = System.DateTime.Today;
             model.RequiredDate = System.DateTime.Today;
+            model.SaleOrderItemUnitId = SaleOrderItemUnitId ?? 0;
+            model.EvaConUnitId = EvaConUnitId ?? 0;
             return View(model);
         }
 

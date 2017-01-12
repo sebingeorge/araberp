@@ -40,11 +40,10 @@ namespace ArabErp.DAL
                     inner join SaleOrderItem SI on SI.SaleOrderItemId = J.SaleOrderItemId
                     inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId
                     inner join Customer C on S.CustomerId = C.CustomerId 
-                    inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
-                    inner join VehicleInPass VI ON VI.VehicleInPassId=J.InPassId
+                    LEFT join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
+                    LEFT join VehicleInPass VI ON VI.VehicleInPassId=J.InPassId
                     where ISNULL(J.JodCardCompleteStatus,0) <> 1 and J.isProjectBased = 1 AND J.OrganizationId = @OrganizationId
-                    and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)
-                    AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')";
+                    and J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)";
                 }
 
                 return connection.Query<JobOrderPending>(query, new { isProjectBased = isProjectBased, OrganizationId = OrganizationId, id = id, cusid = cusid, RegNo = RegNo });
@@ -77,7 +76,7 @@ namespace ArabErp.DAL
                     query += " FROM JobCard J INNER JOIN SaleOrder S on S.SaleOrderId = J.SaleOrderId";
                     query += " INNER JOIN SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
                     query += " INNER JOIN Customer C on S.CustomerId = C.CustomerId";
-                    query += " INNER JOIN WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                    query += " LEFT JOIN WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
                     query += " LEFT JOIN WorkShopRequest WR ON WR.SaleOrderId=J.SaleOrderId";
                     query += " LEFT JOIN StoreIssue SS ON SS.WorkShopRequestId=WR.WorkShopRequestId";
                     query += " where J.JobCardId = " + JobCardId.ToString() + " and J.isProjectBased = 1";

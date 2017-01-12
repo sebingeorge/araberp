@@ -29,7 +29,7 @@ namespace ArabErp.DAL
                                     GROUP BY JobCardId
 
                                     SELECT
-	                                JC.JobCardNo,SO.SaleOrderId,JC.SaleOrderItemId,
+	                                JC.JobCardId,JC.JobCardNo,SO.SaleOrderId,JC.SaleOrderItemId,
 	                                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
 	                                CUS.CustomerName,
 	                                VIP.RegistrationNo,
@@ -75,25 +75,24 @@ namespace ArabErp.DAL
 
                                     update R set R.MaterialCost = (T.Quantity*T.Rate) from #TEMP T inner join #Result R on R.SaleOrderId = T.SaleOrderId 
 
-                                    SELECT W.WorkShopRequestRefNo,J.SaleOrderId,W.JobCardId,W.SaleOrderItemId,
-                                    SM.SaleOrderMaterialId,SM.ItemId,I.ItemName Accessories
-                                    INTO #ACCER
-                                    from WorkShopRequest W
-                                    INNER JOIN JobCard J ON J.JobCardId=W.JobCardId OR J.SaleOrderItemId=W.SaleOrderItemId 
-                                    INNER JOIN WorkShopRequestItem WI ON WI.WorkShopRequestId=W.WorkShopRequestId
-                                    INNER JOIN (SELECT WorkShopRequestItemId,sum(IssuedQuantity)Qty FROM StoreIssueItem GROUP BY WorkShopRequestItemId) SI 
-                                    ON SI.WorkShopRequestItemId=WI.WorkShopRequestItemId
-                                    INNER JOIN SaleOrderMaterial SM ON SM.SaleOrderId=J.SaleOrderId AND SM.itemid =WI.ItemId
-                                    INNER JOIN item I ON I.ItemId=SM.ItemId
-
-                                    SELECT R.JobCardNo,R.SaleOrderId,R.SaleOrderItemId,R.JobCardDate,
+                                    SELECT R.JobCardId,R.JobCardNo,R.SaleOrderId,R.SaleOrderItemId,R.JobCardDate,
                                     R.CustomerName,R.RegistrationNo,R.ChassisNo,R.DeliveryChallanId,
                                     R.DeliveryChallanRefNo,R.DeliveryChallanDate,R.InvoiceNo,R.InvoiceDate,
                                     R.Amount,R.BoxName,R.FreezerName,R.UnitSerialNo,R.InstallationType,R.LabourCost,
-                                    R.MaterialCost,R.isService,R.OrganizationId,Accessories 
+                                    R.MaterialCost,R.isService,R.OrganizationId,
+
+                                    STUFF((SELECT ', ' + I.ItemName
+                                    FROM  WorkShopRequest W 
+                                    INNER JOIN WorkShopRequestItem WI ON WI.WorkShopRequestId=W.WorkShopRequestId
+                                    INNER JOIN (SELECT WorkShopRequestItemId,sum(IssuedQuantity)Qty FROM StoreIssueItem 
+                                    GROUP BY WorkShopRequestItemId) SI 
+                                    ON SI.WorkShopRequestItemId=WI.WorkShopRequestItemId
+                                    INNER JOIN SaleOrderMaterial SM ON SM.SaleOrderId=R.SaleOrderId AND SM.itemid =WI.ItemId
+                                    INNER JOIN item I ON I.ItemId=SM.ItemId
+                                    WHERE R.JobCardId=W.JobCardId OR R.SaleOrderItemId=W.SaleOrderItemId
+                                    FOR XML PATH('')), 1, 1, '') AS Accessories
                                     FROM #Result R
-                                    LEFT JOIN #ACCER A ON A.SaleOrderItemId=R.SaleOrderItemId
-                                    
+                                   
                                     WHERE OrganizationId = @org
 									AND MONTH(JobCardDate) = ISNULL(@month, MONTH(GETDATE())) 
 									AND YEAR(JobCardDate) = ISNULL(@year, YEAR(GETDATE()))
