@@ -129,6 +129,9 @@ namespace ArabErp.Web.Controllers
                     return RedirectToAction("PendingJobCard", new { isProjectBased = model.isProjectBased, service = model.isService });
                 }
                 TempData["error"] = "Some error occured while saving. Please try again.";
+                FillBay(model.isService);
+                FillAllTasks();
+                FillEmployee();
                 return View(model);
             }
 

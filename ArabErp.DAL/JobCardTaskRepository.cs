@@ -18,7 +18,7 @@ namespace ArabErp.DAL
             try
             {
                 string sql = @"insert  into JobCardTask(JobCardId,JobCardTaskMasterId,SlNo,EmployeeId,TaskDate,Hours,ActualHours,CreatedBy,CreatedDate,OrganizationId) Values 
-                (@JobCardId,@JobCardTaskId,@SlNo,@EmployeeId,@TaskDate,@Hours,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId);
+                (@JobCardId,@JobCardTaskId,@SlNo,NULLIF(@EmployeeId, 0),@TaskDate,@Hours,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId);
                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
