@@ -481,7 +481,8 @@ namespace ArabErp
                 {
                     sq = @"SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,
                               C.CustomerName Customer,U.ItemName FreezerUnitName,
-								V.ChassisNo + CASE WHEN ISNULL(V.RegistrationNo, '') <> '' AND ISNULL(V.ChassisNo, '') <> '' THEN ' - ' END + V.RegistrationNo ChasisNo,
+								--V.ChassisNo + CASE WHEN ISNULL(V.RegistrationNo, '') <> '' AND ISNULL(V.ChassisNo, '') <> '' THEN ' - ' END + V.RegistrationNo ChasisNo,
+                                ISNULL(V.RegistrationNo, '') + CASE WHEN ISNULL(V.RegistrationNo, '') <> '' AND ISNULL(V.ChassisNo, '') <> '' THEN ' - ' ELSE '' END + ISNULL(V.ChassisNo, '') RegistrationNo, 
                                 VM.VehicleModelName,UI.ItemName BoxName,
 								US.UserName CreatedUser,US.Signature CreatedUsersig,DI.DesignationName CreatedDes,
                                 J.Complaints
@@ -510,7 +511,7 @@ namespace ArabErp
                 {
                     qu = @"SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,
                               C.CustomerName Customer,U.ItemName FreezerUnitName,
-								v.RegistrationNo ChasisNo,VM.VehicleModelName,UI.ItemName BoxName,
+								v.RegistrationNo RegistrationNo,VM.VehicleModelName,UI.ItemName BoxName,
 								SE.Complaints,
 								concat(SE.BoxMake,CASE WHEN (ISNULL(LTRIM(RTRIM(SE.BoxMake)),'') = '' OR ISNULL(LTRIM(RTRIM(SE.BoxNo)), '') = '') THEN '' ELSE ' / ' END ,SE.BoxNo) BoxName,
 								concat(SE.FreezerMake,CASE WHEN (ISNULL(LTRIM(RTRIM(SE.FreezerMake)),'') = '' OR ISNULL(LTRIM(RTRIM(SE.FreezerModel)), '') = '') THEN '' ELSE ' / ' END ,SE.FreezerModel) FreezerUnitName,
@@ -554,7 +555,7 @@ namespace ArabErp
                     JC.JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,
                     ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, 
                     0 GoodsLanded, 0 BayId, W.FreezerUnitId FreezerUnitId, FU.ItemName FreezerUnitName, W.BoxId BoxId, B.ItemName BoxName, 
-                    VI.RegistrationNo + CASE WHEN ISNULL(VI.RegistrationNo, '') <> '' AND ISNULL(VI.ChassisNo, '') <> '' THEN ' - ' END + VI.ChassisNo RegistrationNo, 
+                    ISNULL(VI.RegistrationNo, '') + CASE WHEN ISNULL(VI.RegistrationNo, '') <> '' AND ISNULL(VI.ChassisNo, '') <> '' THEN ' - ' ELSE '' END + ISNULL(VI.ChassisNo, '') RegistrationNo, 
                     VI.VehicleInPassId InPassId, S.isProjectBased,
 					JC.JobCardId, JC.JobCardNo, JC.BayId, CONVERT(VARCHAR, JC.RequiredDate, 106) RequiredDate, JC.EmployeeId,s.isService, 
                     JC.SpecialRemarks, JC.Complaints

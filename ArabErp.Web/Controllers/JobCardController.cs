@@ -296,7 +296,7 @@ namespace ArabErp.Web.Controllers
             dr["CustomerContactPerson"] = Head.ContactPerson;
             dr["Customer"] = Head.Customer;
             dr["Unit"] = Head.FreezerUnitName;
-            dr["ChasisNo"] = Head.ChasisNo;
+            dr["ChasisNo"] = Head.RegistrationNo;
             //dr["TaskDate"] = Head.TaskDate;
             dr["VModel"] = Head.VehicleModelName;
             dr["Technician"] = Head.Technician;
