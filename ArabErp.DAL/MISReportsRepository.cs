@@ -19,8 +19,101 @@ namespace ArabErp.DAL
             {
                 try
                 {
+                    #region old query 12.01.2017 
+//                    string query = @"SELECT 
+//	                                    JobCardId,
+//	                                Sum(CAST((ISNULL(JCTM.MinimumRate, 0)*ISNULL(JCT.ActualHours, 0))AS DECIMAL(18,2)) ) LabourCost
+//                                    INTO #HourlyCost
+//                                    FROM JobCardTask JCT
+//                                    INNER JOIN JobCardTaskMaster JCTM ON JCT.JobCardTaskMasterId = JCTM.JobCardTaskMasterId
+//                                    INNER JOIN Employee EMP ON JCT.EmployeeId = EMP.EmployeeId
+//                                    GROUP BY JobCardId
+//
+//                                    SELECT
+//	                                JC.JobCardId,JC.JobCardNo,SO.SaleOrderId,JC.SaleOrderItemId,
+//	                                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
+//	                                CUS.CustomerName,
+//	                                VIP.RegistrationNo,
+//	                                VIP.ChassisNo,
+//	                                DC.DeliveryChallanId,DC.DeliveryChallanRefNo,
+//	                                CONVERT(VARCHAR, DC.DeliveryChallanDate, 106) DeliveryChallanDate,
+//	                                SI.SalesInvoiceRefNo InvoiceNo,
+//	                                CONVERT(VARCHAR, SI.SalesInvoiceDate, 106) InvoiceDate,
+//	                                SI.TotalAmount Amount,
+//	                                BOX.ItemName BoxName,
+//	                                FREEZER.ItemName FreezerName,
+//
+//	                                STUFF((SELECT ', ' + IB.SerialNo
+//                                    FROM  ItemBatch IB
+//                                    WHERE JC.SaleOrderItemId = IB.SaleOrderItemId
+//                                    FOR XML PATH('')), 1, 1, '') AS UnitSerialNo,
+//
+//	                                CASE WHEN ISNULL(JC.isService, 0) = 1 THEN 'Service' ELSE 'New Installation' END InstallationType,
+//	                                HC.LabourCost,0 MaterialCost,JC.isService, JC.OrganizationId INTO #Result
+//                                    FROM JobCard JC
+//                                    INNER JOIN SaleOrder SO ON JC.SaleOrderId = SO.SaleOrderId
+//                                    INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
+//                                    INNER JOIN VehicleInPass VIP ON JC.InPassId = VIP.VehicleInPassId
+//                                    LEFT JOIN DeliveryChallan DC ON JC.JobCardId = DC.JobCardId
+//                                    LEFT JOIN SalesInvoice SI ON JC.SaleOrderId = SI.SaleOrderId
+//                                    LEFT JOIN Item BOX ON JC.BoxId = BOX.ItemId
+//                                    LEFT JOIN Item FREEZER ON JC.FreezerUnitId = FREEZER.ItemId
+//                                    LEFT JOIN #HourlyCost HC ON JC.JobCardId = HC.JobCardId
+//
+//                                    SELECT SO.SaleOrderId,WRI.ItemId,SUM(SII.IssuedQuantity)Quantity,0 Rate INTO #TEMP
+//                                    FROM WorkShopRequest WR
+//                                    INNER JOIN SaleOrder SO ON WR.SaleOrderId = SO.SaleOrderId
+//                                    INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+//                                    INNER JOIN StoreIssueItem SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
+//                                    GROUP BY SO.SaleOrderId, WRI.ItemId;
+//
+//                                    with A as(
+//                                    SELECT I.ItemId,I.ItemName,
+//                                    ISNULL(GI.Rate, ISNULL(SR.Rate, 0)) Rate
+//                                    FROM GRNItem GI
+//                                    INNER JOIN (SELECT MAX(GRNItemId)GRNItemId FROM GRNItem GROUP BY ItemId) T1 ON GI.GRNItemId = T1.GRNItemId
+//                                    INNER JOIN GRN G ON GI.GRNId = G.GRNId
+//                                    RIGHT OUTER JOIN Item I ON GI.ItemId = I.ItemId
+//                                    LEFT JOIN StandardRate SR ON GI.ItemId = SR.ItemId
+//                                    )
+//                                    update T set T.Rate = A.Rate from A inner join #TEMP T on T.ItemId = A.ItemId;
+//
+//                                    update R set R.MaterialCost = (T.Quantity*T.Rate) from #TEMP T inner join #Result R on R.SaleOrderId = T.SaleOrderId 
+//
+//                                    SELECT R.JobCardId,R.JobCardNo,R.SaleOrderId,R.SaleOrderItemId,R.JobCardDate,
+//                                    R.CustomerName,R.RegistrationNo,R.ChassisNo,R.DeliveryChallanId,
+//                                    R.DeliveryChallanRefNo,R.DeliveryChallanDate,R.InvoiceNo,R.InvoiceDate,
+//                                    R.Amount,R.BoxName,R.FreezerName,R.UnitSerialNo,R.InstallationType,R.LabourCost,
+//                                    R.MaterialCost,R.isService,R.OrganizationId,
+//
+//                                    STUFF((SELECT DISTINCT ', ' + I.ItemName
+//                                    FROM  WorkShopRequest W 
+//                                    INNER JOIN WorkShopRequestItem WI ON WI.WorkShopRequestId=W.WorkShopRequestId
+//                                    INNER JOIN (SELECT WorkShopRequestItemId,sum(IssuedQuantity)Qty FROM StoreIssueItem 
+//                                    GROUP BY WorkShopRequestItemId) SI 
+//                                    ON SI.WorkShopRequestItemId=WI.WorkShopRequestItemId
+//                                    INNER JOIN SaleOrderMaterial SM ON SM.SaleOrderId=R.SaleOrderId AND SM.itemid =WI.ItemId
+//                                    INNER JOIN item I ON I.ItemId=SM.ItemId
+//                                    WHERE R.JobCardId=W.JobCardId OR R.SaleOrderItemId=W.SaleOrderItemId
+//                                    FOR XML PATH('')), 1, 1, '') AS Accessories
+//                                    FROM #Result R
+//                                   
+//                                    WHERE OrganizationId = @org
+//									AND MONTH(JobCardDate) = ISNULL(@month, MONTH(GETDATE())) 
+//									AND YEAR(JobCardDate) = ISNULL(@year, YEAR(GETDATE()))
+//                                    AND Concat(RegistrationNo,'/',ChassisNo) LIKE '%'+@ChassisNo+'%'
+//                                    AND isnull(UnitSerialNo,0)  LIKE '%'+@UnitSlNo+'%'
+//                                    AND isnull(CustomerName,'')  LIKE '%'+@Customer+'%'
+//                                    AND isnull(JobCardNo,'')  LIKE '%'+@JobcardNo+'%'
+//--                                  AND isnull(isService,'')  LIKE '%'+@Installation+'%'
+//                                    AND ISNULL(isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(isService, 0) END
+//                                    ORDER BY DeliveryChallanId desc
+//                                    DROP TABLE #HourlyCost";
+
+                    #endregion
+
                     string query = @"SELECT 
-	                                    JobCardId,
+	                                JobCardId,
 	                                Sum(CAST((ISNULL(JCTM.MinimumRate, 0)*ISNULL(JCT.ActualHours, 0))AS DECIMAL(18,2)) ) LabourCost
                                     INTO #HourlyCost
                                     FROM JobCardTask JCT
@@ -28,33 +121,30 @@ namespace ArabErp.DAL
                                     INNER JOIN Employee EMP ON JCT.EmployeeId = EMP.EmployeeId
                                     GROUP BY JobCardId
 
-                                    SELECT
-	                                JC.JobCardId,JC.JobCardNo,SO.SaleOrderId,JC.SaleOrderItemId,
-	                                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
-	                                CUS.CustomerName,
-	                                VIP.RegistrationNo,
-	                                VIP.ChassisNo,
-	                                DC.DeliveryChallanId,DC.DeliveryChallanRefNo,
-	                                CONVERT(VARCHAR, DC.DeliveryChallanDate, 106) DeliveryChallanDate,
-	                                SI.SalesInvoiceRefNo InvoiceNo,
-	                                CONVERT(VARCHAR, SI.SalesInvoiceDate, 106) InvoiceDate,
-	                                SI.TotalAmount Amount,
-	                                BOX.ItemName BoxName,
-	                                FREEZER.ItemName FreezerName,
-	                                IB.SerialNo UnitSerialNo,
-	                                CASE WHEN ISNULL(JC.isService, 0) = 1 THEN 'Service' ELSE 'New Installation' END InstallationType,
-	                                HC.LabourCost,0 MaterialCost,JC.isService, JC.OrganizationId INTO #Result
-                                    FROM JobCard JC
+                                    SELECT JC.JobCardId,JC.JobCardNo,SO.SaleOrderId,JC.SaleOrderItemId,
+                                    CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
+                                    CUS.CustomerName,VIP.RegistrationNo,VIP.ChassisNo,
+                                    DC.DeliveryChallanId,DC.DeliveryChallanRefNo,
+                                    CONVERT(VARCHAR, DC.DeliveryChallanDate, 106) DeliveryChallanDate,
+                                    SI.SalesInvoiceRefNo InvoiceNo,CONVERT(VARCHAR, SI.SalesInvoiceDate, 106) InvoiceDate,
+                                    SI.TotalAmount Amount,BOX.ItemName BoxName,FREEZER.ItemName FreezerName,
+                                    STUFF((SELECT ', ' + IB.SerialNo
+                                    FROM  ItemBatch IB
+                                    WHERE JC.SaleOrderItemId = IB.SaleOrderItemId
+                                    FOR XML PATH('')), 1, 1, '') AS UnitSerialNo,
+
+                                    CASE WHEN ISNULL(JC.isService, 0) = 1 THEN 'Service' ELSE 'New Installation' END InstallationType,
+                                    HC.LabourCost,0 MaterialCost,JC.isService, JC.OrganizationId INTO #Result
+                                    FROM DeliveryChallan DC
+                                    INNER JOIN JobCard JC ON JC.JobCardId = DC.JobCardId 
                                     INNER JOIN SaleOrder SO ON JC.SaleOrderId = SO.SaleOrderId
                                     INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
                                     INNER JOIN VehicleInPass VIP ON JC.InPassId = VIP.VehicleInPassId
-                                    LEFT JOIN DeliveryChallan DC ON JC.JobCardId = DC.JobCardId
-                                    LEFT JOIN SalesInvoice SI ON JC.SaleOrderId = SI.SaleOrderId
+                                    LEFT JOIN SalesInvoiceItem SII ON SII.JobCardId=JC.JobCardId
+                                    LEFT JOIN SalesInvoice SI ON SII.SalesInvoiceId = SI.SalesInvoiceId
                                     LEFT JOIN Item BOX ON JC.BoxId = BOX.ItemId
                                     LEFT JOIN Item FREEZER ON JC.FreezerUnitId = FREEZER.ItemId
-                                    LEFT JOIN ItemBatch IB ON JC.SaleOrderItemId = IB.SaleOrderItemId
                                     LEFT JOIN #HourlyCost HC ON JC.JobCardId = HC.JobCardId
-
                                     SELECT SO.SaleOrderId,WRI.ItemId,SUM(SII.IssuedQuantity)Quantity,0 Rate INTO #TEMP
                                     FROM WorkShopRequest WR
                                     INNER JOIN SaleOrder SO ON WR.SaleOrderId = SO.SaleOrderId
@@ -81,12 +171,11 @@ namespace ArabErp.DAL
                                     R.Amount,R.BoxName,R.FreezerName,R.UnitSerialNo,R.InstallationType,R.LabourCost,
                                     R.MaterialCost,R.isService,R.OrganizationId,
 
-                                    STUFF((SELECT ', ' + I.ItemName
+                                    STUFF((SELECT DISTINCT ', ' + I.ItemName
                                     FROM  WorkShopRequest W 
                                     INNER JOIN WorkShopRequestItem WI ON WI.WorkShopRequestId=W.WorkShopRequestId
                                     INNER JOIN (SELECT WorkShopRequestItemId,sum(IssuedQuantity)Qty FROM StoreIssueItem 
-                                    GROUP BY WorkShopRequestItemId) SI 
-                                    ON SI.WorkShopRequestItemId=WI.WorkShopRequestItemId
+                                    GROUP BY WorkShopRequestItemId) SI ON SI.WorkShopRequestItemId=WI.WorkShopRequestItemId
                                     INNER JOIN SaleOrderMaterial SM ON SM.SaleOrderId=R.SaleOrderId AND SM.itemid =WI.ItemId
                                     INNER JOIN item I ON I.ItemId=SM.ItemId
                                     WHERE R.JobCardId=W.JobCardId OR R.SaleOrderItemId=W.SaleOrderItemId

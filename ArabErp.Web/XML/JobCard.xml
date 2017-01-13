@@ -58,17 +58,13 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>AARC/JC/40</JobCardNo>
-    <JobCardDate>31-Dec-2016</JobCardDate>
-    <Unit>MRA BUS AC UNIT</Unit>
-    <Customer>Crompton International</Customer>
-    <ChasisNo>0 - 153619</ChasisNo>
-    <VModel>TATA 66 SEATER</VModel>
-    <JobCardNo>AARC/JC/17/7</JobCardNo>
-    <JobCardDate>07-Jan-2017</JobCardDate>
-    <Unit>Thermal Matser T1400-R</Unit>
-    <Customer>Auto Run Rent A Car</Customer>
-    <VModel>Nissan Urvan STD Roof Van 3 seater</VModel>
+    <JobCardNo>AARC/JC/16</JobCardNo>
+    <JobCardDate>12-Dec-2016</JobCardDate>
+    <SaleOrderRefNo>GK024147</SaleOrderRefNo>
+    <Unit>Thermoking V500 Max 10 24V</Unit>
+    <Customer>SANWARA FRUITS AND VEGETABLES</Customer>
+    <ChasisNo>GK024147</ChasisNo>
+    <VModel>MITSUBISHI 4.3 TON</VModel>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -77,22 +73,23 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Box>100mm 4400x2100x2100mm- MITS- TCTI</Box>
     <CreatedUser>murali</CreatedUser>
-    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
+    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\dea8370f-38e6-4433-90f4-7af7b21ecc57.jpg</CreateSignature>
     <CreatedDes>Inventory Controller </CreatedDes>
   </Head>
   <Items>
-    <TaskDate>01-Jan-2017</TaskDate>
-    <Employee>KAMAL DAYANANDA </Employee>
-    <Description>Bracket Fitting</Description>
-    <Hours>40.00</Hours>
+    <TaskDate>13-Dec-2016</TaskDate>
+    <Employee>Jagath Kumara Kotuwegoda Guruge</Employee>
+    <Description>Box Fixing</Description>
+    <Hours>14.00</Hours>
   </Items>
   <Items>
-    <TaskDate>04-Jan-2017</TaskDate>
-    <Employee>KAMAL DAYANANDA </Employee>
+    <TaskDate>14-Dec-2016</TaskDate>
+    <Employee>MANEESH MANIYAN MANIYAN</Employee>
     <Description>Unit Fixing</Description>
-    <Hours>16.00</Hours>
+    <Hours>10.00</Hours>
   </Items>
   <Items>
     <TaskDate />
