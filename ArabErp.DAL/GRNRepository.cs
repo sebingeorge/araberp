@@ -238,18 +238,18 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<GRN> GetGRNPreviousList(string Grn = "",  string Supplier = "", int OrganizationId=0)
+        public IEnumerable<GRN> GetGRNPreviousList(string Grn = "",  string Supplier = "",string LPO="",int OrganizationId=0)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @" SELECT Distinct
+                string query = @"select * INTO #TEMP FROM(SELECT Distinct
                                 G.GRNId,GRNNo+' - '+CONVERT(VARCHAR, GRNDate, 106) GRNNo,
                                 STUFF((SELECT Distinct ', ' + CAST(SO.SupplyOrderNo AS VARCHAR(MAX)) [text()]
                                 FROM GRNItem GT1 
 							    INNER  JOIN SupplyOrderItem SOT ON SOT.SupplyOrderItemId =GT1.SupplyOrderItemId
 							    INNER  JOIN SupplyOrder SO on SO.SupplyOrderId=SOT.SupplyOrderId
                                 WHERE
-                             --   ISNULL(SO.SupplyOrderNo,'')like '%'+@Lpo+'%' and
+                            
                                 GT1.GRNId = GT.GRNId
                                 FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') SONoDATE,
 
@@ -267,13 +267,14 @@ namespace ArabErp.DAL
                                 INNER JOIN Stockpoint ST ON G.WareHouseId = ST.StockPointId
 
                                 WHERE ISNULL(G.isActive, 1) = 1 AND G.OrganizationId = @OrganizationId
-	                            AND ISNULL(S.SupplierName,'') like'%'+@Supplier+'%'
-	                            AND ISNULL(GRNNo,'') like'%'+@Grn+'%'
+	                            AND ISNULL(S.SupplierName,'') like '%'+@Supplier+'%'
+	                            AND ISNULL(GRNNo,'') like '%'+@Grn+'%'
                                 GROUP BY G.GRNId,G.GRNNo,G.GRNDate,S.SupplierName,G.SupplierDCNoAndDate,
                                 EMP.EmployeeName ,ST.StockPointName,G.GrandTotal,G.CreatedDate,
                                 G.isDirectPurchaseGRN,GT.SupplyOrderItemId,GT.GRNId
-								ORDER BY G.GRNDate DESC, G.CreatedDate DESC;";
-                return connection.Query<GRN>(query, new { Grn = Grn, Supplier = Supplier, OrganizationId = OrganizationId });
+								)T1
+                                SELECT * FROM #TEMP WHERE  ISNULL(SONoDATE,'') like '%'+@LPO+'%' ORDER BY GRNDate DESC, CreatedDate DESC";
+                return connection.Query<GRN>(query, new { Grn = Grn, Supplier = Supplier, LPO = LPO, OrganizationId = OrganizationId });
             }
         }
 

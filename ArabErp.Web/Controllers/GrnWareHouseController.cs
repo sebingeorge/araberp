@@ -36,10 +36,10 @@ namespace ArabErp.Web.Controllers
             return View( );
         }
         
-        public ActionResult PreviousListGRN(string Grn = "", string Supplier="")
+        public ActionResult PreviousListGRN(string Grn = "", string Supplier="",string LPO="")
         {
             var repo = new GRNRepository();
-            IEnumerable<GRN> GRNList = repo.GetGRNPreviousList(Grn, Supplier, OrganizationId);
+            IEnumerable<GRN> GRNList = repo.GetGRNPreviousList(Grn, Supplier,LPO, OrganizationId);
             return PartialView("_PreviousListGRN", GRNList);
         }
         public ActionResult Create(IList<PendingForGRN> list)
