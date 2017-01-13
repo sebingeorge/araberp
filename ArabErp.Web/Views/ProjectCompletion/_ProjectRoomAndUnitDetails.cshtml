@@ -1,0 +1,42 @@
+﻿@model ArabErp.Domain.ProjectRoomAndUnitDetails
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-responsive table-hover table-bordered">
+            <tr>
+                <th colspan="2">
+                    <strong><u>@Model.RoomDetails (@Model.TemperatureRequired)</u></strong>
+                </th>
+            </tr>
+            <tr>
+                <th width="25%">
+                    <u>Cold Room External Dimensions:</u>
+                </th>
+                <td width="75%">
+                    @Model.ExternalRoomDimension
+                </td>
+            </tr>
+            <tr>
+                <th colspan="2">
+                    <u>Refrigeration Equipment</u>
+                </th>
+            </tr>
+            <tr>
+                <td>Condensing Unit</td>
+                <td>@Model.CondensingUnit</td>
+            </tr>
+            <tr>
+                <td>Evaporator</td>
+                <td>@Model.Evaporator</td>
+            </tr>
+            <tr>
+                <td>Refrigerant</td>
+                <td>@Model.Refrigerant</td>
+            </tr>
+            <tr>
+                <td>Quantity</td>
+                <td>@Model.Quantity</td>
+            </tr>
+        </table>
+    </div>
+</div>

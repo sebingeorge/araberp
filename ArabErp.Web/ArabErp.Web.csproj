@@ -1384,6 +1384,7 @@
     <Content Include="Views\SaleOrder\_ProjectRooms.cshtml" />
     <Content Include="Views\SaleOrder\_UnitSelection.cshtml" />
     <Content Include="Views\SaleOrder\CreateProject.cshtml" />
+    <Content Include="Views\ProjectCompletion\_ProjectRoomAndUnitDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

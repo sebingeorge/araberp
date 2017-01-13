@@ -520,8 +520,8 @@ namespace ArabErp.DAL
 
                     result = connection.Query<SalesInvoice>(sql, model, trn).Single<SalesInvoice>();
 
-                    #region update customer order ref to [SaleOrder] if isService = 1
-                    if (model.isService == 1)
+                    #region update customer order ref to [SaleOrder] 
+                    //if (model.isService == 1)
                     {
                         sql = @"UPDATE SaleOrder SET CustomerOrderRef = '" + model.CustomerOrderRef.Trim() + @"'
                                 WHERE SaleOrderId = " + model.SaleOrderId;
