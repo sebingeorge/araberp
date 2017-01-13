@@ -22,6 +22,7 @@ namespace ArabErp.Domain
         public bool isActive { get; set; }
         public bool IsUsed { get; set; }
         public string EmployeeName { get; set; }
+        public string CustomerName { get; set; }
         public string JobCardNo { get; set; }
         public DateTime JobCardDate { get; set; }
         public string Customer { get; set; }
@@ -76,7 +77,11 @@ namespace ArabErp.Domain
         public DateTime SaleOrderDate { get; set; }
 
         public string PrintDescription { get; set; }
-
+        public string PunchingNo { get; set; }
+        public string VehicleModelName { get; set; }
+        public string SerialNo { get; set; }
+        public DateTime WarrantyExpireDate { get; set; }
+           
         public List<PrintDescription> PrintDescriptions { get; set; }
     }
 }

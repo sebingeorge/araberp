@@ -1,0 +1,105 @@
+﻿
+@model IList<ArabErp.Domain.PendingForGRN>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#checkAll").change(function () {
+            $("input:checkbox").prop('checked', $(this).prop("checked"));
+
+            if ($(this).is(":checked"))
+                $("#hidden-check").val('@Model.Count');
+            else $("#hidden-check").val(0);
+        });
+
+        $(".chk").change(function () {
+            var count = '@Model.Count';
+            if ($(this).is(":checked")) {
+                $("#hidden-check").val(Number($("#hidden-check").val()) + 1);
+                if (Number($("#hidden-check").val()) == count) {
+                    $("#checkAll").prop({
+                        checked: true
+                    });
+                }
+            }
+            else {
+                $("#hidden-check").val(Number($("#hidden-check").val()) - 1);
+                $("#checkAll").prop({
+                    checked: false
+                });
+            }
+        });
+    })
+
+
+    function cancellation(id) {
+        var url = '@Url.Action("ApprovalChange")';
+        url += "?id="+ id;
+        window.location=url;
+    }
+    function GoToPrint(id) {
+        var url = '@Url.Action("Print")';
+        url += "?Id=" + id;
+        window.location = url;
+    }
+</script>
+<div class="row">
+    <div class="main-grid main-grid-top scroll1">
+        <div class="table-responsive">
+            <input type="hidden" id="hidden-check" value="0" />
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="20%"><h1>Supplier</h1></th>
+                        <th width="12%"><h1>LPO No. &amp; Date</h1></th>
+                        <th width="12%"><h1>Quotation No. &amp; Date</h1></th>
+                        <th width="36%"><h1>Special Remarks</h1></th>
+                        <th width="5%" style="vertical-align:middle" title="Check this to select all checkboxes below" nowrap>
+                            <h1>
+                                @*<input id="checkAll" type="checkbox"> Select all
+                                <input type="hidden" value="0" id="hidden-check" />*@
+                            </h1>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="grid_row">
+                    @{
+                        if (Model.Count > 0)
+                        {
+                            for (int i = 0; i < Model.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.HiddenFor(m => m[i].SupplierId)
+                                        <input type="text" class="form_input" value="@Model[i].SupplierName" disabled />
+                                    </td>
+                                    <td>
+                                        @Html.HiddenFor(m => m[i].SupplyOrderId)
+                                        <input type="text" class="form_input" value="@Model[i].SoNoWithDate" disabled />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form_input" value="@Model[i].QuotaionNoAndDate" disabled />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form_input" value="@Model[i].SpecialRemarks" disabled />
+                                    </td>
+                                    <td align="center">
+                                        <input type="button" class="form-button" onclick="cancellation(@Model[i].SupplyOrderId)" value="Cancel">
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="7" align="center"><em>There are no pending/incomplete supply orders to show</em></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row-count1">
+        <h5>Row Count:- @Model.Count()</h5>
+    </div>
+</div>

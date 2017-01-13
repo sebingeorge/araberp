@@ -88,6 +88,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="MVCGrid">
       <HintPath>..\packages\MVCGrid.Net.1.0.0.60\lib\net40\MVCGrid.dll</HintPath>
     </Reference>
@@ -247,8 +248,10 @@
     <Compile Include="Controllers\ExpenseController.cs" />
     <Compile Include="Controllers\FreezerUnitController.cs" />
     <Compile Include="Controllers\GINRegisterController.cs" />
+    <Compile Include="Controllers\GRNRegisterController.cs" />
     <Compile Include="Controllers\GrnWareHouseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IndentVsSOVsInpassStatusController.cs" />
     <Compile Include="Controllers\ItemBatchController.cs" />
     <Compile Include="Controllers\ItemCategoryController.cs" />
     <Compile Include="Controllers\ItemController.cs" />
@@ -283,6 +286,7 @@
     <Compile Include="Controllers\PurchaseRequestController.cs" />
     <Compile Include="Controllers\QCParameterController.cs" />
     <Compile Include="Controllers\QuerySheetController.cs" />
+    <Compile Include="Controllers\QuickBookExportController.cs" />
     <Compile Include="Controllers\QuotationApprovalController.cs" />
     <Compile Include="Controllers\RateSettingsController.cs" />
     <Compile Include="Controllers\ResourceAvailabilityController.cs" />
@@ -295,6 +299,7 @@
     <Compile Include="Controllers\SalesQuotationController.cs" />
     <Compile Include="Controllers\SalesRegisterController.cs" />
     <Compile Include="Controllers\SalesTargetController.cs" />
+    <Compile Include="Controllers\ServiceRegisterController.cs" />
     <Compile Include="Controllers\StockCreationController.cs" />
     <Compile Include="Controllers\StockJournalController.cs" />
     <Compile Include="Controllers\StockMovementRegisterController.cs" />
@@ -317,8 +322,10 @@
     <Compile Include="Controllers\TransactionHistoryController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Controllers\VehicleInPassController.cs" />
+    <Compile Include="Controllers\VehicleInpassRegisterController.cs" />
     <Compile Include="Controllers\VehicleModelController.cs" />
     <Compile Include="Controllers\DeliveryChallanController.cs" />
+    <Compile Include="Controllers\WarrantyExtensionRegisterController.cs" />
     <Compile Include="Controllers\WorkDescriptionController.cs" />
     <Compile Include="Controllers\WorkShopGRNController.cs" />
     <Compile Include="Controllers\WorkShopRequestController.cs" />
@@ -347,6 +354,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CrystalReport1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\CrystalReport2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport2.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\CurrentStockReport.cs">
@@ -383,6 +396,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Grn.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\GRNDetailed.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GRNDetailed.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\GRNSummary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GRNSummary.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\ItemSellingPrice.cs">
@@ -425,6 +450,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MaterialPlanning.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\MaterialPlanningFG.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MaterialPlanningFG.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\OpeningStockReport.cs">
@@ -823,7 +854,7 @@
     <Content Include="Views\StockJournal\Create.cshtml" />
     <Content Include="Views\AdditionalWorkShopRequest\Create.cshtml" />
     <Content Include="Views\WorkShopRequest\Pending.cshtml" />
-    <Content Include="Views\PurchaseRequest\PendingPurchaseRequest.cshtml" />
+    <Content Include="Views\PurchaseRequest\_PendingPurchaseRequest.cshtml" />
     <Content Include="Views\SupplyOrder\PendingSupplyOrder.cshtml" />
     <Content Include="Views\GrnWareHouse\PendingGrnWareHouse.cshtml" />
     <Content Include="Views\JobCard\PendingJobCard.cshtml" />
@@ -872,8 +903,6 @@
     <Content Include="Views\SalesInvoice\Create.cshtml" />
     <Content Include="Views\SalesInvoice\_PendingSalesInvoiceList.cshtml" />
     <Content Include="Views\SalesInvoice\_pendingSalesCustomerList.cshtml" />
-    <Content Include="Views\OpeningStock\Create.cshtml" />
-    <Content Include="Views\OpeningStock\OpeningStockList.cshtml" />
     <Content Include="Views\StockReturn\_StockReturnList.cshtml" />
     <Content Include="Views\AdditionalWorkShopRequest\_AdditionalItemsList.cshtml" />
     <Content Include="Views\WorkShopRequest\_DisplayWorkShopRequestData.cshtml" />
@@ -902,7 +931,7 @@
     <Content Include="Views\WorkShopGRN\_DisplayWGRNList.cshtml" />
     <Content Include="Views\SaleOrder\PendingSaleOrderHold.cshtml" />
     <Content Include="Views\SaleOrder\PendingSaleOrderRelease.cshtml" />
-    <Content Include="Views\GrnWareHouse\PreviousList.cshtml" />
+    <Content Include="Views\GrnWareHouse\_PreviousListGRN.cshtml" />
     <Content Include="Views\SupplyOrder\CreateLocalSupplyOrder.cshtml" />
     <Content Include="Views\SupplyOrder\_formHeader.cshtml" />
     <Content Include="Views\SupplyOrder\_grid.cshtml" />
@@ -1128,7 +1157,6 @@
     <Content Include="Views\OpeningStockReport\_ItemDropDown.cshtml" />
     <Content Include="Views\OpeningStockReport\_OpeningStockRegister.cshtml" />
     <Content Include="Views\CurrentStock\Index.cshtml" />
-    <Content Include="Views\CurrentStock\_ItemDropDown.cshtml" />
     <Content Include="Views\CurrentStock\_CurrentStockRegister.cshtml" />
     <Content Include="Views\GINRegister\Index.cshtml" />
     <Content Include="Views\GINRegister\_GINRegister.cshtml" />
@@ -1274,7 +1302,6 @@
     <Content Include="Views\SalesInvoice\PendingApproval.cshtml" />
     <Content Include="Views\SalesInvoice\Approval.cshtml" />
     <Content Include="Views\DirectPurchase\PurchaseIndents.cshtml" />
-    <Content Include="Views\OpeningStock\OpeningStockList - Copy.cshtml" />
     <Content Include="Views\DeliveryChallan\_PrintDescriptionGrid.cshtml" />
     <Content Include="Views\Item\ReorderLevelList.cshtml" />
     <Content Include="Views\SaleOrderStatus\_SaleOrderStatus.cshtml" />
@@ -1284,6 +1311,80 @@
     <Content Include="Views\SalesInvoice\_MaterialCostGrid.cshtml" />
     <Content Include="Views\SalesInvoice\_LabourCostGrid.cshtml" />
     <Content Include="Views\RateSettings\StandardRate.cshtml" />
+    <Content Include="Views\SaleOrder\_ServiceOrderList.cshtml" />
+    <Content Include="Views\WorkShopRequest\CreateDirectMaterialRequest.cshtml" />
+    <Content Include="Views\WorkShopRequest\_DirectMaterialRequestGrid.cshtml" />
+    <Content Include="Views\WorkShopRequest\DirectMaterialRequestList.cshtml" />
+    <Content Include="Views\StoresIssue\_PreviousListStoreIssue.cshtml" />
+    <Content Include="Views\WorkShopRequest\PendingMaterialRequestApproval.cshtml" />
+    <Content Include="Views\JobOrderCompletion\Index.cshtml" />
+    <Content Include="Views\SaleOrder\_SaleOrderApprovalDeliveryChellan.cshtml" />
+    <Content Include="Views\PurchaseRequest\Pending.cshtml" />
+    <Content Include="Views\StoresLedger\_ItemCategoryDropdown.cshtml" />
+    <Content Include="Views\StoresLedger\_ItemGroupDropdown.cshtml" />
+    <Content Include="Views\StoresLedger\_ItemSubGroupDropdown.cshtml" />
+    <Content Include="Views\OpeningStock\Index.cshtml" />
+    <Content Include="Views\OpeningStock\_OpeningStock.cshtml" />
+    <Content Include="Views\BayStatus\_BayStatusGrid.cshtml" />
+    <Content Include="Views\VehicleInpassRegister\Index.cshtml" />
+    <Content Include="Views\VehicleInpassRegister\_VehicleInpassRegister.cshtml" />
+    <Content Include="Views\JobCardDailyActivity\PendingJobcards.cshtml" />
+    <Content Include="Views\PurchaseRequest\_LastPurchaseRateGrid.cshtml" />
+    <Content Include="Views\DirectPurchase\_LastPurchaseRateGrid.cshtml" />
+    <Content Include="Views\MISReports\MaterialActivityReport.cshtml" />
+    <Content Include="Views\MISReports\_PendingLPO.cshtml" />
+    <Content Include="Views\GRNRegister\Index.cshtml" />
+    <Content Include="Views\GRNRegister\_GRNRegister.cshtml" />
+    <Content Include="Views\GrnWareHouse\PreviousList.cshtml" />
+    <Content Include="Views\IndentVsSOVsInpassStatus\IndentVsSOVsInpassStatus.cshtml" />
+    <Content Include="Views\WarrantyExtensionRegister\Index.cshtml" />
+    <Content Include="Views\WarrantyExtensionRegister\_WarrantyExtensionRegister.cshtml" />
+    <Content Include="Views\MISReports\_PendingGRN.cshtml" />
+    <Content Include="Views\MISReports\_PendingIssue.cshtml" />
+    <Content Include="Views\MISReports\_LastPurchaseRequest.cshtml" />
+    <Content Include="Views\MISReports\_LastLPO.cshtml" />
+    <Content Include="Views\MISReports\_LastGRN.cshtml" />
+    <Content Include="Views\MISReports\_LastPurchaseRate.cshtml" />
+    <Content Include="Views\MISReports\_LastPurchaseBill.cshtml" />
+    <Content Include="Views\StockReport\_ItemCategoryDropdown.cshtml" />
+    <Content Include="Views\StockReport\_ItemGroupDropdown.cshtml" />
+    <Content Include="Views\StockReport\_ItemSubGroupDropdown.cshtml" />
+    <Content Include="Views\JobOrderCompletion\_JobCardsOnHoldGrid.cshtml" />
+    <Content Include="Views\JobOrderCompletion\JobCardsOnHold.cshtml" />
+    <Content Include="Views\MaterialPlanning\_InTransitDetails.cshtml" />
+    <Content Include="Views\MaterialPlanning\_PlanningFG.cshtml" />
+    <Content Include="Views\MaterialPlanning\MaterialPlanningFG.cshtml" />
+    <Content Include="Views\IndentVsSOVsInpassStatus\Index.cshtml" />
+    <Content Include="Views\StockMovementRegister\_ItemCategoryDropdown.cshtml" />
+    <Content Include="Views\StockJournel\_ItemGroupDropdown.cshtml" />
+    <Content Include="Views\StockMovementRegister\_ItemGroupDropdown.cshtml" />
+    <Content Include="Views\StockMovementRegister\_ItemSubGroupDropdown.cshtml" />
+    <Content Include="Views\OpeningStock\Create.cshtml" />
+    <Content Include="Views\OpeningStock\OpeningStockList - Copy.cshtml" />
+    <Content Include="Views\OpeningStock\OpeningStockList.cshtml" />
+    <Content Include="Views\QuickBookExport\Index.cshtml" />
+    <Content Include="Views\QuickBookExport\_PurchaseGrid.cshtml" />
+    <Content Include="Views\QuickBookExport\_SalesGrid.cshtml" />
+    <Content Include="Views\MaterialPlanning\_SODetailsDetails.cshtml" />
+    <Content Include="Views\QuerySheet\_UnitSelection.cshtml" />
+    <Content Include="Views\QuerySheet\_DoorSelection.cshtml" />
+    <Content Include="Views\CurrentStock\_ItemCategoryDropdown.cshtml" />
+    <Content Include="Views\CurrentStock\_ItemDropDown.cshtml" />
+    <Content Include="Views\CurrentStock\_ItemGroupDropdown.cshtml" />
+    <Content Include="Views\CurrentStock\_ItemSubGroupDropdown.cshtml" />
+    <Content Include="Views\ServiceRegister\Index.cshtml" />
+    <Content Include="Views\ServiceRegister\_ServiceRegister.cshtml" />
+    <Content Include="Views\MaterialPlanning\_ReservedItemDetails.cshtml" />
+    <Content Include="Views\SupplyOrder\ApprovalCancellation.cshtml" />
+    <Content Include="Views\SupplyOrder\_ApprovalCancellationGrid.cshtml" />
+    <Content Include="Views\SalesQuotation\_ProjectRooms.cshtml" />
+    <Content Include="Views\SalesQuotation\_UnitSelection.cshtml" />
+    <Content Include="Views\SalesQuotation\_DoorSelection.cshtml" />
+    <Content Include="Views\SaleOrder\_DoorSelection.cshtml" />
+    <Content Include="Views\SaleOrder\_ProjectRooms.cshtml" />
+    <Content Include="Views\SaleOrder\_UnitSelection.cshtml" />
+    <Content Include="Views\SaleOrder\CreateProject.cshtml" />
+    <Content Include="Views\ProjectCompletion\_ProjectRoomAndUnitDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1326,6 +1427,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CrystalReport1.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\CrystalReport2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport2.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\CurrentStockReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CurrentStockReport.cs</LastGenOutput>
@@ -1349,6 +1454,14 @@
     <EmbeddedResource Include="Reports\Grn.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>Grn.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\GRNDetailed.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>GRNDetailed.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\GRNSummary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>GRNSummary.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ItemSellingPrice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -1377,6 +1490,10 @@
     <EmbeddedResource Include="Reports\MaterialPlanning.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>MaterialPlanning.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\MaterialPlanningFG.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>MaterialPlanningFG.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\OpeningStockReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

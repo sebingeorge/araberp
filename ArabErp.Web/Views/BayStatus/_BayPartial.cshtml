@@ -18,7 +18,6 @@
     }
 }
 
-
 <div class="col-md-12">
     <div class="row">
         <div class="bays">
@@ -27,34 +26,75 @@
 
                 <table class="table table-bordered">
                     <tr class="grid-row">
-                        <td rowspan="5" class="grid-cell dis1 bold">@Model.BayName</td>
+                        <td rowspan="7" class="grid-cell dis1 bold">@Model.BayName</td>
                         <td class="grid-cell"><b>Date of Arrival</b></td>
                         <td class="grid-cell">@EDateOfDelivery</td>
                         <td class="grid-cell"><b>Job Card No</b></td>
-                        <td class="grid-cell"><b>Exp. Delivery Date</b></td>
+                        <td class="grid-cell">@Model.JobCardNo</td>
                     </tr>
                     <tr>
                         <td class="grid-cell"><b>Vehicle Reg. No.</b></td>
                         <td class="grid-cell">@Model.ChasisNoRegNo</td>
-                        <td class="grid-cell">@Model.JobCardNo</td>
-                        <td class="grid-cell">@EDateOfArrival</td>
+                        <td rowspan="2" class="grid-cell"><b>Task</b></td>
+                        <td rowspan="2" class="grid-cell">@Model.TaskNames</td>
                     </tr>
                     <tr>
                         <td class="grid-cell"><b>Customer Details</b></td>
                         <td class="grid-cell">@Model.CustomerName</td>
-                        <td class="grid-cell"></td>
-                        <td class="grid-cell"><b>Status</b></td>
                     </tr>
                     <tr>
                         <td class="grid-cell"><b>Vehicle Type</b></td>
                         <td class="grid-cell">@Model.VehicleModelName</td>
-                        <td rowspan="2" class="grid-cell">@Model.WorkDescription</td>
-                        <td rowspan="2" class="grid-cell"></td>
+                        <td class="grid-cell"><b>Exp. Delivery Date</b></td>
+                        <td class="grid-cell">@EDateOfArrival</td>
                     </tr>
                     <tr>
-                        <td class="grid-cell"><b>Unit Type</b></td>
+                        <td class="grid-cell"><b>Unit Name</b></td>
                         <td class="grid-cell">@Model.UnitName</td>
+                        <td class="grid-cell"><b>Status</b></td>
+                        <td class="grid-cell">
+                            @if (Model.Status)
+                            {
+                                @: Work started
+                            }
+                            else
+                            {
+                                if (Model.Occupied != "No")
+                                {
+                                    <font color="red">Work not started</font>
+                                }
+                            }
+                        </td>
                     </tr>
+                    @*@if (Model.Tasks != null && Model.Tasks.Count > 0)
+                    {
+                        @*<tr>
+                            <td colspan="4" align="center"><b>Work Details</b></td>
+                        </tr>
+                        <tr>
+                            <td class="grid-cell" colspan="4">
+                                <table style="width:100%" class="table-bordered">
+                                    <tr>
+                                        <th>Task</th>
+                                        @*<th>Technician</th>
+                                        <th>Date</th>
+                                        <th>Est. Hours</th>
+                                        <th>Progress</th>
+                                    </tr>
+                                    @foreach(var item in Model.Tasks)
+                                    {
+                                        <tr>
+                                            <td>@item.JobCardTaskName</td>
+                                            @*<td>@item.EmployeeName</td>
+                                            <td>@item.TaskStartDate.ToString("dd/MMMM/yyyy")</td>
+                                            <td>@item.Hours</td>
+                                            <td>@item.ActualHours</td>
+                                        </tr>
+                                    }
+                                </table>
+                            </td>
+                        </tr>
+                    }*@
                 </table>
             </div>
 

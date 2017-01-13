@@ -13,9 +13,12 @@ namespace ArabErp.Domain
         public string SpecialRemarks { get; set; }
         public DateTime PurchaseRequestDate { get; set; }
         public DateTime RequiredDate { get; set; }
+        public string User { get; set; }
         public bool Select { get; set; }
         public int Ageing { get; set; }
         public int DaysLeft { get; set; }
         public string WRNoAndDate { get; set; }
+        public decimal PRQuantity { get; set; }
+        public decimal PendingQuantity { get; set; }
     }
 }

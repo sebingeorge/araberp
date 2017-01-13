@@ -1,0 +1,86 @@
+﻿@using ArabErp.Domain
+@model IList<GRN>
+
+<script type="text/javascript">
+    function Edit(id) {
+        var url = '@Url.Action("Edit")';
+        url += "/" + id;
+        window.location = url;
+    }
+
+</script>
+
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="grid_heading">
+                                <th width="12%" nowrap><h1>GRN No. &amp; Date</h1></th>
+                                <th width="15%" nowrap><h1>LPO.No.</h1></th>
+                                <th width="19%" nowrap><h1>Supplier</h1></th>
+                                <th width="12%" nowrap><h1>Supplier DC.No. &amp; Date</h1></th>
+                                <th width="10%" nowrap><h1>Received By</h1></th>
+                                <th width="12%" nowrap><h1>Warehouse/Stockpoint</h1></th>
+                                <th width="5%" class="text-right" nowrap><h1>Grand Total</h1></th>
+                                <th width="10%" nowrap><h1>Type</h1></th>
+                                <th width="8%"><center></center></th>
+                            </tr>
+                        </thead>
+                        <tbody class="grid_row">
+                            @{
+                                if (Model.Count > 0)
+                                {
+                                    for (int i = 0; i < Model.Count; i++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.HiddenFor(m => m[i].GRNId)
+                                                @*<input type="text" class="form_input" value="*@@Model[i].GRNNo@*" disabled />*@
+                                            </td>
+                                            <td>
+                                                @*@*<input type="text" class="form_input" value="*@@Model[i].SONODATE@*" disabled />*@
+                                            </td>
+                                            <td>
+                                                @*@*<input type="text" class="form_input" value="*@@Model[i].Supplier@*" disabled />*@
+                                            </td>
+                                            <td>
+                                                @*<input type="text" class="form_input" value="*@@Model[i].SupplierDCNoAndDate@*" disabled/>*@ 
+                                            </td>
+                                            <td>
+                                                @*<input type="text" class="form_input" value="*@@Model[i].ReceivedByName@*" disabled />*@
+                                            </td>
+                                            <td>
+                                                @*<input type="text" class="form_input" value="*@@Model[i].StockPointName@*" disabled />*@
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form_input text-right" value=@Model[i].GrandTotal disabled />
+                                            </td>
+                                            <td>
+                                                @*<input type="text" class="form_input"*@ @(Model[i].isDirectPurchaseGRN ? "DIRECT-GRN" : "GRN") @*disabled />*@
+                                            </td>
+                                            <td>
+                                                <center><input type="button" class="form-button5" value="Select" title="Click here to edit this entry" onclick="Edit(@Model[i].GRNId)" /></center>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8" align="center"><em>There are no accepted GRNs. Accept any pending GRN and it will show up here!</em></td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row-count1">
+                <h5>Row Count:- @Model.Count</h5>
+            </div>
+        </div>
+
+   
+
+

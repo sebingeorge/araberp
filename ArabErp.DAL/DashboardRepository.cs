@@ -131,9 +131,38 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select top 7 left(convert(varchar(50),JobCardDate,106),6) JobcardDate, count(*) JobCardCount from JobCard where JodCardCompleteStatus = 1
-                group by JobCardDate
-                order by JobCardDate desc";
+                #region old query 7.1.2017 3.00p
+                //                string sql = @"select top 7 left(convert(varchar(50),JodCardCompletedDate,106),6) JobcardDate, COUNT(JobCardId) JobCardCount 
+                //				                from JobCard where JodCardCompletedDate is not null
+                //				                GROUP BY JobCard.JodCardCompletedDate
+                //				                order by JodCardCompletedDate desc"; 
+                #endregion
+
+                string sql = @"SELECT
+                                JodCardCompletedDate,
+
+                                COUNT(isProjectBased) JobcardCount,0 JobcardCount_Transport,0JobcardCount_Project 
+                                INTO #TEMP
+                                FROM JobCard
+                                WHERE JobCard.JodCardCompleteStatus = 1 
+                                GROUP BY JodCardCompletedDate 
+                                ORDER BY JobCard.JodCardCompletedDate DESC;
+
+                                WITH A AS
+                                (
+	                                SELECT JodCardCompletedDate,count(Jobcardid)JobcardCount_Transport FROM JobCard WHERE JobCard.JodCardCompleteStatus = 1 AND JobCard.isProjectBased = 0
+	                                GROUP BY JobCard.JodCardCompleteStatus,JodCardCompletedDate
+                                )
+                                update T SET T.JobcardCount_Transport=A.JobcardCount_Transport FROM A INNER JOIN  #TEMP T ON T.JodCardCompletedDate=A.JodCardCompletedDate;
+
+                                WITH B AS
+                                (
+	                                SELECT JodCardCompletedDate,count(Jobcardid)JobcardCount_Project FROM JobCard WHERE JobCard.JodCardCompleteStatus = 1 AND JobCard.isProjectBased = 1
+	                                GROUP BY JobCard.JodCardCompleteStatus,JodCardCompletedDate
+                                )
+                                update T SET T.JobcardCount_Project=B.JobcardCount_Project FROM B INNER JOIN #TEMP T ON T.JodCardCompletedDate=B.JodCardCompletedDate;
+                                select top 7 left(convert(varchar(50),JodCardCompletedDate,106),6) JobcardDate, JobcardCount_Transport, JobcardCount_Project from #TEMP order by #TEMP.JodCardCompletedDate DESC
+                                drop table #TEMP;";
 
                 return connection.Query<DashboardJobCardCompletedDaily>(sql);
             }

@@ -114,9 +114,9 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public ActionResult PendingReservationGrid(string saleOrder = "", string item = "")
+        public ActionResult PendingReservationGrid(string saleOrder = "", string item = "", string Jobcard = "", string Customer = "", string RegNo = "")
         {
-            return PartialView("_PendingReservationGrid", new ItemBatchRepository().GetUnreservedItems(saleOrder: saleOrder.Trim(), itemName: item.Trim()));
+            return PartialView("_PendingReservationGrid", new ItemBatchRepository().GetUnreservedItems(saleOrder: saleOrder.Trim(), itemName: item.Trim(), Jobcard: Jobcard, Customer: Customer, RegNo: RegNo));
         }
 
         [HttpGet]

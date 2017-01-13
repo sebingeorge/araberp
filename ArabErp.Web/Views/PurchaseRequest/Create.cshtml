@@ -5,8 +5,8 @@
 }
 
 <style type="text/css">
-    .highlight{
-            border: 2px solid #2ab1e0 !important;
+    .highlight {
+        border: 2px solid #2ab1e0 !important;
     }
 
     /*#tab_logic tr:hover{
@@ -15,10 +15,9 @@
 </style>
 
 <script>
-            
-    function Exit()
-    {
-        location.href = '@Url.Action("PendingPurchaseRequest")';
+
+    function Exit() {
+        location.href = '@Url.Action("Pending")';
     }
     $(function () {
         $("#PurchaseRequestDate").datepicker({ dateFormat: "dd-MM-yy" });
@@ -42,21 +41,27 @@
         $(sender).closest("tr").addClass("highlight");
     }
 
+    function ShowLastPurchaseRate(itemId) {
+        var url = '@Url.Action("GetLastPurchaseRate")';
+        $('#lastPurchaseRateGrid').text('Loading purchase rates...');
+        $('#lastPurchaseRateGrid').load(url, { itemId: itemId });
+    }
+
 </script>
 
-    <div class="row">
+<div class="row">
 
-        <div class="form-head1">
-            <h4>Purchase Request</h4>
-        </div>
+    <div class="form-head1">
+        <h4>Purchase Request</h4>
+    </div>
 
-        <div class="main-part pad1">
-         @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form" }))
-         {
+    <div class="main-part pad1">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "purchasereq_form" }))
+        {
             @Html.HiddenFor(m => m.WorkShopRequestId, new { @class = "form_input", autocomplete = "off" })
-             @Html.HiddenFor(m => m.OrganizationId, new { @class = "form_input", autocomplete = "off" })
-             @Html.HiddenFor(m => m.CreatedDate, new { @class = "form_input", autocomplete = "off" })
-             @Html.HiddenFor(m => m.CreatedBy, new { @class = "form_input", autocomplete = "off" })
+            @Html.HiddenFor(m => m.OrganizationId, new { @class = "form_input", autocomplete = "off" })
+            @Html.HiddenFor(m => m.CreatedDate, new { @class = "form_input", autocomplete = "off" })
+            @Html.HiddenFor(m => m.CreatedBy, new { @class = "form_input", autocomplete = "off" })
             <form role="form">
                 <div class="row form-group">
                     <div class="col-md-2">
@@ -69,7 +74,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                   
+
                     <div class="col-md-4">
                         <label for="CustomerName">Customer</label>
                         @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
@@ -101,13 +106,13 @@
                                 <th nowrap width="5%" class="text-right "><h1>Short/Excess</h1></th>
                                 <th nowrap width="5%" class="text-right " title="Purchase Request Quantity"><h1>PRQ Qty</h1></th>
                                 <th nowrap width="5%" class="text-left " title="Unit of Measurement"><h1>UoM</h1></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @{ int row = 0;}
                             @for (int i = 0; i < Model.items.Count; i++)
-
-                        {
+                            {
                                 <tr onclick="HighlightRow(this)">
                                     <td align="left">
                                         @*<input type="hidden" id="Row_@row" />*@
@@ -126,11 +131,11 @@
                                     <td>@Html.TextBoxFor(m => m.items[i].PendingPRQty, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @required = "true", @tabindex = "-1" })</td>
                                     <td>@Html.TextBoxFor(m => m.items[i].ShortorExcess, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
                                     <td>@Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onfocus = "OnTextboxFocused(this)" })</td>
-
                                     <td>@Html.TextBoxFor(m => m.items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
+                                    <td><a href="#" onclick="ShowLastPurchaseRate(@Model.items[i].ItemId)" data-toggle="modal" data-target="#myModal">Last Purchase Rate</a></td>
                                 </tr>
-                            row++;
-                        }
+                                row++;
+                            }
 
                         </tbody>
                         <tfoot>
@@ -149,6 +154,7 @@
                                 <th width="3%"></th>
                                 <th width="3%"></th>
                                 <th width="3%"></th>
+                                <th></th>
                             </tr>
                         </tfoot>
                     </table>
@@ -161,18 +167,19 @@
                             </div>
                             <div class="col-md-12">
                                 @Html.TextAreaFor(m => m.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
-                    </div>
-                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-2"><label for="RequiredDate">Required Date</label>
-                    @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                    @*@Html.ValidationMessageFor(m=>m.RequiredDate)*@
+                    <div class="col-md-2">
+                        <label for="RequiredDate">Required Date</label>
+                        @Html.TextBoxFor(m => m.RequiredDate, Model.RequiredDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                        @*@Html.ValidationMessageFor(m=>m.RequiredDate)*@
                     </div>
-                    
-                    
-                    
+
+
+
                 </div>
 
                 <div class="row">
@@ -181,16 +188,35 @@
                         <button type="submit" class="form-button right">Save</button>
                     </div>
 
-                </div>     
+                </div>
 
             </form>
-}
+        }
+    </div>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:900px">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Last Purchase Rates</h4>
             </div>
+            <div class="modal-body" id="lastPurchaseRateGrid">
+                <p>Loading purchase rates...</p>
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>*@
         </div>
+
+    </div>
+</div>
 <script>
     $(document).ready(function () {
         $("#items_0__Quantity").focus();
     })
 </script>
-
 

@@ -14,16 +14,14 @@
 }
 
 <style type="text/css">
-
-    .td-heading{
+    .td-heading {
         background: #676464;
-        color: white
+        color: white;
     }
 
-    .td-inner-heading{
+    .td-inner-heading {
         background: rgb(193, 193, 193);
     }
-
 </style>
 
 <script type="text/javascript">
@@ -47,7 +45,13 @@
     }
 
     function formValidation() {
-        return true;
+        var VehicleRegNo = $("#VehicleRegNo").val();
+        var VehicleChassisNo = $("#VehicleChassisNo").val();
+        if ((VehicleRegNo == VehicleChassisNo) && VehicleRegNo !== '' && VehicleChassisNo !== '') {
+            toastr.info("Vehicle Registration No. & Chassis No. should not be same");
+            return false
+        }
+        else return true;
     }
 
     function OnCustomerChanged(cust) {
@@ -94,6 +98,11 @@
         url += '/' + '@Model.ServiceEnquiryId';
         window.location = url;
     }
+    function Delete(id) {
+        var url = '@Url.Action("DeleteServiceorderList")';
+        url += "?id=" + id;
+        window.location = url;
+    }
 
 </script>
 
@@ -121,6 +130,8 @@
             @Html.HiddenFor(m => m.IsConfirmed)
             @Html.HiddenFor(m => m.ServiceEnquiryId)
             @Html.HiddenFor(m => m.CurrencyId)
+            @Html.HiddenFor(m => m.VehicleModelId)
+  
 
             <!-- this should be deleted. used only to bypass required error-->
             @Html.HiddenFor(m => m.Items[0].ItemId)
@@ -309,13 +320,42 @@
 
             <div class="row">
                 <div class="col-md-12 hrpart">
-                    <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                    <button type="submit" class="form-button right">Save</button>
-                    @if (actionName == "EditEnquiry")
+
+                    @if (Model.Used > 0)
                     {
-                        <input type="button" class="form-button right" onclick="PrintEnquiry()" value="Print">
+                        <span class="perm">
+                            <em>**Cannot edit/delete, because it is either used in another process or completed.</em>
+                        </span>
                     }
+                    else
+                    {
+                        if (actionName == "ServiceOrderEdit")
+                        {
+                            <button type="submit" class="form-button right">Edit</button>
+                            <button type="button" class="form-button left" onclick="Delete('@Model.SaleOrderId')">Delete</button>
+                        }
+                        else if (actionName == "ServiceOrder")
+                        {
+                            <button type="submit" class="form-button right">Save</button>
+                        }
+                        else if (actionName == "EditEnquiry")
+                        {
+                            <input type="button" class="form-button right" onclick="PrintEnquiry()" value="Print">
+                            <button type="submit" class="form-button right">Edit</button>
+                            @*<button type="button" class="form-button left">Delete()</button>*@
+                              <button type="button" class="form-button left" onclick="Delete('@Model.SaleOrderId')">Delete</button>
+                        }
+                        else if (actionName == "ServiceEnquiry")
+                        {
+                            <button type="submit" class="form-button right">Save</button>
+                            <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                        }
+                    }
+
+
+
                 </div>
             </div>
         }

@@ -11,17 +11,17 @@ namespace ArabErp.DAL
     public class StoresLedgerRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<ClosingStock> GetStoresLedgerData(DateTime? from, DateTime? to, int stkid, int itmcatid, string itmid, int OrganizationId,string partno)
+        public IEnumerable<ClosingStock> GetStoresLedgerData(DateTime? from, DateTime? to, int stkid, int itmcatid, int itmGrpId, int itmSubGrpId, string itmid, int OrganizationId, string partno)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 //              
-                string qry = @"SELECT StockPointId,ISNULL(PartNo,'-')PartNo,stocktrnDate,StockUpdateId,StockUserId,StockType,StockInOut,0 INQTY, 0 OUTQTY  INTO #TEMP  
+                string qry = @"SELECT StockPointId,ItemName,ISNULL(PartNo,'-')PartNo,stocktrnDate,StockUpdateId,StockUserId,StockType,StockInOut,0 INQTY, 0 OUTQTY  INTO #TEMP  
                                FROM StockUpdate S  inner join Item I on I.ItemId=S.ItemId
                                WHERE stocktrnDate >= @from AND stocktrnDate <= @to AND S.StockPointId=ISNULL(NULLIF(@stkid,0),S.StockPointId)
                                AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) AND  I.ItemName LIKE '%'+@itmid+'%'
-                               and isnull(I.PartNo,'') like '%'+@partno+'%'
-                               AND S.OrganizationId=@OrganizationId ;
+                               and isnull(I.PartNo,'') like '%'+@partno+'%' AND I.ItemGroupId=ISNULL(NULLIF(@itmGrpId, 0), I.ItemGroupId) 
+                               AND I.ItemSubGroupId=ISNULL(NULLIF(@itmSubGrpId, 0), I.ItemSubGroupId)  AND S.OrganizationId=@OrganizationId ;
                  
                 with A as (
                 select StockUpdateId, Quantity from StockUpdate WHERE StockInOut='IN'
@@ -33,11 +33,11 @@ namespace ArabErp.DAL
                 )
                 update T set T.OUTQTY = B.Quantity from B inner join #TEMP T on T.StockUpdateId = B.StockUpdateId;
 
-                select * from #TEMP";
+                select * from #TEMP
+                 order by stocktrnDate asc";
 
 
-
-                return connection.Query<ClosingStock>(qry, new { stkid = stkid, itmcatid = itmcatid, itmid = itmid, OrganizationId = OrganizationId, from = from,to=to,partno=partno }).ToList();
+                return connection.Query<ClosingStock>(qry, new { stkid = stkid, itmcatid = itmcatid, itmGrpId = itmGrpId, itmSubGrpId = itmSubGrpId, itmid = itmid, OrganizationId = OrganizationId, from = from, to = to, partno = partno }).ToList();
             }
         }
 

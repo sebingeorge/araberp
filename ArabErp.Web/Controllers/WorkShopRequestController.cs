@@ -25,14 +25,23 @@ namespace ArabErp.Web.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Create(int? SaleOrderId, int? saleorderitem)
+        public ActionResult Create(int? SaleOrderId, int? saleorderitem, int? SaleOrderItemUnitId, int? EvaConUnitId)
         {
             ItemDropdown();
             WorkShopRequestRepository repo = new WorkShopRequestRepository();
             WorkShopRequest model = repo.GetSaleOrderForWorkshopRequest(SaleOrderId ?? 0);
             model.SaleOrderItemId = saleorderitem ?? 0;
             model.WorkDescription = repo.GetCombinedWorkDescriptionSaleOrderForWorkshopRequest(SaleOrderId ?? 0).WorkDescription;
-            var WSList = repo.GetWorkShopRequestData(SaleOrderId ?? 0, saleorderitem ?? 0);
+            List<WorkShopRequestItem> WSList = new List<WorkShopRequestItem>();
+            if(model.isProjectBased==1)
+            {
+                WSList = repo.GetWorkShopRequestDataForProject(SaleOrderItemUnitId ?? 0, EvaConUnitId ?? 0);
+            }
+            else
+            {
+               WSList = repo.GetWorkShopRequestData(SaleOrderId ?? 0, saleorderitem ?? 0);
+            }
+          
             model.Items = new List<WorkShopRequestItem>();
             //model.Isused = true;
             foreach (var item in WSList)
@@ -65,7 +74,120 @@ namespace ArabErp.Web.Controllers
             model.WorkShopRequestRefNo = internalId;
             model.WorkShopRequestDate = System.DateTime.Today;
             model.RequiredDate = System.DateTime.Today;
+            model.SaleOrderItemUnitId = SaleOrderItemUnitId ?? 0;
+            model.EvaConUnitId = EvaConUnitId ?? 0;
             return View(model);
+        }
+
+        public ActionResult CreateDirectMaterialRequest()
+        {
+            FillPartNo();
+            GetMaterials();
+            List<WorkShopRequestItem> list = new List<WorkShopRequestItem>();
+            list.Add(new WorkShopRequestItem());
+            return View(new WorkShopRequest
+            {
+                Items = list,
+                WorkShopRequestDate = DateTime.Today,
+                WorkShopRequestRefNo = DatabaseCommonRepository.GetNextDocNo(37, OrganizationId)
+            });
+            }
+        [HttpPost]
+        public ActionResult CreateDirectMaterialRequest(WorkShopRequest model)
+        {
+            try
+            {
+                model.CreatedBy = UserID.ToString();
+                model.OrganizationId = OrganizationId;
+                model.CreatedDate = DateTime.Today;
+                string ref_no = new WorkShopRequestRepository().InsertDirectMaterialRequest(model);
+                if (ref_no.Length > 0)
+                {
+                    TempData["success"] = "Saved Successfully. Reference No. is " + model.WorkShopRequestRefNo;
+                    return RedirectToAction("CreateDirectMaterialRequest");
+                }
+                else throw new Exception();
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred while saving. Please try again.";
+                return View(model);
+            }
+        }
+        public ActionResult EditDirectMaterialRequest(int id = 0)
+        {
+            try
+            {
+                if (id == 0)
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                var model = new WorkShopRequestRepository().GetDirectMaterialRequest(id, OrganizationId);
+                if (model == null)
+                {
+                    TempData["error"] = "Could not find the requested Purchase Indent. Please try again.";
+                    return RedirectToAction("Index", "Home");
+                }
+                FillPartNo();
+                GetMaterials();
+                return View("CreateDirectMaterialRequest", model);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured. Please try again.";
+                return RedirectToAction("DirectMaterialRequestList");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditDirectMaterialRequest(WorkShopRequest model)
+        {
+            try
+            {
+                model.CreatedBy = UserID.ToString();
+                model.CreatedDate = DateTime.Today;
+                var success = new WorkShopRequestRepository().UpdateDirectMaterialRequest(model);
+                if (success <= 0) throw new Exception();
+                TempData["success"] = "Updated successfully (" + model.WorkShopRequestRefNo + ")";
+                return RedirectToAction("DirectMaterialRequestList");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while saving. Please try again.";
+                FillPartNo();
+                GetMaterials();
+                return View("CreateDirectMaterialRequest", model);
+            }
+        }
+        public ActionResult DeleteDirectMaterialRequest(int id = 0)
+        {
+            try
+            {
+                if (id == 0) return RedirectToAction("Index", "Home");
+                string result = new WorkShopRequestRepository().DeleteWorkShopRequest(id);
+                TempData["Success"] = "Deleted Successfully!";
+                return RedirectToAction("DirectMaterialRequestList");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+                return RedirectToAction("CreateDirectMaterialRequest", new { id = id });
+            }
+        }
+        public ActionResult DirectMaterialRequestList()
+        {
+            return View(new WorkShopRequestRepository().DirectMaterialRequestList(OrganizationId));
+          
+        }
+        public void FillPartNo()
+        {
+            ViewBag.partNoList = new SelectList(new DropdownRepository().PartNoDropdown1(), "Id", "Name");
+        }
+        public void GetMaterials()
+        {
+            ViewBag.materialList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
         }
         public ActionResult Pending(int isProjectBased)
         {
@@ -197,6 +319,10 @@ namespace ArabErp.Web.Controllers
         {
             return Json(new WorkShopRequestRepository().GetItemPartNo(itemId), JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetPartNoUnit(int itemId)
+        {
+            return Json(new ItemRepository().GetPartNoUnit(itemId), JsonRequestBehavior.AllowGet);
+        }
         public ActionResult Print(int Id)
         {
 
@@ -311,6 +437,54 @@ namespace ArabErp.Web.Controllers
             {
                 throw;
             }
+        }
+        public ActionResult PendingMaterialRequestApproval()
+        {
+            return View(new WorkShopRequestRepository().PendingDirectMaterialRequestforApproval(OrganizationId));
+        }
+        //[HttpGet]
+        public ActionResult MaterialRequestApproval(int id = 0)
+        {
+            try
+            {
+                if (id == 0)
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                var model = new WorkShopRequestRepository().GetDirectMaterialRequest(id, OrganizationId);
+                if (model == null)
+                {
+                    TempData["error"] = "Could not find the requested Purchase Indent. Please try again.";
+                    return RedirectToAction("Index", "Home");
+                }
+                FillPartNo();
+                GetMaterials();
+                return View("CreateDirectMaterialRequest", model);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured. Please try again.";
+                return RedirectToAction("DirectMaterialRequestList");
+            }
+        }
+        
+        public ActionResult ApproveMaterialReq(int id = 0)
+        {
+          
+            try
+            {
+                new WorkShopRequestRepository().ApproveMaterialRequest(id);
+                TempData["Success"] = "Approved Successfully";
+                return RedirectToAction("PendingMaterialRequestApproval");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+
+            return RedirectToAction("PendingMaterialRequestApproval");
         }
     }
 }

@@ -41,7 +41,7 @@
                                 <td>@item.QuotationNoDate</td>
                                 <td>@item.CustomerName</td>
                                 <td>@item.CustomerOrderRef</td>
-                                <td><center><button class="form-button4">@Html.ActionLink("Select", "Edit", "SaleOrder", new { type = Request.QueryString["type"], id = @item.SaleOrderId }, null)</button></center></td>
+                                <td><center><button class="form-button4">@Html.ActionLink("Select", "Edit", "SaleOrder", new { type = ViewBag.ProjectBased, id = @item.SaleOrderId }, null)</button></center></td>
                             </tr>
                         }
                     }

@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = "Material Activity Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#item-filter').combobox();
+    })
+
+    function Filter() {
+        var item = $('#item-filter').val();
+        //Getting Pending LPO
+        var url = '@Url.Action("GetPendingLPO")';
+        $('#pending-lpo-table').addClass('fade');
+        $('#pending-lpo-table').load(url, { item: item }, function () {
+            $('#pending-lpo-table').removeClass('fade');
+        });
+
+        //Getting Pending GRN
+        url = '@Url.Action("GetPendingGRN")';
+        $('#pending-grn-table').addClass('fade');
+        $('#pending-grn-table').load(url, { item: item }, function () {
+            $('#pending-grn-table').removeClass('fade');
+        });
+
+        //Getting Pending Issue
+        url = '@Url.Action("GetPendingIssue")';
+        $('#pending-issue-table').addClass('fade');
+        $('#pending-issue-table').load(url, { item: item }, function () {
+            $('#pending-issue-table').removeClass('fade');
+        });
+
+        //Getting Last Purchase Requests
+        url = '@Url.Action("GetLastPurchaseRequest")';
+        $('#last-pr-table').addClass('fade');
+        $('#last-pr-table').load(url, { item: item }, function () {
+            $('#last-pr-table').removeClass('fade');
+        });
+
+        //Getting Last LPO
+        url = '@Url.Action("GetLastLPO")';
+        $('#last-lpo-table').addClass('fade');
+        $('#last-lpo-table').load(url, { item: item }, function () {
+            $('#last-lpo-table').removeClass('fade');
+        });
+
+        //Getting Last GRN
+        url = '@Url.Action("GetLastGRN")';
+        $('#last-grn-table').addClass('fade');
+        $('#last-grn-table').load(url, { item: item }, function () {
+            $('#last-grn-table').removeClass('fade');
+        });
+
+        //Getting Last Purchase Rate
+        url = '@Url.Action("GetLastPurchaseRate")';
+        $('#last-purchase-rate-table').addClass('fade');
+        $('#last-purchase-rate-table').load(url, { item: item }, function () {
+            $('#last-purchase-rate-table').removeClass('fade');
+        });
+
+        //Getting Last Purchase Bill
+        url = '@Url.Action("GetLastPurchaseBill")';
+        $('#last-purchase-bill-table').addClass('fade');
+        $('#last-purchase-bill-table').load(url, { item: item }, function () {
+            $('#last-purchase-bill-table').removeClass('fade');
+        });
+    }
+</script>
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Material Activity Report</h4>
+    </div>
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <label for="">Material/Spare</label>
+                        @Html.DropDownList("item-filter", new SelectList(ViewBag.materialList, "Value", "Text"), "Select Material/Spare",
+                        new { @class = "form_input", @onchange = "Filter()", @placeholder = "Search for material/spare" })
+                    </div>
+                </div>
+                <div class="row" id="material_activity_report">
+                    <div class="row">
+                        <div class="col-md-4" id="pending-lpo-table"></div>
+                        <div class="col-md-4" id="pending-grn-table"></div>
+                        <div class="col-md-4" id="pending-issue-table"></div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-4" id="last-pr-table"></div>
+                        <div class="col-md-4" id="last-lpo-table"></div>
+                        <div class="col-md-4" id="last-grn-table"></div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-4" id="last-purchase-rate-table"></div>
+                        <div class="col-md-4" id="last-purchase-bill-table"></div>
+                        <div class="col-md-4" id="last-grn-table"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" onclick="Exit()" value="Exit">
+            </div>
+        </div>
+    </div>
+
+</div>
+

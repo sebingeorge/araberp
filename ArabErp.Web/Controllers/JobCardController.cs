@@ -129,6 +129,9 @@ namespace ArabErp.Web.Controllers
                     return RedirectToAction("PendingJobCard", new { isProjectBased = model.isProjectBased, service = model.isService });
                 }
                 TempData["error"] = "Some error occured while saving. Please try again.";
+                FillBay(model.isService);
+                FillAllTasks();
+                FillEmployee();
                 return View(model);
             }
 
@@ -201,13 +204,13 @@ namespace ArabErp.Web.Controllers
             var result = new DropdownRepository().TaskDropdown(OrganizationId);
             ViewBag.TaskList = new SelectList(result, "Id", "Name");
         }
-        public ActionResult PreviousList(int ProjectBased,int service, DateTime? from, DateTime? to, int id = 0, int cusid = 0)
+        public ActionResult PreviousList(int ProjectBased, int service, DateTime? from, DateTime? to, int id = 0, int cusid = 0, string RegNo = "")
         {
             try
             {
                 from = from ?? DateTime.Today.AddMonths(-1);
                 to = to ?? DateTime.Today;
-                return PartialView("_PreviousList", new JobCardRepository().GetAllJobCards(ProjectBased,service ,id, cusid, OrganizationId, from, to));
+                return PartialView("_PreviousList", new JobCardRepository().GetAllJobCards(ProjectBased, service, id, cusid, OrganizationId, from, to, RegNo));
             }
 
             catch (Exception ex)
@@ -293,7 +296,7 @@ namespace ArabErp.Web.Controllers
             dr["CustomerContactPerson"] = Head.ContactPerson;
             dr["Customer"] = Head.Customer;
             dr["Unit"] = Head.FreezerUnitName;
-            dr["ChasisNo"] = Head.ChasisNo;
+            dr["ChasisNo"] = Head.RegistrationNo;
             //dr["TaskDate"] = Head.TaskDate;
             dr["VModel"] = Head.VehicleModelName;
             dr["Technician"] = Head.Technician;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+//using System.Web.Mvc;
 
 namespace ArabErp.Domain
 {
@@ -17,6 +18,7 @@ namespace ArabErp.Domain
         public string PurchaseRequestNo { get; set; }
         [Required]
         public DateTime? PurchaseRequestDate { get; set; }
+        //[AllowHtml]
         public string SpecialRemarks { get; set; }
         [Required]
         [ValidateDateGreaterThan("PurchaseRequestDate")]
@@ -37,5 +39,8 @@ namespace ArabErp.Domain
         public DateTime JobCardDate { get; set; }
         public int Ageing { get; set; }
         public int DaysLeft { get; set; }
+
+        public bool isUsed { get; set; }
+        public bool isStockOrder { get; set; }
     }
 }

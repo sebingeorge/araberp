@@ -119,9 +119,9 @@
     }
 
     function Exit() {
-     
+
         @*var url = '@Url.Action("PendingJobCard", new { isProjectBased = Model.isProjectBased })';*@
-     
+
         var url = '@Url.Action("PendingJobCard")';
         url += "?isProjectBased=" + @Model.isProjectBased + "&service=" + @Model.isService;
         window.location = url;
@@ -219,12 +219,12 @@
                             @Html.TextBoxFor(m => m.VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                         </div>
                         <div class="col-md-2">
-                            <label for="RegistrationNo">Chassis No./Reg No.</label>
+                            <label for="RegistrationNo">Reg No./Chassis No.</label>
                             @Html.HiddenFor(m => m.InPassId)
                             @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                             @*@Html.DropDownListFor(m => m.InPassId, (SelectList)ViewBag.inpassList, "Select Chassis/Reg No.", new { @class = "form_input", autocomplete = "off" })*@
                         </div>
-                       
+
                     }
                 </div>
                 <div class="row form-group">
@@ -235,19 +235,19 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                  @if (Model.isProjectBased == 0)
+                    @if (Model.isProjectBased == 0)
                     {
-                    <div class="col-md-3">
-                        <label for="FreezerUnitName">Freezer Unit</label>
-                        @Html.HiddenFor(m => m.FreezerUnitId)
-                        @Html.TextBoxFor(m => m.FreezerUnitName, new { @class = "form_input", @readonly = "true" })
-                        @*@Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off", @required = "true" })*@
-                    </div>
-                  }
+                        <div class="col-md-3">
+                            <label for="FreezerUnitName">Freezer Unit</label>
+                            @Html.HiddenFor(m => m.FreezerUnitId)
+                            @Html.TextBoxFor(m => m.FreezerUnitName, new { @class = "form_input", @readonly = "true" })
+                            @*@Html.DropDownListFor(m => Model.FreezerUnitId, (SelectList)ViewBag.FreezerUnits, "Select Freezer Unit", new { @class = "form_input", autocomplete = "off", @required = "true" })*@
+                        </div>
+                    }
                     @*<div class="col-md-2">
-                        <label for="goodsland">Goods Landed</label>
-                        @Html.TextBoxFor(m => m.GoodsLanded, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                    </div>*@
+                            <label for="goodsland">Goods Landed</label>
+                            @Html.TextBoxFor(m => m.GoodsLanded, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                        </div>*@
                     <div class="col-md-3">
                         <label for="BoxName">Box</label>
                         @Html.HiddenFor(m => m.BoxId)
@@ -267,11 +267,11 @@
                 @if (Model.isService == 0)
                 {
                     <div class="row form-group">
-                    <div class="col-md-12">
-                        <label for="Complaints">Complaints</label>
-                        @Html.TextAreaFor(m => m.Complaints, new { @class = "form_input form_input-h" })
+                        <div class="col-md-12">
+                            <label for="Complaints">Complaints</label>
+                            @Html.TextAreaFor(m => m.Complaints, new { @class = "form_input form_input-h" })
+                        </div>
                     </div>
-                </div>
                 }
 
                 <div class=" table-responsive">
@@ -280,7 +280,10 @@
                             <tr class="grid_heading">
                                 <td width="2%"></td>
                                 <th width="35%"><h1>Task</h1></th>
-                                <th width="35%"><h1>Technician</h1></th>
+                                @*@if (Model.isProjectBased == 0)
+                                {*@
+                                    <th width="35%"><h1>Technician</h1></th>
+                                @*}*@
                                 <th width="12%"><h1>Date</h1></th>
                                 <th width="5%"><h1>Hrs.</h1></th>
                                 <td width="2%"></td>
@@ -298,9 +301,12 @@
                                     <td>
                                         @Html.DropDownListFor(m => Model.JobCardTasks[row].JobCardTaskId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off", @onchange = "CheckDuplication(this," + row + ")" })
                                     </td>
-                                    <td>
-                                        @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Technician", new { @class = "form_input", autocomplete = "off", @onchange = "CheckDuplication(this," + row + ")" })
-                                    </td>
+                                    @*@if (Model.isProjectBased == 0)
+                                    {*@
+                                        <td>
+                                            @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Technician", new { @class = "form_input", autocomplete = "off", @onchange = "CheckDuplication(this," + row + ")" })
+                                        </td>
+                                    @*}*@
                                     <td>
                                         @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly", @onchange = "CheckDuplication(this," + row + ")" })
                                     </td>
@@ -311,7 +317,7 @@
                                         <a id="add_@row" class="glyphicon glyphicon-plus" @*type="button" value="Add"*@ onclick="AddRowBelow(@row);" style="top:0;"></a>
                                     </td>
                                 </tr>
-                                row++;
+                                    row++;
                             }
                         </tbody>
                     </table>

@@ -79,7 +79,7 @@
     }
 
     function Exit() {
-        var url = '@Url.Action("PendingJobOrderCompletion", new { isProjectBased = Model.isProjectBased })';
+        var url = '@Url.Action("Index", new { isProjectBased = Model.isProjectBased })';
         window.location = url;
     }
 </script>
@@ -94,6 +94,7 @@
         @using (Html.BeginForm("Save", null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form" }))
         {
             @Html.HiddenFor(m => m.isProjectBased)
+            @Html.HiddenFor(m => m.StoreIssued)
             <div class="row form-group">
                 <div class="col-md-2">
                     <label for="jcno">Job Card No.</label>
@@ -140,7 +141,7 @@
                             <th width="30%"><h1>Technician</h1></th>
                             <th width="10%"><h1>Date</h1></th>
                             @*<th width="10%"><h1>Start Time</h1></th>
-                            <th width="10%"><h1>End Time</h1></th>*@
+                                <th width="10%"><h1>End Time</h1></th>*@
                             <th width="10%"><h1>Estimated Hrs.</h1></th>
                             <th width="10%"><h1>Actual Hrs.</h1></th>
                             @*<th width="2%"><h1></h1></th>*@
@@ -190,11 +191,11 @@
                                     </td>
                                 }
                                 @*<td>
-                                    @Html.TextBoxFor(m => m.JobCardTask[row].StartTime, new { @class = "form_input", autocomplete = "off" })
-                                </td>
-                                <td>
-                                    @Html.TextBoxFor(m => m.JobCardTask[row].EndTime, new { @class = "form_input", autocomplete = "off" })
-                                </td>*@
+                                        @Html.TextBoxFor(m => m.JobCardTask[row].StartTime, new { @class = "form_input", autocomplete = "off" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.JobCardTask[row].EndTime, new { @class = "form_input", autocomplete = "off" })
+                                    </td>*@
                                 <td>
                                     @Html.TextBoxFor(m => m.JobCardTask[row].Hours, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                                 </td>
@@ -229,19 +230,21 @@
             <div class="row">
 
                 <div class="col-md-12 hrpart">
-                   
 
-                    @if (Model.StoreIssued==false)
+
+                    @if (Model.StoreIssued == false)
                     {
                         <span class="perm">
                             <em>**Store Issue is not done for this Job Card</em>
                         </span>
-                  <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                        <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     }
                     else
                     {
                         <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                         <button type="submit" class="form-button right">Save</button>
+                        <span class="right" style="padding-top: 3px;margin-right: 20px;">On Hold</span>
+                        @Html.CheckBoxFor(m => m.isOnHold, new { @class = "right CheckBoxClass" })
                     }
 
                 </div>

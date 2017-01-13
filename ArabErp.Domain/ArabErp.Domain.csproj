@@ -35,6 +35,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -83,6 +84,8 @@
     <Compile Include="GINRegister.cs" />
     <Compile Include="GRNAddition.cs" />
     <Compile Include="GRNDeduction.cs" />
+    <Compile Include="GRNRegister.cs" />
+    <Compile Include="IndentVsSOVsInpassStatus.cs" />
     <Compile Include="ItemSellingPrice.cs" />
     <Compile Include="ItemSellingPriceList.cs" />
     <Compile Include="ItemVsBom.cs" />
@@ -93,6 +96,9 @@
     <Compile Include="PrefixSettingsVsOrganization.cs" />
     <Compile Include="PrintDescription.cs" />
     <Compile Include="ProjectCompletion.cs" />
+    <Compile Include="ProjectRoomAndUnitDetails.cs" />
+    <Compile Include="PurchaseBillPostingList.cs" />
+    <Compile Include="PurchaseBillPostingTransaction.cs" />
     <Compile Include="PurchaseRequestRegister.cs" />
     <Compile Include="QCParameters.cs" />
     <Compile Include="QuerySheetItem.cs" />
@@ -158,6 +164,7 @@
     <Compile Include="SalesExecutive.cs" />
     <Compile Include="SalesInvoice.cs" />
     <Compile Include="SalesInvoiceItem.cs" />
+    <Compile Include="SalesInvoicePostingList.cs" />
     <Compile Include="SalesQuotation.cs" />
     <Compile Include="SalesQuotationItem.cs" />
     <Compile Include="SalesQuotationList.cs" />
@@ -165,6 +172,8 @@
     <Compile Include="SalesRegister.cs" />
     <Compile Include="SalesTarget.cs" />
     <Compile Include="ServiceEnquiry.cs" />
+    <Compile Include="ServiceRegister.cs" />
+    <Compile Include="StandardSellingRate.cs" />
     <Compile Include="StockCreation.cs" />
     <Compile Include="StockCreationConsumedItem.cs" />
     <Compile Include="StockCreationFinishedGood.cs" />

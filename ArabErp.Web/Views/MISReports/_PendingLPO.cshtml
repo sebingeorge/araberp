@@ -1,0 +1,35 @@
+﻿@model IList<ArabErp.Domain.PendingPurchaseRequest>
+
+<strong>Pending LPO - @Model.Sum(x => x.PendingQuantity)</strong>
+<div class="div-bordered">
+    <table class="table-responsive table-hover table-bordered full-width-table">
+        <thead class="grid_heading">
+            <tr>
+                <th>Purchase Request No &amp; Date</th>
+                <th>Request Quantity</th>
+                <th>Pending Quantity</th>
+            </tr>
+        </thead>
+        <tbody class="grid_row">
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td><strong>@item.PurchaseRequestNo</strong> - @item.PurchaseRequestDate.ToString("dd/MMMM/yyyy")</td>
+                        <td>@item.PRQuantity</td>
+                        <td>@item.PendingQuantity</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td align="center" colspan="4">
+                        <em>No items found!</em>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

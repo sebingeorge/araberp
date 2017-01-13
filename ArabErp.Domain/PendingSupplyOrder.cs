@@ -14,5 +14,6 @@ namespace ArabErp.Domain
         public string SoNoWithDate { get; set; }
         public string QuotaionNoAndDate { get; set; }
         public bool isChecked { get; set; }
+        public decimal Quantity { get; set; }
     }
 }

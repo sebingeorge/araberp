@@ -42,12 +42,20 @@
           <xs:element name="Items">
             <xs:complexType>
               <xs:sequence>
+                <xs:element name="PrintDescription" type="xs:string" minOccurs="0" />
                 <xs:element name="Quantity" type="xs:string" minOccurs="0" />
-                <xs:element name="WorkDescription" type="xs:string" minOccurs="0" />
-                <xs:element name="WorkDescriptionRefNo" type="xs:string" minOccurs="0" />
-                <xs:element name="Rate" type="xs:string" minOccurs="0" />
+                <xs:element name="UoM" type="xs:string" minOccurs="0" />
+                <xs:element name="PriceEach" type="xs:string" minOccurs="0" />
                 <xs:element name="Amount" type="xs:string" minOccurs="0" />
-                <xs:element name="Unit" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="DeliveryChallans">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="DeliveryChallanRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="JobCardNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Chassiss_RegNo" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -56,16 +64,16 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>AARC/SI/1</SalesInvoiceRefNo>
-    <SalesInvoiceDate>15-Dec-2016</SalesInvoiceDate>
-    <VehicleOutPassNo>DV/16/1464</VehicleOutPassNo>
+    <SalesInvoiceRefNo>AARC/SI/17/27</SalesInvoiceRefNo>
+    <SalesInvoiceDate>09-Jan-2017</SalesInvoiceDate>
+    <VehicleOutPassNo>DV/17/4</VehicleOutPassNo>
     <CustomerName>Amwaj Catering Services</CustomerName>
     <Address>Doha ,Qatar,,0</Address>
     <CustomerOrderRef>Mail Confirm</CustomerOrderRef>
-    <RegistrationNo>227460</RegistrationNo>
-    <JobCardNo>AARC/JC-S/1</JobCardNo>
-    <TotalAmount>1394.00</TotalAmount>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <RegistrationNo>202313</RegistrationNo>
+    <JobCardNo>AARC/17/JC-S/2</JobCardNo>
+    <TotalAmount>4490.00</TotalAmount>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
@@ -77,18 +85,45 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <CreateUser>ihits</CreateUser>
-    <CreateSig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\e4e9eadd-d4c7-4133-af20-db268cbd1fc0.png</CreateSig>
-    <CreatedDes>Asst.Sales Manager</CreatedDes>
-    <ApproveUser>ihits</ApproveUser>
-    <ApproveSig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\e4e9eadd-d4c7-4133-af20-db268cbd1fc0.png</ApproveSig>
-    <ApproveDes>Asst.Sales Manager</ApproveDes>
+    <CreateUser>safiq</CreateUser>
+    <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSig>
+    <CreatedDes>Workshop Controller</CreatedDes>
+    <ApproveSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</ApproveSig>
   </Head>
   <Items>
-    <Quantity>41</Quantity>
-    <WorkDescription>General Checkup &amp; Repair</WorkDescription>
-    <WorkDescriptionRefNo>WD/5</WorkDescriptionRefNo>
-    <Rate>34.00</Rate>
-    <Amount>1394.00</Amount>
+    <PrintDescription>Compressor Shaft Seal
+Battery
+Engine Rear Seal
+Regulator Brush
+O-ring
+Filter Drier
+Gasket
+Engine to Compressor Belt
+Compressor to Motor Belt
+Alternator Belt
+Evaporator Shaft Belt
+Water Pump Belt
+Pressure Testing, Vacuuming &amp; Gas Charging
+Labor Charges</PrintDescription>
+    <Quantity>1.00</Quantity>
+    <UoM>ea</UoM>
+    <PriceEach>4490.00</PriceEach>
+    <Amount>4490.00</Amount>
   </Items>
+  <Items>
+    <PrintDescription>Oil Service of TK MD 200:
+Replace Engine Oil, Oil Filter, Fuel Filter, Air Filter,
+Replace By-pass Oil Filter
+Top-up Refrigerant &amp; Coolant Water
+General Check-up &amp; Maintenance</PrintDescription>
+    <Quantity>1.00</Quantity>
+    <UoM>ea</UoM>
+    <PriceEach>0.00</PriceEach>
+    <Amount>0.00</Amount>
+  </Items>
+  <DeliveryChallans>
+    <DeliveryChallanRefNo>DV/17/4</DeliveryChallanRefNo>
+    <JobCardNo>AARC/17/JC-S/2</JobCardNo>
+    <Chassiss_RegNo>202313</Chassiss_RegNo>
+  </DeliveryChallans>
 </NewDataSet>

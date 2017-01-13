@@ -109,13 +109,21 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult StandardRate()
         {
-            FillItems();
-            return View();
+             StandardSellingRate Model = new StandardSellingRate();
+            Model.StandardSellingRateItems = new RateSettingsRepository().GetStandardRateData();
+            return View(Model);
+        }
+        [HttpPost]
+        public ActionResult StandardRate(StandardSellingRate Model)
+        {
+
+            var rtn = new RateSettingsRepository().InsertStandardRate(Model);
+
+            TempData["Success"] = "Added Successfully!";
+
+            return RedirectToAction("Index");
         }
 
-        private void FillItems()
-        {
-            ViewBag.materialList = new SelectList(new DropdownRepository().FillItem(), "Id", "Name");
-        }
+       
     }
 }

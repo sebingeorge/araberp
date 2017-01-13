@@ -67,24 +67,28 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DV/16/1471</DeliveryChallanRefNo>
-    <DeliveryChallanDate>12-Dec-2016</DeliveryChallanDate>
-    <Customer>Delight International Movers</Customer>
+    <DeliveryChallanRefNo>DV/17/31</DeliveryChallanRefNo>
+    <DeliveryChallanDate>13-Jan-2017</DeliveryChallanDate>
+    <Customer>Haidari Trading</Customer>
     <CDoorNo>Doha, Qatar</CDoorNo>
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SER/26</SaleRefNo>
-    <SONoDate>12 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC-S/24</JobcardNo>
-    <JCDate>12-Dec-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>40369</RegistrationNo>
-    <WorkDesc>General Checkup &amp; Repair</WorkDesc>
-    <VehicleModel>Mitsubishi 4.1 Ton Double Cabin Truck</VehicleModel>
-    <Employee>Mohammed Safiq</Employee>
-    <QuotationRefNo>AARC/SER/982/12/16</QuotationRefNo>
-    <FreezerName>Z10</FreezerName>
-    <FreezerPartNo>290350</FreezerPartNo>
-    <FreezerId>290350</FreezerId>
-    <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
+    <SaleRefNo>AARC/SO/TR/17/3</SaleRefNo>
+    <SONoDate>03 Jan 2017</SONoDate>
+    <JobcardNo>AARC/JC/17/13</JobcardNo>
+    <JCDate>13-Jan-2017 00:00:00</JCDate>
+    <RegistrationNo>302024</RegistrationNo>
+    <ChassisNo>0</ChassisNo>
+    <WorkDesc>Thermoking T600-R + 100mm 4400x2100x2100 PUB Mit - BAM With Out Side Door</WorkDesc>
+    <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
+    <Employee> Anoop</Employee>
+    <PaymentTerms>100% before Delivery</PaymentTerms>
+    <QuotationRefNo>AARC/SQ/17/3</QuotationRefNo>
+    <FreezerName>Thermoking T600-R</FreezerName>
+    <FreezerPartNo />
+    <FreezerId>1253</FreezerId>
+    <Box>pk@130117</Box>
+    <SupplyOrderNo>AARC/PO/17/1004</SupplyOrderNo>
+    <SupplyOrderDate>03-Jan-2017</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -93,21 +97,12 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <Image1>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo xml:space="preserve"> </LPONo>
-    <LPODate>12-Dec-2016</LPODate>
-    <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
-    <ApprovedUsersig>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
+    <LPONo>SQ17/HAIDARI/13/01/2017</LPONo>
+    <LPODate>03-Jan-2017</LPODate>
+    <CreatedUser>ihits</CreatedUser>
+    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\a672e521-7633-41c1-8706-64f93478b2e7.jpg</CreateSignature>
+    <ApprovedUsersig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\a672e521-7633-41c1-8706-64f93478b2e7.jpg</ApprovedUsersig>
   </Head>
-  <Items>
-    <Description>General Service of Tail Lift:
-Top-up Hydraulic Oil
-Tail Lift Greasing
-General Check-up &amp; Maintenance
-</Description>
-    <UoM>ea</UoM>
-    <Quantity>1</Quantity>
-  </Items>
 </NewDataSet>

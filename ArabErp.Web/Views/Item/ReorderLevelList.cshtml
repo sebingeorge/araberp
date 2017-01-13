@@ -1,4 +1,5 @@
-﻿@model IList<ArabErp.Domain.Item>
+﻿@model IEnumerable<ArabErp.Domain.MaterialPlanning>
+
 @using GridMvc.Html
 @{
     ViewBag.Title = "ReorderLevelList";
@@ -22,28 +23,54 @@
             background-color: #DFEDF7;
         }
 </style>
-<div class="table-responsive">
 
-    <div class="main-grid scroll1">
+<div class="row">
 
-        @Html.Grid(Model).Columns(columns =>
-                        {
-                            columns.Add(m => m.ItemRefNo).Titled("Item Code").SetWidth(20);
-                            columns.Add(m => m.PartNo).Titled("Part No").SetWidth(200);
-                            columns.Add(m => m.ItemName).Titled("Item Name").SetWidth(20);
-                            columns.Add(m => m.CurrentStock).Titled("Stock").SetWidth(200);
-                            //columns.Add(m => m.FreezerUnitRefNo).Titled("Ref No.").SetWidth(20);
-                            //columns.Add(m => m.FreezerUnitName).Titled("Name").SetWidth(200);
+    <div class="form-head1">
 
-                        }).WithPaging(15)
+        <h4>Material Stock Below Minimum Level</h4>
 
     </div>
+    <div class="main-part pad1">
+        <div class="main-grid main-grid-top scroll1">
+
+            <div class="table-responsive">
+
+                <div class="main-grid scroll1">
+
+                    @Html.Grid(Model).Columns(columns =>
+   {
+       columns.Add(m => m.SlNo).Titled("#").SetWidth(20).Css("text-center");
+       columns.Add(m => m.ItemName).Titled("Material/Spares").SetWidth(20);
+       columns.Add(m => m.PartNo).Titled("Part No").SetWidth(10);
+       columns.Add(m => m.WRPndIssQty).Titled("Pending Issue.Qty").SetWidth(10).Css("text-right");
+       columns.Add(m => m.MinLevel).Titled("Min. Stock").SetWidth(10).Css("text-right");
+       columns.Add(m => m.CurrentStock).Titled("Curr. Stock").SetWidth(10).Css("text-right");
+       columns.Add(m => m.TotalQty).Titled("Tot. Req. Qty.").SetWidth(10).Css("text-right");
+       columns.Add(m => m.InTransitQty).Titled("In Transit Qty").SetWidth(10).Css("text-right");
+       columns.Add(m => m.PendingPRQty).Titled("Pnd. PR Qty").SetWidth(10).Css("text-right");
+       columns.Add(m => m.ShortorExcess).Titled("Short").SetWidth(10).Css("text-right");
 
 
-    <div class="row-count1">
-        <h5>Row Count:- @Model.Count()</h5>
+   }).WithPaging(15)
+
+                </div>
+
+
+                <div class="row-count1">
+                    <h5>Row Count:- @Model.Count()</h5>
+                </div>
+
+
+            </div>
+
+        </div>
+     
+
     </div>
 
 
 </div>
+
+
 

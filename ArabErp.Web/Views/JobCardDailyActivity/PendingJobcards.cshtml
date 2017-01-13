@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ArabErp.Domain.JobCardForDailyActivity>
+
+<script type="text/javascript">
+    function GoToDailyActivity(Id) {
+        var url = '@Url.Action("Create")';
+        url = url + "?Id=" + Id;
+        window.location.href = url;
+    }
+
+</script>
+
+<div class="row">
+    <div class="main-grid main-grid-top scroll1">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr class="grid_heading">
+                        <th width="15%"><h1>Job Card No. &amp; Date</h1></th>
+                        <th width="20%"><h1>Customer</h1></th>
+                        <th width="80%"><h1>Work Description</h1></th>
+                        <th width="20%" nowrap><h1> Reg No./Chassis No.</h1></th>
+                        <th width="20%"><h1>Employee</h1></th>
+                        <th width="10%"><h1>Required Date</h1></th>
+                        <th width="10%"><center><h1></h1></center></th>
+                    </tr>
+                </thead>
+                <tbody id="table-body" class="grid_row">
+                    @if (Model.Count() > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.JobCardNo - @item.JobCardDate.ToString("dd/MMMM/yyyy")</td>
+                                <td>@item.CustomerName</td>
+                                <td>@item.WorkDescr</td>
+                                <td>
+                                    @item.RegistrationNo
+                                    @if ((item.RegistrationNo != null && item.RegistrationNo != "") && (item.ChassisNo != null && item.ChassisNo != ""))
+                                    {
+                                        @: -
+                                    }
+                                    @item.ChassisNo
+                                </td>
+                                <td>@item.EmployeeName</td>
+                                <td>@item.RequiredDate.ToString("dd/MMM/yyyy")</td>
+                                <td align="center">
+                                <center><button class="form-button5" onclick="GoToDailyActivity(@item.JobCardId)">Select</button></center>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td align="center" colspan="5">
+                                <em>There are no active job cards found for daily activity! Create a job card and it will show up here.</em>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row-count1">
+        <h5>Row Count:- @Model.Count()</h5>
+    </div>
+
+</div>

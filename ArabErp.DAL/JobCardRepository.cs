@@ -11,13 +11,9 @@ using System.Collections;
 
 namespace ArabErp
 {
-
-
     public class JobCardRepository : BaseRepository
     {
-
         static string dataConnection = GetConnectionString("arab");
-
 
         //private SqlConnection connection;
 
@@ -32,7 +28,7 @@ namespace ArabErp
         //    }
 
         //}
-        public IEnumerable<PendingSO> GetPendingSO(int isProjectBased, int OrganizationId,int? isService)
+        public IEnumerable<PendingSO> GetPendingSO(int isProjectBased, int OrganizationId, int? isService)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -40,7 +36,7 @@ namespace ArabErp
                 query += @" select SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName, W.WorkDescr WorkDescription,IsPaymentApprovedForJobOrder, ISNULL(VIP.RegistrationNo, '-')RegistrationNo,DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) Remaindays,S.isService
                   from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId
                   inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId
-                  inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
+                  LEFT join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
                   left join VehicleModel V on V.VehicleModelId = W.VehicleModelId
                   left join JobCard J on J.SaleOrderItemId = SI.SaleOrderItemId ";
                 if (isProjectBased == 1)
@@ -64,13 +60,15 @@ namespace ArabErp
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = string.Empty;
-                if(isProjectBased == 0)
+                if (isProjectBased == 0)
                 {
                     query = @"SELECT S.SaleOrderId, SI.SaleOrderItemId,
                     GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,
                     ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, 
                     0 GoodsLanded, 0 BayId, W.FreezerUnitId FreezerUnitId, FU.ItemName FreezerUnitName, W.BoxId BoxId, 
-                    B.ItemName BoxName, ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId, S.isService, S.isProjectBased, S.SaleOrderRefNo
+                    B.ItemName BoxName, 
+                    VI.RegistrationNo + CASE WHEN ISNULL(VI.RegistrationNo, '') <> '' AND ISNULL(VI.ChassisNo, '') <> '' THEN ' - ' END + VI.ChassisNo RegistrationNo, 
+                    VI.VehicleInPassId InPassId, S.isService, S.isProjectBased, S.SaleOrderRefNo,S.SpecialRemarks
                     FROM SaleOrder S 
                     INNER JOIN Customer C ON S.CustomerId = C.CustomerId
                     INNER JOIN SaleOrderItem SI ON SI.SaleOrderId = S.SaleOrderId
@@ -83,19 +81,31 @@ namespace ArabErp
                 }
                 else
                 {
-                    query = "SELECT S.SaleOrderId, SI.SaleOrderItemId,";
-                    query += " GETDATE() JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef,";
-                    query += " ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, ";
-                    query += " 0 GoodsLanded, 0 BayId, 0 FreezerUnitId, W.BoxId BoxId,B.ItemName BoxName, S.isService, S.isProjectBased";
-                    query += " FROM SaleOrder S ";
-                    query += " INNER JOIN Customer C ON S.CustomerId = C.CustomerId";
-                    query += " INNER JOIN SaleOrderItem SI ON SI.SaleOrderId = S.SaleOrderId";
-                    query += " INNER JOIN WorkDescription W ON W.WorkDescriptionId = SI.WorkDescriptionId ";
-                    query += " LEFT JOIN Item B ON W.BoxId = B.ItemId";
-                    query += " WHERE SI.SaleOrderItemId = " + SoItemId.ToString();
-                }
-                
+                    query = @"SELECT 
+	                            S.SaleOrderId,
+                                S.SaleOrderRefNo,
+	                            SI.SaleOrderItemId,
+	                            GETDATE() JobCardDate,
+	                            C.CustomerId,
+	                            C.CustomerName,
+	                            S.CustomerOrderRef,
+	                            ''ChasisNoRegNo,
+	                            NULL WorkDescriptionId,
+	                            '' as WorkDescription,
+	                            '' WorkShopRequestRef, 
+	                            0 GoodsLanded,
+	                            NULL BayId,
+	                            NULL FreezerUnitId,
+	                            NULL BoxId,
+	                            '' BoxName,
+	                            S.isService,
+	                            S.isProjectBased
+                            FROM SaleOrder S 
+                            INNER JOIN Customer C ON S.CustomerId = C.CustomerId
+                            INNER JOIN SaleOrderItem SI ON SI.SaleOrderId = S.SaleOrderId
 
+                            WHERE SI.SaleOrderItemId = "+ SoItemId.ToString();
+                }
                 JobCard jobcard = connection.Query<JobCard>(query).FirstOrDefault();
                 return jobcard;
             }
@@ -118,8 +128,6 @@ namespace ArabErp
             }
         }
 
-
-
         public string SaveJobCard(JobCard jc)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -141,7 +149,7 @@ namespace ArabErp
                     objJobCard.JobCardNo = internalId.ToString();
                     int id = 0;
                     string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,InPassId,WorkDescriptionId,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId,isProjectBased, isService, Complaints) Values 
-                                                       (@JobCardNo,@JobCardDate,@SaleOrderId,@InPassId,@WorkDescriptionId,@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId,@isProjectBased, @isService, @Complaints);
+                                                       (@JobCardNo,@JobCardDate,@SaleOrderId,@InPassId,NULLIF(@WorkDescriptionId, 0),@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId,@isProjectBased, @isService, @Complaints);
                     SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = connection.Query<int>(sql, objJobCard, trn).Single();
@@ -153,6 +161,7 @@ namespace ArabErp
                         item.SlNo = i;
                         JobCardTaskRepository repo = new JobCardTaskRepository();
                         var taskid = repo.InsertJobCardTask(item, connection, trn);
+                        if (taskid == 0) throw new Exception();
                         i++;
                     }
                     InsertLoginHistory(dataConnection, objJobCard.CreatedBy, "Create", "Job Card", id.ToString(), "0");
@@ -181,20 +190,55 @@ namespace ArabErp
 	                                EmployeeId=@EmployeeId,
                                     Complaints = @Complaints
                                 WHERE JobCardId = @JobCardId;
-                                DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;";
+                                --DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;";
                 try
                 {
                     var id = connection.Execute(sql, objJobCard, txn);
 
-                    int i = 0;
-                    foreach (var item in objJobCard.JobCardTasks)
+                    #region get the list of tasks in use
+                    var usedTasks = objJobCard.JobCardTasks.Where(x => x.isTaskUsed).Select(x => x.JobCardTaskId).ToList(); 
+                    #endregion
+
+                    #region delete tasks that are not in use
+                    sql = @"DELETE FROM JobCardTask WHERE JobCardId = @jobcard AND JobCardTaskId NOT IN @usedTasks";
+                    connection.Execute(sql, new { jobcard = objJobCard.JobCardId, usedTasks = usedTasks }, txn); 
+                    #endregion
+
+                    #region insert tasks that are not in use
+                    var taskList = objJobCard.JobCardTasks.Where(x => !x.isTaskUsed || x.JobCardTaskId == 0).Select(x => x).ToList();
+                    foreach (var item in taskList)
                     {
                         item.JobCardId = objJobCard.JobCardId;
-                        item.SlNo = i;
-                        JobCardTaskRepository repo = new JobCardTaskRepository();
-                        if (repo.InsertJobCardTask(item, connection, txn) == 0) throw new Exception("Some error occured while saving jobcard task");
-                        i++;
+                        item.JobCardTaskId = item.JobCardTaskMasterId;
+                        if (new JobCardTaskRepository().InsertJobCardTask(item, connection, txn) == 0)
+                            throw new Exception("Some error occured while saving jobcard task");
                     }
+                    #endregion
+
+                    //int i = 0;
+                    //foreach (var item in objJobCard.JobCardTasks)
+                    //{
+                        
+                    //    //insert tasks that are not used
+                    //    item.JobCardId = objJobCard.JobCardId;
+                    //    if (new JobCardTaskRepository().InsertJobCardTask(item, connection, txn) == 0)
+                    //        throw new Exception("Some error occured while saving jobcard task");
+
+                    //    //item.SlNo = i;
+                    //    JobCardTaskRepository repo = new JobCardTaskRepository();
+                    //    if (item.JobCardTaskId == 0)
+                    //    {
+                    //        //insert jobcard task
+                    //        i++;
+
+                    //    }
+                    //    else
+                    //    {
+                    //        //update jobcard task
+                    //        i++;
+                    //        sql = @"";
+                    //    }
+                    //}
 
                     InsertLoginHistory(dataConnection, objJobCard.CreatedBy, "Update", "Job Card", id.ToString(), objJobCard.OrganizationId.ToString());
                     txn.Commit();
@@ -376,16 +420,16 @@ namespace ArabErp
                 string sql = "select * from JobCard where JobCardId = " + JobCardId.ToString();
                 JobCard jc = connection.Query<JobCard>(sql).Single();
                 jc.JobCardTasks = new List<JobCardTask>();
-                if(jc!= null)
+                if (jc != null)
                 {
                     sql = string.Empty;
                     sql = "select * from JobCardTask where JobCardId = " + JobCardId.ToString();
                     var tasks = connection.Query<JobCardTask>(sql);
 
-                    if(JobCardTaskId != null)
+                    if (JobCardTaskId != null)
                     {
                         var t = from a in tasks where a.JobCardTaskId == (JobCardTaskId ?? 0) select a;
-                        foreach(var item in t)
+                        foreach (var item in t)
                         {
                             jc.JobCardTasks.Add(item);
                         }
@@ -396,23 +440,30 @@ namespace ArabErp
                         {
                             jc.JobCardTasks.Add(item);
                         }
-                    }                    
+                    }
                 }
                 return jc;
             }
         }
-        public IEnumerable<JobCard> GetAllJobCards( int ProjectBased,int service,int id, int cusid, int OrganizationId, DateTime? from, DateTime? to)
+        public IEnumerable<JobCard> GetAllJobCards(int ProjectBased, int service, int id, int cusid, int OrganizationId, DateTime? from, DateTime? to, string RegNo = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = @"select JobCardId,JobCardNo,JobCardDate,CustomerName,S.CustomerId, I1.ItemName FreezerUnitName, I2.ItemName BoxName, E.EmployeeName from JobCard J inner               join SaleOrder S ON S.SaleOrderId=J.SaleOrderId
-                               inner join Customer C ON C.CustomerId=S.CustomerId
+                string qry = @"SELECT JobCardId,JobCardNo,JobCardDate,CustomerName,S.CustomerId, I1.ItemName FreezerUnitName, I2.ItemName BoxName, E.EmployeeName,
+                               ISNULL(ChassisNo,'')ChasisNo,ISNULL(RegistrationNo,'')RegistrationNo
+                               FROM JobCard J 
+                               INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
+                               INNER JOIN Customer C ON C.CustomerId=S.CustomerId
+                               LEFT JOIN VehicleInPass V ON VehicleInPassId=J.InPassId
 							   LEFT JOIN ITEM I1 ON J.FreezerUnitId = I1.ItemId
 							   LEFT JOIN ITEM I2 ON J.BoxId = I2.ItemId
 							   LEFT JOIN Employee E ON J.EmployeeId = E.EmployeeId
-                               where J.isActive=1 and J.OrganizationId = @OrganizationId and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)  AND J.JobCardDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) and J.isProjectBased = @ProjectBased and J.isService=@service
-                                ORDER BY J.JobCardDate DESC, J.CreatedDate DESC";
-                return connection.Query<JobCard>(qry, new { id = id, cusid = cusid, from = from, to = to, OrganizationId = OrganizationId, ProjectBased = ProjectBased,service=service }).ToList();
+                               WHERE J.isActive=1 and J.OrganizationId = @OrganizationId and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) 
+                               AND S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)  AND J.JobCardDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) 
+                               AND ISNULL(@to, GETDATE()) and J.isProjectBased = @ProjectBased and J.isService=@service  
+                               AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%')
+                               ORDER BY J.JobCardDate DESC, J.CreatedDate DESC";
+                return connection.Query<JobCard>(qry, new { id = id, cusid = cusid, from = from, to = to, OrganizationId = OrganizationId, ProjectBased = ProjectBased, service = service, RegNo = RegNo }).ToList();
 
             }
         }
@@ -430,7 +481,9 @@ namespace ArabErp
                 {
                     sq = @"SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,
                               C.CustomerName Customer,U.ItemName FreezerUnitName,
-								v.RegistrationNo ChasisNo,VM.VehicleModelName,UI.ItemName BoxName,
+								--V.ChassisNo + CASE WHEN ISNULL(V.RegistrationNo, '') <> '' AND ISNULL(V.ChassisNo, '') <> '' THEN ' - ' END + V.RegistrationNo ChasisNo,
+                                ISNULL(V.RegistrationNo, '') + CASE WHEN ISNULL(V.RegistrationNo, '') <> '' AND ISNULL(V.ChassisNo, '') <> '' THEN ' - ' ELSE '' END + ISNULL(V.ChassisNo, '') RegistrationNo, 
+                                VM.VehicleModelName,UI.ItemName BoxName,
 								US.UserName CreatedUser,US.Signature CreatedUsersig,DI.DesignationName CreatedDes,
                                 J.Complaints
                                 FROM JobCard J
@@ -458,7 +511,7 @@ namespace ArabErp
                 {
                     qu = @"SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,
                               C.CustomerName Customer,U.ItemName FreezerUnitName,
-								v.RegistrationNo ChasisNo,VM.VehicleModelName,UI.ItemName BoxName,
+								v.RegistrationNo RegistrationNo,VM.VehicleModelName,UI.ItemName BoxName,
 								SE.Complaints,
 								concat(SE.BoxMake,CASE WHEN (ISNULL(LTRIM(RTRIM(SE.BoxMake)),'') = '' OR ISNULL(LTRIM(RTRIM(SE.BoxNo)), '') = '') THEN '' ELSE ' / ' END ,SE.BoxNo) BoxName,
 								concat(SE.FreezerMake,CASE WHEN (ISNULL(LTRIM(RTRIM(SE.FreezerMake)),'') = '' OR ISNULL(LTRIM(RTRIM(SE.FreezerModel)), '') = '') THEN '' ELSE ' / ' END ,SE.FreezerModel) FreezerUnitName,
@@ -478,7 +531,7 @@ namespace ArabErp
                                 WHERE J.JobCardId=@JobCardId";
                 }
 
-                var objJobCard= connection.Query<JobCard>(qu, new
+                var objJobCard = connection.Query<JobCard>(qu, new
                 {
                     JobCardId = JobCardId,
                     OrganizationId = OrganizationId
@@ -486,7 +539,7 @@ namespace ArabErp
                 }).First<JobCard>();
 
                 return objJobCard;
-                   
+
             }
 
         }
@@ -502,12 +555,13 @@ namespace ArabErp
                     JC.JobCardDate, C.CustomerId, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName,
                     ''ChasisNoRegNo, W.WorkDescriptionId, W.WorkDescr as WorkDescription, '' WorkShopRequestRef, 
                     0 GoodsLanded, 0 BayId, W.FreezerUnitId FreezerUnitId, FU.ItemName FreezerUnitName, W.BoxId BoxId, B.ItemName BoxName, 
-                    ISNULL(VI.RegistrationNo, '-') RegistrationNo, VI.VehicleInPassId InPassId, S.isProjectBased,
+                    ISNULL(VI.RegistrationNo, '') + CASE WHEN ISNULL(VI.RegistrationNo, '') <> '' AND ISNULL(VI.ChassisNo, '') <> '' THEN ' - ' ELSE '' END + ISNULL(VI.ChassisNo, '') RegistrationNo, 
+                    VI.VehicleInPassId InPassId, S.isProjectBased,
 					JC.JobCardId, JC.JobCardNo, JC.BayId, CONVERT(VARCHAR, JC.RequiredDate, 106) RequiredDate, JC.EmployeeId,s.isService, 
                     JC.SpecialRemarks, JC.Complaints
                     from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId
                     inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId
-                    inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
+                    LEFT join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
                     LEFT join VehicleModel V on V.VehicleModelId = W.VehicleModelId
 					LEFT JOIN VehicleInPass VI ON SI.SaleOrderItemId = VI.SaleOrderItemId
 					LEFT JOIN Item FU ON W.FreezerUnitId = FU.ItemId
@@ -529,33 +583,48 @@ namespace ArabErp
 
                 JobCard jobcard = connection.Query<JobCard>(query, new { JobCardId = JobCardId }, txn).FirstOrDefault();
 
-                query = @"SELECT
-	                            JobCardTaskMasterId JobCardTaskId,
-	                            EmployeeId,
+                #region old query 3.1.2017 5.47p
+                //                query = @"SELECT
+                //	                            JobCardTaskMasterId JobCardTaskId,
+                //	                            EmployeeId,
+                //	                            CONVERT(VARCHAR, TaskDate, 106) TaskDate,
+                //	                            SlNo,
+                //	                            [Hours]
+                //                            FROM JobCardTask
+                //                            WHERE JobCardId = @JobCardId"; 
+                #endregion
+
+                query = @"SELECT DISTINCT
+                                JT.JobCardTaskId,
+	                            JobCardTaskMasterId,
+	                            JT.EmployeeId,
 	                            CONVERT(VARCHAR, TaskDate, 106) TaskDate,
 	                            SlNo,
-	                            [Hours]
-                            FROM JobCardTask
+	                            [Hours],
+	                            CASE WHEN DT.JobCardTaskId IS NULL THEN 0 ELSE 1 END isTaskUsed
+                            FROM JobCardTask JT
+	                            LEFT JOIN JobCardDailyActivityTask DT ON JT.JobCardTaskId = DT.JobCardTaskId
                             WHERE JobCardId = @JobCardId";
+
                 jobcard.JobCardTasks = connection.Query<JobCardTask>(query, new { JobCardId = JobCardId }, txn).ToList();
 
                 query = @"SELECT ISNULL(JodCardCompleteStatus, 0) FROM JobCard WHERE JobCardId=@JobCardId";
                 jobcard.IsUsed = Convert.ToBoolean(connection.Query<int>(query, new { JobCardId = jobcard.JobCardId }, txn).First());
                 if (jobcard.IsUsed) return jobcard;
 
-                try
-                {
-                    query = @"DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;
-                              DELETE FROM JobCard WHERE JobCardId = @JobCardId;";
-                    connection.Query<JobCardTask>(query, new { JobCardId = JobCardId }, txn).ToList();
-                    txn.Rollback();
-                    jobcard.IsTaskUsed = false;
-                }
-                catch
-                {
-                    txn.Rollback();
-                    jobcard.IsTaskUsed = true;
-                }
+                //                try
+                //                {
+                //                    query = @"DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;
+                //                              DELETE FROM JobCard WHERE JobCardId = @JobCardId;";
+                //                    connection.Query<JobCardTask>(query, new { JobCardId = JobCardId }, txn).ToList();
+                //                    txn.Rollback();
+                //                    jobcard.IsTaskUsed = false;
+                //                }
+                //                catch
+                //                {
+                //                    txn.Rollback();
+                //                    jobcard.IsTaskUsed = true;
+                //                }
 
                 return jobcard;
             }
@@ -621,7 +690,57 @@ namespace ArabErp
             }
         }
 
+        public object GetJobCardsOnHold(string jobcard, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT
+	                                JC.JobCardId,
+	                                JC.JobCardNo,
+	                                JC.JobCardDate,
+	                                Bay.BayName,
+	                                VM.VehicleModelName,
+	                                [User].UserName HeldBy,
+	                                JC.HeldOn
+                                FROM JobCard JC
+	                                INNER JOIN Bay ON JC.BayId = Bay.BayId
+	                                INNER JOIN [User] ON JC.HeldBy = [User].UserId
+	                                INNER JOIN SaleOrderItem SOI ON JC.SaleOrderItemId = SOI.SaleOrderItemId
+	                                INNER JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
+                                WHERE ISNULL(JC.isOnHold, 0) = 1
+                                    AND JC.JobCardNo LIKE '%'+@jobcard+'%'";
+                return connection.Query<JobCard>(query, new { jobcard = jobcard }).ToList();
+            }
+        }
 
-       
+        public bool ReleaseJobCard(int jobcard, int ReleasedBy)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    string query = @"IF EXISTS(
+		                                SELECT * FROM JobCard
+		                                WHERE BayId = (SELECT BayId FROM JobCard 
+						                                WHERE JobCardId = @jobcard)
+		                                AND ISNULL(JobCard.JodCardCompleteStatus, 0) = 0)
+                                    BEGIN
+		                                    SELECT 0;
+                                    END
+                                    ELSE
+                                    BEGIN
+	                                    UPDATE JobCard SET isOnHold = NULL, ReleasedOn = GETDATE(), ReleasedBy = @ReleasedBy, 
+                                        JodCardCompleteStatus = NULL, JodCardCompletedDate = NULL
+	                                    WHERE JobCardId = @jobcard;
+	                                    SELECT 1;
+                                    END";
+                    return connection.Query<bool>(query, new { jobcard = jobcard, ReleasedBy = ReleasedBy }).FirstOrDefault();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

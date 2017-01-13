@@ -99,7 +99,9 @@
     <Compile Include="FinancialYearRepository.cs" />
     <Compile Include="FreezerUnitRepository.cs" />
     <Compile Include="GRNItemRepository.cs" />
+    <Compile Include="GRNRegisterRepository.cs" />
     <Compile Include="GRNRepository.cs" />
+    <Compile Include="IndentVsSOVsInpassStatusRepository.cs" />
     <Compile Include="ItemBatchRepository.cs" />
     <Compile Include="ItemCategoryRepository.cs" />
     <Compile Include="ItemRepository.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="PurchaseRequestRepository.cs" />
     <Compile Include="QCParametersRepository.cs" />
     <Compile Include="QuerySheetRepository.cs" />
+    <Compile Include="QuickBookExportRepository.cs" />
     <Compile Include="QuotationApprovalRepository.cs" />
     <Compile Include="RateSettingsRepository.cs" />
     <Compile Include="ResourceAvailabilityRepository.cs" />
@@ -148,6 +151,7 @@
     <Compile Include="SalesQuotationRepository.cs" />
     <Compile Include="SalesRegisterRepository.cs" />
     <Compile Include="SalesTargetRepository.cs" />
+    <Compile Include="ServiceRegisterRepository.cs" />
     <Compile Include="StockCreationConsumedItemsRepository.cs" />
     <Compile Include="StockCreationFinishedGoodsRepository.cs" />
     <Compile Include="StockCreationRepository.cs" />
@@ -194,16 +198,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArabErp.Domain\ArabErp.Domain.csproj">
-      <Project>{2605b8a4-0865-464b-8627-30b9ddbe9dc6}</Project>
-      <Name>ArabErp.Domain</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ArabErp.Domain\ArabErp.Domain.csproj">
+      <Project>{2605b8a4-0865-464b-8627-30b9ddbe9dc6}</Project>
+      <Name>ArabErp.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

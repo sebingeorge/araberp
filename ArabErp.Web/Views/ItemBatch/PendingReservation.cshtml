@@ -21,8 +21,11 @@
         $("#unreserved-table").addClass("fade");
         var saleOrder = $("#saleOrder").val();
         var item = $("#itemName").val();
+        var Jobcard = $("#txtJcNo").val().trim();
+        var Customer = $("#txtCustomer").val().trim();
+        var RegNo = $("#txtRegNo").val().trim();
         var url = '@Url.Action("PendingReservationGrid")';
-        url += "?saleOrder=" + encodeURIComponent(saleOrder) + "&item=" + encodeURIComponent(item);
+        url += "?saleOrder=" + encodeURIComponent(saleOrder) + "&item=" + encodeURIComponent(item) + "&Jobcard=" + encodeURIComponent(Jobcard) + "&Customer=" + encodeURIComponent(Customer) + "&RegNo=" + encodeURIComponent(RegNo);
         $("#unreserved-table").load(url, function () {
             $("#unreserved-table").removeClass("fade");
         })
@@ -51,6 +54,18 @@
                 <div class="col-md-2">
                     <label for="itemName">Material/Spares</label>
                     <input id="itemName" class="form_input" onkeyup="Filter()" placeholder="Search for Material/Spare" />
+                </div>
+                <div class="col-md-2">
+                    <label for="txtJcNo">Job Card No.</label>
+                    <input type="text" class="form_input" id="txtJcNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Job Card" />
+                </div>
+                <div class="col-md-2">
+                    <label for="txtCustomer">Customer</label>
+                    <input type="text" class="form_input" id="txtCustomer" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Customer" />
+                </div>
+                <div class="col-md-2">
+                    <label for="txtRegNo">Reg. No./Chassis No.</label>
+                    <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Reg. No./Chassis No." />
                 </div>
             </div>
             <br />

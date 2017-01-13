@@ -128,14 +128,13 @@ namespace ArabErp.Web.Controllers
         }
         public void FillSO()
         {
-            ExpenseRepository repo = new ExpenseRepository();
-            List<Dropdown> list = repo.FillSO();
+            List<Dropdown> list = new DropdownRepository().SaleOrderDropdown2(OrganizationId);
             ViewBag.SO = new SelectList(list, "Id", "Name");
         }
         public void FillJC()
         {
             ExpenseRepository repo = new ExpenseRepository();
-            List<Dropdown> list = repo.FillJC();
+            List<Dropdown> list = new DropdownRepository().JobCardDropdown(OrganizationId);
             ViewBag.JC = new SelectList(list, "Id", "Name");
         }
         public ActionResult Edit(int id = 0)
@@ -147,7 +146,7 @@ namespace ArabErp.Web.Controllers
                     FillSO();
                     FillJC();
                     GetMaterials();
-
+                    FillPartNo();
                     DirectPurchaseRequest DirectPurchaseRequest = new DirectPurchaseRequest();
                     DirectPurchaseRequest = new DirectPurchaseRepository().GetDirectPurchaseRequest(id);
                     DirectPurchaseRequest.items = new DirectPurchaseRepository().GetDirectPurchaseRequestItems(id);
@@ -272,7 +271,8 @@ namespace ArabErp.Web.Controllers
         public ActionResult PurchaseIndent()
         {
             FillPartNo();
-            GetMaterials(); List<DirectPurchaseRequestItem> list = new List<DirectPurchaseRequestItem>();
+            GetMaterials(); 
+            List<DirectPurchaseRequestItem> list = new List<DirectPurchaseRequestItem>();
             list.Add(new DirectPurchaseRequestItem());
             return View(new DirectPurchaseRequest
             {
@@ -363,9 +363,37 @@ namespace ArabErp.Web.Controllers
             }
         }
 
+        public ActionResult DeletePurchaseIndent(int id = 0)
+        {
+            try
+            {
+                if (id == 0) return RedirectToAction("Index", "Home");
+                string result = new DirectPurchaseRepository().DeletePurchaseIndent(id);
+                TempData["Success"] = "Deleted Successfully!";
+                return RedirectToAction("PurchaseIndents");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+                return RedirectToAction("PurchaseIndent", new { id = id });
+            }
+        }
         public JsonResult GetStockQuantity(int itemId)
         {
             return Json(new DirectPurchaseRepository().GetStockQuantity(itemId), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetLastPurchaseRate(int itemId)
+        {
+            try
+            {
+                var list = new PurchaseRequestRepository().GetLastPurchaseRate(itemId, OrganizationId);
+                return PartialView("_LastPurchaseRateGrid", list);
+            }
+            catch (Exception)
+            {
+                return Json("Some error occurred while fetching the rates!", JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

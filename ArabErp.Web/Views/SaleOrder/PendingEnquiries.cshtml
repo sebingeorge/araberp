@@ -11,6 +11,14 @@
         url += "/" + id;
         window.location = url;
     }
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+    function PreviousList() {
+        var url = '@Url.Action("ServiceOrderList")';
+        window.location = url;
+    }
 </script>
 
 <div class="row">

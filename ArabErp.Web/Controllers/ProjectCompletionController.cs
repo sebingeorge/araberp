@@ -48,17 +48,23 @@ namespace ArabErp.Web.Controllers
         {
             if (id == 0) return RedirectToAction("Index", "Home");
             ProjectCompletion model = new ProjectCompletionRepository().GetProjectDetails(id, OrganizationId);
-            return View(new ProjectCompletion
-            {
-                SaleOrderId = id,
-                ProjectCompletionDate = DateTime.Today,
-                ProjectWarrantyExpiryDate = DateTime.Today.AddYears(1).AddDays(-1),
-                ProjectCompletionRefNo = DatabaseCommonRepository.GetNextDocNo(30, OrganizationId),
-                ProjectName = model.ProjectName,
-                Location = model.Location,
-                CustomerName = model.CustomerName,
-                ItemBatches = new ProjectCompletionRepository().GetSerialNos(id).ToList<ItemBatch>()
-            });
+            model.SaleOrderId = id;
+            model.ProjectCompletionDate = DateTime.Today;
+            model.ProjectWarrantyExpiryDate = DateTime.Today.AddYears(1).AddDays(-1);
+            model.ProjectCompletionRefNo = DatabaseCommonRepository.GetNextDocNo(30, OrganizationId);
+            model.ItemBatches = new ProjectCompletionRepository().GetSerialNos(id).ToList<ItemBatch>();
+            return View(model);
+            //return View(new ProjectCompletion
+            //{
+            //    SaleOrderId = id,
+            //    ProjectCompletionDate = DateTime.Today,
+            //    ProjectWarrantyExpiryDate = DateTime.Today.AddYears(1).AddDays(-1),
+            //    ProjectCompletionRefNo = DatabaseCommonRepository.GetNextDocNo(30, OrganizationId),
+            //    ProjectName = model.ProjectName,
+            //    Location = model.Location,
+            //    CustomerName = model.CustomerName,
+            //    ItemBatches = new ProjectCompletionRepository().GetSerialNos(id).ToList<ItemBatch>()
+            //});
         }
 
         public ActionResult SaleOrderDetails(int id)
@@ -130,7 +136,7 @@ namespace ArabErp.Web.Controllers
             {
                 TempData["error"] = "Some error occurred. Please try again.";
             }
-           return View(model);
+            return View(model);
         }
 
         public ActionResult Delete(int ProjectCompletionId = 0)
@@ -148,7 +154,7 @@ namespace ArabErp.Web.Controllers
                 TempData["error"] = "Some error occured while deleting. Please try again.";
                 return RedirectToAction("Details", new { id = ProjectCompletionId });
             }
-        
+
         }
 
         public ActionResult Print(int Id)
@@ -180,8 +186,8 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("SaleOrderDate");
             ds.Tables["Head"].Columns.Add("CustomerName");
             ds.Tables["Head"].Columns.Add("ProjectName");
-           // ds.Tables["Head"].Columns.Add("[Location]");
-        
+            // ds.Tables["Head"].Columns.Add("[Location]");
+
             //Organization
             ds.Tables["Head"].Columns.Add("DoorNo");
             ds.Tables["Head"].Columns.Add("Street");

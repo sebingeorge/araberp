@@ -91,7 +91,7 @@
 
     //    var actual_h = Number(endtime_h) - Number(starttime_h);
     //    var actual_m = 0;
-        
+
     //    if (endtime_m > starttime_m) {
     //        actual_m = Number(endtime_m) - Number(starttime_m);
     //    }
@@ -146,6 +146,7 @@
                             <th width="2%" class="text-center"><h1>#</h1></th>
                             <th width="20%" class="text-left"><h1>Technician</h1></th>
                             <th width="20%" class="text-left"><h1>Task</h1></th>
+                            <th width="10%"><h1>Date</h1></th>
                             <th width="10%"><h1>Start Time</h1></th>
                             <th width="10%"><h1>End Time</h1></th>
                             <th width="10%"><h1>Actual Hours</h1></th>
@@ -160,14 +161,19 @@
 
                                 <td width="1%" align="center">@(i + 1)</td>
                                 @*<td width="26%">@Html.DropDownListFor(m => Model.JobCardDailyActivityTask[i].JobCardTaskId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off" })</td>*@
-                                <td width="5%">
-                                    @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].EmployeeId)
-                                    @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].EmployeeName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                                </td>
+                                @*@if (Model.isProjectBased == 0)
+                                {*@
+                                    <td width="5%">
+                                        @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].EmployeeId)
+                                        @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].EmployeeName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                                    </td>
+                                @*}*@
                                 <td width="5%">
                                     @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].JobCardTaskMasterId)
+                                    @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].JobCardTaskId)
                                     @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].JobCardTaskName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                                 </td>
+                                <td>@Model.JobCardDailyActivityTask[i].TaskStartDate.ToString("dd/MMMM/yyyy")</td>
                                 @*<td width="5%">*@@Html.HiddenFor(m => m.JobCardDailyActivityTask[i].TaskStartDate)@*</td>*@
                                 @*<td width="5%">*@@Html.HiddenFor(m => m.JobCardDailyActivityTask[i].TaskEndDate)@*</td>*@
                                 <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].StartTime, new { @class = "form_input timepicker", autocomplete = "off", @required = "true" })</td>
@@ -175,7 +181,7 @@
                                 <td width="10%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].ActualHours, new { @class = "form_input numbers-only", autocomplete = "off", @placeholder = "0", @required = "true" })</td>
                                 @*<td style="vertical-align:middle"><a id="add_@i" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>*@
                             </tr>
-                            i++;
+                                i++;
                         }
                     </tbody>
                 </table>

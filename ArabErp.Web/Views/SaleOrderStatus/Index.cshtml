@@ -4,6 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
+    $(document).ready(function () {
+        $("#txtFrom").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+        $("#txtTo").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+    })
+
 
     function Exit() {
         var url = '@Url.Action("Index","Home")';
@@ -15,6 +24,7 @@
         var sono = $("#sono").val().trim();
         var lpoNo = $("#lpono").val().trim();
         var ChassisNo = $("#chassisno").val().trim();
+      
         var url = '@Url.Action("Print")';
         //url += "?Id=" + id;
         url += "?customer=" + encodeURIComponent(customer) + "&sono=" + encodeURIComponent(sono) + "&lpoNo=" + encodeURIComponent(lpoNo) + "&ChassisNo=" + encodeURIComponent(ChassisNo);
@@ -26,9 +36,11 @@
         var sono = $("#sono").val().trim();
         var lpoNo = $("#lpono").val().trim();
         var ChassisNo = $("#chassisno").val().trim();
-
+        var InstallType = $("#cboType").val();
+        var from = $("#txtFrom").val();
+        var to = $("#txtTo").val();
         var url = '@Url.Action("SaleOrderStatus")';
-        url += "?customer=" + encodeURIComponent(customer) + "&sono=" + encodeURIComponent(sono) + "&lpoNo=" + encodeURIComponent(lpoNo) + "&ChassisNo=" + encodeURIComponent(ChassisNo);
+        url += "?from=" + from + "&to=" + to+"&customer=" + encodeURIComponent(customer) + "&sono=" + encodeURIComponent(sono) + "&lpoNo=" + encodeURIComponent(lpoNo) + "&ChassisNo=" + encodeURIComponent(ChassisNo) + "&InstallType=" + encodeURIComponent(InstallType) ;
         $("#SaleOrder_Status").load(url, function () {
             $("#SaleOrder_Status").removeClass("fade");
 
@@ -48,6 +60,14 @@
             <div class="main-grid main-grid-top scroll1">
                 <div class="row form-group">
                     <div class="col-md-2">
+                        <label>From</label>
+                        <input id="txtFrom" value="@ViewBag.startdate.ToString("dd-MMMM-yyyy")" class="form_input" onchange="Filter()" />
+                    </div>
+                    <div class="col-md-2">
+                        <label>To</label>
+                        <input id="txtTo" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" class="form_input" onchange="Filter()" />
+                    </div>
+                    <div class="col-md-2">
                         <label>Customer</label>
                         <input id="customer" class="form_input" placeholder="Search for Customer" onkeyup="Filter()" />
                     </div>
@@ -62,6 +82,14 @@
                     <div class="col-md-2">
                         <label>Reg.No./Chassis No.</label>
                         <input id="chassisno" class="form_input" placeholder="Search for Reg/Chassis No." onkeyup="Filter()" />
+                    </div>
+                    <div class="col-md-2">
+                        <label for="txtCustomer">Service/New Installation</label>
+                        <select id="cboType" class="form_input" onchange="Filter()">
+                            <option value="all" selected>All</option>
+                            <option value="service">Service</option>
+                            <option value="new">New Installation</option>
+                        </select>
                     </div>
                 </div>
                 <div class="table-responsive" id="SaleOrder_Status">

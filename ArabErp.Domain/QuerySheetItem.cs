@@ -26,9 +26,26 @@ namespace ArabErp.Domain
         public string PipeLength { get; set; }
         public string Refrigerant { get; set; }
         public string EletricalPowerAvailability { get; set; }
-        public string Unit { get; set; }
         public decimal Cost { get; set; }
-
         public string Type { get; set; }
+   
+
+        public List<QuerySheetUnit> ProjectRoomUnits { get; set; }
+        public List<QuerySheetDoor> ProjectRoomDoors { get; set; }
     }
+  public class QuerySheetUnit
+  {
+      public int QuerySheetItemId { get; set; }
+      public string CondenserUnitId { get; set; }
+      public string EvaporatorUnitId { get; set; }
+      public decimal Quantity { get; set; }
+      public int sno { get; set; }
+  }
+  public class QuerySheetDoor
+  {
+      public int QuerySheetItemId { get; set; }
+      public decimal Quantity { get; set; }
+      public string DoorId { get; set; }
+  }
+
 }

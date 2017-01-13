@@ -32,10 +32,11 @@ namespace ArabErp.DAL
                     {
                         model.SaleOrderId = null;
                     }
-                    else
+                    else if (model.SoOrJc == "SO")
                     {
                         model.JobCardId = null;
                     }
+                    else model.isStockOrder = true;
                     model.TotalAmount = model.items.Sum(m => (m.Quantity * m.Rate));
                     string sql = @"INSERT INTO DirectPurchaseRequest
                                 (
@@ -50,7 +51,8 @@ namespace ArabErp.DAL
 	                                [isActive],
 	                                [isApproved],
                                     [SaleOrderId],
-                                    [JobCardId]
+                                    [JobCardId],
+                                    [isStockOrder]
                                 )
                                 VALUES
                                 (
@@ -65,7 +67,8 @@ namespace ArabErp.DAL
                                     1,
                                     0,
                                     @SaleOrderId,
-                                    @JobCardId
+                                    @JobCardId,
+                                    @isStockOrder
                                 )
                             SELECT CAST(SCOPE_IDENTITY() AS INT)";
                     id = connection.Query<int>(sql, model, txn).Single<int>();
@@ -296,13 +299,14 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+                IDbTransaction txn = connection.BeginTransaction();
                 //the model used for Purchase Indent is DirectPurchaseRequest
                 string query = @"SELECT
 	                                PurchaseRequestId DirectPurchaseRequestId, *
                                 FROM PurchaseRequest
                                 WHERE PurchaseRequestId = @id
                                 AND OrganizationId = @org";
-                DirectPurchaseRequest model = connection.Query<DirectPurchaseRequest>(query, new { org = organizationId, @id = id }).FirstOrDefault();
+                DirectPurchaseRequest model = connection.Query<DirectPurchaseRequest>(query, new { org = organizationId, @id = id }, txn).FirstOrDefault();
                 string sql = @"SELECT
 	                                PRI.PurchaseRequestItemId DirectPurchaseRequestItemId, PRI.*,
 									U.UnitName UoM
@@ -310,7 +314,25 @@ namespace ArabErp.DAL
 								INNER JOIN Item I ON PRI.ItemId = I.ItemId
 								INNER JOIN Unit U ON I.ItemUnitId = U.UnitId
                                 WHERE PurchaseRequestId = @id";
-                model.items = connection.Query<DirectPurchaseRequestItem>(sql, new { id = id }).ToList();
+                model.items = connection.Query<DirectPurchaseRequestItem>(sql, new { id = id }, txn).ToList();
+
+                #region checking isUsed
+                try
+                {
+                    sql = @" DELETE FROM PurchaseRequestItem WHERE PurchaseRequestId=@Id;
+                             DELETE FROM PurchaseRequest OUTPUT deleted.PurchaseRequestNo WHERE PurchaseRequestId = @Id;";
+
+                    string output = connection.Query<string>(sql, new { Id = id }, txn).First();
+                    txn.Rollback();
+                    model.isUsed = false;
+                }
+                catch (Exception ex)
+                {
+                    model.isUsed = true;
+                    txn.Rollback();
+                } 
+                #endregion
+
                 return model;
             }
         }
@@ -439,5 +461,29 @@ namespace ArabErp.DAL
                 return connection.Query<decimal>(query, new { ItemId = itemId }).FirstOrDefault();
             }
         }
+
+        public string DeletePurchaseIndent(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    string sql = @" DELETE FROM PurchaseRequestItem WHERE PurchaseRequestId=@Id;
+                                    DELETE FROM PurchaseRequest OUTPUT deleted.PurchaseRequestNo WHERE PurchaseRequestId = @Id;";
+                                   
+                    string output = connection.Query<string>(sql, new { Id = Id }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+
     }
 }

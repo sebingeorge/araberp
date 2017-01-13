@@ -60,6 +60,11 @@ namespace ArabErp.Domain
         public string OrganizationName { get; set; }
         public string Image1 { get; set; }
         public int SaleOrderItemId { get; set; }
+        public bool isDirectRequest { get; set; }
+        public bool isApproved { get; set; }
+        public int SaleOrderItemUnitId { get; set; }
+        public int EvaConUnitId { get; set; }
+        
         public List<WorkShopRequestItem> Items { get; set; }
         public List<WorkShopRequestItem> AdditionalMaterials { get; set; }
     }

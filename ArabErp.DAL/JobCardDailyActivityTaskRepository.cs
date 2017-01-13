@@ -53,14 +53,16 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"SELECT
-	                            JobCardDailyActivityId,T.EmployeeId,E.EmployeeName,
-                                JCT.JobCardTaskMasterId,JCT.JobCardTaskName, StartTime, EndTime,T.ActualHours,
-									CONVERT(VARCHAR, GETDATE(), 106) TaskStartDate,
-									CONVERT(VARCHAR, GETDATE(), 106) TaskEndDate
+	                            T.JobCardDailyActivityId,T.EmployeeId,E.EmployeeName,JTA.JobCardTaskMasterId,
+                                JTA.JobCardTaskName, T.StartTime, T.EndTime,T.ActualHours,
+							    CONVERT(VARCHAR, GETDATE(), 106) TaskStartDate,
+							    CONVERT(VARCHAR, GETDATE(), 106) TaskEndDate
                                 FROM JobCardDailyActivityTask T
-                                INNER JOIN JobCardTaskMaster JCT ON T.JobCardTaskId = JCT.JobCardTaskMasterId
+                                INNER JOIN JobCardDailyActivity JDA ON JDA.JobCardDailyActivityId=T.JobCardDailyActivityId
+                                INNER JOIN JobCardTask JT ON JT.JobCardTaskId=T.JobCardTaskId
+                                INNER JOIN JobCardTaskMaster JTA ON JTA.JobCardTaskMasterId = JT.JobCardTaskMasterId
                                 INNER JOIN Employee E ON E.EmployeeId=T.EmployeeId
-                                WHERE JobCardDailyActivityId = @JobCardDailyActivityId
+                                WHERE T.JobCardDailyActivityId = @JobCardDailyActivityId
                                 AND T.isActive = 1";
 
                 var objJobCardDailyActivityTasks = connection.Query<JobCardDailyActivityTask>(sql, new { JobCardDailyActivityId = JobCardDailyActivityId }).ToList<JobCardDailyActivityTask>();

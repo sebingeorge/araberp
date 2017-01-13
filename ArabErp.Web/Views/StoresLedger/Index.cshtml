@@ -31,17 +31,46 @@
       
     }
 
+    @*function FillItemGroup() {
+        var Code = $('#ItemCategoryId').val();
+        alert(Code);
+        var Url = '@Url.Action("ItemGroup")';
+        var UrlSubGroup = '@Url.Action("ItemSubGroup")';
+        if (Code == '') {
+            $("#DivItemGroup").load(Url, { Code: 0 });
+            $("#DivItemSubGroup").load(UrlSubGroup, { Code: 0 });
+        }
+        else {
+            $("#DivItemGroup").load(Url, { Code: Code });
+            $("#DivItemSubGroup").load(UrlSubGroup, { Code: 0 });
+        }
+    }
+
+    function FillItemSubGroup() {
+        var Code = $('#ItemGroupId').val();
+        var Url = '@Url.Action("ItemSubGroup")';
+        if (Code == '') {
+            $("#DivItemSubGroup").load(Url, { Code: 0 });
+        }
+        else {
+            $("#DivItemSubGroup").load(Url, { Code: Code });
+        }
+    }*@
+
     function Filter() {
         $("#Stores_Ledger").addClass("fade");
-        var stkid = $("#cboStockpoint").val();
-        var itmcatid = $("#itmCatId").val();
-        var itmid = $("#filter-Material").val().trim();
-        var PartNo = $("#filter-PartNo").val().trim();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
+        var stkid = $("#cboStockpoint").val();
+        var PartNo = $("#filter-PartNo").val().trim();
+        var itmid = $("#filter-Material").val().trim();
+        var itmcatid = $("#itmCatId").val();
+        var itmGrpId = $("#itmGrpId").val();
+        var itmSubGrpId = $("#itmSubGrpId").val();
+
         var url = '@Url.Action("StoresLedger")';
       
-        url += "?from=" + from + "&to=" + to + "&stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + encodeURIComponent(itmid) + "&PartNo=" + encodeURIComponent(PartNo);
+        url += "?from=" + from + "&to=" + to + "&stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmGrpId=" + itmGrpId + "&itmSubGrpId=" + itmSubGrpId + "&itmid=" + encodeURIComponent(itmid) + "&PartNo=" + encodeURIComponent(PartNo);
         $("#Stores_Ledger").load(url, function () {
             $("#Stores_Ledger").removeClass("fade");
         });
@@ -64,6 +93,7 @@
         var Itmid = $("#filter-Material").val();
         var Itmname = $("#ItemId option:selected").text();
         var PartNo = $("#filter-PartNo").val().trim();
+
         var url = '@Url.Action("Print")';
         url += "?from=" + from + "&to=" + to + "&Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmname=" + (Itmname == '' ? 0 : Itmname) + "&Itmid=" + encodeURIComponent(Itmid) + "&PartNo=" + encodeURIComponent(PartNo);;
         window.location = url;
@@ -89,32 +119,44 @@
                 <label for="cboStockpoint">Stock Point</label>
                 @Html.DropDownList("cboStockpoint", (SelectList)ViewBag.WarehouseList, "Select Stock Point", new { @class = "form_input", @onchange = "Filter()" })
             </div>
-            <div class="col-md-2">
-                <label for="cboItemCat">Item Category</label>
-                @Html.DropDownListFor(m => Model.itmCatId, (SelectList)ViewBag.ItemCatList, "Select Item Category", new { @class = "form_input", @onchange = "FillItem()" })
-                @Html.HiddenFor(m => Model.itmCatId)
-            </div>
+          
             <div class="col-md-3">
                 <label for="filter-PartNo">Part No.</label>
                 <input id="filter-PartNo" class="form_input" placeholder="Search for Part No." onkeyup="Filter()" onchange="Filter()" />
             </div>
-            @*<div class="col-md-3">
-                <label for="cboItem">Material/Spares</label>
-                <div id="DivItem">
-                    @Html.Action("Item", "StoresLedger", new { Code = Model.itmCatId })
-
+   
+            <div class="col-md-3">
+                <label for="filter-Material">Material/Spares</label>
+                <input id="filter-Material" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
+            </div>
+            <br />
+            <div class="col-md-2">
+                <label for="cboItemCat">Item Category</label>
+                @*@Html.Action("ItemCategory", new { @onchange = "Filter()" })*@
+                @Html.DropDownListFor(m => Model.itmCatId, (SelectList)ViewBag.ItemCatList, "Select Item Category", new { @class = "form_input", @onchange = "FillItem()" })
+                @Html.HiddenFor(m => Model.itmCatId)
+            </div>
+             
+            <div class="col-md-2">
+                <label for="cboItemCat">Item Group</label>
+                @*<div id="DivItemGroup">
+                    @Html.Action("ItemGroup", "StoresLedger", new { Code = Model.itmCatId, @onchange = "Filter()" })
+                </div>*@
+                    @*@Html.Action("ItemGroup")*@
+                    @Html.DropDownListFor(m => Model.itmGrpId, (SelectList)ViewBag.ItemGrpList, "Select Item Group", new { @class = "form_input", @onchange = "FillItem()" })
+                    @Html.HiddenFor(m => Model.itmGrpId)
                 </div>
-            </div>*@
 
-                    <div class="col-md-3">
-                        <label for="filter-Material">Material/Spares</label>
-                        <input id="filter-Material" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
-                    </div>
-               
-           
-            @*<div class="col-md-1">
-                <input type="button" class="form-button wid1 filter" value="OK" onclick="Filter()" />
-            </div>*@
+            <div class="col-md-2">
+                <label for="cboItemCat">Item Sub Group</label>
+                @*<div id="DivItemSubGroup">
+                    @Html.Action("ItemSubGroup", "StoresLedger", new { Code = Model.itmGrpId, @onchange = "Filter()" })
+                </div>*@
+                    @*@Html.Action("ItemSubGroup")*@
+                    @Html.DropDownListFor(m => Model.itmSubGrpId, (SelectList)ViewBag.ItemSubGrpList, "Select Item Sub Group", new { @class = "form_input", @onchange = "FillItem()" })
+                    @Html.HiddenFor(m => Model.itmSubGrpId)
+                </div>
+
         </div>
         <br />
 

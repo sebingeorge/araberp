@@ -1,11 +1,13 @@
-﻿@model IEnumerable<ArabErp.Domain.JobCardForDailyActivity>
+﻿
+@model IList<ArabErp.Domain.JobCardForDailyActivity>
+
 @{
     ViewBag.Title = "Pending Work for Daily Activity";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script>
-    function GoToDailyActivity(Id)
-    {
+<script type="text/javascript">
+
+    function GoToDailyActivity(Id) {
         var url = '@Url.Action("Create")';
         url = url + "?Id=" + Id;
         window.location.href = url;
@@ -20,66 +22,50 @@
         var url = '@Url.Action("Index", "Home")';
         window.location = url;
     }
+
+    function Filter() {
+        $("#pending_Daily").addClass("fade");
+        var url = '@Url.Action("PendingJobcards")';
+        var RegNo = $("#txtRegNo").val().trim();
+        var JcNo = $("#txtJcNo").val().trim();
+        url += "?&RegNo=" + encodeURIComponent(RegNo) + "&jcno=" + encodeURIComponent(JcNo);
+        $("#pending_Daily").load(url, function () {
+            $("#pending_Daily").removeClass("fade");
+        });
+    }
 </script>
 
-    <div class="row">
-        <div class="form-head1">
-            <h4>Pending Work for Daily Activity</h4>
-        </div>
-        <div class="main-part pad1">
-            <div class="row">
-                <div class="main-grid main-grid-top scroll1">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr class="grid_heading">
-                                    <th width="15%"><h1>Job Card No. &amp; Date</h1></th>
-                                    <th width="40%"><h1>Work Description</h1></th>
-                                    <th width="20%"><h1>Employee</h1></th>
-                                    <th width="10%"><h1>Required Date</h1></th>
-                                    <th width="10%"><center><h1></h1></center></th>
-                                </tr>
-                            </thead>
-                            <tbody class="grid_row">
-                                @if (Model.Count() > 0)
-                                {
-                                    foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td>@item.JobCardNo - @item.JobCardDate.ToString("dd/MMMM/yyyy")</td>
-                                            <td>@item.WorkDescr</td>
-                                            <td>@item.EmployeeName</td>
-                                            <td>@item.RequiredDate.ToString("dd/MMM/yyyy")</td>
-                                            <td><center><button class="form-button5" onclick="GoToDailyActivity(@item.JobCardId)">Select</button></center></td>
-                                        </tr>
-                                    }
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td align="center" colspan="5">
-                                            <em>There are no active job cards found for daily activity! Create a job card and it will show up here.</em>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="row-count1">
-                    <h5>Row Count:- @Model.Count()</h5>
-                </div>
-            </div>
 
+<div class="row">
 
-            <div class="row">
-                <div class="col-md-12 hrpart">
-                    <input class="form-button" type="button" value="Previous" onclick="PreviousList()" />
-                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-                </div>
-            </div>
-
-        </div>
+    <div class="form-head1">
+        <h4>Pending Jobcard Task</h4>
     </div>
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="part">
+                <div class="col-md-2">
+                    <label for="txtRegNo">Reg. No./Chassis No.</label>
+                    <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Reg. No./Chassis No." />
+                </div>
+                <div class="col-md-2">
+                    <label for="txtJcNo">Job Card No.</label>
+                    <input type="text" class="form_input" id="txtJcNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Job Card" />
+                </div>
+            </div>
+        </div>
+        <br />
+        <div id="pending_Daily">
+            @Html.Action("PendingJobcards")
+        </div>
 
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <button class="form-button left" onclick="PreviousList()">Previous</button>
+                <button class="form-button right" onclick="Exit()">Exit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 

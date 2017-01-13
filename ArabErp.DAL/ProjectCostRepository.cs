@@ -62,8 +62,8 @@ namespace ArabErp.DAL
               {
 
 
-                  string sql = @"insert  into QuerySheetItem(QuerySheetId,RoomDetails,ExternalRoomDimension,ColdRoomArea,ColdRoomLocation,TemperatureRequired,PanelThicknessANDSpec,DoorSizeTypeAndNumberOfDoor,FloorDetails,ProductDetails,ProductIncomingTemperature,PipeLength,Refrigerant,EletricalPowerAvailability,Kilowatt, Unit, Cost, isActive) 
-                    Values (@QuerySheetId,@RoomDetails,@ExternalRoomDimension,@ColdRoomArea,@ColdRoomLocation,@TemperatureRequired,@PanelThicknessANDSpec,@DoorSizeTypeAndNumberOfDoor,@FloorDetails,@ProductDetails,@ProductIncomingTemperature,@PipeLength,@Refrigerant,@EletricalPowerAvailability,@Kilowatt, @Unit, @Cost,1);
+                  string sql = @"insert  into QuerySheetItem(QuerySheetId,RoomDetails,ExternalRoomDimension,ColdRoomArea,ColdRoomLocation,TemperatureRequired,PanelThicknessANDSpec,DoorSizeTypeAndNumberOfDoor,FloorDetails,ProductDetails,ProductIncomingTemperature,PipeLength,Refrigerant,EletricalPowerAvailability,Kilowatt, Cost, isActive) 
+                    Values (@QuerySheetId,@RoomDetails,@ExternalRoomDimension,@ColdRoomArea,@ColdRoomLocation,@TemperatureRequired,@PanelThicknessANDSpec,@DoorSizeTypeAndNumberOfDoor,@FloorDetails,@ProductDetails,@ProductIncomingTemperature,@PipeLength,@Refrigerant,@EletricalPowerAvailability,@Kilowatt, @Cost,1);
                        
                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
@@ -94,15 +94,6 @@ namespace ArabErp.DAL
               }
           }
 
-          public List<QuerySheetItem> GetQuerySheetItem(int QuerySheetId)
-          {
-              using (IDbConnection connection = OpenConnection(dataConnection))
-              {
-                  string sql = @" SELECT * from QuerySheetItem
-                                  WHERE QuerySheetId = @QuerySheetId";
-                  return connection.Query<QuerySheetItem>(sql, new { QuerySheetId = QuerySheetId }).ToList();
-              }
-          }
 
 
       

@@ -61,6 +61,7 @@ namespace ArabErp.Domain
         public string OrganizationName { get; set; }
         public string Image1 { get; set; }
         public decimal? CurrentStock { get; set; }
+        public bool isConsumable { get; set; }
 
         public List<WorkVsItem> ItemVsBom { get; set; }
         public List<WorkVsTask> ItemVsTasks { get; set; }

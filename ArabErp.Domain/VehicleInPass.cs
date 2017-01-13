@@ -27,6 +27,17 @@ namespace ArabErp.Domain
         public string SONODATE { get; set; }
         public string WorkDescr { get; set; }
         public bool InPassId { get; set; }
+        public string JobCardNo { get; set; }
+        public string BoxName { get; set; }
+        public string FreezerUnitName { get; set; }
+        public string Accessories { get; set; }
+        public DateTime EDateDelivery { get; set; }
+        public string VehicleModelName { get; set; }
+        public string Task { get; set; }
+        public string Status { get; set; }
+        
+        
+
 
     }
 }

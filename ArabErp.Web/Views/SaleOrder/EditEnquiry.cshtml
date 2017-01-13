@@ -99,7 +99,7 @@
         window.location = url;
     }
     function Delete(id) {
-       
+
         var url = '@Url.Action("DeleteEnquiry")';
         url += "?id=" + id;
         window.location = url;
@@ -122,7 +122,7 @@
     </div>
 
     <div class="main-part pad1">
-        @using (Html.BeginForm(null,null , FormMethod.Post, new { @class = "createFrom", @id = "service_estimate_form", onsubmit = "return formValidation()" }))
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "service_estimate_form", onsubmit = "return formValidation()" }))
         {
             @Html.HiddenFor(m => m.SaleOrderId)
             @Html.HiddenFor(m => m.isProjectBased)
@@ -319,25 +319,25 @@
 
             <div class="row">
                 <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     @if (Model.IsSEUsed)
                     {
-          <span class="perm">
-           <em>**Cannot edit/delete this Service Enquiry, because it is either used in another process or completed.</em>
-         </span>
+                        <span class="perm">
+                            <em>**Cannot edit/delete this Service Enquiry, because it is either used in another process or completed.</em>
+                        </span>
                     }
                     else
                     {
-                    <input type="button" class="form-button left" value="Delete" onclick="Delete(@Model.ServiceEnquiryId)" />
-                    @*<button type="button" class="form-button right" onclick="Exit()">Exit</button>*@
-                    <button type="submit" class="form-button right">Edit</button>
-                   
+                        <input type="button" class="form-button left" value="Delete" onclick="Delete(@Model.ServiceEnquiryId)" />
+                        <button type="submit" class="form-button right">Edit</button>
+
                     }
                     @if (actionName == "EditEnquiry")
                     {
                         <input type="button" class="form-button right" onclick="PrintEnquiry()" value="Print">
-             
+
                     }
-                 
+
                 </div>
             </div>
         }

@@ -12,11 +12,11 @@ namespace ArabErp.DAL
     {
         static string dataConnection = GetConnectionString("arab");
 
-      /// <summary>
+        /// <summary>
         /// Insert PurchaseRequest
-      /// </summary>
-      /// <param name="model"></param>
-      /// <returns></returns>
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public string InsertPurchaseRequest(PurchaseRequest objPurchaseRequest)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -26,7 +26,7 @@ namespace ArabErp.DAL
                 {
                     var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objPurchaseRequest.OrganizationId, 8, true, trn);
 
-                    objPurchaseRequest.PurchaseRequestNo  = internalId;
+                    objPurchaseRequest.PurchaseRequestNo = internalId;
 
                     string sql = @"insert  into PurchaseRequest(PurchaseRequestNo,PurchaseRequestDate,WorkShopRequestId,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@PurchaseRequestNo,@PurchaseRequestDate,@WorkShopRequestId,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
                     SELECT CAST(SCOPE_IDENTITY() as int)";
@@ -36,7 +36,7 @@ namespace ArabErp.DAL
                     foreach (PurchaseRequestItem item in objPurchaseRequest.items)
                     {
                         item.PurchaseRequestId = id;
-                        if (item.Quantity == null || item.Quantity==0) continue;
+                        if (item.Quantity == null || item.Quantity == 0) continue;
                         new PurchaseRequestItemRepository().InsertPurchaseRequestItem(item, connection, trn);
                     }
                     InsertLoginHistory(dataConnection, objPurchaseRequest.CreatedBy, "Create", "Purchase Request", id.ToString(), "0");
@@ -58,7 +58,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @"select * from PurchaseRequest  where PurchaseRequestId=@PurchaseRequestId";
-                       
+
 
                 var objPurchaseRequest = connection.Query<PurchaseRequest>(sql, new
                 {
@@ -84,19 +84,19 @@ namespace ArabErp.DAL
 
         public int CHECK(int PurchaseRequestId)
         {
-           using (IDbConnection connection = OpenConnection(dataConnection))
+            using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @" SELECT count(PurchaseRequestId)count FROM PurchaseRequestItem P 
                                 INNER JOIN SupplyOrderItem S ON S.PurchaseRequestItemId=P.PurchaseRequestItemId 
                                 WHERE PurchaseRequestId=@PurchaseRequestId";
 
-                    var id = connection.Query<int>(sql, new { PurchaseRequestId = PurchaseRequestId }).FirstOrDefault();
+                var id = connection.Query<int>(sql, new { PurchaseRequestId = PurchaseRequestId }).FirstOrDefault();
 
-                    return id;
-
-                }
+                return id;
 
             }
+
+        }
 
         public PurchaseRequest UpdatePurchaseRequest(PurchaseRequest objPurchaseRequest)
         {
@@ -156,7 +156,7 @@ namespace ArabErp.DAL
         /// Pending Workshop Request For Purchase Request
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<PendingWorkShopRequest> GetWorkShopRequestPending(int OrganizationId)
+        public IEnumerable<PendingWorkShopRequest> GetWorkShopRequestPending(int OrganizationId, int cusid, string WRNo = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -229,7 +229,9 @@ namespace ArabErp.DAL
                                     LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId 
                                     LEFT JOIN PurchaseRequestItem PRI ON PR.PurchaseRequestId = PRI.PurchaseRequestId
                                     LEFT JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
-                                WHERE /*PR.PurchaseRequestId is null and*/ WR.OrganizationId = @OrganizationId
+                                    WHERE /*PR.PurchaseRequestId is null and*/ WR.OrganizationId = @OrganizationId
+                                    AND  WR.CustomerId = ISNULL(NULLIF(@cusid, 0),  WR.CustomerId)
+                                    AND (ISNULL(WR.WorkShopRequestRefNo, '') LIKE '%'+@WRNo+'%')
                                     GROUP BY WR.WorkShopRequestId,
 	                                WR.WorkShopRequestRefNo,
 	                                WR.WorkShopRequestDate,
@@ -243,7 +245,7 @@ namespace ArabErp.DAL
 
 								DROP TABLE #TEMP1;";
 
-                return connection.Query<PendingWorkShopRequest>(query, new { OrganizationId = OrganizationId });
+                return connection.Query<PendingWorkShopRequest>(query, new { OrganizationId = OrganizationId, cusid = cusid, WRNo = WRNo });
             }
         }
         /// <summary>
@@ -335,7 +337,7 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="WorkShopRequestId"></param>
         /// <returns></returns>
-     
+
         public List<PurchaseRequestItem> GetPurchaseRequestDTDetails(int PurchaseRequestId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -427,7 +429,7 @@ namespace ArabErp.DAL
                 {
 
                     OrganizationId = OrganizationId,
-                    
+
                 }).First<PurchaseRequestRegister>();
 
                 return objPurchaseRequestRegisterId;
@@ -435,7 +437,7 @@ namespace ArabErp.DAL
         }
 
 
-    public PurchaseRequest GetPurchaseRequestHDDetailsPrint(int PurchaseRequestId,int OrganizationId)
+        public PurchaseRequest GetPurchaseRequestHDDetailsPrint(int PurchaseRequestId, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -453,13 +455,55 @@ namespace ArabErp.DAL
             }
         }
 
-    public List<PurchaseRequestItem> PurchaseRequestItemDetailsPrint(int PurchaseRequestId)
-    {
-        using (IDbConnection connection = OpenConnection(dataConnection))
+        public List<PurchaseRequestItem> PurchaseRequestItemDetailsPrint(int PurchaseRequestId)
         {
-            string sql = "exec PurchaseRequestItemDetails " + PurchaseRequestId.ToString();
-            return connection.Query<PurchaseRequestItem>(sql, new { PurchaseRequestId = PurchaseRequestId }).ToList();
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = "exec PurchaseRequestItemDetails " + PurchaseRequestId.ToString();
+                return connection.Query<PurchaseRequestItem>(sql, new { PurchaseRequestId = PurchaseRequestId }).ToList();
+            }
         }
-    }
+
+        public IEnumerable<PendingForGRN> GetLastPurchaseRate(int itemId, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string sql = @"SELECT TOP 3
+	                                S.SupplierId,
+	                                S.SupplierName,
+	                                GI.ItemId,
+	                                I.ItemName,
+	                                GI.Quantity,
+	                                GI.Rate
+                                FROM GRNItem GI
+	                                INNER JOIN GRN G ON GI.GRNId = G.GRNId
+	                                LEFT JOIN SupplyOrderItem SOI ON GI.SupplyOrderItemId = SOI.SupplyOrderItemId
+	                                LEFT JOIN SupplyOrder SO ON SOI.SupplyOrderId = SO.SupplyOrderId
+	                                LEFT JOIN Supplier S ON SO.SupplierId = S.SupplierId
+	                                INNER JOIN Item I ON GI.ItemId = I.ItemId
+                                WHERE GI.ItemId = @itemId
+	                                AND G.OrganizationId = @org
+								ORDER BY G.GRNDate DESC";
+                    var list = connection.Query<PendingForGRN>(sql, new { itemId = itemId, org = OrganizationId }).ToList();
+                    if (list == null || list.Count == 0)
+                    {
+                        sql = @"SELECT
+	                            SR.ItemId, I.ItemName, SR.Rate
+                            FROM StandardRate SR
+	                            INNER JOIN Item I ON SR.ItemId = I.ItemId
+                            WHERE SR.ItemId = @itemId";
+                        list = connection.Query<PendingForGRN>(sql, new { itemId = itemId }).ToList();
+                    }
+                    return list;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
     }
 }

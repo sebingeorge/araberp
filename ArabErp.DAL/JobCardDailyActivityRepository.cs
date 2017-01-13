@@ -34,7 +34,7 @@ namespace ArabErp.DAL
                         item.JobCardDailyActivityId = id;
                         item.CreatedDate = DateTime.Now;
                         sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
-                                                                      (@JobCardDailyActivityId,@JobCardTaskMasterId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, @EmployeeId, @StartTime, @EndTime);
+                                (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, NULLIF(@EmployeeId, 0), @StartTime, @EndTime);
                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -63,7 +63,7 @@ namespace ArabErp.DAL
                                JC.isProjectBased,ISNULL(JC.JodCardCompleteStatus,0)IsUsed
                                FROM JobCardDailyActivity DA
                                INNER JOIN JobCard JC ON DA.JobCardId = JC.JobCardId
-                               INNER JOIN Employee EMP ON JC.EmployeeId = EMP.EmployeeId
+                               LEFT JOIN Employee EMP ON JC.EmployeeId = EMP.EmployeeId
                                WHERE DA.JobCardDailyActivityId = @JobCardDailyActivityId
                                AND DA.isActive = 1";
 
@@ -87,7 +87,9 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT
+                string sql = @"
+
+								SELECT
 	                                JobCardDailyActivityId,
 	                                SUM(ActualHours) ActualHours,
 	                                STUFF((SELECT ', ' + CAST(M.JobCardTaskName AS VARCHAR(MAX)) [text()]
@@ -103,17 +105,19 @@ namespace ArabErp.DAL
 	                                DA.JobCardDailyActivityId,
 	                                DA.JobCardDailyActivityRefNo,
 	                                CONVERT(VARCHAR, DA.JobCardDailyActivityDate, 106) JobCardDailyActivityDate,
-	                                Remarks,
+	                                DA.Remarks,
 	                                CONVERT(VARCHAR, JC.JobCardDate, 106) JobCardDate,
 	                                JC.JobCardNo,
 	                                EMP.EmployeeName,
 	                                T.ActualHours,
 	                                T.Tasks,
-                                    JC.isProjectBased
+                                    JC.isProjectBased,
+									V.ChassisNo,V.RegistrationNo
                                 FROM JobCardDailyActivity DA
                                 INNER JOIN JobCard JC ON DA.JobCardId = JC.JobCardId
                                 INNER JOIN Employee EMP ON DA.EmployeeId = EMP.EmployeeId
                                 INNER JOIN #TASKS T ON DA.JobCardDailyActivityId = T.JobCardDailyActivityId
+							    Left join VehicleInPass V ON V.VehicleInPassId=JC.InPassId
                                 WHERE DA.isActive = 1
                                     AND DA.OrganizationId = @OrganizationId
 									AND JC.isProjectBased = @type
@@ -154,19 +158,26 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<JobCardForDailyActivity> PendingJobcardTasks(int type, int OrganizationId)
+        public IEnumerable<JobCardForDailyActivity> PendingJobcardTasks(int type, int OrganizationId, string RegNo = "", string jcno = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select J.JobCardId,J.JobCardNo, J.JobCardDate, E.EmployeeName,W.WorkDescr,J.RequiredDate
-                            from JobCard J
-                            inner join Employee E on E.EmployeeId = J.EmployeeId
-                            inner join WorkDescription W on W.WorkDescriptionId = J.WorkDescriptionId
-                            where J.JodCardCompleteStatus is null
-							AND J.OrganizationId = @OrganizationId
-							AND	J.isProjectBased = @type
-							AND J.isActive = 1";
-                return connection.Query<JobCardForDailyActivity>(sql, new { OrganizationId = OrganizationId, type = type });
+                string sql = @" select J.JobCardId,J.JobCardNo, J.JobCardDate, E.EmployeeName,W.WorkDescr,J.RequiredDate,
+                                CustomerName,RegistrationNo,ChassisNo
+                                from JobCard J
+                                inner join SaleOrder S on S.SaleOrderId=J.SaleOrderId
+                                inner join Employee E on E.EmployeeId = J.EmployeeId
+                                LEFT join WorkDescription W on W.WorkDescriptionId = J.WorkDescriptionId
+                                LEFT join VehicleInPass on VehicleInPassId=InPassId
+                                inner join Customer C on C.CustomerId=S.CustomerId
+                                where J.JodCardCompleteStatus is null
+						        AND J.OrganizationId = @OrganizationId
+						        AND	J.isProjectBased = @type
+                                AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%'
+			                    OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')
+	                            AND ISNULL(J.JobCardNo,'') LIKE '%'+@jcno+'%'
+						        AND J.isActive = 1";
+                return connection.Query<JobCardForDailyActivity>(sql, new { OrganizationId = OrganizationId, type = type, RegNo = RegNo, jcno = jcno });
             }
         }
 
@@ -192,13 +203,14 @@ namespace ArabErp.DAL
                 string query = @"SELECT
 	                                T.EmployeeId,
 	                                E.EmployeeName,
+                                    T.JobCardTaskId,
 	                                T.JobCardTaskMasterId,
 	                                M.JobCardTaskName,
-									CONVERT(VARCHAR, GETDATE(), 106) TaskStartDate,
-									CONVERT(VARCHAR, GETDATE(), 106) TaskEndDate
+									CONVERT(VARCHAR, T.TaskDate, 106) TaskStartDate,
+									CONVERT(VARCHAR, T.TaskDate, 106) TaskEndDate
                                 FROM JobCardTask T
 									INNER JOIN JobCard J ON T.JobCardId = J.JobCardId
-	                                INNER JOIN Employee E ON T.EmployeeId = E.EmployeeId
+	                                LEFT JOIN Employee E ON T.EmployeeId = E.EmployeeId
 	                                INNER JOIN JobCardTaskMaster M ON T.JobCardTaskMasterId = M.JobCardTaskMasterId
                                 WHERE T.isActive = 1 AND T.JobCardId = @id AND J.OrganizationId = @OrganizationId";
                 return connection.Query<JobCardDailyActivityTask>(query, new { id = Id, OrganizationId = OrganizationId }).ToList();

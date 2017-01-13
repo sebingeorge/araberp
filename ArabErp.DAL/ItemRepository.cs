@@ -24,7 +24,19 @@ namespace ArabErp.DAL
 
                 //return connection.Query<Dropdown>("x",
                 // return connection.Query<Dropdown>("dbo.usp_MvcGetDayClosingDetails", param, commandType: CommandType.StoredProcedure).ToList();
-                return connection.Query<Dropdown>("select ItemSubGroupId Id,ItemSubGroupName Name from ItemSubGroup WHERE isActive=1 AND ItemGroupId=@ID", new { ID = Id }).ToList();
+                return connection.Query<Dropdown>("select ItemSubGroupId Id,ItemSubGroupName Name from ItemSubGroup WHERE isActive=1 AND ItemGroupId=ISNULL(NULLIF(@ID,0),ItemGroupId)", new { ID = Id }).ToList();
+            }
+
+        }
+        public List<Dropdown> FillMaterial(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+
+                //return connection.Query<Dropdown>("x",
+                // return connection.Query<Dropdown>("dbo.usp_MvcGetDayClosingDetails", param, commandType: CommandType.StoredProcedure).ToList();
+                return connection.Query<Dropdown>("select ItemId Id,ItemName Name from Item WHERE isActive=1 AND ItemSubGroupId=ISNULL(NULLIF(@ID,0),ItemSubGroupId)", new { ID = Id }).ToList();
             }
 
         }
@@ -51,7 +63,7 @@ namespace ArabErp.DAL
                 var param = new DynamicParameters();
                 //return connection.Query<Dropdown>("x",
                 // return connection.Query<Dropdown>("dbo.usp_MvcGetDayClosingDetails", param, commandType: CommandType.StoredProcedure).ToList();
-                return connection.Query<Dropdown>("select ItemGroupId Id,ItemGroupName Name from ItemGroup WHERE isActive=1 AND ItemCategoryId=@ID", new { ID = Id }).ToList();
+                return connection.Query<Dropdown>("select ItemGroupId Id,ItemGroupName Name from ItemGroup WHERE isActive=1 AND ItemCategoryId=ISNULL(NULLIF(@ID,0),ItemCategoryId)", new { ID = Id }).ToList();
             }
 
         }
@@ -118,10 +130,10 @@ namespace ArabErp.DAL
 
                 string sql = @"insert  into Item(ItemRefNo,PartNo,ItemName,ItemPrintName,ItemShortName,ItemGroupId,ItemSubGroupId,
                                                 ItemCategoryId,ItemUnitId,MinLevel,ReorderLevel,MaxLevel,BatchRequired,StockRequired,
-                                                CriticalItem,FreezerUnit,Box,OrganizationId,CreatedBy,CreatedDate) Values
+                                                CriticalItem,FreezerUnit,Box,OrganizationId,CreatedBy,CreatedDate, isConsumable) Values
                                                 (@ItemRefNo,@PartNo,@ItemName,@ItemPrintName,@ItemShortName,@ItemGroupId,@ItemSubGroupId,
                                                 @ItemCategoryId,@ItemUnitId,@MinLevel,@ReorderLevel,@MaxLevel,@BatchRequired,@StockRequired,
-                                                @CriticalItem,@FreezerUnit,@Box,@OrganizationId,@CreatedBy,@CreatedDate);
+                                                @CriticalItem,@FreezerUnit,@Box,@OrganizationId,@CreatedBy,@CreatedDate, @isConsumable);
                                                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -219,7 +231,7 @@ namespace ArabErp.DAL
                                ItemShortName = @ItemShortName,ItemGroupId = @ItemGroupId,ItemSubGroupId = @ItemSubGroupId,
                                ItemCategoryId = @ItemCategoryId,ItemUnitId = @ItemUnitId ,MinLevel = @MinLevel,MaxLevel = @MaxLevel,
                                ReorderLevel = @ReorderLevel,BatchRequired = @BatchRequired ,StockRequired = @StockRequired,
-                               CriticalItem=@CriticalItem,FreezerUnit=@FreezerUnit,Box=@Box OUTPUT INSERTED.ItemId  WHERE ItemId = @ItemId";
+                               CriticalItem=@CriticalItem,FreezerUnit=@FreezerUnit,Box=@Box, isConsumable = @isConsumable OUTPUT INSERTED.ItemId  WHERE ItemId = @ItemId";
 
                 try
                 {
@@ -394,62 +406,88 @@ namespace ArabErp.DAL
             }
         }
 
- 
-        public IEnumerable<Item> GetCriticalMaterialsBelowMinStock(int OrganizationId)
+        public string GetPartNo(int itemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<string>("SELECT ISNULL(PartNo,'')PartNo FROM Item  WHERE ItemId = @itemId",
+                new { itemId = itemId }).First<string>();
+            }
+        }
+        public IEnumerable<MaterialPlanning> GetCriticalMaterialsBelowMinStock(int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 #region query
-                string sql = @"select I.ItemRefNo,I.PartNo,I.ItemId,ItemName,isnull(MinLevel,0)MinLevel
-                ,ISNULL(sum(S.Quantity),0)CurrentStock,0WRQTY,0 WRPndIssQty ,0TotalQty,0InTransitQty,0PendingPRQty,0ShortorExcess,CriticalItem INTO #TEMP FROM item I
-                LEFT JOIN StockUpdate S ON I.ItemId=S.ItemId AND S.OrganizationId = @OrganizationId
-                WHERE  CriticalItem=1
-                GROUP BY I.ItemId,ItemName,MinLevel,CriticalItem,I.ItemRefNo,I.PartNo;
+                string sql = @"select I.ItemId,I.PartNo,ItemName,UnitName,isnull(MinLevel,0)MinLevel
+                ,ISNULL(sum(S.Quantity),0)CurrentStock,0SOQTY,0WRQTY,0PENWRQTY,0 WRPndIssQty ,0TotalQty,0InTransitQty,0PendingPRQty,0ShortorExcess,BatchRequired INTO #TEMP FROM item I
+                INNER JOIN Unit U on U.UnitId =I.ItemUnitId
+                LEFT JOIN StockUpdate S ON I.ItemId=S.ItemId
+                WHERE I.BatchRequired=1 AND (I.FreezerUnit=1 OR I.Box=1)  and I.CriticalItem=1
+                GROUP BY I.ItemId,I.PartNo,ItemName,UnitName,MinLevel,BatchRequired;
+                
+                with S as (
+                select ItemId, sum(Quantity)Quantity from SaleOrderItem S
+                INNER JOIN WorkDescription W ON W.WorkDescriptionId = S.WorkDescriptionId
+                INNER JOIN Item I ON I.ItemId=W.FreezerUnitId
+                group by ItemId
+                UNION ALL
+                select ItemId, sum(Quantity)Quantity from SaleOrderItem S
+                INNER JOIN WorkDescription W ON W.WorkDescriptionId = S.WorkDescriptionId
+                INNER JOIN Item I ON I.ItemId=W.BoxId
+                group by ItemId
+                UNION ALL
+
+                select ItemId,sum(Quantity)Quantity from SaleOrderMaterial S
+                group by ItemId
+                )
+                update T set T.SOQTY = ISNULL(S.Quantity,0) from S inner join #TEMP T on T.ItemId = S.ItemId;
                            
                 with W as (
                 select ItemId, sum(Quantity)Quantity from WorkShopRequestItem group by ItemId
                 )
                 update T set T.WRQTY = W.Quantity from W inner join #TEMP T on T.ItemId = W.ItemId;
-
+                
+                update T set T.PENWRQTY =(T.SOQTY - T.WRQTY )from #TEMP T;
+                
                 with S as (
                 SELECT  ItemId,sum(IssuedQuantity)IssuedQuantity FROM StoreIssueItem SI 
                 INNER JOIN WorkShopRequestItem WI ON SI.WorkShopRequestItemId=WI.WorkShopRequestItemId
                 group by ItemId
                 )
                 update T set T.WRPndIssQty =  (T.WRQTY-S.IssuedQuantity) from S inner join #TEMP T on T.ItemId = S.ItemId;
-
-                update T set T.TotalQty = (T.WRQTY+T.WRPndIssQty+T.MinLevel) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
-
-                with PR as (
-                SELECT WI.ItemId,(SUM(WI.Quantity)-SUM(ISNULL(PI.Quantity,0)))PendingPRQty FROM WorkShopRequestItem WI
-                LEFT JOIN PurchaseRequestItem PI ON WI.ItemId =PI.ItemId
-                GROUP BY WI.ItemId
-                )
-
-                update T set T.PendingPRQty =  (PR.PendingPRQty) from PR inner join #TEMP T on T.ItemId = PR.ItemId;
-
-
+                
+                update T set T.TotalQty = ((T.PENWRQTY + T.WRPndIssQty+T.MinLevel)-T1.CurrentStock) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
+                
+                
                 SELECT ItemId,SUM(ISNULL(GI.Quantity,0))GRNQTY INTO #TEMP2 FROM GRNItem GI WHERE  DirectPurchaseRequestItemId IS NULL
                 GROUP BY ItemId ;
-
+                
                 SELECT PI.ItemId,SUM(SI.OrderedQty)SOQTY  INTO #TEMP1 from SupplyOrderItem SI INNER JOIN PurchaseRequestItem PI ON SI.PurchaseRequestItemId=PI.PurchaseRequestItemId
                 GROUP BY PI.ItemId ;
-
+                
                 with TR as (
-                SELECT T1.ItemId,(SOQTY-GRNQTY)INTRANS FROM #TEMP2 T2 INNER JOIN #TEMP1 T1 ON T2.ItemId =T1.ItemId
+                SELECT T1.ItemId,(SOQTY-isnull(GRNQTY,0))INTRANS FROM #TEMP1 T1  LEFT JOIN #TEMP2 T2 ON T2.ItemId =T1.ItemId
                 )
                 update T set T.InTransitQty = INTRANS from TR inner join  #TEMP T on T.ItemId = TR.ItemId;
+                
+                with PR as (
+                SELECT PI.ItemId,(SUM(ISNULL(PI.Quantity,0))-T.SOQTY)PRQty  FROM PurchaseRequestItem PI  LEFT JOIN #TEMP1 T ON T.ItemId =PI.ItemId
+                GROUP BY  PI.ItemId,T.SOQTY
+                )
+                update T set T.PendingPRQty =  isnull(PR.PRQty,0) from PR INNER JOIN #TEMP T  on T.ItemId = PR.ItemId;
+                
+                update T set T.ShortorExcess = (T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
+                     
 
-                update T set T.ShortorExcess = (T.CurrentStock+T.InTransitQty+T.PendingPRQty)-(T.TotalQty) from #TEMP T1 inner join #TEMP T on T.ItemId = T1.ItemId;
-
-                SELECT * FROM #TEMP WHERE ShortorExcess < 1
-				--ItemId = ISNULL(NULLIF(CAST(0 AS INT), 0),ItemId) and  PartNo = ISNULL(NULLIF('', ''),PartNo) and BatchRequired = ISNULL(NULL,BatchRequired);
+                SELECT row_number() over (order by (select NULL)) as SlNo,* FROM #TEMP WHERE ShortorExcess < 0
+			
 
                 drop table #TEMP;
                 DROP TABLE #TEMP1;
                 DROP TABLE #TEMP2;";
                 #endregion
-                return connection.Query<Item>(sql, new { OrganizationId = OrganizationId });
+                return connection.Query<MaterialPlanning>(sql, new { OrganizationId = OrganizationId });
             }
         }
     }

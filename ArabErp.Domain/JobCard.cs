@@ -80,12 +80,18 @@ namespace ArabErp.Domain
         public int isService { get; set; }
 
         public string SaleOrderRefNo { get; set; }
+        public string BayName { get; set; }
+        public string HeldBy { get; set; }
+        public DateTime HeldOn { get; set; }
     }
     public class JobCardForDailyActivity
     {
         public int JobCardId { get; set; }
         public string JobCardNo { get; set; }
         public DateTime JobCardDate { get; set; }
+        public string CustomerName { get; set; }
+        public string RegistrationNo { get; set; }
+        public string ChassisNo { get; set; }
         public string EmployeeName { get; set; }
         public string WorkDescr { get; set; }
         public DateTime RequiredDate { get; set; }

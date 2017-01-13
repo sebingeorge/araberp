@@ -3,10 +3,11 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr class="grid_heading">
-                                <th width="20%"><h1>Delivery Challan No.</h1></th>
+                                <th width="20%"><h1>Delivery Note No.</h1></th>
                                 <th width="15%"><h1>Date</h1></th>
                                 <th width="20%" title="Job Card No. & Date"><h1>JC. No. & Date</h1></th>
                                 <th width="20%"><h1>Reg No./Chassis No.</h1></th>
+                                <th width="20%" nowrap><h1>Customer</h1></th>
                                 <th width="20%"><h1>Employee</h1></th>
                                 <th width="1%"></th>
                             </tr>
@@ -27,6 +28,7 @@
                                             @:/
                                         } @item.ChassisNo
                                     </td>
+                                        <td>@item.CustomerName</td>
                                         <td class="grid-cell">@item.EmployeeName</td>
                                         <td>
                                             <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.DeliveryChallanId)" /></center>

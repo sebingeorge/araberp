@@ -122,9 +122,9 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public PartialViewResult PendingWorkshopRequests(string Request = "", string Jobcard = "", string Customer = "", string jcno = "", string RegNo = "")
+        public PartialViewResult PendingWorkshopRequests(string Request = "", string Sale = "", string Customer = "", string jcno = "", string RegNo = "")
         {
-            return PartialView("_PendingWorkshopRequests", new WorkShopRequestRepository().PendingWorkshopRequests(Request, Jobcard, Customer, jcno, RegNo));
+            return PartialView("_PendingWorkshopRequests", new WorkShopRequestRepository().PendingWorkshopRequests(Request, Sale, Customer, jcno, RegNo));
         }
         public PartialViewResult PendingWorkshopRequestDetails()
         {
@@ -139,6 +139,7 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.stockpointList = new SelectList(new DropdownRepository().StockpointDropdown(), "Id", "Name");
         }
+
         public JsonResult WorkshopRequestHeadDetails(int workshopRequestId)
         {
             string data = new StoreIssueRepository().WorkshopRequestHeadDetails(workshopRequestId);
@@ -146,9 +147,25 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult PreviousList()
         {
-            return View(new StoreIssueRepository().PreviousList(OrganizationId));
+            var today = DateTime.Today;
+            var fd = new DateTime(today.Year, today.Month, 1);
+            ViewBag.startdate = fd;
+            //ViewBag.startdate = fd.ToString("MM/dd/yyyy");
+            //alert(firstday);
+
+            //ViewBag.startdate = FYStartdate;
+            return View();
         }
 
+        public ActionResult PreviousListGrid(DateTime? from, DateTime? to, string StoreIssue = "", string Jobcard = "", string Customer = "", string RegNo = "", string Request = "")
+        {
+            var today = DateTime.Today;
+            var fd = new DateTime(today.Year, today.Month, 1);
+
+            from = from ?? fd;
+            to = to ?? DateTime.Today;
+            return PartialView("_PreviousListStoreIssue", new StoreIssueRepository().PreviousList(from, to, StoreIssue, Jobcard, Customer, RegNo, Request));
+        }
         public ActionResult GetStockQuantity(string date, int item = 0, int stockpoint = 0)
         {
             try
@@ -208,6 +225,8 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
             ds.Tables["Head"].Columns.Add("JobCardNo");
+            ds.Tables["Head"].Columns.Add("CreateUser");
+            ds.Tables["Head"].Columns.Add("CreateSig");
 
 
             //-------DT
@@ -246,7 +265,8 @@ namespace ArabErp.Web.Controllers
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Head.Image1;
             dr["JobCardNo"] = Head.JobCardNo;
-
+            dr["CreateUser"] = Head.UserName;
+            dr["CreateSig"] = Server.MapPath("~/App_images/") + Head.Signature;
             ds.Tables["Head"].Rows.Add(dr);
 
             StoreIssueItemRepository repo1 = new StoreIssueItemRepository();

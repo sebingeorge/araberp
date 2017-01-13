@@ -181,7 +181,7 @@ namespace ArabErp.DAL
 	                                P.PurchaseRequestId,
 	                                PurchaseRequestNo,
 	                                PurchaseRequestDate,
-	                                P.RequiredDate,
+	                                P.RequiredDate,U.UserName [User],
 	                                ISNULL(P.SpecialRemarks, '-') SpecialRemarks,
 	                                ISNULL(WRK.WorkShopRequestRefNo, '')+' - '+CONVERT(VARCHAR, WRK.WorkShopRequestDate, 106) WRNoAndDate,
 	                                DATEDIFF(dd,P.PurchaseRequestDate,GETDATE ()) Ageing,
@@ -189,6 +189,7 @@ namespace ArabErp.DAL
 	                                P.PurchaseRequestDate, P.CreatedDate
                                 from PurchaseRequest P
                                 INNER JOIN PurchaseRequestItem PRI ON P.PurchaseRequestId = PRI.PurchaseRequestId
+                                INNER JOIN [User] U ON U.UserId=P.CreatedBy
                                 LEFT JOIN WorkShopRequest WRK ON P.WorkShopRequestId = WRK.WorkShopRequestId
                                 LEFT JOIN #SUPPLY SUP ON PRI.PurchaseRequestItemId = SUP.PurchaseRequestItemId
                                 WHERE P.isActive=1 and  ISNULL(PRI.Quantity, 0) > 0 AND 
@@ -610,6 +611,67 @@ namespace ArabErp.DAL
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public IEnumerable<PendingForGRN> ApprovalList(string Supplier, string LPO)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    //                    string qry = @"SELECT
+                    //	                            SO.SupplyOrderId,
+                    //                            CONCAT(SO.SupplyOrderId,' - ',CONVERT(VARCHAR(15),SupplyOrderDate,106))SoNoWithDate,
+                    //                            QuotaionNoAndDate
+                    //                            FROM SupplyOrder SO 
+                    //	                            INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId AND SO.SupplierId = @supplierId
+                    //	                            LEFT JOIN GRN G ON G.SupplyOrderId=SO.SupplyOrderId
+                    //                            WHERE SO.isActive=1 and G.SupplyOrderId is null";
+
+                    string qry = @"SELECT
+	                                    DISTINCT SO.SupplyOrderId,
+	                                    SO.SupplyOrderDate,
+	                                    SO.CreatedDate,
+	                                    CONCAT(SO.SupplyOrderNo,' - ',ISNULL(CONVERT(VARCHAR(15),SupplyOrderDate,106), ''))SoNoWithDate,
+	                                    ISNULL(QuotaionNoAndDate, '-')QuotaionNoAndDate,
+	                                    DATEDIFF(day, SupplyOrderDate, GETDATE()) Age,
+	                                    DATEDIFF(day, GETDATE(), RequiredDate) DaysLeft,
+	                                    ISNULL(SpecialRemarks, '-') SpecialRemarks,
+	                                    ISNULL(CONVERT(VARCHAR(15),RequiredDate,106), '-') RequiredDate,
+										S.SupplierId,
+										S.SupplierName,
+										SO.RequiredDate
+                                    FROM SupplyOrder SO 
+	                                    INNER JOIN SupplyOrderItem SOI ON SO.SupplyOrderId = SOI.SupplyOrderId
+	                                    INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId 
+	                                    LEFT JOIN GRNItem GI ON SOI.SupplyOrderItemId = GI.SupplyOrderItemId
+                                    WHERE SO.isActive=1 and SO.isApproved=1 and 
+                                    (GI.SupplyOrderItemId IS NULL OR ISNULL(GI.Quantity, 0) < ISNULL(SOI.OrderedQty, 0))
+									AND ISNULL(S.SupplierName,'') like'%'+@Supplier+'%'
+	                                AND (ISNULL(SO.SupplyOrderNo,'') like '%'+@LPO+'%'
+                                    OR ISNULL(SupplyOrderDate,'') like '%'+@LPO+'%')
+                                    ORDER BY SO.RequiredDate, SO.SupplyOrderDate DESC";
+
+                    return connection.Query<PendingForGRN>(qry, new { Supplier = Supplier, LPO = LPO });
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public int Approvalcancel(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Update SupplyOrder set IsApproved=0  WHERE SupplyOrderId=@id";
+                return connection.Execute(sql, new { id = id});
+
             }
         }
     }

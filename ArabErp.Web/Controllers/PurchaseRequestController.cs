@@ -31,11 +31,19 @@ namespace ArabErp.Web.Controllers
             return PartialView("_PreviousList", new PurchaseRequestRepository().GetPurchaseRequest(OrganizationId: OrganizationId, id: id, cusid: cusid, from: from, to: to));
         }
 
-        public ActionResult PendingPurchaseRequest()
+        public ActionResult Pending()
         {
-            var repo = new PurchaseRequestRepository();
-            IEnumerable<PendingWorkShopRequest> pendingWR = repo.GetWorkShopRequestPending(OrganizationId);
-            return View(pendingWR);
+            FillWRCustomer(OrganizationId);
+            return View();
+        }
+
+        public ActionResult PendingPurchaseRequest(int cusid = 0, string WRNo = "")
+        {
+            return PartialView("_PendingPurchaseRequest", new PurchaseRequestRepository().GetWorkShopRequestPending(OrganizationId, cusid, WRNo));
+
+            //var repo = new PurchaseRequestRepository();
+            //IEnumerable<PendingWorkShopRequest> pendingWR = repo.GetWorkShopRequestPending(OrganizationId);
+            //return View(pendingWR);
         }
         public ActionResult Create(int? WorkShopRequestId)
         {
@@ -100,7 +108,7 @@ namespace ArabErp.Web.Controllers
                    {
                        TempData["success"] = "Saved successfully. Purchase Request Reference No. is " + id.Split('|')[1];
                        TempData["error"] = "";
-                       return RedirectToAction("PendingPurchaseRequest");
+                       return RedirectToAction("Pending");
                    }
                    else
                    {
@@ -119,7 +127,7 @@ namespace ArabErp.Web.Controllers
                    {
                        TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
                    }
-            return RedirectToAction("PendingPurchaseRequest");
+            return RedirectToAction("Pending");
         }
 
         public ActionResult Edit(int? id)
@@ -240,6 +248,11 @@ namespace ArabErp.Web.Controllers
         public void FillPRCustomer()
         {
             ViewBag.CustomerList = new SelectList(new DropdownRepository().PurchaseReqCustomerDropdown(), "Id", "Name");
+        }
+
+        public void FillWRCustomer(int OrganizationId)
+        {
+            ViewBag.CustomerList = new SelectList(new DropdownRepository().WRCustomerDropdown(OrganizationId), "Id", "Name");
         }
         public ActionResult Print(int Id)
         {
@@ -381,6 +394,19 @@ namespace ArabErp.Web.Controllers
             catch (Exception ex)
             {
                 throw;
+            }
+        }
+
+        public ActionResult GetLastPurchaseRate(int itemId)
+        {
+            try
+            {
+                var list = new PurchaseRequestRepository().GetLastPurchaseRate(itemId, OrganizationId);
+                return PartialView("_LastPurchaseRateGrid", list);
+            }
+            catch (Exception)
+            {
+                return Json("Some error occurred while fetching the rates!", JsonRequestBehavior.AllowGet);
             }
         }
     }

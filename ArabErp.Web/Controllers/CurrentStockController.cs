@@ -22,20 +22,28 @@ namespace ArabErp.Web.Controllers
             InitDropdown();
             FillWarehouse();
             FillItemCategory();
+            //FillGroup();
+            //FillSubGroup();
+            FillPartNo();
             ClosingStock cs = new ClosingStock();
             cs.itmCatId = 0;
+            cs.itmGrpId = 0;
+            cs.itmSubGrpId = 0;
+            cs.ItemId = 0;
             return View("Index", cs);
         }
         public void InitDropdown()
         {
             var List = "";
-            ViewBag.ItemList = new SelectList(List, "Id", "Name");
+            //ViewBag.ItemList = new SelectList(List, "Id", "Name");
+            ViewBag.ItemGroupList = new SelectList(List, "Id", "Name");
+            ViewBag.ItemSubGroupList = new SelectList(List, "Id", "Name");
 
         }
-        public ActionResult CurrentStockRegister(int stkid = 0, int itmcatid = 0, string itmid = "", string PartNo = "")
+        public ActionResult CurrentStockRegister(int stkid = 0, int itmcatid = 0, int itmid =0, string PartNo = "", int ItemGroupId = 0, int ItemSubGroupId = 0)
         {
 
-            return PartialView("_CurrentStockRegister", new ClosingStockRepository().GetCurrentStockData(stkid, itmcatid, itmid, OrganizationId,PartNo));
+            return PartialView("_CurrentStockRegister", new ClosingStockRepository().GetCurrentStockData(stkid, itmcatid, itmid, PartNo, ItemGroupId, ItemSubGroupId, OrganizationId));
         }
         public void FillWarehouse()
         {
@@ -51,16 +59,17 @@ namespace ArabErp.Web.Controllers
         }
         public void FillItemCategory()
         {
-            DropdownRepository repo = new DropdownRepository();
-            var result = repo.ItemCategoryDropdown();
-            ViewBag.ItemCatList = new SelectList(result, "Id", "Name");
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillItemCategory();
+            ViewBag.ItemCategoryList = new SelectList(List, "Id", "Name");
         }
         public ActionResult Item(int Code)
         {
             FillItem(Code);
             return PartialView("_ItemDropDown");
         }
-        public ActionResult Print(string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", string Itmid = "",string PartNo="")
+        public ActionResult Print(string Spname = "", int Spid = 0, int ItmCatid = 0, string ItmCatname = "", int Itmid = 0,string Itmname="",string PartNo="", string PartName = "", string ItemGroupname = "",int ItemGroupId=0,int ItemSubGroupId=0,string ItemSubGroupname="")
+
         {
 
             ReportDocument rd = new ReportDocument();
@@ -76,7 +85,10 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Item");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
-            ds.Tables["Head"].Columns.Add("PartNum");
+            ds.Tables["Head"].Columns.Add("PartName");
+            ds.Tables["Head"].Columns.Add("ItemGroupname");
+            ds.Tables["Head"].Columns.Add("ItemSubGroupname");
+
 
             //-------DT
 
@@ -92,16 +104,19 @@ namespace ArabErp.Web.Controllers
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["Stkpoint"] = Spname;
             dr["ItemCat"] = ItmCatname;
-            dr["Item"] = Itmid;
+            dr["Item"] = Itmname;
+            dr["PartName"] = PartName;
+            dr["ItemGroupname"] = ItemGroupname;
+            dr["ItemSubGroupname"] = ItemSubGroupname;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
-            dr["PartNum"] = PartNo;
             ds.Tables["Head"].Rows.Add(dr);
 
 
             ClosingStockRepository repo1 = new ClosingStockRepository();
             //var Items = repo1.GetSOVarianceDataDTPrint(from, to, itmid, itmName, SupId, SupName);
-            var Items = repo1.GetCurrentStockDataDTPrint(stockPointId: Spid, itemCategoryId: ItmCatid, itemId: Itmid, OrganizationId: OrganizationId, partno: PartNo);
+            var Items = repo1.GetCurrentStockDataDTPrint(stockPointId: Spid, itemCategoryId: ItmCatid, itemId: Itmid, OrganizationId: OrganizationId, partno: PartNo, itmGroup: ItemGroupId, itmSubgroup: ItemSubGroupId);
+          
 
             foreach (var item in Items)
             {
@@ -141,6 +156,64 @@ namespace ArabErp.Web.Controllers
             {
                 throw;
             }
+        }
+        //public void FillGroup()
+        //{
+        //    DropdownRepository repo = new DropdownRepository();
+        //    var result = repo.ItemGroupDropdown();
+        //    ViewBag.ItemGroup = new SelectList(result, "Id", "Name");
+        //}
+        //public void FillSubGroup()
+        //{
+        //    DropdownRepository repo = new DropdownRepository();
+        //    var result = repo.ItemSubgroupDropdown();
+        //    ViewBag.ItemSubgroup = new SelectList(result, "Id", "Name");
+        //}
+        public void FillPartNo()
+        {
+            ViewBag.partNoList = new SelectList(new DropdownRepository().PartNoDropdown1(), "Id", "Name");
+        }
+        public ActionResult ItemCategory()
+        {
+            FillItemCategory();
+            return PartialView("_ItemCategoryDropdown");
+        }
+        public ActionResult ItemGroup(int Code)
+        {
+            FillItemGroup(Code);
+            return PartialView("_ItemGroupDropdown");
+        }
+        public void FillItemGroup(int Id)
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillItemGroup(Id);
+            ViewBag.ItemGroupList = new SelectList(List, "Id", "Name");
+        }
+        public ActionResult ItemSubGroup(int Code)
+        {
+            FillItemSubGroup(Code);
+            return PartialView("_ItemSubGroupDropdown");
+        }
+        public void FillItemSubGroup(int Id)
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillItemSubGroup(Id);
+            ViewBag.ItemSubGroupList = new SelectList(List, "Id", "Name");
+        }
+        public ActionResult Material(int Code)
+        {
+            FillMaterial(Code);
+            return PartialView("_ItemDropdown");
+        }
+        public void FillMaterial(int Id)
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillMaterial(Id);
+            ViewBag.ItemList = new SelectList(List, "Id", "Name");
+        }
+        public JsonResult GetPartNo(int itemId)
+        {
+            return Json(new ItemRepository().GetPartNo(itemId), JsonRequestBehavior.AllowGet);
         }
     }
 }

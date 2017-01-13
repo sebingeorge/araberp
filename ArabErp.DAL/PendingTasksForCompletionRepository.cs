@@ -15,7 +15,7 @@ namespace ArabErp.DAL
         static string dataConnection = GetConnectionString("arab");
 
         public IEnumerable GetPendingTasks(int OrganizationId, string saleorder = "", string jobcard = "", string jobcarddate = "",
-                                           string engineer = "", string task = "", string technician = "")
+                                           string engineer = "", string task = "", string technician = "", string InstallType="")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -29,6 +29,7 @@ namespace ArabErp.DAL
                     d = DateTime.MinValue;
                 }
                 string query = @"
+               
                 SELECT
 	                JC.JobCardId,
 	                JobCardNo,
@@ -49,9 +50,9 @@ namespace ArabErp.DAL
 	                CONVERT(VARCHAR, JT.TaskDate, 106) TaskDate,
 
 	                JTM.JobCardTaskName,
-	                EMP.EmployeeName
+	                EMP.EmployeeName,C.CustomerName,isnull(VI.ChassisNo,'')ChassisNo,isnull(VI.RegistrationNo,'')RegistrationNo
 
-                FROM JobCard JC
+                     FROM JobCard JC
 	                INNER JOIN JobCardTask JT ON JC.JobCardId = JT.JobCardId
 	                INNER JOIN JobCardTaskMaster JTM ON JT.JobCardTaskMasterId = JTM.JobCardTaskMasterId
 	                INNER JOIN Employee EMP ON JT.EmployeeId = EMP.EmployeeId
@@ -62,7 +63,9 @@ namespace ArabErp.DAL
 	                LEFT JOIN Item I1 ON JC.FreezerUnitId = I1.ItemId
 	                LEFT JOIN Item I2 ON JC.BoxId = I2.ItemId
 	                LEFT JOIN Bay ON JC.BayId = Bay.BayId
-                WHERE ISNULL(JC.JodCardCompleteStatus, 0) = 0
+					Left JOIN Customer C ON C.CustomerId=SO.CustomerId
+					Left JOIN VehicleInPass VI ON VI.VehicleInPassId=JC.InPassId
+                    WHERE ISNULL(JC.JodCardCompleteStatus, 0) = 0
 	                AND	JC.OrganizationId = @OrganizationId
 					AND SO.SaleOrderRefNo LIKE '%'+@saleorder+'%'
 					AND JC.JobCardNo LIKE '%'+@jobcard+'%' " +
@@ -70,6 +73,7 @@ namespace ArabErp.DAL
                     @"AND EMP1.EmployeeName LIKE '%'+@engineer+'%'
 					AND JTM.JobCardTaskName LIKE '%'+@task+'%'
 					AND EMP.EmployeeName LIKE '%'+@technician+'%'
+                    AND  ISNULL(JC.isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(JC.isService, 0) END
 	            ORDER BY SO.SaleOrderRefNo, JC.RequiredDate DESC";
 
                 return connection.Query<PendingTasksForCompletion>(query, new
@@ -80,7 +84,8 @@ namespace ArabErp.DAL
                     jobcarddate = d,
                     engineer = engineer,
                     task = task,
-                    technician = technician
+                    technician = technician,
+                    InstallType=InstallType
                 }).ToList();
             }
         }
