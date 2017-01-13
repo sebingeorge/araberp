@@ -193,7 +193,7 @@
                     @Html.HiddenFor(m => Model.InvoiceType)
                     @Html.HiddenFor(m => Model.isProjectBased)
                     @Html.HiddenFor(m => Model.isService)
-                    @Html.TextBoxFor(m => m.SalesInvoiceRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
+                    @Html.TextBoxFor(m=> m.SalesInvoiceRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
                 </div>
                 <div class="col-md-2">
                     <label for="SalesInvoiceDate">Date</label>
@@ -231,7 +231,7 @@
                     }
                     else
                     {
-                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
+                       @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @tabindex = "-1" })
                     }
                 </div>
 
