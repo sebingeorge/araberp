@@ -32,9 +32,15 @@
                         <span id="sno@(i + 1)">@(i + 1)</span>
                         @Html.HiddenFor(m => Model.ProjectRooms[currentIndex].QuerySheetItemId)
                     </td>
-                    <td>@Html.DropDownListFor(m => m.ProjectRooms[currentIndex].ProjectRoomUnits[i].CondenserUnitId, new SelectList(ViewBag.freezerUnitList, "Value", "Text", Model.ProjectRooms[currentIndex].ProjectRoomUnits[i].CondenserUnitId), new { @class = "form_input" })</td>
-                    <td>@Html.DropDownListFor(m => m.ProjectRooms[currentIndex].ProjectRoomUnits[i].EvaporatorUnitId, new SelectList(ViewBag.freezerUnitList, "Value", "Text", Model.ProjectRooms[currentIndex].ProjectRoomUnits[i].EvaporatorUnitId), new { @class = "form_input" })</td>
-                    <td>@Html.TextBoxFor(m => m.ProjectRooms[currentIndex].ProjectRoomUnits[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
+                    <td>
+                    @Html.HiddenFor(m => Model.ProjectRooms[currentIndex].ProjectRoomUnits[i].CondenserUnitId)
+                    @Html.DropDownListFor(m => m.ProjectRooms[currentIndex].ProjectRoomUnits[i].CondenserUnitId, new SelectList(ViewBag.freezerUnitList, "Value", "Text", Model.ProjectRooms[currentIndex].ProjectRoomUnits[i].CondenserUnitId), new { @class = "form_input",@disabled="true" })
+                    </td>
+                    <td>
+                    @Html.HiddenFor(m => Model.ProjectRooms[currentIndex].ProjectRoomUnits[i].EvaporatorUnitId)
+                    @Html.DropDownListFor(m => m.ProjectRooms[currentIndex].ProjectRoomUnits[i].EvaporatorUnitId, new SelectList(ViewBag.freezerUnitList, "Value", "Text", Model.ProjectRooms[currentIndex].ProjectRoomUnits[i].EvaporatorUnitId), new { @class = "form_input", @disabled = "true" })
+                    </td>
+                    <td>@Html.TextBoxFor(m => m.ProjectRooms[currentIndex].ProjectRoomUnits[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", @readonly = "readonly" })</td>
 
                     @*<td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddUnitRow()"></a></td>*@
                 </tr>

@@ -30,8 +30,14 @@
                         <span id="sldono@(i + 1)">@(i + 1)</span>
                         @Html.HiddenFor(m => Model.ProjectRooms[currentIndex].QuerySheetItemId)
                     </td>
-                    <td>@Html.DropDownListFor(m => m.ProjectRooms[currentIndex].ProjectRoomDoors[i].DoorId, new SelectList(ViewBag.freezerUnitList, "Value", "Text", Model.ProjectRooms[currentIndex].ProjectRoomDoors[i].DoorId), new { @class = "form_input" })</td>
-                    <td>@Html.TextBoxFor(m => Model.ProjectRooms[currentIndex].ProjectRoomDoors[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
+                    <td>
+                    @Html.HiddenFor(m => Model.ProjectRooms[currentIndex].ProjectRoomDoors[i].DoorId)
+                    @Html.DropDownListFor(m => m.ProjectRooms[currentIndex].ProjectRoomDoors[i].DoorId, new SelectList(ViewBag.freezerUnitList, "Value", "Text", Model.ProjectRooms[currentIndex].ProjectRoomDoors[i].DoorId), new { @class = "form_input", @disabled = "true" })
+                    </td>
+                    <td>
+                   
+                    @Html.TextBoxFor(m => Model.ProjectRooms[currentIndex].ProjectRoomDoors[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off", @readonly = "readonly" })
+                    </td>
                     @*<td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddDoorRow()"></a></td>*@
                 </tr>
             }

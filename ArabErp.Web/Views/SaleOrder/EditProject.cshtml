@@ -1,10 +1,7 @@
 ﻿@model  ArabErp.Domain.SaleOrder
-@{ ViewBag.Title = "Sale Order"; Layout = "~/Views/Shared/_Layout.cshtml"; }
-@{ string actionName = ViewContext.RouteData.GetRequiredString("action");
-   if (actionName == "CreateProject")
-   {
-       actionName = "Create";
-   }
+@{
+    ViewBag.Title = "EditProject";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script>
@@ -176,48 +173,65 @@
         @{ TempData["success"] = TempData["error"] = ""; }
     });
 
-    function Exit(projectbased) {
-        var url = '@Url.Action("PendingSalesQutoforSaleOrder")';
-        url += "?ProjectBased=" + projectbased;
-        window.location = url;
-       
+    function Exit() {
 
+        location.href = '@Url.Action("Index", new { type = Request.QueryString["type"] })';
+
+    }
+        function DeleteItem(id, isProjectBased, isAfterSales) {
+
+            var url = '@Url.Action("Delete")';
+            url += "?id=" + id + "&isProjectBased=" + isProjectBased + "&isAfterSales=" + isAfterSales;
+            window.location = url;
+
+        
     }
 </script>
 @Html.HiddenFor(m => m.SaleOrderId)
 
-        <div class="row">
-                <div class="form-head1">
-    <h4>Sale Order Confirmation</h4>
-                </div>
-              
-                <div class="main-part pad1">
-                    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", onsubmit = "return Validation()" }))
+<div class="row">
+    <div class="form-head1">
+        <h4>Sale Order Confirmation</h4>
+    </div>
+
+    <div class="main-part pad1">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "saleorder_form", onsubmit = "return Validation()" }))
+        {
+        
+            @Html.HiddenFor(m => m.CurrencyId)
+            @Html.HiddenFor(m => m.SalesQuotationId)
+            @Html.HiddenFor(m => m.SaleOrderId)
+            @Html.HiddenFor(m => m.isProjectBased)
+            @Html.HiddenFor(m => m.isAfterSales)
+            @Html.Partial("_SaleOrderHead", Model)
+            <div id="wordescriptions">
+
+            </div>
+
+
+            @Html.Partial("_ProjectRooms", Model)
+
+            @Html.Partial("_SaleOrderFooter", Model)
+           
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                    @if (Model.isUsed)
                     {
-                        @Html.HiddenFor(m=>m.isProjectBased)
-                        @Html.HiddenFor(m => m.isAfterSales)
-                        @Html.HiddenFor(m => m.CurrencyId)
-                        @Html.Partial("_SaleOrderHead",Model)
-                        <div id="wordescriptions">
-                      
-                        </div>
-                     
-                        
-                        @Html.Partial("_ProjectRooms", Model)
-                        
-                        @Html.Partial("_SaleOrderFooter", Model)
-                        <div class="row">
-                            <div class="col-md-12 hrpart">
-                                <button type="button" class="form-button right" onclick="Exit(@Model.isProjectBased)">Exit</button>
-                                <button type="submit" class="form-button right">Save</button>
-                            </div>
-                        </div>      
+                        <span class="perm">**Cannot edit/delete, because it is already approved or used somewhere else.</span>
                     }
+                    else
+                    {
+                        <button type="submit" class="form-button right">Edit</button>
+                        <input type="button" value="Delete" onclick="DeleteItem(@Model.SaleOrderId,@Model.isProjectBased,@Model.isAfterSales)" class="form-button left" />
+                    }
+                    <input type="button" value="Print" onclick="GoToPrint(@Model.SaleOrderId)" class="form-button right" />
                 </div>
-        </div>
-
-
-
+            </div>
+          
+        }
+    </div>
+</div>
 
 
 

@@ -280,57 +280,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.freezerUnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
         }
 
-        //[HttpPost]
-        //public ActionResult Create(SaleOrder model)
-        //{
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            model.OrganizationId = OrganizationId;
-        //            model.CreatedDate = System.DateTime.Now;
-        //            model.CreatedBy = UserID.ToString();
-
-        //            string id = new SaleOrderRepository().InsertSaleOrder(model);
-        //            if (id.Split('|')[0] != "0")
-        //            {
-        //                TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
-        //                TempData["error"] = "";
-        //                return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 0 });
-        //            }
-        //            else
-        //            {
-        //                throw new Exception();
-        //            }
-        //        }
-        //        else
-        //        {
-        //            var allErrors = ModelState.Values.SelectMany(v => v.Errors);
-        //        }
-        //    }
-        //    catch (SqlException sx)
-        //    {
-        //        TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
-        //    }
-        //    catch (NullReferenceException nx)
-        //    {
-        //        TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
-        //    }
-        //    TempData["success"] = "";
-        //    FillWrkDesc();
-        //    FillUnit();
-        //    FillCustomer();
-        //    FillVehicle();
-        //    FillCurrency();
-        //    FillCommissionAgent();
-        //    FillEmployee();
-
-        //    return View("Create", model);
-        //}
+     
         [HttpPost]
         public ActionResult Create(SaleOrder model)
         {
@@ -811,14 +761,26 @@ namespace ArabErp.Web.Controllers
                 FillCommissionAgent();
                 FillUnit();
                 FillEmployee();
-
+                FillWrkDesc();
                 FillVehicle();
                 var repo = new SaleOrderRepository();
                 SaleOrder model = repo.GetSaleOrder(id);
+                if(type==0)
+              
+                {
+               
                 model.Items = repo.GetSaleOrderItem(id);
                 model.Materials = repo.GetSaleOrderMaterial(id);
-                FillWrkDesc();
+            
                 return View("Edit", model);
+            }
+            else
+            {
+                FillFreezerUnit();
+                //model = repo.GetSaleOrderFrmQuotation(id);
+                model.ProjectRooms = new SaleOrderRepository().GetRoomDetailsFromQuotation(model.SalesQuotationId??0);
+                return View("EditProject", model);
+            }
             }
             else
             {
@@ -867,24 +829,31 @@ namespace ArabErp.Web.Controllers
             return View(model);
 
         }
-
+      
         public ActionResult Delete(int id, string isProjectBased, string isAfterSales)
         {
-
             try
             {
-                string ref_no = new SaleOrderRepository().DeleteSaleOrder(id, Convert.ToInt32(isAfterSales));
+                 string ref_no="";
+                if (isProjectBased == "0")
+                {
+                    ref_no = new SaleOrderRepository().DeleteSaleOrder(id, Convert.ToInt32(isAfterSales));
+                }
+                else
+                {
+                    ref_no = new SaleOrderRepository().DeleteProjectSaleOrder(id);
+                }
                 TempData["success"] = "Deleted Successfully (" + ref_no + ")";
                 return RedirectToAction("Index", new { type = Convert.ToInt32(isProjectBased) });
             }
             catch (Exception)
             {
                 TempData["error"] = "Some error occured while deleting. Please try again.";
-                return RedirectToAction("Edit", new { id = id });
+               
+                    return RedirectToAction("Edit", new { id = id });
+              
             }
         }
-
-
         public ActionResult Print(int Id)
         {
 
