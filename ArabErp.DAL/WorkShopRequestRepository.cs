@@ -318,7 +318,9 @@ namespace ArabErp.DAL
                                     INNER JOIN Unit IU ON I.ItemUnitId = IU.UnitId
                                     WHERE U.SaleOrderItemUnitId = @SaleOrderItemUnitId 
                                     and (U.EvaporatorUnitId = @SaleOrderUnitId  or U.CondenserUnitId = @SaleOrderUnitId)
+
                                     UNION ALL
+
                                     SELECT I.ItemId,I.ItemName,I.PartNo,B.Quantity,IU.UnitName FROM ItemVsBom B 
                                     INNER JOIN ITEM I ON I.ItemId = B.BomItemId
                                     INNER JOIN Unit IU ON I.ItemUnitId = IU.UnitId
