@@ -280,6 +280,57 @@ namespace ArabErp.Web.Controllers
             ViewBag.freezerUnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
         }
 
+        //[HttpPost]
+        //public ActionResult Create(SaleOrder model)
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            model.OrganizationId = OrganizationId;
+        //            model.CreatedDate = System.DateTime.Now;
+        //            model.CreatedBy = UserID.ToString();
+
+        //            string id = new SaleOrderRepository().InsertSaleOrder(model);
+        //            if (id.Split('|')[0] != "0")
+        //            {
+        //                TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
+        //                TempData["error"] = "";
+        //                return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 0 });
+        //            }
+        //            else
+        //            {
+        //                throw new Exception();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            var allErrors = ModelState.Values.SelectMany(v => v.Errors);
+        //        }
+        //    }
+        //    catch (SqlException sx)
+        //    {
+        //        TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+        //    }
+        //    catch (NullReferenceException nx)
+        //    {
+        //        TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+        //    }
+        //    TempData["success"] = "";
+        //    FillWrkDesc();
+        //    FillUnit();
+        //    FillCustomer();
+        //    FillVehicle();
+        //    FillCurrency();
+        //    FillCommissionAgent();
+        //    FillEmployee();
+
+        //    return View("Create", model);
+        //}
         [HttpPost]
         public ActionResult Create(SaleOrder model)
         {
@@ -290,22 +341,42 @@ namespace ArabErp.Web.Controllers
                     model.OrganizationId = OrganizationId;
                     model.CreatedDate = System.DateTime.Now;
                     model.CreatedBy = UserID.ToString();
-
-                    string id = new SaleOrderRepository().InsertSaleOrder(model);
-                    if (id.Split('|')[0] != "0")
+                    var repo = new SaleOrderRepository();
+                    bool isexists = repo.IsFieldExists(repo.ConnectionString(), "SaleOrder", "CustomerOrderRef", model.CustomerOrderRef, null, null);
+                    if (!isexists)
                     {
-                        TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
-                        TempData["error"] = "";
-                        return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 0 });
+                        string id = new SaleOrderRepository().InsertSaleOrder(model);
+                        if (id.Split('|')[0] != "0")
+                        {
+                            TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
+                            TempData["error"] = "";
+                            return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 0 });
+                        }
+                        else
+                        {
+                            throw new Exception();
+                        }
                     }
                     else
                     {
-                        throw new Exception();
+
+                        TempData["error"] = "This Customer Order Ref no. already exists!";
+                        FillWrkDesc();
+                        FillUnit();
+                        FillCustomer();
+                        FillVehicle();
+                        FillCurrency();
+                        FillCommissionAgent();
+                        FillEmployee();
+                        return View("Create", model);
                     }
-                }
-                else
-                {
-                    var allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                    
+                    //else
+                    //{
+                    //    var allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                    //}
+
+                    
                 }
             }
             catch (SqlException sx)

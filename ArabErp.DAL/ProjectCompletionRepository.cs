@@ -186,8 +186,34 @@ namespace ArabErp.DAL
 	                                    INNER JOIN SalesQuotation SQ ON QS.QuerySheetId = SQ.QuerySheetId
 	                                    INNER JOIN SaleOrder SO ON SQ.SalesQuotationId = SO.SalesQuotationId
 	                                    INNER JOIN Customer C ON SQ.CustomerId = C.CustomerId
+                                    WHERE SO.SaleOrderId = @SaleOrderId
+                                    
+                                    SELECT 
+	                                    QI.RoomDetails,
+	                                    ExternalRoomDimension,
+	                                    Refrigerant,
+	                                    ISNULL(QI.Quantity, 1) Quantity,
+	                                    QI.QuerySheetItemId,
+	                                    STUFF((SELECT ', ' + T2.ItemName FROM QuerySheetItemUnit T1
+			                                    LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
+			                                    WHERE T1.QuerySheetItemId = QI.QuerySheetItemId FOR XML PATH('')), 1, 2, '') CondensingUnit,
+	                                    STUFF((SELECT ', ' + T2.ItemName FROM QuerySheetItemUnit T1
+			                                    LEFT JOIN Item T2 ON T1.EvaporatorUnitId = T2.ItemId
+			                                    WHERE T1.QuerySheetItemId = QI.QuerySheetItemId FOR XML PATH('')), 1, 2, '') Evaporator,
+	                                    QI.TemperatureRequired
+                                    FROM QuerySheet QS
+	                                    INNER JOIN QuerySheetItem QI ON QS.QuerySheetId = QI.QuerySheetId
+	                                    INNER JOIN SalesQuotation SQ ON QS.QuerySheetId = SQ.QuerySheetId
+	                                    INNER JOIN SaleOrder SO ON SQ.SalesQuotationId = SO.SalesQuotationId
+	                                    INNER JOIN Customer C ON SQ.CustomerId = C.CustomerId
                                     WHERE SO.SaleOrderId = @SaleOrderId";
-                    return connection.Query<ProjectCompletion>(query, new { SaleOrderId = id }).First();
+                    ProjectCompletion _model = new ProjectCompletion();
+                    using (var dataset = connection.QueryMultiple(query, new { SaleOrderId = id }))
+                    {
+                        _model = dataset.Read<ProjectCompletion>().First();
+                        _model.ProjectRoomAndUnitDetails = dataset.Read<ProjectRoomAndUnitDetails>().ToList();
+                    }
+                    return _model;
                 }
                 catch (Exception ex)
                 {
