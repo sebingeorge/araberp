@@ -31,6 +31,7 @@ namespace ArabErp.DAL
 
                     foreach (var item in objJobCardDailyActivity.JobCardDailyActivityTask)
                     {
+                        if (item.ActualHours == 0) continue;
                         item.JobCardDailyActivityId = id;
                         item.CreatedDate = DateTime.Now;
                         sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 

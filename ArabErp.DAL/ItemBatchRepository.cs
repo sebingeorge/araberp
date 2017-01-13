@@ -618,6 +618,73 @@ namespace ArabErp.DAL
                                 AND (ISNULL(VIP.RegistrationNo, '') LIKE '%'+@RegNo+'%'
 			                    OR ISNULL(VIP.ChassisNo, '') LIKE '%'+@RegNo+'%')
                                 --ORDER BY SO.SaleOrderDate DESC, SO.SaleOrderRefNo DESC;
+                                
+								---------------------------------------------------------------include project condensing units
+								UNION ALL
+								SELECT
+									SOI.SaleOrderItemId,
+									SO.SaleOrderRefNo,
+									SaleOrderDate,
+									C.CustomerName,
+									WR.WorkShopRequestRefNo,
+									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
+			                                WHERE T2.WorkShopRequestId = WR.WorkShopRequestId FOR XML PATH('')), 1, 2, '') StoreIssueRefNo,
+									JC.JobCardNo,
+									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
+			                                LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
+			                                WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '') SerialNo,
+	                                SU.Quantity,
+									I.ItemId,
+									R.ReservedQuantity,
+									I.ItemName,
+									'' WorkDescrShortName,
+	                                SO.SaleOrderDate,
+	                                '' ChassisNo,
+	                                '' RegistrationNo,
+	                                C.CustomerName
+								FROM SaleOrderItem SOI
+								INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+								INNER JOIN SaleOrderItemUnit SU ON SOI.SaleOrderItemId = SU.SaleOrderItemId
+								INNER JOIN Item I ON SU.CondenserUnitId = I.ItemId
+								INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+								LEFT JOIN WorkShopRequest WR ON SOI.SaleOrderItemId = WR.SaleOrderItemId 
+									AND SU.CondenserUnitId = WR.EvaConUnitId 
+									AND SU.SaleOrderItemUnitId = WR.SaleOrderItemUnitId
+								LEFT JOIN JobCard JC ON SOI.SaleOrderItemId = JC.SaleOrderItemId
+								LEFT JOIN #RESERVED R ON JC.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
+
+								UNION ALL
+								SELECT
+									SOI.SaleOrderItemId,
+									SO.SaleOrderRefNo,
+									SaleOrderDate,
+									C.CustomerName,
+									WR.WorkShopRequestRefNo,
+									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
+			                                WHERE T2.WorkShopRequestId = WR.WorkShopRequestId FOR XML PATH('')), 1, 2, '') StoreIssueRefNo,
+									JC.JobCardNo,
+									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
+			                                LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
+			                                WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '') SerialNo,
+	                                SU.Quantity,
+									I.ItemId,
+									R.ReservedQuantity,
+									I.ItemName,
+									'' WorkDescrShortName,
+	                                SO.SaleOrderDate,
+	                                '' ChassisNo,
+	                                '' RegistrationNo,
+	                                C.CustomerName
+								FROM SaleOrderItem SOI
+								INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+								INNER JOIN SaleOrderItemUnit SU ON SOI.SaleOrderItemId = SU.SaleOrderItemId
+								INNER JOIN Item I ON SU.EvaporatorUnitId = I.ItemId
+								INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+								LEFT JOIN WorkShopRequest WR ON SOI.SaleOrderItemId = WR.SaleOrderItemId 
+									AND SU.CondenserUnitId = WR.EvaConUnitId 
+									AND SU.SaleOrderItemUnitId = WR.SaleOrderItemUnitId
+								LEFT JOIN JobCard JC ON SOI.SaleOrderItemId = JC.SaleOrderItemId
+								LEFT JOIN #RESERVED R ON JC.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
 
 								DROP TABLE #RESERVED;";
 
@@ -834,6 +901,46 @@ namespace ArabErp.DAL
                                 INNER JOIN Item I ON GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId
                                 INNER JOIN SaleOrderMaterial SOM ON I.ItemId = SOM.ItemId AND SOM.SaleOrderId = @SaleOrderId AND I.ItemId = @item
                                 WHERE IB.SaleOrderItemId IS NULL
+								----------------------------------including project room units
+								UNION ALL
+								
+								SELECT
+									SU.SaleOrderItemId,
+	                                SU.Quantity,
+	                                IB.SerialNo,
+	                                IB.ItemBatchId,
+	                                I.ItemName,
+	                                GRN.GRNDate,
+	                                GRN.GRNNo,
+	                                @SaleOrderRefNo SaleOrderRefNo,
+	                                '' WorkDescrRefNo
+								FROM ItemBatch IB
+								LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId AND GI.ItemId = @item
+                                LEFT JOIN GRN ON GI.GRNId = GRN.GRNId
+                                LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId AND OS.ItemId = @item
+                                INNER JOIN Item I ON GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId
+								INNER JOIN SaleOrderItemUnit SU ON I.ItemId = SU.CondenserUnitId
+								WHERE SU.SaleOrderItemId = @id
+
+								UNION ALL
+
+								SELECT
+									SU.SaleOrderItemId,
+	                                SU.Quantity,
+	                                IB.SerialNo,
+	                                IB.ItemBatchId,
+	                                I.ItemName,
+	                                GRN.GRNDate,
+	                                GRN.GRNNo,
+	                                @SaleOrderRefNo SaleOrderRefNo,
+	                                '' WorkDescrRefNo
+								FROM ItemBatch IB
+								LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId AND GI.ItemId = @item
+                                LEFT JOIN GRN ON GI.GRNId = GRN.GRNId
+                                LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId AND OS.ItemId = @item
+                                INNER JOIN Item I ON GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId
+								INNER JOIN SaleOrderItemUnit SU ON I.ItemId = SU.EvaporatorUnitId
+								WHERE SU.SaleOrderItemId = @id
 
                                 DROP TABLE #BATCH;
 								DROP TABLE #RESERVED;";

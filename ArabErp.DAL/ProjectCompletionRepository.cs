@@ -110,8 +110,9 @@ namespace ArabErp.DAL
 	                                SerialNo
                                 FROM JobCard JC
                                 INNER JOIN ItemBatch IB ON JC.SaleOrderItemId = IB.SaleOrderItemId
-                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
-                                INNER JOIN Item I ON GI.ItemId = I.ItemId
+                                LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+								LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId 
+                                INNER JOIN Item I ON GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId
                                 WHERE JC.SaleOrderId = @SaleOrderId";
                     return connection.Query<ItemBatch>(query, new { SaleOrderId = SaleOrderId }).ToList();
                 }
