@@ -1307,8 +1307,8 @@ namespace ArabErp.DAL
                         model.SaleOrderRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 4, true, txn);
                     }
                     #region saving sale order head [SaleOrder]
-                    string sql = @"insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,TotalAmount,TotalDiscount,SalesExecutiveId,EDateArrival,EDateDelivery,CreatedBy,CreatedDate,OrganizationId,SaleOrderApproveStatus,isProjectBased,isAfterSales,SalesQuotationId)
-                                   Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@TotalAmount,@TotalDiscount,@SalesExecutiveId,@EDateArrival,@EDateDelivery,@CreatedBy,@CreatedDate,@OrganizationId,1,@isProjectBased,@isAfterSales,@SalesQuotationId);
+                    string sql = @"insert  into SaleOrder(SaleOrderRefNo,SaleOrderDate,CustomerId,CustomerOrderRef,CurrencyId,SpecialRemarks,PaymentTerms,DeliveryTerms,CommissionAgentId,CommissionAmount,CommissionPerc,TotalAmount,TotalDiscount,SalesExecutiveId,EDateDelivery,EDateArrival,CreatedBy,CreatedDate,OrganizationId,SaleOrderApproveStatus,isProjectBased,isAfterSales,SalesQuotationId)
+                                   Values (@SaleOrderRefNo,@SaleOrderDate,@CustomerId,@CustomerOrderRef,@CurrencyId,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,@CommissionAgentId,@CommissionAmount,@CommissionPerc,@TotalAmount,@TotalDiscount,@SalesExecutiveId,@EDateDelivery,@EDateArrival,@CreatedBy,@CreatedDate,@OrganizationId,1,@isProjectBased,@isAfterSales,@SalesQuotationId);
                                     SELECT CAST(SCOPE_IDENTITY() as int) SaleOrderId";
                     model.SaleOrderId = connection.Query<int>(sql, model, txn).First();
                     #endregion
@@ -1373,6 +1373,32 @@ namespace ArabErp.DAL
                 {
                     txn.Rollback();
                     throw;
+                }
+            }
+        }
+        public string DeleteProjectSaleOrder(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                string query = string.Empty;
+                try
+                {
+
+
+                    query = @"DELETE FROM SaleOrderItemDoor WHERE SaleOrderItemId IN (SELECT SaleOrderItemId FROM SaleOrderItem WHERE SaleOrderId = @id);
+                              DELETE FROM SaleOrderItemUnit WHERE SaleOrderItemId IN (SELECT SaleOrderItemId FROM SaleOrderItem WHERE SaleOrderId = @id);
+                   
+                               DELETE FROM SaleOrderItem WHERE SaleOrderId = @id;
+                               DELETE FROM SaleOrder OUTPUT deleted.SaleOrderRefNo WHERE SaleOrderId = @id;";
+                    string output = connection.Query<string>(query, new { id = id }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
                 }
             }
         }

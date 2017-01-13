@@ -740,14 +740,26 @@ namespace ArabErp.Web.Controllers
                 FillCommissionAgent();
                 FillUnit();
                 FillEmployee();
-
+                FillWrkDesc();
                 FillVehicle();
                 var repo = new SaleOrderRepository();
                 SaleOrder model = repo.GetSaleOrder(id);
+                if(type==0)
+              
+                {
+               
                 model.Items = repo.GetSaleOrderItem(id);
                 model.Materials = repo.GetSaleOrderMaterial(id);
-                FillWrkDesc();
+            
                 return View("Edit", model);
+            }
+            else
+            {
+                FillFreezerUnit();
+                //model = repo.GetSaleOrderFrmQuotation(id);
+                model.ProjectRooms = new SaleOrderRepository().GetRoomDetailsFromQuotation(model.SalesQuotationId??0);
+                return View("EditProject", model);
+            }
             }
             else
             {
@@ -796,24 +808,31 @@ namespace ArabErp.Web.Controllers
             return View(model);
 
         }
-
+      
         public ActionResult Delete(int id, string isProjectBased, string isAfterSales)
         {
-
             try
             {
-                string ref_no = new SaleOrderRepository().DeleteSaleOrder(id, Convert.ToInt32(isAfterSales));
+                 string ref_no="";
+                if (isProjectBased == "0")
+                {
+                    ref_no = new SaleOrderRepository().DeleteSaleOrder(id, Convert.ToInt32(isAfterSales));
+                }
+                else
+                {
+                    ref_no = new SaleOrderRepository().DeleteProjectSaleOrder(id);
+                }
                 TempData["success"] = "Deleted Successfully (" + ref_no + ")";
                 return RedirectToAction("Index", new { type = Convert.ToInt32(isProjectBased) });
             }
             catch (Exception)
             {
                 TempData["error"] = "Some error occured while deleting. Please try again.";
-                return RedirectToAction("Edit", new { id = id });
+               
+                    return RedirectToAction("Edit", new { id = id });
+              
             }
         }
-
-
         public ActionResult Print(int Id)
         {
 
