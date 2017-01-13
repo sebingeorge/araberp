@@ -272,6 +272,7 @@ namespace ArabErp.DAL
 								  INNER JOIN SaleOrderItemUnit U ON U.SaleOrderItemId=SI.SaleOrderItemId
 								  INNER JOIN  ITEM I ON I.ItemId=U.EvaporatorUnitId
                                   INNER JOIN Customer C ON S.CustomerId = C.CustomerId
+                                  WHERE S.OrganizationId = @OrganizationId  AND ISNULL(S.isService, 0) = 0
 								  UNION ALL
 								  SELECT S.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106),I.ItemName, C.CustomerName,S.CustomerOrderRef,SI.SaleOrderId,SI.SaleOrderItemId,U.SaleOrderItemUnitId
                                   ,U.CondenserUnitId,S.isProjectBased,S.EDateArrival,S.EDateDelivery,DATEDIFF(dd,S.SaleOrderDate,GETDATE ()) Ageing,
@@ -279,9 +280,11 @@ namespace ArabErp.DAL
 								  INNER JOIN SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
 								  INNER JOIN SaleOrderItemUnit U ON U.SaleOrderItemId=SI.SaleOrderItemId
 								  INNER JOIN  ITEM I ON I.ItemId=U.CondenserUnitId
-								  INNER JOIN Customer C ON S.CustomerId = C.CustomerId)T1
-
-                                  SELECT * FROM #TEMP T LEFT JOIN #WORK_REQUEST WR ON T.SaleOrderItemUnitId = WR.SaleOrderItemUnitId and T.EvaporatorUnitId=WR.EvaConUnitId  WHERE WR.SaleOrderItemUnitId IS  NULL and WR.EvaConUnitId is  null
+								  INNER JOIN Customer C ON S.CustomerId = C.CustomerId  WHERE S.OrganizationId = @OrganizationId AND ISNULL(S.isService, 0) = 0)T1
+ 
+                                  SELECT * FROM #TEMP T LEFT JOIN #WORK_REQUEST WR ON T.SaleOrderItemUnitId = WR.SaleOrderItemUnitId
+                                  and T.EvaporatorUnitId=WR.EvaConUnitId  WHERE WR.SaleOrderItemUnitId IS  NULL 
+                                  and WR.EvaConUnitId is  null and SaleOrderRefNo LIKE '%'+@saleOrder+'%'
 
                                   DROP TABLE #WORK_REQUEST;";
                 }
