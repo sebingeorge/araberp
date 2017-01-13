@@ -303,10 +303,10 @@
                             <tr class="grid_heading">
                                 <td width="2%"></td>
                                 <th width="35%"><h1>Task</h1></th>
-                                @if (Model.isProjectBased == 0)
-                                {
+                                @*@if (Model.isProjectBased == 0)
+                                {*@
                                     <th width="35%"><h1>Technician</h1></th>
-                                }
+                                @*}*@
                                 <th width="12%"><h1>Date</h1></th>
                                 <th width="5%"><h1>Hours</h1></th>
                                 <td width="2%"></td>
@@ -345,8 +345,8 @@
                                         }
                                     </td>
 
-                                    @if (Model.isProjectBased == 0)
-                                    {
+                                    @*@if (Model.isProjectBased == 0)
+                                    {*@
                                         <td>
                                             @if (Model.JobCardTasks[row].isTaskUsed)
                                             {
@@ -359,7 +359,7 @@
                                              new { @class = "form_input", @autocomplete = "off", @onchange = "CheckDuplication(this," + row + ")" })
                                             }
                                         </td>
-                                    }
+                                    @*}*@
 
                                     <td>
                                         @if (Model.JobCardTasks[row].isTaskUsed)
