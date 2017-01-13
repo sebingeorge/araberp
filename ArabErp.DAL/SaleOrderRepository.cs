@@ -17,6 +17,10 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="model">Object of class SaleOrder</param>
         /// <returns>Primary key of current Transaction</returns>
+         public string ConnectionString()
+        {
+            return dataConnection;
+        }
         public string InsertSaleOrder(SaleOrder objSaleOrder)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
