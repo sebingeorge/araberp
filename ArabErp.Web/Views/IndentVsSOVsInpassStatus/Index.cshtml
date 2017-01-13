@@ -6,16 +6,23 @@
 <script type="text/javascript">
 
     function Filter() {
+
+        var str = 0;
+        $('.status').each(function (index, object) {
+            if ($(object).is(":checked")) {
+                str += Number($(object).val());
+            }
+        })
+
         $("#indentlist").addClass("fade");
         var supplier = $("#supplier").val().trim();
         var item = $("#item").val().trim();
         var indentno = $("#indentno").val().trim();
         var sono = $("#sono").val().trim();
         var grnno = $("#grnno").val().trim();
-     
         var url = '@Url.Action("IndentVsSOVsInpassStatus")';
         url += "?supplier=" + encodeURIComponent(supplier) + "&item=" + encodeURIComponent(item) + "&indentno=" + encodeURIComponent(indentno)
-            + "&sono=" + encodeURIComponent(sono) + "&grnno=" + encodeURIComponent(grnno);
+            + "&sono=" + encodeURIComponent(sono) + "&grnno=" + encodeURIComponent(grnno) + "&status=" + (str);
         $("#indentlist").load(url, function () {
             $("#indentlist").removeClass("fade");
         });
@@ -53,22 +60,29 @@
                 <label>GRN No.</label>
                 <input id="grnno" class="form_input" placeholder="Search for GRN No." onkeyup="Filter()" />
             </div>
-
         </div>
-        <br />
+            <br />
         <div class="row">
-            <div class="main-grid main-grid-top ">
-                <div id="indentlist" style="overflow:auto; max-height:400px;">
-                    @Html.Action("IndentVsSOVsInpassStatus")
+            <div class="col-md-12 status">
+                <input type="checkbox" class="status" name="pending" onchange="Filter()" value="1"> Pending SO
+                <input type="checkbox" class="status" name="pending" onchange="Filter()" value="2"> Pending GRN
+            </div>
+        </div>
+
+            <br />
+            <div class="row">
+                <div class="main-grid main-grid-top ">
+                    <div id="indentlist" style="overflow:auto; max-height:400px;">
+                        @Html.Action("IndentVsSOVsInpassStatus")
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
                 </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-md-12 hrpart">
-                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-            </div>
-        </div>
-    </div>
 </div>
 

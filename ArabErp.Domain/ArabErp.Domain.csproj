@@ -96,6 +96,7 @@
     <Compile Include="PrefixSettingsVsOrganization.cs" />
     <Compile Include="PrintDescription.cs" />
     <Compile Include="ProjectCompletion.cs" />
+    <Compile Include="ProjectRoomAndUnitDetails.cs" />
     <Compile Include="PurchaseBillPostingList.cs" />
     <Compile Include="PurchaseBillPostingTransaction.cs" />
     <Compile Include="PurchaseRequestRegister.cs" />

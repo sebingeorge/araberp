@@ -25,8 +25,9 @@
         var Grn = $("#txtGrn").val().trim();
        // var Lpo = $("#txtLpo").val().trim();
         var Supplier = $("#txtSupplier").val().trim();
+        var LPO = $("#txtLPONo").val().trim();
         var url = '@Url.Action("PreviousListGRN")';
-        url += "?Grn=" + encodeURIComponent(Grn) + "&Supplier=" + encodeURIComponent(Supplier);
+        url += "?Grn=" + encodeURIComponent(Grn) + "&Supplier=" + encodeURIComponent(Supplier) + "&LPO=" + encodeURIComponent(LPO);
         $("#previous_GRN").load(url, function () {
             $("#previous_GRN").removeClass("fade");
         });
@@ -53,6 +54,10 @@
                 <div class="col-md-2">
                     <label for="txtSupplier">Supplier</label>
                     <input type="text" class="form_input" id="txtSupplier" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Supplier" />
+                </div>
+                <div class="col-md-2">
+                    <label for="txtLPONo.">LPO No.</label>
+                    <input type="text" class="form_input" id="txtLPONo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for LPO No." />
                 </div>
             </div>
         </div>

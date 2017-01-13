@@ -101,6 +101,26 @@
         }
     }
 
+
+    function RateChanged(index) {
+        var rate = Number($("#PrevRate_" + index).val());
+        var newrate = Number($("#Items_" + index + "__Rate").val());
+        if (newrate > rate)
+        {
+            toastr.info("Rate should be less than Amount");
+            $("#Items_" + row + "_PrevRate").val(rate);
+            false
+        }
+        else
+        {
+            $("#Items_" + row + "_PrevRate").val(newrate);
+            true
+        }
+       
+    }
+
+
+
     function OnReceivedQuantityChanged(row) {
         if ($("#Items_" + row + "__AcceptedQuantity").val() == 0 && Number($("#Items_" + row + "__ReceivedQuantity").val() > 0)) {
             $("#Items_" + row + "__AcceptedQuantity").val($("#Items_" + row + "__ReceivedQuantity").val());
@@ -464,7 +484,10 @@
                                     <td>@Html.TextBoxFor(m => m.Items[i].AcceptedQuantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", placeholder = "Qty", @onkeyup = "ValueChanged(" + i + ");", @onchange = "ValidateRow(" + i + ")", @required = "true", @onfocus = "OnTextboxFocused(this)" })</td>
                                     <td>@Html.TextBoxFor(m => m.Items[i].RejectedQuantity, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "true", @tabindex = "-1" })</td>
                                     <td>@Html.TextBoxFor(m => m.Items[i].Unit, new { @class = "form_input", autocomplete = "off", @readonly = "true", @style = "text-align:left", @tabindex = "-1" })</td>
-                                    <td>@Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @required = "true", @onfocus = "OnTextboxFocused(this)" })</td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.Items[i].Rate, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @required = "true", @onfocus = "OnTextboxFocused(this)", @onchange = "RateChanged(" + i + ");" })
+                                    <input type="hidden" id="PrevRate_@i" value="@Model.Items[i].Rate"/>
+                                </td>
                                     <td>@Html.TextBoxFor(m => m.Items[i].Discount, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + i + ");", @required = "true", @onfocus = "OnTextboxFocused(this)" })</td>
                                     <td>@Html.TextBoxFor(m => m.Items[i].Amount, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "true", @tabindex = "-1" })</td>
                                 </tr>

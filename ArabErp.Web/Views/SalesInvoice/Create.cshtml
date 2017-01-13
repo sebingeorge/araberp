@@ -193,7 +193,7 @@
                     @Html.HiddenFor(m => Model.InvoiceType)
                     @Html.HiddenFor(m => Model.isProjectBased)
                     @Html.HiddenFor(m => Model.isService)
-                    @Html.TextBoxFor(m => m.SalesInvoiceRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
+                    @Html.TextBoxFor(m=> m.SalesInvoiceRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
                 </div>
                 <div class="col-md-2">
                     <label for="SalesInvoiceDate">Date</label>
@@ -231,7 +231,7 @@
                     }
                     else
                     {
-                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
+                       @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input", autocomplete = "off", @tabindex = "-1" })
                     }
                 </div>
 
@@ -276,7 +276,15 @@
                                 <td>
                                     @if (Model.InvoiceType == "Inter" || Model.InvoiceType == "Final")
                                     {
-                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input Amount", autocomplete = "off", @style = "text-align:right", @onchange = "Amountchanged()" })
+                                        if (Model.isService ==1)
+                                        {
+                                            @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input Amount", autocomplete = "off", @style = "text-align:right", @onchange = "Amountchanged()" })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].QuantityTxt, new { @class = "form_input Amount", autocomplete = "off", @style = "text-align:right", @readonly = "readonly", @onchange = "Amountchanged()" })
+                                        }
+                                        
                                     }
                                     else
                                     {
@@ -290,27 +298,60 @@
                                 <td>
                                     @if (Model.InvoiceType == "Inter" || Model.InvoiceType == "Final")
                                     {
-                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new
+                                        if(Model.isService==1)
                                         {
+                                            
+                                            @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new
+                                            {
                                             @class = "form_input",
                                             autocomplete = "off",
                                             @style = "text-align:right", @*@readonly = "readonly",*@ @onchange = "Amountchanged()",
                                             @onkeyup = "Amountchanged()"
-                                        })
+                                            })
+                                        }
+                                    else
+                                    {
+                                            @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new
+                                            {
+                                            @class = "form_input",
+                                            autocomplete = "off",
+                                            @style = "text-align:right", @readonly = "readonly"
+                                            //,@onchange = "Amountchanged()",
+                                            //@onkeyup = "Amountchanged()"
+                                            })
+                                    }
+                                            
                                     }
                                     else
                                     {
                                         @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Rate, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly", @tabindex = "-1" })
                                     }
                                 </td>
-                                <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Discount, new
+                                <td>
+                                    @if(Model.isService==1)
                                     {
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Discount, new
+                                        {
                                         @class = "form_input clAmount",
                                         autocomplete = "off",
                                         @style = "text-align:right"@*, @readonly = "readonly"*@,
                                         @onchange = "Amountchanged()",
                                         @onkeyup = "Amountchanged()"
-                                    })</td>
+                                        })
+                                    }
+                                  else
+                                    {
+                                        @Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Discount, new
+                                        {
+                                        @class = "form_input clAmount",
+                                        autocomplete = "off",
+                                        @style = "text-align:right", @readonly = "readonly"
+                                        //,
+                                        //@onchange = "Amountchanged()",
+                                        //@onkeyup = "Amountchanged()"
+                                        })
+                                    }
+                                </td>
                                 <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", @readonly = "readonly", @tabindex = "-1" })</td>
                             </tr>
                         }
