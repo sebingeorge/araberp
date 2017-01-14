@@ -32,7 +32,14 @@ namespace ArabErp.Web.Controllers
             JobCard jc = jcRepo.GetDetailsById(Id, null);
             FillTaks(jc.WorkDescriptionId);
             JobCardDailyActivity model = new JobCardDailyActivity();
-            model.JobCardDailyActivityRefNo = DatabaseCommonRepository.GetNextDocNo(27, OrganizationId);
+            if (jc.isProjectBased==1)
+            {
+                model.JobCardDailyActivityRefNo = DatabaseCommonRepository.GetNextDocNo(38, OrganizationId);
+            }
+            else
+            {
+                model.JobCardDailyActivityRefNo = DatabaseCommonRepository.GetNextDocNo(27, OrganizationId);
+            }
             model.CreatedDate = DateTime.Now;
             model.JobCardDailyActivityDate = DateTime.Now;
             model.isProjectBased = jc.isProjectBased;
