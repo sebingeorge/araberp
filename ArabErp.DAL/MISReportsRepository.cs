@@ -127,11 +127,19 @@ namespace ArabErp.DAL
                                     DC.DeliveryChallanId,DC.DeliveryChallanRefNo,
                                     CONVERT(VARCHAR, DC.DeliveryChallanDate, 106) DeliveryChallanDate,
                                     SI.SalesInvoiceRefNo InvoiceNo,CONVERT(VARCHAR, SI.SalesInvoiceDate, 106) InvoiceDate,
-                                    SI.TotalAmount Amount,BOX.ItemName BoxName,FREEZER.ItemName FreezerName,
+                                    SI.TotalAmount Amount,
+                               CASE WHEN JC.isService=0 then BOX.ItemName 
+                                    ELSE SE.BoxMake END BoxName,
+                                    CASE WHEN JC.isService=0 then FREEZER.ItemName 
+                                    ELSE SE.FreezerMake END UnitName,
+                               CASE WHEN JC.isService=0 then
                                     STUFF((SELECT ', ' + IB.SerialNo
                                     FROM  ItemBatch IB
                                     WHERE JC.SaleOrderItemId = IB.SaleOrderItemId
-                                    FOR XML PATH('')), 1, 1, '') AS UnitSerialNo,
+                                    FOR XML PATH('')), 1, 1, '') 
+                                    ELSE
+                                    STUFF((SELECT ', ' + SE.FreezerSerialNo
+                                    FOR XML PATH('')), 1, 1, '') END UnitSerialNo,
 
                                     CASE WHEN ISNULL(JC.isService, 0) = 1 THEN 'Service' ELSE 'New Installation' END InstallationType,
                                     HC.LabourCost,0 MaterialCost,JC.isService, JC.OrganizationId INTO #Result
@@ -144,6 +152,7 @@ namespace ArabErp.DAL
                                     LEFT JOIN SalesInvoice SI ON SII.SalesInvoiceId = SI.SalesInvoiceId
                                     LEFT JOIN Item BOX ON JC.BoxId = BOX.ItemId
                                     LEFT JOIN Item FREEZER ON JC.FreezerUnitId = FREEZER.ItemId
+                                    LEFT JOIN ServiceEnquiry SE ON SE.ServiceEnquiryId=SO.ServiceEnquiryId
                                     LEFT JOIN #HourlyCost HC ON JC.JobCardId = HC.JobCardId
                                     SELECT SO.SaleOrderId,WRI.ItemId,SUM(SII.IssuedQuantity)Quantity,0 Rate INTO #TEMP
                                     FROM WorkShopRequest WR
@@ -168,7 +177,7 @@ namespace ArabErp.DAL
                                     SELECT R.JobCardId,R.JobCardNo,R.SaleOrderId,R.SaleOrderItemId,R.JobCardDate,
                                     R.CustomerName,R.RegistrationNo,R.ChassisNo,R.DeliveryChallanId,
                                     R.DeliveryChallanRefNo,R.DeliveryChallanDate,R.InvoiceNo,R.InvoiceDate,
-                                    R.Amount,R.BoxName,R.FreezerName,R.UnitSerialNo,R.InstallationType,R.LabourCost,
+                                    R.Amount,R.BoxName,R.UnitName,R.UnitSerialNo,R.InstallationType,R.LabourCost,
                                     R.MaterialCost,R.isService,R.OrganizationId,
 
                                     STUFF((SELECT DISTINCT ', ' + I.ItemName
