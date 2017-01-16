@@ -32,7 +32,7 @@
                 {@*Model.Type != "RoomDetails"*@
                         <th nowrap width="15%"><h1></h1></th>
                         <th width="5%"><h1>Kilowatt</h1></th>
-                        <th width="5%" class="text-right"><h1>Cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
+                        @*<th width="5%" class="text-right"><h1>Cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>*@
                     }
                 @*<th width="1%" class="text-center"></th>*@
             </tr>
@@ -64,7 +64,7 @@
             {
                 <td nowrap onclick="ShowUnitSelectionGrid(@i)" class="grid-cell" data-toggle="modal" data-target="#unitselectionpopup"><a href="#" class="unit">Select Unit & Door</a></td>
                 <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                <td>@Html.TextBoxFor(m => Model.ProjectRooms[i].Cost, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
+                @*<td>@Html.TextBoxFor(m => Model.ProjectRooms[i].Cost, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>*@
             }
 
             @*<td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus del" style="top:0px" onclick="AddRow()"></a></td>*@
