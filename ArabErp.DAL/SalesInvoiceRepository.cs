@@ -592,20 +592,45 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
+//                string query = @"SELECT INV.SalesInvoiceId,INV.SalesInvoiceRefNo,INV.SalesInvoiceDate,
+//	                             SO.SaleOrderRefNo,SO.SaleOrderDate,D.DeliveryChallanRefNo,
+//                                 C.CustomerName Customer,V.RegistrationNo,ChassisNo,
+//	                             ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
+//                                 FROM SalesInvoice INV
+//                                 LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
+//                                 LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
+//                                 LEFT JOIN VehicleInPass V ON V.SaleOrderId=SO.SaleOrderId
+//                                 LEFT JOIN JobCard J ON J.SaleOrderId=SO.SaleOrderId
+//                                 LEFT JOIN DeliveryChallan D ON D.JobCardId=J.JobCardId 
+//                                 WHERE 
+//								 INV.OrganizationId=1 
+//                                 ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
                 string query = @"SELECT INV.SalesInvoiceId,INV.SalesInvoiceRefNo,INV.SalesInvoiceDate,
-	                             SO.SaleOrderRefNo,SO.SaleOrderDate,D.DeliveryChallanRefNo,
-                                 C.CustomerName Customer,V.RegistrationNo,ChassisNo,
-	                             ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
-                                 FROM SalesInvoice INV
-                                 LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
-                                 LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
-                                 LEFT JOIN VehicleInPass V ON V.SaleOrderId=SO.SaleOrderId
-                                 LEFT JOIN JobCard J ON J.SaleOrderId=SO.SaleOrderId
-                                 LEFT JOIN DeliveryChallan D ON D.JobCardId=J.JobCardId 
-                                 WHERE 
-								 INV.OrganizationId=1 
-                                 ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
+                                SO.SaleOrderRefNo,SO.SaleOrderDate,C.CustomerName Customer,
 
+                                STUFF((SELECT ', ' + isnull(V.RegistrationNo,'')
+                                FROM  VehicleInPass V
+                                WHERE V.SaleOrderId=SO.SaleOrderId
+                                FOR XML PATH('')), 1, 1, '')RegistrationNo,
+
+                                STUFF((SELECT ', ' + isnull(V.ChassisNo,'')
+                                FROM  VehicleInPass V
+                                WHERE V.SaleOrderId=SO.SaleOrderId
+                                FOR XML PATH('')), 1, 1, '')ChassisNo,
+
+                                STUFF((SELECT ', ' + isnull(D.DeliveryChallanRefNo,'')
+                                FROM  DeliveryChallan D
+                                INNER JOIN JobCard J ON J.SaleOrderId=SO.SaleOrderId 
+                                WHERE D.JobCardId=J.JobCardId 
+                                FOR XML PATH('')), 1, 1, '')DeliveryChallanRefNo,
+
+                                ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
+                                FROM SalesInvoice INV
+                                INNER JOIN  SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
+                                LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
+
+                                WHERE INV.OrganizationId=1 
+                                ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
                 return connection.Query<SalesInvoice>(query, new
                 {
                     OrganizationId = OrganizationId,
