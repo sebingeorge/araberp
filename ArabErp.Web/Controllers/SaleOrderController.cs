@@ -1078,6 +1078,7 @@ namespace ArabErp.Web.Controllers
                 model.CreatedBy = UserID.ToString(); ;
                 model.CreatedDate = System.DateTime.Now;
                 model.IsConfirmed = 0;
+                model.isProjectBased = 0;
                 string ref_no = new SaleOrderRepository().InsertServiceEnquiry(model);
                 if (ref_no.Length > 0)
                 {

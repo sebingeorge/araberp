@@ -705,6 +705,21 @@
                                 {
                                     <li><a href="@Url.Action("Pending", "WorkShopRequest", new { isProjectBased = 1 })">Material Request</a></li>
                                 }
+                                @if (formPermission.Find(x => x.FormId == 78) != null)
+                               
+                                {
+                                    <li>
+                                        <a href="#" data-toggle="collapse" data-target="#project-jobcard">Service<span class="caret arrow"></span></a>
+                                        <div id="project-jobcard" class="collapse">
+                                            <ul>
+                                                @if (formPermission.Find(x => x.FormId == 157) != null)
+                                                {
+                                                    <li><a href="@Url.Action("ServiceEnquiryProject", "ServiceEnquiryProject", new { isProjectBased = 1 })">Service Enquiry</a></li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                                }
                                 @if (formPermission.Find(x => x.FormId == 78) != null
                                     || formPermission.Find(x => x.FormId == 79) != null
                                     || formPermission.Find(x => x.FormId == 80) != null
@@ -757,10 +772,6 @@
                                                 @if (formPermission.Find(x => x.FormId == 138) != null)
                                                 {
                                                     <li><a href="@Url.Action("ServiceEnquiry", "SaleOrder")">Service Enquiry</a></li>
-                                                }
-                                                @if (formPermission.Find(x => x.FormId == 138) != null)
-                                                {
-                                                    <li><a href="@Url.Action("ServiceEnquiryProject", "ServiceEnquiryProject")">Service Enquiry - Project</a></li>
                                                 }
                                                 @if (formPermission.Find(x => x.FormId == 140) != null)
                                                 {

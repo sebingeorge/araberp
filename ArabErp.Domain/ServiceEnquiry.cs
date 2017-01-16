@@ -25,6 +25,7 @@ namespace ArabErp.Domain
         //public string CustomerAddress { get; set; }
         public string ContactPerson { get; set; }
         public string Telephone { get; set; }
+        public string MobileNo { get; set; }
         public string VehicleMake { get; set; }
         public string VehicleRegNo { get; set; }
         public string VehicleChassisNo { get; set; }
@@ -40,6 +41,7 @@ namespace ArabErp.Domain
         public string TailLiftModel { get; set; }
         public string TailLiftSerialNo { get; set; }
         public string Complaints { get; set; }
+        public string UnitDetails { get; set; }
         public string RegistrationNo { get; set; }
         public string ChassisNo { get; set; }
         //public string RegNo { get; set; }

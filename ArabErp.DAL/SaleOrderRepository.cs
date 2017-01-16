@@ -978,16 +978,23 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    model.ServiceEnquiryRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 33, true, txn);
+                    if (model.isProjectBased == 0)
+                    {
+                        model.ServiceEnquiryRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 33, true, txn);
+                    }
+                    else
+                    {
+                        model.ServiceEnquiryRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 41, true, txn);
+                    }
                     #region query
                     string query = @"insert into ServiceEnquiry(ServiceEnquiryRefNo,CustomerId,VehicleMake,VehicleRegNo,VehicleChassisNo,VehicleKm,BoxMake,BoxNo,BoxSize
 			                        ,FreezerMake,FreezerModel,FreezerSerialNo,FreezerHours,TailLiftMake,TailLiftModel,TailLiftSerialNo,OrganizationId,IsConfirmed
-			                        ,CreatedBy,CreatedDate, ServiceEnquiryDate, Complaints) 
+			                        ,CreatedBy,CreatedDate, ServiceEnquiryDate, Complaints,isProjectBased,UnitDetails) 
                                     OUTPUT inserted.ServiceEnquiryRefNo
                                     values
                                     (@ServiceEnquiryRefNo,@CustomerId,@VehicleMake,@VehicleRegNo,@VehicleChassisNo,@VehicleKm,@BoxMake,@BoxNo,@BoxSize
 			                       ,@FreezerMake,@FreezerModel,@FreezerSerialNo,@FreezerHours,@TailLiftMake,@TailLiftModel,@TailLiftSerialNo,@OrganizationId,@IsConfirmed
-			                       ,@CreatedBy,@CreatedDate, @ServiceEnquiryDate, @Complaints);";
+			                       ,@CreatedBy,@CreatedDate, @ServiceEnquiryDate, @Complaints,@isProjectBased,@UnitDetails);";
                     #endregion
                     string output = connection.Query<string>(query, model, txn).FirstOrDefault();
                     txn.Commit();
