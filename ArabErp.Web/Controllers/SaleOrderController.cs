@@ -257,6 +257,25 @@ namespace ArabErp.Web.Controllers
             var list = repo.FillUnit();
             ViewBag.unitlist = new SelectList(list, "Id", "Name");
         }
+        void FillFreezerUnit()
+        {
+            CondenserDropDown();
+            EvaporatorDropDown();
+            DoorDropDown();
+
+        }
+        void CondenserDropDown()
+        {
+            ViewBag.CondenserList = new SelectList(new DropdownRepository().FillCondenserUnit(), "Id", "Name");
+        }
+        void EvaporatorDropDown()
+        {
+            ViewBag.EvaporatorList = new SelectList(new DropdownRepository().FillEvaporatorUnit(), "Id", "Name");
+        }
+        void DoorDropDown()
+        {
+            ViewBag.DoorList = new SelectList(new DropdownRepository().FillDoor(), "Id", "Name");
+        }
         public void FillCurrency()
         {
             var repo = new SaleOrderRepository();
@@ -275,11 +294,7 @@ namespace ArabErp.Web.Controllers
             var list = repo.QuotationInSaleOrderDropdown(isProjectBased);
             ViewBag.QuotationNolist = new SelectList(list, "Id", "Name");
         }
-        private void FillFreezerUnit()
-        {
-            ViewBag.freezerUnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
-        }
-
+      
      
         [HttpPost]
         public ActionResult Create(SaleOrder model)

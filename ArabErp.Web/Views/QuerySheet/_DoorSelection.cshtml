@@ -27,7 +27,7 @@
                         <span id="sldono@(i + 1)">@(i + 1)</span>
                         @Html.HiddenFor(m=>Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].QuerySheetItemId)
                     </td>
-                    <td>@Html.DropDownListFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].DoorId, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].DoorId), "Select Door", new { @class = "form_input" })</td>
+                    <td>@Html.DropDownListFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].DoorId, new SelectList(ViewBag.DoorList, "Value", "Text", Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].DoorId), "Select Door", new { @class = "form_input" })</td>
                     <td>@Html.TextBoxFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].Quantity, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>
                     <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddDoorRow(@currentIndex)"></a></td>
                 </tr>
