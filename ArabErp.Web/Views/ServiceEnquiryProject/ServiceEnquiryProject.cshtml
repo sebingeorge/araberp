@@ -33,15 +33,15 @@
         $("#ServiceEnquiryDate").attr("readonly", "true");
     }
 
-    function formValidation() {
-        var VehicleRegNo = $("#VehicleRegNo").val();
-        var VehicleChassisNo = $("#VehicleChassisNo").val();
-        if ((VehicleRegNo == VehicleChassisNo) && VehicleRegNo !== '' && VehicleChassisNo !== '') {
-            toastr.info("Vehicle Registration No. & Chassis No. should not be same");
-            return false
-        }
-        else return true;
-    }
+    //function formValidation() {
+    //    var VehicleRegNo = $("#VehicleRegNo").val();
+    //    var VehicleChassisNo = $("#VehicleChassisNo").val();
+    //    if ((VehicleRegNo == VehicleChassisNo) && VehicleRegNo !== '' && VehicleChassisNo !== '') {
+    //        toastr.info("Vehicle Registration No. & Chassis No. should not be same");
+    //        return false
+    //    }
+    //    else return true;
+    //}
 
     function OnCustomerChanged(cust) {
         //var cusId = cust.value;
@@ -97,7 +97,7 @@
 <div class="row">
     <div class="form-head1">
         <h4>
-           Job / Repair Order
+            Service Enquiry - Project
         </h4>
     </div>
 
@@ -144,24 +144,18 @@
                             <td class="td-inner-heading">
                                 <strong>Name</strong>
                             </td>
-                            <td colspan="4">
+                            <td colspan="3">
                                 @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new
                                {
                                    @class = "form_input",
                                    @onchange = "OnCustomerChanged(this)",
-                                   @placeholder = "Search for customer"
+                                   @placeholder = "Search for Customer"
                                })
                             </td>
                             <td class="td-inner-heading">
                                 <strong>Telephone</strong>
                             </td>
-                            <td colspan="4">
-                                @Html.TextBoxFor(m => m.Telephone, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
-                            </td>
-                            <td class="td-inner-heading">
-                                <strong>Mobile</strong>
-                            </td>
-                            <td colspan="4">
+                            <td colspan="3">
                                 @Html.TextBoxFor(m => m.Telephone, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                             </td>
                         </tr>
@@ -169,13 +163,15 @@
                             <td class="td-inner-heading">
                                 <strong>Address</strong>
                             </td>
-                            <td colspan="4">
+                            <td colspan="3">
                                 @Html.TextBoxFor(m => m.CustomerAddress, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
                             </td>
                             <td class="td-inner-heading">
                                 <strong>Contact Person</strong>
                             </td>
-                      
+                            <td colspan="3">
+                                @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                            </td>
                         </tr>
             
                     </tbody>
@@ -185,7 +181,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <label for="Complaints">Unit Details</label>
-                    @Html.TextAreaFor(m => Model.Complaints, new { @class = "form_input", @style = "height: 60px", @autocomplete = "off" })
+                    @Html.TextAreaFor(m => Model.UnitDetails, new { @class = "form_input", @style = "height: 60px", @autocomplete = "off" })
                 </div>
             </div>
             <div class="row">
@@ -236,8 +232,15 @@
                     </div>
                 </div>
             }*@
+    <div class="row">
+        <div class="col-md-12 hrpart">
 
-        
+            <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            <button type="submit" class="form-button right">Save</button>
+            <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+        </div>
+    </div>
+
         }
     </div>
 </div>

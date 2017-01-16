@@ -321,7 +321,7 @@ namespace ArabErp.DAL
 	                                SO.EDateArrival,
 	                                SO.EDateDelivery,
 	                                SO.CustomerId,
-	                                C.CustomerName,
+	                                C.CustomerName,VI.RegistrationNo,VI.ChassisNo,
 	                                WD.WorkDescr WorkDescription,
 	                                DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,
 	                                DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays 
@@ -329,6 +329,7 @@ namespace ArabErp.DAL
 	                                LEFT JOIN #WORK_REQUEST WR ON SOI.SaleOrderItemId = WR.SaleOrderItemId
 	                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
 	                                INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+                                    LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId=SOI.SaleOrderItemId
 	                                LEFT JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
                                 WHERE WR.SaleOrderItemId IS NULL
 	                                AND SO.SaleOrderApproveStatus = 1
@@ -991,16 +992,23 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    model.ServiceEnquiryRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 33, true, txn);
+                    if (model.isProjectBased == 0)
+                    {
+                        model.ServiceEnquiryRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 33, true, txn);
+                    }
+                    else
+                    {
+                        model.ServiceEnquiryRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 41, true, txn);
+                    }
                     #region query
                     string query = @"insert into ServiceEnquiry(ServiceEnquiryRefNo,CustomerId,VehicleMake,VehicleRegNo,VehicleChassisNo,VehicleKm,BoxMake,BoxNo,BoxSize
 			                        ,FreezerMake,FreezerModel,FreezerSerialNo,FreezerHours,TailLiftMake,TailLiftModel,TailLiftSerialNo,OrganizationId,IsConfirmed
-			                        ,CreatedBy,CreatedDate, ServiceEnquiryDate, Complaints) 
+			                        ,CreatedBy,CreatedDate, ServiceEnquiryDate, Complaints,isProjectBased,UnitDetails) 
                                     OUTPUT inserted.ServiceEnquiryRefNo
                                     values
                                     (@ServiceEnquiryRefNo,@CustomerId,@VehicleMake,@VehicleRegNo,@VehicleChassisNo,@VehicleKm,@BoxMake,@BoxNo,@BoxSize
 			                       ,@FreezerMake,@FreezerModel,@FreezerSerialNo,@FreezerHours,@TailLiftMake,@TailLiftModel,@TailLiftSerialNo,@OrganizationId,@IsConfirmed
-			                       ,@CreatedBy,@CreatedDate, @ServiceEnquiryDate, @Complaints);";
+			                       ,@CreatedBy,@CreatedDate, @ServiceEnquiryDate, @Complaints,@isProjectBased,@UnitDetails);";
                     #endregion
                     string output = connection.Query<string>(query, model, txn).FirstOrDefault();
                     txn.Commit();
