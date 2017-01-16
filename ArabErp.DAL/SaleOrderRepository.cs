@@ -308,7 +308,7 @@ namespace ArabErp.DAL
 	                                SO.EDateArrival,
 	                                SO.EDateDelivery,
 	                                SO.CustomerId,
-	                                C.CustomerName,
+	                                C.CustomerName,VI.RegistrationNo,VI.ChassisNo,
 	                                WD.WorkDescr WorkDescription,
 	                                DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,
 	                                DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays 
@@ -316,6 +316,7 @@ namespace ArabErp.DAL
 	                                LEFT JOIN #WORK_REQUEST WR ON SOI.SaleOrderItemId = WR.SaleOrderItemId
 	                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
 	                                INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+                                    LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId=SOI.SaleOrderItemId
 	                                LEFT JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
                                 WHERE WR.SaleOrderItemId IS NULL
 	                                AND SO.SaleOrderApproveStatus = 1

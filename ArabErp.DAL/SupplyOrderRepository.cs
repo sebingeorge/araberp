@@ -556,23 +556,10 @@ namespace ArabErp.DAL
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
                     string query = @"SELECT O.*,SU.DoorNo SupDoorNo,Su.State SupState,SU.Phone SupPhone,SU.Fax SupFax,Su.Email SupEmail,SU.PostBoxNo SupPostBoxNo, CU.CountryName SupCountryName,
-                                    SupplyOrderId,
-	                                SupplyOrderNo,
-                                    SU.SupplierName,
-	                                CONVERT(DATETIME, SupplyOrderDate, 106) SupplyOrderDate,
-	                                QuotaionNoAndDate,
-	                                SpecialRemarks,
-	                                S.PaymentTerms,
-	                                DeliveryTerms,
-	                                RequiredDate,
-	                               CurrencyName,
-								   U.UserName CreatedUser,
-								   U.Signature CreatedUsersig ,
-								   D.DesignationName CreatedDes,
-								   DU.DesignationName ApprovedDes,
-								   UI.UserName ApprovedUser ,
-								   UI.Signature ApprovedUsersig,
-								   ORR.CountryName
+                                    SupplyOrderId,SupplyOrderNo,SU.SupplierName,CONVERT(DATETIME, SupplyOrderDate, 106) SupplyOrderDate,
+	                                QuotaionNoAndDate,SpecialRemarks,S.PaymentTerms,DeliveryTerms,RequiredDate,CurrencyName,U.UserName CreatedUser,
+								    U.Signature CreatedUsersig ,D.DesignationName CreatedDes,DU.DesignationName ApprovedDes,UI.UserName ApprovedUser ,
+								    UI.Signature ApprovedUsersig,ORR.CountryName,NetDiscount,NetAmount 
                                    FROM SupplyOrder S
 								   INNER JOIN Supplier SU ON SU.SupplierId=S.SupplierId
 							       INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
