@@ -108,7 +108,7 @@ namespace ArabErp.Web.Controllers
                 //FillUnit();
                 FillEmployee();
                 //FillQuotationNo(1);
-
+                
                 var repo = new SaleOrderRepository();
                 model = repo.GetSaleOrderFrmQuotation(SalesQuotationId ?? 0);
                 model.ProjectRooms = new SaleOrderRepository().GetRoomDetailsFromQuotation(SalesQuotationId ?? 0);
@@ -1078,6 +1078,7 @@ namespace ArabErp.Web.Controllers
                 model.CreatedBy = UserID.ToString(); ;
                 model.CreatedDate = System.DateTime.Now;
                 model.IsConfirmed = 0;
+                model.isProjectBased = 0;
                 string ref_no = new SaleOrderRepository().InsertServiceEnquiry(model);
                 if (ref_no.Length > 0)
                 {

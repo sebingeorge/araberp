@@ -24,12 +24,39 @@ namespace ArabErp.Web.Controllers
             FillDropDowns();
             return View(new ServiceEnquiry
             {
-                ServiceEnquiryRefNo = DatabaseCommonRepository.GetNextDocNo(33, OrganizationId),
+                ServiceEnquiryRefNo = DatabaseCommonRepository.GetNextDocNo(41, OrganizationId),
                 ServiceEnquiryDate = DateTime.Today,
                 isProjectBased = 0,
                 isService = 1,
                 IsConfirmed = 0
             });
+        }
+        [HttpPost]
+        public ActionResult ServiceEnquiryProject(ServiceEnquiry model)
+        {
+            try
+            {
+                model.OrganizationId = OrganizationId;
+                model.CreatedBy = UserID.ToString(); ;
+                model.CreatedDate = System.DateTime.Now;
+                model.IsConfirmed = 0;
+                model.isProjectBased = 1;
+                string ref_no = new SaleOrderRepository().InsertServiceEnquiry(model);
+                if (ref_no.Length > 0)
+                {
+                    TempData["success"] = "Saved Successfully. Reference No. is " + ref_no;
+                    return RedirectToAction("ServiceEnquiryProject");
+                }
+                else throw new Exception();
+            }
+            catch (Exception)
+            {
+                FillCustomer();
+                FillCurrency();
+                FillServiceWorkDescription();
+                TempData["error"] = "Some error occurred while saving. Please try again.";
+                return View(model);
+            }
         }
         void FillDropDowns()
         {

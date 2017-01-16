@@ -29,7 +29,7 @@
                 $("#txtVehicleModel").val(data.VehicleModel);
                 $("#txtWork").val(data.WorkDescr);
                 $("#txtCustomer").val(data.CustomerName);
-                $("#txtRegNo").val(data.RegistrationNo);
+                $("#RegistrationNo").val(data.RegistrationNo);
                 $("#txtChassisNo").val(data.ChassisNo);
                 $("#txtPaymentTerms").val(data.PaymentTerms);
             });
@@ -91,7 +91,15 @@
                 </div>
                 <div class="col-md-2">
                     <label>Reg. No.</label>
-                    <input type="text" class="form_input" id="txtRegNo" readonly />
+                   @if (Model.isService == 0)
+                {
+                    @*<input type="text" class="form_input" id="txtRegNo" />*@
+                    @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input ", autocomplete = "off"})
+                }
+                   else
+                   {
+                       @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input ", autocomplete = "off", @required = "true", @readonly = "true" })
+                   }
                 </div>
                 <div class="col-md-2">
                     <label>Chassis No.</label>
