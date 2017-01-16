@@ -174,7 +174,7 @@ namespace ArabErp.DAL
 
                                     update R set R.MaterialCost = (T.Quantity*T.Rate) from #TEMP T inner join #Result R on R.SaleOrderId = T.SaleOrderId 
 
-                                    SELECT R.JobCardId,R.JobCardNo,R.SaleOrderId,R.SaleOrderItemId,R.JobCardDate,
+                                    SELECT DISTINCT R.JobCardId,R.JobCardNo,R.SaleOrderId,R.SaleOrderItemId,R.JobCardDate,
                                     R.CustomerName,R.RegistrationNo,R.ChassisNo,R.DeliveryChallanId,
                                     R.DeliveryChallanRefNo,R.DeliveryChallanDate,R.InvoiceNo,R.InvoiceDate,
                                     R.Amount,R.BoxName,R.UnitName,R.UnitSerialNo,R.InstallationType,R.LabourCost,
