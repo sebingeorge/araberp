@@ -33,7 +33,7 @@ namespace ArabErp
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = string.Empty;
-                query += @" select SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName, W.WorkDescr WorkDescription,IsPaymentApprovedForJobOrder, ISNULL(VIP.RegistrationNo, '-')RegistrationNo,DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) Remaindays,S.isService
+                query += @" select SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, V.VehicleModelName, W.WorkDescr WorkDescription,IsPaymentApprovedForJobOrder, ISNULL(VIP.RegistrationNo, '')RegistrationNo,ISNULL(VIP.ChassisNo, '') ChassisNo,DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) Remaindays,S.isService
                   from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId
                   inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId
                   LEFT join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
