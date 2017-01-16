@@ -50,11 +50,11 @@
 
 <div class="row">
     <div class="form-head1">
-@if (isService == 1)
-{ <h4>Service Estimate for Job Card</h4> }
-else
-{ <h4>Pending Work for Job Card</h4> }
-       
+        @if (isService == 1)
+        { <h4>Service Estimate for Job Card</h4> }
+        else
+        { <h4>Pending Work for Job Card</h4> }
+
 
         <input id="isProjectBased" type="hidden" value="@isProjectBased" />
     </div>
@@ -65,12 +65,21 @@ else
                     <table class="table table-bordered">
                         <thead>
                             <tr class="grid_heading">
-                             @if (isService == 1)
-                              {<th width="12%" title="Sale Estimate No. & Date"><h1>SE No. & Date</h1></th>}
-                               else
-                                {<th width="12%" title="Sale Order No. & Date"><h1>SO No. & Date</h1></th> }
-                               
-                                <th width="41%"><h1>Work Description</h1></th>
+                                @if (isService == 1)
+                                {
+                                    <th width="12%" title="Sale Estimate No. & Date"><h1>SE No. & Date</h1></th>}
+                                else
+                                {
+                                    <th width="12%" title="Sale Order No. & Date"><h1>SO No. & Date</h1></th> }
+                                @if (isProjectBased == 0)
+                                {
+                                    <th width="41%"><h1>Work Description</h1></th>
+                                }
+                                else
+                                {
+                                    <th width="20%"><h1>Units</h1></th>
+                                    <th width="20%"><h1>Doors</h1></th>
+                                }
                                 @if (isProjectBased == 0)
                                 {
                                     <th width="10%"><h1>Vehicle Model</h1></th>
@@ -92,18 +101,26 @@ else
                                 {
                                     <tr>
                                         <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
-                                        <td class="grid-cell">@item.WorkDescription</td>
+                                        @if (isProjectBased == 0)
+                                        {
+                                            <td class="grid-cell">@item.WorkDescription</td>
+                                        }
+                                        else
+                                        {
+                                            @*<td class="grid-cell">@item.Units</td>
+                                            <td class="grid-cell">@item.Doors</td>*@
+                                        }
                                         @if (isProjectBased == 0)
                                         {
                                             <td class="grid-cell">@item.VehicleModelName</td>
                                             <td>
-                                            <strong>@item.RegistrationNo</strong>
-                                             @if ((item.RegistrationNo != null && item.RegistrationNo != "") && (item.ChassisNo != null && item.ChassisNo != ""))
-                                              {
-                                             @: -
+                                                <strong>@item.RegistrationNo</strong>
+                                                @if ((item.RegistrationNo != null && item.RegistrationNo != "") && (item.ChassisNo != null && item.ChassisNo != ""))
+                                                {
+                                                    @: -
                                               }
-                                             <strong>@item.ChassisNo</strong>
-                                           </td>
+                                                <strong>@item.ChassisNo</strong>
+                                            </td>
                                         }
 
                                         <td class="grid-cell">@item.CustomerName</td>
@@ -164,6 +181,3 @@ else
         </div>
     </div>
 </div>
-
-
-
