@@ -1069,7 +1069,6 @@ namespace ArabErp.Web.Controllers
                 IsConfirmed = 0
             });
         }
-
         [HttpPost]
         public ActionResult ServiceEnquiry(ServiceEnquiry model)
         {
@@ -1096,16 +1095,12 @@ namespace ArabErp.Web.Controllers
                 return View(model);
             }
         }
-
         public ActionResult PendingEnquiries()
         {
             return View(new SaleOrderRepository().GetPendingServiceEnquiries(OrganizationId));
         }
-
-
         public ActionResult PrintJob(int id)//ServiceEnquiryId is received here
         {
-
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reports"), "JobRepairOrder.rpt"));
 

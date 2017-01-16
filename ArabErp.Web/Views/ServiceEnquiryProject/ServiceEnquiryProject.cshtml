@@ -1,0 +1,244 @@
+﻿@model ArabErp.Domain.ServiceEnquiry
+@{
+    ViewBag.Title = "ServiceEnquiryProject";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .td-heading {
+        background: #676464;
+        color: white;
+    }
+
+    .td-inner-heading {
+        background: rgb(193, 193, 193);
+    }
+</style>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        if ('@Model.IsConfirmed' == '1') {
+            OnCustomerChanged('0');
+            DisableServiceEnquiryFields();
+            $('#SaleOrderDate').datepicker({ dateFormat: "dd-MM-yy" });
+        }
+        else {
+            $("#ServiceEnquiryDate").datepicker({ dateFormat: "dd-MM-yy" });
+        }
+        $('#CustomerId').combobox();
+    })
+
+    function DisableServiceEnquiryFields() {
+        $('#service-enquiry input').attr("readonly", "true");
+        $('#service-enquiry select').attr("disabled", "true");
+        $("#ServiceEnquiryDate").attr("readonly", "true");
+    }
+
+    function formValidation() {
+        var VehicleRegNo = $("#VehicleRegNo").val();
+        var VehicleChassisNo = $("#VehicleChassisNo").val();
+        if ((VehicleRegNo == VehicleChassisNo) && VehicleRegNo !== '' && VehicleChassisNo !== '') {
+            toastr.info("Vehicle Registration No. & Chassis No. should not be same");
+            return false
+        }
+        else return true;
+    }
+
+    function OnCustomerChanged(cust) {
+        //var cusId = cust.value;
+        var cusId = $('#CustomerId').val();
+        $.ajax({
+            url: "@Url.Action("GetCustomerDetailsByKey", "SaleOrder")",
+            data: { cusKey: cusId },
+            cache: false,
+            type: "GET",
+            timeout: 10000,
+            dataType: "json",
+            success: function (result) {
+                if (result.Success) {
+                    $("#CustomerAddress").val(result.Address);
+                    $("#Telephone").val(result.Telephone);
+                    $("#ContactPerson").val(result.ContactPerson);
+                    $("#CurrencyId").val(result.CurrencyId);
+                }
+            }
+        });
+    }
+
+    function QuantityChanged(row) {
+        var rate = Number($("#Items_" + row + "__Rate").val());
+        var discount = Number($("#Items_" + row + "__Discount").val());
+        $("#Items_" + row + "__Amount").val((rate - discount).toFixed(2));
+        $("#QtyAmount").val((rate - discount).toFixed(2));
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
+    function PreviousList() {
+        var url = '@Url.Action("EnquiryList")';
+        //url += "?type=0&service=1";
+        window.location = url;
+    }
+
+    function PrintEnquiry() {
+        var url = '@Url.Action("PrintJob")';
+        url += '/' + '@Model.ServiceEnquiryId';
+        window.location = url;
+    }
+    function Delete(id) {
+        var url = '@Url.Action("DeleteServiceorderList")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+
+</script>
+<div class="row">
+    <div class="form-head1">
+        <h4>
+           Job / Repair Order
+        </h4>
+    </div>
+
+    <div class="main-part pad1">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "service_estimate_form", onsubmit = "return formValidation()" }))
+        {
+            @Html.HiddenFor(m => m.SaleOrderId)
+            @Html.HiddenFor(m => m.isProjectBased)
+            @*@Html.HiddenFor(m => m.isAfterSales)*@
+            @Html.HiddenFor(m => m.isService)
+            @Html.HiddenFor(m => m.IsConfirmed)
+            @Html.HiddenFor(m => m.ServiceEnquiryId)
+            @Html.HiddenFor(m => m.CurrencyId)
+            @Html.HiddenFor(m => m.VehicleModelId)
+
+
+            <!-- this should be deleted. used only to bypass required error-->
+            @Html.HiddenFor(m => m.Items[0].ItemId)
+
+            <div class="row form-group ">
+                <div class="col-md-2">
+                    <label for="SaleOrderRefNo">Service Enquiry Ref. No.</label>
+                    @Html.TextBoxFor(m => m.ServiceEnquiryRefNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
+
+                </div>
+                <div class="col-md-2">
+                    <label for="SaleOrderDate">Date</label>
+                    @Html.TextBoxFor(m => m.ServiceEnquiryDate, Model.ServiceEnquiryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                </div>
+              
+            </div>
+
+            <div id="service-enquiry">
+                <table class="table table-responsive table-bordered">
+                    <thead>
+                        <tr>
+                            <td class="td-heading" align="center" colspan="8">
+                                <strong>CUSTOMER INFORMATION</strong>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="td-inner-heading">
+                                <strong>Name</strong>
+                            </td>
+                            <td colspan="4">
+                                @Html.DropDownListFor(m => Model.CustomerId, (SelectList)ViewBag.customerlist, "Select Customer", new
+                               {
+                                   @class = "form_input",
+                                   @onchange = "OnCustomerChanged(this)",
+                                   @placeholder = "Search for customer"
+                               })
+                            </td>
+                            <td class="td-inner-heading">
+                                <strong>Telephone</strong>
+                            </td>
+                            <td colspan="4">
+                                @Html.TextBoxFor(m => m.Telephone, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                            </td>
+                            <td class="td-inner-heading">
+                                <strong>Mobile</strong>
+                            </td>
+                            <td colspan="4">
+                                @Html.TextBoxFor(m => m.Telephone, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-inner-heading">
+                                <strong>Address</strong>
+                            </td>
+                            <td colspan="4">
+                                @Html.TextBoxFor(m => m.CustomerAddress, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                            </td>
+                            <td class="td-inner-heading">
+                                <strong>Contact Person</strong>
+                            </td>
+                      
+                        </tr>
+            
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="Complaints">Unit Details</label>
+                    @Html.TextAreaFor(m => Model.Complaints, new { @class = "form_input", @style = "height: 60px", @autocomplete = "off" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="Complaints">Customer Complaints/Requirements</label>
+                    @Html.TextAreaFor(m => Model.Complaints, new { @class = "form_input", @style = "height: 60px", @autocomplete = "off" })
+                </div>
+            </div>
+
+            @*if (Model.IsConfirmed == 1)
+            {
+                @Html.HiddenFor(m => m.CustomerId)
+                <hr />
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        <label for="SaleOrderRefNo">Service Order No.</label>
+                        @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="SaleOrderDate">Service Order Date</label>
+                        @Html.TextBoxFor(m => m.SaleOrderDate, Model.SaleOrderDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="WorkDescriptionId">Description of Work</label>
+                        @Html.DropDownListFor(x => Model.Items[0].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text",
+                  Model.Items[0].WorkDescriptionId), "Select Description of Work", new
+                        {
+                            @class = "form_input",
+                            autocomplete = "off",
+                            @placeholder = "Search for Complaint",
+                            @required = "true"
+                        })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="VehicleModelId">Vehicle Model</label>
+                        @Html.DropDownListFor(x => Model.Items[0].VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text",
+                        Model.Items[0].VehicleModelId), "Select Vehicle Model", new
+                        {
+                            @class = "form_input",
+                            autocomplete = "off",
+                            @placeholder = "Search for Vehicle Model",
+                            @required = "true"
+                        })
+                    </div>
+                    <div class="col-md-2">
+                        <label for="WorkDescriptionId">Customer Order Ref.</label>
+                        @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input" })
+                    </div>
+                </div>
+            }*@
+
+        
+        }
+    </div>
+</div>
+

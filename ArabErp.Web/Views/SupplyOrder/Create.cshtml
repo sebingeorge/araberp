@@ -11,6 +11,7 @@
         calculateSummary();
         $('#SupplierId').focus();
         $("input[id$='__ItemName']").tooltip();
+
     });
 
     function ValidateRow(index) {
@@ -28,6 +29,8 @@
         var rate = $("#SupplyOrderItems_" + row + "__Rate").val();
         var discount = $("#SupplyOrderItems_" + row + "__Discount").val();
 
+        var Discount = parseFloat($("#NetDiscount").val());
+
         if (quantity == NaN) {
             quantity = 0;
         }
@@ -44,12 +47,18 @@
         else {
             $("#SupplyOrderItems_" + row + "__Amount").val(amount.toFixed(2));
         }
+
+        var NetAmount = amount - Discount;
+
+        $("#NetAmount").val(NetAmount.toFixed(2))
         calculateSummary();
     }
 
     function calculateSummary() {
         var amount = parseFloat("0.00");
         var discount = parseFloat("0.00");
+
+        var Discount = parseFloat($("#NetDiscount").val());
 
         $('.clAmount').each(function (i, obj) {
             var a = parseFloat($("#SupplyOrderItems_" + i + "__Amount").val());
@@ -63,8 +72,11 @@
             if (!isNaN($(object).val())) discount += Number($(object).val());
         })
 
+        var NetAmount = amount - Discount;
+
         $("#QtyAmount").text(amount.toFixed(2));
         $("#discount-total").text(discount.toFixed(2));
+        $("#NetAmount").val(NetAmount.toFixed(2));
     }
 
     $(function () {

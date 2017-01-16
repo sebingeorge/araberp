@@ -23,10 +23,10 @@ namespace ArabErp.DAL
                 try
                 {
                     objSupplyOrder.SupplyOrderNo = DatabaseCommonRepository.GetNewDocNo(connection, objSupplyOrder.OrganizationId, 9, true, trn);
-                    string sql = @"insert into SupplyOrder(SupplyOrderNo,SupplyOrderDate,SupplierId,QuotaionNoAndDate,SpecialRemarks,
-                                   PaymentTerms,DeliveryTerms,RequiredDate,CreatedBy,CreatedDate,OrganizationId, CurrencyId) 
-                                   Values (@SupplyOrderNo,@SupplyOrderDate,@SupplierId,@QuotaionNoAndDate,@SpecialRemarks,@PaymentTerms,
-                                   @DeliveryTerms,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId, @CurrencyId);
+                    string sql = @"insert into SupplyOrder(SupplyOrderNo,SupplyOrderDate,SupplierId,QuotaionNoAndDate,SpecialRemarks,PaymentTerms,
+                                   DeliveryTerms,RequiredDate,CreatedBy,CreatedDate,OrganizationId,CurrencyId,NetDiscount,DiscountRemarks,NetAmount) 
+                                   Values (@SupplyOrderNo,@SupplyOrderDate,@SupplierId,@QuotaionNoAndDate,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,
+                                           @RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId, @CurrencyId,@NetDiscount,@DiscountRemarks,@NetAmount);
                                    SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = connection.Query<int>(sql, objSupplyOrder, trn).Single<int>();
@@ -225,7 +225,7 @@ namespace ArabErp.DAL
 	                                PaymentTerms,
 	                                DeliveryTerms,
 	                                RequiredDate,
-	                                CurrencyId,
+	                                CurrencyId,NetDiscount,DiscountRemarks,NetAmount,
 									@isUsed isUsed
                                 FROM SupplyOrder
                                 WHERE SupplyOrderId = @SupplyOrderId
@@ -308,9 +308,9 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @" UPDATE SupplyOrder SET SupplyOrderNo=@SupplyOrderNo,SupplyOrderDate = @SupplyOrderDate ,SupplierId = @SupplierId ,
-                                QuotaionNoAndDate = @QuotaionNoAndDate ,
-                                SpecialRemarks = @SpecialRemarks,PaymentTerms = @PaymentTerms,DeliveryTerms = @DeliveryTerms,
-                                RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,CurrencyId=@CurrencyId
+                                QuotaionNoAndDate = @QuotaionNoAndDate , SpecialRemarks = @SpecialRemarks,PaymentTerms = @PaymentTerms,
+                                DeliveryTerms = @DeliveryTerms,RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,
+                                CurrencyId=@CurrencyId,NetDiscount=@NetDiscount,DiscountRemarks=@DiscountRemarks,NetAmount=@NetAmount
                                 WHERE SupplyOrderId = @SupplyOrderId";
                 var id = connection.Execute(sql, objSupplyOrder);
                 //InsertLoginHistory(dataConnection, objSupplyOrder.CreatedBy, "Update", "LPO", id.ToString(), "0");

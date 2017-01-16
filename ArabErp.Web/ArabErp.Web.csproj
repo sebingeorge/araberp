@@ -299,6 +299,7 @@
     <Compile Include="Controllers\SalesQuotationController.cs" />
     <Compile Include="Controllers\SalesRegisterController.cs" />
     <Compile Include="Controllers\SalesTargetController.cs" />
+    <Compile Include="Controllers\ServiceEnquiryProjectController.cs" />
     <Compile Include="Controllers\ServiceRegisterController.cs" />
     <Compile Include="Controllers\StockCreationController.cs" />
     <Compile Include="Controllers\StockJournalController.cs" />
@@ -1386,6 +1387,7 @@
     <Content Include="Views\SaleOrder\CreateProject.cshtml" />
     <Content Include="Views\ProjectCompletion\_ProjectRoomAndUnitDetails.cshtml" />
     <Content Include="Views\SaleOrder\EditProject.cshtml" />
+    <Content Include="Views\ServiceEnquiryProject\ServiceEnquiryProject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
