@@ -18,9 +18,19 @@ namespace ArabErp.DAL
             {
                 IDbTransaction trn = connection.BeginTransaction();
                 int id = 0;
+                string internalId = "";
                 try
                 {
-                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCardDailyActivity.OrganizationId, 27, true, trn);
+
+                    if (objJobCardDailyActivity.isProjectBased == 1)
+                    {
+                         internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCardDailyActivity.OrganizationId, 38, true, trn);
+                    }
+                    else
+                    {
+                         internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCardDailyActivity.OrganizationId, 27, true, trn);
+                    }
+                   
                     objJobCardDailyActivity.JobCardDailyActivityRefNo = internalId.ToString();
                     string sql = @"insert  into JobCardDailyActivity (JobCardDailyActivityDate,JobCardId,JobCardDailyActivityRefNo,Remarks,EmployeeId,CreatedBy,CreatedDate,OrganizationId) 
                                                             Values (@JobCardDailyActivityDate,@JobCardId,@JobCardDailyActivityRefNo,@Remarks,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId);

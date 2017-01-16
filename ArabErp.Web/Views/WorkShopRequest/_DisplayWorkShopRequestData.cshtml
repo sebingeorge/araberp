@@ -9,7 +9,7 @@
             });
 
     function ValueChanged(row) {
-      
+        alert("HI");
         if ($("#Items_" + row + "__isAddtionalMaterialRequest").val() == 0) {
             var Actualqty = $("#Items_" + row + "__ActualQuantity").val();
             var qty = $("#Items_" + row + "__Quantity").val();
@@ -190,10 +190,16 @@
                   
                      <td>
                        
-                      @if (Model.Items[row].isAddtionalMaterialRequest == 0)
+                      @if (Model.Items[row].isAddtionalMaterialRequest == 0 && Model.EvaConUnitId==0)
                       {
                        
                         @Html.TextBoxFor(m => m.Items[row].Quantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off", @onkeyup = "ValueChanged(" + row + ");" })
+                        @Html.HiddenFor(m => m.Items[row].ActualQuantity)
+                      }
+                     else if (Model.Items[row].isAddtionalMaterialRequest == 0 && Model.EvaConUnitId > 0)
+                      {
+
+                        @Html.TextBoxFor(m => m.Items[row].Quantity, new { @class = "form_input clQuantity numbers-only", @style = "text-align:right", autocomplete = "off" })
                         @Html.HiddenFor(m => m.Items[row].ActualQuantity)
                       }
                       else
