@@ -758,6 +758,10 @@
                                                 {
                                                     <li><a href="@Url.Action("ServiceEnquiry", "SaleOrder")">Service Enquiry</a></li>
                                                 }
+                                                @if (formPermission.Find(x => x.FormId == 138) != null)
+                                                {
+                                                    <li><a href="@Url.Action("ServiceEnquiryProject", "ServiceEnquiryProject")">Service Enquiry - Project</a></li>
+                                                }
                                                 @if (formPermission.Find(x => x.FormId == 140) != null)
                                                 {
                                                     <li><a href="@Url.Action("PendingEnquiries", "SaleOrder")">Service Order</a></li>
@@ -1179,7 +1183,7 @@
                                 {
                                     <li><a href="@Url.Action("Index","ProfitabilityReport")">Job Profitability</a></li>
                                 }
-                                @if (formPermission.Find(x => x.FormId == 151) != null)
+                                @if (formPermission.Find(x => x.FormId == 152) != null)
                                 {
                                     <li><a href="@Url.Action("Index", "QuickBookExport")">Quick Book Export</a></li>
                                 }

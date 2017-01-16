@@ -87,7 +87,20 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select *,isnull(DoorNo,'') +','+ isnull(Street,'')+','+isnull(State,'') CustomerAddress,CONCAT(QuotationRefNo,' - ',CONVERT(VARCHAR(15),QuotationDate,104))QuotationNoDate,GrandTotal TotalAmount, ExpectedDeliveryDate AS EDateDelivery from SalesQuotation S inner join Customer C on S.CustomerId=C.CustomerId  where SalesQuotationId=@Id";
+                #region old query 16.1.2017 3.38p
+                //string sql = @"select *,isnull(DoorNo,'') +','+ isnull(Street,'')+','+isnull(State,'') CustomerAddress,CONCAT(QuotationRefNo,' - ',CONVERT(VARCHAR(15),QuotationDate,104))QuotationNoDate,GrandTotal TotalAmount, ExpectedDeliveryDate AS EDateDelivery from SalesQuotation S inner join Customer C on S.CustomerId=C.CustomerId  where SalesQuotationId=@Id"; 
+                #endregion
+
+                string sql = @"select *,isnull(C.DoorNo,'') +','+ isnull(C.Street,'')+','+isnull(C.State,'') CustomerAddress,
+                                CONCAT(QuotationRefNo,' - ',CONVERT(VARCHAR(15),QuotationDate,104))QuotationNoDate,
+                                GrandTotal TotalAmount, ExpectedDeliveryDate AS EDateDelivery ,
+                                SYM.SymbolName CurrencyName
+                                from SalesQuotation S 
+                                inner join Customer C on S.CustomerId=C.CustomerId 
+                                INNER JOIN Organization O ON S.OrganizationId = O.OrganizationId
+                                INNER JOIN Currency CUR ON O.CurrencyId = CUR.CurrencyId
+                                INNER JOIN Symbol SYM ON CUR.CurrencySymbolId = SYM.SymbolId
+                                where SalesQuotationId=@Id";
 
                 var objSaleOrder = connection.Query<SaleOrder>(sql, new
                 {
@@ -280,6 +293,14 @@ namespace ArabErp.DAL
 								  INNER JOIN SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
 								  INNER JOIN SaleOrderItemUnit U ON U.SaleOrderItemId=SI.SaleOrderItemId
 								  INNER JOIN  ITEM I ON I.ItemId=U.CondenserUnitId
+								  INNER JOIN Customer C ON S.CustomerId = C.CustomerId  WHERE S.OrganizationId = @OrganizationId AND ISNULL(S.isService, 0) = 0
+                                  UNION ALL
+                                  SELECT S.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106),I.ItemName, C.CustomerName,S.CustomerOrderRef,SI.SaleOrderId,SI.SaleOrderItemId,U.SaleOrderItemDoorId
+                                  ,U.DoorId,S.isProjectBased,S.EDateArrival,S.EDateDelivery,DATEDIFF(dd,S.SaleOrderDate,GETDATE ()) Ageing,
+	                              DATEDIFF(dd,GETDATE (),S.EDateDelivery)Remaindays FROM SaleOrder S 
+								  INNER JOIN SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
+								  INNER JOIN SaleOrderItemDoor U ON U.SaleOrderItemId=SI.SaleOrderItemId
+								  INNER JOIN  ITEM I ON I.ItemId=U.DoorId
 								  INNER JOIN Customer C ON S.CustomerId = C.CustomerId  WHERE S.OrganizationId = @OrganizationId AND ISNULL(S.isService, 0) = 0)T1
  
                                   SELECT * FROM #TEMP T LEFT JOIN #WORK_REQUEST WR ON T.SaleOrderItemUnitId = WR.SaleOrderItemUnitId

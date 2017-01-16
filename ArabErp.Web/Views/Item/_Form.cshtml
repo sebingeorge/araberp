@@ -195,7 +195,20 @@
                             <label for="name">Consumable</label>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="part4 col-md-4">
+                            @Html.CheckBoxFor(model => model.CondenserUnit, new { autocomplete = "off", @class = "subject-list", @onclick = "Tick()" })
+                            <label for="name">Condenser Unit</label>
+                        </div>
+                        <div class="part4 col-md-4">
+                            @Html.CheckBoxFor(model => model.EvaporatorUnit, new { autocomplete = "off", @class = "subject-list", @onclick = "Tick()" })
+                            <label for="name">Evaporator Unit</label>
+                        </div>
+                        <div class="part4 col-md-4">
+                            @Html.CheckBoxFor(model => model.Door, new { autocomplete = "off", @class = "subject-list", @onclick = "Tick()" })
+                            <label for="name">Door</label>
+                        </div>
+                    </div>
                 </div>
             </div>
 

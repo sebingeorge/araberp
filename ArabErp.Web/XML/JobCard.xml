@@ -58,13 +58,11 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>AARC/JC/16</JobCardNo>
-    <JobCardDate>12-Dec-2016</JobCardDate>
-    <SaleOrderRefNo>GK024147</SaleOrderRefNo>
-    <Unit>Thermoking V500 Max 10 24V</Unit>
-    <Customer>SANWARA FRUITS AND VEGETABLES</Customer>
-    <ChasisNo>GK024147</ChasisNo>
-    <VModel>MITSUBISHI 4.3 TON</VModel>
+    <JobCardNo>AARC/JC/17/14</JobCardNo>
+    <JobCardDate>13-Jan-2017</JobCardDate>
+    <SaleOrderRefNo />
+    <Customer>Adansa Trading</Customer>
+    <ChasisNo />
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -73,23 +71,22 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Box>100mm 4400x2100x2100mm- MITS- TCTI</Box>
-    <CreatedUser>murali</CreatedUser>
-    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\dea8370f-38e6-4433-90f4-7af7b21ecc57.jpg</CreateSignature>
-    <CreatedDes>Inventory Controller </CreatedDes>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <CreatedUser>ihits</CreatedUser>
+    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\189cc44b-477c-4717-b484-fdbd9151532c.png</CreateSignature>
+    <CreatedDes>Asst.Sales Manager</CreatedDes>
   </Head>
   <Items>
-    <TaskDate>13-Dec-2016</TaskDate>
-    <Employee>Jagath Kumara Kotuwegoda Guruge</Employee>
-    <Description>Box Fixing</Description>
-    <Hours>14.00</Hours>
+    <TaskDate>13-Jan-2017</TaskDate>
+    <Employee>Giriesh Gopi</Employee>
+    <Description>Side Guard Fitting</Description>
+    <Hours>10.00</Hours>
   </Items>
   <Items>
-    <TaskDate>14-Dec-2016</TaskDate>
-    <Employee>MANEESH MANIYAN MANIYAN</Employee>
-    <Description>Unit Fixing</Description>
-    <Hours>10.00</Hours>
+    <TaskDate />
+    <Employee />
+    <Description />
+    <Hours />
   </Items>
   <Items>
     <TaskDate />

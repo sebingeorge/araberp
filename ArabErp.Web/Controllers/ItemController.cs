@@ -45,6 +45,9 @@ namespace ArabErp.Web.Controllers
             oItem.MaxLevel = null;
             oItem.StockRequired = false;
             oItem.BatchRequired = false;
+            oItem.EvaporatorUnit = false;
+            oItem.CondenserUnit = false;
+            oItem.Door = false;
             oItem.ItemRefNo = "ITM/" + DatabaseCommonRepository.GetNextRefNoWithNoUpdate(typeof(Item).Name);
             oItem.ItemVsBom.Add(new WorkVsItem());
             oItem.ItemVsTasks.Add(new WorkVsTask());

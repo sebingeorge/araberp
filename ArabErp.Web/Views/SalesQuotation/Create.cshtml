@@ -17,6 +17,13 @@
 
 }
 
+<style type="text/css">
+    .cost-notifier{
+        float: right;
+        font-size: large;
+        margin-top: 6px;
+    }
+</style>
 
 <script>
 
@@ -877,7 +884,7 @@
                         <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                         if (Model.isProjectBased)
                         {
-                            <span id="costing-amount-notifier"></span>
+                            <span id="costing-amount-notifier" class="cost-notifier"></span>
                         }
                     }
                     else if (actionName == "CreateAfterSalesTrans")
@@ -888,7 +895,7 @@
                         <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                         if (Model.isProjectBased)
                         {
-                            <span id="costing-amount-notifier"></span>
+                            <span id="costing-amount-notifier" class="cost-notifier"></span>
                         }
 
                     }

@@ -197,12 +197,12 @@
                         @Html.HiddenFor(m=>m.isProjectBased)
                         @Html.HiddenFor(m => m.isAfterSales)
                         @Html.HiddenFor(m => m.CurrencyId)
+                        @Html.HiddenFor(m => m.TotalAmount)
                         @Html.Partial("_SaleOrderHead",Model)
                         <div id="wordescriptions">
                       
                         </div>
                      
-                        
                         @Html.Partial("_ProjectRooms", Model)
                         
                         @Html.Partial("_SaleOrderFooter", Model)
