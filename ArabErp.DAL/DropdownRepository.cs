@@ -36,6 +36,17 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
+        /// Item expt door ,evaporator and condenser
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> ItemWithoutDoorUnitDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item WHERE ISNULL(isActive, 1) = 1 and CondenserUnit=0 and EvaporatorUnit=0 and Door=0 ORDER BY ItemName").ToList();
+            }
+        }
+        /// <summary>
         /// Return all item Category that are active
         /// </summary>
         /// <returns></returns>
@@ -149,6 +160,30 @@ namespace ArabErp.DAL
             {
                 var param = new DynamicParameters();
                 return connection.Query<Dropdown>("select ItemId Id,ItemName Name from item where FreezerUnit=1 and isActive=1").ToList();
+            }
+        }
+        public List<Dropdown> FillCondenserUnit()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select ItemId Id,ItemName Name from item where CondenserUnit=1 and isActive=1").ToList();
+            }
+        }
+        public List<Dropdown> FillEvaporatorUnit()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select ItemId Id,ItemName Name from item where EvaporatorUnit=1 and isActive=1").ToList();
+            }
+        }
+        public List<Dropdown> FillDoor()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select ItemId Id,ItemName Name from item where Door=1 and isActive=1").ToList();
             }
         }
         public List<Dropdown> FillVehicle()

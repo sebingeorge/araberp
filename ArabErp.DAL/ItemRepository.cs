@@ -130,10 +130,10 @@ namespace ArabErp.DAL
 
                 string sql = @"insert  into Item(ItemRefNo,PartNo,ItemName,ItemPrintName,ItemShortName,ItemGroupId,ItemSubGroupId,
                                                 ItemCategoryId,ItemUnitId,MinLevel,ReorderLevel,MaxLevel,BatchRequired,StockRequired,
-                                                CriticalItem,FreezerUnit,Box,OrganizationId,CreatedBy,CreatedDate, isConsumable) Values
+                                                CriticalItem,FreezerUnit,Box,OrganizationId,CreatedBy,CreatedDate, isConsumable,CondenserUnit,EvaporatorUnit,Door) Values
                                                 (@ItemRefNo,@PartNo,@ItemName,@ItemPrintName,@ItemShortName,@ItemGroupId,@ItemSubGroupId,
                                                 @ItemCategoryId,@ItemUnitId,@MinLevel,@ReorderLevel,@MaxLevel,@BatchRequired,@StockRequired,
-                                                @CriticalItem,@FreezerUnit,@Box,@OrganizationId,@CreatedBy,@CreatedDate, @isConsumable);
+                                                @CriticalItem,@FreezerUnit,@Box,@OrganizationId,@CreatedBy,@CreatedDate, @isConsumable,@CondenserUnit,@EvaporatorUnit,@Door);
                                                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -231,7 +231,7 @@ namespace ArabErp.DAL
                                ItemShortName = @ItemShortName,ItemGroupId = @ItemGroupId,ItemSubGroupId = @ItemSubGroupId,
                                ItemCategoryId = @ItemCategoryId,ItemUnitId = @ItemUnitId ,MinLevel = @MinLevel,MaxLevel = @MaxLevel,
                                ReorderLevel = @ReorderLevel,BatchRequired = @BatchRequired ,StockRequired = @StockRequired,
-                               CriticalItem=@CriticalItem,FreezerUnit=@FreezerUnit,Box=@Box, isConsumable = @isConsumable OUTPUT INSERTED.ItemId  WHERE ItemId = @ItemId";
+                               CriticalItem=@CriticalItem,FreezerUnit=@FreezerUnit,Box=@Box, isConsumable = @isConsumable,CondenserUnit =@CondenserUnit,EvaporatorUnit =@EvaporatorUnit,Door =@Door OUTPUT INSERTED.ItemId  WHERE ItemId = @ItemId";
 
                 try
                 {

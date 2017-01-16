@@ -1105,14 +1105,33 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult GetRoomDetailsFromQuerySheet(int querySheetId)
         {
-            UnitDropDown();
+            FillUnitDoorUnit();
             SalesQuotation model = new SalesQuotationRepository().GetRoomDetailsFromQuerySheet(querySheetId);
             return PartialView("_ProjectRooms", model);
         }
 
-        public void UnitDropDown()
+        //public void UnitDropDown()
+        //{
+        //    ViewBag.UnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
+        //}
+        void FillUnitDoorUnit()
         {
-            ViewBag.UnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
+            CondenserDropDown();
+            EvaporatorDropDown();
+            DoorDropDown();
+
+        }
+        void CondenserDropDown()
+        {
+            ViewBag.CondenserList = new SelectList(new DropdownRepository().FillCondenserUnit(), "Id", "Name");
+        }
+        void EvaporatorDropDown()
+        {
+            ViewBag.EvaporatorList = new SelectList(new DropdownRepository().FillEvaporatorUnit(), "Id", "Name");
+        }
+        void DoorDropDown()
+        {
+            ViewBag.DoorList = new SelectList(new DropdownRepository().FillDoor(), "Id", "Name");
         }
     }
 }
