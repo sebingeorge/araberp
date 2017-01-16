@@ -40,6 +40,7 @@
         window.location = url;
     }
     function calculateSummary() {
+        var Discount = parseFloat($("#NetDiscount").val());
         var amount = parseFloat("0.00");
         $('.clAmount').each(function (i, obj) {
             var a = parseFloat($("#SupplyOrderItems_" + i + "__Amount").val());
@@ -48,7 +49,9 @@
             }
             amount = amount + a;
         });
+        var NetAmount = amount - Discount;
         $("#QtyAmount").text(amount.toFixed(2));
+        $("#NetAmount").val(NetAmount.toFixed(2))
     }
 
     function Back() {
@@ -78,6 +81,7 @@
         var quantity = $("#SupplyOrderItems_" + row + "__OrderedQty").val();
         var rate = $("#SupplyOrderItems_" + row + "__Rate").val();
         var discount = $("#SupplyOrderItems_" + row + "__Discount").val();
+        var Discount = parseFloat($("#NetDiscount").val());
 
         if (quantity == NaN) {
             quantity = 0;
@@ -89,7 +93,9 @@
             discount = 0;
         }
         var amount = (quantity * rate) - discount;
+        var NetAmount = amount - Discount;
         $("#SupplyOrderItems_" + row + "__Amount").val(amount.toFixed(2));
+        $("#NetAmount").val(NetAmount.toFixed(2));
         calculateSummary();
     }
 
