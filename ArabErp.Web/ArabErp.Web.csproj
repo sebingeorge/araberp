@@ -417,6 +417,12 @@
       <DependentUpon>ItemSellingPrice.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\JobCard_Project.cs">
+      <DependentUpon>JobCard_Project.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Reports\JobCard1.cs">
       <SubType>Component</SubType>
       <AutoGen>True</AutoGen>
@@ -1469,6 +1475,10 @@
     <EmbeddedResource Include="Reports\ItemSellingPrice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ItemSellingPrice.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\JobCard_Project.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>JobCard_Project.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\JobCard.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
