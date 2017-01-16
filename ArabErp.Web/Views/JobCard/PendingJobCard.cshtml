@@ -96,7 +96,14 @@ else
                                         @if (isProjectBased == 0)
                                         {
                                             <td class="grid-cell">@item.VehicleModelName</td>
-                                            <td class="grid-cell">@item.RegistrationNo</td>
+                                            <td>
+                                            <strong>@item.RegistrationNo</strong>
+                                             @if ((item.RegistrationNo != null && item.RegistrationNo != "") && (item.ChassisNo != null && item.ChassisNo != ""))
+                                              {
+                                             @: -
+                                              }
+                                             <strong>@item.ChassisNo</strong>
+                                           </td>
                                         }
 
                                         <td class="grid-cell">@item.CustomerName</td>

@@ -605,32 +605,34 @@ namespace ArabErp.DAL
 //                                 WHERE 
 //								 INV.OrganizationId=1 
 //                                 ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
-                string query = @"SELECT INV.SalesInvoiceId,INV.SalesInvoiceRefNo,INV.SalesInvoiceDate,
+                string query = @"SELECT DISTINCT INV.SalesInvoiceId,INV.SalesInvoiceRefNo,INV.SalesInvoiceDate,
                                 SO.SaleOrderRefNo,SO.SaleOrderDate,C.CustomerName Customer,
 
-                                STUFF((SELECT ', ' + isnull(V.RegistrationNo,'')
+                                STUFF((SELECT ', ' +  isnull(V.RegistrationNo,'')
                                 FROM  VehicleInPass V
-                                WHERE V.SaleOrderId=SO.SaleOrderId
-                                FOR XML PATH('')), 1, 1, '')RegistrationNo,
+                                WHERE V.SaleOrderItemId=INVI.SaleOrderItemId
+                                FOR XML PATH('')), 1, 1, '') RegistrationNo,
 
                                 STUFF((SELECT ', ' + isnull(V.ChassisNo,'')
                                 FROM  VehicleInPass V
-                                WHERE V.SaleOrderId=SO.SaleOrderId
-                                FOR XML PATH('')), 1, 1, '')ChassisNo,
+                                WHERE V.SaleOrderItemId=INVI.SaleOrderItemId
+                                FOR XML PATH('')), 1, 1, '')ChasisNo,
 
-                                STUFF((SELECT ', ' + isnull(D.DeliveryChallanRefNo,'')
+                                STUFF((SELECT DISTINCT ', ' + isnull(D.DeliveryChallanRefNo,'')
                                 FROM  DeliveryChallan D
                                 INNER JOIN JobCard J ON J.SaleOrderId=SO.SaleOrderId 
-                                WHERE D.JobCardId=J.JobCardId 
+                                WHERE D.JobCardId=INVI.JobCardId 
                                 FOR XML PATH('')), 1, 1, '')DeliveryChallanRefNo,
 
                                 ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
                                 FROM SalesInvoice INV
+                                INNER JOIN SalesInvoiceItem INVI ON INV.SalesInvoiceId=INVI.SalesInvoiceId
                                 INNER JOIN  SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
                                 LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
 
                                 WHERE INV.OrganizationId=1 
-                                ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
+                                ORDER BY INV.SalesInvoiceDate DESC,INV.SalesInvoiceId,INV.SalesInvoiceRefNo,
+                                SO.SaleOrderRefNo,SO.SaleOrderDate,C.CustomerName";
                 return connection.Query<SalesInvoice>(query, new
                 {
                     OrganizationId = OrganizationId,
