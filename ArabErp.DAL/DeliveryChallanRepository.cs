@@ -63,6 +63,15 @@ namespace ArabErp.DAL
                     }
                     catch (Exception) { throw new Exception(); }
                     #endregion
+
+                    #region update Registration No. to [Vehicle Inpass]
+                    if (objDeliveryChallan.isService == 0)
+                    {
+                        sql = @"UPDATE VehicleInpass SET RegistrationNo = '" + objDeliveryChallan.RegistrationNo + @"'
+                                WHERE VehicleInPassId = (SELECT VehicleInPassId FROM JobCard WHERE JobCardId = " + objDeliveryChallan.JobCardId + @")";
+                    if (connection.Execute(sql, transaction: txn) <= 0) throw new Exception();
+                    } 
+                    #endregion
                     InsertLoginHistory(dataConnection, objDeliveryChallan.CreatedBy, "Create", "Delivery Challan", id.ToString(), "0");
                     txn.Commit();
                     return objDeliveryChallan.DeliveryChallanRefNo;
@@ -487,7 +496,14 @@ namespace ArabErp.DAL
                     }
                     catch (Exception) { throw new Exception(); }
                     #endregion
-
+                    #region update Registration No. to [Vehicle Inpass]
+                    if (objDeliveryChallan.isService == 0)
+                    {
+                        sql = @"UPDATE VehicleInpass SET RegistrationNo = '" + objDeliveryChallan.RegistrationNo + @"'
+                                WHERE VehicleInPassId = (SELECT VehicleInPassId FROM JobCard WHERE JobCardId = " + objDeliveryChallan.JobCardId + @")";
+                        if (connection.Execute(sql, transaction: txn) <= 0) throw new Exception();
+                    }
+                    #endregion
                     InsertLoginHistory(dataConnection, objDeliveryChallan.CreatedBy, "Update", "Delivery Challan", objDeliveryChallan.DeliveryChallanId.ToString(), objDeliveryChallan.OrganizationId.ToString());
                     txn.Commit();
                     return id;
@@ -811,11 +827,12 @@ namespace ArabErp.DAL
 	                                    JC.isService,
 	                                    SQ.QuotationRefNo,
 	                                    SO.CustomerOrderRef,
-                                        QC.PunchingNo
+                                        QC.PunchingNo,VI.RegistrationNo
                                     FROM JobCard JC
                                     LEFT JOIN SaleOrder SO ON JC.SaleOrderId = SO.SaleOrderId
                                     LEFT JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
 									LEFT JOIN JobCardQC QC ON JC.JobCardId = QC.JobCardId
+                                    LEFT JOIN VehicleInPass VI ON VI.VehicleInPassId=JC.InPassId
                                     WHERE JC.JobCardId = " + id + @" AND JC.OrganizationId = " + OrganizationId;
                     return connection.Query<DeliveryChallan>(sql).FirstOrDefault();
                 }
