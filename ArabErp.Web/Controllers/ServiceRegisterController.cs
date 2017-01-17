@@ -27,5 +27,6 @@ namespace ArabErp.Web.Controllers
 
             return PartialView("_ServiceRegister", new ServiceRegisterRepository().GetServiceRegister(Customer));
         }
+      
     }
 }
