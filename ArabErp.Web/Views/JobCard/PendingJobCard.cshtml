@@ -71,7 +71,10 @@
                                 else
                                 {
                                     <th width="12%" title="Sale Order No. & Date"><h1>SO No. & Date</h1></th> }
-                                @if (isProjectBased == 0)
+                               
+                                <th width="10%"><h1>Workshop Req.No.</h1></th>
+
+                                 @if (isProjectBased == 0)
                                 {
                                     <th width="41%"><h1>Work Description</h1></th>
                                 }
@@ -80,6 +83,7 @@
                                     <th width="20%"><h1>Units</h1></th>
                                     <th width="20%"><h1>Doors</h1></th>
                                 }
+
                                 @if (isProjectBased == 0)
                                 {
                                     <th width="10%"><h1>Vehicle Model</h1></th>
@@ -101,6 +105,7 @@
                                 {
                                     <tr>
                                         <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
+                                        <td class="grid-cell">@item.WorkShopRequestRefNo</td>
                                         @if (isProjectBased == 0)
                                         {
                                             <td class="grid-cell">@item.WorkDescription</td>

@@ -447,6 +447,12 @@
       <DependentUpon>JobRepairOrder.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\JobRepairOrderProject.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JobRepairOrderProject.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\Material.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1499,6 +1505,10 @@
     <EmbeddedResource Include="Reports\JobRepairOrder.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>JobRepairOrder.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\JobRepairOrderProject.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>JobRepairOrderProject.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\Material.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
