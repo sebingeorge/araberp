@@ -307,6 +307,8 @@
                                 @Html.HiddenFor(m => Model.SaleInvoiceItems[i].SaleOrderItemId)
                                 @Html.HiddenFor(m => Model.SaleInvoiceItems[i].SaleOrderId)
                                 @Html.HiddenFor(m => Model.SaleInvoiceItems[i].JobCardId)
+                                @Html.HiddenFor(m => Model.SaleInvoiceItems[i].isAccessory)
+                                @Html.HiddenFor(m => Model.SaleInvoiceItems[i].ItemId)
                                 <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", placeholder = "WorkDescription", @readonly = "readonly", @tabindex = "-1" })</td>
                                 @if (Model.InvoiceType == "Final")
                                 {

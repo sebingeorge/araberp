@@ -15,13 +15,13 @@ namespace ArabErp.DAL
     {
         static string dataConnection = GetConnectionString("arab");
         public IEnumerable<JobOrderPending> GetPendingJobOrder(int? isProjectBased, int OrganizationId, int id, int cusid, string RegNo = "")
-        {
+     {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = string.Empty;
                 if ((isProjectBased ?? 0) == 0)
                 {
-                    query = @"select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, V.VehicleModelName,RegistrationNo,ChassisNo, J.isOnHold
+                    query = @"select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, V.VehicleModelName,isnull(RegistrationNo,'')RegistrationNo,isnull(ChassisNo,'')ChassisNo, J.isOnHold
                      from JobCard J
                     inner join SaleOrderItem SI on SI.SaleOrderItemId = J.SaleOrderItemId
                     inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId
@@ -35,7 +35,7 @@ namespace ArabErp.DAL
                 }
                 else
                 {
-                    query = @"select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, '' VehicleModelName,RegistrationNo,ChassisNo, J.isOnHold
+                    query = @"select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, '' VehicleModelName,isnull(RegistrationNo,'')RegistrationNo,isnull(ChassisNo,'')ChassisNo, J.isOnHold
                     from JobCard J
                     inner join SaleOrderItem SI on SI.SaleOrderItemId = J.SaleOrderItemId
                     inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId

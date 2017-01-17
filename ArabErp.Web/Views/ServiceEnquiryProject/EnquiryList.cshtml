@@ -1,31 +1,24 @@
 ﻿@model IList<ArabErp.Domain.ServiceEnquiry>
-
 @{
-    ViewBag.Title = "Pending Enquiries";
+    ViewBag.Title = "Enquiry List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script type="text/javascript">
     function OnItemSelected(id) {
-        var url = '@Url.Action("ServiceOrder")';
+        var url = '@Url.Action("EditEnquiry")';
         url += "/" + id;
         window.location = url;
     }
     function Exit() {
-        var url = '@Url.Action("Index", "Home")';
-        window.location = url;
-    }
-    function PreviousList() {
-        var url = '@Url.Action("ServiceOrderList")';
-        url += "?isProjectBased=0";
-        window.location = url;
+        location.href = '@Url.Action("ServiceEnquiry")';
     }
 </script>
 
 <div class="row">
 
     <div class="form-head1">
-        <h4>Pending Enquiries</h4>
+        <h4>Enquiry List</h4>
     </div>
 
     <div class="main-part pad1">
@@ -36,29 +29,24 @@
                         <thead>
                             <tr class="grid_heading">
                                 <th width="1%" class="text-center">#</th>
-                                <th width="12%" nowrap><h1>Service Enquiry No. & Date</h1></th>
+                                <th width="12%" nowrap><h1>Service Enquiry No.</h1></th>
+                                <th width="12%" nowrap><h1>Service Enquiry Date</h1></th>
                                 <th width="12%"><h1>Customer</h1></th>
-                                <th width="12%"><h1>Vehicle Make</h1></th>
-                                <th width="12%"><h1>Box Make</h1></th>
-                                <th width="12%"><h1>Reefer Make</h1></th>
-                                <th width="12%"><h1>Tail Lift Make</h1></th>
                                 <th width="1%"><center><h1></h1></center></th>
                             </tr>
                         </thead>
                         <tbody class="grid_row">
                             @if (Model.Count() > 0)
                             {
-                                int i=0;
+                                int i = 0;
                                 foreach (var item in Model)
                                 {
                                     <tr>
                                         <td align="center">@(++i)</td>
-                                        <td>@item.ServiceEnquiryRefNo - @item.ServiceEnquiryDate.ToString("dd/MMMM/yyyy")</td>
+                                        <td>@item.ServiceEnquiryRefNo</td>
+                                        <td>@item.ServiceEnquiryDate.ToString("dd/MMMM/yyyy")</td>
                                         <td>@item.CustomerName</td>
-                                        <td>@item.VehicleMake</td>
-                                        <td>@item.BoxMake</td>
-                                        <td>@item.FreezerMake</td>
-                                        <td>@item.TailLiftMake</td>
+                                        
                                         <td>
                                             <input type="button" class="form-button5" value="Select" onclick="OnItemSelected(@item.ServiceEnquiryId)" />
                                         </td>
@@ -85,11 +73,12 @@
 
         <div class="row">
             <div class="col-md-12 hrpart">
-                <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
+                @*<input type="button" class="form-button" onclick="PreviousList()" value="Previous">*@
                 <input type="button" class="form-button right" onclick="Exit()" value="Exit">
             </div>
         </div>
     </div>
 
 </div>
+
 

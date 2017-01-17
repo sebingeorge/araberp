@@ -1,4 +1,5 @@
-﻿@model IList<ArabErp.Domain.ServiceEnquiry>
+﻿
+@model IList<ArabErp.Domain.ServiceEnquiry>
 
 @{
     ViewBag.Title = "Pending Enquiries";
@@ -17,7 +18,7 @@
     }
     function PreviousList() {
         var url = '@Url.Action("ServiceOrderList")';
-        url += "?isProjectBased=0";
+        url += "?isProjectBased=1";
         window.location = url;
     }
 </script>
@@ -27,7 +28,6 @@
     <div class="form-head1">
         <h4>Pending Enquiries</h4>
     </div>
-
     <div class="main-part pad1">
         <div class="row">
             <div class="main-grid main-grid-top scroll1">
@@ -36,29 +36,24 @@
                         <thead>
                             <tr class="grid_heading">
                                 <th width="1%" class="text-center">#</th>
-                                <th width="12%" nowrap><h1>Service Enquiry No. & Date</h1></th>
+                                <th width="12%" nowrap><h1>Service Enquiry No.</h1></th>
+                                <th width="12%" nowrap><h1>Service Enquiry Date</h1></th>
                                 <th width="12%"><h1>Customer</h1></th>
-                                <th width="12%"><h1>Vehicle Make</h1></th>
-                                <th width="12%"><h1>Box Make</h1></th>
-                                <th width="12%"><h1>Reefer Make</h1></th>
-                                <th width="12%"><h1>Tail Lift Make</h1></th>
                                 <th width="1%"><center><h1></h1></center></th>
                             </tr>
                         </thead>
                         <tbody class="grid_row">
                             @if (Model.Count() > 0)
                             {
-                                int i=0;
+                                int i = 0;
                                 foreach (var item in Model)
                                 {
                                     <tr>
                                         <td align="center">@(++i)</td>
-                                        <td>@item.ServiceEnquiryRefNo - @item.ServiceEnquiryDate.ToString("dd/MMMM/yyyy")</td>
+                                        <td>@item.ServiceEnquiryRefNo</td>
+                                        <td>@item.ServiceEnquiryDate.ToString("dd/MMMM/yyyy")</td>
                                         <td>@item.CustomerName</td>
-                                        <td>@item.VehicleMake</td>
-                                        <td>@item.BoxMake</td>
-                                        <td>@item.FreezerMake</td>
-                                        <td>@item.TailLiftMake</td>
+                                       
                                         <td>
                                             <input type="button" class="form-button5" value="Select" onclick="OnItemSelected(@item.ServiceEnquiryId)" />
                                         </td>
@@ -77,12 +72,10 @@
                     </table>
                 </div>
             </div>
-
             <div class="row-count1">
                 <h5>Row Count:- @Model.Count()</h5>
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-12 hrpart">
                 <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
@@ -90,6 +83,6 @@
             </div>
         </div>
     </div>
-
 </div>
+
 

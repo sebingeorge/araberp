@@ -79,7 +79,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 IDbTransaction txn = connection.BeginTransaction();
-                string sql = @"UPDATE SalesInvoice SET SalesInvoiceRefNo=@SalesInvoiceRefNo,SalesInvoiceDate = @SalesInvoiceDate ,
+                string sql = @"UPDATE SalesInvoice SET SalesInvoiceDate = @SalesInvoiceDate,
                                SalesInvoiceDueDate=@SalesInvoiceDueDate,SaleOrderId=@SaleOrderId,SpecialRemarks=@SpecialRemarks,
                                PaymentTerms = @PaymentTerms,Addition=@Addition,Deduction=@Deduction,AdditionRemarks=@AdditionRemarks,
                                DeductionRemarks=@DeductionRemarks,InvoiceType=@InvoiceType,isProjectBased=@isProjectBased,
@@ -149,7 +149,8 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    string query = @"DELETE FROM SalesInvoiceItem WHERE SalesInvoiceId=@Id;
+                    string query = @"DELETE FROM SalesInvoiceAccessory WHERE SalesInvoiceId = @Id;
+                                     DELETE FROM SalesInvoiceItem WHERE SalesInvoiceId=@Id;
                                      DELETE FROM SalesInvoice OUTPUT deleted.SalesInvoiceRefNo WHERE SalesInvoiceId=@Id;";
                     string output = connection.Query<string>(query, new { Id = Id }, txn).First();
                     txn.Commit();
@@ -267,7 +268,7 @@ namespace ArabErp.DAL
 							R.SaleOrderItemId SaleOrderItemId,R.Quantity Quantity,R.Rate Rate,r.Amount Amount,C.CustomerName,
                             CONCAT(V.VehicleModelName,'',VehicleModelDescription)
 							VehicleModelName,R.WorkDescr WorkDescription,R.JobCardNo JobCardNo, 
-							CONVERT(VARCHAR, R.JobCardDate, 106)JobCardDate,VIP.RegistrationNo,VIP.ChassisNo, DC.DeliveryChallanRefNo,
+							CONVERT(VARCHAR, R.JobCardDate, 106)JobCardDate,isnull(VIP.RegistrationNo,'')RegistrationNo,isnull(VIP.ChassisNo,'')ChassisNo, DC.DeliveryChallanRefNo,
 							CONVERT(VARCHAR, DC.DeliveryChallanDate, 106)DeliveryChallanDate FROM #RESULT R 
 							LEFT JOIN Customer C ON C.CustomerId=R.CustomerId
                             LEFT JOIN VehicleModel V ON R.VehicleModelId=V.VehicleModelId
@@ -679,14 +680,32 @@ namespace ArabErp.DAL
             {
 
                 string sql = @" select SI.SalesInvoiceId,SI.SaleOrderItemId,SI.JobCardId,W.WorkDescr WorkDescription,SI.Quantity QuantityTxt,
-                                SI.Rate,SI.Discount,SI.Amount,/*U.UnitName*/'No(s)' Unit,V.VehicleModelName from SalesInvoiceItem SI 
+                                SI.Rate,SI.Discount,SI.Amount,/*U.UnitName*/'No(s)' Unit,V.VehicleModelName, 0 isAccessory, 0 ItemId from SalesInvoiceItem SI 
                                 inner join SaleOrderItem S ON S.SaleOrderItemId=SI.SaleOrderItemId
                                 inner join WorkDescription W ON W.WorkDescriptionId=S.WorkDescriptionId
                                 left join Unit U ON U.UnitId=S.UnitId
                                 left join VehicleModel V ON V.VehicleModelId=W.VehicleModelId
-                                WHERE SalesInvoiceId= @Id";
+                                WHERE SalesInvoiceId= @Id
 
+                                UNION ALL
 
+                                SELECT
+	                                ACC.SalesInvoiceId,
+	                                0 SaleOrderItemId,
+	                                0 JobCardId,
+	                                I.ItemName WorkDescription,
+	                                ACC.Quantity QuantityTxt,
+	                                ACC.Rate,
+	                                ACC.Discount,
+	                                ACC.Amount,
+	                                U.UnitName Unit,
+	                                '' VehicleModelName,
+	                                1 isAccessory,
+	                                I.ItemId
+                                FROM SalesInvoiceAccessory ACC
+                                INNER JOIN Item I ON ACC.ItemId = I.ItemId
+                                INNER JOIN Unit U ON I.ItemUnitId = U.UnitId
+                                WHERE SalesInvoiceId = @Id";
                 var objInvoiceItem = connection.Query<SalesInvoiceItem>(sql, new { Id = Id }).ToList<SalesInvoiceItem>();
 
                 return objInvoiceItem;

@@ -243,7 +243,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string qry = @"select VehicleInPassId,VehicleInPassNo,VehicleInPassDate,SaleOrderRefNo,SaleOrderDate,RegistrationNo,CustomerName from VehicleInPass V
+                string qry = @"select VehicleInPassId,VehicleInPassNo,VehicleInPassDate,SaleOrderRefNo,SaleOrderDate,isnull(RegistrationNo,'')RegistrationNo,isnull(ChassisNo,'')ChassisNo,CustomerName from VehicleInPass V
                                inner join SaleOrder S ON S.SaleOrderId=V.SaleOrderId
                                inner join Customer C ON C.CustomerId=S.CustomerId where V.isActive=1 and V.OrganizationId = @OrganizationId and  V.VehicleInPassId = ISNULL(NULLIF(@id, 0), V.VehicleInPassId)
                                and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId) AND V.VehicleInPassDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
@@ -260,7 +260,7 @@ namespace ArabErp.DAL
             {
                 string sql = @" SELECT VehicleInPassId,VehicleInPassNo,VehicleInPassDate,C.CustomerName,
                                 CONCAT(S.SaleOrderRefNo,' - ',convert(varchar(15),S.SaleOrderDate,106))SONODATE,
-                                VM.VehicleModelName,W.WorkDescr,RegistrationNo,EmployeeName,V.Remarks,E.EmployeeId,
+                                VM.VehicleModelName,W.WorkDescr,RegistrationNo,ChassisNo,EmployeeName,V.Remarks,E.EmployeeId,
                                 S.SaleOrderId,SI.SaleOrderItemId,ISNULL(J.InPassId,0)InPassId
                                 FROM VehicleInPass V
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=V.SaleOrderId

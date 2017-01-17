@@ -202,7 +202,7 @@ namespace ArabErp.Web.Controllers
 
             var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId, isProjectBased, saleOrder.Trim());
 
-
+            ViewBag.ProjectBased = isProjectBased;
 
             return PartialView("_PendingGrid", slist);
         }
