@@ -83,6 +83,17 @@
     <Employee>Giriesh Gopi</Employee>
     <PaymentTerms>Net 60</PaymentTerms>
     <QuotationRefNo>AARC/SQ/1</QuotationRefNo>
+    <SaleRefNo>AARC/SO/TR/17/3</SaleRefNo>
+    <SONoDate>03 Jan 2017</SONoDate>
+    <JobcardNo>AARC/JC/17/13</JobcardNo>
+    <JCDate>13-Jan-2017 12:00:00 AM</JCDate>
+    <RegistrationNo>45</RegistrationNo>
+    <ChassisNo>0</ChassisNo>
+    <WorkDesc>Thermoking T600-R + 100mm 4400x2100x2100 PUB Mit - BAM With Out Side Door</WorkDesc>
+    <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
+    <Employee> Anoop</Employee>
+    <PaymentTerms>100% before Delivery</PaymentTerms>
+    <QuotationRefNo>AARC/SQ/17/3</QuotationRefNo>
     <FreezerName>Thermoking T600-R</FreezerName>
     <FreezerPartNo />
     <BoxName>2969</BoxName>
@@ -99,12 +110,21 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <LPONo>SQ17/HAIDARI/14/01/2017</LPONo>
+    <LPODate>03-Jan-2017</LPODate>
     <LPONo>SQ 1/JAIDAH/26/11/16</LPONo>
     <LPODate>30-Nov-2016</LPODate>
     <CreatedUser>ihits</CreatedUser>
+    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\653cff6f-9f0e-468b-89d4-036474109cc7.jpg</CreateSignature>
+    <ApprovedUsersig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\653cff6f-9f0e-468b-89d4-036474109cc7.jpg</ApprovedUsersig>
     <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\653cff6f-9f0e-468b-89d4-036474109cc7.jpg</CreateSignature>
     <ApprovedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
   </Head>
+  <Items>
+    <Description>test print</Description>
+    <UoM>nos</UoM>
+    <Quantity>10</Quantity>
+  </Items>
 </NewDataSet>

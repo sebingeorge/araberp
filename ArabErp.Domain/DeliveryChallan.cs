@@ -70,7 +70,7 @@ namespace ArabErp.Domain
         public string CreatedUsersig { get; set; }
         public string ApprovedUsersig { get; set; }
         public string printdes { get; set; }
-    
+        public bool StoreIssued { get; set; }
         public List<ItemBatch> ItemBatches { get; set; }
 
         public string SaleOrderRefNo { get; set; }
