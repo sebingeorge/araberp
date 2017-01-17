@@ -609,15 +609,15 @@ namespace ArabErp.DAL
                 string query = @"SELECT DISTINCT INV.SalesInvoiceId,INV.SalesInvoiceRefNo,INV.SalesInvoiceDate,
                                 SO.SaleOrderRefNo,SO.SaleOrderDate,C.CustomerName Customer,
 
-                                STUFF((SELECT ', ' +  isnull(V.RegistrationNo,'')
+                                STUFF((SELECT ', ' +  isnull(V.RegistrationNo,'')+ CASE WHEN ISNULL(V.RegistrationNo, '') <> '' AND ISNULL(V.ChassisNo, '') <> '' THEN ' - ' ELSE '' END + ISNULL(V.ChassisNo, '') 
                                 FROM  VehicleInPass V
                                 WHERE V.SaleOrderItemId=INVI.SaleOrderItemId
                                 FOR XML PATH('')), 1, 1, '') RegistrationNo,
 
-                                STUFF((SELECT ', ' + isnull(V.ChassisNo,'')
-                                FROM  VehicleInPass V
-                                WHERE V.SaleOrderItemId=INVI.SaleOrderItemId
-                                FOR XML PATH('')), 1, 1, '')ChasisNo,
+                              -- STUFF((SELECT ', ' + isnull(V.ChassisNo,'')
+                               --FROM  VehicleInPass V
+                              -- WHERE V.SaleOrderItemId=INVI.SaleOrderItemId
+                              -- FOR XML PATH('')), 1, 1, '')ChasisNo,
 
                                 STUFF((SELECT DISTINCT ', ' + isnull(D.DeliveryChallanRefNo,'')
                                 FROM  DeliveryChallan D
