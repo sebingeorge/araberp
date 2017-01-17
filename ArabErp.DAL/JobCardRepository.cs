@@ -104,17 +104,17 @@ namespace ArabErp
 								STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName FROM SaleOrderItemUnit T1
 									LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
 									LEFT JOIN Item T3 ON T1.EvaporatorUnitId = T3.ItemId
-									WHERE T1.SaleOrderItemId = SI.SaleOrderItemId), 1, 2, '') Units,
+									WHERE T1.SaleOrderItemId = SI.SaleOrderItemId FOR XML PATH('')), 1, 2, '') Units,
 								STUFF((SELECT ', ' + T2.ItemName FROM SaleOrderItemDoor T1
 									INNER JOIN Item T2 ON T1.DoorId = T2.ItemId
-									WHERE T1.SaleOrderItemId = SI.SaleOrderItemId), 1, 2, '') Doors
+									WHERE T1.SaleOrderItemId = SI.SaleOrderItemId FOR XML PATH('')), 1, 2, '') Doors
                             FROM SaleOrder S 
                             INNER JOIN Customer C ON S.CustomerId = C.CustomerId
                             INNER JOIN SaleOrderItem SI ON SI.SaleOrderId = S.SaleOrderId
 
-                            WHERE SI.SaleOrderItemId = " + SoItemId.ToString();
+                            WHERE SI.SaleOrderItemId = @id";// +SoItemId.ToString();
                 }
-                JobCard jobcard = connection.Query<JobCard>(query).FirstOrDefault();
+                JobCard jobcard = connection.Query<JobCard>(query, new { id = SoItemId }).FirstOrDefault();
                 return jobcard;
             }
         }
@@ -580,10 +580,10 @@ namespace ArabErp
 					STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName FROM SaleOrderItemUnit T1
 						LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
 						LEFT JOIN Item T3 ON T1.EvaporatorUnitId = T3.ItemId
-						WHERE T1.SaleOrderItemId = SI.SaleOrderItemId), 1, 2, '') Units,
+						WHERE T1.SaleOrderItemId = SI.SaleOrderItemId FOR XML PATH('')), 1, 2, '') Units,
 					STUFF((SELECT ', ' + T2.ItemName FROM SaleOrderItemDoor T1
 						INNER JOIN Item T2 ON T1.DoorId = T2.ItemId
-						WHERE T1.SaleOrderItemId = SI.SaleOrderItemId), 1, 2, '') Doors
+						WHERE T1.SaleOrderItemId = SI.SaleOrderItemId FOR XML PATH('')), 1, 2, '') Doors
                     
                     from SaleOrder S inner join Customer C on S.CustomerId = C.CustomerId
                     inner join SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId

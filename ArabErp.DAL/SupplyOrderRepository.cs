@@ -555,12 +555,16 @@ namespace ArabErp.DAL
             {
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
-                    string query = @"SELECT O.*,SU.DoorNo SupDoorNo,Su.State SupState,SU.Phone SupPhone,SU.Fax SupFax,Su.Email SupEmail,SU.PostBoxNo SupPostBoxNo, CU.CountryName SupCountryName,
-                                    SupplyOrderId,SupplyOrderNo,SU.SupplierName,CONVERT(DATETIME, SupplyOrderDate, 106) SupplyOrderDate,
-	                                QuotaionNoAndDate,SpecialRemarks,S.PaymentTerms,DeliveryTerms,RequiredDate,CurrencyName,U.UserName CreatedUser,
-								    U.Signature CreatedUsersig ,D.DesignationName CreatedDes,DU.DesignationName ApprovedDes,UI.UserName ApprovedUser ,
-								    UI.Signature ApprovedUsersig,ORR.CountryName,NetDiscount,NetAmount 
+                    string query = @"SELECT O.*,SU.DoorNo SupDoorNo,Su.State SupState,SU.Phone SupPhone,SU.Fax SupFax,Su.Email SupEmail,
+                                    SU.PostBoxNo SupPostBoxNo, CU.CountryName SupCountryName,
+                                    S.SupplyOrderId,SupplyOrderNo,SU.SupplierName,CONVERT(DATETIME, SupplyOrderDate, 106) SupplyOrderDate,
+                                    QuotaionNoAndDate,SpecialRemarks,S.PaymentTerms,DeliveryTerms,RequiredDate,CurrencyName,U.UserName CreatedUser,
+                                    U.Signature CreatedUsersig ,D.DesignationName CreatedDes,DU.DesignationName ApprovedDes,UI.UserName ApprovedUser ,
+                                    UI.Signature ApprovedUsersig,ORR.CountryName, 
+                                    Sum(ISNULL(SI.Amount,0))Amount,ISNULL(NetDiscount,0)NetDiscount,
+                                    (Sum(ISNULL(SI.Amount,0))-ISNULL(NetDiscount,0))NetAmount 
                                    FROM SupplyOrder S
+                                   INNER JOIN SupplyOrderItem SI ON SI.SupplyOrderId=S.SupplyOrderId
 								   INNER JOIN Supplier SU ON SU.SupplierId=S.SupplierId
 							       INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
 								   left JOIN Currency C ON C.CurrencyId=S.CurrencyId
@@ -570,8 +574,15 @@ namespace ArabErp.DAL
 								   left join Designation D ON D.DesignationId=U.DesignationId
 								   left join [User] UI ON UI.UserId=S.ApprovedBy
 								   left join Designation DU ON DU.DesignationId=UI.DesignationId
-                                   WHERE SupplyOrderId = @SupplyOrderId
-	                               AND ISNULL(S.isActive, 1) = 1;";
+                                   WHERE S.SupplyOrderId = @SupplyOrderId
+	                               AND ISNULL(S.isActive, 1) = 1
+                                   GROUP BY O.OrganizationId,O.OrganizationName,O.isActive,O.CurrencyId,O.OrganizationRefNo,O.FyId,
+                                   O.DoorNo,O.Street,O.State,O.Country,O.Phone,O.Fax,O.Email,O.ContactPerson,O.Zip,O.Image1,O.cmpCode,
+                                   SU.DoorNo,Su.State,SU.Phone,SU.Fax ,Su.Email,
+                                   SU.PostBoxNo,CU.CountryName,
+                                   S.SupplyOrderId,SupplyOrderNo,SU.SupplierName,SupplyOrderDate,
+                                   QuotaionNoAndDate,SpecialRemarks,S.PaymentTerms,DeliveryTerms,RequiredDate,CurrencyName,U.UserName,
+                                   U.Signature,D.DesignationName,DU.DesignationName,UI.UserName,UI.Signature,ORR.CountryName,NetDiscount,NetAmount;";
 
                     var objSupplyOrder = connection.Query<SupplyOrder>(query, new
                     {
