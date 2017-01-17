@@ -97,7 +97,10 @@
                             @Html.HiddenFor(m => m.SaleOrderItemId)
                             @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input", autocomplete = "off" })
                         </div>
-
+                        <div class="col-md-2">
+                            <label>Chassis No.</label>
+                            @Html.TextBoxFor(m => m.ChassisNo, new { @class = "form_input", autocomplete = "off" })
+                        </div>
                         <div class="col-md-4">
                             <label>Employee</label>
                             @Html.DropDownListFor(m => m.EmployeeId, (SelectList)ViewBag.employeeList, "Select Employee", new { @class = "form_input" })
