@@ -420,7 +420,8 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("SupPostBoxNo");
             ds.Tables["Head"].Columns.Add("CreatedDes");
             ds.Tables["Head"].Columns.Add("ApproveDes");
-
+            ds.Tables["Head"].Columns.Add("NetDiscount");
+            ds.Tables["Head"].Columns.Add("NetAmount");
 
 
             //-------DT
@@ -478,7 +479,9 @@ namespace ArabErp.Web.Controllers
             dr["SupFax"] = Head.SupFax;
             dr["SupEmail"] = Head.SupEmail;
             dr["SupPostBoxNo"] = Head.SupPostBoxNo;
-       
+            dr["NetDiscount"] = Head.NetDiscount;
+            dr["NetAmount"] = Head.NetAmount;
+
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             ds.Tables["Head"].Rows.Add(dr);

@@ -100,7 +100,8 @@ namespace ArabErp.Domain
         public string VehicleModelName { get; set; }
         public int SaleOrderItemUnitId { get; set; }
         public int EvaporatorUnitId { get; set; }
-        
+        public string RegistrationNo { get; set; }
+        public string ChassisNo { get; set; }
         
         public List<QuerySheetItem> ProjectRooms { get; set; }
     }

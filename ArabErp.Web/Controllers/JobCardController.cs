@@ -238,7 +238,6 @@ namespace ArabErp.Web.Controllers
         {
 
             ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "JobCard.rpt"));
 
             DataSet ds = new DataSet();
             ds.Tables.Add("Head");
@@ -369,6 +368,10 @@ namespace ArabErp.Web.Controllers
                 }
             }
 
+            if (Head.isProjectBased == 0)
+                rd.Load(Path.Combine(Server.MapPath("~/Reports"), "JobCard.rpt"));
+            else rd.Load(Path.Combine(Server.MapPath("~/Reports"), "JobCard_Project.rpt"));
+
             ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "JobCard.xml"), XmlWriteMode.WriteSchema);
 
             rd.SetDataSource(ds);
@@ -376,8 +379,6 @@ namespace ArabErp.Web.Controllers
             Response.Buffer = false;
             Response.ClearContent();
             Response.ClearHeaders();
-
-
             try
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
@@ -386,7 +387,7 @@ namespace ArabErp.Web.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
