@@ -1239,7 +1239,7 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("JobRepairOrder{0}.pdf", id.ToString()));
+                return File(stream, "application/pdf");
             }
             catch (Exception ex)
             {
