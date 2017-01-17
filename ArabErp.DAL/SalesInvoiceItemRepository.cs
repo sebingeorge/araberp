@@ -91,7 +91,8 @@ namespace ArabErp.DAL
 
                     string sql = @"SELECT * INTO #SaleOrderItem FROM SaleOrderItem WHERE SaleOrderId=@SaleOrderId AND SaleOrderItemId IN (@SaleOrderItemIdList)
                                     SELECT s.SaleOrderId SaleOrderId,S.SaleOrderItemId SaleOrderItemId, W.WorkDescr WorkDescription, V.VehicleModelName, 
-                                    S.Quantity QuantityTxt,U.UnitName Unit,S.Rate Rate,S.Discount Discount,S.Amount Amount,j.JobCardId JobCardId
+                                    S.Quantity QuantityTxt,U.UnitName Unit,S.Rate Rate,S.Discount Discount,S.Amount Amount,j.JobCardId JobCardId,
+                                    0 isAccessory, 0 ItemId
                                     FROM #SaleOrderItem S LEFT JOIN Unit U on S.UnitId=U.UnitId
                                     LEFT JOIN WorkDescription W on S.WorkDescriptionId=W.WorkDescriptionId
                                     Left JOIN VehicleModel V on S.VehicleModelId=V.VehicleModelId
@@ -109,7 +110,9 @@ namespace ArabErp.DAL
 	                                    SOM.Rate,
 	                                    SOM.Discount,
 	                                    ((ISNULL(SII.IssuedQuantity, 0) * ISNULL(SOM.Rate, 0)) - ISNULL(SOM.Discount, 0))Amount,
-	                                    JC.JobCardId
+	                                    JC.JobCardId,
+                                        1 isAccessory,
+                                        I.ItemId
                                     FROM WorkShopRequest WR
                                     INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
                                     INNER JOIN SaleOrderMaterial SOM ON WRI.ItemId = SOM.ItemId AND SOM.SaleOrderId = @SaleOrderId
@@ -140,10 +143,16 @@ namespace ArabErp.DAL
         {
             try
             {
-
-                string sql = @"INSERT INTO SalesInvoiceItem(SalesInvoiceId,SaleOrderItemId,JobCardId,Quantity,Rate,Discount,Amount) VALUES (@SalesInvoiceId,@SaleOrderItemId,@JobCardId,@QuantityTxt,@Rate,@Discount,@Amount);
+                string sql;
+                if (!objSalesInvoiceItem.isAccessory)
+                    sql = @"INSERT INTO SalesInvoiceItem(SalesInvoiceId,SaleOrderItemId,JobCardId,Quantity,Rate,Discount,Amount) VALUES (@SalesInvoiceId,@SaleOrderItemId,@JobCardId,@QuantityTxt,@Rate,@Discount,@Amount);
                                     SELECT CAST(SCOPE_IDENTITY() as int) ";
-
+                else
+                    sql = @"INSERT INTO SalesInvoiceAccessory
+                            (SalesInvoiceId, ItemId, Quantity, Rate, Discount, Amount)
+                            VALUES
+                            (@SalesInvoiceId, @ItemId, @QuantityTxt, @Rate, @Discount, @Amount);
+                            SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
                 var id = connection.Query<int>(sql, objSalesInvoiceItem, trn).Single();
                 return id;
@@ -175,7 +184,8 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    string query = @"Delete SalesInvoiceItem  OUTPUT DELETED.SalesInvoiceId WHERE SalesInvoiceId=@SalesInvoiceId;";
+                    string query = @"DELETE FROM SalesInvoiceAccessory WHERE SalesInvoiceId = @SalesInvoiceId;
+                                    Delete SalesInvoiceItem  OUTPUT DELETED.SalesInvoiceId WHERE SalesInvoiceId=@SalesInvoiceId;";
                     string output = connection.Query<string>(query, new { SalesInvoiceId = SalesInvoiceId }, txn).First();
                     txn.Commit();
                     return output;
