@@ -630,7 +630,7 @@ namespace ArabErp.DAL
                                 INNER JOIN  SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
                                 LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
 
-                                WHERE INV.OrganizationId=1 AND INV.SalesInvoiceDate >= @from AND INV.SalesInvoiceDate <= @to
+                                WHERE INV.OrganizationId=@OrganizationId AND INV.SalesInvoiceDate >= @from AND INV.SalesInvoiceDate <= @to
                                 AND INV.SalesInvoiceId=ISNULL(NULLIF(@id, 0),INV.SalesInvoiceId)
                                 ORDER BY INV.SalesInvoiceDate DESC,INV.SalesInvoiceId,INV.SalesInvoiceRefNo,
                                 SO.SaleOrderRefNo,SO.SaleOrderDate,C.CustomerName";
