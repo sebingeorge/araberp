@@ -631,7 +631,7 @@ namespace ArabErp.DAL
                                 LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
 
                                 WHERE INV.OrganizationId=1 AND INV.SalesInvoiceDate >= @from AND INV.SalesInvoiceDate <= @to
-                                AND INV.SalesInvoiceId=ISNULL(NULLIF(@id, 0),INV.SalesInvoiceId
+                                AND INV.SalesInvoiceId=ISNULL(NULLIF(@id, 0),INV.SalesInvoiceId)
                                 ORDER BY INV.SalesInvoiceDate DESC,INV.SalesInvoiceId,INV.SalesInvoiceRefNo,
                                 SO.SaleOrderRefNo,SO.SaleOrderDate,C.CustomerName";
                 return connection.Query<SalesInvoice>(query, new
