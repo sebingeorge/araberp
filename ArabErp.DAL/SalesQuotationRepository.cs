@@ -725,6 +725,7 @@ namespace ArabErp.DAL
                 try
                 {
                     #region saving quotation head [SalesQuotation]
+                    model.QuotationRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 2, true, txn);
                     string sql = @"insert  into SalesQuotation(QuotationRefNo,QuotationDate,CustomerId,ContactPerson,SalesExecutiveId,PredictedClosingDate,
                                     QuotationValidToDate,ExpectedDeliveryDate,IsQuotationApproved,ApprovedBy,TotalWorkAmount,TotalMaterialAmount,GrandTotal,CurrencyId,QuotationStatus,Remarks,SalesQuotationStatusId,
                                     QuotationStage,Competitors,PaymentTerms,DiscountRemarks,CreatedBy,CreatedDate,OrganizationId,isProjectBased,isAfterSales,QuerySheetId,isWarranty, ProjectCompletionId, DeliveryChallanId, Discount, DeliveryTerms)
