@@ -429,6 +429,8 @@ namespace ArabErp.Web.Controllers
             salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(SalesQuotationId);
             salesquotation.Materials = repo.GetSalesQuotationMaterials(SalesQuotationId);
+            //FillUnitDoorUnit();
+            //salesquotation.ProjectRooms = new SaleOrderRepository().GetRoomDetailsFromQuotation(SalesQuotationId);
             ViewBag.SubmitAction = "Approve";
             return View("Create", salesquotation);
         }

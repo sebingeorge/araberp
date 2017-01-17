@@ -18,7 +18,7 @@
 }
 
 <style type="text/css">
-    .cost-notifier{
+    .cost-notifier {
         float: right;
         font-size: large;
         margin-top: 6px;
@@ -46,19 +46,19 @@
         @if (actionName == "Create")
         {
            @: url += "?ProjectBased=0" + "&AfterSales=0";
-                                                                }
+                                                                        }
         else if (actionName == "CreateProject")
         {
             @: url += "?ProjectBased=1" + "&AfterSales=0";;
-                                                                }
+                                                                        }
         else if (actionName == "CreateAfterSalesTrans")
         {
             @: url += "?ProjectBased=0" + "&AfterSales=1";;
-                                                                }
+                                                                        }
         else if (actionName == "CreateAfterSalesProject")
            {
                @: url += "?ProjectBased=1" + "&AfterSales=1";;
-                                                                   }
+                                                                           }
         window.location = url;
 
     }
@@ -86,8 +86,8 @@
         @if (Model.isAfterSales)
         {
             @: $("#CustomerId").val(@Model.CustomerId);
-                                                    @: $("#CustomerId").trigger("onchange");
-                                                }
+                                                            @: $("#CustomerId").trigger("onchange");
+                                                        }
     });
     function CustomerChanged(cust) {
         var cusId = cust.value;
@@ -123,7 +123,12 @@
         @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
         {
             @:removeOnChange();
-                                }
+                                        }
+
+        @if (Model.isProjectBased && actionName == "Approve")
+        {
+            @: OnQuerySheetChanged($('#QuerySheetId'));
+                }
     });
 
     function removeOnChange(){
@@ -340,9 +345,9 @@
         @if (!new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
         {
             @:for(var i=0; i< @Model.SalesQuotationItems.Count; i++){
-                                                @:    OnRateTypeChanged(i);
-                                                @:}
-                                }
+                                                            @:    OnRateTypeChanged(i);
+                                                            @:}
+                                        }
     }
 
     function ExitToPendingApproval(){
@@ -367,7 +372,7 @@
                                             '</div>');
             url = '@Url.Action("GetRoomDetailsFromQuerySheet")';
             $('#project_rooms_grid').load(url, { querySheetId: id });
-            $('#unitselection').load(url, { querySheetId: id })
+            //$('#unitselection').load(url, { querySheetId: id })
         }
         else{
             $("#costing-amount-notifier").text("");
@@ -769,12 +774,16 @@
                     @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                     {
                         @:removeOnChange();
-                    }
+                                        }
                 }
             </script>
 
             <div id="project_rooms_grid" style="overflow-x: auto;">
+                @*@if (Model.isProjectBased && actionName == "Approve")
+                    {
+                        @Html.Partial("_ProjectRooms", Model);
 
+                    }*@
             </div>
             <br />
             <div class="row">
@@ -896,11 +905,11 @@
                     else if (ViewBag.actionName.ToString() == "Approve")
                     {
                         <button type="button" class="form-button right" onclick="ExitToPendingApproval()">Exit</button>
+                        <button type="submit" class="form-button right">Approve</button>
                         if (Model.isProjectBased)
                         {
-                            <span id="costing-amount-notifier"></span>
+                            <span id="costing-amount-notifier" class="cost-notifier"></span>
                         }
-                        <button type="submit" class="form-button right">Approve</button>
                     }
                 </div>
             </div>
