@@ -68,7 +68,7 @@ namespace ArabErp.DAL
                     if (objDeliveryChallan.isService == 0)
                     {
                         sql = @"UPDATE VehicleInpass SET RegistrationNo = '" + objDeliveryChallan.RegistrationNo + @"'
-                                WHERE VehicleInPassId = (SELECT VehicleInPassId FROM JobCard WHERE JobCardId = " + objDeliveryChallan.JobCardId + @")";
+                                WHERE VehicleInPassId = (SELECT InPassId FROM JobCard WHERE JobCardId = " + objDeliveryChallan.JobCardId + @")";
                     if (connection.Execute(sql, transaction: txn) <= 0) throw new Exception();
                     } 
                     #endregion
@@ -500,7 +500,7 @@ namespace ArabErp.DAL
                     if (objDeliveryChallan.isService == 0)
                     {
                         sql = @"UPDATE VehicleInpass SET RegistrationNo = '" + objDeliveryChallan.RegistrationNo + @"'
-                                WHERE VehicleInPassId = (SELECT VehicleInPassId FROM JobCard WHERE JobCardId = " + objDeliveryChallan.JobCardId + @")";
+                                WHERE VehicleInPassId = (SELECT InPassId FROM JobCard WHERE JobCardId = " + objDeliveryChallan.JobCardId + @")";
                         if (connection.Execute(sql, transaction: txn) <= 0) throw new Exception();
                     }
                     #endregion
@@ -834,7 +834,50 @@ namespace ArabErp.DAL
 									LEFT JOIN JobCardQC QC ON JC.JobCardId = QC.JobCardId
                                     LEFT JOIN VehicleInPass VI ON VI.VehicleInPassId=JC.InPassId
                                     WHERE JC.JobCardId = " + id + @" AND JC.OrganizationId = " + OrganizationId;
-                    return connection.Query<DeliveryChallan>(sql).FirstOrDefault();
+                    var deliverychallan = connection.Query<DeliveryChallan>(sql).FirstOrDefault();
+                  
+                   string query = @"SELECT
+	                        WRI.ItemId,
+	                        SUM(WRI.Quantity) Quantity
+                        INTO #WORK
+                        FROM WorkShopRequest WR
+                        INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                        INNER JOIN Item I ON WRI.ItemId = I.ItemId
+                        WHERE ISNULL(I.isConsumable, 0) = 0 AND (WR.JobCardId = @JobCardId OR 
+                        WR.SaleOrderItemId = (SELECT SaleOrderItemId FROM JobCard WHERE JobCardId = @JobCardId)
+                        OR (WR.SaleOrderItemId = 0 AND ISNULL(WR.JobCardId, 0) = 0 AND WR.SaleOrderId = (SELECT SaleOrderId FROM JobCard WHERE JobCardId = @JobCardId)))
+                        GROUP BY WRI.ItemId
+
+                        SELECT
+	                        WRI.ItemId,
+	                        SUM(SII.IssuedQuantity) Quantity
+                        INTO #ISSUE
+                        FROM WorkShopRequest WR
+                        INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                        INNER JOIN Item I ON WRI.ItemId = I.ItemId
+                        LEFT JOIN StoreIssueItem SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
+                        WHERE ISNULL(I.isConsumable, 0) = 0 AND (WR.JobCardId = @JobCardId OR 
+                        WR.SaleOrderItemId = (SELECT SaleOrderItemId FROM JobCard WHERE JobCardId = @JobCardId)
+                        OR (WR.SaleOrderItemId = 0 AND ISNULL(WR.JobCardId, 0) = 0 AND WR.SaleOrderId = (SELECT SaleOrderId FROM JobCard WHERE JobCardId = @JobCardId)))
+                        GROUP BY WRI.ItemId
+
+                        SELECT
+	                        COUNT(#WORK.ItemId)
+                        FROM #WORK
+	                        LEFT JOIN #ISSUE ON #WORK.ItemId = #ISSUE.ItemId
+                        WHERE #WORK.Quantity > ISNULL(#ISSUE.Quantity, 0)
+
+                        DROP TABLE #ISSUE;
+                        DROP TABLE #WORK;";
+                   int val = connection.Query<int>(query, new { JobCardId = id }).First();
+                    deliverychallan.StoreIssued = val == 0 ? true : false;
+                    //jobcard.JobCardTask = new List<JobCardCompletionTask>();
+
+                    //foreach (JobCardCompletionTask item in tasks)
+                    //{
+                    //    jobcard.JobCardTask.Add(item);
+                    //}
+                    return deliverychallan;
                 }
                 catch (Exception)
                 {

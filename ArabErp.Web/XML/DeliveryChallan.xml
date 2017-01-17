@@ -67,16 +67,27 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DV/17/31</DeliveryChallanRefNo>
-    <DeliveryChallanDate>13-Jan-2017</DeliveryChallanDate>
-    <Customer>Haidari Trading</Customer>
-    <CDoorNo>Doha, Qatar</CDoorNo>
+    <DeliveryChallanRefNo>DV/17/32</DeliveryChallanRefNo>
+    <DeliveryChallanDate>16-Jan-2017</DeliveryChallanDate>
+    <Customer>Jaida Motors &amp; Trading Co</Customer>
+    <CDoorNo>Doha- Qatar</CDoorNo>
     <CCountry>INDIA</CCountry>
+    <SaleRefNo>AARC/SO/TR/ 1</SaleRefNo>
+    <SONoDate>30 Nov 2016</SONoDate>
+    <JobcardNo>AARC/JC/36</JobcardNo>
+    <JCDate>31-Dec-2016 12:00:00 AM</JCDate>
+    <RegistrationNo>45</RegistrationNo>
+    <ChassisNo>G7102958</ChassisNo>
+    <WorkDesc>Thermoking T600-R + 100mm 6100x2300x2300mm ,BAM</WorkDesc>
+    <VehicleModel>ISUZU FSR</VehicleModel>
+    <Employee>Giriesh Gopi</Employee>
+    <PaymentTerms>Net 60</PaymentTerms>
+    <QuotationRefNo>AARC/SQ/1</QuotationRefNo>
     <SaleRefNo>AARC/SO/TR/17/3</SaleRefNo>
     <SONoDate>03 Jan 2017</SONoDate>
     <JobcardNo>AARC/JC/17/13</JobcardNo>
-    <JCDate>13-Jan-2017 00:00:00</JCDate>
-    <RegistrationNo>302024</RegistrationNo>
+    <JCDate>13-Jan-2017 12:00:00 AM</JCDate>
+    <RegistrationNo>45</RegistrationNo>
     <ChassisNo>0</ChassisNo>
     <WorkDesc>Thermoking T600-R + 100mm 4400x2100x2100 PUB Mit - BAM With Out Side Door</WorkDesc>
     <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
@@ -85,10 +96,12 @@
     <QuotationRefNo>AARC/SQ/17/3</QuotationRefNo>
     <FreezerName>Thermoking T600-R</FreezerName>
     <FreezerPartNo />
+    <BoxName>2969</BoxName>
+    <BoxPartNo>2969</BoxPartNo>
     <FreezerId>1253</FreezerId>
-    <Box>pk@130117</Box>
-    <SupplyOrderNo>AARC/PO/17/1004</SupplyOrderNo>
-    <SupplyOrderDate>03-Jan-2017</SupplyOrderDate>
+    <Box>1259</Box>
+    <SupplyOrderNo>AARC/PO/16/1004</SupplyOrderNo>
+    <SupplyOrderDate>03-Dec-2016</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -99,10 +112,19 @@
     <Zip>13037</Zip>
     <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo>SQ17/HAIDARI/13/01/2017</LPONo>
+    <LPONo>SQ17/HAIDARI/14/01/2017</LPONo>
     <LPODate>03-Jan-2017</LPODate>
+    <LPONo>SQ 1/JAIDAH/26/11/16</LPONo>
+    <LPODate>30-Nov-2016</LPODate>
     <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\a672e521-7633-41c1-8706-64f93478b2e7.jpg</CreateSignature>
-    <ApprovedUsersig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\a672e521-7633-41c1-8706-64f93478b2e7.jpg</ApprovedUsersig>
+    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\653cff6f-9f0e-468b-89d4-036474109cc7.jpg</CreateSignature>
+    <ApprovedUsersig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\653cff6f-9f0e-468b-89d4-036474109cc7.jpg</ApprovedUsersig>
+    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\653cff6f-9f0e-468b-89d4-036474109cc7.jpg</CreateSignature>
+    <ApprovedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
   </Head>
+  <Items>
+    <Description>test print</Description>
+    <UoM>nos</UoM>
+    <Quantity>10</Quantity>
+  </Items>
 </NewDataSet>

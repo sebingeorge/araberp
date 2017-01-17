@@ -1,7 +1,16 @@
 ﻿@model ArabErp.Domain.ServiceEnquiry
+
 @{
-    ViewBag.Title = "ServiceEnquiryProject";
+    if (Model.IsConfirmed == 0)
+    {
+        ViewBag.Title = "Service Enquiry";
+    }
+    else
+    {
+        ViewBag.Title = "Service Order";
+    }
     Layout = "~/Views/Shared/_Layout.cshtml";
+    string actionName = ViewContext.RouteData.GetRequiredString("action");
 }
 <style type="text/css">
     .td-heading {
@@ -97,7 +106,14 @@
 <div class="row">
     <div class="form-head1">
         <h4>
-            Service Enquiry - Project
+            @if (Model.IsConfirmed == 0)
+            {
+                @:Service Enquiry - Project
+            }
+            else
+            {
+                @:Service Order - Project
+            }
         </h4>
     </div>
 
@@ -191,7 +207,7 @@
                 </div>
             </div>
 
-            @*if (Model.IsConfirmed == 1)
+            if (Model.IsConfirmed == 1)
             {
                 @Html.HiddenFor(m => m.CustomerId)
                 <hr />
@@ -204,34 +220,12 @@
                         <label for="SaleOrderDate">Service Order Date</label>
                         @Html.TextBoxFor(m => m.SaleOrderDate, Model.SaleOrderDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @readonly = "readonly" })
                     </div>
-                    <div class="col-md-3">
-                        <label for="WorkDescriptionId">Description of Work</label>
-                        @Html.DropDownListFor(x => Model.Items[0].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text",
-                  Model.Items[0].WorkDescriptionId), "Select Description of Work", new
-                        {
-                            @class = "form_input",
-                            autocomplete = "off",
-                            @placeholder = "Search for Complaint",
-                            @required = "true"
-                        })
-                    </div>
-                    <div class="col-md-3">
-                        <label for="VehicleModelId">Vehicle Model</label>
-                        @Html.DropDownListFor(x => Model.Items[0].VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text",
-                        Model.Items[0].VehicleModelId), "Select Vehicle Model", new
-                        {
-                            @class = "form_input",
-                            autocomplete = "off",
-                            @placeholder = "Search for Vehicle Model",
-                            @required = "true"
-                        })
-                    </div>
                     <div class="col-md-2">
                         <label for="WorkDescriptionId">Customer Order Ref.</label>
                         @Html.TextBoxFor(m => m.CustomerOrderRef, new { @class = "form_input" })
                     </div>
                 </div>
-            }*@
+            }
     <div class="row">
         <div class="col-md-12 hrpart">
 

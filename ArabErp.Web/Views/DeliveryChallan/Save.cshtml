@@ -228,13 +228,33 @@
             </div>
             @*</div>*@
 
-            <div class="row">
+            @*<div class="row">
                 <div class="col-md-12 col-md hrpart">
-                    <input class="form-button right" type="button" value="Exit" onclick="Back()" />
-                    <input class="form-button right" type="submit" value="Save" />
+                   
                     @*<input class="form-button left" type="button" value="Back" onclick="Back()" />*@
-                </div>
-            </div>
+                @*</div>*@
+            @*</div>*@
+    <div class="row">
+
+        <div class="col-md-12 hrpart">
+
+
+            @if (Model.StoreIssued == false)
+            {
+                <span class="perm">
+                    <em>**Store Issue is not done for this Delivery Challan</em>
+                </span>
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            }
+            else
+            { 
+                <input class="form-button right" type="button" value="Exit" onclick="Back()" />
+                <input class="form-button right" type="submit" value="Save" />
+            }
+
+        </div>
+
+    </div>
         }
 
     </div>

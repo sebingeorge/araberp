@@ -83,6 +83,8 @@ namespace ArabErp.Domain
         public string BayName { get; set; }
         public string HeldBy { get; set; }
         public DateTime HeldOn { get; set; }
+        public string Units { get; set; }
+        public string Doors { get; set; }
     }
     public class JobCardForDailyActivity
     {
