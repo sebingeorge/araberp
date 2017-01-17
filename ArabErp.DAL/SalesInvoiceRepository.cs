@@ -267,7 +267,7 @@ namespace ArabErp.DAL
 							R.SaleOrderItemId SaleOrderItemId,R.Quantity Quantity,R.Rate Rate,r.Amount Amount,C.CustomerName,
                             CONCAT(V.VehicleModelName,'',VehicleModelDescription)
 							VehicleModelName,R.WorkDescr WorkDescription,R.JobCardNo JobCardNo, 
-							CONVERT(VARCHAR, R.JobCardDate, 106)JobCardDate,VIP.RegistrationNo,VIP.ChassisNo, DC.DeliveryChallanRefNo,
+							CONVERT(VARCHAR, R.JobCardDate, 106)JobCardDate,isnull(VIP.RegistrationNo,'')RegistrationNo,isnull(VIP.ChassisNo,'')ChassisNo, DC.DeliveryChallanRefNo,
 							CONVERT(VARCHAR, DC.DeliveryChallanDate, 106)DeliveryChallanDate FROM #RESULT R 
 							LEFT JOIN Customer C ON C.CustomerId=R.CustomerId
                             LEFT JOIN VehicleModel V ON R.VehicleModelId=V.VehicleModelId

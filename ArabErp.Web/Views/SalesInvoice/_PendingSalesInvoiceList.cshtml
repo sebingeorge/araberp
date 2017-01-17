@@ -187,8 +187,12 @@
                             @*@Html.TextBoxFor(m => Model[i].JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
                         </td>
                         <td>
-                            @Model[i].RegistrationNo - @Model[i].ChassisNo
-                            @*@Html.TextBoxFor(m => Model[i].VehicleModelName, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
+                            @Model[i].RegistrationNo
+                            @if ((Model[i].RegistrationNo != null && Model[i].RegistrationNo != "") && (Model[i].ChassisNo != null && Model[i].ChassisNo != ""))
+                            {
+                                @: -
+                                    }
+                            @Model[i].ChassisNo
                         </td>
                         <td>@Model[i].CustomerName</td>
                         <td align="right">
