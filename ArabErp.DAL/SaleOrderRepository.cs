@@ -278,30 +278,45 @@ namespace ArabErp.DAL
                 {
                      sql = @"SELECT * INTO #WORK_REQUEST FROM WorkShopRequest WHERE SaleOrderItemId <> 0;
                                  SELECT * INTO #TEMP FROM(
-		                          SELECT  S.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106) SaleOrderRefNo,I.ItemName, C.CustomerName,S.CustomerOrderRef,SI.SaleOrderId,SI.SaleOrderItemId,U.SaleOrderItemUnitId
-                                  ,U.EvaporatorUnitId,S.isProjectBased,S.EDateArrival,S.EDateDelivery,DATEDIFF(dd,S.SaleOrderDate,GETDATE ()) Ageing,
-	                              DATEDIFF(dd,GETDATE (),S.EDateDelivery)Remaindays  FROM SaleOrder S 
+		                          SELECT  S.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106) SaleOrderRefNo,I.ItemName, 
+                                  C.CustomerName,S.CustomerOrderRef,SI.SaleOrderId,SI.SaleOrderItemId,U.SaleOrderItemUnitId,
+                                  U.EvaporatorUnitId,S.isProjectBased,S.EDateArrival,S.EDateDelivery,DATEDIFF(dd,S.SaleOrderDate,GETDATE ()) Ageing,
+	                              DATEDIFF(dd,GETDATE (),S.EDateDelivery)Remaindays,VI.RegistrationNo,VI.ChassisNo  
+                                  FROM SaleOrder S 
 								  INNER JOIN SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
 								  INNER JOIN SaleOrderItemUnit U ON U.SaleOrderItemId=SI.SaleOrderItemId
 								  INNER JOIN  ITEM I ON I.ItemId=U.EvaporatorUnitId
                                   INNER JOIN Customer C ON S.CustomerId = C.CustomerId
+                                  LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId=SI.SaleOrderItemId
                                   WHERE S.OrganizationId = @OrganizationId  AND ISNULL(S.isService, 0) = 0
-								  UNION ALL
-								  SELECT S.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106),I.ItemName, C.CustomerName,S.CustomerOrderRef,SI.SaleOrderId,SI.SaleOrderItemId,U.SaleOrderItemUnitId
-                                  ,U.CondenserUnitId,S.isProjectBased,S.EDateArrival,S.EDateDelivery,DATEDIFF(dd,S.SaleOrderDate,GETDATE ()) Ageing,
-	                              DATEDIFF(dd,GETDATE (),S.EDateDelivery)Remaindays FROM SaleOrder S 
+								  
+                                  UNION ALL
+
+								  SELECT S.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106),I.ItemName, 
+                                  C.CustomerName,S.CustomerOrderRef,SI.SaleOrderId,SI.SaleOrderItemId,U.SaleOrderItemUnitId,
+                                  U.CondenserUnitId,S.isProjectBased,S.EDateArrival,S.EDateDelivery,DATEDIFF(dd,S.SaleOrderDate,GETDATE ()) Ageing,
+                                  DATEDIFF(dd,GETDATE (),S.EDateDelivery)Remaindays,VI.RegistrationNo,VI.ChassisNo 
+                                  FROM SaleOrder S 
 								  INNER JOIN SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
 								  INNER JOIN SaleOrderItemUnit U ON U.SaleOrderItemId=SI.SaleOrderItemId
 								  INNER JOIN  ITEM I ON I.ItemId=U.CondenserUnitId
-								  INNER JOIN Customer C ON S.CustomerId = C.CustomerId  WHERE S.OrganizationId = @OrganizationId AND ISNULL(S.isService, 0) = 0
+								  INNER JOIN Customer C ON S.CustomerId = C.CustomerId  
+                                  LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId=SI.SaleOrderItemId
+                                  WHERE S.OrganizationId = @OrganizationId AND ISNULL(S.isService, 0) = 0
+
                                   UNION ALL
-                                  SELECT S.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106),I.ItemName, C.CustomerName,S.CustomerOrderRef,SI.SaleOrderId,SI.SaleOrderItemId,U.SaleOrderItemDoorId
-                                  ,U.DoorId,S.isProjectBased,S.EDateArrival,S.EDateDelivery,DATEDIFF(dd,S.SaleOrderDate,GETDATE ()) Ageing,
-	                              DATEDIFF(dd,GETDATE (),S.EDateDelivery)Remaindays FROM SaleOrder S 
+
+                                  SELECT S.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106),I.ItemName, 
+                                  C.CustomerName,S.CustomerOrderRef,SI.SaleOrderId,SI.SaleOrderItemId,U.SaleOrderItemDoorId,
+                                  U.DoorId,S.isProjectBased,S.EDateArrival,S.EDateDelivery,DATEDIFF(dd,S.SaleOrderDate,GETDATE ()) Ageing,
+	                              DATEDIFF(dd,GETDATE (),S.EDateDelivery)Remaindays,VI.RegistrationNo,VI.ChassisNo 
+                                  FROM SaleOrder S 
 								  INNER JOIN SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
 								  INNER JOIN SaleOrderItemDoor U ON U.SaleOrderItemId=SI.SaleOrderItemId
 								  INNER JOIN  ITEM I ON I.ItemId=U.DoorId
-								  INNER JOIN Customer C ON S.CustomerId = C.CustomerId  WHERE S.OrganizationId = @OrganizationId AND ISNULL(S.isService, 0) = 0)T1
+								  INNER JOIN Customer C ON S.CustomerId = C.CustomerId 
+                                  LEFT JOIN VehicleInPass VI ON VI.SaleOrderItemId=SI.SaleOrderItemId 
+                                  WHERE S.OrganizationId = @OrganizationId AND ISNULL(S.isService, 0) = 0)T1
  
                                   SELECT * FROM #TEMP T LEFT JOIN #WORK_REQUEST WR ON T.SaleOrderItemUnitId = WR.SaleOrderItemUnitId
                                   and T.EvaporatorUnitId=WR.EvaConUnitId  WHERE WR.SaleOrderItemUnitId IS  NULL 
@@ -312,17 +327,10 @@ namespace ArabErp.DAL
                 else
                 {
                      sql = @"SELECT * INTO #WORK_REQUEST FROM WorkShopRequest WHERE SaleOrderItemId <> 0;
-                                    SELECT
-	                                SOI.SaleOrderId, 
-	                                SOI.SaleOrderItemId,
-	                                SO.CustomerOrderRef,
-	                                SO.SaleOrderDate,
-	                                SO.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106) SaleOrderRefNo,SO.isProjectBased,
-	                                SO.EDateArrival,
-	                                SO.EDateDelivery,
-	                                SO.CustomerId,
-	                                C.CustomerName,VI.RegistrationNo,VI.ChassisNo,
-	                                WD.WorkDescr WorkDescription,
+                                SELECT SOI.SaleOrderId,SOI.SaleOrderItemId,SO.CustomerOrderRef,
+	                                SO.SaleOrderDate,SO.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106) SaleOrderRefNo,
+                                    SO.isProjectBased,SO.EDateArrival,SO.EDateDelivery,SO.CustomerId,
+	                                C.CustomerName,VI.RegistrationNo,VI.ChassisNo,WD.WorkDescr WorkDescription,
 	                                DATEDIFF(dd,SO.SaleOrderDate,GETDATE ()) Ageing,
 	                                DATEDIFF(dd,GETDATE (),SO.EDateDelivery)Remaindays 
                                 FROM SaleOrderItem SOI
