@@ -9,7 +9,7 @@
     var totalQuantity = Model.SaleInvoiceItems.Sum(a => a.QuantityTxt);
     var totalDiscount = Model.SaleInvoiceItems.Sum(a => a.Discount);
     var totalAmount = Model.SaleInvoiceItems.Sum(a => a.Amount);
-    Model.TotalAmount = totalAmount ?? 0;
+    Model.TotalAmount = Model.PrintTotalAmount = totalAmount ?? 0;
 }
 
 <script>
@@ -265,6 +265,8 @@
                                 @Html.HiddenFor(m => Model.SaleInvoiceItems[i].SaleOrderItemId)
                                 @Html.HiddenFor(m => Model.SaleInvoiceItems[i].SaleOrderId)
                                 @Html.HiddenFor(m => Model.SaleInvoiceItems[i].JobCardId)
+                                @Html.HiddenFor(m => Model.SaleInvoiceItems[i].isAccessory)
+                                @Html.HiddenFor(m => Model.SaleInvoiceItems[i].ItemId)
                                 <td>@Html.TextBoxFor(m => Model.SaleInvoiceItems[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @style = "text-align:left", @readonly = "readonly", @tabindex = "-1" })</td>
                                 @if (Model.InvoiceType == "Final")
                                 {

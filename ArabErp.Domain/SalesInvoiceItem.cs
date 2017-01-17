@@ -41,5 +41,6 @@ namespace ArabErp.Domain
         public string SaleOrderRefNo { get; set; }
         public DateTime SaleOrderDate { get; set; }
         public string CustomerName { get; set; }
+        public bool isAccessory { get; set; }
     }
 }
