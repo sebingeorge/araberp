@@ -10,8 +10,11 @@
                                 <th width="12%"><h1>SO.No. & Date</h1></th>
                                 <th width="13%"><h1>Customer</h1></th>
                                 <th width="12%"><h1>Customer Order Ref.</h1></th>
+                                @if(ViewBag.ProjectBased==0)
+                                 {
                                 <th width="20%" nowrap><h1> Reg No./Chassis No.</h1></th> 
-                                <th width="27%"><h1>Work Description</h1></th>
+                                 }
+                                <th width="20%" nowrap><h1> Work Description</h1></th> 
                                 <th width="5%"><h1>Ageing</h1></th>
                                 <th width="7%"><h1>EDA</h1></th>
                                 <th width="7%"><h1>EDD</h1></th>
@@ -32,17 +35,20 @@
                                            
                                             <span id="slno@(row1)">@(row1 + 1)</span>
                                         </td>
-                                       <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).SaleOrderRefNo@*" /></td>*@
+                                        <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).SaleOrderRefNo@*" /></td>*@
                                         <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).CustomerName@*" /></td>*@
-                                        <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).CustomerOrderRef@*" /></td>*@
-                                        <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).RegistrationNo@*" /></td>*@
+                                        <td class="grid-cell">
+                                            @*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).CustomerOrderRef@*" /></td>*@
 
-                                            @if (Model.ElementAt(i).isProjectBased == 1)
+                                          
+
+                                                @if (Model.ElementAt(i).isProjectBased == 1)
                                             {
-                                                 <td class="grid-cell">@*<input type="text" class="form_input" value="*@ @Model.ElementAt(i).ItemName@*" data-toggle="popover" data-placement="right" data-content="@Model.ElementAt(i).WorkDescription" />*@</td>
+                                           <td class="grid-cell">@*<input type="text" class="form_input" value="*@ @Model.ElementAt(i).ItemName@*" data-toggle="popover" data-placement="right" data-content="@Model.ElementAt(i).WorkDescription" />*@</td>
                                             }
-                                            else
-                                            {
+                                                else
+                                                {
+                                                <td class="grid-cell"> @Model.ElementAt(i).RegistrationNo</td>
                                                 <td class="grid-cell">@*<input type="text" class="form_input" value="*@ @Model.ElementAt(i).WorkDescription@*" data-toggle="popover" data-placement="right" data-content="@Model.ElementAt(i).WorkDescription" />*@</td>
                                             }
                                         

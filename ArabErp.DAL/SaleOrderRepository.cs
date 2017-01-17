@@ -889,8 +889,16 @@ namespace ArabErp.DAL
             {
                 IDbTransaction txn = connection.BeginTransaction();
                 try
+                
                 {
-                    model.SaleOrderRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 35, true, txn);
+                    if(model.isProjectBased==0)
+                    {
+                        model.SaleOrderRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 35, true, txn);
+                    }
+                    else
+                    {
+                        model.SaleOrderRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 42, true, txn);
+                    }
                     //model.TotalAmount = model.Items.Sum(m => m.Amount);
                     //model.TotalDiscount = model.Items.Sum(m => m.Discount);
                     if (model.CustomerOrderRef == null || model.CustomerOrderRef == String.Empty) model.CustomerOrderRef = " ";
@@ -1021,14 +1029,14 @@ namespace ArabErp.DAL
             }
         }
 
-        public IList<ServiceEnquiry> GetPendingServiceEnquiries(int OrganizationId)
+        public IList<ServiceEnquiry> GetPendingServiceEnquiries(int OrganizationId, int isProjectBased)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = @"SELECT ServiceEnquiryId, ServiceEnquiryRefNo, ServiceEnquiryDate, VehicleMake, BoxMake, FreezerMake, TailLiftMake, C.CustomerName 
                                 FROM ServiceEnquiry SE INNER JOIN Customer C ON SE.CustomerId = C.CustomerId
-                                WHERE SE.OrganizationId = @org AND ISNULL(isCancelled, 0) = 0 AND ISNULL(isConfirmed, 0) = 0";
-                return connection.Query<ServiceEnquiry>(query, new { org = OrganizationId }).ToList();
+                                WHERE SE.OrganizationId = @org AND ISNULL(isCancelled, 0) = 0 AND ISNULL(isConfirmed, 0) = 0 and SE.isProjectBased=@isProjectBased";
+                return connection.Query<ServiceEnquiry>(query, new { org = OrganizationId, isProjectBased = isProjectBased }).ToList();
             }
         }
 
@@ -1085,15 +1093,15 @@ namespace ArabErp.DAL
         }
 
 
-        public IList<ServiceEnquiry> GetPendingServiceEnquiryList(int OrganizationId)
+        public IList<ServiceEnquiry> GetPendingServiceEnquiryList(int OrganizationId, int isProjectBased)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = @"SELECT ServiceEnquiryId, ServiceEnquiryRefNo, ServiceEnquiryDate, VehicleMake, BoxMake, FreezerMake, TailLiftMake, C.CustomerName,
                                ISNULL([VehicleRegNo],'')RegistrationNo ,ISNULL( [VehicleChassisNo],'') ChassisNo,FreezerModel
                                 FROM ServiceEnquiry SE INNER JOIN Customer C ON SE.CustomerId = C.CustomerId
-                                WHERE SE.OrganizationId= @OrganizationId and SE.isProjectBased=0  order by ServiceEnquiryId desc";
-                return connection.Query<ServiceEnquiry>(query, new { OrganizationId = OrganizationId }).ToList();
+                                WHERE SE.OrganizationId= @OrganizationId and SE.isProjectBased=@isProjectBased  order by ServiceEnquiryId desc";
+                return connection.Query<ServiceEnquiry>(query, new { OrganizationId = OrganizationId, isProjectBased = isProjectBased }).ToList();
             }
         }
 
@@ -1110,7 +1118,7 @@ namespace ArabErp.DAL
                                 VehicleKm=@VehicleKm,BoxMake=@BoxMake,BoxNo=@BoxNo,BoxSize=@BoxSize,FreezerMake=@FreezerMake,FreezerModel=@FreezerModel,
                                 FreezerSerialNo=@FreezerSerialNo,FreezerHours=@FreezerHours,TailLiftMake=@TailLiftMake,TailLiftModel=@TailLiftModel,
                                 TailLiftSerialNo=@TailLiftSerialNo,IsConfirmed=@IsConfirmed,ServiceEnquiryDate=@ServiceEnquiryDate,Complaints=@Complaints, 
-                                CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId
+                                CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId,UnitDetails=@UnitDetails
                                 WHERE ServiceEnquiryId = @ServiceEnquiryId;";
                 var id = connection.Execute(sql, objServiceEnquiry, txn);
 
@@ -1143,7 +1151,7 @@ namespace ArabErp.DAL
                 }
             }
         }
-        public IList<SaleOrder> GetPendingServiceOrderList(int OrganizationId)
+        public IList<SaleOrder> GetPendingServiceOrderList(int OrganizationId,int isProjectBased)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -1153,10 +1161,11 @@ namespace ArabErp.DAL
 								left join SaleOrderItem SI On SI.SaleOrderId=S.SaleOrderId
 								left join VehicleModel V ON V.VehicleModelId=SI.VehicleModelId
 								left join WorkDescription W ON W. WorkDescriptionId=SI.WorkDescriptionId
-								where S.OrganizationId=@OrganizationId  and isService=1 order by [SaleOrderDate] desc";
+								where S.OrganizationId=@OrganizationId  and isService=1 and SE.isProjectBased=@isProjectBased order by [SaleOrderDate] desc";
                 return connection.Query<SaleOrder>(query, new
                 {
                     OrganizationId = OrganizationId,
+                    isProjectBased = isProjectBased
 
                 }).ToList();
             }

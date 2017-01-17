@@ -10,7 +10,7 @@ namespace ArabErp.Domain
     {
         public int SaleOrderId { get; set; }
         //public int isService { get; set; }
-        //public int isProjectBased { get; set; }
+        public int isProjectBased { get; set; }
         public int ServiceEnquiryId { get; set; }
         public string ServiceEnquiryRefNo { get; set; }
         public DateTime ServiceEnquiryDate { get; set; }

@@ -313,11 +313,20 @@ namespace ArabErp.DAL
 
                 string query = @"SELECT T1.* 
                                 INTO #TEMP1 FROM 
-                                (SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName FROM SaleOrderItemUnit U
+                                (   SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName FROM SaleOrderItemUnit U
                                     INNER JOIN ITEM I ON I.ItemId=U.EvaporatorUnitId
                                     INNER JOIN Unit IU ON I.ItemUnitId = IU.UnitId
                                     WHERE U.SaleOrderItemUnitId = @SaleOrderItemUnitId 
-                                    and (U.EvaporatorUnitId = @SaleOrderUnitId  or U.CondenserUnitId = @SaleOrderUnitId)
+                                    and U.EvaporatorUnitId = @SaleOrderUnitId 
+
+                                    UNION ALL
+
+                                    SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName FROM SaleOrderItemUnit U
+                                    INNER JOIN ITEM I ON I.ItemId=U.CondenserUnitId
+                                    INNER JOIN Unit IU ON I.ItemUnitId = IU.UnitId
+                                    WHERE U.SaleOrderItemUnitId = @SaleOrderItemUnitId 
+                                    and  U.CondenserUnitId = @SaleOrderUnitId
+
                                     UNION ALL
 
                                     SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName FROM SaleOrderItemDoor U

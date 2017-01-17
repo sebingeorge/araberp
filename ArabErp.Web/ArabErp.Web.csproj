@@ -1394,6 +1394,10 @@
     <Content Include="Views\ProjectCompletion\_ProjectRoomAndUnitDetails.cshtml" />
     <Content Include="Views\SaleOrder\EditProject.cshtml" />
     <Content Include="Views\ServiceEnquiryProject\ServiceEnquiryProject.cshtml" />
+    <Content Include="Views\ServiceEnquiryProject\PendingEnquiries.cshtml" />
+    <Content Include="Views\ServiceEnquiryProject\EnquiryList.cshtml" />
+    <Content Include="Views\ServiceEnquiryProject\_ServiceOrderList.cshtml" />
+    <Content Include="Views\ServiceEnquiryProject\EditEnquiry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1025,7 +1025,7 @@ namespace ArabErp.Web.Controllers
             {
                 TempData["error"] = "Some error occurred. Please try again.";
             }
-            return RedirectToAction("PendingEnquiries");
+            return RedirectToAction("PendingEnquiries", new { isProjectBased = 0 });
         }
 
         [HttpPost]
@@ -1037,7 +1037,7 @@ namespace ArabErp.Web.Controllers
                 model.CreatedBy = UserID.ToString();
                 string ref_no = new SaleOrderRepository().InsertServiceOrder(model);
                 TempData["success"] = "Saved Successfully. Reference No. is " + ref_no;
-                return RedirectToAction("PendingEnquiries");
+                return RedirectToAction("PendingEnquiries", new {isProjectBased = 0});
             }
             catch (Exception)
             {
@@ -1096,9 +1096,9 @@ namespace ArabErp.Web.Controllers
                 return View(model);
             }
         }
-        public ActionResult PendingEnquiries()
+        public ActionResult PendingEnquiries(int? isProjectBased)
         {
-            return View(new SaleOrderRepository().GetPendingServiceEnquiries(OrganizationId));
+            return View(new SaleOrderRepository().GetPendingServiceEnquiries(OrganizationId,isProjectBased??0));
         }
         public ActionResult PrintJob(int id)//ServiceEnquiryId is received here
         {
@@ -1246,9 +1246,9 @@ namespace ArabErp.Web.Controllers
                 throw;
             }
         }
-        public ActionResult EnquiryList()
+        public ActionResult EnquiryList(int? isProjectBased)
         {
-            return View(new SaleOrderRepository().GetPendingServiceEnquiryList(OrganizationId));
+            return View(new SaleOrderRepository().GetPendingServiceEnquiryList(OrganizationId, isProjectBased??0));
         }
         [HttpGet]
         public ActionResult EditEnquiry(int id)//ServiceEnquiryId is received here
@@ -1332,10 +1332,10 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-        public ActionResult ServiceOrderList()
+        public ActionResult ServiceOrderList(int isProjectBased)
         {
 
-            return View("_ServiceOrderList", new SaleOrderRepository().GetPendingServiceOrderList(OrganizationId));
+            return View("_ServiceOrderList", new SaleOrderRepository().GetPendingServiceOrderList(OrganizationId,isProjectBased));
             // return PartialView("_PreviousList", new SaleOrderRepository().GetPreviousList(ProjectBased, id, cusid, OrganizationId, from, to, service));
         }
         public ActionResult ServiceOrderEdit(int id = 0)//ServiceEnquiryId is received here
@@ -1370,7 +1370,7 @@ namespace ArabErp.Web.Controllers
             {
                 TempData["error"] = "Some error occurred. Please try again.";
             }
-            return RedirectToAction("PendingEnquiries");
+            return RedirectToAction("PendingEnquiries", new {isProjectBased =0});
         }
 
         [HttpPost]
