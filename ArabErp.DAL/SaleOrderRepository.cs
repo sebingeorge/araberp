@@ -346,7 +346,7 @@ namespace ArabErp.DAL
 	                                and SO.isProjectBased=isnull(@isProjectBased, SO.isProjectBased)
 	                                AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
 	                                AND ISNULL(SO.isService, 0) = 0
-	                                AND SO.SaleOrderId NOT IN (SELECT isnull(SaleOrderId,0) FROM WorkShopRequest WHERE SaleOrderItemId = 0)
+	                                AND SO.SaleOrderId NOT IN (SELECT isnull(SaleOrderId,0) FROM WorkShopRequest WHERE SaleOrderItemId = 0 AND ISNULL(JobCardId, 0) = 0)
                                 ORDER BY SO.EDateDelivery, SO.SaleOrderDate
                                 DROP TABLE #WORK_REQUEST;";
                 }
