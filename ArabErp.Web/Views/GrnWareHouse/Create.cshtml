@@ -107,19 +107,18 @@
         var newrate = Number($("#Items_" + index + "__Rate").val());
         if (newrate > rate)
         {
-            toastr.info("Rate should be less than Amount");
-            $("#Items_" + row + "_PrevRate").val(rate);
-            false
+            toastr.info(" GRN Rate can't be greater than LPO Rate");
+            $("#Items_" + index + "__Rate").val(rate);
+            return false;
         }
         else
         {
-            $("#Items_" + row + "_PrevRate").val(newrate);
-            true
+            //$("#Items_" + row + "_PrevRate").val(newrate);
+            $("#Items_" + index + "__Rate").val(newrate);
+            return true;
         }
        
     }
-
-
 
     function OnReceivedQuantityChanged(row) {
         if ($("#Items_" + row + "__AcceptedQuantity").val() == 0 && Number($("#Items_" + row + "__ReceivedQuantity").val() > 0)) {

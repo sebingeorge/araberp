@@ -9,7 +9,8 @@
     var totalQuantity = Model.SaleInvoiceItems.Sum(a => a.QuantityTxt);
     var totalDiscount = Model.SaleInvoiceItems.Sum(a => a.Discount);
     var totalAmount = Model.SaleInvoiceItems.Sum(a => a.Amount);
-    Model.TotalAmount = Model.PrintTotalAmount = totalAmount ?? 0;
+    Model.TotalAmount = totalAmount ?? 0;
+    Model.PrintTotalAmount = 0;
 }
 
 <script>
@@ -150,7 +151,7 @@
         var Printamt=$("#PrintTotalAmount").val();
        
         if (Number(Printamt) != Number(Workamt)) {
-            toastr.info("Total workdescription amount and print description amounts are different");
+            toastr.info("Total SalesInvoice and Print Description Amounts Should  be Same");
             return false;
         }
         return true;
