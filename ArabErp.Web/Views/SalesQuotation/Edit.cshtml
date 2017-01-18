@@ -5,7 +5,7 @@
 }
 
 @{ string actionName = ViewContext.RouteData.GetRequiredString("action");
-   if (actionName == "Edit")
+ if (actionName == "Edit")
  {
      ViewBag.actionName = "Edit";
  }
@@ -16,6 +16,15 @@
 
 
 }
+
+<style type="text/css">
+    .cost-notifier {
+        float: right;
+        font-size: large;
+        margin-top: 6px;
+    }
+</style>
+
 <script>
     function GoToPrint(id) {
         var url = '@Url.Action("Print")';
@@ -29,34 +38,34 @@
 
         {
             @: url += "?ProjectBased=0" + "&AfterSales=0";
-        }
+                                                }
     else if (Model.isProjectBased && !Model.isAfterSales)
         {
             @: url += "?ProjectBased=1" + "&AfterSales=0";
-                }
+                                                        }
     else if (!Model.isProjectBased && Model.isAfterSales)
-          
+
         {
             @: url += "?ProjectBased=0" + "&AfterSales=1";
-        }
+                                                }
     else if (Model.isProjectBased && Model.isAfterSales)
-          
+
         {
             @: url += "?ProjectBased=1" + "&AfterSales=1";
-        }
-     
+                                                }
+
         window.location = url;
-    
+
     }
 
-    function DeleteSQ(id,isProjectBased, isAfterSales) {
+    function DeleteSQ(id, isProjectBased, isAfterSales) {
 
-       
+
         var url = '@Url.Action("DeleteSQ")';
         url += "?id=" + id + "&isProjectBased=" + isProjectBased + "&isAfterSales=" + isAfterSales;
         window.location = url;
-      
-      
+
+
     }
 
 
@@ -73,6 +82,7 @@
             success: function (result) {
                 if (result.Success) { // this sets the value from the response
                     $('#CurrencyId').val(result.CurrencyId);
+                    $('#CurrencyName').val(result.CurrencyName);
                     $("#CustomerAddress").val(result.Address);
                 } else {
                     $('#SomeOtherHtmlTextBox').val("Failed");
@@ -117,7 +127,7 @@
         $("#PredictedClosingDate").datepicker({ dateFormat: "dd-MM-yy" });
         $("#QuotationValidToDate").datepicker({ dateFormat: "dd-MM-yy" });
 
-        OnQuerySheetChanged();
+        //OnQuerySheetChanged($('#QuerySheetId'));
     });
 
     function Validation() {
@@ -292,13 +302,36 @@
         });
     }
 
-    function OnQuerySheetChanged() {
+    @*function OnQuerySheetChanged() {
         var id = $("#QuerySheetId").val();
         if (id != '' || id != 0) {
             var url = '@Url.Action("GetQuerySheetCostingAmount")';
             $.getJSON(url, { id: id }, function (data) {
                 $("#costing-amount-notifier").html("<em>Project cost for Query Sheet <strong>" + $("#QuerySheetId option:selected").text() + "</strong> is <strong>" + $("#CurrencyId option:selected").text() + " " + data + "/-</strong></em>");
             })
+        }
+        else {
+            $("#costing-amount-notifier").text("");
+        }
+    }*@
+
+    function OnQuerySheetChanged(sender) {
+        var id = $(sender).val();
+        if (id != '' || id != 0) {
+            var url = '@Url.Action("GetQuerySheetCostingAmount")';
+            $.getJSON(url, { id: id }, function (data) {
+                $("#costing-amount-notifier").html("<em>Project cost for Query Sheet <strong>" + $("#QuerySheetId option:selected").text() + "</strong> is <strong>" + $("#CurrencyName").val() + " " + data + "</strong></em>");
+                $('#GrandTotal').val(data);
+            })
+            $('#project_rooms_grid').html('<div style="border: 1px solid white;' +
+                                            'padding: 10px;' +
+                                            'background: #c5c5c5;' +
+                                            'margin-bottom: 15px;">' +
+                                            '<center><strong>Loading room details here...</strong></center>' +
+                                            '</div>');
+            url = '@Url.Action("GetRoomDetailsFromQuotation")';
+            $('#project_rooms_grid').load(url, { salesQuotationId: id });
+            //$('#unitselection').load(url, { querySheetId: id })
         }
         else {
             $("#costing-amount-notifier").text("");
@@ -327,10 +360,6 @@
         }
     </div>
 
-                
-           
-   
-
     <div class="main-part pad1">
         @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "work_form" }))
         {
@@ -338,6 +367,8 @@
             @Html.HiddenFor(m => m.SalesQuotationId)
             @Html.HiddenFor(m => m.isProjectBased)
             @Html.HiddenFor(m => m.isAfterSales)
+            @Html.HiddenFor(m => m.CurrencyId)
+            <input type="hidden" id="CurrencyName" />
             <div class="row form-group ">
                 <div class="col-md-2">
                     <label for="QuotationRefNo">Quotation No.</label>
@@ -362,19 +393,19 @@
 
                 </div>
                 <div class="col-md-2">
-                @if (Model.isProjectBased)
-                {
-                    <label for="ExpectedDeliveryDate">Expected Commission Date</label>
-                }
-                else
-                {
-                    <label for="ExpectedDeliveryDate">Expected Delivery Date</label>
-                }
-                 
-                @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
+                    @if (Model.isProjectBased)
+                    {
+                        <label for="ExpectedDeliveryDate">Expected Commission Date</label>
+                    }
+                    else
+                    {
+                        <label for="ExpectedDeliveryDate">Expected Delivery Date</label>
+                    }
+
+                    @Html.TextBoxFor(m => m.ExpectedDeliveryDate, Model.ExpectedDeliveryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off" })
 
                 </div>
-                @if (Model.isProjectBased && !Model.isAfterSales)
+                @if (Model.isProjectBased)// && !Model.isAfterSales)
                 {
                     <div class="col-md-2">
 
@@ -496,216 +527,215 @@
             </div>
 
             <script>
-                    $(document).ready(function () {
-                        $("#SalesQuotationItems_0__SlNo").val('1');
-                        $("#lblTotalAmount").text('0');
-                        $("select[id$='__WorkDescriptionId']").combobox();
-                        $("select[id$='__ItemId']").combobox();
+                $(document).ready(function () {
+                    $("#SalesQuotationItems_0__SlNo").val('1');
+                    $("#lblTotalAmount").text('0');
+                    $("select[id$='__WorkDescriptionId']").combobox();
+                    $("select[id$='__ItemId']").combobox();
+                });
+
+                function Delete(index) {
+
+                    var i = 0;
+                    var no = 1;
+                    $('input[id^="Row_"]').each(function () {
+                        var id = this.id;
+                        no++;
+                        var row = Number(id.replace("Row_", ""));
+                        if (row > i) {
+                            i = row;
+                        }
+                    });
+                    i++;
+                    //$("#" + index).html('');
+                    if (i > 1) {
+                        $("#" + index).remove();
+                        for (var j = index + 1; j < i; j++) {
+                            var WorkDescriptionId = $("#SalesQuotationItems_" + j + "__WorkDescriptionId").val();
+                            var VehicleModelId = $("#SalesQuotationItems_" + j + "__VehicleModelId").val();
+                            var Quantity = $("#SalesQuotationItems_" + j + "__Quantity").val();
+                            var UnitId = $("#SalesQuotationItems_" + j + "__UnitId").val();
+                            var Rate = $("#SalesQuotationItems_" + j + "__Rate").val();
+                            var Discount = $("#SalesQuotationItems_" + j + "__Discount").val();
+                            var Amount = $("#SalesQuotationItems_" + j + "__Amount").val();
+
+                            var clone = $("#" + j).clone(true, true);
+                            clone.html($(clone).html().replace(new RegExp("SalesQuotationItems_" + j + "__", "g"), 'SalesQuotationItems_' + (j - 1) + '__'));
+                            clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
+                            clone.html($(clone).html().replace("OnRateTypeChanged(" + j, "OnRateTypeChanged(" + (j - 1)));
+                            clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
+                            clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
+                            clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
+
+
+
+
+                            clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
+                            $("#" + j).html(clone.html());
+                            $("#SalesQuotationItems_" + (j - 1) + "__SlNo").val(j);
+                            $("#" + (j)).attr('id', (j - 1));
+                            //alert(j);
+                            $("#SalesQuotationItems_" + (j - 1) + "__WorkDescriptionId").val(WorkDescriptionId);
+                            $("#SalesQuotationItems_" + (j - 1) + "__VehicleModelId").val(VehicleModelId);
+                            $("#SalesQuotationItems_" + (j - 1) + "__Quantity").val(Quantity);
+                            $("#SalesQuotationItems_" + (j - 1) + "__UnitId").val(UnitId);
+                            $("#SalesQuotationItems_" + (j - 1) + "__Rate").val(Rate);
+                            $("#SalesQuotationItems_" + (j - 1) + "__Discount").val(Discount);
+                            $("#SalesQuotationItems_" + (j - 1) + "__Amount").val(Amount);
+                        }
+                    }
+                }
+
+                function QuantityChanged(row) {
+                    var quantity = parseFloat($("#SalesQuotationItems_" + row + "__Quantity").val());
+                    var rate = parseFloat($("#SalesQuotationItems_" + row + "__Rate").val());
+                    var discount = parseFloat($("#SalesQuotationItems_" + row + "__Discount").val());
+
+                    if (discount > rate) {
+                        toastr.info("Discount cannot be greater than rate");
+                        $("#SalesQuotationItems_" + row + "__Discount").val($("#SalesQuotationItems_" + row + "__Rate").val());
+                    }
+
+                    if (isNaN(quantity)) {
+                        quantity = 0;
+                    }
+                    if (rate == NaN) {
+                        rate = 0;
+                    }
+                    if (isNaN(discount)) {
+                        discount = 0;
+                    }
+                    var amount = (rate) - discount;
+                    amount = parseFloat(amount);
+                    $("#SalesQuotationItems_" + row + "__Amount").val(amount.toFixed(2));
+                    $("#SalesQuotationItems_" + row + "__TotalAmount").val((amount * quantity).toFixed(2));
+                    cal_Summary();
+                }
+
+                function cal_Summary() {
+
+                    var quantity = parseFloat("0");
+                    var amount = parseFloat("0");
+                    var grandtotal = parseFloat("0");
+                    var rowtotal = parseFloat("0");
+                    var total_discount = parseFloat("0");
+
+                    $('.clQuantity').each(function (i, obj) {
+                        var a = parseFloat($("#SalesQuotationItems_" + i + "__Quantity").val());
+
+                        if (isNaN(a)) {
+                            a = parseFloat("0");
+                        }
+
+                        quantity = quantity + a;
                     });
 
-                    function Delete(index) {
+                    $('.clAmount').each(function (i, obj) {
 
-                        var i = 0;
-                        var no = 1;
-                        $('input[id^="Row_"]').each(function () {
-                            var id = this.id;
-                            no++;
-                            var row = Number(id.replace("Row_", ""));
-                            if (row > i) {
-                                i = row;
-                            }
-                        });
-                        i++;
-                        //$("#" + index).html('');
-                        if (i > 1) {
-                            $("#" + index).remove();
-                            for (var j = index + 1; j < i; j++) {
-                                var WorkDescriptionId = $("#SalesQuotationItems_" + j + "__WorkDescriptionId").val();
-                                var VehicleModelId = $("#SalesQuotationItems_" + j + "__VehicleModelId").val();
-                                var Quantity = $("#SalesQuotationItems_" + j + "__Quantity").val();
-                                var UnitId = $("#SalesQuotationItems_" + j + "__UnitId").val();
-                                var Rate = $("#SalesQuotationItems_" + j + "__Rate").val();
-                                var Discount = $("#SalesQuotationItems_" + j + "__Discount").val();
-                                var Amount = $("#SalesQuotationItems_" + j + "__Amount").val();
+                        var a = parseFloat($("#SalesQuotationItems_" + i + "__Amount").val());
+                        if (isNaN(a)) {
 
-                                var clone = $("#" + j).clone(true, true);
-                                clone.html($(clone).html().replace(new RegExp("SalesQuotationItems_" + j + "__", "g"), 'SalesQuotationItems_' + (j - 1) + '__'));
-                                clone.html($(clone).html().replace(new RegExp("\\[" + j + "].", "g"), "[" + (j - 1) + "]."));
-                                clone.html($(clone).html().replace("OnRateTypeChanged(" + j, "OnRateTypeChanged(" + (j - 1)));
-                                clone.html($(clone).html().replace(new RegExp('slno' + (j + 1) + '">' + (j + 1), "g"), 'slno' + (j) + '">' + (j)));
-                                clone.html($(clone).html().replace("Delete(" + j, "Delete(" + (j - 1)));
-                                clone.html($(clone).html().replace("Row_" + j, "Row_" + (j - 1)));
-
-
-
-
-                                clone.html($(clone).html().replace("this," + j, "this," + (j - 1)));
-                                $("#" + j).html(clone.html());
-                                $("#SalesQuotationItems_" + (j - 1) + "__SlNo").val(j);
-                                $("#" + (j)).attr('id', (j - 1));
-                                //alert(j);
-                                $("#SalesQuotationItems_" + (j - 1) + "__WorkDescriptionId").val(WorkDescriptionId);
-                                $("#SalesQuotationItems_" + (j - 1) + "__VehicleModelId").val(VehicleModelId);
-                                $("#SalesQuotationItems_" + (j - 1) + "__Quantity").val(Quantity);
-                                $("#SalesQuotationItems_" + (j - 1) + "__UnitId").val(UnitId);
-                                $("#SalesQuotationItems_" + (j - 1) + "__Rate").val(Rate);
-                                $("#SalesQuotationItems_" + (j - 1) + "__Discount").val(Discount);
-                                $("#SalesQuotationItems_" + (j - 1) + "__Amount").val(Amount);
-                            }
-                        }
-                    }
-
-                    function QuantityChanged(row) {
-                        var quantity = parseFloat($("#SalesQuotationItems_" + row + "__Quantity").val());
-                        var rate = parseFloat($("#SalesQuotationItems_" + row + "__Rate").val());
-                        var discount = parseFloat($("#SalesQuotationItems_" + row + "__Discount").val());
-
-                        if (discount > rate) {
-                            toastr.info("Discount cannot be greater than rate");
-                            $("#SalesQuotationItems_" + row + "__Discount").val($("#SalesQuotationItems_" + row + "__Rate").val());
-                        }
-
-                        if (isNaN(quantity)) {
-                            quantity = 0;
-                        }
-                        if (rate == NaN) {
-                            rate = 0;
-                        }
-                        if (isNaN(discount)) {
-                            discount = 0;
-                        }
-                        var amount = (rate) - discount;
-                        amount = parseFloat(amount);
-                        $("#SalesQuotationItems_" + row + "__Amount").val(amount.toFixed(2));
-                        $("#SalesQuotationItems_" + row + "__TotalAmount").val((amount * quantity).toFixed(2));
-                        cal_Summary();
-                    }
-
-                    function cal_Summary() {
-                       
-                        var quantity = parseFloat("0");
-                        var amount = parseFloat("0");
-                        var grandtotal = parseFloat("0");
-                        var rowtotal = parseFloat("0");
-                        var total_discount = parseFloat("0");
-
-                        $('.clQuantity').each(function (i, obj) {
-                            var a = parseFloat($("#SalesQuotationItems_" + i + "__Quantity").val());
-
-                            if (isNaN(a)) {
-                                a = parseFloat("0");
-                            }
-
-                            quantity = quantity + a;
-                        });
-
-                        $('.clAmount').each(function (i, obj) {
-
-                            var a = parseFloat($("#SalesQuotationItems_" + i + "__Amount").val());
-                            if (isNaN(a)) {
-
-                                a = parseFloat("0");
-
-                            }
-
-                            amount = amount + a;
-                        });
-
-                        $("input[id$='__TotalAmount']").each(function (i, obj) {
-                            var a = parseFloat($(obj).val());
-                            if (isNaN(a)) {
-                                a = parseFloat("0");
-                            }
-                            rowtotal = rowtotal + a;
-                        })
-
-                        $("input[id$='__Discount']").each(function (i, obj) {
-                            var a = parseFloat($(obj).val());
-                            if (isNaN(a)) {
-                                a = parseFloat("0");
-                            }
-                            total_discount += a;
-                        })
-
-                        $("#QtyAmount").text(parseFloat(amount).toFixed(2));
-                        $("#NetTotalAmount").text(parseFloat(rowtotal).toFixed(2));
-                        $("#span-DiscountTotal").text(parseFloat(total_discount).toFixed(2));
-
-                        var WorkAmt = parseFloat($("#NetTotalAmount").text());
-                        var MaterialAmt = parseFloat($("#TotalAmount").text());
-
-                        if (isNaN(WorkAmt)) {
-
-                            WorkAmt = parseFloat("0");
+                            a = parseFloat("0");
 
                         }
-                        if (isNaN(MaterialAmt)) {
 
-                            MaterialAmt = parseFloat("0");
+                        amount = amount + a;
+                    });
 
+                    $("input[id$='__TotalAmount']").each(function (i, obj) {
+                        var a = parseFloat($(obj).val());
+                        if (isNaN(a)) {
+                            a = parseFloat("0");
                         }
-                        grandtotal = WorkAmt + MaterialAmt;
+                        rowtotal = rowtotal + a;
+                    })
 
-                        if (isNaN(grandtotal)) {
-
-                            grandtotal = parseFloat("0");
-
+                    $("input[id$='__Discount']").each(function (i, obj) {
+                        var a = parseFloat($(obj).val());
+                        if (isNaN(a)) {
+                            a = parseFloat("0");
                         }
-                        $("#lblTotalAmount").text(parseFloat(grandtotal).toFixed(2));
+                        total_discount += a;
+                    })
+
+                    $("#QtyAmount").text(parseFloat(amount).toFixed(2));
+                    $("#NetTotalAmount").text(parseFloat(rowtotal).toFixed(2));
+                    $("#span-DiscountTotal").text(parseFloat(total_discount).toFixed(2));
+
+                    var WorkAmt = parseFloat($("#NetTotalAmount").text());
+                    var MaterialAmt = parseFloat($("#TotalAmount").text());
+
+                    if (isNaN(WorkAmt)) {
+
+                        WorkAmt = parseFloat("0");
 
                     }
+                    if (isNaN(MaterialAmt)) {
 
-                    function AddAdditionRow() {
+                        MaterialAmt = parseFloat("0");
 
-                        var i = 0;
-                        var no = 1;
-                        $('input[id^="Row_"]').each(function () {
-                            var id = this.id;
-                            no++;
-                            var row = Number(id.replace("Row_", ""));
-                            if (row > i) {
-                                i = row;
-                            }
-                        });
-                        i++;
-                        var index = (new Date()).getTime(); // unique indexer
-                        var clone = $('#0').clone(); // clone the BatchProducts item
-                        //Update the index of the clone
-                        //clone.html($(clone).html().replace("SalesQuotationItems_0__", 'SalesQuotationItems_' + i + '__'));
-                        clone.html($(clone).html().replace(/SalesQuotationItems_0__/g, 'SalesQuotationItems_' + i + '__'));
-                        clone.html($(clone).html().replace(/SalesQuotationItems_0__/g, 'SalesQuotationItems_' + i + '__'));
-                        clone.html($(clone).html().replace(/\SalesQuotationItems[0]./g, 'SalesQuotationItems[' + i + '].'));
-                        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
-                        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-                        clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
-                        clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
-                        clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
-                        $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
-                        $("#slno" + (i + 1)).html((i + 1));
-                        $("#SalesQuotationItems_" + i + "__SlNo").val((i + 1));
-                        $("#" + i).find('span[class="custom-combobox"]').remove();
-                        $("#SalesQuotationItems_" + i + "__WorkDescriptionId").val(0);
-                        $("#SalesQuotationItems_" + i + "__WorkDescriptionId").combobox();
-                        $("#SalesQuotationItems_" + i + "__Rate").val((0).toFixed(2));
-                        $("#SalesQuotationItems_" + i + "__Discount").val((0).toFixed(2));
-                        $("#SalesQuotationItems_" + i + "__Amount").val((0).toFixed(2));
-                        $("#SalesQuotationItems_" + i + "__TotalAmount").val((0).toFixed(2));
                     }
+                    grandtotal = WorkAmt + MaterialAmt;
 
+                    if (isNaN(grandtotal)) {
 
+                        grandtotal = parseFloat("0");
 
+                    }
+                    $("#lblTotalAmount").text(parseFloat(grandtotal).toFixed(2));
+
+                }
+
+                function AddAdditionRow() {
+
+                    var i = 0;
+                    var no = 1;
+                    $('input[id^="Row_"]').each(function () {
+                        var id = this.id;
+                        no++;
+                        var row = Number(id.replace("Row_", ""));
+                        if (row > i) {
+                            i = row;
+                        }
+                    });
+                    i++;
+                    var index = (new Date()).getTime(); // unique indexer
+                    var clone = $('#0').clone(); // clone the BatchProducts item
+                    //Update the index of the clone
+                    //clone.html($(clone).html().replace("SalesQuotationItems_0__", 'SalesQuotationItems_' + i + '__'));
+                    clone.html($(clone).html().replace(/SalesQuotationItems_0__/g, 'SalesQuotationItems_' + i + '__'));
+                    clone.html($(clone).html().replace(/SalesQuotationItems_0__/g, 'SalesQuotationItems_' + i + '__'));
+                    clone.html($(clone).html().replace(/\SalesQuotationItems[0]./g, 'SalesQuotationItems[' + i + '].'));
+                    clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+                    clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+                    clone.html($(clone).html().replace(/Row_0/, 'Row_' + i + ''));
+                    clone.html($(clone).html().replace(/slno1/, 'slno' + (i + 1) + ''));
+                    clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
+                    $("#tab_logic").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
+                    $("#slno" + (i + 1)).html((i + 1));
+                    $("#SalesQuotationItems_" + i + "__SlNo").val((i + 1));
+                    $("#" + i).find('span[class="custom-combobox"]').remove();
+                    $("#SalesQuotationItems_" + i + "__WorkDescriptionId").val(0);
+                    $("#SalesQuotationItems_" + i + "__WorkDescriptionId").combobox();
+                    $("#SalesQuotationItems_" + i + "__Rate").val((0).toFixed(2));
+                    $("#SalesQuotationItems_" + i + "__Discount").val((0).toFixed(2));
+                    $("#SalesQuotationItems_" + i + "__Amount").val((0).toFixed(2));
+                    $("#SalesQuotationItems_" + i + "__TotalAmount").val((0).toFixed(2));
+                }
             </script>
-  
-      
 
-            <div class="table-responsive">
+            
+            
+            if (!Model.isProjectBased)
+            {
+                <div class="table-responsive">
                 <table class="table table-bordered" id="tab_logic">
                     <thead>
                         <tr class="grid_heading">
-                       @if (!Model.isAfterSales)
-                       {
-                            <th width="2%" class="text-center"></th>
-                                }
+                            @if (!Model.isAfterSales)
+                            {
+                                <th width="2%" class="text-center"></th>
+                            }
                             <th width="1%" class="text-center"><h1>#</h1></th>
                             <th width="35%" class="text-left"><h1>Work Description</h1></th>
                             @if (new[] { "Create", "Approve", "Edit" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
@@ -715,23 +745,23 @@
                             <th width="5%" class="text-right"><h1>Qty.</h1></th>
                             <th width="5%" class="text-right"><h1>UoM</h1></th>
                             <th width="7%" class="text-right"><h1>Rate</h1></th>
-                         
+
                             <th width="7%" class="text-right"><h1>Discount</h1></th>
                             <th width="7%" class="text-right"><h1>Amount</h1></th>
                             <th width="8%" class="text-right"><h1>Total</h1></th>
-                       @if (!Model.isAfterSales)
-                       {
-                            <th width="2%">&nbsp;</th>
-                           }
+                            @if (!Model.isAfterSales)
+                            {
+                                <th width="2%">&nbsp;</th>
+                            }
                         </tr>
                     </thead>
                     <tbody id="table_validation">
                         @for (int i = 0; i < Model.SalesQuotationItems.Count; i++)
                         {
                             <tr id="@i">
-                            @if (!Model.isAfterSales)
-                            {
-                                <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
+                                @if (!Model.isAfterSales)
+                                {
+                                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
                                 }
                                 <td align="center">
                                     <span id="slno@(i + 1)">@(i + 1)</span>
@@ -769,7 +799,7 @@
                                 <td>
                                     @Html.TextBoxFor(m => m.SalesQuotationItems[i].Rate, new { @class = "form_input numbers-only clrate validateqty", autocomplete = "off", @style = "text-align:right", placeholder = "Rate", @onchange = "QuantityChanged(" + i + ");", @onkeyup = "QuantityChanged(" + i + ")" })
                                 </td>
-                          
+
                                 <td>
                                     @Html.TextBoxFor(m => m.SalesQuotationItems[i].Discount, new { @class = "form_input numbers-only", autocomplete = "off", @style = "text-align:right", placeholder = "Discount", @onchange = "QuantityChanged(" + i + ");", @onkeyup = "QuantityChanged(" + i + ")" })
 
@@ -778,20 +808,20 @@
                                 <td>
                                     @Html.TextBoxFor(m => m.SalesQuotationItems[i].TotalAmount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })
                                 </td>
-                           @if (!Model.isAfterSales)
-                           {
-                                <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
+                                @if (!Model.isAfterSales)
+                                {
+                                    <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
                                 }
-                                </tr>
+                            </tr>
                         }
 
                     </tbody>
                     <tfoot>
                         <tr class="grid_heading">
-                          @if (!Model.isAfterSales)
-                          {
-                            <th class="text-center"></th>
-                                }
+                            @if (!Model.isAfterSales)
+                            {
+                                <th class="text-center"></th>
+                            }
                             <th class="text-center"></th>
                             <th class="text-center "><h1></h1></th>
                             @if (new[] { "Create", "Approve", "Edit" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
@@ -813,131 +843,94 @@
                                     <span id="span-DiscountTotal"></span>
                                 </h1>
                             </th>
-                                                         
+
                             <th class="text-right">
                                 <span id="QtyAmount"></span>
                             </th>
                             <th class="text-right"><span id="NetTotalAmount"></span></th>
-                           @if (!Model.isAfterSales)
-                           {
-                            <th class="text-right"></th>
-                             }
+                            @if (!Model.isAfterSales)
+                            {
+                                <th class="text-right"></th>
+                            }
                         </tr>
                     </tfoot>
                 </table>
             </div>
-            if (Model.isAfterSales)
+                if (Model.isAfterSales)
+                {
+                    @Html.Partial("_MaterialList")
+                }
+            }
+            else
             {
-                @Html.Partial("_MaterialList")
+                <div id="project_rooms_grid" style="overflow-x: auto;">
+                    @Html.Partial("_ProjectRooms", Model)
+                </div>
             }
             if (Model.isAfterSales)
             {
                 <div class="row form-group">
                     <div class="col-md-12">
-
                         <label class="tamount">Grand Total:<span id="lblTotalAmount"></span></label>
-
                     </div>
                 </div>
             }
-
-
-
-
-
-
             <div class="row">
-
                 <div class="col-md-12">
-
                     <div class="part1">
-
                         <label for="Remarks">Special Remarks</label>
-
                         @Html.TextAreaFor(m => m.Remarks, new { @class = "form_input form_input-h", autocomplete = "off" })
                     </div>
-
                 </div>
 
-
-
-
                 <div class="col-md-11 col-sm-10" style="display:inline-block;position:relative;">
-
                     <div class="part4">
-
                         <label for="PaymentTerms">Payment Terms</label>
-
                         @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
                         <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
                     </div>
-
                 </div>
-
-
-
             </div>
-
-
-
             <div class="row">
-
                 <div class="col-md-3">
                     <label for="SalesQuotationStatusId">Sales Quotation Status</label>
-
-
                     @Html.DropDownListFor(m => Model.SalesQuotationStatusId, (SelectList)ViewBag.SalesQuotationStatuslist, "Select Status", new { @class = "form_input", autocomplete = "off" })
                 </div>
-
-
                 <div class="col-md-2">
                     <label for="QuotationStage">Quotation Stage</label>
-
                     @Html.TextBoxFor(m => m.QuotationStage, new { @class = "form_input", autocomplete = "off" })
-
                 </div>
-
-
                 <div class="col-md-3">
                     <label for="Competitors">Competitors</label>
-
                     @Html.TextBoxFor(m => m.Competitors, new { @class = "form_input", autocomplete = "off" })
-
                 </div>
                 <div class="col-md-1">
                     <label for="Competitors">Discount</label>
                     @Html.TextBoxFor(m => m.Discount, new { @class = "form_input numbers-only", autocomplete = "off" })
                 </div>
-
                 <div class="col-md-3">
                     <label for="DiscountRemarks">Discount Remarks</label>
-
                     @Html.TextBoxFor(m => m.DiscountRemarks, new { @class = "form_input", autocomplete = "off" })
-
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12 hrpart">
-                    
                     <input type="button" class="form-button right" value="Exit" onclick="Back()" />
                     @if (Model.IsUsed)
                     {
                         <span class="perm">
                             <em>**Cannot edit/delete this Sales Quotation, because it is already approved.</em>
                         </span>
-                        <span id="costing-amount-notifier"></span>
                     }
                     else
                     {
                         <button type="button" class="form-button" onclick="DeleteSQ('@Model.SalesQuotationId',@Model.isProjectBased.ToString().ToLower(),@Model.isAfterSales.ToString().ToLower())">Delete</button>
                         <button type="submit" class="form-button right">Edit</button>
-                        <span id="costing-amount-notifier"></span>
                     }
                     <input type="button" value="Print" onclick="GoToPrint(@Model.SalesQuotationId)" class="form-button right" />
-
+                    <span id="costing-amount-notifier" class="cost-notifier"></span>
                 </div>
             </div>
         }
     </div>
 </div>
-

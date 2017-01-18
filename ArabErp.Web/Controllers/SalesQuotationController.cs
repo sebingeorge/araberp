@@ -323,6 +323,7 @@ namespace ArabErp.Web.Controllers
             FillQuerySheetInQuot();
             FillUnit();
             FillRateSettings();
+            FillUnitDoorUnit();
             var repo = new SalesQuotationRepository();
 
             var sorepo = new SaleOrderRepository();
@@ -358,6 +359,12 @@ namespace ArabErp.Web.Controllers
             }
             catch { }
             salesquotation.Materials = repo.GetSalesQuotationMaterials(id);
+
+            #region getting quotation room, unit and door details
+            if (salesquotation.isProjectBased)
+                salesquotation.ProjectRooms = new SaleOrderRepository().GetRoomDetailsFromQuotation(id); 
+            #endregion
+
             if (salesquotation.Materials == null || salesquotation.Materials.Count == 0)
             {
                 salesquotation.Materials.Add(new SalesQuotationMaterial());
@@ -1109,6 +1116,13 @@ namespace ArabErp.Web.Controllers
         {
             FillUnitDoorUnit();
             SalesQuotation model = new SalesQuotationRepository().GetRoomDetailsFromQuerySheet(querySheetId);
+            return PartialView("_ProjectRooms", model);
+        }
+
+        public ActionResult GetRoomDetailsFromQuotation(int salesQuotationId)
+        {
+            SalesQuotation model = new SalesQuotation();
+            model.ProjectRooms = new SaleOrderRepository().GetRoomDetailsFromQuotation(salesQuotationId);
             return PartialView("_ProjectRooms", model);
         }
 

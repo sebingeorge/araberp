@@ -94,12 +94,12 @@ namespace ArabErp.DAL
                 string sql = @"select *,isnull(C.DoorNo,'') +','+ isnull(C.Street,'')+','+isnull(C.State,'') CustomerAddress,
                                 CONCAT(QuotationRefNo,' - ',CONVERT(VARCHAR(15),QuotationDate,104))QuotationNoDate,
                                 GrandTotal TotalAmount, ExpectedDeliveryDate AS EDateDelivery ,
-                                SYM.SymbolName CurrencyName
+                                CUR.CurrencyName CurrencyName
                                 from SalesQuotation S 
-                                inner join Customer C on S.CustomerId=C.CustomerId 
-                                INNER JOIN Organization O ON S.OrganizationId = O.OrganizationId
-                                INNER JOIN Currency CUR ON O.CurrencyId = CUR.CurrencyId
-                                INNER JOIN Symbol SYM ON CUR.CurrencySymbolId = SYM.SymbolId
+                                inner join Customer C on S.CustomerId=C.CustomerId
+                                --INNER JOIN Organization O ON S.OrganizationId = O.OrganizationId
+                                INNER JOIN Currency CUR ON C.CurrencyId = CUR.CurrencyId
+                                --INNER JOIN Symbol SYM ON CUR.CurrencySymbolId = SYM.SymbolId
                                 where SalesQuotationId=@Id";
 
                 var objSaleOrder = connection.Query<SaleOrder>(sql, new
