@@ -58,13 +58,13 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>AARC/JC/17/13</JobCardNo>
-    <JobCardDate>13-Jan-2017</JobCardDate>
-    <SaleOrderRefNo>78 - 0</SaleOrderRefNo>
-    <Unit>Thermoking T600-R</Unit>
-    <Customer>Haidari Trading</Customer>
-    <ChasisNo>78 - 0</ChasisNo>
-    <VModel>MITSUBISHI 4.3 TON</VModel>
+    <JobCardNo>AARC/17/JC-S/46</JobCardNo>
+    <JobCardDate>17-Jan-2017</JobCardDate>
+    <SaleOrderRefNo>47142</SaleOrderRefNo>
+    <Unit>Carrier / Viento 200</Unit>
+    <Customer>Al Danah Trading &amp; Contracting Co.</Customer>
+    <ChasisNo>47142</ChasisNo>
+    <VModel>Toyota Hiace</VModel>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -74,16 +74,18 @@
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Box>100mm 4400x2100x2100 PUB Mit - BAM With Out Side Door</Box>
-    <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\787f5059-4422-41c8-bfa4-d064ea613e54.jpg</CreateSignature>
-    <CreatedDes>Asst.Sales Manager</CreatedDes>
+    <Box />
+    <Complaints>1) General Service
+2) Cab Command Switch Defective</Complaints>
+    <CreatedUser>safiq</CreatedUser>
+    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\51abaa4b-ca6d-4137-b77b-fe72f18bcda5.jpg</CreateSignature>
+    <CreatedDes>Workshop Controller</CreatedDes>
   </Head>
   <Items>
-    <TaskDate>13-Jan-2017</TaskDate>
-    <Employee>Aung Thet Htay</Employee>
-    <Description>Bracket Fitting</Description>
-    <Hours>4.00</Hours>
+    <TaskDate>17-Jan-2017</TaskDate>
+    <Employee>Giriesh Gopi</Employee>
+    <Description>General Maintenance </Description>
+    <Hours>3.00</Hours>
   </Items>
   <Items>
     <TaskDate />
