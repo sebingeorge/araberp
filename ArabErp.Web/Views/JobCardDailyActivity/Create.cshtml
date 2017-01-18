@@ -176,8 +176,8 @@
                                 <td>@Model.JobCardDailyActivityTask[i].TaskStartDate.ToString("dd/MMMM/yyyy")</td>
                                 @*<td width="5%">*@@Html.HiddenFor(m => m.JobCardDailyActivityTask[i].TaskStartDate)@*</td>*@
                                 @*<td width="5%">*@@Html.HiddenFor(m => m.JobCardDailyActivityTask[i].TaskEndDate)@*</td>*@
-                                <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].StartTime, new { @class = "form_input timepicker", autocomplete = "off", @required = "true" })</td>
-                                <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].EndTime, new { @class = "form_input timepicker", autocomplete = "off", @required = "true" })</td>
+                                <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].StartTime, new { @class = "form_input timepicker", autocomplete = "off"@*, @required = "true"*@ })</td>
+                                <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].EndTime, new { @class = "form_input timepicker", autocomplete = "off"@*, @required = "true"*@ })</td>
                                 <td width="10%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].ActualHours, new { @class = "form_input numbers-only", autocomplete = "off", @placeholder = "0"})</td>
                                 @*<td style="vertical-align:middle"><a id="add_@i" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>*@
                             </tr>
