@@ -209,7 +209,7 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-        public ActionResult Print(int Id)
+        public ActionResult DeliveryChallan(int DeliveryChallanId)
         {
 
             ReportDocument rd = new ReportDocument();
@@ -275,7 +275,7 @@ namespace ArabErp.Web.Controllers
             //if (s.isService == 0)
             //{
             DeliveryChallanRepository repo = new DeliveryChallanRepository();
-            var Head = repo.GetDeliveryChallanHD(Id, OrganizationId);
+            var Head = repo.GetDeliveryChallanHD(DeliveryChallanId, OrganizationId);
 
 
             DataRow dr = ds.Tables["Head"].NewRow();
@@ -328,7 +328,7 @@ namespace ArabErp.Web.Controllers
 
 
             DeliveryChallanRepository repo1 = new DeliveryChallanRepository();
-            var Items = repo1.GetDeliveryChallanDTPrint(Id);
+            var Items = repo1.GetDeliveryChallanDTPrint(DeliveryChallanId);
             foreach (var item in Items)
             {
                 var DCItem = new PrintDescription
