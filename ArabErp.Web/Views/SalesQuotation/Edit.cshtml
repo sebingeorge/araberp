@@ -376,6 +376,7 @@
             @Html.HiddenFor(m => m.isProjectBased)
             @Html.HiddenFor(m => m.isAfterSales)
             @Html.HiddenFor(m => m.CurrencyId)
+            @Html.HiddenFor(m => m.GrandTotal)
             <input type="hidden" id="CurrencyName" value="@Model.CurrencyName" />
             <div class="row form-group ">
                 <div class="col-md-2">
@@ -898,6 +899,12 @@
                         @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
                         <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="DeliveryTerms">Delivery Terms</label>
+                    @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", @autocomplete = "off" })
                 </div>
             </div>
             <div class="row">

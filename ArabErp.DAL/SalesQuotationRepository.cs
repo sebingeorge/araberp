@@ -808,15 +808,80 @@ namespace ArabErp.DAL
             }
         }
 
-        public void UpdateProjectSalesQuotation(SalesQuotation model)
+        public int UpdateProjectSalesQuotation(SalesQuotation model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
+                    #region query to update [SalesQuotation] table and delete from [SalesQuotationItem] table
+                    string sql = @"UPDATE SalesQuotation SET   QuotationDate = @QuotationDate,CustomerId=@CustomerId,ContactPerson=@ContactPerson,SalesExecutiveId=@SalesExecutiveId,PredictedClosingDate=@PredictedClosingDate,
+                                        QuotationValidToDate = @QuotationValidToDate,ExpectedDeliveryDate = @ExpectedDeliveryDate,IsQuotationApproved=@IsQuotationApproved,ApprovedBy=@ApprovedBy,TotalWorkAmount=@TotalWorkAmount,TotalMaterialAmount=@TotalMaterialAmount,GrandTotal=@GrandTotal,CurrencyId=@CurrencyId,QuotationStatus=@QuotationStatus,Remarks=@Remarks,SalesQuotationStatusId=@SalesQuotationStatusId,
+                                        QuotationStage = @QuotationStage,Competitors = @Competitors,PaymentTerms = @PaymentTerms,DiscountRemarks=@DiscountRemarks,CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId,isProjectBased=@isProjectBased,isAfterSales=@isAfterSales,QuerySheetId=NULLIF(@QuerySheetId,0),isWarranty=@isWarranty, Discount = @Discount, DeliveryTerms = @DeliveryTerms
+	                                    where SalesQuotationId = @SalesQuotationId;";
+                    var id = connection.Execute(sql, model, txn);
+                    #endregion
+
+                    #region delete and insert into [SalesQuotationItem] table
+                    sql = @"DELETE FROM ProjectQuotationItemUnit WHERE SalesQuotationItemId IN 
+                                (SELECT SalesQuotationItemId FROM SalesQuotationItem WHERE SalesQuotationId = " + model.SalesQuotationId.ToString() + @");
+                            DELETE FROM ProjectQuotationItemDoor WHERE SalesQuotationItemId IN 
+                                (SELECT SalesQuotationItemId FROM SalesQuotationItem WHERE SalesQuotationId = " + model.SalesQuotationId.ToString() + @");
+                            DELETE FROM SalesQuotationItem WHERE SalesQuotationId = " + model.SalesQuotationId.ToString() + @";";
+
+                    connection.Execute(sql, transaction: txn);
+                    sql = @"INSERT INTO SalesQuotationItem 
+                            (
+	                            [SalesQuotationId],
+                                [SlNo],
+	                            [Quantity],
+	                            [OrganizationId],
+	                            [isActive]
+                            )
+                            VALUES
+                            (
+	                            @SalesQuotationId,
+                                @SlNo,
+                                @Quantity,
+                                @OrganizationId,
+                                @isActive
+                            )
+                            SELECT CAST(SCOPE_IDENTITY() AS INT) SalesQuotationItemId";
+                    model.SalesQuotationItems = new List<SalesQuotationItem>();
+                    model.SalesQuotationItems.Add(new SalesQuotationItem
+                    {
+                        SalesQuotationId = model.SalesQuotationId,
+                        SlNo = 1,
+                        Quantity = 1,
+                        OrganizationId = model.OrganizationId,
+                        isActive = true
+                    });
+                    var _SalesQuotationItemId = connection.Query<int>(sql, model.SalesQuotationItems[0], txn).First();
+                    #endregion
+
+                    #region saving project quotation units and doors
+                    foreach (QuerySheetItem items in model.ProjectRooms)
+                    {
+                        foreach (QuerySheetUnit item in items.ProjectRoomUnits)
+                        {
+                            item.QuerySheetItemId = _SalesQuotationItemId;
+                            sql = @"insert  into ProjectQuotationItemUnit(SalesQuotationItemId,EvaporatorUnitId,CondenserUnitId,Quantity) 
+                                    Values (@QuerySheetItemId,@EvaporatorUnitId,@CondenserUnitId,@Quantity)";
+                            connection.Execute(sql, item, txn);
+                        }
+                        foreach (QuerySheetDoor item in items.ProjectRoomDoors)
+                        {
+                            item.QuerySheetItemId = _SalesQuotationItemId;
+                            sql = @"insert  into ProjectQuotationItemDoor(SalesQuotationItemId,DoorId,Quantity) 
+                                    Values (@QuerySheetItemId,@DoorId,@Quantity)";
+                            connection.Execute(sql, item, txn);
+                        }
+                    }
+                    #endregion
 
                     txn.Commit();
+                    return 1;
                 }
                 catch (Exception ex)
                 {
