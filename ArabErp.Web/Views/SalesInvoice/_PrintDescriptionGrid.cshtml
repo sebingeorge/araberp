@@ -11,6 +11,7 @@
         //$('#print-description-table input').attr("disabled", "true");
         //$('#print-description-table textarea').attr("disabled", "true");
         $('#print-description-table .glyphicon').hide();
+        
     })
 
     function AddPrintDescRow() {
@@ -68,14 +69,14 @@
         var net = 0;
 
         $('.PriceEach').each(function (i, obj) {
-            //var amount = 0;
+           
             var qty = 0;
             var rate = 0;
 
             console.log(obj);
             qty=$("#PrintDescriptions_" + i + "__Quantity").val();
             if(eval($("#PrintDescriptions_" + i + "__PriceEach").val() != 0 && eval($("#PrintDescriptions_" + i + "__PriceEach").val() != '')))
-                rate = rate + eval($("#PrintDescriptions_" + i + "__PriceEach").val());
+            rate = rate + eval($("#PrintDescriptions_" + i + "__PriceEach").val());
             amount = (qty * rate);
             total = total + amount;
             //$("#PrintDescriptions_" + i + "__Quantity").val();
@@ -85,6 +86,7 @@
         $("#gridTotals").text(total);
         net = total;
         $("#PrintTotalAmount").val(total.toFixed(2));
+       
         //$("#lblTotalAmount").text(net.toFixed(2));
 
         //net += amount;
