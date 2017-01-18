@@ -34,6 +34,7 @@ namespace ArabErp.Web.Controllers
         }
 
         public ActionResult PendingSalesInvoice(string invType, string InstallType = "all")
+        
         {
          
             //ViewBag.saleOrderList = new SelectList(Repo.GetSalesInvoiceCustomerList(invType, OrganizationId), "SaleOrderId", "SaleOrderRefNoWithDate");
