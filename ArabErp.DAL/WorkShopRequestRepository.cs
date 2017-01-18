@@ -603,7 +603,7 @@ namespace ArabErp.DAL
         /// Returns all pending workshop requests
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<WorkShopRequest> PendingWorkshopRequests(string Request = "", string Sale = "", string Customer = "", string jcno = "", string RegNo = "")
+        public IEnumerable<WorkShopRequest> PendingWorkshopRequests(string Request = "", string Sale = "", string Customer = "", string jcno = "", string RegNo = "", string Type = "all")
        {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -682,7 +682,7 @@ namespace ArabErp.DAL
 
                                 SELECT CustomerId, CustomerName INTO #CUSTOMER FROM Customer;
 
-                                SELECT SaleOrderId, ISNULL(SaleOrderRefNo, '')+' - '+CONVERT(VARCHAR, SaleOrderDate, 106) SoNoWithDate INTO #SALE FROM SaleOrder;
+                                SELECT SaleOrderId, ISNULL(SaleOrderRefNo, '')+' - '+CONVERT(VARCHAR, SaleOrderDate, 106) SoNoWithDate,isProjectBased INTO #SALE FROM SaleOrder;
 
                                 SELECT distinct W.WorkShopRequestId,WR.isDirectRequest ,ISNULL(WR.WorkShopRequestRefNo, '')+' - '+CAST(CONVERT(VARCHAR, WR.WorkShopRequestDate, 106) AS VARCHAR) WorkShopRequestRefNo, CONVERT(DATETIME, WR.RequiredDate, 106) RequiredDate, C.CustomerName, S.SoNoWithDate,
                                     DATEDIFF(day, WR.WorkShopRequestDate, GETDATE()) Ageing,
@@ -701,6 +701,7 @@ namespace ArabErp.DAL
                                 LEFT JOIN VehicleInPass V ON V.VehicleInPassId=JC.InPassId 
                                 LEFT JOIN JobCard J ON S.SaleOrderId=J.SaleOrderId
                                 WHERE /*ISNULL(IssuedQuantity,0) < Quantity and*/ (case when isnull(WR.isDirectRequest,0)=1 then isnull(WR.isApproved,0)else 1 end)=1 
+ 								AND ISNULL(S.isProjectBased, 0) = CASE @Type WHEN 'project' THEN 1 WHEN 'transport' THEN 0 WHEN 'all' THEN ISNULL(S.isProjectBased, 0) END
                 				AND  WorkShopRequestRefNo LIKE '%'+@Request+'%'
                 				AND ISNULL(SoNoWithDate,'') LIKE '%'+@Sale+'%'
                 				AND ISNULL(CustomerName,'') LIKE '%'+@Customer+'%'
@@ -712,7 +713,7 @@ namespace ArabErp.DAL
                                 DROP TABLE #CUSTOMER;
                                 DROP TABLE #SALE;";
 
-                return connection.Query<WorkShopRequest>(sql, new { Request = Request, Sale = Sale, Customer = Customer, jcno = jcno, RegNo = RegNo }).ToList();
+                return connection.Query<WorkShopRequest>(sql, new { Request = Request, Sale = Sale, Customer = Customer, jcno = jcno, RegNo = RegNo, Type = Type }).ToList();
             }
         }
         public IEnumerable<WorkShopRequest> GetPrevious(int isProjectBased, DateTime? from, DateTime? to, string workshop, string customer, int OrganizationId)
