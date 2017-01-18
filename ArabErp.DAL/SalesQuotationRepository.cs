@@ -203,8 +203,9 @@ namespace ArabErp.DAL
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select * from SalesQuotation
-                        where SalesQuotationId=@SalesQuotationId";
+                string sql = @"select *, CUR.CurrencyName from SalesQuotation SQ
+                                INNER JOIN Currency CUR ON SQ.CurrencyId = CUR.CurrencyId
+                                where SalesQuotationId=@SalesQuotationId";
 
                 var objSalesQuotation = connection.Query<SalesQuotation>(sql, new { SalesQuotationId = SalesQuotationId }).First<SalesQuotation>();
 
@@ -803,6 +804,24 @@ namespace ArabErp.DAL
                 {
                     txn.Rollback();
                     throw;
+                }
+            }
+        }
+
+        public void UpdateProjectSalesQuotation(SalesQuotation model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+
+                    txn.Commit();
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
                 }
             }
         }

@@ -805,8 +805,8 @@ namespace ArabErp.DAL
                                                     new { OrganizationId = OrganizationId, ProjectBased = ProjectBased, AfterSales = AfterSales }).ToList();
             }
         }
-       public List<Dropdown> FillSQEmployee(int OrganizationId, int ProjectBased, int AfterSales)
-       {
+        public List<Dropdown> FillSQEmployee(int OrganizationId, int ProjectBased, int AfterSales)
+        {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
@@ -1129,6 +1129,23 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Dropdown>("SELECT JobCardTaskMasterId Id, JobCardTaskName Name FROM JobCardTaskMaster WHERE ISNULL(isActive, 1) = 1").ToList();
+            }
+        }
+
+        public IEnumerable QuerySheetIncludingCurrentDropdown(int QuerySheetId, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT 
+	                                                    QuerySheetId Id, 
+	                                                    QuerySheetRefNo Name 
+                                                    FROM QuerySheet 
+                                                    WHERE ISNULL(isActive, 1) = 1
+                                                    AND QuerySheetId NOT IN (SELECT QuerySheetId FROM SalesQuotation 
+                                                                                WHERE QuerySheetId IS NOT NULL 
+                                                                                AND QuerySheetId <> " + QuerySheetId.ToString() + @") 
+                                                    AND [Type] = 'Costing'
+                                                    AND OrganizationId= " + OrganizationId.ToString()).ToList();
             }
         }
     }
