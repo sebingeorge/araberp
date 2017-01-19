@@ -79,14 +79,12 @@
                                 {
                                     <th width="41%"><h1>Work Description</h1></th>
                                 }
-                                 else if (isProjectBased == 1)
-                                {
-                                    <th width="20%"><h1>Units</h1></th>
-                                }
+                               
                                  @if (isProjectBased == 1 && isService == 0)
-                                {
-                                <th width="20%"><h1>Doors</h1></th>
-                                }
+                                 {
+                                    <th width="20%"><h1>Units</h1></th>
+                                  <th width="20%"><h1>Doors</h1></th>
+                                 }
                                 @if (isProjectBased == 0)
                                 {
                                     <th width="10%"><h1>Vehicle Model</h1></th>
@@ -121,13 +119,10 @@
                                         {
                                             <td class="grid-cell">@item.WorkDescription</td>
                                         }
-                                        else if (isProjectBased == 1 )
-                                        {
-                                            <td class="grid-cell"></td>
-                                            
-                                        }
+                                     
                                         @if (isProjectBased == 1 && isService == 0)
                                         {
+                                            <td class="grid-cell"></td>
                                             <td class="grid-cell"></td>
                                         }
                                         @if (isProjectBased == 0)
