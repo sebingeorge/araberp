@@ -234,7 +234,7 @@ namespace ArabErp.Web.Controllers
 
 
 
-        public ActionResult Print(int Id)
+        public ActionResult JobCardReport(int Id)
         {
 
             ReportDocument rd = new ReportDocument();

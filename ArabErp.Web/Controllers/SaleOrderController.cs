@@ -1100,7 +1100,7 @@ namespace ArabErp.Web.Controllers
         {
             return View(new SaleOrderRepository().GetPendingServiceEnquiries(OrganizationId,isProjectBased??0));
         }
-        public ActionResult PrintJob(int id)//ServiceEnquiryId is received here
+        public ActionResult JobRepairOrder(int ServiceEnquiryId)//ServiceEnquiryId is received here
         {
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reports"), "JobRepairOrder.rpt"));
@@ -1158,7 +1158,7 @@ namespace ArabErp.Web.Controllers
 
             SaleOrderRepository repo = new SaleOrderRepository();
             ServiceEnquiry se = new ServiceEnquiry();
-            var Head = repo.GetJobPrintHD(id, OrganizationId);
+            var Head = repo.GetJobPrintHD(ServiceEnquiryId, OrganizationId);
 
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["ServiceEnquiryRefNo"] = Head.ServiceEnquiryRefNo;

@@ -37,7 +37,7 @@
     function GoToPrint(id) {
         var url = '@Url.Action("PurchaseOrder")';
         url += "?Id=" + id;
-        window.location = url;
+        window.open(url);
     }
     function calculateSummary() {
         var Discount = parseFloat($("#NetDiscount").val());

@@ -94,10 +94,10 @@
     }
 
     function PrintEnquiry() {
-        var url = '@Url.Action("PrintJob")';
-        url += '/' + '@Model.ServiceEnquiryId';
-        window.location = url;
+        var url = '@Url.Action("JobRepairOrder", new { ServiceEnquiryId = Model.ServiceEnquiryId })';
+        window.open(url);
     }
+
     function Delete(id) {
 
         var url = '@Url.Action("DeleteEnquiry")';

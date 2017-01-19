@@ -39,6 +39,10 @@
                 <xs:element name="SupFax" type="xs:string" minOccurs="0" />
                 <xs:element name="SupEmail" type="xs:string" minOccurs="0" />
                 <xs:element name="SupPostBoxNo" type="xs:string" minOccurs="0" />
+                <xs:element name="CreatedDes" type="xs:string" minOccurs="0" />
+                <xs:element name="ApproveDes" type="xs:string" minOccurs="0" />
+                <xs:element name="NetDiscount" type="xs:string" minOccurs="0" />
+                <xs:element name="NetAmount" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -55,6 +59,7 @@
                 <xs:element name="Amount" type="xs:string" minOccurs="0" />
                 <xs:element name="ItemRefNo" type="xs:string" minOccurs="0" />
                 <xs:element name="UnitName" type="xs:string" minOccurs="0" />
+                <xs:element name="Description" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -63,184 +68,48 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SupplyOrderNo>LPO/1</SupplyOrderNo>
-    <SupplyOrderDate>19-Nov-2016</SupplyOrderDate>
+    <SupplyOrderNo>AARC/PO/17/1048</SupplyOrderNo>
+    <SupplyOrderDate>18-Jan-2017</SupplyOrderDate>
     <PaymentTerms>PaymentTerms</PaymentTerms>
-    <RequiredDate>22-Nov-2016 12:00:00 AM</RequiredDate>
+    <RequiredDate>18-Jan-2017 00:00:00</RequiredDate>
     <CurrencyName>QAR</CurrencyName>
-    <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
-    <ApprovedUser>ihits</ApprovedUser>
-    <ApproveSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\</ApproveSignature>
+    <CreatedUser>akthab</CreatedUser>
+    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\39673699-d2e8-47c6-b515-83cce1ec1421.JPG</CreateSignature>
+    <ApproveSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\</ApproveSignature>
     <CountryName>QATAR</CountryName>
-    <DoorNo>Al Mumtazah Building, First Floor, Door No.3, </DoorNo>
-    <Street>P.O Box:13037, Doha, Qatar</Street>
+    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
+    <Street>Hiteen Street, Muntazah </Street>
+    <State>Doha</State>
     <Country>QATAR</Country>
-    <Phone>+974 4435 7214 / 15</Phone>
-    <Fax>+974 4441 4762</Fax>
-    <OrganizationName>Arab Air-conditioning &amp; Refrigeration Co. WLL</OrganizationName>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
-    <SupplierName>A Aziz Bin Khalid Al Ghanem Group</SupplierName>
-    <SupState>Qatar</SupState>
+    <Phone>974 4435 7216</Phone>
+    <Fax>974 4414 2910</Fax>
+    <Email>info@arabrefrigeration.com</Email>
+    <Zip>13037</Zip>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <SupplierName>Mannai Trading Co W.L.L.</SupplierName>
+    <SupDoorNo />
+    <SupState>Doha- Qatar</SupState>
     <SupCountryName>UAE</SupCountryName>
+    <SupPhone />
     <SupFax>0</SupFax>
     <SupEmail>www.com</SupEmail>
-    <SupPostBoxNo>Qatar</SupPostBoxNo>
+    <SupPostBoxNo />
+    <CreatedDes>Procurement Executive</CreatedDes>
+    <NetDiscount>0.00</NetDiscount>
+    <NetAmount>53000.00</NetAmount>
   </Head>
   <Items>
-    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
-    <PartNo />
-    <ItemName>FLEXIBLE HOSE 32MM   (25M)</ItemName>
-    <BalQty>6</BalQty>
-    <OrderedQty>6</OrderedQty>
-    <Rate>1.00</Rate>
-    <Discount>0.00</Discount>
-    <Amount>6.00</Amount>
-    <ItemRefNo>ITM/4</ItemRefNo>
-    <UnitName>Roll</UnitName>
-  </Items>
-  <Items>
-    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
-    <PartNo>-</PartNo>
-    <ItemName>FUSE HOLDER</ItemName>
-    <BalQty>1</BalQty>
-    <OrderedQty>1</OrderedQty>
-    <Rate>1.00</Rate>
-    <Discount>0.00</Discount>
-    <Amount>1.00</Amount>
-    <ItemRefNo>ITM/6</ItemRefNo>
-    <UnitName>Nos</UnitName>
-  </Items>
-  <Items>
-    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
-    <PartNo />
-    <ItemName>ON OFF SWITCH</ItemName>
-    <BalQty>1</BalQty>
-    <OrderedQty>1</OrderedQty>
-    <Rate>1.00</Rate>
-    <Discount>0.00</Discount>
-    <Amount>1.00</Amount>
-    <ItemRefNo>ITM/7</ItemRefNo>
-    <UnitName>Nos</UnitName>
-  </Items>
-  <Items>
-    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
-    <PartNo />
-    <ItemName>BATTERY TERMINAL  +VE</ItemName>
-    <BalQty>1</BalQty>
-    <OrderedQty>1</OrderedQty>
-    <Rate>1.00</Rate>
-    <Discount>0.00</Discount>
-    <Amount>1.00</Amount>
-    <ItemRefNo>ITM/27</ItemRefNo>
-    <UnitName>Nos</UnitName>
-  </Items>
-  <Items>
-    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
-    <PartNo />
-    <ItemName>WIRE TIE 250X4.8</ItemName>
-    <BalQty>1</BalQty>
-    <OrderedQty>1</OrderedQty>
-    <Rate>1.00</Rate>
-    <Discount>0.00</Discount>
-    <Amount>1.00</Amount>
-    <ItemRefNo>ITM/92</ItemRefNo>
-    <UnitName>Pkt</UnitName>
-  </Items>
-  <Items>
-    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
-    <PartNo />
-    <ItemName>WIRE TIE 430X 9.0</ItemName>
-    <BalQty>1</BalQty>
-    <OrderedQty>1</OrderedQty>
-    <Rate>1.00</Rate>
-    <Discount>0.00</Discount>
-    <Amount>1.00</Amount>
-    <ItemRefNo>ITM/93</ItemRefNo>
-    <UnitName>Pkt</UnitName>
-  </Items>
-  <Items>
-    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
-    <PartNo />
-    <ItemName>TRUNKING BOX 50x50</ItemName>
-    <BalQty>1</BalQty>
-    <OrderedQty>1</OrderedQty>
-    <Rate>1.00</Rate>
-    <Discount>0.00</Discount>
-    <Amount>1.00</Amount>
-    <ItemRefNo>ITM/160</ItemRefNo>
-    <UnitName>Nos</UnitName>
-  </Items>
-  <Items>
-    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
-    <PartNo>1002</PartNo>
-    <ItemName>100mm 3300x2000x2100mm- ISUZU</ItemName>
-    <BalQty>1</BalQty>
-    <OrderedQty>1</OrderedQty>
-    <Rate>1.00</Rate>
-    <Discount>0.00</Discount>
-    <Amount>1.00</Amount>
-    <ItemRefNo>ITM/650</ItemRefNo>
-    <UnitName>Nos</UnitName>
-  </Items>
-  <Items>
-    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
-    <PartNo>-</PartNo>
+    <PRNODATE>PRQ/17/27 - 18 Jan 2017</PRNODATE>
+    <PartNo>T600R</PartNo>
     <ItemName>Thermoking T600-R</ItemName>
     <BalQty>1</BalQty>
     <OrderedQty>1</OrderedQty>
-    <Rate>1.00</Rate>
+    <Rate>53000.00</Rate>
     <Discount>0.00</Discount>
-    <Amount>1.00</Amount>
-    <ItemRefNo>100076</ItemRefNo>
+    <Amount>53000.00</Amount>
+    <ItemRefNo>ITM/1253</ItemRefNo>
     <UnitName>Nos</UnitName>
-  </Items>
-  <Items>
-    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
-    <PartNo>1</PartNo>
-    <ItemName>FLEXIBLE HOSE 10MM   (100) Mtr</ItemName>
-    <BalQty>10</BalQty>
-    <OrderedQty>10</OrderedQty>
-    <Rate>1.00</Rate>
-    <Discount>0.00</Discount>
-    <Amount>10.00</Amount>
-    <ItemRefNo>ITM/867</ItemRefNo>
-    <UnitName>Mtr</UnitName>
-  </Items>
-  <Items>
-    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
-    <PartNo>2</PartNo>
-    <ItemName>FLEXIBLE HOSE 16 MM   (50) Mtr</ItemName>
-    <BalQty>9</BalQty>
-    <OrderedQty>9</OrderedQty>
-    <Rate>1.00</Rate>
-    <Discount>0.00</Discount>
-    <Amount>9.00</Amount>
-    <ItemRefNo>ITM/868</ItemRefNo>
-    <UnitName>Mtr</UnitName>
-  </Items>
-  <Items>
-    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
-    <PartNo>4</PartNo>
-    <ItemName>AUTO CABLE  BLACK 2MM Mtr</ItemName>
-    <BalQty>5</BalQty>
-    <OrderedQty>5</OrderedQty>
-    <Rate>1.00</Rate>
-    <Discount>0.00</Discount>
-    <Amount>5.00</Amount>
-    <ItemRefNo>ITM/870</ItemRefNo>
-    <UnitName>Mtr</UnitName>
-  </Items>
-  <Items>
-    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
-    <PartNo>5</PartNo>
-    <ItemName>AUTO CABLE  RED  2MM  Mtr</ItemName>
-    <BalQty>5</BalQty>
-    <OrderedQty>5</OrderedQty>
-    <Rate>1.00</Rate>
-    <Discount>0.00</Discount>
-    <Amount>5.00</Amount>
-    <ItemRefNo>ITM/871</ItemRefNo>
-    <UnitName>Mtr</UnitName>
+    <Description>Supply &amp; Commissioning of Thermo king T600-R Freezer units</Description>
   </Items>
 </NewDataSet>
