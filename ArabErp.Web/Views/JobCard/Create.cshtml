@@ -240,16 +240,28 @@
                 else
                 {
                     <div class="row form-group">
-                        <div class="col-md-6">
-                            <label for="wrkdes">Units</label>
-                            @Html.TextAreaFor(m => m.Units, new { @class = "form_input", autocomplete = "off", @readonly = "true", @style = "height:60px" })
-                            @*@Html.HiddenFor(m => m.WorkDescriptionId, new { @class = "form_input", autocomplete = "off" })*@
-                        </div>
-                        <div class="col-md-6">
-                            <label for="wrkdes">Doors</label>
-                            @Html.TextAreaFor(m => m.Doors, new { @class = "form_input", autocomplete = "off", @readonly = "true", @style = "height:60px" })
-                            @*@Html.HiddenFor(m => m.WorkDescriptionId, new { @class = "form_input", autocomplete = "off" })*@
-                        </div>
+                        @if (Model.isService == 1)
+                        {
+                            <div class="col-md-12">
+                                <label for="wrkdes">Unit Details</label>
+                                @Html.TextAreaFor(m => m.UnitDetails, new { @class = "form_input", autocomplete = "off", @readonly = "true", @style = "height:60px" })
+                               
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-6">
+                                <label for="wrkdes">Units</label>
+                                @Html.TextAreaFor(m => m.Units, new { @class = "form_input", autocomplete = "off", @readonly = "true", @style = "height:60px" })
+                                @*@Html.HiddenFor(m => m.WorkDescriptionId, new { @class = "form_input", autocomplete = "off" })*@
+                            </div>
+                            <div class="col-md-6">
+                                <label for="wrkdes">Doors</label>
+                                @Html.TextAreaFor(m => m.Doors, new { @class = "form_input", autocomplete = "off", @readonly = "true", @style = "height:60px" })
+                                @*@Html.HiddenFor(m => m.WorkDescriptionId, new { @class = "form_input", autocomplete = "off" })*@
+                            </div>
+                        }
+
                     </div>
                 }
                 @if (Model.isProjectBased == 0)

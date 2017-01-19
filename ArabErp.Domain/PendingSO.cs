@@ -33,7 +33,7 @@ namespace ArabErp.Domain
         public int DaysLeft { get; set; }
         public int? isProjectBased { get; set; }
         public string JobCardNo { get; set; }
-        public string UnitDetails { get; set; }
+
         public DateTime JobCardDate { get; set; }
         public string WorkShopRequestRefNo { get; set; }
         
