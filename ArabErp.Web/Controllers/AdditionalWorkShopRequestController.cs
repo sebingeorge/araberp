@@ -27,12 +27,22 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Create(int isProjectBased)
         {
+            string internalid = "";
             JobCardDropdown(isProjectBased);
-            string internalid = DatabaseCommonRepository.GetNextDocNo(20, OrganizationId);
+
+            if(isProjectBased == 0)
+            {
+                 internalid = DatabaseCommonRepository.GetNextDocNo(20, OrganizationId);
+            }
+            else
+            {
+                 internalid = DatabaseCommonRepository.GetNextDocNo(43, OrganizationId);
+            }
+           
 
             //return View(new Employee { EmployeeRefNo = "EMP/" + internalid });
 
-            return View(new WorkShopRequest { WorkShopRequestDate = DateTime.Today, RequiredDate = DateTime.Today, WorkShopRequestRefNo = internalid });
+            return View(new WorkShopRequest { WorkShopRequestDate = DateTime.Today, RequiredDate = DateTime.Today, WorkShopRequestRefNo = internalid, isProjectBased = isProjectBased });
         }
         [HttpPost]
         public ActionResult Create(WorkShopRequest model)
@@ -47,7 +57,7 @@ namespace ArabErp.Web.Controllers
                 {
                     TempData["success"] = "Saved succesfully";
                     TempData["error"] = "";
-                    return RedirectToAction("Create");
+                    return RedirectToAction("Create", new {model.isProjectBased});
                 }
             }
             catch (NullReferenceException nx)
