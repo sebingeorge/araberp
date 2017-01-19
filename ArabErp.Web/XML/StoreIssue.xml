@@ -1,0 +1,96 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="StoreIssueRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="StoreIssueDate" type="xs:string" minOccurs="0" />
+                <xs:element name="StockpointName" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
+                <xs:element name="WONODATE" type="xs:string" minOccurs="0" />
+                <xs:element name="SONODATE" type="xs:string" minOccurs="0" />
+                <xs:element name="RequiredDate" type="xs:string" minOccurs="0" />
+                <xs:element name="Remarks" type="xs:string" minOccurs="0" />
+                <xs:element name="EmployeeName" type="xs:string" minOccurs="0" />
+                <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Street" type="xs:string" minOccurs="0" />
+                <xs:element name="State" type="xs:string" minOccurs="0" />
+                <xs:element name="CountryName" type="xs:string" minOccurs="0" />
+                <xs:element name="Phone" type="xs:string" minOccurs="0" />
+                <xs:element name="Fax" type="xs:string" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="ContactPerson" type="xs:string" minOccurs="0" />
+                <xs:element name="Zip" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+                <xs:element name="JobCardNo" type="xs:string" minOccurs="0" />
+                <xs:element name="CreateUser" type="xs:string" minOccurs="0" />
+                <xs:element name="CreateSig" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ItemName" type="xs:string" minOccurs="0" />
+                <xs:element name="RequiredQuantity" type="xs:string" minOccurs="0" />
+                <xs:element name="IssuedQuantity" type="xs:string" minOccurs="0" />
+                <xs:element name="PendingQuantity" type="xs:string" minOccurs="0" />
+                <xs:element name="StockQuantity" type="xs:string" minOccurs="0" />
+                <xs:element name="CurrentIssuedQuantity" type="xs:string" minOccurs="0" />
+                <xs:element name="UnitName" type="xs:string" minOccurs="0" />
+                <xs:element name="PartNo" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <StoreIssueRefNo>SI/17/56</StoreIssueRefNo>
+    <StoreIssueDate>11-Jan-2017</StoreIssueDate>
+    <StockpointName>Main Store</StockpointName>
+    <CustomerName>Newrest Gulf</CustomerName>
+    <WONODATE>A-WRQ/17/23 , 11 Jan 2017</WONODATE>
+    <SONODATE>AARC/SER/17/25 , 10 Jan 2017</SONODATE>
+    <RequiredDate>11-Jan-2017 00:00:00</RequiredDate>
+    <EmployeeName>Giriesh Gopi</EmployeeName>
+    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
+    <Street>Hiteen Street, Muntazah </Street>
+    <State>Doha</State>
+    <CountryName>QATAR</CountryName>
+    <Fax>974 4414 2910</Fax>
+    <Email>info@arabrefrigeration.com</Email>
+    <Zip>13037</Zip>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <JobCardNo>AARC/17/JC-S/24</JobCardNo>
+    <CreateUser>rafi</CreateUser>
+    <CreateSig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\bb6a49ba-82ba-4e3d-a8f3-4d49c9c2c04a.jpg</CreateSig>
+  </Head>
+  <Items>
+    <ItemName>DHOLLANDIA FILTER COMPLETE </ItemName>
+    <RequiredQuantity>1.00</RequiredQuantity>
+    <IssuedQuantity>1</IssuedQuantity>
+    <PendingQuantity>0</PendingQuantity>
+    <StockQuantity>1.000</StockQuantity>
+    <CurrentIssuedQuantity>1</CurrentIssuedQuantity>
+    <UnitName>Nos</UnitName>
+    <PartNo>5TE008806-00</PartNo>
+  </Items>
+  <Items>
+    <ItemName>HYDRAULIC  OIL 20 LTR  </ItemName>
+    <RequiredQuantity>2.00</RequiredQuantity>
+    <IssuedQuantity>2</IssuedQuantity>
+    <PendingQuantity>0</PendingQuantity>
+    <StockQuantity>14.000</StockQuantity>
+    <CurrentIssuedQuantity>2</CurrentIssuedQuantity>
+    <UnitName>Litre</UnitName>
+    <PartNo>HYDRAULIC</PartNo>
+  </Items>
+</NewDataSet>

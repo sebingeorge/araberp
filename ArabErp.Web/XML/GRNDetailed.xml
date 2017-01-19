@@ -1,0 +1,897 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="From" type="xs:string" minOccurs="0" />
+                <xs:element name="To" type="xs:string" minOccurs="0" />
+                <xs:element name="MaterialGroup" type="xs:string" minOccurs="0" />
+                <xs:element name="MaterialName" type="xs:string" minOccurs="0" />
+                <xs:element name="PartNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Supplier" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="GRNNo" type="xs:string" minOccurs="0" />
+                <xs:element name="GRNDate" type="xs:string" minOccurs="0" />
+                <xs:element name="Supplier" type="xs:string" minOccurs="0" />
+                <xs:element name="LPONo" type="xs:string" minOccurs="0" />
+                <xs:element name="DCNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Material" type="xs:string" minOccurs="0" />
+                <xs:element name="PartNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Qty" type="xs:string" minOccurs="0" />
+                <xs:element name="Rate" type="xs:string" minOccurs="0" />
+                <xs:element name="Amount" type="xs:string" minOccurs="0" />
+                <xs:element name="Unit" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <From>01-Jan-2016</From>
+    <To>04-Jan-2017</To>
+    <MaterialGroup>Any</MaterialGroup>
+    <MaterialName />
+    <PartNo />
+    <Supplier />
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+  </Head>
+  <Items>
+    <GRNNo>GRN/1</GRNNo>
+    <GRNDate>05-Dec-2016</GRNDate>
+    <Supplier>Z-Lyften Produktion AB</Supplier>
+    <LPONo>AARC/PO/16/1012</LPONo>
+    <DCNo>C01174</DCNo>
+    <Material>Zepro Tail Lift- 1.5 Ton</Material>
+    <PartNo>ZEPRO 1.5</PartNo>
+    <Qty>12</Qty>
+    <Rate>2398.00</Rate>
+    <Amount>28776.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/1</GRNNo>
+    <GRNDate>05-Dec-2016</GRNDate>
+    <Supplier>Z-Lyften Produktion AB</Supplier>
+    <LPONo>AARC/PO/16/1012</LPONo>
+    <DCNo>C01174</DCNo>
+    <Material>Zepro Tail Lift- 1.5 Ton With Aluminium Platform</Material>
+    <PartNo>-</PartNo>
+    <Qty>2</Qty>
+    <Rate>2545.00</Rate>
+    <Amount>5090.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/2</GRNNo>
+    <GRNDate>06-Dec-2016</GRNDate>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <LPONo>AARC/PO/16/1007</LPONo>
+    <DCNo>9117503</DCNo>
+    <Material>ENGINE OIL DELO208 LTR  DRUM (9/- 1LTR) Can</Material>
+    <PartNo>500574D</PartNo>
+    <Qty>1</Qty>
+    <Rate>1850.00</Rate>
+    <Amount>1850.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/3</GRNNo>
+    <GRNDate>07-Dec-2016</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>7872</DCNo>
+    <Material>BUS AC AIR FILTER</Material>
+    <PartNo>A44118</PartNo>
+    <Qty>10</Qty>
+    <Rate>45.00</Rate>
+    <Amount>450.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/4</GRNNo>
+    <GRNDate>13-Dec-2016</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>27245</DCNo>
+    <Material>SPAL FAN MOTOR 12V-10 INCH</Material>
+    <PartNo>SPAL12V</PartNo>
+    <Qty>2</Qty>
+    <Rate>280.00</Rate>
+    <Amount>560.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/4</GRNNo>
+    <GRNDate>13-Dec-2016</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>27245</DCNo>
+    <Material>SPAL FAN MOTOR 24V 8 inch</Material>
+    <PartNo>SPAL248</PartNo>
+    <Qty>3</Qty>
+    <Rate>280.00</Rate>
+    <Amount>840.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/5</GRNNo>
+    <GRNDate>15-Dec-2016</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>84518744</DCNo>
+    <Material>AIR COMPRESSOR 50LTR  ABAC </Material>
+    <PartNo>4116023462</PartNo>
+    <Qty>1</Qty>
+    <Rate>850.00</Rate>
+    <Amount>850.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/6</GRNNo>
+    <GRNDate>15-Dec-2016</GRNDate>
+    <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
+    <LPONo>AARC/PO/16/1005</LPONo>
+    <DCNo>2428-8877</DCNo>
+    <Material>100mm 4400x2100x2100mm- ISUZU ,BAM</Material>
+    <PartNo>1005</PartNo>
+    <Qty>2</Qty>
+    <Rate>18500.00</Rate>
+    <Amount>37000.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/7</GRNNo>
+    <GRNDate>17-Dec-2016</GRNDate>
+    <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
+    <LPONo>AARC/PO/16/1005</LPONo>
+    <DCNo>DV - 8880 , Invnno ; 2429</DCNo>
+    <Material>100mm 4400x2100x2100 PUB Mit - BAM</Material>
+    <PartNo>1006</PartNo>
+    <Qty>2</Qty>
+    <Rate>18500.00</Rate>
+    <Amount>37000.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/8</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Penta Trading Group W.L.L.</Supplier>
+    <LPONo>AARC/PO/16/1021</LPONo>
+    <DCNo>69692</DCNo>
+    <Material>SUNISO COMPRESSOR OIL  - SL 68 -  (4 LTR)</Material>
+    <PartNo>SL68</PartNo>
+    <Qty>10</Qty>
+    <Rate>275.00</Rate>
+    <Amount>2750.00</Amount>
+    <Unit>Gal</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/8</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Penta Trading Group W.L.L.</Supplier>
+    <LPONo>AARC/PO/16/1021</LPONo>
+    <DCNo>69692</DCNo>
+    <Material>4GS OIL GAL</Material>
+    <PartNo>4GS GAL</PartNo>
+    <Qty>6</Qty>
+    <Rate>75.00</Rate>
+    <Amount>450.00</Amount>
+    <Unit>Gal</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/9</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Ali International Trading Est</Supplier>
+    <LPONo>AARC/PO/16/1031</LPONo>
+    <DCNo>203</DCNo>
+    <Material>WELDING COVER ALL DARK GREY</Material>
+    <PartNo>COVERALL</PartNo>
+    <Qty>12</Qty>
+    <Rate>65.00</Rate>
+    <Amount>780.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/9</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Ali International Trading Est</Supplier>
+    <LPONo>AARC/PO/16/1031</LPONo>
+    <DCNo>203</DCNo>
+    <Material>Safety shoe</Material>
+    <PartNo>Safety shoe</PartNo>
+    <Qty>1</Qty>
+    <Rate>63.00</Rate>
+    <Amount>63.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/10</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Ali International Trading Est</Supplier>
+    <LPONo>AARC/PO/16/1025</LPONo>
+    <DCNo>201</DCNo>
+    <Material>WELDING COVER ALL DARK GREY</Material>
+    <PartNo>COVERALL</PartNo>
+    <Qty>3</Qty>
+    <Rate>65.00</Rate>
+    <Amount>195.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/10</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Ali International Trading Est</Supplier>
+    <LPONo>AARC/PO/16/1025</LPONo>
+    <DCNo>201</DCNo>
+    <Material>AIR RIVETER GUN </Material>
+    <PartNo>AIR RIVETER GUN </PartNo>
+    <Qty>1</Qty>
+    <Rate>320.00</Rate>
+    <Amount>320.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/10</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Ali International Trading Est</Supplier>
+    <LPONo>AARC/PO/16/1025</LPONo>
+    <DCNo>201</DCNo>
+    <Material>AIR HOSE 100MTR- 5/16"</Material>
+    <PartNo>AIR HOSE</PartNo>
+    <Qty>1</Qty>
+    <Rate>550.00</Rate>
+    <Amount>550.00</Amount>
+    <Unit>Roll</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/11</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Ali International Trading Est</Supplier>
+    <LPONo>AARC/PO/16/1024</LPONo>
+    <DCNo>2250</DCNo>
+    <Material>HYDRAULIC  OIL 20 LTR - CAN</Material>
+    <PartNo>HYDRAULIC CAN</PartNo>
+    <Qty>10</Qty>
+    <Rate>110.00</Rate>
+    <Amount>1100.00</Amount>
+    <Unit>Can</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/12</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Progressive Trading</Supplier>
+    <LPONo>AARC/PO/16/1017</LPONo>
+    <DCNo>13544</DCNo>
+    <Material>BUFFING WHEEL 4.5 "</Material>
+    <PartNo>-</PartNo>
+    <Qty>100</Qty>
+    <Rate>4.80</Rate>
+    <Amount>480.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/12</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Progressive Trading</Supplier>
+    <LPONo>AARC/PO/16/1017</LPONo>
+    <DCNo>13544</DCNo>
+    <Material>CUTTING DISC 4.5" METAL 115 X 1.0 X 22 MM</Material>
+    <PartNo>-</PartNo>
+    <Qty>500</Qty>
+    <Rate>1.40</Rate>
+    <Amount>700.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/12</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Progressive Trading</Supplier>
+    <LPONo>AARC/PO/16/1017</LPONo>
+    <DCNo>13544</DCNo>
+    <Material>HSS DRILL BIT 5MM</Material>
+    <PartNo>-</PartNo>
+    <Qty>400</Qty>
+    <Rate>2.40</Rate>
+    <Amount>960.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/12</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Progressive Trading</Supplier>
+    <LPONo>AARC/PO/16/1017</LPONo>
+    <DCNo>13544</DCNo>
+    <Material>HSS DRILL BIT 8MM</Material>
+    <PartNo>-</PartNo>
+    <Qty>75</Qty>
+    <Rate>6.50</Rate>
+    <Amount>487.50</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/12</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Progressive Trading</Supplier>
+    <LPONo>AARC/PO/16/1017</LPONo>
+    <DCNo>13544</DCNo>
+    <Material>HSS DRILL BIT 12MM</Material>
+    <PartNo>-</PartNo>
+    <Qty>10</Qty>
+    <Rate>16.50</Rate>
+    <Amount>165.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/13</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1026</LPONo>
+    <DCNo>13899</DCNo>
+    <Material>FIRE EXTINGUSHER 9KG </Material>
+    <PartNo>FIRE EXTINGUSHER</PartNo>
+    <Qty>15</Qty>
+    <Rate>155.00</Rate>
+    <Amount>2325.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/13</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1026</LPONo>
+    <DCNo>13899</DCNo>
+    <Material>COTTON RAGS COLOUR 10KG</Material>
+    <PartNo>-</PartNo>
+    <Qty>10</Qty>
+    <Rate>23.00</Rate>
+    <Amount>230.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/13</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1026</LPONo>
+    <DCNo>13899</DCNo>
+    <Material>SPRAY FOAM</Material>
+    <PartNo>-</PartNo>
+    <Qty>72</Qty>
+    <Rate>16.50</Rate>
+    <Amount>1188.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/13</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1026</LPONo>
+    <DCNo>13899</DCNo>
+    <Material>HOLESAW 75MM TCT SS KEEGO UK</Material>
+    <PartNo>-</PartNo>
+    <Qty>2</Qty>
+    <Rate>180.00</Rate>
+    <Amount>360.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/14</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1020</LPONo>
+    <DCNo>13788</DCNo>
+    <Material>JUBILEE HOSE CLIPS 00 UK </Material>
+    <PartNo>-</PartNo>
+    <Qty>100</Qty>
+    <Rate>2.00</Rate>
+    <Amount>200.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/14</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1020</LPONo>
+    <DCNo>13788</DCNo>
+    <Material>GI CSK SELF DRILLG SCREW ZIK8X1" -TUFFIX</Material>
+    <PartNo>-</PartNo>
+    <Qty>3</Qty>
+    <Rate>35.00</Rate>
+    <Amount>105.00</Amount>
+    <Unit>Box</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/14</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1020</LPONo>
+    <DCNo>13788</DCNo>
+    <Material>GI HEX BOLT M06X25</Material>
+    <PartNo>-</PartNo>
+    <Qty>250</Qty>
+    <Rate>0.15</Rate>
+    <Amount>37.50</Amount>
+    <Unit>PCS</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/14</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1020</LPONo>
+    <DCNo>13788</DCNo>
+    <Material>GI LOCK NUT M06</Material>
+    <PartNo>-</PartNo>
+    <Qty>250</Qty>
+    <Rate>0.12</Rate>
+    <Amount>30.00</Amount>
+    <Unit>PCS</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/14</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1020</LPONo>
+    <DCNo>13788</DCNo>
+    <Material>MS 8.8 HEX BOLT M10X40</Material>
+    <PartNo>-</PartNo>
+    <Qty>250</Qty>
+    <Rate>0.80</Rate>
+    <Amount>200.00</Amount>
+    <Unit>PCS</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/14</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1020</LPONo>
+    <DCNo>13788</DCNo>
+    <Material>MS 8.8 HEX BOLT M14X70</Material>
+    <PartNo>-</PartNo>
+    <Qty>100</Qty>
+    <Rate>2.50</Rate>
+    <Amount>250.00</Amount>
+    <Unit>PCS</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/14</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1020</LPONo>
+    <DCNo>13788</DCNo>
+    <Material>GI LOCK NUT M14</Material>
+    <PartNo>-</PartNo>
+    <Qty>100</Qty>
+    <Rate>0.50</Rate>
+    <Amount>50.00</Amount>
+    <Unit>PCS</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/14</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1020</LPONo>
+    <DCNo>13788</DCNo>
+    <Material>THINNER (1 LIT CAN)</Material>
+    <PartNo>-</PartNo>
+    <Qty>15</Qty>
+    <Rate>10.00</Rate>
+    <Amount>150.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/14</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1020</LPONo>
+    <DCNo>13788</DCNo>
+    <Material>SELF DRILLING SCREW HEX HEAD 2"X14 PATTA</Material>
+    <PartNo>-</PartNo>
+    <Qty>5</Qty>
+    <Rate>44.00</Rate>
+    <Amount>220.00</Amount>
+    <Unit>Box</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/14</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1020</LPONo>
+    <DCNo>13788</DCNo>
+    <Material>PAD LOCK 70MM GODREJ</Material>
+    <PartNo>-</PartNo>
+    <Qty>2</Qty>
+    <Rate>45.00</Rate>
+    <Amount>90.00</Amount>
+    <Unit>PCS</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/14</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1020</LPONo>
+    <DCNo>13788</DCNo>
+    <Material>SS A2 FLAT WASHER  M8</Material>
+    <PartNo>-</PartNo>
+    <Qty>500</Qty>
+    <Rate>0.10</Rate>
+    <Amount>50.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/14</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1020</LPONo>
+    <DCNo>13788</DCNo>
+    <Material>SS FLAT WASHER M8X25</Material>
+    <PartNo>-</PartNo>
+    <Qty>500</Qty>
+    <Rate>0.30</Rate>
+    <Amount>150.00</Amount>
+    <Unit>PCS</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/15</GRNNo>
+    <GRNDate>22-Dec-2016</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>29611</DCNo>
+    <Material>SPAL FAN MOTOR 12V-10 INCH</Material>
+    <PartNo>SPAL12V</PartNo>
+    <Qty>5</Qty>
+    <Rate>280.00</Rate>
+    <Amount>1400.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/15</GRNNo>
+    <GRNDate>22-Dec-2016</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>29611</DCNo>
+    <Material>SPAL FAN MOTOR 24V 8 inch</Material>
+    <PartNo>SPAL248</PartNo>
+    <Qty>5</Qty>
+    <Rate>280.00</Rate>
+    <Amount>1400.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/16</GRNNo>
+    <GRNDate>24-Dec-2016</GRNDate>
+    <Supplier>Trade Circle Technical Industries L.L.C.</Supplier>
+    <LPONo>AARC/PO/16/1010</LPONo>
+    <DCNo>29451</DCNo>
+    <Material>MOVABLE PARTITION 50MM 2100 X 2100 -TCTI</Material>
+    <PartNo>201</PartNo>
+    <Qty>1</Qty>
+    <Rate>3813.00</Rate>
+    <Amount>3813.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17</GRNNo>
+    <GRNDate>24-Dec-2016</GRNDate>
+    <Supplier>Trade Circle Technical Industries L.L.C.</Supplier>
+    <LPONo>AARC/PO/16/1011</LPONo>
+    <DCNo>29452</DCNo>
+    <Material>100mm 4400x2100x2100mm- MITS- TCTI</Material>
+    <PartNo>1034</PartNo>
+    <Qty>2</Qty>
+    <Rate>19000.00</Rate>
+    <Amount>38000.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/18</GRNNo>
+    <GRNDate>26-Dec-2016</GRNDate>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <LPONo>AARC/PO/16/1009</LPONo>
+    <DCNo>DV:253</DCNo>
+    <Material>Thermoking T600-R</Material>
+    <PartNo>T600R</PartNo>
+    <Qty>2</Qty>
+    <Rate>53000.00</Rate>
+    <Amount>106000.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/19</GRNNo>
+    <GRNDate>26-Dec-2016</GRNDate>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <LPONo>AARC/PO/16/1004</LPONo>
+    <DCNo>DV:253-1</DCNo>
+    <Material>Thermoking T600-R</Material>
+    <PartNo>T600R</PartNo>
+    <Qty>2</Qty>
+    <Rate>53000.00</Rate>
+    <Amount>106000.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/20</GRNNo>
+    <GRNDate>29-Dec-2016</GRNDate>
+    <Supplier>Progressive Trading</Supplier>
+    <LPONo>AARC/PO/16/1029</LPONo>
+    <DCNo>11994</DCNo>
+    <Material>JIGSAW MACHINE INGCO 750W</Material>
+    <PartNo>JIGSAW INGCO</PartNo>
+    <Qty>2</Qty>
+    <Rate>310.00</Rate>
+    <Amount>620.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/20</GRNNo>
+    <GRNDate>29-Dec-2016</GRNDate>
+    <Supplier>Progressive Trading</Supplier>
+    <LPONo>AARC/PO/16/1029</LPONo>
+    <DCNo>11994</DCNo>
+    <Material>PLYWOOD 18MM</Material>
+    <PartNo>PLYWOOD 18MM</PartNo>
+    <Qty>15</Qty>
+    <Rate>78.00</Rate>
+    <Amount>1170.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/21</GRNNo>
+    <GRNDate>29-Dec-2016</GRNDate>
+    <Supplier>Progressive Trading</Supplier>
+    <LPONo>AARC/PO/16/1038</LPONo>
+    <DCNo>14184</DCNo>
+    <Material>JIGSAW MACHINE INGCO 750W</Material>
+    <PartNo>JIGSAW INGCO</PartNo>
+    <Qty>1</Qty>
+    <Rate>310.00</Rate>
+    <Amount>310.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/22</GRNNo>
+    <GRNDate>29-Dec-2016</GRNDate>
+    <Supplier>Ali International Trading Est</Supplier>
+    <LPONo>AARC/PO/16/1043</LPONo>
+    <DCNo>205</DCNo>
+    <Material>WELDING COVER ALL DARK GREY</Material>
+    <PartNo>COVERALL</PartNo>
+    <Qty>7</Qty>
+    <Rate>65.00</Rate>
+    <Amount>455.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/22</GRNNo>
+    <GRNDate>29-Dec-2016</GRNDate>
+    <Supplier>Ali International Trading Est</Supplier>
+    <LPONo>AARC/PO/16/1043</LPONo>
+    <DCNo>205</DCNo>
+    <Material>Safety shoe</Material>
+    <PartNo>Safety shoe</PartNo>
+    <Qty>1</Qty>
+    <Rate>63.00</Rate>
+    <Amount>63.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/23</GRNNo>
+    <GRNDate>29-Dec-2016</GRNDate>
+    <Supplier>Madar Building Materials</Supplier>
+    <LPONo>AARC/PO/16/1003</LPONo>
+    <DCNo>166162</DCNo>
+    <Material>PLYWOOD 18MM</Material>
+    <PartNo>PLYWOOD 18MM</PartNo>
+    <Qty>10</Qty>
+    <Rate>78.00</Rate>
+    <Amount>780.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/23</GRNNo>
+    <GRNDate>29-Dec-2016</GRNDate>
+    <Supplier>Madar Building Materials</Supplier>
+    <LPONo>AARC/PO/16/1003</LPONo>
+    <DCNo>166162</DCNo>
+    <Material>ALUMINIUM CHECKER SHEET 4 X 8 X 2 MM</Material>
+    <PartNo>-</PartNo>
+    <Qty>10</Qty>
+    <Rate>215.00</Rate>
+    <Amount>2150.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/24</GRNNo>
+    <GRNDate>29-Dec-2016</GRNDate>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1033</LPONo>
+    <DCNo>146</DCNo>
+    <Material>A4 SIZE PAPER </Material>
+    <PartNo>A4 SIZE PAPER </PartNo>
+    <Qty>10</Qty>
+    <Rate>60.00</Rate>
+    <Amount>600.00</Amount>
+    <Unit>Pkt</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/25</GRNNo>
+    <GRNDate>31-Dec-2016</GRNDate>
+    <Supplier>Ali International Trading Est</Supplier>
+    <LPONo>AARC/PO/16/1045</LPONo>
+    <DCNo>206</DCNo>
+    <Material>WELDING COVER ALL DARK GREY</Material>
+    <PartNo>COVERALL</PartNo>
+    <Qty>4</Qty>
+    <Rate>65.00</Rate>
+    <Amount>260.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/1</GRNNo>
+    <GRNDate>01-Jan-2017</GRNDate>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <LPONo>AARC/PO/16/1013</LPONo>
+    <DCNo>9041099</DCNo>
+    <Material>ALTERNATOR 37A IC REG CCW  THERMOKING</Material>
+    <PartNo>45-2255/2589  </PartNo>
+    <Qty>1</Qty>
+    <Rate>2088.00</Rate>
+    <Amount>2088.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/2</GRNNo>
+    <GRNDate>02-Jan-2017</GRNDate>
+    <Supplier>IMALCO</Supplier>
+    <LPONo>AARC/PO/16/1049</LPONo>
+    <DCNo>200002/04</DCNo>
+    <Material>SILICON ORIGINAL BLACK STARCHEM </Material>
+    <PartNo>SILICON BLACK</PartNo>
+    <Qty>24</Qty>
+    <Rate>30.83</Rate>
+    <Amount>739.92</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/2</GRNNo>
+    <GRNDate>02-Jan-2017</GRNDate>
+    <Supplier>IMALCO</Supplier>
+    <LPONo>AARC/PO/16/1049</LPONo>
+    <DCNo>200002/04</DCNo>
+    <Material>AES 1118-17B PUSH -PULL SWITCH (SHORT)BIG HEAD</Material>
+    <PartNo>ONOFFSWITCH</PartNo>
+    <Qty>50</Qty>
+    <Rate>5.00</Rate>
+    <Amount>250.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/2</GRNNo>
+    <GRNDate>02-Jan-2017</GRNDate>
+    <Supplier>IMALCO</Supplier>
+    <LPONo>AARC/PO/16/1049</LPONo>
+    <DCNo>200002/04</DCNo>
+    <Material>SA 160 BATTERY TERMINAL </Material>
+    <PartNo>TERMINAL</PartNo>
+    <Qty>75</Qty>
+    <Rate>10.00</Rate>
+    <Amount>750.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/3</GRNNo>
+    <GRNDate>02-Jan-2017</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1048</LPONo>
+    <DCNo>140402</DCNo>
+    <Material>GI CSK SELF DRILLG SCREW ZIK8X1" -TUFFIX</Material>
+    <PartNo>-</PartNo>
+    <Qty>12</Qty>
+    <Rate>35.00</Rate>
+    <Amount>420.00</Amount>
+    <Unit>Box</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/3</GRNNo>
+    <GRNDate>02-Jan-2017</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1048</LPONo>
+    <DCNo>140402</DCNo>
+    <Material>SPRAY FOAM</Material>
+    <PartNo>-</PartNo>
+    <Qty>60</Qty>
+    <Rate>16.50</Rate>
+    <Amount>990.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/3</GRNNo>
+    <GRNDate>02-Jan-2017</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1048</LPONo>
+    <DCNo>140402</DCNo>
+    <Material>SPRAY PAINT BLACK</Material>
+    <PartNo>-</PartNo>
+    <Qty>120</Qty>
+    <Rate>3.75</Rate>
+    <Amount>450.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/4</GRNNo>
+    <GRNDate>03-Jan-2017</GRNDate>
+    <Supplier>Quality Engineering &amp; Services W.L.L.</Supplier>
+    <LPONo>AARC/PO/16/1047</LPONo>
+    <DCNo>75673</DCNo>
+    <Material>MS Bush Making 120mm Length 20 mm DIA</Material>
+    <PartNo>BUSH120</PartNo>
+    <Qty>20</Qty>
+    <Rate>15.00</Rate>
+    <Amount>300.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/5</GRNNo>
+    <GRNDate>03-Jan-2017</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>8403</DCNo>
+    <Material>AIR FILTER</Material>
+    <PartNo>46449 /A 44299</PartNo>
+    <Qty>30</Qty>
+    <Rate>50.00</Rate>
+    <Amount>1500.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/6</GRNNo>
+    <GRNDate>03-Jan-2017</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>10203010390</DCNo>
+    <Material>FUSE HOLDER</Material>
+    <PartNo>-</PartNo>
+    <Qty>200</Qty>
+    <Rate>4.00</Rate>
+    <Amount>800.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/6</GRNNo>
+    <GRNDate>03-Jan-2017</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>10203010390</DCNo>
+    <Material>REFLECTING STICKER YELLOW 3"X90CM</Material>
+    <PartNo>-</PartNo>
+    <Qty>300</Qty>
+    <Rate>3.00</Rate>
+    <Amount>900.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/6</GRNNo>
+    <GRNDate>03-Jan-2017</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>10203010390</DCNo>
+    <Material>REFLECTING STICKER YELLOW 4"X90CM</Material>
+    <PartNo>-</PartNo>
+    <Qty>300</Qty>
+    <Rate>3.50</Rate>
+    <Amount>1050.00</Amount>
+    <Unit>Nos</Unit>
+  </Items>
+</NewDataSet>

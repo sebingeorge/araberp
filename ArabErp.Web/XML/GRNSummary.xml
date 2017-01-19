@@ -1,0 +1,289 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="From" type="xs:string" minOccurs="0" />
+                <xs:element name="To" type="xs:string" minOccurs="0" />
+                <xs:element name="Supplier" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="GRNNo" type="xs:string" minOccurs="0" />
+                <xs:element name="GRNDate" type="xs:string" minOccurs="0" />
+                <xs:element name="Supplier" type="xs:string" minOccurs="0" />
+                <xs:element name="LPONo" type="xs:string" minOccurs="0" />
+                <xs:element name="DCNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Amount" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <From>01-Jan-2016</From>
+    <To>04-Jan-2017</To>
+    <Supplier />
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+  </Head>
+  <Items>
+    <GRNNo>GRN/1</GRNNo>
+    <GRNDate>05-Dec-2016</GRNDate>
+    <Supplier>Z-Lyften Produktion AB</Supplier>
+    <LPONo>AARC/PO/16/1012</LPONo>
+    <DCNo>C01174</DCNo>
+    <Amount>33866.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/2</GRNNo>
+    <GRNDate>06-Dec-2016</GRNDate>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <LPONo>AARC/PO/16/1007</LPONo>
+    <DCNo>9117503</DCNo>
+    <Amount>1850.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/3</GRNNo>
+    <GRNDate>07-Dec-2016</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>7872</DCNo>
+    <Amount>450.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/4</GRNNo>
+    <GRNDate>13-Dec-2016</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>27245</DCNo>
+    <Amount>1400.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/5</GRNNo>
+    <GRNDate>15-Dec-2016</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>84518744</DCNo>
+    <Amount>850.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/6</GRNNo>
+    <GRNDate>15-Dec-2016</GRNDate>
+    <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
+    <LPONo>AARC/PO/16/1005</LPONo>
+    <DCNo>2428-8877</DCNo>
+    <Amount>37000.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/7</GRNNo>
+    <GRNDate>17-Dec-2016</GRNDate>
+    <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
+    <LPONo>AARC/PO/16/1005</LPONo>
+    <DCNo>DV - 8880 , Invnno ; 2429</DCNo>
+    <Amount>37000.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/8</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Penta Trading Group W.L.L.</Supplier>
+    <LPONo>AARC/PO/16/1021</LPONo>
+    <DCNo>69692</DCNo>
+    <Amount>3200.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/9</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Ali International Trading Est</Supplier>
+    <LPONo>AARC/PO/16/1031</LPONo>
+    <DCNo>203</DCNo>
+    <Amount>843.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/10</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Ali International Trading Est</Supplier>
+    <LPONo>AARC/PO/16/1025</LPONo>
+    <DCNo>201</DCNo>
+    <Amount>1065.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/11</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Ali International Trading Est</Supplier>
+    <LPONo>AARC/PO/16/1024</LPONo>
+    <DCNo>2250</DCNo>
+    <Amount>1100.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/12</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>Progressive Trading</Supplier>
+    <LPONo>AARC/PO/16/1017</LPONo>
+    <DCNo>13544</DCNo>
+    <Amount>2792.50</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/13</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1026</LPONo>
+    <DCNo>13899</DCNo>
+    <Amount>4103.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/14</GRNNo>
+    <GRNDate>21-Dec-2016</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1020</LPONo>
+    <DCNo>13788</DCNo>
+    <Amount>1532.50</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/15</GRNNo>
+    <GRNDate>22-Dec-2016</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>29611</DCNo>
+    <Amount>2800.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/16</GRNNo>
+    <GRNDate>24-Dec-2016</GRNDate>
+    <Supplier>Trade Circle Technical Industries L.L.C.</Supplier>
+    <LPONo>AARC/PO/16/1010</LPONo>
+    <DCNo>29451</DCNo>
+    <Amount>3813.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17</GRNNo>
+    <GRNDate>24-Dec-2016</GRNDate>
+    <Supplier>Trade Circle Technical Industries L.L.C.</Supplier>
+    <LPONo>AARC/PO/16/1011</LPONo>
+    <DCNo>29452</DCNo>
+    <Amount>38000.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/18</GRNNo>
+    <GRNDate>26-Dec-2016</GRNDate>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <LPONo>AARC/PO/16/1009</LPONo>
+    <DCNo>DV:253</DCNo>
+    <Amount>106000.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/19</GRNNo>
+    <GRNDate>26-Dec-2016</GRNDate>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <LPONo>AARC/PO/16/1004</LPONo>
+    <DCNo>DV:253-1</DCNo>
+    <Amount>106000.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/20</GRNNo>
+    <GRNDate>29-Dec-2016</GRNDate>
+    <Supplier>Progressive Trading</Supplier>
+    <LPONo>AARC/PO/16/1029</LPONo>
+    <DCNo>11994</DCNo>
+    <Amount>1790.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/21</GRNNo>
+    <GRNDate>29-Dec-2016</GRNDate>
+    <Supplier>Progressive Trading</Supplier>
+    <LPONo>AARC/PO/16/1038</LPONo>
+    <DCNo>14184</DCNo>
+    <Amount>310.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/22</GRNNo>
+    <GRNDate>29-Dec-2016</GRNDate>
+    <Supplier>Ali International Trading Est</Supplier>
+    <LPONo>AARC/PO/16/1043</LPONo>
+    <DCNo>205</DCNo>
+    <Amount>518.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/23</GRNNo>
+    <GRNDate>29-Dec-2016</GRNDate>
+    <Supplier>Madar Building Materials</Supplier>
+    <LPONo>AARC/PO/16/1003</LPONo>
+    <DCNo>166162</DCNo>
+    <Amount>2930.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/24</GRNNo>
+    <GRNDate>29-Dec-2016</GRNDate>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1033</LPONo>
+    <DCNo>146</DCNo>
+    <Amount>600.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/25</GRNNo>
+    <GRNDate>31-Dec-2016</GRNDate>
+    <Supplier>Ali International Trading Est</Supplier>
+    <LPONo>AARC/PO/16/1045</LPONo>
+    <DCNo>206</DCNo>
+    <Amount>260.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/1</GRNNo>
+    <GRNDate>01-Jan-2017</GRNDate>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <LPONo>AARC/PO/16/1013</LPONo>
+    <DCNo>9041099</DCNo>
+    <Amount>1461.60</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/2</GRNNo>
+    <GRNDate>02-Jan-2017</GRNDate>
+    <Supplier>IMALCO</Supplier>
+    <LPONo>AARC/PO/16/1049</LPONo>
+    <DCNo>200002/04</DCNo>
+    <Amount>1739.92</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/3</GRNNo>
+    <GRNDate>02-Jan-2017</GRNDate>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <LPONo>AARC/PO/16/1048</LPONo>
+    <DCNo>140402</DCNo>
+    <Amount>1860.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/4</GRNNo>
+    <GRNDate>03-Jan-2017</GRNDate>
+    <Supplier>Quality Engineering &amp; Services W.L.L.</Supplier>
+    <LPONo>AARC/PO/16/1047</LPONo>
+    <DCNo>75673</DCNo>
+    <Amount>300.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/5</GRNNo>
+    <GRNDate>03-Jan-2017</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>8403</DCNo>
+    <Amount>1500.00</Amount>
+  </Items>
+  <Items>
+    <GRNNo>GRN/17/6</GRNNo>
+    <GRNDate>03-Jan-2017</GRNDate>
+    <Supplier>Cash Vendor</Supplier>
+    <LPONo>-</LPONo>
+    <DCNo>10203010390</DCNo>
+    <Amount>2750.00</Amount>
+  </Items>
+</NewDataSet>

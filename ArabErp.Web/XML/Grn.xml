@@ -1,0 +1,132 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="GRNNo" type="xs:string" minOccurs="0" />
+                <xs:element name="GRNDate" type="xs:string" minOccurs="0" />
+                <xs:element name="SupplierName" type="xs:string" minOccurs="0" />
+                <xs:element name="WareHouseName" type="xs:string" minOccurs="0" />
+                <xs:element name="SupplierDCNoAndDate" type="xs:string" minOccurs="0" />
+                <xs:element name="VehicleNo" type="xs:string" minOccurs="0" />
+                <xs:element name="GatePassNo" type="xs:string" minOccurs="0" />
+                <xs:element name="SpecialRemarks" type="xs:string" minOccurs="0" />
+                <xs:element name="GRNCurrencyName" type="xs:string" minOccurs="0" />
+                <xs:element name="ReceivedBy" type="xs:string" minOccurs="0" />
+                <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Street" type="xs:string" minOccurs="0" />
+                <xs:element name="State" type="xs:string" minOccurs="0" />
+                <xs:element name="Country" type="xs:string" minOccurs="0" />
+                <xs:element name="Phone" type="xs:string" minOccurs="0" />
+                <xs:element name="Fax" type="xs:string" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="ContactPerson" type="xs:string" minOccurs="0" />
+                <xs:element name="CurrencyName" type="xs:string" minOccurs="0" />
+                <xs:element name="Zip" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ItemName" type="xs:string" minOccurs="0" />
+                <xs:element name="PartNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Remarks" type="xs:string" minOccurs="0" />
+                <xs:element name="Qty" type="xs:string" minOccurs="0" />
+                <xs:element name="UoM" type="xs:string" minOccurs="0" />
+                <xs:element name="Rate" type="xs:string" minOccurs="0" />
+                <xs:element name="Discount" type="xs:string" minOccurs="0" />
+                <xs:element name="Amount" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <GRNNo>GRN/17/20</GRNNo>
+    <GRNDate>10-Jan-2017</GRNDate>
+    <SupplierName>M/s Tools &amp; Bolts International W.L.L</SupplierName>
+    <WareHouseName>Main Store</WareHouseName>
+    <SupplierDCNoAndDate>114105</SupplierDCNoAndDate>
+    <GRNCurrencyName>QAR</GRNCurrencyName>
+    <ReceivedBy>Rafi Mohamed</ReceivedBy>
+    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
+    <Street>Hiteen Street, Muntazah </Street>
+    <State>Doha</State>
+    <Country>QATAR</Country>
+    <Phone>974 4435 7216</Phone>
+    <Fax>974 4414 2910</Fax>
+    <Email>info@arabrefrigeration.com</Email>
+    <CurrencyName>QAR</CurrencyName>
+    <Zip>13037</Zip>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+  </Head>
+  <Items>
+    <ItemName>SAFETY HARNESS </ItemName>
+    <PartNo>SAFETY HARNESS </PartNo>
+    <Qty>1</Qty>
+    <UoM>Nos</UoM>
+    <Rate>140.000</Rate>
+    <Discount>0.000</Discount>
+    <Amount>140.000</Amount>
+  </Items>
+  <Items>
+    <ItemName>FIRE BLANKET </ItemName>
+    <PartNo>FIRE BLANKET </PartNo>
+    <Qty>1</Qty>
+    <UoM>Nos</UoM>
+    <Rate>35.000</Rate>
+    <Discount>0.000</Discount>
+    <Amount>35.000</Amount>
+  </Items>
+  <Items>
+    <ItemName>EXTENSION CODE 25 MTRS</ItemName>
+    <Qty>1</Qty>
+    <UoM>Nos</UoM>
+    <Rate>150.000</Rate>
+    <Discount>0.000</Discount>
+    <Amount>150.000</Amount>
+  </Items>
+  <Items>
+    <ItemName>FIRST AID KIT</ItemName>
+    <PartNo>FIRST AID KIT</PartNo>
+    <Qty>1</Qty>
+    <UoM>Set</UoM>
+    <Rate>130.000</Rate>
+    <Discount>0.000</Discount>
+    <Amount>130.000</Amount>
+  </Items>
+  <Items>
+    <ItemName>DRILL CHUCK 13MM MAKITA 763143</ItemName>
+    <Qty>1</Qty>
+    <UoM>Nos</UoM>
+    <Rate>40.000</Rate>
+    <Discount>0.000</Discount>
+    <Amount>40.000</Amount>
+  </Items>
+  <Items>
+    <ItemName>SDS PLUS BIT 6X110 MAKITA</ItemName>
+    <Qty>1</Qty>
+    <UoM>Nos</UoM>
+    <Rate>5.000</Rate>
+    <Discount>0.000</Discount>
+    <Amount>5.000</Amount>
+  </Items>
+  <Items>
+    <ItemName>SDS PLUS BIT 7X110 MAKITA</ItemName>
+    <Qty>1</Qty>
+    <UoM>Nos</UoM>
+    <Rate>5.000</Rate>
+    <Discount>0.000</Discount>
+    <Amount>5.000</Amount>
+  </Items>
+</NewDataSet>

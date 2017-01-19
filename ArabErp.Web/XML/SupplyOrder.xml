@@ -1,0 +1,210 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="SupplyOrderNo" type="xs:string" minOccurs="0" />
+                <xs:element name="SupplyOrderDate" type="xs:string" minOccurs="0" />
+                <xs:element name="QuotaionNoAndDate" type="xs:string" minOccurs="0" />
+                <xs:element name="SpecialRemarks" type="xs:string" minOccurs="0" />
+                <xs:element name="PaymentTerms" type="xs:string" minOccurs="0" />
+                <xs:element name="DeliveryTerms" type="xs:string" minOccurs="0" />
+                <xs:element name="RequiredDate" type="xs:string" minOccurs="0" />
+                <xs:element name="CurrencyName" type="xs:string" minOccurs="0" />
+                <xs:element name="CreatedUser" type="xs:string" minOccurs="0" />
+                <xs:element name="CreateSignature" type="xs:string" minOccurs="0" />
+                <xs:element name="ApprovedUser" type="xs:string" minOccurs="0" />
+                <xs:element name="ApproveSignature" type="xs:string" minOccurs="0" />
+                <xs:element name="CountryName" type="xs:string" minOccurs="0" />
+                <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Street" type="xs:string" minOccurs="0" />
+                <xs:element name="State" type="xs:string" minOccurs="0" />
+                <xs:element name="Country" type="xs:string" minOccurs="0" />
+                <xs:element name="Phone" type="xs:string" minOccurs="0" />
+                <xs:element name="Fax" type="xs:string" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="ContactPerson" type="xs:string" minOccurs="0" />
+                <xs:element name="Zip" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+                <xs:element name="SupplierName" type="xs:string" minOccurs="0" />
+                <xs:element name="SupDoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="SupState" type="xs:string" minOccurs="0" />
+                <xs:element name="SupCountryName" type="xs:string" minOccurs="0" />
+                <xs:element name="SupPhone" type="xs:string" minOccurs="0" />
+                <xs:element name="SupFax" type="xs:string" minOccurs="0" />
+                <xs:element name="SupEmail" type="xs:string" minOccurs="0" />
+                <xs:element name="SupPostBoxNo" type="xs:string" minOccurs="0" />
+                <xs:element name="CreatedDes" type="xs:string" minOccurs="0" />
+                <xs:element name="ApproveDes" type="xs:string" minOccurs="0" />
+                <xs:element name="NetDiscount" type="xs:string" minOccurs="0" />
+                <xs:element name="NetAmount" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="PRNODATE" type="xs:string" minOccurs="0" />
+                <xs:element name="PartNo" type="xs:string" minOccurs="0" />
+                <xs:element name="ItemName" type="xs:string" minOccurs="0" />
+                <xs:element name="BalQty" type="xs:string" minOccurs="0" />
+                <xs:element name="OrderedQty" type="xs:string" minOccurs="0" />
+                <xs:element name="Rate" type="xs:string" minOccurs="0" />
+                <xs:element name="Discount" type="xs:string" minOccurs="0" />
+                <xs:element name="Amount" type="xs:string" minOccurs="0" />
+                <xs:element name="ItemRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="UnitName" type="xs:string" minOccurs="0" />
+                <xs:element name="Description" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <SupplyOrderNo>AARC/PO/17/1045</SupplyOrderNo>
+    <SupplyOrderDate>17-Jan-2017</SupplyOrderDate>
+    <PaymentTerms>0</PaymentTerms>
+    <RequiredDate>17-Jan-2017 00:00:00</RequiredDate>
+    <CurrencyName>USD</CurrencyName>
+    <CreatedUser>akthab</CreatedUser>
+    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\39673699-d2e8-47c6-b515-83cce1ec1421.JPG</CreateSignature>
+    <ApproveSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\</ApproveSignature>
+    <CountryName>QATAR</CountryName>
+    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
+    <Street>Hiteen Street, Muntazah </Street>
+    <State>Doha</State>
+    <Country>QATAR</Country>
+    <Phone>974 4435 7216</Phone>
+    <Fax>974 4414 2910</Fax>
+    <Email>info@arabrefrigeration.com</Email>
+    <Zip>13037</Zip>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <SupplierName>Nevpa Aluminyum Plastik</SupplierName>
+    <SupDoorNo>none</SupDoorNo>
+    <SupState>none</SupState>
+    <SupCountryName>Turkey</SupCountryName>
+    <SupPhone>Tel.: +90 216 518 41 34</SupPhone>
+    <SupFax>+90 216 518 41 38</SupFax>
+    <SupEmail>none</SupEmail>
+    <SupPostBoxNo>none</SupPostBoxNo>
+    <CreatedDes>Procurement Executive</CreatedDes>
+    <NetDiscount>0.00</NetDiscount>
+    <NetAmount>2396.08</NetAmount>
+  </Head>
+  <Items>
+    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
+    <PartNo>153-01-01-059</PartNo>
+    <ItemName>HINGE ZP REAR NEVPA</ItemName>
+    <BalQty>60</BalQty>
+    <OrderedQty>60</OrderedQty>
+    <Rate>4.75</Rate>
+    <Discount>0.00</Discount>
+    <Amount>285.00</Amount>
+    <ItemRefNo>ITM/1917</ItemRefNo>
+    <UnitName>Nos</UnitName>
+  </Items>
+  <Items>
+    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
+    <PartNo>153-01-05-002</PartNo>
+    <ItemName>LEVER KIT O27 ZP NEVPA</ItemName>
+    <BalQty>30</BalQty>
+    <OrderedQty>30</OrderedQty>
+    <Rate>5.65</Rate>
+    <Discount>0.00</Discount>
+    <Amount>169.50</Amount>
+    <ItemRefNo>ITM/1918</ItemRefNo>
+    <UnitName>Nos</UnitName>
+  </Items>
+  <Items>
+    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
+    <PartNo>153-01-09-002</PartNo>
+    <ItemName>BIG GUIDE PLATE NEVPA</ItemName>
+    <BalQty>60</BalQty>
+    <OrderedQty>60</OrderedQty>
+    <Rate>1.81</Rate>
+    <Discount>0.00</Discount>
+    <Amount>108.60</Amount>
+    <ItemRefNo>ITM/1919</ItemRefNo>
+    <UnitName>Nos</UnitName>
+  </Items>
+  <Items>
+    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
+    <PartNo>153-01-09-010</PartNo>
+    <ItemName>SMALL GUIDE PLATE NEVPA</ItemName>
+    <BalQty>30</BalQty>
+    <OrderedQty>30</OrderedQty>
+    <Rate>0.92</Rate>
+    <Discount>0.00</Discount>
+    <Amount>27.60</Amount>
+    <ItemRefNo>ITM/1920</ItemRefNo>
+    <UnitName>Nos</UnitName>
+  </Items>
+  <Items>
+    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
+    <PartNo>153-01-10-010</PartNo>
+    <ItemName>CAN AND KEEPER NEVPA</ItemName>
+    <BalQty>60</BalQty>
+    <OrderedQty>60</OrderedQty>
+    <Rate>4.90</Rate>
+    <Discount>0.00</Discount>
+    <Amount>294.00</Amount>
+    <ItemRefNo>ITM/1921</ItemRefNo>
+    <UnitName>Nos</UnitName>
+  </Items>
+  <Items>
+    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
+    <PartNo>153-01-11-004</PartNo>
+    <ItemName>DOOR HOLDER ZP NEVPA</ItemName>
+    <BalQty>30</BalQty>
+    <OrderedQty>30</OrderedQty>
+    <Rate>1.02</Rate>
+    <Discount>0.00</Discount>
+    <Amount>30.60</Amount>
+    <ItemRefNo>ITM/1922</ItemRefNo>
+    <UnitName>Nos</UnitName>
+  </Items>
+  <Items>
+    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
+    <PartNo>153-14-01-010</PartNo>
+    <ItemName>PIPE 27MM ZP 2MM AND 6M NEVPA </ItemName>
+    <BalQty>30</BalQty>
+    <OrderedQty>30</OrderedQty>
+    <Rate>13.26</Rate>
+    <Discount>0.00</Discount>
+    <Amount>397.80</Amount>
+    <ItemRefNo>ITM/1923</ItemRefNo>
+    <UnitName>Nos</UnitName>
+  </Items>
+  <Items>
+    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
+    <PartNo>AL3456PE6000</PartNo>
+    <ItemName>AL PROFILE 40 X 60 6M PIECE NEVPA</ItemName>
+    <BalQty>44</BalQty>
+    <OrderedQty>44</OrderedQty>
+    <Rate>19.67</Rate>
+    <Discount>0.00</Discount>
+    <Amount>865.48</Amount>
+    <ItemRefNo>ITM/1924</ItemRefNo>
+    <UnitName>Nos</UnitName>
+  </Items>
+  <Items>
+    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
+    <PartNo>153-11-01-006-02</PartNo>
+    <ItemName>NEW MODEL LED LIGHT NEVPA</ItemName>
+    <BalQty>30</BalQty>
+    <OrderedQty>30</OrderedQty>
+    <Rate>7.25</Rate>
+    <Discount>0.00</Discount>
+    <Amount>217.50</Amount>
+    <ItemRefNo>ITM/1925</ItemRefNo>
+    <UnitName>Nos</UnitName>
+  </Items>
+</NewDataSet>
