@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Sales Invoice Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -40,14 +40,14 @@
         var to = $("#txtTo").val();
         var url = '@Url.Action("Print")';
         url += "?from=" + from + "&to=" + to + "&id=" + id + "&name=" + name;
-        window.location = url;
+        window.open(url);
 
     }
 
 </script>
 <div class="row">
     <div class="form-head1">
-        <h4>Sales Register</h4>
+        <h4>Sales Invoice Register</h4>
     </div>
     <div class="main-part pad1">
         <div class="row">

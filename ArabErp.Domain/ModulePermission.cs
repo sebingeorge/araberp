@@ -29,6 +29,7 @@ namespace ArabErp.Domain
         public bool MaterialStockBelowMinLevel { get; set; }
         public bool PendingVechicleInpass { get; set; }
         public bool PendingWRForStoreIssue { get; set; }
+        public bool PendingJobcardQC { get; set; }
     }
     public class GraphPermission
     {

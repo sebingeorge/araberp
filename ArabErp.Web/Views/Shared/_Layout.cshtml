@@ -706,6 +706,10 @@
                                 {
                                     <li><a href="@Url.Action("Pending", "WorkShopRequest", new { isProjectBased = 1 })">Material Request</a></li>
                                 }
+                                @if (formPermission.Find(x => x.FormId == 160) != null)
+                                {
+                                    <li><a href="@Url.Action("Create", "AdditionalWorkShopRequest", new { isProjectBased = 1 })">Additional Material Request</a></li>
+                                }
                                 @if (formPermission.Find(x => x.FormId == 157) != null)
                                 {
                                 <li>
@@ -860,7 +864,7 @@
                                           }
                                             @if (formPermission.Find(x => x.FormId == 89) != null)
                                             {
-                                                <li><a href="@Url.Action("Create","AdditionalWorkShopRequest")">Additional Workshop Request</a></li>
+                                                <li><a href="@Url.Action("Create", "AdditionalWorkShopRequest", new { isProjectBased = 0 })">Additional Workshop Request</a></li>
                                             }
                                         </ul>
                                     </div>
@@ -1009,7 +1013,7 @@
                                             }
                                             @if (formPermission.Find(x => x.FormId == 109) != null)
                                             {
-                                                <li><a href="@Url.Action("Index", "SalesRegister")">Sales Register</a></li>
+                                                <li><a href="@Url.Action("Index", "SalesRegister")">Sales Invoice Register</a></li>
                                             }
                                             @if (formPermission.Find(x => x.FormId == 110) != null)
                                             {

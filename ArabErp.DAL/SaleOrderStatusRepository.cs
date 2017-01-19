@@ -91,15 +91,15 @@ namespace ArabErp.DAL
                         from DeliveryChallan D,JobCard J, #RESULT R
                         where D.JobCardId = J.JobCardId and  J.SaleOrderId = R.SaleOrderId and R.SaleOrderItemId = J.SaleOrderItemId;
 
-                        update #RESULT set WorkShopRequest = (STUFF((SELECT ', ' + CAST(T.WorkShopRequestRefNo AS VARCHAR(MAX))
+                         update #RESULT set WorkShopRequest = (STUFF((SELECT ', ' + CAST(T.WorkShopRequestRefNo AS VARCHAR(MAX)) +'-' + CAST(CONVERT (VARCHAR(15),T.RequiredDate,106)AS VARCHAR(MAX))
                         FROM WorkShopRequest T where T.SaleOrderId = #RESULT.SaleOrderId
                         FOR XML PATH('')),1,1,''))
 
-                        update #RESULT set PurchaseRequest = (STUFF((SELECT ', ' + CAST(P.PurchaseRequestNo AS VARCHAR(MAX))
+                        update #RESULT set PurchaseRequest = (STUFF((SELECT ', ' + CAST(P.PurchaseRequestNo AS VARCHAR(MAX))+'-' + CAST(CONVERT (VARCHAR(15),p.PurchaseRequestDate,106) AS VARCHAR(MAX))
                         FROM PurchaseRequest P inner join WorkShopRequest W on P.WorkShopRequestId = W.WorkShopRequestId where W.SaleOrderId = #RESULT.SaleOrderId
                         FOR XML PATH('')),1,1,''))
 
-                        update #RESULT set SuppyOrder = (STUFF((SELECT distinct ', ' + CAST(SI.SupplyOrderNo AS VARCHAR(MAX))
+                        update #RESULT set SuppyOrder = (STUFF((SELECT distinct ', ' + CAST(SI.SupplyOrderNo AS VARCHAR(MAX))+'-' + CAST(CONVERT(VARCHAR(15),SI.RequiredDate,106) AS VARCHAR(MAX))
                         FROM PurchaseRequest P inner join WorkShopRequest W on P.WorkShopRequestId = W.WorkShopRequestId 
                         inner join PurchaseRequestItem PRI on PRI.PurchaseRequestId = P.PurchaseRequestId
                         inner join SupplyOrderItem SUI on SUI.PurchaseRequestItemId = PRI.PurchaseRequestItemId

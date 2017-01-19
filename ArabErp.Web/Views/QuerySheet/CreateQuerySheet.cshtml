@@ -254,27 +254,27 @@
         $('#room_' + index + '_doors_popup').removeClass('hide');
     }
     function formValidation() {
-        var status = true;
-        var lastObject;
-        var index;
-        $('.Quantity').each(function (i, obj) {
-            alert(obj);
-            var Qty = $(obj).val();
-            index = obj.id.substring(16, 17);
-            if (Number(Qty) == '' || Number(Qty)==0) {
-                //QuerySheetItems_0__ProjectRoomUnits_2__Quantity
-                //$("#StockPointId").focus();
-                status = false;
-                lastObject = obj;
-                index = obj.id.substring(16, 17);
-            }
-        });
-        if (status == false) {
-            UnitSelection(index);
-            toastr.info("Unit quantity cannot be zero");
-            $('#unitselectionpopup').modal();
-        }
-        return status;
+        //var status = true;
+        //var lastObject;
+        //var index;
+        //$('.Quantity').each(function (i, obj) {
+        //    alert(obj);
+        //    var Qty = $(obj).val();
+        //    index = obj.id.substring(16, 17);
+        //    if (Number(Qty) == '' || Number(Qty)==0) {
+        //        //QuerySheetItems_0__ProjectRoomUnits_2__Quantity
+        //        //$("#StockPointId").focus();
+        //        status = false;
+        //        lastObject = obj;
+        //        index = obj.id.substring(16, 17);
+        //    }
+        //});
+        //if (status == false) {
+        //    UnitSelection(index);
+        //    toastr.info("Unit quantity cannot be zero");
+        //    $('#unitselectionpopup').modal();
+        //}
+        //return status;
     }
 </script>
 

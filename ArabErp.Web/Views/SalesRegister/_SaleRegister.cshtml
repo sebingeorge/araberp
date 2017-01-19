@@ -7,10 +7,10 @@
             <th width="10%"><h1>Date</h1></th>
             <th width="20%"><h1>Customer</h1></th>
             <th width="20%"><h1>Work Description</h1></th>
-            <th width="5%" class="text-right"><h1>Qty.</h1></th>
-            <th width="5%"><h1>Unit</h1></th>
-            <th width="5%" class="text-right"><h1>Rate</h1></th>
-            <th width="10%" class="text-right"><h1>Amount</h1></th>
+            <th width="5%" class="text-right"><h1>Qty</h1></th>
+            @*<th width="5%"><h1>Unit</h1></th>*@
+            @*<th width="5%" class="text-right"><h1>Rate</h1></th>*@
+            <th width="10%" class="text-right"><h1>Grand Total</h1></th>
             <th width="5%" class="text-right"><h1>Discount</h1></th>
             <th width="10%" class="text-right"><h1>Net Amount</h1></th>
          
@@ -27,8 +27,8 @@
                 <td class="grid-cell">@item.CustomerName</td>
                 <td class="grid-cell">@item.WorkDescr</td>
                 <td class="grid-cell text-right">@item.Quantity</td>
-                <td class="grid-cell">@item.UnitName</td>
-                <td class="grid-cell text-right">@item.Rate</td>
+                @*<td class="grid-cell">@item.UnitName</td>*@
+                @*<td class="grid-cell text-right">@item.Rate</td>*@
                 <td class="grid-cell text-right">@item.Amount</td>
                 <td class="grid-cell text-right">@item.Discount</td>
                 <td class="grid-cell text-right">@item.TotalAmount</td>
