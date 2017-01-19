@@ -1,0 +1,1347 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+                <xs:element name="Item" type="xs:string" minOccurs="0" />
+                <xs:element name="PartNo" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Item" type="xs:string" minOccurs="0" />
+                <xs:element name="IN" type="xs:string" minOccurs="0" />
+                <xs:element name="OUT" type="xs:string" minOccurs="0" />
+                <xs:element name="Balance" type="xs:string" minOccurs="0" />
+                <xs:element name="PartNum" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Item />
+    <PartNo />
+  </Head>
+  <Items>
+    <Item>100mm 3300x2000x2100mm- MITS- TCTI</Item>
+    <IN>3.000</IN>
+    <OUT>0</OUT>
+    <Balance>3.000</Balance>
+    <PartNum>1032</PartNum>
+  </Items>
+  <Items>
+    <Item>100mm 4400x2100x2100mm- ISUZU ,BAM</Item>
+    <IN>2.000</IN>
+    <OUT>2.000</OUT>
+    <Balance>0.000</Balance>
+    <PartNum>1005</PartNum>
+  </Items>
+  <Items>
+    <Item>100mm 4400x2100x2100mm- MITS- TCTI</Item>
+    <IN>2.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>1034</PartNum>
+  </Items>
+  <Items>
+    <Item>100MM 5000X2100X2100MM ,ISUZU ,BAM</Item>
+    <IN>4.000</IN>
+    <OUT>4.000</OUT>
+    <Balance>0.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>100MM 5000X2100X2100MM ,MIT BAM</Item>
+    <IN>3.000</IN>
+    <OUT>3.000</OUT>
+    <Balance>0.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>100mm 5600x2200x2200mm ,BAM</Item>
+    <IN>1.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>0.000</Balance>
+    <PartNum>1010</PartNum>
+  </Items>
+  <Items>
+    <Item>40mm4300x2100x2100mm - MITS/AARC</Item>
+    <IN>1.000</IN>
+    <OUT>0</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>1021</PartNum>
+  </Items>
+  <Items>
+    <Item>40mm4300x2100x2100mm- MITS</Item>
+    <IN>1.000</IN>
+    <OUT>3.000</OUT>
+    <Balance>-2.000</Balance>
+    <PartNum>1024</PartNum>
+  </Items>
+  <Items>
+    <Item>40mm5000x2100x2100mm-ISUZU ,BAM</Item>
+    <IN>2.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>40mm5500x2200x2200mm</Item>
+    <IN>1.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>0.000</Balance>
+    <PartNum>1027</PartNum>
+  </Items>
+  <Items>
+    <Item>50MM 4300X2100X2100MM- TSCL/AARC</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>50MM INSULATED PANEL HR -AL FURATH</Item>
+    <IN>1.000</IN>
+    <OUT>0</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>50MM INSULATED PANEL STD -AL FURATH</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>STD50MM</PartNum>
+  </Items>
+  <Items>
+    <Item>50mm6100x2300x2300mm -AL FURATH</Item>
+    <IN>1.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>0.000</Balance>
+    <PartNum>1071</PartNum>
+  </Items>
+  <Items>
+    <Item>100mm 5500x2200x2200mm - MITS ,BAM</Item>
+    <IN>12.000</IN>
+    <OUT>5.000</OUT>
+    <Balance>7.000</Balance>
+    <PartNum>1085</PartNum>
+  </Items>
+  <Items>
+    <Item>750 HRS SERVICE KIT-CARRIER-OASIS 250</Item>
+    <IN>0</IN>
+    <OUT>4.000</OUT>
+    <Balance>-4.000</Balance>
+    <PartNum>76-61310-00</PartNum>
+  </Items>
+  <Items>
+    <Item>ABS DUCT SET</Item>
+    <IN>0</IN>
+    <OUT>4.000</OUT>
+    <Balance>-4.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>AIR FILTER</Item>
+    <IN>24.000</IN>
+    <OUT>16.000</OUT>
+    <Balance>8.000</Balance>
+    <PartNum>46449 /A 44299</PartNum>
+  </Items>
+  <Items>
+    <Item>AIR FILTER-CARRIER- OASIS 350</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>30-60097-20</PartNum>
+  </Items>
+  <Items>
+    <Item>ALTERNATOR TO COPMRESSOR  BELT MD200</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>78-684</PartNum>
+  </Items>
+  <Items>
+    <Item>ALTERNATOR TO SHAFT  BELT MD200</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>78-700</PartNum>
+  </Items>
+  <Items>
+    <Item>ALUMINIUM ANGLER 25 X 25 X 2mm</Item>
+    <IN>36.000</IN>
+    <OUT>0</OUT>
+    <Balance>36.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>ALUMINIUM ANGLER 50X50X3MM</Item>
+    <IN>68.000</IN>
+    <OUT>0</OUT>
+    <Balance>68.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>ALUMINIUM BLIND RIVET 4.8X20MM</Item>
+    <IN>10.000</IN>
+    <OUT>5.000</OUT>
+    <Balance>5.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>ALUMINIUM CHECKER SHEET 4 X 8 X 2 MM</Item>
+    <IN>10.000</IN>
+    <OUT>0</OUT>
+    <Balance>10.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>ALUMINIUM FLAT BAR 50 X 4mm</Item>
+    <IN>16.000</IN>
+    <OUT>0</OUT>
+    <Balance>16.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>ARAB NAME PLATE</Item>
+    <IN>100.000</IN>
+    <OUT>9.000</OUT>
+    <Balance>91.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>AUTO CABLE FINOLEX BLACK 2MM 25 Mtr</Item>
+    <IN>0</IN>
+    <OUT>20.000</OUT>
+    <Balance>-20.000</Balance>
+    <PartNum>CABLEBLACK</PartNum>
+  </Items>
+  <Items>
+    <Item>AUTO CABLE FINOLEX RED 2MM 25 Mtr</Item>
+    <IN>0</IN>
+    <OUT>15.000</OUT>
+    <Balance>-15.000</Balance>
+    <PartNum>CABLERED</PartNum>
+  </Items>
+  <Items>
+    <Item>BATTERY BOX</Item>
+    <IN>1.000</IN>
+    <OUT>0</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>BATTERY SMF N70</Item>
+    <IN>9.000</IN>
+    <OUT>4.000</OUT>
+    <Balance>5.000</Balance>
+    <PartNum>N70</PartNum>
+  </Items>
+  <Items>
+    <Item>bracket</Item>
+    <IN>0</IN>
+    <OUT>24.000</OUT>
+    <Balance>-24.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>BUFFING WHEEL 4.5 "</Item>
+    <IN>100.000</IN>
+    <OUT>0</OUT>
+    <Balance>100.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>BUS AC AIR FILTER</Item>
+    <IN>10.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>9.000</Balance>
+    <PartNum>A44118</PartNum>
+  </Items>
+  <Items>
+    <Item>BUS AC DUCT LOUVER TWO WAY BUTTERFLY (AIR VENDILATOR)</Item>
+    <IN>0</IN>
+    <OUT>28.000</OUT>
+    <Balance>-28.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>BUS AC FUEL FILTER</Item>
+    <IN>10.000</IN>
+    <OUT>0</OUT>
+    <Balance>10.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>BUS AC OIL FILTER</Item>
+    <IN>10.000</IN>
+    <OUT>0</OUT>
+    <Balance>10.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>BYPASS OIL FILTER THERMOKING</Item>
+    <IN>0</IN>
+    <OUT>12.000</OUT>
+    <Balance>-12.000</Balance>
+    <PartNum>11-6228</PartNum>
+  </Items>
+  <Items>
+    <Item>CAB CONTROLLER   V200,300,500 ETC THERMOKING</Item>
+    <IN>2.000</IN>
+    <OUT>0</OUT>
+    <Balance>2.000</Balance>
+    <PartNum>45-2072</PartNum>
+  </Items>
+  <Items>
+    <Item>CABLE  CAB COMMAND NEW CARRIER-OASIS 250</Item>
+    <IN>0</IN>
+    <OUT>4.000</OUT>
+    <Balance>-4.000</Balance>
+    <PartNum>22-60673-03 </PartNum>
+  </Items>
+  <Items>
+    <Item>CABLE  CAB COMMAND OLD CARRIER-OASIS 250</Item>
+    <IN>3.000</IN>
+    <OUT>0</OUT>
+    <Balance>3.000</Balance>
+    <PartNum>22-60673-00</PartNum>
+  </Items>
+  <Items>
+    <Item>CABLE  CAB COMMAND-CARRIER-OASIS 250</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>22-60673-01</PartNum>
+  </Items>
+  <Items>
+    <Item>CAP RADIATOR-CARRIER-OASIS 250</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>30-60041-00 / 01</PartNum>
+  </Items>
+  <Items>
+    <Item>Carrier Transicold Oasis 250</Item>
+    <IN>1.000</IN>
+    <OUT>0</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>Carrier Transicold Viento 200</Item>
+    <IN>1.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>0.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>COMPRESSOR BELT T600</Item>
+    <IN>0</IN>
+    <OUT>2.000</OUT>
+    <Balance>-2.000</Balance>
+    <PartNum>78-1686</PartNum>
+  </Items>
+  <Items>
+    <Item>COMPRESSOR TM -16 24V</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>448-357</PartNum>
+  </Items>
+  <Items>
+    <Item>COMPRESSOR TM13 12V</Item>
+    <IN>0</IN>
+    <OUT>2.000</OUT>
+    <Balance>-2.000</Balance>
+    <PartNum>448-179</PartNum>
+  </Items>
+  <Items>
+    <Item>COMPRESSOR TM15 12V</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>448-193</PartNum>
+  </Items>
+  <Items>
+    <Item>COMPRESSOR TM16 12V</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>448-351</PartNum>
+  </Items>
+  <Items>
+    <Item>COMPRESSOR TO ENGINE BELT MD200</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>78-1366</PartNum>
+  </Items>
+  <Items>
+    <Item>CONDENSOR FAN 24V-VIENTO 300 / 350</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>54-00623-10</PartNum>
+  </Items>
+  <Items>
+    <Item>CUTTING DISC 4.5" METAL 115 X 1.0 X 22 MM</Item>
+    <IN>1500.000</IN>
+    <OUT>18.000</OUT>
+    <Balance>1482.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>DONGIL BELT A 36</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>DONGIL BELT A 37</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>DONGIL BELT A 38</Item>
+    <IN>0</IN>
+    <OUT>3.000</OUT>
+    <Balance>-3.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>DONGIL BELT A 54</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>DONGIL BELT A 55</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>DONGIL BELT A 56</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>DONGIL BELT A 61</Item>
+    <IN>0</IN>
+    <OUT>3.000</OUT>
+    <Balance>-3.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>DONGIL BELT A 63</Item>
+    <IN>1.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>0.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>ELBOW-CARRIER-OASIS 250</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>58-60094-01</PartNum>
+  </Items>
+  <Items>
+    <Item>ENGINE BELT T600</Item>
+    <IN>0</IN>
+    <OUT>2.000</OUT>
+    <Balance>-2.000</Balance>
+    <PartNum>78-1724</PartNum>
+  </Items>
+  <Items>
+    <Item>ENGINE OIL DELO208 LTR  DRUM (9/- 1LTR) Can</Item>
+    <IN>2.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>500574D</PartNum>
+  </Items>
+  <Items>
+    <Item>ENGINE OIL DELO208 LTR  DRUM (9/- 1LTR)</Item>
+    <IN>251.000</IN>
+    <OUT>140.000</OUT>
+    <Balance>111.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>EVA CARBON BRUSH-CARRIER-OASIS 250</Item>
+    <IN>0</IN>
+    <OUT>6.000</OUT>
+    <Balance>-6.000</Balance>
+    <PartNum>54-60006-30</PartNum>
+  </Items>
+  <Items>
+    <Item>EXHAUST PIPE-CARRIER-OASIS 250</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>30-60018-00</PartNum>
+  </Items>
+  <Items>
+    <Item>FILTE DRYIER 12V-THERMAL MASTER T 1400</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>DML 053-023Z5038</PartNum>
+  </Items>
+  <Items>
+    <Item>FILTER DRIER-CARRIER- VIENTO 200</Item>
+    <IN>0</IN>
+    <OUT>4.000</OUT>
+    <Balance>-4.000</Balance>
+    <PartNum>65-60078-10</PartNum>
+  </Items>
+  <Items>
+    <Item>FITTINGS -40-60301-00</Item>
+    <IN>5.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>4.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>FITTINGS -40-60301-01</Item>
+    <IN>5.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>4.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>FLEXIBLE HOSE 10MM   (100) Mtr</Item>
+    <IN>1300.000</IN>
+    <OUT>73.000</OUT>
+    <Balance>1227.000</Balance>
+    <PartNum>1</PartNum>
+  </Items>
+  <Items>
+    <Item>FLEXIBLE HOSE 10MM   (100M) Roll</Item>
+    <IN>0</IN>
+    <OUT>13.000</OUT>
+    <Balance>-13.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>FLEXIBLE HOSE 32MM   (25M)</Item>
+    <IN>0</IN>
+    <OUT>10.000</OUT>
+    <Balance>-10.000</Balance>
+    <PartNum />
+  </Items>
+  <Items>
+    <Item>FUEL FILTER THERMOKING 11-9098</Item>
+    <IN>0</IN>
+    <OUT>12.000</OUT>
+    <Balance>-12.000</Balance>
+    <PartNum>11-9098</PartNum>
+  </Items>
+  <Items>
+    <Item>FUEL FILTER-CARRIER- OASIS 350</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>30-00302-00</PartNum>
+  </Items>
+  <Items>
+    <Item>FUEL PUMP THERMOKING</Item>
+    <IN>6.000</IN>
+    <OUT>5.000</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>41-7059</PartNum>
+  </Items>
+  <Items>
+    <Item>FUSE HOLDER THERMOKING</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>41-3665</PartNum>
+  </Items>
+  <Items>
+    <Item>HARNESS WIRE  , Thermal Master T 1400</Item>
+    <IN>0</IN>
+    <OUT>3.000</OUT>
+    <Balance>-3.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>Hook</Item>
+    <IN>0</IN>
+    <OUT>20.000</OUT>
+    <Balance>-20.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>HOSE WATER-CARRIER-OASIS 250</Item>
+    <IN>4.000</IN>
+    <OUT>0</OUT>
+    <Balance>4.000</Balance>
+    <PartNum>58-60701-00</PartNum>
+  </Items>
+  <Items>
+    <Item>HSS DRILL BIT 12MM</Item>
+    <IN>10.000</IN>
+    <OUT>0</OUT>
+    <Balance>10.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>HSS DRILL BIT 5MM</Item>
+    <IN>400.000</IN>
+    <OUT>0</OUT>
+    <Balance>400.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>HSS DRILL BIT 8MM</Item>
+    <IN>75.000</IN>
+    <OUT>0</OUT>
+    <Balance>75.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>Hwasung HT 250</Item>
+    <IN>0</IN>
+    <OUT>2.000</OUT>
+    <Balance>-2.000</Balance>
+    <PartNum>HWASUNG 250</PartNum>
+  </Items>
+  <Items>
+    <Item>HYDRAULIC  OIL 20 LTR  </Item>
+    <IN>15.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>14.000</Balance>
+    <PartNum>HYDRAULIC</PartNum>
+  </Items>
+  <Items>
+    <Item>IDLER PULLEY - BLACK</Item>
+    <IN>1.000</IN>
+    <OUT>8.000</OUT>
+    <Balance>-7.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>KIT INSTALLATION Z-30S-CARRIER- ZEPHYR 30S</Item>
+    <IN>4.000</IN>
+    <OUT>0</OUT>
+    <Balance>4.000</Balance>
+    <PartNum>76-60910-00</PartNum>
+  </Items>
+  <Items>
+    <Item>Latch Belt</Item>
+    <IN>0</IN>
+    <OUT>2.000</OUT>
+    <Balance>-2.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>Meat Rail</Item>
+    <IN>0</IN>
+    <OUT>6.000</OUT>
+    <Balance>-6.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MIT COMPRESSOR BRACKET UK</Item>
+    <IN>0</IN>
+    <OUT>10.000</OUT>
+    <Balance>-10.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MOUNTING BUSH</Item>
+    <IN>4.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>3.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MOVABLE PARTITION 50MM 1900 X 1900 -TCTI</Item>
+    <IN>6.000</IN>
+    <OUT>3.000</OUT>
+    <Balance>3.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MRA BUS AC UNIT</Item>
+    <IN>0</IN>
+    <OUT>5.000</OUT>
+    <Balance>-5.000</Balance>
+    <PartNum>MRA 512 PN</PartNum>
+  </Items>
+  <Items>
+    <Item>MS ANGLER 25 X 25 X 2mm 6Mtr</Item>
+    <IN>160.000</IN>
+    <OUT>4.000</OUT>
+    <Balance>156.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MS ANGLER 30X30X2MM X 6MTR</Item>
+    <IN>50.000</IN>
+    <OUT>15.000</OUT>
+    <Balance>35.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MS ANGLER 40X40X2MM X 6MTR</Item>
+    <IN>45.000</IN>
+    <OUT>20.000</OUT>
+    <Balance>25.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MS BUSH 2CM X 10</Item>
+    <IN>3.000</IN>
+    <OUT>0</OUT>
+    <Balance>3.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MS CHANNEL 100X50X4MM X 6MTR</Item>
+    <IN>115.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>114.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MS CHANNEL 50X25X5MM X 6MTR</Item>
+    <IN>120.000</IN>
+    <OUT>4.000</OUT>
+    <Balance>116.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MS FLAT BAR 40X2MM X 6MTR</Item>
+    <IN>78.000</IN>
+    <OUT>20.000</OUT>
+    <Balance>58.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MS HOLLOW SECTION 15X15X1MM X 6MTR</Item>
+    <IN>140.000</IN>
+    <OUT>7.000</OUT>
+    <Balance>133.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MS HOLLOW SECTION 40X40X3MM X 6MTR</Item>
+    <IN>215.000</IN>
+    <OUT>22.000</OUT>
+    <Balance>193.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MS HOLLOW SECTION 60X30X2MM X 6MTR</Item>
+    <IN>406.000</IN>
+    <OUT>219.000</OUT>
+    <Balance>187.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MS HOLLOW SECTION 80X40X2MM X 6MTR</Item>
+    <IN>491.000</IN>
+    <OUT>161.000</OUT>
+    <Balance>330.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MS PULLEY MITSUBISHI</Item>
+    <IN>0</IN>
+    <OUT>2.000</OUT>
+    <Balance>-2.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>O RING  THERMOKING</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>33-2043</PartNum>
+  </Items>
+  <Items>
+    <Item>OIL FILTER THERMOKING</Item>
+    <IN>0</IN>
+    <OUT>11.000</OUT>
+    <Balance>-11.000</Balance>
+    <PartNum>11 6182</PartNum>
+  </Items>
+  <Items>
+    <Item>OIL FILTER-CARRIER- OASIS 350</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>30-00323-00</PartNum>
+  </Items>
+  <Items>
+    <Item>OIL SEAL MD200</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>33-1727</PartNum>
+  </Items>
+  <Items>
+    <Item>OIL SEPARATOR THERMOKING</Item>
+    <IN>8.000</IN>
+    <OUT>0</OUT>
+    <Balance>8.000</Balance>
+    <PartNum>66-8548</PartNum>
+  </Items>
+  <Items>
+    <Item>OIL SEPERATOR-CARRIER- VIENTO 200</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>65-60059-01</PartNum>
+  </Items>
+  <Items>
+    <Item>ORIFICE #03</Item>
+    <IN>8.000</IN>
+    <OUT>3.000</OUT>
+    <Balance>5.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>PAINT BLACK 4L</Item>
+    <IN>0</IN>
+    <OUT>6.000</OUT>
+    <Balance>-6.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>Plastic Curtain 200 X 2mm-Ribbed View-507</Item>
+    <IN>2542.000</IN>
+    <OUT>146.000</OUT>
+    <Balance>2396.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>PLYWOOD 18MM</Item>
+    <IN>39.000</IN>
+    <OUT>11.000</OUT>
+    <Balance>28.000</Balance>
+    <PartNum>PLYWOOD 18MM</PartNum>
+  </Items>
+  <Items>
+    <Item>REFRIGERANT GASS / CYLINDER 134  13KG</Item>
+    <IN>220.000</IN>
+    <OUT>39.000</OUT>
+    <Balance>181.000</Balance>
+    <PartNum>R134</PartNum>
+  </Items>
+  <Items>
+    <Item>REFRIGERANT GASS / CYLINDER 22 HARP</Item>
+    <IN>130.000</IN>
+    <OUT>0</OUT>
+    <Balance>130.000</Balance>
+    <PartNum>R22</PartNum>
+  </Items>
+  <Items>
+    <Item>REFRIGERANT GASS / CYLINDER 404 10.5 KG HARP KG</Item>
+    <IN>115.500</IN>
+    <OUT>3.000</OUT>
+    <Balance>112.500</Balance>
+    <PartNum>R404AKG</PartNum>
+  </Items>
+  <Items>
+    <Item>RELAY 24 V SMALL</Item>
+    <IN>15.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>14.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>SHAFT SEAL COMPRESSOR THERMOKING</Item>
+    <IN>11.000</IN>
+    <OUT>0</OUT>
+    <Balance>11.000</Balance>
+    <PartNum>22-899</PartNum>
+  </Items>
+  <Items>
+    <Item>SILICON ORIGINAL BLACK STARCHEM </Item>
+    <IN>0</IN>
+    <OUT>6.000</OUT>
+    <Balance>-6.000</Balance>
+    <PartNum>SILICON BLACK</PartNum>
+  </Items>
+  <Items>
+    <Item>SILICON ORIGINAL WHITE STARCHEM </Item>
+    <IN>0</IN>
+    <OUT>16.000</OUT>
+    <Balance>-16.000</Balance>
+    <PartNum>SILICONWHITE</PartNum>
+  </Items>
+  <Items>
+    <Item>SPAL FAN MOTOR 12V-10 INCH</Item>
+    <IN>7.000</IN>
+    <OUT>0</OUT>
+    <Balance>7.000</Balance>
+    <PartNum>SPAL12V</PartNum>
+  </Items>
+  <Items>
+    <Item>SPRAY FOAM</Item>
+    <IN>72.000</IN>
+    <OUT>4.000</OUT>
+    <Balance>68.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>SS A2 FLAT WASHER  M8</Item>
+    <IN>500.000</IN>
+    <OUT>0</OUT>
+    <Balance>500.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>STAND BY MOTOR BELT MD200</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>78-936</PartNum>
+  </Items>
+  <Items>
+    <Item>SUNISO COMPRESSOR OIL  - SL 100  (1 LTR)</Item>
+    <IN>1.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>0.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>SUNISO COMPRESSOR OIL  - SL 68 -  (4 LTR)</Item>
+    <IN>12.000</IN>
+    <OUT>12.000</OUT>
+    <Balance>0.000</Balance>
+    <PartNum>SL68</PartNum>
+  </Items>
+  <Items>
+    <Item>Thermal Matser T1400-R</Item>
+    <IN>1.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>0.000</Balance>
+    <PartNum>T1400R</PartNum>
+  </Items>
+  <Items>
+    <Item>Thermal Matser T2500</Item>
+    <IN>2.000</IN>
+    <OUT>8.000</OUT>
+    <Balance>-6.000</Balance>
+    <PartNum>T2500</PartNum>
+  </Items>
+  <Items>
+    <Item>Thermal Matser T2500SE 24V(220V/50HZ/1PH)</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>THERMO STAT</Item>
+    <IN>8.000</IN>
+    <OUT>0</OUT>
+    <Balance>8.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>Thermoking T600-R</Item>
+    <IN>6.000</IN>
+    <OUT>6.000</OUT>
+    <Balance>0.000</Balance>
+    <PartNum>T600R</PartNum>
+  </Items>
+  <Items>
+    <Item>Thermoking V300 Max 20</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>Thermoking V500 Max 20</Item>
+    <IN>1.000</IN>
+    <OUT>0</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>THINNER (1 LIT CAN)</Item>
+    <IN>15.000</IN>
+    <OUT>0</OUT>
+    <Balance>15.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>TOYOTA COMPRESSOR BRACKET BAM</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>TRUNKING BOX 50x50</Item>
+    <IN>0</IN>
+    <OUT>18.000</OUT>
+    <Balance>-18.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>TRUNKING BOX 75x75</Item>
+    <IN>0</IN>
+    <OUT>5.000</OUT>
+    <Balance>-5.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>VERTICAL FITTINGS</Item>
+    <IN>0</IN>
+    <OUT>4.000</OUT>
+    <Balance>-4.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>VOLTAGE REDUCER CARRIER- ZEPHYR 30S</Item>
+    <IN>3.000</IN>
+    <OUT>0</OUT>
+    <Balance>3.000</Balance>
+    <PartNum>8000818</PartNum>
+  </Items>
+  <Items>
+    <Item>VOLTAGE REDUCER DC12V INPUT 24V DC THERMOKING</Item>
+    <IN>2.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>Ashjo</PartNum>
+  </Items>
+  <Items>
+    <Item>WATER PUMP BELT THERMOKING</Item>
+    <IN>0</IN>
+    <OUT>1.000</OUT>
+    <Balance>-1.000</Balance>
+    <PartNum>78-1012</PartNum>
+  </Items>
+  <Items>
+    <Item>WELDING ROD ESAB DIA 2.5 (7018) 4.5 KG / PKT</Item>
+    <IN>0</IN>
+    <OUT>2.000</OUT>
+    <Balance>-2.000</Balance>
+    <PartNum>ESABROD</PartNum>
+  </Items>
+  <Items>
+    <Item>Zepro Tail Lift- 1.5 Ton</Item>
+    <IN>23.000</IN>
+    <OUT>13.000</OUT>
+    <Balance>10.000</Balance>
+    <PartNum>ZEPRO 1.5</PartNum>
+  </Items>
+  <Items>
+    <Item>ZEPRO TAIL LIFT CONTROL UNIT</Item>
+    <IN>10.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>9.000</Balance>
+    <PartNum>69432</PartNum>
+  </Items>
+  <Items>
+    <Item>MOVABLE PARTITION 50MM 2100 X 2100 -TCTI</Item>
+    <IN>1.000</IN>
+    <OUT>0</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>201</PartNum>
+  </Items>
+  <Items>
+    <Item>100mm 4400x2100x2100 PUB Mit - BAM</Item>
+    <IN>7.000</IN>
+    <OUT>6.000</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>1006</PartNum>
+  </Items>
+  <Items>
+    <Item>SINGLE LAYER SIDE CRASHGUARD</Item>
+    <IN>5.000</IN>
+    <OUT>4.000</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>Zepro Tail Lift- 1.5 Ton With Aluminium Platform</Item>
+    <IN>4.000</IN>
+    <OUT>2.000</OUT>
+    <Balance>2.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>SS Real (1mit)</Item>
+    <IN>61.000</IN>
+    <OUT>8.000</OUT>
+    <Balance>53.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>SS Strip</Item>
+    <IN>380.000</IN>
+    <OUT>43.000</OUT>
+    <Balance>337.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>HOSE IDN 8  CARRIER- VIENTO 200 MTR</Item>
+    <IN>8.000</IN>
+    <OUT>3.000</OUT>
+    <Balance>5.000</Balance>
+    <PartNum>58-60745-01  / 30 / MTR</PartNum>
+  </Items>
+  <Items>
+    <Item>HOSE IDN 12.7 CARRIER- VIENTO 200 MTR</Item>
+    <IN>19.000</IN>
+    <OUT>7.000</OUT>
+    <Balance>12.000</Balance>
+    <PartNum>58-60745-03 / 32 / MTR</PartNum>
+  </Items>
+  <Items>
+    <Item>JUBILEE HOSE CLIPS 00 UK </Item>
+    <IN>100.000</IN>
+    <OUT>0</OUT>
+    <Balance>100.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>GI CSK SELF DRILLG SCREW ZIK8X1" -TUFFIX</Item>
+    <IN>3.000</IN>
+    <OUT>0</OUT>
+    <Balance>3.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>GI HEX BOLT M06X25</Item>
+    <IN>250.000</IN>
+    <OUT>0</OUT>
+    <Balance>250.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>GI LOCK NUT M06</Item>
+    <IN>250.000</IN>
+    <OUT>0</OUT>
+    <Balance>250.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MS 8.8 HEX BOLT M10X40</Item>
+    <IN>250.000</IN>
+    <OUT>0</OUT>
+    <Balance>250.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>MS 8.8 HEX BOLT M14X70</Item>
+    <IN>100.000</IN>
+    <OUT>0</OUT>
+    <Balance>100.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>GI LOCK NUT M14</Item>
+    <IN>100.000</IN>
+    <OUT>0</OUT>
+    <Balance>100.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>SELF DRILLING SCREW HEX HEAD 2"X14 PATTA</Item>
+    <IN>5.000</IN>
+    <OUT>0</OUT>
+    <Balance>5.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>PAD LOCK 70MM GODREJ</Item>
+    <IN>2.000</IN>
+    <OUT>0</OUT>
+    <Balance>2.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>SS FLAT WASHER M8X25</Item>
+    <IN>500.000</IN>
+    <OUT>0</OUT>
+    <Balance>500.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>SPAL FAN MOTOR 24V </Item>
+    <IN>10.000</IN>
+    <OUT>4.000</OUT>
+    <Balance>6.000</Balance>
+    <PartNum>SPAL24</PartNum>
+  </Items>
+  <Items>
+    <Item>4GS OIL GAL</Item>
+    <IN>6.000</IN>
+    <OUT>0</OUT>
+    <Balance>6.000</Balance>
+    <PartNum>4GS GAL</PartNum>
+  </Items>
+  <Items>
+    <Item>HOSE IDN 8 -58-60745-02 / 31 CARRIER- VIENTO 200 / MTR</Item>
+    <IN>12.000</IN>
+    <OUT>4.000</OUT>
+    <Balance>8.000</Balance>
+    <PartNum>58-60745-02 / 31	/ MTR</PartNum>
+  </Items>
+  <Items>
+    <Item>SUNISO COMPRESSOR OIL  - SL 68 -  LTR</Item>
+    <IN>40.000</IN>
+    <OUT>40.000</OUT>
+    <Balance>0.000</Balance>
+    <PartNum>SL68 LTR</PartNum>
+  </Items>
+  <Items>
+    <Item>SUNISO COMPRESSOR OIL  - SL 68 - ML</Item>
+    <IN>48000.000</IN>
+    <OUT>0</OUT>
+    <Balance>48000.000</Balance>
+    <PartNum>SL68ML</PartNum>
+  </Items>
+  <Items>
+    <Item>HYDRAULIC  OIL 20 LTR - CAN</Item>
+    <IN>10.000</IN>
+    <OUT>0</OUT>
+    <Balance>10.000</Balance>
+    <PartNum>HYDRAULIC CAN</PartNum>
+  </Items>
+  <Items>
+    <Item>COOLANT WATER 5 LTR  - LTR</Item>
+    <IN>50.000</IN>
+    <OUT>3.000</OUT>
+    <Balance>47.000</Balance>
+    <PartNum>COOLANT LTR</PartNum>
+  </Items>
+  <Items>
+    <Item>PLYWOOD 6MM</Item>
+    <IN>14.000</IN>
+    <OUT>14.000</OUT>
+    <Balance>0.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>AIR COMPRESSOR 50LTR  ABAC </Item>
+    <IN>1.000</IN>
+    <OUT>0</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>4116023462</PartNum>
+  </Items>
+  <Items>
+    <Item>WELDING COVER ALL DARK GREY</Item>
+    <IN>22.000</IN>
+    <OUT>0</OUT>
+    <Balance>22.000</Balance>
+    <PartNum>COVERALL</PartNum>
+  </Items>
+  <Items>
+    <Item>AIR RIVETER GUN </Item>
+    <IN>1.000</IN>
+    <OUT>0</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>AIR RIVETER GUN </PartNum>
+  </Items>
+  <Items>
+    <Item>AIR HOSE 100MTR- 5/16"</Item>
+    <IN>1.000</IN>
+    <OUT>0</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>AIR HOSE</PartNum>
+  </Items>
+  <Items>
+    <Item>FIRE EXTINGUSHER 9KG </Item>
+    <IN>15.000</IN>
+    <OUT>0</OUT>
+    <Balance>15.000</Balance>
+    <PartNum>FIRE EXTINGUSHER</PartNum>
+  </Items>
+  <Items>
+    <Item>COTTON RAGS COLOUR 10KG</Item>
+    <IN>10.000</IN>
+    <OUT>0</OUT>
+    <Balance>10.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>HOLESAW 75MM TCT SS KEEGO UK</Item>
+    <IN>2.000</IN>
+    <OUT>0</OUT>
+    <Balance>2.000</Balance>
+    <PartNum>-</PartNum>
+  </Items>
+  <Items>
+    <Item>JIGSAW MACHINE INGCO 750W</Item>
+    <IN>3.000</IN>
+    <OUT>0</OUT>
+    <Balance>3.000</Balance>
+    <PartNum>JIGSAW INGCO</PartNum>
+  </Items>
+  <Items>
+    <Item>Safety shoe</Item>
+    <IN>2.000</IN>
+    <OUT>0</OUT>
+    <Balance>2.000</Balance>
+    <PartNum>Safety shoe</PartNum>
+  </Items>
+  <Items>
+    <Item>BOX LIGHT BAM </Item>
+    <IN>2.000</IN>
+    <OUT>1.000</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>P4 LIGHT</PartNum>
+  </Items>
+  <Items>
+    <Item>A4 SIZE PAPER </Item>
+    <IN>10.000</IN>
+    <OUT>0</OUT>
+    <Balance>10.000</Balance>
+    <PartNum>A4 SIZE PAPER </PartNum>
+  </Items>
+  <Items>
+    <Item>REFRIGERANT GASS / CYLINDER HARP 141B X 13.6 KG</Item>
+    <IN>54.400</IN>
+    <OUT>1.000</OUT>
+    <Balance>53.400</Balance>
+    <PartNum>R141KG</PartNum>
+  </Items>
+  <Items>
+    <Item>Door Rubber beading 50 mtr Al Furath MTR</Item>
+    <IN>40.000</IN>
+    <OUT>2.000</OUT>
+    <Balance>38.000</Balance>
+    <PartNum>BEADING MTR</PartNum>
+  </Items>
+  <Items>
+    <Item>VOLTAS WINDOW AC 2 TON </Item>
+    <IN>1.000</IN>
+    <OUT>0</OUT>
+    <Balance>1.000</Balance>
+    <PartNum>VOLTAS WINDOW AC 2 TON </PartNum>
+  </Items>
+</NewDataSet>
