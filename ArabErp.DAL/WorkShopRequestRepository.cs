@@ -903,7 +903,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @" SELECT  WR.*,JobCardId,SO.SaleOrderRefNo,C.CustomerName
+                string sql = @" SELECT  WR.*,JobCardId,SO.SaleOrderRefNo,C.CustomerName, SO.isProjectBased
                                 FROM WorkShopRequest WR
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=WR.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=WR.CustomerId

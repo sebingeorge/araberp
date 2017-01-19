@@ -83,7 +83,7 @@ namespace ArabErp.Web.Controllers
                     FillPartNo();
                     WorkShopRequest WorkShopRequest = new WorkShopRequest();
                     WorkShopRequest = new WorkShopRequestRepository().WorkShopRequestHD(id);
-                    JobCardDropdown(WorkShopRequest.JobCardId);
+                    JobCardDropdown(WorkShopRequest.isProjectBased);
                     WorkShopRequest.Items = new WorkShopRequestItemRepository().WorkShopRequestDT(id);
                     return View("Edit", WorkShopRequest);
                 }
