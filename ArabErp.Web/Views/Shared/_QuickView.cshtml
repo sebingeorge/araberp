@@ -131,11 +131,11 @@
             @if (Model.PendingJobcardQC && alertPermissions.PendingJobcardQC)
             {
                 <li>
-                    <a href="@Url.Action("PendingJobCardQC", "JobCardQC")" class="form_input">
+                    <a href="@Url.Action("Index", "DeliveryChallan")" class="form_input">
                         <span class="badge pull-right">
                             @Model.NoOfJobcardQC
                         </span>
-                        Pending JobcardQC 
+                        Pending Jobcard for Delivery Note 
                     </a>
                 </li>
             }
