@@ -245,7 +245,7 @@ namespace ArabErp.Web.Controllers
             return RedirectToAction("PendingApproval");
         }
 
-        public ActionResult Print(int Id)
+        public ActionResult InvoiceReport(int Id)
         {
 
             ReportDocument rd = new ReportDocument();

@@ -85,10 +85,10 @@
             <div class="main-grid main-grid-top scroll1">
                 <div class="table-responsive" id="jobcardlist">
                     @Html.Action("PreviousList", new
-               {
-                   ProjectBased = ViewBag.ProjectBased,
-                   service = Convert.ToInt32(Request.QueryString["service"].ToString() ?? "0")
-               })
+                    {
+                        ProjectBased = ViewBag.ProjectBased,
+                        service = Convert.ToInt32(Request.QueryString["service"].ToString() ?? "0")
+                    })
                 </div>
             </div>
         </div>

@@ -162,7 +162,7 @@ namespace ArabErp.Web.Controllers
 
         }
 
-        public ActionResult Print(int Id)
+        public ActionResult ProformaInvoice(int Id)
         {
 
             ReportDocument rd = new ReportDocument();
@@ -238,7 +238,7 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("ProformaInvoice{0}.pdf", Id.ToString()));
+                return File(stream, "application/pdf");
             }
             catch (Exception ex)
             {

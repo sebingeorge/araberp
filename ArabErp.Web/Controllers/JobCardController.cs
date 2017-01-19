@@ -234,7 +234,7 @@ namespace ArabErp.Web.Controllers
 
 
 
-        public ActionResult Print(int Id)
+        public ActionResult JobCardReport(int Id)
         {
 
             ReportDocument rd = new ReportDocument();
@@ -430,10 +430,10 @@ namespace ArabErp.Web.Controllers
             try
             {
                 if (JobCardId == 0) return RedirectToAction("Index", "Home");
-                JobCard model = new JobCardRepository().GetJobCardDetails2(JobCardId, OrganizationId);
-                string ref_no = new JobCardRepository().DeleteJobCard(JobCardId);
-                TempData["success"] = "Deleted Successfully (" + ref_no + ")";
-                return RedirectToAction("Index", new { isProjectBased = model.isProjectBased });
+                //JobCard model = new JobCardRepository().GetJobCardDetails2(JobCardId, OrganizationId);
+                JobCard model = new JobCardRepository().DeleteJobCard(JobCardId);
+                TempData["success"] = "Deleted Successfully (" + model.JobCardNo + ")";
+                return RedirectToAction("Index", new { isProjectBased = model.isProjectBased, service = model.isService });
             }
             catch (Exception)
             {

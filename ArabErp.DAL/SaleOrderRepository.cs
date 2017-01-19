@@ -1184,7 +1184,7 @@ namespace ArabErp.DAL
             {
                 try
                 {
-                    string query = @"select S.*,SE.ServiceEnquiryRefNo,SE.ServiceEnquiryDate,W.WorkDescr,V.VehicleModelName from SaleOrder S 
+                    string query = @"select S.*,SE.ServiceEnquiryRefNo,SE.ServiceEnquiryDate,W.WorkDescr,V.VehicleModelName,SE.Complaints,SE.UnitDetails from SaleOrder S 
 						left join ServiceEnquiry SE ON SE.ServiceEnquiryId=S.ServiceEnquiryId 
 						left join SaleOrderItem SI On SI.SaleOrderId=S.SaleOrderId
 						left join VehicleModel V ON V.VehicleModelId=SI.VehicleModelId
