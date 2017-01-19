@@ -62,22 +62,21 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <ServiceEnquiryRefNo>AARC/SE/17/50</ServiceEnquiryRefNo>
-    <ServiceEnquiryDate>17-Jan-2017</ServiceEnquiryDate>
-    <CustomerName>Al Danah Trading &amp; Contracting Co.</CustomerName>
-    <CDoorNo>Doha- Qatar</CDoorNo>
-    <CStreet />
+    <ServiceEnquiryRefNo>AARC/SE/17/26</ServiceEnquiryRefNo>
+    <ServiceEnquiryDate>10-Jan-2017</ServiceEnquiryDate>
+    <CustomerName>Four Rivers Food Distibutors</CustomerName>
+    <CDoorNo>Doha ,Qatar</CDoorNo>
     <CPhone>0</CPhone>
     <CZip>0</CZip>
     <CState>UAE</CState>
     <CContactPerson>0</CContactPerson>
-    <VehicleMake>Toyota Hiace</VehicleMake>
-    <VehicleRegNo>47142</VehicleRegNo>
-    <FreezerMake>Carrier</FreezerMake>
-    <FreezerModel>Viento 200</FreezerModel>
-    <FreezerSerialNo>PB914083</FreezerSerialNo>
-    <Complaints>1) General Service
-2) Cab Command Switch Defective</Complaints>
+    <VehicleMake>Mitsubishi 4.3</VehicleMake>
+    <VehicleRegNo>118739</VehicleRegNo>
+    <FreezerMake>TK</FreezerMake>
+    <FreezerModel>T600-R</FreezerModel>
+    <FreezerSerialNo>5001263722</FreezerSerialNo>
+    <Complaints>1) Oil Service
+2) Water Leak Inside</Complaints>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -87,9 +86,9 @@
     <Email>info@arabrefrigeration.com</Email>
     <Phone>974 4435 7216</Phone>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <CreatedUser>safiq</CreatedUser>
-    <CreatedUsersig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\51abaa4b-ca6d-4137-b77b-fe72f18bcda5.jpg</CreatedUsersig>
+    <CreatedUsersig>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreatedUsersig>
     <CreatedDes>Workshop Controller</CreatedDes>
   </Head>
 </NewDataSet>

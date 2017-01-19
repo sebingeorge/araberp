@@ -47,35 +47,35 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <WorkShopRequestRefNo>A-WRQ/14</WorkShopRequestRefNo>
-    <WorkShopRequestDate>11-Dec-2016</WorkShopRequestDate>
-    <CustomerName>Almana &amp; Partners W.L.L.</CustomerName>
-    <CustomerOrderRef>Mail Confirm</CustomerOrderRef>
-    <SaleOrderRefNo>AARC/SER/22</SaleOrderRefNo>
-    <EDateArrival>11-Dec-2016</EDateArrival>
-    <EDateDelivery>11-Dec-2016</EDateDelivery>
-    <WorkDescription> General Checkup &amp; Repair</WorkDescription>
-    <RequiredDate>11-Dec-2016</RequiredDate>
-    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
-    <Street>Hiteen Street, Muntazah </Street>
-    <State>Doha</State>
-    <CountryName>QATAR</CountryName>
-    <Zip>13037</Zip>
-    <Fax>974 4414 2910</Fax>
-    <Email>info@arabrefrigeration.com</Email>
-    <Phone>974 4435 7216</Phone>
-    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Title>WORKSHOP REQUEST</Title>
+    <WorkShopRequestRefNo>MRQ/3</WorkShopRequestRefNo>
+    <WorkShopRequestDate>18-Oct-2016</WorkShopRequestDate>
+    <CustomerName>Abdul Asiz Trading Est</CustomerName>
+    <CustomerOrderRef>saleorder1</CustomerOrderRef>
+    <SaleOrderRefNo>SO/P/4</SaleOrderRefNo>
+    <EDateArrival>18-Oct-2016</EDateArrival>
+    <EDateDelivery>28-Oct-2016</EDateDelivery>
+    <WorkDescription> project Work Description For Testing, project wrk test</WorkDescription>
+    <RequiredDate>29-Oct-2016</RequiredDate>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
+    <Title>MATERIAL REQUEST</Title>
   </Head>
   <Items>
-    <ItemName>RELAY 24 V SMALL</ItemName>
-    <Quantity>1.00</Quantity>
+    <ItemName>COMPRESSOR CLUTCH COIL  TM16 24V</ItemName>
+    <PartNo />
+    <Quantity>30</Quantity>
     <UnitName>Nos</UnitName>
   </Items>
   <Items>
-    <ItemName>DONGIL BELT A 63</ItemName>
-    <Quantity>1.00</Quantity>
+    <ItemName>FUEL FILTER MITSUBISHI</ItemName>
+    <PartNo />
+    <Quantity>80</Quantity>
+    <UnitName>Nos</UnitName>
+  </Items>
+  <Items>
+    <ItemName>ELBOW-40-60290-01</ItemName>
+    <PartNo />
+    <Quantity>30</Quantity>
     <UnitName>Nos</UnitName>
   </Items>
 </NewDataSet>

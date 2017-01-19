@@ -39,10 +39,6 @@
                 <xs:element name="SupFax" type="xs:string" minOccurs="0" />
                 <xs:element name="SupEmail" type="xs:string" minOccurs="0" />
                 <xs:element name="SupPostBoxNo" type="xs:string" minOccurs="0" />
-                <xs:element name="CreatedDes" type="xs:string" minOccurs="0" />
-                <xs:element name="ApproveDes" type="xs:string" minOccurs="0" />
-                <xs:element name="NetDiscount" type="xs:string" minOccurs="0" />
-                <xs:element name="NetAmount" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -59,7 +55,6 @@
                 <xs:element name="Amount" type="xs:string" minOccurs="0" />
                 <xs:element name="ItemRefNo" type="xs:string" minOccurs="0" />
                 <xs:element name="UnitName" type="xs:string" minOccurs="0" />
-                <xs:element name="Description" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -68,143 +63,184 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SupplyOrderNo>AARC/PO/17/1045</SupplyOrderNo>
-    <SupplyOrderDate>17-Jan-2017</SupplyOrderDate>
-    <PaymentTerms>0</PaymentTerms>
-    <RequiredDate>17-Jan-2017 00:00:00</RequiredDate>
-    <CurrencyName>USD</CurrencyName>
-    <CreatedUser>akthab</CreatedUser>
-    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\39673699-d2e8-47c6-b515-83cce1ec1421.JPG</CreateSignature>
-    <ApproveSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\</ApproveSignature>
+    <SupplyOrderNo>LPO/1</SupplyOrderNo>
+    <SupplyOrderDate>19-Nov-2016</SupplyOrderDate>
+    <PaymentTerms>PaymentTerms</PaymentTerms>
+    <RequiredDate>22-Nov-2016 12:00:00 AM</RequiredDate>
+    <CurrencyName>QAR</CurrencyName>
+    <CreatedUser>ihits</CreatedUser>
+    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
+    <ApprovedUser>ihits</ApprovedUser>
+    <ApproveSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\</ApproveSignature>
     <CountryName>QATAR</CountryName>
-    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
-    <Street>Hiteen Street, Muntazah </Street>
-    <State>Doha</State>
+    <DoorNo>Al Mumtazah Building, First Floor, Door No.3, </DoorNo>
+    <Street>P.O Box:13037, Doha, Qatar</Street>
     <Country>QATAR</Country>
-    <Phone>974 4435 7216</Phone>
-    <Fax>974 4414 2910</Fax>
-    <Email>info@arabrefrigeration.com</Email>
-    <Zip>13037</Zip>
-    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <SupplierName>Nevpa Aluminyum Plastik</SupplierName>
-    <SupDoorNo>none</SupDoorNo>
-    <SupState>none</SupState>
-    <SupCountryName>Turkey</SupCountryName>
-    <SupPhone>Tel.: +90 216 518 41 34</SupPhone>
-    <SupFax>+90 216 518 41 38</SupFax>
-    <SupEmail>none</SupEmail>
-    <SupPostBoxNo>none</SupPostBoxNo>
-    <CreatedDes>Procurement Executive</CreatedDes>
-    <NetDiscount>0.00</NetDiscount>
-    <NetAmount>2396.08</NetAmount>
+    <Phone>+974 4435 7214 / 15</Phone>
+    <Fax>+974 4441 4762</Fax>
+    <OrganizationName>Arab Air-conditioning &amp; Refrigeration Co. WLL</OrganizationName>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
+    <SupplierName>A Aziz Bin Khalid Al Ghanem Group</SupplierName>
+    <SupState>Qatar</SupState>
+    <SupCountryName>UAE</SupCountryName>
+    <SupFax>0</SupFax>
+    <SupEmail>www.com</SupEmail>
+    <SupPostBoxNo>Qatar</SupPostBoxNo>
   </Head>
   <Items>
-    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
-    <PartNo>153-01-01-059</PartNo>
-    <ItemName>HINGE ZP REAR NEVPA</ItemName>
-    <BalQty>60</BalQty>
-    <OrderedQty>60</OrderedQty>
-    <Rate>4.75</Rate>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo />
+    <ItemName>FLEXIBLE HOSE 32MM   (25M)</ItemName>
+    <BalQty>6</BalQty>
+    <OrderedQty>6</OrderedQty>
+    <Rate>1.00</Rate>
     <Discount>0.00</Discount>
-    <Amount>285.00</Amount>
-    <ItemRefNo>ITM/1917</ItemRefNo>
+    <Amount>6.00</Amount>
+    <ItemRefNo>ITM/4</ItemRefNo>
+    <UnitName>Roll</UnitName>
+  </Items>
+  <Items>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo>-</PartNo>
+    <ItemName>FUSE HOLDER</ItemName>
+    <BalQty>1</BalQty>
+    <OrderedQty>1</OrderedQty>
+    <Rate>1.00</Rate>
+    <Discount>0.00</Discount>
+    <Amount>1.00</Amount>
+    <ItemRefNo>ITM/6</ItemRefNo>
     <UnitName>Nos</UnitName>
   </Items>
   <Items>
-    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
-    <PartNo>153-01-05-002</PartNo>
-    <ItemName>LEVER KIT O27 ZP NEVPA</ItemName>
-    <BalQty>30</BalQty>
-    <OrderedQty>30</OrderedQty>
-    <Rate>5.65</Rate>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo />
+    <ItemName>ON OFF SWITCH</ItemName>
+    <BalQty>1</BalQty>
+    <OrderedQty>1</OrderedQty>
+    <Rate>1.00</Rate>
     <Discount>0.00</Discount>
-    <Amount>169.50</Amount>
-    <ItemRefNo>ITM/1918</ItemRefNo>
+    <Amount>1.00</Amount>
+    <ItemRefNo>ITM/7</ItemRefNo>
     <UnitName>Nos</UnitName>
   </Items>
   <Items>
-    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
-    <PartNo>153-01-09-002</PartNo>
-    <ItemName>BIG GUIDE PLATE NEVPA</ItemName>
-    <BalQty>60</BalQty>
-    <OrderedQty>60</OrderedQty>
-    <Rate>1.81</Rate>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo />
+    <ItemName>BATTERY TERMINAL  +VE</ItemName>
+    <BalQty>1</BalQty>
+    <OrderedQty>1</OrderedQty>
+    <Rate>1.00</Rate>
     <Discount>0.00</Discount>
-    <Amount>108.60</Amount>
-    <ItemRefNo>ITM/1919</ItemRefNo>
+    <Amount>1.00</Amount>
+    <ItemRefNo>ITM/27</ItemRefNo>
     <UnitName>Nos</UnitName>
   </Items>
   <Items>
-    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
-    <PartNo>153-01-09-010</PartNo>
-    <ItemName>SMALL GUIDE PLATE NEVPA</ItemName>
-    <BalQty>30</BalQty>
-    <OrderedQty>30</OrderedQty>
-    <Rate>0.92</Rate>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo />
+    <ItemName>WIRE TIE 250X4.8</ItemName>
+    <BalQty>1</BalQty>
+    <OrderedQty>1</OrderedQty>
+    <Rate>1.00</Rate>
     <Discount>0.00</Discount>
-    <Amount>27.60</Amount>
-    <ItemRefNo>ITM/1920</ItemRefNo>
+    <Amount>1.00</Amount>
+    <ItemRefNo>ITM/92</ItemRefNo>
+    <UnitName>Pkt</UnitName>
+  </Items>
+  <Items>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo />
+    <ItemName>WIRE TIE 430X 9.0</ItemName>
+    <BalQty>1</BalQty>
+    <OrderedQty>1</OrderedQty>
+    <Rate>1.00</Rate>
+    <Discount>0.00</Discount>
+    <Amount>1.00</Amount>
+    <ItemRefNo>ITM/93</ItemRefNo>
+    <UnitName>Pkt</UnitName>
+  </Items>
+  <Items>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo />
+    <ItemName>TRUNKING BOX 50x50</ItemName>
+    <BalQty>1</BalQty>
+    <OrderedQty>1</OrderedQty>
+    <Rate>1.00</Rate>
+    <Discount>0.00</Discount>
+    <Amount>1.00</Amount>
+    <ItemRefNo>ITM/160</ItemRefNo>
     <UnitName>Nos</UnitName>
   </Items>
   <Items>
-    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
-    <PartNo>153-01-10-010</PartNo>
-    <ItemName>CAN AND KEEPER NEVPA</ItemName>
-    <BalQty>60</BalQty>
-    <OrderedQty>60</OrderedQty>
-    <Rate>4.90</Rate>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo>1002</PartNo>
+    <ItemName>100mm 3300x2000x2100mm- ISUZU</ItemName>
+    <BalQty>1</BalQty>
+    <OrderedQty>1</OrderedQty>
+    <Rate>1.00</Rate>
     <Discount>0.00</Discount>
-    <Amount>294.00</Amount>
-    <ItemRefNo>ITM/1921</ItemRefNo>
+    <Amount>1.00</Amount>
+    <ItemRefNo>ITM/650</ItemRefNo>
     <UnitName>Nos</UnitName>
   </Items>
   <Items>
-    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
-    <PartNo>153-01-11-004</PartNo>
-    <ItemName>DOOR HOLDER ZP NEVPA</ItemName>
-    <BalQty>30</BalQty>
-    <OrderedQty>30</OrderedQty>
-    <Rate>1.02</Rate>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo>-</PartNo>
+    <ItemName>Thermoking T600-R</ItemName>
+    <BalQty>1</BalQty>
+    <OrderedQty>1</OrderedQty>
+    <Rate>1.00</Rate>
     <Discount>0.00</Discount>
-    <Amount>30.60</Amount>
-    <ItemRefNo>ITM/1922</ItemRefNo>
+    <Amount>1.00</Amount>
+    <ItemRefNo>100076</ItemRefNo>
     <UnitName>Nos</UnitName>
   </Items>
   <Items>
-    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
-    <PartNo>153-14-01-010</PartNo>
-    <ItemName>PIPE 27MM ZP 2MM AND 6M NEVPA </ItemName>
-    <BalQty>30</BalQty>
-    <OrderedQty>30</OrderedQty>
-    <Rate>13.26</Rate>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo>1</PartNo>
+    <ItemName>FLEXIBLE HOSE 10MM   (100) Mtr</ItemName>
+    <BalQty>10</BalQty>
+    <OrderedQty>10</OrderedQty>
+    <Rate>1.00</Rate>
     <Discount>0.00</Discount>
-    <Amount>397.80</Amount>
-    <ItemRefNo>ITM/1923</ItemRefNo>
-    <UnitName>Nos</UnitName>
+    <Amount>10.00</Amount>
+    <ItemRefNo>ITM/867</ItemRefNo>
+    <UnitName>Mtr</UnitName>
   </Items>
   <Items>
-    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
-    <PartNo>AL3456PE6000</PartNo>
-    <ItemName>AL PROFILE 40 X 60 6M PIECE NEVPA</ItemName>
-    <BalQty>44</BalQty>
-    <OrderedQty>44</OrderedQty>
-    <Rate>19.67</Rate>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo>2</PartNo>
+    <ItemName>FLEXIBLE HOSE 16 MM   (50) Mtr</ItemName>
+    <BalQty>9</BalQty>
+    <OrderedQty>9</OrderedQty>
+    <Rate>1.00</Rate>
     <Discount>0.00</Discount>
-    <Amount>865.48</Amount>
-    <ItemRefNo>ITM/1924</ItemRefNo>
-    <UnitName>Nos</UnitName>
+    <Amount>9.00</Amount>
+    <ItemRefNo>ITM/868</ItemRefNo>
+    <UnitName>Mtr</UnitName>
   </Items>
   <Items>
-    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
-    <PartNo>153-11-01-006-02</PartNo>
-    <ItemName>NEW MODEL LED LIGHT NEVPA</ItemName>
-    <BalQty>30</BalQty>
-    <OrderedQty>30</OrderedQty>
-    <Rate>7.25</Rate>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo>4</PartNo>
+    <ItemName>AUTO CABLE  BLACK 2MM Mtr</ItemName>
+    <BalQty>5</BalQty>
+    <OrderedQty>5</OrderedQty>
+    <Rate>1.00</Rate>
     <Discount>0.00</Discount>
-    <Amount>217.50</Amount>
-    <ItemRefNo>ITM/1925</ItemRefNo>
-    <UnitName>Nos</UnitName>
+    <Amount>5.00</Amount>
+    <ItemRefNo>ITM/870</ItemRefNo>
+    <UnitName>Mtr</UnitName>
+  </Items>
+  <Items>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo>5</PartNo>
+    <ItemName>AUTO CABLE  RED  2MM  Mtr</ItemName>
+    <BalQty>5</BalQty>
+    <OrderedQty>5</OrderedQty>
+    <Rate>1.00</Rate>
+    <Discount>0.00</Discount>
+    <Amount>5.00</Amount>
+    <ItemRefNo>ITM/871</ItemRefNo>
+    <UnitName>Mtr</UnitName>
   </Items>
 </NewDataSet>

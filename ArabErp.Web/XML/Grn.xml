@@ -51,82 +51,24 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <GRNNo>GRN/17/20</GRNNo>
-    <GRNDate>10-Jan-2017</GRNDate>
-    <SupplierName>M/s Tools &amp; Bolts International W.L.L</SupplierName>
+    <GRNNo>GRN/10</GRNNo>
+    <GRNDate>05-Nov-2016</GRNDate>
+    <SupplierName>A Aziz Bin Khalid Al Ghanem Group</SupplierName>
     <WareHouseName>Main Store</WareHouseName>
-    <SupplierDCNoAndDate>114105</SupplierDCNoAndDate>
+    <SupplierDCNoAndDate>JSUJHHE9837390JJJ</SupplierDCNoAndDate>
     <GRNCurrencyName>QAR</GRNCurrencyName>
-    <ReceivedBy>Rafi Mohamed</ReceivedBy>
-    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
-    <Street>Hiteen Street, Muntazah </Street>
-    <State>Doha</State>
-    <Country>QATAR</Country>
-    <Phone>974 4435 7216</Phone>
-    <Fax>974 4414 2910</Fax>
-    <Email>info@arabrefrigeration.com</Email>
+    <ReceivedBy>Deepak</ReceivedBy>
     <CurrencyName>QAR</CurrencyName>
-    <Zip>13037</Zip>
-    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
   </Head>
   <Items>
-    <ItemName>SAFETY HARNESS </ItemName>
-    <PartNo>SAFETY HARNESS </PartNo>
-    <Qty>1</Qty>
+    <ItemName>COMPRESSOR CLUTCH COIL  TM16 24V</ItemName>
+    <PartNo />
+    <Qty>4</Qty>
     <UoM>Nos</UoM>
-    <Rate>140.000</Rate>
-    <Discount>0.000</Discount>
-    <Amount>140.000</Amount>
-  </Items>
-  <Items>
-    <ItemName>FIRE BLANKET </ItemName>
-    <PartNo>FIRE BLANKET </PartNo>
-    <Qty>1</Qty>
-    <UoM>Nos</UoM>
-    <Rate>35.000</Rate>
-    <Discount>0.000</Discount>
-    <Amount>35.000</Amount>
-  </Items>
-  <Items>
-    <ItemName>EXTENSION CODE 25 MTRS</ItemName>
-    <Qty>1</Qty>
-    <UoM>Nos</UoM>
-    <Rate>150.000</Rate>
-    <Discount>0.000</Discount>
-    <Amount>150.000</Amount>
-  </Items>
-  <Items>
-    <ItemName>FIRST AID KIT</ItemName>
-    <PartNo>FIRST AID KIT</PartNo>
-    <Qty>1</Qty>
-    <UoM>Set</UoM>
-    <Rate>130.000</Rate>
-    <Discount>0.000</Discount>
-    <Amount>130.000</Amount>
-  </Items>
-  <Items>
-    <ItemName>DRILL CHUCK 13MM MAKITA 763143</ItemName>
-    <Qty>1</Qty>
-    <UoM>Nos</UoM>
-    <Rate>40.000</Rate>
-    <Discount>0.000</Discount>
+    <Rate>10.000</Rate>
+    <Discount>10.000</Discount>
     <Amount>40.000</Amount>
-  </Items>
-  <Items>
-    <ItemName>SDS PLUS BIT 6X110 MAKITA</ItemName>
-    <Qty>1</Qty>
-    <UoM>Nos</UoM>
-    <Rate>5.000</Rate>
-    <Discount>0.000</Discount>
-    <Amount>5.000</Amount>
-  </Items>
-  <Items>
-    <ItemName>SDS PLUS BIT 7X110 MAKITA</ItemName>
-    <Qty>1</Qty>
-    <UoM>Nos</UoM>
-    <Rate>5.000</Rate>
-    <Discount>0.000</Discount>
-    <Amount>5.000</Amount>
   </Items>
 </NewDataSet>
