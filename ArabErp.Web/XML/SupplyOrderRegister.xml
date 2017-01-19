@@ -35,9 +35,9 @@
   </xs:schema>
   <Head>
     <From>01-Jan-2016</From>
-    <To>30-Dec-2016</To>
+    <To>19-Jan-2017</To>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
   </Head>
   <Items>
     <SO.No.>LPO/41161000</SO.No.>
@@ -340,7 +340,7 @@
     <SO.No.>AARC/PO/16/1019</SO.No.>
     <Date>12-Dec-2016</Date>
     <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
-    <Material>40mm4300x2100x2100mm- MITS</Material>
+    <Material>40mm4300x2100x2100mm- MITS Dry Box</Material>
     <Quantity>1</Quantity>
     <Unit>Nos</Unit>
     <rate>13120.00</rate>
@@ -747,7 +747,7 @@
     <SO.No.>AARC/PO/16/1032</SO.No.>
     <Date>21-Dec-2016</Date>
     <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
-    <Material>40mm4300x2100x2100mm- MITS</Material>
+    <Material>40mm4300x2100x2100mm- MITS Dry Box</Material>
     <Quantity>1</Quantity>
     <Unit>Nos</Unit>
     <rate>13120.00</rate>
@@ -1050,5 +1050,1963 @@
     <rate>48.60</rate>
     <Amount>1555.20</Amount>
     <TotalAmount>1555.20</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/16/1051</SO.No.>
+    <Date>31-Dec-2016</Date>
+    <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
+    <Material>100mm 4400x2100x2100mm- ISUZU ,BAM</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>18500.00</rate>
+    <Amount>18500.00</Amount>
+    <TotalAmount>18500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1001</SO.No.>
+    <Date>01-Jan-2017</Date>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <Material>BATTERY SMF N70</Material>
+    <Quantity>15</Quantity>
+    <Unit>Nos</Unit>
+    <rate>265.00</rate>
+    <Amount>3975.00</Amount>
+    <TotalAmount>3975.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1002</SO.No.>
+    <Date>02-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>BOLT 10 MM X 150 MM</Material>
+    <Quantity>400</Quantity>
+    <Unit>Nos</Unit>
+    <rate>1.70</rate>
+    <Amount>680.00</Amount>
+    <TotalAmount>1699.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1002</SO.No.>
+    <Date>02-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>HSS DRILL BIT 5MM</Material>
+    <Quantity>200</Quantity>
+    <Unit>Nos</Unit>
+    <rate>2.40</rate>
+    <Amount>480.00</Amount>
+    <TotalAmount>1699.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1002</SO.No.>
+    <Date>02-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>INSULATION TAPE </Material>
+    <Quantity>50</Quantity>
+    <Unit>Nos</Unit>
+    <rate>0.80</rate>
+    <Amount>40.00</Amount>
+    <TotalAmount>1699.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1002</SO.No.>
+    <Date>02-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>M SEAL </Material>
+    <Quantity>3</Quantity>
+    <Unit>CTN</Unit>
+    <rate>34.00</rate>
+    <Amount>102.00</Amount>
+    <TotalAmount>1699.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1002</SO.No.>
+    <Date>02-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>MASKING TAPE 2X20YDS</Material>
+    <Quantity>10</Quantity>
+    <Unit>CTN</Unit>
+    <rate>26.50</rate>
+    <Amount>265.00</Amount>
+    <TotalAmount>1699.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1002</SO.No.>
+    <Date>02-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>SILICONE GUN</Material>
+    <Quantity>4</Quantity>
+    <Unit>Nos</Unit>
+    <rate>13.00</rate>
+    <Amount>52.00</Amount>
+    <TotalAmount>1699.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1002</SO.No.>
+    <Date>02-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>SS A2 HEX NUTM10</Material>
+    <Quantity>400</Quantity>
+    <Unit>Nos</Unit>
+    <rate>0.20</rate>
+    <Amount>80.00</Amount>
+    <TotalAmount>1699.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1003</SO.No.>
+    <Date>03-Jan-2017</Date>
+    <Supplier>Technical Supply &amp; Services Co Ltd</Supplier>
+    <Material>100mm 6700x2500x2500mm ,TSSC</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>28200.00</rate>
+    <Amount>28200.00</Amount>
+    <TotalAmount>197400.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1004</SO.No.>
+    <Date>03-Jan-2017</Date>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <Material>Thermoking T600-R</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>53000.00</rate>
+    <Amount>53000.00</Amount>
+    <TotalAmount>106000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1005</SO.No.>
+    <Date>03-Jan-2017</Date>
+    <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
+    <Material>100mm 4400x2100x2100 PUB Mit - BAM With Out Side Door</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>16650.00</rate>
+    <Amount>16650.00</Amount>
+    <TotalAmount>33300.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1006</SO.No.>
+    <Date>03-Jan-2017</Date>
+    <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
+    <Material>40mm 3300x2000x2100 MM MITS  Single bin side door-2 side</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>14840.00</rate>
+    <Amount>14840.00</Amount>
+    <TotalAmount>74200.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1007</SO.No.>
+    <Date>03-Jan-2017</Date>
+    <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
+    <Material>40mm4300x2100x2100mm- MITS Single bin side door-2 side</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>16120.00</rate>
+    <Amount>16120.00</Amount>
+    <TotalAmount>16120.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1008</SO.No.>
+    <Date>04-Jan-2017</Date>
+    <Supplier>Ampex Engineering Services</Supplier>
+    <Material>COMPRESSOR TM -16 24V TAMA</Material>
+    <Quantity>10</Quantity>
+    <Unit>Nos</Unit>
+    <rate>700.00</rate>
+    <Amount>7000.00</Amount>
+    <TotalAmount>21500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1008</SO.No.>
+    <Date>04-Jan-2017</Date>
+    <Supplier>Ampex Engineering Services</Supplier>
+    <Material>HORIZONTAL FITTINGS TAMA</Material>
+    <Quantity>40</Quantity>
+    <Unit>Nos</Unit>
+    <rate>105.00</rate>
+    <Amount>4200.00</Amount>
+    <TotalAmount>21500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1008</SO.No.>
+    <Date>04-Jan-2017</Date>
+    <Supplier>Ampex Engineering Services</Supplier>
+    <Material>SPAL FAN MOTOR 12V-8 INCH</Material>
+    <Quantity>10</Quantity>
+    <Unit>Nos</Unit>
+    <rate>160.00</rate>
+    <Amount>1600.00</Amount>
+    <TotalAmount>21500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1008</SO.No.>
+    <Date>04-Jan-2017</Date>
+    <Supplier>Ampex Engineering Services</Supplier>
+    <Material>SPAL FAN MOTOR 24V 8 inch</Material>
+    <Quantity>10</Quantity>
+    <Unit>Nos</Unit>
+    <rate>165.00</rate>
+    <Amount>1650.00</Amount>
+    <TotalAmount>21500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1008</SO.No.>
+    <Date>04-Jan-2017</Date>
+    <Supplier>Ampex Engineering Services</Supplier>
+    <Material>SPAL FAN MOTOR 24V-10 INCH</Material>
+    <Quantity>10</Quantity>
+    <Unit>Nos</Unit>
+    <rate>180.00</rate>
+    <Amount>1800.00</Amount>
+    <TotalAmount>21500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1008</SO.No.>
+    <Date>04-Jan-2017</Date>
+    <Supplier>Ampex Engineering Services</Supplier>
+    <Material>VERTICAL FITTINGS TAMA</Material>
+    <Quantity>50</Quantity>
+    <Unit>Nos</Unit>
+    <rate>105.00</rate>
+    <Amount>5250.00</Amount>
+    <TotalAmount>21500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1009</SO.No.>
+    <Date>04-Jan-2017</Date>
+    <Supplier>K &amp; S Cool Systems L.L.C.</Supplier>
+    <Material>Shaft Seal - 80023</Material>
+    <Quantity>50</Quantity>
+    <Unit>Nos</Unit>
+    <rate>420.00</rate>
+    <Amount>21000.00</Amount>
+    <TotalAmount>21000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1010</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Thermal Master</Supplier>
+    <Material>Thermal Matser T2500</Material>
+    <Quantity>12</Quantity>
+    <Unit>Nos</Unit>
+    <rate>1496.00</rate>
+    <Amount>17952.00</Amount>
+    <TotalAmount>17952.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material> HAMMER</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>22.00</rate>
+    <Amount>22.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>ALLEN KEY SET </Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>15.00</rate>
+    <Amount>15.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>BLOWER MAKITA</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>195.00</rate>
+    <Amount>195.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>BOX SPANNER SET-TOP TUL</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>200.00</rate>
+    <Amount>200.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>BRAZING SET BIG Victor USA</Material>
+    <Quantity>1</Quantity>
+    <Unit>Set</Unit>
+    <rate>1842.00</rate>
+    <Amount>1842.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>CHISEL </Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>22.00</rate>
+    <Amount>22.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>CHISEL 220MM</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>35.00</rate>
+    <Amount>35.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>CORDLESS DRILL </Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>555.00</rate>
+    <Amount>555.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>CUTTING PLIER 7"</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>16.00</rate>
+    <Amount>16.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>FIRE EXTINGUISHER - ABC DRY POWDER 2KG</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>61.00</rate>
+    <Amount>61.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>FIRST AID KIT</Material>
+    <Quantity>1</Quantity>
+    <Unit>Set</Unit>
+    <rate>130.00</rate>
+    <Amount>130.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>FLARING SET</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>275.00</rate>
+    <Amount>275.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>FLAT FILE 8"</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>11.00</rate>
+    <Amount>11.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>GRINDER 750W</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>210.00</rate>
+    <Amount>210.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>HACK SAW FRAME BIG</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>12.00</rate>
+    <Amount>12.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>HALF ROUND FILE</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>34.00</rate>
+    <Amount>34.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>HILTI DRILL</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>680.00</rate>
+    <Amount>680.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>JIGSAW 750W</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>319.00</rate>
+    <Amount>319.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>KNIFE</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>5.00</rate>
+    <Amount>5.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>LONG HEX KEY 9PCS </Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>68.00</rate>
+    <Amount>68.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>LONG NOSE PLIER 8"</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>12.00</rate>
+    <Amount>12.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>LONG TORY KEY WRENCH 9PCS</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>68.00</rate>
+    <Amount>68.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>MEASURING TAPE (5m)</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>9.00</rate>
+    <Amount>9.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>MONKEY PLIER</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>9.00</rate>
+    <Amount>9.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>O2 CYLINDER KEY</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>18.00</rate>
+    <Amount>18.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>PAD LOCK 70MM GODREJ</Material>
+    <Quantity>1</Quantity>
+    <Unit>PCS</Unit>
+    <rate>7.00</rate>
+    <Amount>7.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>PIPE WRENCH</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>105.00</rate>
+    <Amount>105.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>RATCHET CRIMPING TOOL 15" </Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>240.00</rate>
+    <Amount>240.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>Ratchet Pipe Cutter 28 67mm</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>354.00</rate>
+    <Amount>354.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>RING SPANER SET 22MM</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>55.00</rate>
+    <Amount>55.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>Round File </Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>11.00</rate>
+    <Amount>11.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>SCREW DRIVER SET</Material>
+    <Quantity>1</Quantity>
+    <Unit>Set</Unit>
+    <rate>24.00</rate>
+    <Amount>24.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>SELF DRILL MACHINE </Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>418.00</rate>
+    <Amount>418.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>SILICONE GUN</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>13.00</rate>
+    <Amount>13.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>SPANNER SET</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>125.00</rate>
+    <Amount>125.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>SPIRIT LEVEL</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>18.00</rate>
+    <Amount>18.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>TOOL BOX</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>120.00</rate>
+    <Amount>120.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>TUBE CUTTER BIG-4"</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>253.00</rate>
+    <Amount>253.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1011</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>TUBE CUTTER Small</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>60.00</rate>
+    <Amount>60.00</Amount>
+    <TotalAmount>6626.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1012</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Penta Trading Group W.L.L.</Supplier>
+    <Material>TUBE BENDER 1/2"</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>130.00</rate>
+    <Amount>130.00</Amount>
+    <TotalAmount>810.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1012</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Penta Trading Group W.L.L.</Supplier>
+    <Material>TUBE BENDER 3/4"</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>175.00</rate>
+    <Amount>175.00</Amount>
+    <TotalAmount>810.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1012</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Penta Trading Group W.L.L.</Supplier>
+    <Material>Tube Bender 3/8 &amp; 1/4</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>70.00</rate>
+    <Amount>70.00</Amount>
+    <TotalAmount>810.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1012</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Penta Trading Group W.L.L.</Supplier>
+    <Material>TUBE BENDER 3/8"</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>75.00</rate>
+    <Amount>75.00</Amount>
+    <TotalAmount>810.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1012</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Penta Trading Group W.L.L.</Supplier>
+    <Material>TUBE BENDER 5/8"</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>165.00</rate>
+    <Amount>165.00</Amount>
+    <TotalAmount>810.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1012</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Penta Trading Group W.L.L.</Supplier>
+    <Material>TUBE BENDER 7/8"</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>195.00</rate>
+    <Amount>195.00</Amount>
+    <TotalAmount>810.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1013</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>DRILL CHUCK 13MM MAKITA 763143</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>40.00</rate>
+    <Amount>40.00</Amount>
+    <TotalAmount>505.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1013</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>EXTENSION CODE 25 MTRS</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>150.00</rate>
+    <Amount>150.00</Amount>
+    <TotalAmount>505.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1013</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>FIRE BLANKET </Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>35.00</rate>
+    <Amount>35.00</Amount>
+    <TotalAmount>505.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1013</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>FIRST AID KIT</Material>
+    <Quantity>1</Quantity>
+    <Unit>Set</Unit>
+    <rate>130.00</rate>
+    <Amount>130.00</Amount>
+    <TotalAmount>505.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1013</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>SAFETY HARNESS </Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>140.00</rate>
+    <Amount>140.00</Amount>
+    <TotalAmount>505.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1013</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>SDS PLUS BIT 6X110 MAKITA</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>5.00</rate>
+    <Amount>5.00</Amount>
+    <TotalAmount>505.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1013</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>SDS PLUS BIT 7X110 MAKITA</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>5.00</rate>
+    <Amount>5.00</Amount>
+    <TotalAmount>505.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1014</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Qatar Trading Company W.L.L</Supplier>
+    <Material>WATER HIGH PRESSURE 145 BAR KARCHER</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>1535.00</rate>
+    <Amount>1535.00</Amount>
+    <TotalAmount>1535.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1015</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Original Automotive Engineering</Supplier>
+    <Material>MIT COMPRESSOR BRACKET UK </Material>
+    <Quantity>24</Quantity>
+    <Unit>Nos</Unit>
+    <rate>289.00</rate>
+    <Amount>6936.00</Amount>
+    <TotalAmount>6936.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1016</SO.No.>
+    <Date>05-Jan-2017</Date>
+    <Supplier>Al Furat Thermal Insulation L.L.C.</Supplier>
+    <Material>50MM INSULATED PANEL STD -AL FURATH</Material>
+    <Quantity>4</Quantity>
+    <Unit>Nos</Unit>
+    <rate>3500.00</rate>
+    <Amount>14000.00</Amount>
+    <TotalAmount>14000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1017</SO.No.>
+    <Date>08-Jan-2017</Date>
+    <Supplier>IMALCO</Supplier>
+    <Material>SILICON ORIGINAL WHITE STARCHEM </Material>
+    <Quantity>24</Quantity>
+    <Unit>Nos</Unit>
+    <rate>31.00</rate>
+    <Amount>744.00</Amount>
+    <TotalAmount>744.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1018</SO.No.>
+    <Date>09-Jan-2017</Date>
+    <Supplier>Madar Building Materials</Supplier>
+    <Material>ALUMINIUM CHECKER SHEET 4 X 8 X 2 MM</Material>
+    <Quantity>15</Quantity>
+    <Unit>Nos</Unit>
+    <rate>198.00</rate>
+    <Amount>2970.00</Amount>
+    <TotalAmount>4330.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1018</SO.No.>
+    <Date>09-Jan-2017</Date>
+    <Supplier>Madar Building Materials</Supplier>
+    <Material>MS CHEQURED SHEET 3MM</Material>
+    <Quantity>4</Quantity>
+    <Unit>Nos</Unit>
+    <rate>210.00</rate>
+    <Amount>840.00</Amount>
+    <TotalAmount>4330.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1018</SO.No.>
+    <Date>09-Jan-2017</Date>
+    <Supplier>Madar Building Materials</Supplier>
+    <Material>MS PLATE 8MM </Material>
+    <Quantity>1</Quantity>
+    <Unit>Len</Unit>
+    <rate>520.00</rate>
+    <Amount>520.00</Amount>
+    <TotalAmount>4330.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1019</SO.No.>
+    <Date>09-Jan-2017</Date>
+    <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
+    <Material>100MM 5000X2100X2100MM ,MIT BAM</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>20000.00</rate>
+    <Amount>20000.00</Amount>
+    <TotalAmount>140000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1020</SO.No.>
+    <Date>09-Jan-2017</Date>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <Material>Thermoking T600-R</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>53000.00</rate>
+    <Amount>53000.00</Amount>
+    <TotalAmount>371000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1021</SO.No.>
+    <Date>10-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>BUFFING WHEEL 4.5 "</Material>
+    <Quantity>100</Quantity>
+    <Unit>Nos</Unit>
+    <rate>8.00</rate>
+    <Amount>800.00</Amount>
+    <TotalAmount>2475.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1021</SO.No.>
+    <Date>10-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>GI FLAT WASHER M12X40</Material>
+    <Quantity>500</Quantity>
+    <Unit>Nos</Unit>
+    <rate>0.25</rate>
+    <Amount>125.00</Amount>
+    <TotalAmount>2475.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1021</SO.No.>
+    <Date>10-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>GI HEX NUT M12 </Material>
+    <Quantity>500</Quantity>
+    <Unit>Nos</Unit>
+    <rate>0.14</rate>
+    <Amount>70.00</Amount>
+    <TotalAmount>2475.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1021</SO.No.>
+    <Date>10-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>HSS DRILL BIT 5MM</Material>
+    <Quantity>250</Quantity>
+    <Unit>Nos</Unit>
+    <rate>2.50</rate>
+    <Amount>625.00</Amount>
+    <TotalAmount>2475.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1021</SO.No.>
+    <Date>10-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>JIGSAW BLADE NO.22 </Material>
+    <Quantity>25</Quantity>
+    <Unit>Pkt</Unit>
+    <rate>15.00</rate>
+    <Amount>375.00</Amount>
+    <TotalAmount>2475.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1021</SO.No.>
+    <Date>10-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>JIGSAW BLADE T321AF BOSCH</Material>
+    <Quantity>20</Quantity>
+    <Unit>Pkt</Unit>
+    <rate>24.00</rate>
+    <Amount>480.00</Amount>
+    <TotalAmount>2475.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1022</SO.No.>
+    <Date>10-Jan-2017</Date>
+    <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
+    <Material>100mm 4400x2100x2100 PUB Mit - BAM</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>18500.00</rate>
+    <Amount>18500.00</Amount>
+    <TotalAmount>18500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1023</SO.No.>
+    <Date>11-Jan-2017</Date>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <Material>BYPASS OIL FILTER THERMOKING</Material>
+    <Quantity>12</Quantity>
+    <Unit>Nos</Unit>
+    <rate>51.00</rate>
+    <Amount>612.00</Amount>
+    <TotalAmount>3998.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1023</SO.No.>
+    <Date>11-Jan-2017</Date>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <Material>COMPRESSOR BELT T600</Material>
+    <Quantity>2</Quantity>
+    <Unit>Nos</Unit>
+    <rate>323.00</rate>
+    <Amount>646.00</Amount>
+    <TotalAmount>3998.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1023</SO.No.>
+    <Date>11-Jan-2017</Date>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <Material>ENGINE BELT T600</Material>
+    <Quantity>2</Quantity>
+    <Unit>Nos</Unit>
+    <rate>416.00</rate>
+    <Amount>832.00</Amount>
+    <TotalAmount>3998.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1023</SO.No.>
+    <Date>11-Jan-2017</Date>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <Material>FUEL FILTER THERMOKING 11-9098</Material>
+    <Quantity>12</Quantity>
+    <Unit>Nos</Unit>
+    <rate>39.00</rate>
+    <Amount>468.00</Amount>
+    <TotalAmount>3998.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1023</SO.No.>
+    <Date>11-Jan-2017</Date>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <Material>OIL FILTER THERMOKING</Material>
+    <Quantity>24</Quantity>
+    <Unit>Nos</Unit>
+    <rate>60.00</rate>
+    <Amount>1440.00</Amount>
+    <TotalAmount>3998.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1024</SO.No.>
+    <Date>11-Jan-2017</Date>
+    <Supplier>Ali International Trading Est</Supplier>
+    <Material>AUTO CABLE FINOLEX BLACK 2MM 25 Mtr</Material>
+    <Quantity>20</Quantity>
+    <Unit>Pkt</Unit>
+    <rate>36.00</rate>
+    <Amount>720.00</Amount>
+    <TotalAmount>1440.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1024</SO.No.>
+    <Date>11-Jan-2017</Date>
+    <Supplier>Ali International Trading Est</Supplier>
+    <Material>AUTO CABLE FINOLEX RED 2MM 25 Mtr</Material>
+    <Quantity>20</Quantity>
+    <Unit>Pkt</Unit>
+    <rate>36.00</rate>
+    <Amount>720.00</Amount>
+    <TotalAmount>1440.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1025</SO.No.>
+    <Date>11-Jan-2017</Date>
+    <Supplier>Haven Metal Labels Co</Supplier>
+    <Material>ARAB NAME PLATE</Material>
+    <Quantity>500</Quantity>
+    <Unit>Nos</Unit>
+    <rate>199.50</rate>
+    <Amount>99750.00</Amount>
+    <TotalAmount>99750.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1026</SO.No.>
+    <Date>11-Jan-2017</Date>
+    <Supplier>Ashjoe Cold Chain Establishment</Supplier>
+    <Material>BOTTOM COVER TK V500</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>58.54</rate>
+    <Amount>58.54</Amount>
+    <TotalAmount>142.90</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1026</SO.No.>
+    <Date>11-Jan-2017</Date>
+    <Supplier>Ashjoe Cold Chain Establishment</Supplier>
+    <Material>Condenser Grille TK V500 </Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>84.36</rate>
+    <Amount>84.36</Amount>
+    <TotalAmount>142.90</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1027</SO.No.>
+    <Date>11-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>PLYWOOD 18MM</Material>
+    <Quantity>20</Quantity>
+    <Unit>Nos</Unit>
+    <rate>78.00</rate>
+    <Amount>1560.00</Amount>
+    <TotalAmount>1560.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1028</SO.No.>
+    <Date>11-Jan-2017</Date>
+    <Supplier>Madar Building Materials</Supplier>
+    <Material>ALUMINIUM CHECKER SHEET 4 X 8 X 2 MM</Material>
+    <Quantity>20</Quantity>
+    <Unit>Nos</Unit>
+    <rate>198.00</rate>
+    <Amount>3960.00</Amount>
+    <TotalAmount>7660.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1028</SO.No.>
+    <Date>11-Jan-2017</Date>
+    <Supplier>Madar Building Materials</Supplier>
+    <Material>ALUMINUM ANGLER 35MM X 35MM X 3MM X 6MTR</Material>
+    <Quantity>100</Quantity>
+    <Unit>Len</Unit>
+    <rate>37.00</rate>
+    <Amount>3700.00</Amount>
+    <TotalAmount>7660.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1029</SO.No.>
+    <Date>11-Jan-2017</Date>
+    <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
+    <Material>100mm 4400x2100x2100mm- ISUZU ,BAM</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>18500.00</rate>
+    <Amount>18500.00</Amount>
+    <TotalAmount>18500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1030</SO.No.>
+    <Date>11-Jan-2017</Date>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <Material>Thermoking T600-R</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>53000.00</rate>
+    <Amount>53000.00</Amount>
+    <TotalAmount>53000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1031</SO.No.>
+    <Date>14-Jan-2017</Date>
+    <Supplier>Quality Engineering &amp; Services W.L.L.</Supplier>
+    <Material>ALUMINUM PULLEY NEW MAKING ISUZU </Material>
+    <Quantity>3</Quantity>
+    <Unit>Nos</Unit>
+    <rate>450.00</rate>
+    <Amount>1350.00</Amount>
+    <TotalAmount>1710.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1031</SO.No.>
+    <Date>14-Jan-2017</Date>
+    <Supplier>Quality Engineering &amp; Services W.L.L.</Supplier>
+    <Material>BOLT THREAD MAKING FOR PULLEY </Material>
+    <Quantity>18</Quantity>
+    <Unit>Nos</Unit>
+    <rate>20.00</rate>
+    <Amount>360.00</Amount>
+    <TotalAmount>1710.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1032</SO.No.>
+    <Date>14-Jan-2017</Date>
+    <Supplier>Carrier Qatar W.L.L.</Supplier>
+    <Material>REFRIGERANT GASS / CYLINDER 404 10.5 KG HARP CYL</Material>
+    <Quantity>20</Quantity>
+    <Unit>Nos</Unit>
+    <rate>380.00</rate>
+    <Amount>7600.00</Amount>
+    <TotalAmount>7600.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1033</SO.No.>
+    <Date>14-Jan-2017</Date>
+    <Supplier>Thermal Master</Supplier>
+    <Material>Thermal Matser T2500</Material>
+    <Quantity>24</Quantity>
+    <Unit>Nos</Unit>
+    <rate>1496.00</rate>
+    <Amount>35904.00</Amount>
+    <TotalAmount>35904.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1034</SO.No.>
+    <Date>14-Jan-2017</Date>
+    <Supplier>Jaida Motors &amp; Trading Co W.L.L.</Supplier>
+    <Material>Isuzu Dmax 1 Ton Flat Bed Pick Up</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>54500.00</rate>
+    <Amount>54500.00</Amount>
+    <TotalAmount>54500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1036</SO.No.>
+    <Date>14-Jan-2017</Date>
+    <Supplier>Ali International Trading Est</Supplier>
+    <Material>Safety shoe</Material>
+    <Quantity>3</Quantity>
+    <Unit>Nos</Unit>
+    <rate>63.00</rate>
+    <Amount>189.00</Amount>
+    <TotalAmount>1359.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1036</SO.No.>
+    <Date>14-Jan-2017</Date>
+    <Supplier>Ali International Trading Est</Supplier>
+    <Material>WELDING COVER ALL DARK GREY</Material>
+    <Quantity>18</Quantity>
+    <Unit>Nos</Unit>
+    <rate>65.00</rate>
+    <Amount>1170.00</Amount>
+    <TotalAmount>1359.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1037</SO.No.>
+    <Date>15-Jan-2017</Date>
+    <Supplier>IMALCO</Supplier>
+    <Material>SILICON ORIGINAL WHITE STARCHEM </Material>
+    <Quantity>60</Quantity>
+    <Unit>Nos</Unit>
+    <rate>31.00</rate>
+    <Amount>1860.00</Amount>
+    <TotalAmount>1860.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material> HAMMER</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>22.00</rate>
+    <Amount>22.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>ADJUSTABLE SPANNER 12"</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>40.00</rate>
+    <Amount>40.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>ADJUSTABLE SPANNER 8"</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>22.00</rate>
+    <Amount>22.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>CORDLESS DRILL </Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>555.00</rate>
+    <Amount>555.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>DIGITAL CLAMP METER</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>235.00</rate>
+    <Amount>235.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>FLAT FILE 8"</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>11.00</rate>
+    <Amount>11.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>HACK SAW FRAME BIG</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>12.00</rate>
+    <Amount>12.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>HALF ROUND FILE</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>34.00</rate>
+    <Amount>34.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>KNIFE</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>5.00</rate>
+    <Amount>5.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>LONG NOSE PLIER 6"</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>12.00</rate>
+    <Amount>12.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>MEASURING TAPE (5m)</Material>
+    <Quantity>4</Quantity>
+    <Unit>Nos</Unit>
+    <rate>9.00</rate>
+    <Amount>36.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>MONKEY PLIER</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>15.00</rate>
+    <Amount>15.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>O2 CYLINDER KEY</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>18.00</rate>
+    <Amount>18.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>PAD LOCK 70MM GODREJ</Material>
+    <Quantity>1</Quantity>
+    <Unit>PCS</Unit>
+    <rate>7.00</rate>
+    <Amount>7.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>PIPE WRENCH</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>105.00</rate>
+    <Amount>105.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>RATCHET SET </Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>220.00</rate>
+    <Amount>220.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>RECTANGLE SCALE </Material>
+    <Quantity>3</Quantity>
+    <Unit>Nos</Unit>
+    <rate>12.00</rate>
+    <Amount>36.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>Round File </Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>11.00</rate>
+    <Amount>11.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>SCREW DRIVER SET</Material>
+    <Quantity>1</Quantity>
+    <Unit>Set</Unit>
+    <rate>24.00</rate>
+    <Amount>24.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>SPIRIT LEVEL</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>18.00</rate>
+    <Amount>18.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>TOOL BOX</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>120.00</rate>
+    <Amount>120.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>TUBE CUTTER Small</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>60.00</rate>
+    <Amount>60.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1038</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>WIRE CUTTER </Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>16.00</rate>
+    <Amount>16.00</Amount>
+    <TotalAmount>1634.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1039</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>THOR Middle East L.L.C</Supplier>
+    <Material>Zepro Tail Lift- 1.5 Ton</Material>
+    <Quantity>7</Quantity>
+    <Unit>Nos</Unit>
+    <rate>13000.00</rate>
+    <Amount>91000.00</Amount>
+    <TotalAmount>91000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1040</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>MS ANGLER 40X40X3MM X 6MTR</Material>
+    <Quantity>35</Quantity>
+    <Unit>Len</Unit>
+    <rate>29.00</rate>
+    <Amount>1015.00</Amount>
+    <TotalAmount>33745.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1040</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>MS CHANNEL 100X50X5MM X 6MTR</Material>
+    <Quantity>55</Quantity>
+    <Unit>Len</Unit>
+    <rate>165.00</rate>
+    <Amount>9075.00</Amount>
+    <TotalAmount>33745.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1040</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>MS CHANNEL 50X25X5MM X 6MTR</Material>
+    <Quantity>20</Quantity>
+    <Unit>Len</Unit>
+    <rate>60.00</rate>
+    <Amount>1200.00</Amount>
+    <TotalAmount>33745.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1040</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>MS FLAT BAR 40X3MM X 6MTR</Material>
+    <Quantity>25</Quantity>
+    <Unit>Len</Unit>
+    <rate>18.00</rate>
+    <Amount>450.00</Amount>
+    <TotalAmount>33745.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1040</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>MS HOLLOW SECTION 40X40X3MM X 6MTR</Material>
+    <Quantity>125</Quantity>
+    <Unit>Len</Unit>
+    <rate>57.00</rate>
+    <Amount>7125.00</Amount>
+    <TotalAmount>33745.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1040</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>MS HOLLOW SECTION 50X25X3MM 6MTR</Material>
+    <Quantity>30</Quantity>
+    <Unit>Len</Unit>
+    <rate>40.00</rate>
+    <Amount>1200.00</Amount>
+    <TotalAmount>33745.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1040</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>MS HOLLOW SECTION 60X30X3MM X 6MTR</Material>
+    <Quantity>100</Quantity>
+    <Unit>Len</Unit>
+    <rate>45.00</rate>
+    <Amount>4500.00</Amount>
+    <TotalAmount>33745.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1040</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>MS HOLLOW SECTION 80X40X3MM X 6MTR</Material>
+    <Quantity>100</Quantity>
+    <Unit>Len</Unit>
+    <rate>84.00</rate>
+    <Amount>8400.00</Amount>
+    <TotalAmount>33745.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1040</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>PLYWOOD 18MM</Material>
+    <Quantity>10</Quantity>
+    <Unit>Nos</Unit>
+    <rate>78.00</rate>
+    <Amount>780.00</Amount>
+    <TotalAmount>33745.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1041</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Madar Building Materials</Supplier>
+    <Material>ALUMINIUM ANGLER 30X30X3MM</Material>
+    <Quantity>25</Quantity>
+    <Unit>Len</Unit>
+    <rate>35.00</rate>
+    <Amount>875.00</Amount>
+    <TotalAmount>7200.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1041</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Madar Building Materials</Supplier>
+    <Material>ALUMINIUM ANGLER 35X35X3MM</Material>
+    <Quantity>10</Quantity>
+    <Unit>Len</Unit>
+    <rate>37.00</rate>
+    <Amount>370.00</Amount>
+    <TotalAmount>7200.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1041</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Madar Building Materials</Supplier>
+    <Material>ALUMINIUM ANGLER 40X40X3MM</Material>
+    <Quantity>10</Quantity>
+    <Unit>Len</Unit>
+    <rate>48.00</rate>
+    <Amount>480.00</Amount>
+    <TotalAmount>7200.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1041</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Madar Building Materials</Supplier>
+    <Material>ALUMINIUM ANGLER 50X50X3MM</Material>
+    <Quantity>20</Quantity>
+    <Unit>Len</Unit>
+    <rate>56.00</rate>
+    <Amount>1120.00</Amount>
+    <TotalAmount>7200.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1041</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Madar Building Materials</Supplier>
+    <Material>ALUMINIUM CHECKER SHEET 4 X 8 X 1.5 MM</Material>
+    <Quantity>5</Quantity>
+    <Unit>Nos</Unit>
+    <rate>139.00</rate>
+    <Amount>695.00</Amount>
+    <TotalAmount>7200.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1041</SO.No.>
+    <Date>16-Jan-2017</Date>
+    <Supplier>Madar Building Materials</Supplier>
+    <Material>ALUMINIUM CHECKER SHEET 4 X 8 X 2 MM</Material>
+    <Quantity>20</Quantity>
+    <Unit>Nos</Unit>
+    <rate>183.00</rate>
+    <Amount>3660.00</Amount>
+    <TotalAmount>7200.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1042</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>HAND GLOVES COTTON - WHITE ,</Material>
+    <Quantity>1200</Quantity>
+    <Unit>Nos</Unit>
+    <rate>0.88</rate>
+    <Amount>1056.00</Amount>
+    <TotalAmount>3391.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1042</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>MASK</Material>
+    <Quantity>10</Quantity>
+    <Unit>Pkt</Unit>
+    <rate>55.00</rate>
+    <Amount>550.00</Amount>
+    <TotalAmount>3391.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1042</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>SILICON LOCA CLEAR</Material>
+    <Quantity>2</Quantity>
+    <Unit>CTN</Unit>
+    <rate>105.00</rate>
+    <Amount>210.00</Amount>
+    <TotalAmount>3391.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1042</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>Powerstar Trading &amp; Contracting W.L.L</Supplier>
+    <Material>SILICON LOCA WHITE</Material>
+    <Quantity>15</Quantity>
+    <Unit>CTN</Unit>
+    <rate>105.00</rate>
+    <Amount>1575.00</Amount>
+    <TotalAmount>3391.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1043</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
+    <Material>NISSAN URVAN COMPRESSOR BRACKET BAM</Material>
+    <Quantity>10</Quantity>
+    <Unit>Nos</Unit>
+    <rate>1255.00</rate>
+    <Amount>12550.00</Amount>
+    <TotalAmount>25100.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1043</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
+    <Material>TOYOTA COMPRESSOR BRACKET BAM</Material>
+    <Quantity>10</Quantity>
+    <Unit>Nos</Unit>
+    <rate>1255.00</rate>
+    <Amount>12550.00</Amount>
+    <TotalAmount>25100.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1044</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>GI FLAT WASHER M10X40</Material>
+    <Quantity>500</Quantity>
+    <Unit>Nos</Unit>
+    <rate>0.25</rate>
+    <Amount>125.00</Amount>
+    <TotalAmount>3163.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1044</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>GI HEX NUT M10</Material>
+    <Quantity>500</Quantity>
+    <Unit>Nos</Unit>
+    <rate>0.10</rate>
+    <Amount>50.00</Amount>
+    <TotalAmount>3163.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1044</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>GI Threaded Rod 10 mm</Material>
+    <Quantity>40</Quantity>
+    <Unit>Nos</Unit>
+    <rate>4.50</rate>
+    <Amount>180.00</Amount>
+    <TotalAmount>3163.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1044</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>MANIFOLD GAUGE </Material>
+    <Quantity>3</Quantity>
+    <Unit>Nos</Unit>
+    <rate>198.00</rate>
+    <Amount>594.00</Amount>
+    <TotalAmount>3163.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1044</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>MANIFOLD GAUGE HOSE BIG</Material>
+    <Quantity>2</Quantity>
+    <Unit>Nos</Unit>
+    <rate>170.00</rate>
+    <Amount>340.00</Amount>
+    <TotalAmount>3163.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1044</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>MANIFOLD GAUGE HOSE BIG 1</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>190.00</rate>
+    <Amount>190.00</Amount>
+    <TotalAmount>3163.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1044</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>SPRAY FOAM</Material>
+    <Quantity>96</Quantity>
+    <Unit>Nos</Unit>
+    <rate>16.50</rate>
+    <Amount>1584.00</Amount>
+    <TotalAmount>3163.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1044</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>M/s Tools &amp; Bolts International W.L.L</Supplier>
+    <Material>SS A2 HEX NUTM10</Material>
+    <Quantity>500</Quantity>
+    <Unit>Nos</Unit>
+    <rate>0.20</rate>
+    <Amount>100.00</Amount>
+    <TotalAmount>3163.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1045</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>Nevpa Aluminyum Plastik</Supplier>
+    <Material>AL PROFILE 40 X 60 6M PIECE NEVPA</Material>
+    <Quantity>44</Quantity>
+    <Unit>Nos</Unit>
+    <rate>19.67</rate>
+    <Amount>865.48</Amount>
+    <TotalAmount>2396.08</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1045</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>Nevpa Aluminyum Plastik</Supplier>
+    <Material>BIG GUIDE PLATE NEVPA</Material>
+    <Quantity>60</Quantity>
+    <Unit>Nos</Unit>
+    <rate>1.81</rate>
+    <Amount>108.60</Amount>
+    <TotalAmount>2396.08</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1045</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>Nevpa Aluminyum Plastik</Supplier>
+    <Material>CAN AND KEEPER NEVPA</Material>
+    <Quantity>60</Quantity>
+    <Unit>Nos</Unit>
+    <rate>4.90</rate>
+    <Amount>294.00</Amount>
+    <TotalAmount>2396.08</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1045</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>Nevpa Aluminyum Plastik</Supplier>
+    <Material>DOOR HOLDER ZP NEVPA</Material>
+    <Quantity>30</Quantity>
+    <Unit>Nos</Unit>
+    <rate>1.02</rate>
+    <Amount>30.60</Amount>
+    <TotalAmount>2396.08</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1045</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>Nevpa Aluminyum Plastik</Supplier>
+    <Material>HINGE ZP REAR NEVPA</Material>
+    <Quantity>60</Quantity>
+    <Unit>Nos</Unit>
+    <rate>4.75</rate>
+    <Amount>285.00</Amount>
+    <TotalAmount>2396.08</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1045</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>Nevpa Aluminyum Plastik</Supplier>
+    <Material>LEVER KIT O27 ZP NEVPA</Material>
+    <Quantity>30</Quantity>
+    <Unit>Nos</Unit>
+    <rate>5.65</rate>
+    <Amount>169.50</Amount>
+    <TotalAmount>2396.08</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1045</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>Nevpa Aluminyum Plastik</Supplier>
+    <Material>NEW MODEL LED LIGHT NEVPA</Material>
+    <Quantity>30</Quantity>
+    <Unit>Nos</Unit>
+    <rate>7.25</rate>
+    <Amount>217.50</Amount>
+    <TotalAmount>2396.08</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1045</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>Nevpa Aluminyum Plastik</Supplier>
+    <Material>PIPE 27MM ZP 2MM AND 6M NEVPA </Material>
+    <Quantity>30</Quantity>
+    <Unit>Nos</Unit>
+    <rate>13.26</rate>
+    <Amount>397.80</Amount>
+    <TotalAmount>2396.08</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1045</SO.No.>
+    <Date>17-Jan-2017</Date>
+    <Supplier>Nevpa Aluminyum Plastik</Supplier>
+    <Material>SMALL GUIDE PLATE NEVPA</Material>
+    <Quantity>30</Quantity>
+    <Unit>Nos</Unit>
+    <rate>0.92</rate>
+    <Amount>27.60</Amount>
+    <TotalAmount>2396.08</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1046</SO.No.>
+    <Date>18-Jan-2017</Date>
+    <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
+    <Material>Cargo Track</Material>
+    <Quantity>102</Quantity>
+    <Unit>Mtr</Unit>
+    <rate>80.00</rate>
+    <Amount>8160.00</Amount>
+    <TotalAmount>8160.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1047</SO.No.>
+    <Date>18-Jan-2017</Date>
+    <Supplier>Bader Al Mulla &amp; Bros. Co. W.L.L. </Supplier>
+    <Material>100mm 4400x2100x2100mm- ISUZU ,BAM</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>18500.00</rate>
+    <Amount>18500.00</Amount>
+    <TotalAmount>18500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SO.No.>AARC/PO/17/1048</SO.No.>
+    <Date>18-Jan-2017</Date>
+    <Supplier>Mannai Trading Co W.L.L.</Supplier>
+    <Material>Thermoking T600-R</Material>
+    <Quantity>1</Quantity>
+    <Unit>Nos</Unit>
+    <rate>53000.00</rate>
+    <Amount>53000.00</Amount>
+    <TotalAmount>53000.00</TotalAmount>
   </Items>
 </NewDataSet>
