@@ -40,7 +40,7 @@
         var to = $("#txtTo").val();
         var url = '@Url.Action("Print")';
         url += "?from=" + from + "&to=" + to + "&id=" + id + "&name=" + name;
-        window.location = url;
+        window.open(url);
 
     }
 
