@@ -122,9 +122,9 @@ namespace ArabErp.Web.Controllers
         {
             return View();
         }
-        public PartialViewResult PendingWorkshopRequests(string Request = "", string Sale = "", string Customer = "", string jcno = "", string RegNo = "")
+        public PartialViewResult PendingWorkshopRequests(string Request = "", string Sale = "", string Customer = "", string jcno = "", string RegNo = "", string Type = "all")
         {
-            return PartialView("_PendingWorkshopRequests", new WorkShopRequestRepository().PendingWorkshopRequests(Request, Sale, Customer, jcno, RegNo));
+            return PartialView("_PendingWorkshopRequests", new WorkShopRequestRepository().PendingWorkshopRequests(Request, Sale, Customer, jcno, RegNo, Type));
         }
         public PartialViewResult PendingWorkshopRequestDetails()
         {
@@ -314,7 +314,7 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("StoreIssue{0}.pdf", Id.ToString()));
+                return File(stream, "application/pdf");//, String.Format("StoreIssue{0}.pdf", Id.ToString()));
             }
             catch (Exception ex)
             {

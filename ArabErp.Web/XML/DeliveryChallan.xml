@@ -67,30 +67,24 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DV/17/32</DeliveryChallanRefNo>
-    <DeliveryChallanDate>16-Jan-2017</DeliveryChallanDate>
-    <Customer>Jaida Motors &amp; Trading Co</Customer>
-    <CDoorNo>Doha- Qatar</CDoorNo>
+    <DeliveryChallanRefNo>DV/17/53</DeliveryChallanRefNo>
+    <DeliveryChallanDate>18-Jan-2017</DeliveryChallanDate>
+    <Customer>Nestle Qatar Trading LLC</Customer>
+    <CDoorNo>PO Box : 24603</CDoorNo>
+    <CStreet>Doha, Qatar</CStreet>
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SO/TR/ 1</SaleRefNo>
-    <SONoDate>30 Nov 2016</SONoDate>
-    <JobcardNo>AARC/JC/36</JobcardNo>
-    <JCDate>31-Dec-2016 00:00:00</JCDate>
-    <RegistrationNo>66</RegistrationNo>
-    <ChassisNo>G7102958</ChassisNo>
-    <WorkDesc>Thermoking T600-R + 100mm 6100x2300x2300mm ,BAM</WorkDesc>
-    <VehicleModel>ISUZU FSR</VehicleModel>
-    <Employee>Giriesh Gopi</Employee>
-    <PaymentTerms>Net 60</PaymentTerms>
-    <QuotationRefNo>AARC/SQ/1</QuotationRefNo>
-    <FreezerName>Thermoking T600-R</FreezerName>
-    <FreezerPartNo />
-    <BoxName>2969</BoxName>
-    <BoxPartNo>2969</BoxPartNo>
-    <FreezerId>1253</FreezerId>
-    <Box>1259</Box>
-    <SupplyOrderNo>AARC/PO/16/1004</SupplyOrderNo>
-    <SupplyOrderDate>03-Dec-2016</SupplyOrderDate>
+    <SaleRefNo>AARC/SER/17/16</SaleRefNo>
+    <SONoDate>08 Jan 2017</SONoDate>
+    <JobcardNo>AARC/17/JC-S/16</JobcardNo>
+    <JCDate>08-Jan-2017 00:00:00</JCDate>
+    <RegistrationNo>220215</RegistrationNo>
+    <WorkDesc>General Checkup &amp; Repair</WorkDesc>
+    <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
+    <Employee>Mohammed Safiq</Employee>
+    <QuotationRefNo>AARC/SER/15/01/17</QuotationRefNo>
+    <FreezerName>Viento 200</FreezerName>
+    <FreezerPartNo>PC010237</FreezerPartNo>
+    <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -101,10 +95,24 @@
     <Zip>13037</Zip>
     <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo>SQ 1/JAIDAH/26/11/16</LPONo>
-    <LPODate>30-Nov-2016</LPODate>
-    <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\787f5059-4422-41c8-bfa4-d064ea613e54.jpg</CreateSignature>
-    <ApprovedUsersig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
+    <LPONo>Quote Approved</LPONo>
+    <LPODate>08-Jan-2017</LPODate>
+    <CreatedUser>safiq</CreatedUser>
+    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\51abaa4b-ca6d-4137-b77b-fe72f18bcda5.jpg</CreateSignature>
+    <ApprovedUsersig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\51abaa4b-ca6d-4137-b77b-fe72f18bcda5.jpg</ApprovedUsersig>
   </Head>
+  <Items>
+    <Description>Replace Cab Command
+Replace Evaporator Fan Motor
+Replace Idler Pulley
+Replace Compressor Belt
+
+General Service of Viento 350:
+Compressor Belt Tension Check-up &amp; Bracket Checking
+General Check-up &amp; Check Cooling
+Electrical Connection Check-up &amp; Adjustments
+</Description>
+    <UoM>ea</UoM>
+    <Quantity>1</Quantity>
+  </Items>
 </NewDataSet>

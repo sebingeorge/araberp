@@ -320,7 +320,7 @@ namespace ArabErp.Web.Controllers
             DropDowns();
             ItemDropdown();
             FillVehicle();
-            FillQuerySheetInQuot();
+            //FillQuerySheetInQuot();
             FillUnit();
             FillRateSettings();
             FillUnitDoorUnit();
@@ -373,8 +373,10 @@ namespace ArabErp.Web.Controllers
             {
                 return View("EditTransportation", salesquotation);
             }
+            FillQuerySheetIncludingCurrent(salesquotation.QuerySheetId, OrganizationId);
             return View("Edit", salesquotation);
         }
+
         [HttpPost]
         public ActionResult Edit(SalesQuotation model)
         {
@@ -388,7 +390,10 @@ namespace ArabErp.Web.Controllers
             var repo = new SalesQuotationRepository();
             try
             {
-                new SalesQuotationRepository().UpdateSalesQuotation(model);
+                if (model.isProjectBased)
+                    new SalesQuotationRepository().UpdateProjectSalesQuotation(model);
+                else
+                    new SalesQuotationRepository().UpdateSalesQuotation(model);
                 TempData["success"] = "Updated Successfully (" + model.QuotationRefNo + ")";
                 return RedirectToAction("PreviousList", new { ProjectBased = Convert.ToInt32(model.isProjectBased), AfterSales = Convert.ToInt32(model.isAfterSales) });
             }
@@ -785,6 +790,10 @@ namespace ArabErp.Web.Controllers
             var list = repo.QuerySheetNoInQuotationDropdown();
             ViewBag.QuerySheetNolist = new SelectList(list, "Id", "Name");
         }
+        private void FillQuerySheetIncludingCurrent(int QuerySheetId, int OrganizationId)
+        {
+            ViewBag.QuerySheetNolist = new SelectList(new DropdownRepository().QuerySheetIncludingCurrentDropdown(QuerySheetId, OrganizationId), "Id", "Name");
+        }
         private void ItemDropdown()
         {
             ViewBag.itemList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
@@ -1121,6 +1130,7 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult GetRoomDetailsFromQuotation(int salesQuotationId)
         {
+            FillUnitDoorUnit();
             SalesQuotation model = new SalesQuotation();
             model.ProjectRooms = new SaleOrderRepository().GetRoomDetailsFromQuotation(salesQuotationId);
             return PartialView("_ProjectRooms", model);

@@ -37,9 +37,9 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public ActionResult PendingPurchaseRequest(int cusid = 0, string WRNo = "")
+        public ActionResult PendingPurchaseRequest(int cusid = 0, string WRNo = "", string Type = "all")
         {
-            return PartialView("_PendingPurchaseRequest", new PurchaseRequestRepository().GetWorkShopRequestPending(OrganizationId, cusid, WRNo));
+            return PartialView("_PendingPurchaseRequest", new PurchaseRequestRepository().GetWorkShopRequestPending(OrganizationId, cusid, WRNo, Type));
 
             //var repo = new PurchaseRequestRepository();
             //IEnumerable<PendingWorkShopRequest> pendingWR = repo.GetWorkShopRequestPending(OrganizationId);

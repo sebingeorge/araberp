@@ -90,6 +90,7 @@
             }
         });
         //$('#CurrencyId').val("2");
+        UpdateCostNotifier($('#QuerySheetId').val());
     }
 
     $(document).ready(function () {
@@ -128,6 +129,10 @@
         $("#QuotationValidToDate").datepicker({ dateFormat: "dd-MM-yy" });
 
         //OnQuerySheetChanged($('#QuerySheetId'));
+        @if (Model.isProjectBased)
+        {
+            @: UpdateCostNotifier(@Model.QuerySheetId);
+        }
     });
 
     function Validation() {
@@ -318,19 +323,15 @@
     function OnQuerySheetChanged(sender) {
         var id = $(sender).val();
         if (id != '' || id != 0) {
-            var url = '@Url.Action("GetQuerySheetCostingAmount")';
-            $.getJSON(url, { id: id }, function (data) {
-                $("#costing-amount-notifier").html("<em>Project cost for Query Sheet <strong>" + $("#QuerySheetId option:selected").text() + "</strong> is <strong>" + $("#CurrencyName").val() + " " + data + "</strong></em>");
-                $('#GrandTotal').val(data);
-            })
+            UpdateCostNotifier(id);
             $('#project_rooms_grid').html('<div style="border: 1px solid white;' +
                                             'padding: 10px;' +
                                             'background: #c5c5c5;' +
                                             'margin-bottom: 15px;">' +
                                             '<center><strong>Loading room details here...</strong></center>' +
                                             '</div>');
-            url = '@Url.Action("GetRoomDetailsFromQuotation")';
-            $('#project_rooms_grid').load(url, { salesQuotationId: id });
+            var url = '@Url.Action("GetRoomDetailsFromQuerySheet")';
+            $('#project_rooms_grid').load(url, { querySheetId: id });
             //$('#unitselection').load(url, { querySheetId: id })
         }
         else {
@@ -338,6 +339,13 @@
         }
     }
 
+    function UpdateCostNotifier(id) {
+        var url = '@Url.Action("GetQuerySheetCostingAmount")';
+        $.getJSON(url, { id: id }, function (data) {
+            $("#costing-amount-notifier").html("<em>Project cost for Query Sheet <strong>" + $("#QuerySheetId option:selected").text() + "</strong> is <strong>" + $("#CurrencyName").val() + " " + data + "</strong></em>");
+            $('#GrandTotal').val(data);
+        })
+    }
 </script>
 
 <div class="row">
@@ -368,7 +376,8 @@
             @Html.HiddenFor(m => m.isProjectBased)
             @Html.HiddenFor(m => m.isAfterSales)
             @Html.HiddenFor(m => m.CurrencyId)
-            <input type="hidden" id="CurrencyName" />
+            @Html.HiddenFor(m => m.GrandTotal)
+            <input type="hidden" id="CurrencyName" value="@Model.CurrencyName" />
             <div class="row form-group ">
                 <div class="col-md-2">
                     <label for="QuotationRefNo">Quotation No.</label>
@@ -866,6 +875,7 @@
                 <div id="project_rooms_grid" style="overflow-x: auto;">
                     @Html.Partial("_ProjectRooms", Model)
                 </div>
+                <br />
             }
             if (Model.isAfterSales)
             {
@@ -889,6 +899,12 @@
                         @Html.TextBoxFor(m => m.PaymentTerms, new { @class = "form_input", autocomplete = "off" })
                         <button class="terms" type="button" id="pymtTerms" onclick="showPaymentTerms()">...</button>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="DeliveryTerms">Delivery Terms</label>
+                    @Html.TextBoxFor(m => m.DeliveryTerms, new { @class = "form_input", @autocomplete = "off" })
                 </div>
             </div>
             <div class="row">
