@@ -86,18 +86,18 @@
 
         var index = (new Date()).getTime(); // unique indexer
         var clone = $('#tab_logic_unit' + roomindex + ' #0').clone(); // clone the BatchProducts item
-      
+
         clone.html($(clone).html().replace(new RegExp("QuerySheetItems_" + roomindex + "__ProjectRoomUnits_0__", "g"), 'QuerySheetItems_' + roomindex + '__ProjectRoomUnits_' + i + '__'));
         clone.html($(clone).html().replace(new RegExp(".ProjectRoomUnits\\[0].", "g"), ".ProjectRoomUnits[" + i + "]."));
         clone.html($(clone).html().replace(/Rowunit_0/, 'Rowunit_' + i));
-        clone.html($(clone).html().replace(new RegExp("DeleteUnit\\(0", "g"),"DeleteUnit(" + i ));
+        clone.html($(clone).html().replace(new RegExp("DeleteUnit\\(0", "g"), "DeleteUnit(" + i));
         clone.html($(clone).html().replace(/sno1/, 'sno' + (i + 1) + ''));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
         $("#tab_logic_unit" + roomindex).append('<tr id="' + i + '">' + clone.html() + '  </tr>');
-        $("#tab_logic_unit" + roomindex +" #sno" + (i + 1)).html((i + 1));
+        $("#tab_logic_unit" + roomindex + " #sno" + (i + 1)).html((i + 1));
     }
     function AddDoorRow(roomindex) {
-       
+
         var i = 0;
         var no = 1;
         $('#tab_logic_door' + roomindex + ' input[id^="Rowdoor_"]').each(function () {
@@ -112,9 +112,9 @@
 
         var index = (new Date()).getTime(); // unique indexer
         var clone = $('#tab_logic_door' + roomindex + ' #0').clone(); // clone the BatchProducts item
-     
+
         //Update the index of the clone
-       
+
         clone.html($(clone).html().replace(new RegExp("QuerySheetItems_" + roomindex + "__ProjectRoomDoors_0__", "g"), 'QuerySheetItems_' + roomindex + '__ProjectRoomDoors_' + i + '__'));
         clone.html($(clone).html().replace(new RegExp(".ProjectRoomDoors\\[0].", "g"), ".ProjectRoomDoors[" + i + "]."));
         clone.html($(clone).html().replace(/Rowdoor_0/, 'Rowdoor_' + i));
@@ -122,8 +122,8 @@
         clone.html($(clone).html().replace(/sldono1/, 'sldono' + (i + 1) + ''));
         clone.html($(clone).html().replace(/this,0/, 'this,' + i + ''));
         $("#tab_logic_door" + roomindex).append('<tr id="' + i + '">' + clone.html() + '  </tr>');
-        $("#tab_logic_door" + roomindex +" #sldono" + (i + 1)).html((i + 1));
-       
+        $("#tab_logic_door" + roomindex + " #sldono" + (i + 1)).html((i + 1));
+
 
     }
     function Delete(index) {
@@ -254,27 +254,29 @@
         $('#room_' + index + '_doors_popup').removeClass('hide');
     }
     function formValidation() {
-        //var status = true;
-        //var lastObject;
-        //var index;
-        //$('.Quantity').each(function (i, obj) {
-        //    alert(obj);
-        //    var Qty = $(obj).val();
-        //    index = obj.id.substring(16, 17);
-        //    if (Number(Qty) == '' || Number(Qty)==0) {
-        //        //QuerySheetItems_0__ProjectRoomUnits_2__Quantity
-        //        //$("#StockPointId").focus();
-        //        status = false;
-        //        lastObject = obj;
-        //        index = obj.id.substring(16, 17);
-        //    }
-        //});
-        //if (status == false) {
-        //    UnitSelection(index);
-        //    toastr.info("Unit quantity cannot be zero");
-        //    $('#unitselectionpopup').modal();
-        //}
-        //return status;
+        if ('@Request.QueryString["type"].ToLower()' != 'roomdetails') {
+            var status = true;
+            var lastObject;
+            var index;
+            $('.Quantity').each(function (i, obj) {
+                var Qty = $(obj).val();
+                index = obj.id.substring(16, 17);
+                if (Number(Qty) == '' || Number(Qty) == 0) {
+                    //QuerySheetItems_0__ProjectRoomUnits_2__Quantity
+                    //$("#StockPointId").focus();
+                    status = false;
+                    lastObject = obj;
+                    index = obj.id.substring(16, 17);
+                }
+            });
+            if (status == false) {
+                UnitSelection(index);
+                toastr.info("Unit quantity cannot be zero");
+                $('#unitselectionpopup').modal();
+            }
+            return status;
+        }
+        else return true;
     }
 </script>
 
@@ -465,53 +467,56 @@
                 </div>
             </div>
 
-  <!-- Unit & Door Selection Column Click PopUp -->
-            <div id="unitselectionpopup" class="modal fade" role="dialog">
-                <div class="modal-dialog modal-lg" style="width:800px">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Select Unit</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div id="unitselection">
-                                @if (Model.QuerySheetItems != null && Model.QuerySheetItems.Count > 0)
-                                {
-                                    for (int i = 0; i < Model.QuerySheetItems.Count; i++)
-                                    {
-                                        ViewBag.currentIndex = i;
-                                        <div id="room_@(i)_units_popup" class="hide">
-                                            @Html.Partial("_UnitSelection", Model)
-                                        </div>
-                                    }
-                                }
-                                @*@Html.Action("UnitSelection", new { id = Model.QuerySheetId, Type = Model.Type })*@
+            if (Request.QueryString["type"].ToLower() != "roomdetails")
+            {
+                <!-- Unit & Door Selection Column Click PopUp -->
+                <div id="unitselectionpopup" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-lg" style="width:800px">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Select Unit</h4>
                             </div>
-                        </div>
-                        @*............Door Selection Grid...................*@
-                        <div class="modal-header">
-                            @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
-                            <h4 class="modal-title">Select Door</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div id="doorselection">
-                            @if (Model.QuerySheetItems != null && Model.QuerySheetItems.Count > 0)
-                            {
-                                for (int i = 0; i < Model.QuerySheetItems.Count; i++)
-                                {
-                                    ViewBag.currentIndex = i;
-                                    <div id="room_@(i)_doors_popup" class="hide">
-                                        @Html.Partial("_DoorSelection", Model)
-                                    </div>
-                                }
-                            }
-                                @*@Html.Action("DoorSelection", new { id = Model.QuerySheetId, Type = Model.Type })*@
+                            <div class="modal-body">
+                                <div id="unitselection">
+                                    @if (Model.QuerySheetItems != null && Model.QuerySheetItems.Count > 0)
+                                    {
+                                        for (int i = 0; i < Model.QuerySheetItems.Count; i++)
+                                        {
+                                            ViewBag.currentIndex = i;
+                                            <div id="room_@(i)_units_popup" class="hide">
+                                                @Html.Partial("_UnitSelection", Model)
+                                            </div>
+                                        }
+                                    }
+                                    @*@Html.Action("UnitSelection", new { id = Model.QuerySheetId, Type = Model.Type })*@
+                                </div>
+                            </div>
+                            @*............Door Selection Grid...................*@
+                            <div class="modal-header">
+                                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                                <h4 class="modal-title">Select Door</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div id="doorselection">
+                                    @if (Model.QuerySheetItems != null && Model.QuerySheetItems.Count > 0)
+                                    {
+                                        for (int i = 0; i < Model.QuerySheetItems.Count; i++)
+                                        {
+                                            ViewBag.currentIndex = i;
+                                            <div id="room_@(i)_doors_popup" class="hide">
+                                                @Html.Partial("_DoorSelection", Model)
+                                            </div>
+                                        }
+                                    }
+                                    @*@Html.Action("DoorSelection", new { id = Model.QuerySheetId, Type = Model.Type })*@
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         }
     </div>
 </div>
