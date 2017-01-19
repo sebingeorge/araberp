@@ -1,0 +1,81 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="WorkShopRequestRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="WorkShopRequestDate" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerOrderRef" type="xs:string" minOccurs="0" />
+                <xs:element name="SaleOrderRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="EDateArrival" type="xs:string" minOccurs="0" />
+                <xs:element name="EDateDelivery" type="xs:string" minOccurs="0" />
+                <xs:element name="WorkDescription" type="xs:string" minOccurs="0" />
+                <xs:element name="SpecialRemarks" type="xs:string" minOccurs="0" />
+                <xs:element name="RequiredDate" type="xs:string" minOccurs="0" />
+                <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Street" type="xs:string" minOccurs="0" />
+                <xs:element name="State" type="xs:string" minOccurs="0" />
+                <xs:element name="CountryName" type="xs:string" minOccurs="0" />
+                <xs:element name="Zip" type="xs:string" minOccurs="0" />
+                <xs:element name="Fax" type="xs:string" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="Phone" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+                <xs:element name="Title" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ItemName" type="xs:string" minOccurs="0" />
+                <xs:element name="PartNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Remarks" type="xs:string" minOccurs="0" />
+                <xs:element name="Quantity" type="xs:string" minOccurs="0" />
+                <xs:element name="UnitName" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <WorkShopRequestRefNo>MRQ/3</WorkShopRequestRefNo>
+    <WorkShopRequestDate>18-Oct-2016</WorkShopRequestDate>
+    <CustomerName>Abdul Asiz Trading Est</CustomerName>
+    <CustomerOrderRef>saleorder1</CustomerOrderRef>
+    <SaleOrderRefNo>SO/P/4</SaleOrderRefNo>
+    <EDateArrival>18-Oct-2016</EDateArrival>
+    <EDateDelivery>28-Oct-2016</EDateDelivery>
+    <WorkDescription> project Work Description For Testing, project wrk test</WorkDescription>
+    <RequiredDate>29-Oct-2016</RequiredDate>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
+    <Title>MATERIAL REQUEST</Title>
+  </Head>
+  <Items>
+    <ItemName>COMPRESSOR CLUTCH COIL  TM16 24V</ItemName>
+    <PartNo />
+    <Quantity>30</Quantity>
+    <UnitName>Nos</UnitName>
+  </Items>
+  <Items>
+    <ItemName>FUEL FILTER MITSUBISHI</ItemName>
+    <PartNo />
+    <Quantity>80</Quantity>
+    <UnitName>Nos</UnitName>
+  </Items>
+  <Items>
+    <ItemName>ELBOW-40-60290-01</ItemName>
+    <PartNo />
+    <Quantity>30</Quantity>
+    <UnitName>Nos</UnitName>
+  </Items>
+</NewDataSet>

@@ -1,0 +1,55 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Item" type="xs:string" minOccurs="0" />
+                <xs:element name="Batch" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Material" type="xs:string" minOccurs="0" />
+                <xs:element name="PartNo" type="xs:string" minOccurs="0" />
+                <xs:element name="WRQty" type="xs:string" minOccurs="0" />
+                <xs:element name="PndIssQty" type="xs:string" minOccurs="0" />
+                <xs:element name="MinStk" type="xs:string" minOccurs="0" />
+                <xs:element name="TotalReqqty" type="xs:string" minOccurs="0" />
+                <xs:element name="Currstk" type="xs:string" minOccurs="0" />
+                <xs:element name="IntransitQty" type="xs:string" minOccurs="0" />
+                <xs:element name="pndlpoQty" type="xs:string" minOccurs="0" />
+                <xs:element name="Short" type="xs:string" minOccurs="0" />
+                <xs:element name="Uom" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <Item>100mm 4400x2100x2100mm- ISUZU ,BAM</Item>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+  </Head>
+  <Items>
+    <Material>100mm 4400x2100x2100mm- ISUZU ,BAM</Material>
+    <PartNo>1005</PartNo>
+    <PndIssQty>3</PndIssQty>
+    <MinStk>2</MinStk>
+    <TotalReqqty>4</TotalReqqty>
+    <Currstk>1</Currstk>
+    <IntransitQty>2</IntransitQty>
+    <pndlpoQty>0</pndlpoQty>
+    <Short>-2</Short>
+    <Uom>Nos</Uom>
+  </Items>
+</NewDataSet>
