@@ -35,7 +35,7 @@ namespace ArabErp.Web.Controllers
             return PartialView("_SaleRegister", new SalesRegisterRepository().GetSalesRegister(from, to, id, OrganizationId, project));
         }
 
-        public ActionResult Print(DateTime? from, DateTime? to, int? project, int id = 0, string name = "")
+        public ActionResult Print(int? project,DateTime? from, DateTime? to, int id = 0, string name = "" )
         {
 
             ReportDocument rd = new ReportDocument();

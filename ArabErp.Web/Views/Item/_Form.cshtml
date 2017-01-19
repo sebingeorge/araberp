@@ -40,7 +40,7 @@
             $('.subject-list').not(this).prop('checked', false);
         });
 
-        if ($("#FreezerUnit").is(":checked") || $("#Box").is(":checked")) {
+        if ($("#FreezerUnit").is(":checked") || $("#Box").is(":checked") || $("#CondenserUnit").is(":checked") || $("#EvaporatorUnit").is(":checked") || $("#Door").is(":checked")) {
             $("#table-bom").show();
         }
         else {
