@@ -156,7 +156,11 @@ namespace ArabErp
                 IDbTransaction trn = connection.BeginTransaction();
                 try
                 {
-                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCard.OrganizationId, (objJobCard.isService == 1 ? 34 : 16), true, trn);
+                    //var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCard.OrganizationId, (objJobCard.isService == 1 ? 34 : 16), true, trn);
+                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCard.OrganizationId,
+                        objJobCard.isService == 1 ?
+                        objJobCard.isProjectBased == 1 ? 40 : 34 :
+                        objJobCard.isProjectBased == 1 ? 39 : 16, true, trn);
                     objJobCard.JobCardNo = internalId.ToString();
                     int id = 0;
                     string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,InPassId,WorkDescriptionId,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId,isProjectBased, isService, Complaints) Values 
@@ -497,15 +501,15 @@ namespace ArabErp
                                 VM.VehicleModelName,
 								US.UserName CreatedUser,US.Signature CreatedUsersig,DI.DesignationName CreatedDes,
                                 J.Complaints, J.isProjectBased";
-                    sq += objJobcard.isProjectBased == 0 ? 
-                        ", U.ItemName FreezerUnitName, UI.ItemName BoxName" : 
+                    sq += objJobcard.isProjectBased == 0 ?
+                        ", U.ItemName FreezerUnitName, UI.ItemName BoxName" :
                         @",STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName FROM SaleOrderItemUnit T1
 		                LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
 		                LEFT JOIN Item T3 ON T1.EvaporatorUnitId = T3.ItemId
-		                WHERE T1.SaleOrderItemId = J.SaleOrderItemId), 1, 2, '') FreezerUnitName,
+		                WHERE T1.SaleOrderItemId = J.SaleOrderItemId FOR XML PATH('')), 1, 2, '') FreezerUnitName,
                         STUFF((SELECT ', ' + T2.ItemName FROM SaleOrderItemDoor T1
 		                INNER JOIN Item T2 ON T1.DoorId = T2.ItemId
-		                WHERE T1.SaleOrderItemId = J.SaleOrderItemId), 1, 2, '') BoxName";
+		                WHERE T1.SaleOrderItemId = J.SaleOrderItemId FOR XML PATH('')), 1, 2, '') BoxName";
                     sq += @" FROM JobCard J
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
@@ -659,7 +663,7 @@ namespace ArabErp
             }
         }
 
-        public string DeleteJobCard(int JobCardId)
+        public JobCard DeleteJobCard(int JobCardId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -667,8 +671,8 @@ namespace ArabErp
                 try
                 {
                     string query = @"DELETE FROM JobCardTask WHERE JobCardId = @JobCardId;
-                              DELETE FROM JobCard OUTPUT deleted.JobCardNo WHERE JobCardId = @JobCardId;";
-                    string output = connection.Query<string>(query, new { JobCardId = JobCardId }, txn).First();
+                              DELETE FROM JobCard OUTPUT deleted.JobCardNo, deleted.isProjectBased, deleted.isService WHERE JobCardId = @JobCardId;";
+                    var output = connection.Query<JobCard>(query, new { JobCardId = JobCardId }, txn).First();
                     txn.Commit();
                     return output;
                 }
