@@ -27,6 +27,9 @@
                 <xs:element name="Zip" type="xs:string" minOccurs="0" />
                 <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
                 <xs:element name="Image1" type="xs:string" minOccurs="0" />
+                <xs:element name="JobCardNo" type="xs:string" minOccurs="0" />
+                <xs:element name="CreateUser" type="xs:string" minOccurs="0" />
+                <xs:element name="CreateSig" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -40,6 +43,7 @@
                 <xs:element name="StockQuantity" type="xs:string" minOccurs="0" />
                 <xs:element name="CurrentIssuedQuantity" type="xs:string" minOccurs="0" />
                 <xs:element name="UnitName" type="xs:string" minOccurs="0" />
+                <xs:element name="PartNo" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -48,14 +52,14 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <StoreIssueRefNo>SI/1</StoreIssueRefNo>
-    <StoreIssueDate>05-Dec-2016</StoreIssueDate>
+    <StoreIssueRefNo>SI/17/93</StoreIssueRefNo>
+    <StoreIssueDate>18-Jan-2017</StoreIssueDate>
     <StockpointName>Main Store</StockpointName>
-    <CustomerName>Almana &amp; Partners W.L.L.</CustomerName>
-    <WONODATE>A-WRQ/4 , 01 Dec 2016</WONODATE>
-    <SONODATE>AARC/SER/4 , 01 Dec 2016</SONODATE>
-    <RequiredDate>01-Dec-2016 12:00:00 AM</RequiredDate>
-    <EmployeeName>Mohamed Akthab Mohamed Rafee</EmployeeName>
+    <CustomerName>Al Danah Trading &amp; Contracting Co.</CustomerName>
+    <WONODATE>A-WRQ/17/44 , 18 Jan 2017</WONODATE>
+    <SONODATE>AARC/SER/17/46 , 17 Jan 2017</SONODATE>
+    <RequiredDate>18-Jan-2017 00:00:00</RequiredDate>
+    <EmployeeName>Giriesh Gopi</EmployeeName>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -65,13 +69,16 @@
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <Image1>81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <JobCardNo>AARC/17/JC-S/46</JobCardNo>
+    <CreateUser>aakash</CreateUser>
+    <CreateSig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\</CreateSig>
   </Head>
   <Items>
-    <ItemName>750 HRS SERVICE KIT-CARRIER-OASIS 250</ItemName>
-    <RequiredQuantity>1</RequiredQuantity>
+    <ItemName>IDLER PULLEY - BLACK</ItemName>
+    <RequiredQuantity>1.00</RequiredQuantity>
     <IssuedQuantity>1</IssuedQuantity>
     <PendingQuantity>0</PendingQuantity>
-    <StockQuantity>10.000</StockQuantity>
+    <StockQuantity>33.000</StockQuantity>
     <CurrentIssuedQuantity>1</CurrentIssuedQuantity>
     <UnitName>Nos</UnitName>
   </Items>

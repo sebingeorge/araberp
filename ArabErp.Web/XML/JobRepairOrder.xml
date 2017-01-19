@@ -62,21 +62,21 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <ServiceEnquiryRefNo>AARC/SE/17/26</ServiceEnquiryRefNo>
-    <ServiceEnquiryDate>10-Jan-2017</ServiceEnquiryDate>
-    <CustomerName>Four Rivers Food Distibutors</CustomerName>
-    <CDoorNo>Doha ,Qatar</CDoorNo>
+    <ServiceEnquiryRefNo>AARC/SE/17/56</ServiceEnquiryRefNo>
+    <ServiceEnquiryDate>18-Jan-2017</ServiceEnquiryDate>
+    <CustomerName>Al Danah Trading &amp; Contracting Co.</CustomerName>
+    <CDoorNo>Doha- Qatar</CDoorNo>
+    <CStreet />
     <CPhone>0</CPhone>
     <CZip>0</CZip>
     <CState>UAE</CState>
     <CContactPerson>0</CContactPerson>
-    <VehicleMake>Mitsubishi 4.3</VehicleMake>
-    <VehicleRegNo>118739</VehicleRegNo>
-    <FreezerMake>TK</FreezerMake>
-    <FreezerModel>T600-R</FreezerModel>
-    <FreezerSerialNo>5001263722</FreezerSerialNo>
-    <Complaints>1) Oil Service
-2) Water Leak Inside</Complaints>
+    <VehicleMake>Toyota Hiace</VehicleMake>
+    <VehicleRegNo>223832</VehicleRegNo>
+    <FreezerMake>Carrier</FreezerMake>
+    <FreezerModel>Viento 200</FreezerModel>
+    <FreezerSerialNo>PC120018</FreezerSerialNo>
+    <Complaints>1) General Service</Complaints>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -86,9 +86,9 @@
     <Email>info@arabrefrigeration.com</Email>
     <Phone>974 4435 7216</Phone>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <CreatedUser>safiq</CreatedUser>
-    <CreatedUsersig>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreatedUsersig>
+    <CreatedUsersig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreatedUsersig>
     <CreatedDes>Workshop Controller</CreatedDes>
   </Head>
 </NewDataSet>

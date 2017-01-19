@@ -184,27 +184,51 @@
     <UnitName>Nos</UnitName>
   </Items>
   <Items>
-    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
-    <PartNo>AL3456PE6000</PartNo>
-    <ItemName>AL PROFILE 40 X 60 6M PIECE NEVPA</ItemName>
-    <BalQty>44</BalQty>
-    <OrderedQty>44</OrderedQty>
-    <Rate>19.67</Rate>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo>1</PartNo>
+    <ItemName>FLEXIBLE HOSE 10MM   (100) Mtr</ItemName>
+    <BalQty>10</BalQty>
+    <OrderedQty>10</OrderedQty>
+    <Rate>1.00</Rate>
     <Discount>0.00</Discount>
-    <Amount>865.48</Amount>
-    <ItemRefNo>ITM/1924</ItemRefNo>
-    <UnitName>Nos</UnitName>
+    <Amount>10.00</Amount>
+    <ItemRefNo>ITM/867</ItemRefNo>
+    <UnitName>Mtr</UnitName>
   </Items>
   <Items>
-    <PRNODATE>PI/17/34 - 17 Jan 2017</PRNODATE>
-    <PartNo>153-11-01-006-02</PartNo>
-    <ItemName>NEW MODEL LED LIGHT NEVPA</ItemName>
-    <BalQty>30</BalQty>
-    <OrderedQty>30</OrderedQty>
-    <Rate>7.25</Rate>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo>2</PartNo>
+    <ItemName>FLEXIBLE HOSE 16 MM   (50) Mtr</ItemName>
+    <BalQty>9</BalQty>
+    <OrderedQty>9</OrderedQty>
+    <Rate>1.00</Rate>
     <Discount>0.00</Discount>
-    <Amount>217.50</Amount>
-    <ItemRefNo>ITM/1925</ItemRefNo>
-    <UnitName>Nos</UnitName>
+    <Amount>9.00</Amount>
+    <ItemRefNo>ITM/868</ItemRefNo>
+    <UnitName>Mtr</UnitName>
+  </Items>
+  <Items>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo>4</PartNo>
+    <ItemName>AUTO CABLE  BLACK 2MM Mtr</ItemName>
+    <BalQty>5</BalQty>
+    <OrderedQty>5</OrderedQty>
+    <Rate>1.00</Rate>
+    <Discount>0.00</Discount>
+    <Amount>5.00</Amount>
+    <ItemRefNo>ITM/870</ItemRefNo>
+    <UnitName>Mtr</UnitName>
+  </Items>
+  <Items>
+    <PRNODATE>PRQ/1 - 19 Nov 2016</PRNODATE>
+    <PartNo>5</PartNo>
+    <ItemName>AUTO CABLE  RED  2MM  Mtr</ItemName>
+    <BalQty>5</BalQty>
+    <OrderedQty>5</OrderedQty>
+    <Rate>1.00</Rate>
+    <Discount>0.00</Discount>
+    <Amount>5.00</Amount>
+    <ItemRefNo>ITM/871</ItemRefNo>
+    <UnitName>Mtr</UnitName>
   </Items>
 </NewDataSet>

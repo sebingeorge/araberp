@@ -77,9 +77,9 @@
 
     }
     function GoToPrint(Id) {
-        var url = '@Url.Action("Print")';
+        var url = '@Url.Action("ProformaInvoice")';
         url += "?Id=" + Id;
-        window.location = url;
+        window.open(url);
     }
 </script>
 
