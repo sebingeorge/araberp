@@ -1,0 +1,90 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ServiceEnquiryRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="ServiceEnquiryDate" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
+                <xs:element name="CDoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="CStreet" type="xs:string" minOccurs="0" />
+                <xs:element name="CPhone" type="xs:string" minOccurs="0" />
+                <xs:element name="CZip" type="xs:string" minOccurs="0" />
+                <xs:element name="CState" type="xs:string" minOccurs="0" />
+                <xs:element name="CContactPerson" type="xs:string" minOccurs="0" />
+                <xs:element name="VehicleMake" type="xs:string" minOccurs="0" />
+                <xs:element name="VehicleRegNo" type="xs:string" minOccurs="0" />
+                <xs:element name="VehicleChassisNo" type="xs:string" minOccurs="0" />
+                <xs:element name="VehicleKm" type="xs:string" minOccurs="0" />
+                <xs:element name="BoxMake" type="xs:string" minOccurs="0" />
+                <xs:element name="BoxNo" type="xs:string" minOccurs="0" />
+                <xs:element name="BoxSize" type="xs:string" minOccurs="0" />
+                <xs:element name="FreezerMake" type="xs:string" minOccurs="0" />
+                <xs:element name="FreezerModel" type="xs:string" minOccurs="0" />
+                <xs:element name="FreezerSerialNo" type="xs:string" minOccurs="0" />
+                <xs:element name="FreezerHours" type="xs:string" minOccurs="0" />
+                <xs:element name="TailLiftMake" type="xs:string" minOccurs="0" />
+                <xs:element name="TailLiftModel" type="xs:string" minOccurs="0" />
+                <xs:element name="TailLiftSerialNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Complaints" type="xs:string" minOccurs="0" />
+                <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Street" type="xs:string" minOccurs="0" />
+                <xs:element name="State" type="xs:string" minOccurs="0" />
+                <xs:element name="CountryName" type="xs:string" minOccurs="0" />
+                <xs:element name="Zip" type="xs:string" minOccurs="0" />
+                <xs:element name="Fax" type="xs:string" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="Phone" type="xs:string" minOccurs="0" />
+                <xs:element name="ContactPerson" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+                <xs:element name="CreatedUser" type="xs:string" minOccurs="0" />
+                <xs:element name="CreatedUsersig" type="xs:string" minOccurs="0" />
+                <xs:element name="CreatedDes" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Date" type="xs:string" minOccurs="0" />
+                <xs:element name="Description" type="xs:string" minOccurs="0" />
+                <xs:element name="TotalHours" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <ServiceEnquiryRefNo>AARC/SE/17/24</ServiceEnquiryRefNo>
+    <ServiceEnquiryDate>09-Jan-2017</ServiceEnquiryDate>
+    <CustomerName>UNITED CAR RENTALS Co W.L.L</CustomerName>
+    <CDoorNo>Doha</CDoorNo>
+    <CZip>35026</CZip>
+    <VehicleMake>Hino DC</VehicleMake>
+    <VehicleRegNo>57427</VehicleRegNo>
+    <FreezerMake>TM</FreezerMake>
+    <FreezerModel>T2500</FreezerModel>
+    <FreezerSerialNo>TH-29PP-21</FreezerSerialNo>
+    <Complaints>1) General Service - Warranty Package</Complaints>
+    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
+    <Street>Hiteen Street, Muntazah </Street>
+    <State>Doha</State>
+    <CountryName>QATAR</CountryName>
+    <Zip>13037</Zip>
+    <Fax>974 4414 2910</Fax>
+    <Email>info@arabrefrigeration.com</Email>
+    <Phone>974 4435 7216</Phone>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <CreatedUser>safiq</CreatedUser>
+    <CreatedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreatedUsersig>
+    <CreatedDes>Workshop Controller</CreatedDes>
+  </Head>
+</NewDataSet>

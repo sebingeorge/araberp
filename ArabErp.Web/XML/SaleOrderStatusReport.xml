@@ -1,0 +1,182 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
+                <xs:element name="SaleOrderRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="SaleOrderDate" type="xs:string" minOccurs="0" />
+                <xs:element name="VehicleMdlNameReg" type="xs:string" minOccurs="0" />
+                <xs:element name="SOAgeDays" type="xs:string" minOccurs="0" />
+                <xs:element name="WRNodue" type="xs:string" minOccurs="0" />
+                <xs:element name="Purreqdue" type="xs:string" minOccurs="0" />
+                <xs:element name="LpoNoDue" type="xs:string" minOccurs="0" />
+                <xs:element name="GRN" type="xs:string" minOccurs="0" />
+                <xs:element name="BatchAlloc" type="xs:string" minOccurs="0" />
+                <xs:element name="Inpassdate" type="xs:string" minOccurs="0" />
+                <xs:element name="Jobcardnodate" type="xs:string" minOccurs="0" />
+                <xs:element name="JobcardComp" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
+  </Head>
+  <Items>
+    <CustomerName>Abdul Asiz Trading Est</CustomerName>
+    <SaleOrderRefNo>SO/1</SaleOrderRefNo>
+    <SaleOrderDate>08-Nov-2016</SaleOrderDate>
+    <VehicleMdlNameReg>Nissan UD Truck -MKD210K - 9996666</VehicleMdlNameReg>
+    <SOAgeDays>10</SOAgeDays>
+    <WRNodue> WRQ/4</WRNodue>
+    <Purreqdue> PRQ/5, PRQ/18</Purreqdue>
+    <LpoNoDue> LPO/2</LpoNoDue>
+    <GRN />
+    <Inpassdate>VI/1,09 Nov 2016</Inpassdate>
+    <Jobcardnodate />
+    <JobcardComp />
+  </Items>
+  <Items>
+    <CustomerName>Abdul Asiz Trading Est</CustomerName>
+    <SaleOrderRefNo>SO/1</SaleOrderRefNo>
+    <SaleOrderDate>08-Nov-2016</SaleOrderDate>
+    <VehicleMdlNameReg>Nissan UD Truck -MKD210K - </VehicleMdlNameReg>
+    <SOAgeDays>10</SOAgeDays>
+    <WRNodue> WRQ/4</WRNodue>
+    <Purreqdue> PRQ/5, PRQ/18</Purreqdue>
+    <LpoNoDue> LPO/2</LpoNoDue>
+    <GRN />
+    <Jobcardnodate />
+    <JobcardComp />
+  </Items>
+  <Items>
+    <CustomerName>Abdul Asiz Trading Est</CustomerName>
+    <SaleOrderRefNo>SO/1</SaleOrderRefNo>
+    <SaleOrderDate>08-Nov-2016</SaleOrderDate>
+    <VehicleMdlNameReg>Nissan UD Truck -MKD210K - </VehicleMdlNameReg>
+    <SOAgeDays>10</SOAgeDays>
+    <WRNodue> WRQ/4</WRNodue>
+    <Purreqdue> PRQ/5, PRQ/18</Purreqdue>
+    <LpoNoDue> LPO/2</LpoNoDue>
+    <GRN />
+    <Jobcardnodate />
+    <JobcardComp />
+  </Items>
+  <Items>
+    <CustomerName>Adansa Trading</CustomerName>
+    <SaleOrderRefNo>SO/2</SaleOrderRefNo>
+    <SaleOrderDate>09-Nov-2016</SaleOrderDate>
+    <VehicleMdlNameReg>Nissan UD Truck -MKD210K - 3333111</VehicleMdlNameReg>
+    <SOAgeDays>9</SOAgeDays>
+    <WRNodue> WRQ/1</WRNodue>
+    <Purreqdue> PRQ/15, PRQ/16</Purreqdue>
+    <LpoNoDue> LPO/10, LPO/11, LPO/7, LPO/8, LPO/9</LpoNoDue>
+    <GRN />
+    <Inpassdate>VI/2,09 Nov 2016</Inpassdate>
+    <Jobcardnodate>JC/2537, 09 Nov 2016</Jobcardnodate>
+    <JobcardComp>JC/2537, 09 Nov 2016</JobcardComp>
+  </Items>
+  <Items>
+    <CustomerName>Adansa Trading</CustomerName>
+    <SaleOrderRefNo>SO/2</SaleOrderRefNo>
+    <SaleOrderDate>09-Nov-2016</SaleOrderDate>
+    <VehicleMdlNameReg>Nissan UD Truck -MKD210K - </VehicleMdlNameReg>
+    <SOAgeDays>9</SOAgeDays>
+    <WRNodue> WRQ/1</WRNodue>
+    <Purreqdue> PRQ/15, PRQ/16</Purreqdue>
+    <LpoNoDue> LPO/10, LPO/11, LPO/7, LPO/8, LPO/9</LpoNoDue>
+    <GRN />
+    <Jobcardnodate />
+    <JobcardComp />
+  </Items>
+  <Items>
+    <CustomerName> Sibonne Qatar</CustomerName>
+    <SaleOrderRefNo>SO/3</SaleOrderRefNo>
+    <SaleOrderDate>09-Nov-2016</SaleOrderDate>
+    <VehicleMdlNameReg>Nissan UD Truck -MKD210K - </VehicleMdlNameReg>
+    <SOAgeDays>9</SOAgeDays>
+    <WRNodue> WRQ/2</WRNodue>
+    <Purreqdue> PRQ/10, PRQ/11, PRQ/12, PRQ/13, PRQ/14</Purreqdue>
+    <LpoNoDue> LPO/5, LPO/6, LPO/7</LpoNoDue>
+    <GRN />
+    <Jobcardnodate />
+    <JobcardComp />
+  </Items>
+  <Items>
+    <CustomerName>Al Ajjaj Limited  Company</CustomerName>
+    <SaleOrderRefNo>SO/7</SaleOrderRefNo>
+    <SaleOrderDate>17-Nov-2016</SaleOrderDate>
+    <VehicleMdlNameReg>Mercedes Accelo 915 C Truck - </VehicleMdlNameReg>
+    <SOAgeDays>1</SOAgeDays>
+    <GRN />
+    <Jobcardnodate />
+    <JobcardComp />
+  </Items>
+  <Items>
+    <CustomerName>Al Ajjaj Limited  Company</CustomerName>
+    <SaleOrderRefNo>SO/7</SaleOrderRefNo>
+    <SaleOrderDate>17-Nov-2016</SaleOrderDate>
+    <VehicleMdlNameReg>Mercedes Accelo 915 C Truck - </VehicleMdlNameReg>
+    <SOAgeDays>1</SOAgeDays>
+    <GRN />
+    <Jobcardnodate />
+    <JobcardComp />
+  </Items>
+  <Items>
+    <CustomerName>Al Ajjaj Limited  Company</CustomerName>
+    <SaleOrderRefNo>SO/7</SaleOrderRefNo>
+    <SaleOrderDate>17-Nov-2016</SaleOrderDate>
+    <VehicleMdlNameReg>Mercedes Accelo 915 C Truck - </VehicleMdlNameReg>
+    <SOAgeDays>1</SOAgeDays>
+    <GRN />
+    <Jobcardnodate />
+    <JobcardComp />
+  </Items>
+  <Items>
+    <CustomerName>Al Ajjaj Limited  Company</CustomerName>
+    <SaleOrderRefNo>SO/7</SaleOrderRefNo>
+    <SaleOrderDate>17-Nov-2016</SaleOrderDate>
+    <VehicleMdlNameReg>Mercedes Accelo 915 C Truck - </VehicleMdlNameReg>
+    <SOAgeDays>1</SOAgeDays>
+    <GRN />
+    <Jobcardnodate />
+    <JobcardComp />
+  </Items>
+  <Items>
+    <CustomerName>Al Ajjaj Limited  Company</CustomerName>
+    <SaleOrderRefNo>SO/7</SaleOrderRefNo>
+    <SaleOrderDate>17-Nov-2016</SaleOrderDate>
+    <VehicleMdlNameReg>Mercedes Accelo 915 C Truck - </VehicleMdlNameReg>
+    <SOAgeDays>1</SOAgeDays>
+    <GRN />
+    <Jobcardnodate />
+    <JobcardComp />
+  </Items>
+  <Items>
+    <CustomerName>Al Ajjaj Limited  Company</CustomerName>
+    <SaleOrderRefNo>SO/7</SaleOrderRefNo>
+    <SaleOrderDate>17-Nov-2016</SaleOrderDate>
+    <VehicleMdlNameReg>Mercedes Accelo 915 C Truck - </VehicleMdlNameReg>
+    <SOAgeDays>1</SOAgeDays>
+    <GRN />
+    <Jobcardnodate />
+    <JobcardComp />
+  </Items>
+</NewDataSet>
