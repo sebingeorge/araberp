@@ -80,7 +80,8 @@ namespace ArabErp.Web.Controllers
 
 
             SalesRegisterRepository repo1 = new SalesRegisterRepository();
-            var Items = repo1.GetSalesRegisterDTPrint(from, to, id,OrganizationId);
+            //var Items = repo1.GetSalesRegisterDTPrint(from, to, id, OrganizationId);
+            var Items = repo1.GetSalesRegister(from, to, id, OrganizationId);
 
             foreach (var item in Items)
             {
@@ -125,7 +126,7 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("SalesRegister.pdf"));
+                return File(stream, "application/pdf");//, String.Format("SalesRegister.pdf"));
             }
             catch (Exception ex)
             {
