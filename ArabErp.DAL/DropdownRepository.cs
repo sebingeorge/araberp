@@ -17,11 +17,18 @@ namespace ArabErp.DAL
         /// Return all job cards waiting for completion
         /// </summary>
         /// <returns></returns>
-        public List<Dropdown> JobCardDropdown(int organizationId, int jobCardId = 0)
+        public List<Dropdown> JobCardDropdown(int organizationId,int jobCardId = 0)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(JodCardCompleteStatus, 0) = 0 AND ISNULL(isActive, 1) = 1 AND OrganizationId = @org OR JobCardId = @jobCardId", new { jobCardId = jobCardId, org = organizationId }).ToList();
+                return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(JodCardCompleteStatus, 0) = 0 AND ISNULL(isActive, 1) = 1   AND OrganizationId = @org OR JobCardId = @jobCardId", new { jobCardId = jobCardId, org = organizationId}).ToList();
+            }
+        }
+        public List<Dropdown> JobCardDropdownforAddtional(int isProjectBased, int organizationId, int jobCardId = 0)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(JodCardCompleteStatus, 0) = 0 AND ISNULL(isActive, 1) = 1 and isProjectBased=@isProjectBased  AND OrganizationId = @org OR JobCardId = @jobCardId", new { jobCardId = jobCardId, org = organizationId, isProjectBased = isProjectBased }).ToList();
             }
         }
         /// <summary>
