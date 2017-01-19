@@ -25,14 +25,24 @@ namespace ArabErp.Web.Controllers
             return PartialView("_PreviousListGrid", new WorkShopRequestRepository().PreviousList(OrganizationId: OrganizationId, from: from, to: to, id: id, jobcard: jobcard, customer: customer));
         }
 
-        public ActionResult Create()
+        public ActionResult Create(int isProjectBased)
         {
-            JobCardDropdown();
-            string internalid = DatabaseCommonRepository.GetNextDocNo(20, OrganizationId);
+            string internalid = "";
+            JobCardDropdown(isProjectBased);
+
+            if(isProjectBased == 0)
+            {
+                 internalid = DatabaseCommonRepository.GetNextDocNo(20, OrganizationId);
+            }
+            else
+            {
+                 internalid = DatabaseCommonRepository.GetNextDocNo(43, OrganizationId);
+            }
+           
 
             //return View(new Employee { EmployeeRefNo = "EMP/" + internalid });
 
-            return View(new WorkShopRequest { WorkShopRequestDate = DateTime.Today, RequiredDate = DateTime.Today, WorkShopRequestRefNo = internalid });
+            return View(new WorkShopRequest { WorkShopRequestDate = DateTime.Today, RequiredDate = DateTime.Today, WorkShopRequestRefNo = internalid, isProjectBased = isProjectBased });
         }
         [HttpPost]
         public ActionResult Create(WorkShopRequest model)
@@ -47,7 +57,7 @@ namespace ArabErp.Web.Controllers
                 {
                     TempData["success"] = "Saved succesfully";
                     TempData["error"] = "";
-                    return RedirectToAction("Create");
+                    return RedirectToAction("Create", new {model.isProjectBased});
                 }
             }
             catch (NullReferenceException nx)
@@ -60,7 +70,7 @@ namespace ArabErp.Web.Controllers
                 TempData["success"] = "";
                 TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
             }
-            JobCardDropdown();
+            JobCardDropdown(model.isProjectBased);
             return View("Create", model);
         }
         public ActionResult Edit(int id = 0)
@@ -145,10 +155,11 @@ namespace ArabErp.Web.Controllers
                 return RedirectToAction("Edit", new { id = id });
             }
         }
-        public void JobCardDropdown(int jobCardId = 0)
+        public void JobCardDropdown(int isProjectBased, int jobCardId = 0)
         {
-            ViewBag.JobCardList = new SelectList(new DropdownRepository().JobCardDropdown(jobCardId: jobCardId, organizationId: OrganizationId), "Id", "Name");
+            ViewBag.JobCardList = new SelectList(new DropdownRepository().JobCardDropdownforAddtional(jobCardId: jobCardId, organizationId: OrganizationId, isProjectBased: isProjectBased), "Id", "Name");
         }
+      
         public JsonResult GetJobCardDetails(int jobCardId)
         {
             var data = new WorkShopRequestRepository().GetJobCardDetails(jobCardId);

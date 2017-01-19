@@ -1,0 +1,985 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="From" type="xs:string" minOccurs="0" />
+                <xs:element name="To" type="xs:string" minOccurs="0" />
+                <xs:element name="Customer" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="SalesInvoiceRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Date" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
+                <xs:element name="WorkDescr" type="xs:string" minOccurs="0" />
+                <xs:element name="Quantity" type="xs:string" minOccurs="0" />
+                <xs:element name="Rate" type="xs:string" minOccurs="0" />
+                <xs:element name="Amount" type="xs:string" minOccurs="0" />
+                <xs:element name="Discount" type="xs:string" minOccurs="0" />
+                <xs:element name="Unit" type="xs:string" minOccurs="0" />
+                <xs:element name="TotalAmount" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <From>01-Jan-2016</From>
+    <To>19-Jan-2017</To>
+    <Customer>Any</Customer>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+  </Head>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1000</SalesInvoiceRefNo>
+    <Date>10-Dec-2016</Date>
+    <CustomerName>Well Care Trading</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>2250.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>2250.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1001</SalesInvoiceRefNo>
+    <Date>07-Dec-2016</Date>
+    <CustomerName>Khaled Bin Mahmood</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>450.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>450.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1002</SalesInvoiceRefNo>
+    <Date>20-Dec-2016</Date>
+    <CustomerName>Star Afland</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1950.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1950.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1003</SalesInvoiceRefNo>
+    <Date>12-Dec-2016</Date>
+    <CustomerName>Delight International Movers</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>350.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>350.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1004</SalesInvoiceRefNo>
+    <Date>13-Dec-2016</Date>
+    <CustomerName>Al Irfan Fruits and Vegetables .</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>350.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>350.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1005</SalesInvoiceRefNo>
+    <Date>14-Dec-2016</Date>
+    <CustomerName>Nasser Al Hajiri</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>6200.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>6200.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1006</SalesInvoiceRefNo>
+    <Date>15-Dec-2016</Date>
+    <CustomerName>Hazen International</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>850.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>850.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1007</SalesInvoiceRefNo>
+    <Date>20-Dec-2016</Date>
+    <CustomerName>UNITED CAR RENTALS Co W.L.L</CustomerName>
+    <WorkDescr>Thermal Matser T1400-R</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>24500.00</Amount>
+    <Discount>1500.00</Discount>
+    <TotalAmount>23000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1008</SalesInvoiceRefNo>
+    <Date>21-Dec-2016</Date>
+    <CustomerName>Tropical Trading</CustomerName>
+    <WorkDescr>Floor Repairing </WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>2800.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>2800.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1009</SalesInvoiceRefNo>
+    <Date>21-Dec-2016</Date>
+    <CustomerName>Auto Z</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>900.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>900.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1010</SalesInvoiceRefNo>
+    <Date>22-Dec-2016</Date>
+    <CustomerName>Amwaj Catering Services</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>3825.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>3825.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1011</SalesInvoiceRefNo>
+    <Date>22-Dec-2016</Date>
+    <CustomerName>Vision Trading</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>400.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>400.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1012</SalesInvoiceRefNo>
+    <Date>22-Dec-2016</Date>
+    <CustomerName>Aromas Trading</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>350.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>350.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1013</SalesInvoiceRefNo>
+    <Date>22-Dec-2016</Date>
+    <CustomerName>Al Irfan Fruits and Vegetables .</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>350.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>350.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1014</SalesInvoiceRefNo>
+    <Date>22-Dec-2016</Date>
+    <CustomerName>International Fish</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1200.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1200.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1015</SalesInvoiceRefNo>
+    <Date>22-Dec-2016</Date>
+    <CustomerName>Bakemart</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1016</SalesInvoiceRefNo>
+    <Date>22-Dec-2016</Date>
+    <CustomerName>Qatar Automobiles Company</CustomerName>
+    <WorkDescr>50MM 4300X2100X2100MM- TSCL/AARC</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>19500.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>19500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1017</SalesInvoiceRefNo>
+    <Date>22-Dec-2016</Date>
+    <CustomerName>United  Business Development</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>2230.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>2230.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1018</SalesInvoiceRefNo>
+    <Date>22-Dec-2016</Date>
+    <CustomerName>Al Jassim Group</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1850.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1850.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1019</SalesInvoiceRefNo>
+    <Date>22-Dec-2016</Date>
+    <CustomerName>Chef Middle East WLL</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1150.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1150.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1020</SalesInvoiceRefNo>
+    <Date>24-Dec-2016</Date>
+    <CustomerName>Almana &amp; Partners W.L.L.</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1720.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1720.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1021</SalesInvoiceRefNo>
+    <Date>24-Dec-2016</Date>
+    <CustomerName>Ali Bin Ali:Ali Bin Ali- IA</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1600.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1600.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1022</SalesInvoiceRefNo>
+    <Date>24-Dec-2016</Date>
+    <CustomerName>Busthan Al Khaleej Trading &amp; Cont Co.</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1450.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1450.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1023</SalesInvoiceRefNo>
+    <Date>25-Dec-2016</Date>
+    <CustomerName>Arabian Farms Development Co Ltd</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>350.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>350.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1024</SalesInvoiceRefNo>
+    <Date>25-Dec-2016</Date>
+    <CustomerName>Al BaraahTrading &amp; Contracting</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>450.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>450.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1025</SalesInvoiceRefNo>
+    <Date>25-Dec-2016</Date>
+    <CustomerName>Bakemart</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>2800.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>2800.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1026</SalesInvoiceRefNo>
+    <Date>26-Dec-2016</Date>
+    <CustomerName>Almana &amp; Partners W.L.L.</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>850.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>850.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1027</SalesInvoiceRefNo>
+    <Date>27-Dec-2016</Date>
+    <CustomerName>Al Sharah Fish</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>3000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>3000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1028</SalesInvoiceRefNo>
+    <Date>27-Dec-2016</Date>
+    <CustomerName>Crompton International</CustomerName>
+    <WorkDescr>MRA BUS AC UNIT</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>44000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>44000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1029</SalesInvoiceRefNo>
+    <Date>29-Dec-2016</Date>
+    <CustomerName>Jaida Motors &amp; Trading Co</CustomerName>
+    <WorkDescr>Thermal Matser T2500SE 24V(220V/50HZ/1PH) + 100mm 4400x2100x2100mm- ISUZU ,BAM</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>52000.00</Amount>
+    <Discount>2000.00</Discount>
+    <TotalAmount>50000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1030</SalesInvoiceRefNo>
+    <Date>29-Dec-2016</Date>
+    <CustomerName>Jaida Motors &amp; Trading Co</CustomerName>
+    <WorkDescr>50mm6100x2300x2300mm</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>35500.00</Amount>
+    <Discount>2000.00</Discount>
+    <TotalAmount>33500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1031</SalesInvoiceRefNo>
+    <Date>29-Dec-2016</Date>
+    <CustomerName>SANWARA FRUITS AND VEGETABLES</CustomerName>
+    <WorkDescr>Thermoking V500 Max 10 24V + 100mm 4400x2100x2100mm- MITS- TCTI</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>54500.00</Amount>
+    <Discount>2000.00</Discount>
+    <TotalAmount>52500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1032</SalesInvoiceRefNo>
+    <Date>29-Dec-2016</Date>
+    <CustomerName>SANWARA FRUITS AND VEGETABLES</CustomerName>
+    <WorkDescr>Thermoking T600-R + 100mm 5500x2200x2200mm - MITS ,BAM</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>91000.00</Amount>
+    <Discount>2000.00</Discount>
+    <TotalAmount>89000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1033</SalesInvoiceRefNo>
+    <Date>29-Dec-2016</Date>
+    <CustomerName>Qatar Automobiles Company</CustomerName>
+    <WorkDescr>50MM 4300X2100X2100MM- TSCL/AARC</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>19500.00</Amount>
+    <Discount>250.00</Discount>
+    <TotalAmount>19250.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1034</SalesInvoiceRefNo>
+    <Date>29-Dec-2016</Date>
+    <CustomerName>Merch Trading</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1600.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1600.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1035</SalesInvoiceRefNo>
+    <Date>31-Dec-2016</Date>
+    <CustomerName>Amwaj Catering Services</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>900.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>900.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1036</SalesInvoiceRefNo>
+    <Date>31-Dec-2016</Date>
+    <CustomerName>Qatar Automobiles Company</CustomerName>
+    <WorkDescr>Thermal Matser T2500 + 100mm 4400x2100x2100 PUB Mit - BAM</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>45000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>45000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1037</SalesInvoiceRefNo>
+    <Date>03-Dec-2016</Date>
+    <CustomerName>Chef Middle East WLL</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>750.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>750.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/16/1038</SalesInvoiceRefNo>
+    <Date>31-Dec-2016</Date>
+    <CustomerName>Zubarah Hotels</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>350.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>350.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/1</SalesInvoiceRefNo>
+    <Date>02-Jan-2017</Date>
+    <CustomerName>Horeitia Global</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>500.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/2</SalesInvoiceRefNo>
+    <Date>03-Jan-2017</Date>
+    <CustomerName>Almana &amp; Partners W.L.L.</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>100.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>100.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/3</SalesInvoiceRefNo>
+    <Date>03-Jan-2017</Date>
+    <CustomerName>Quality  Group of Companies WLL</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>710.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>710.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/4</SalesInvoiceRefNo>
+    <Date>04-Jan-2017</Date>
+    <CustomerName>AL MANHAL WATER COMPANY Co. Ltd. W.L.L</CustomerName>
+    <WorkDescr>Floor Repairing </WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>850.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>850.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/5</SalesInvoiceRefNo>
+    <Date>04-Jan-2017</Date>
+    <CustomerName>AL MANHAL WATER COMPANY Co. Ltd. W.L.L</CustomerName>
+    <WorkDescr>Floor Repairing </WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>850.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>850.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/6</SalesInvoiceRefNo>
+    <Date>04-Jan-2017</Date>
+    <CustomerName>AL MANHAL WATER COMPANY Co. Ltd. W.L.L</CustomerName>
+    <WorkDescr>Floor Repairing </WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>850.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>850.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/7</SalesInvoiceRefNo>
+    <Date>04-Jan-2017</Date>
+    <CustomerName>AL MANHAL WATER COMPANY Co. Ltd. W.L.L</CustomerName>
+    <WorkDescr>Floor Repairing </WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>850.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>850.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/8</SalesInvoiceRefNo>
+    <Date>05-Jan-2017</Date>
+    <CustomerName>Busthan Al Khaleej Trading &amp; Cont Co.</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1450.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1450.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/9</SalesInvoiceRefNo>
+    <Date>05-Jan-2017</Date>
+    <CustomerName>Al Irfan Fruits and Vegetables .</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>2000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>2000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/10</SalesInvoiceRefNo>
+    <Date>05-Jan-2017</Date>
+    <CustomerName>Al Majid Jawad</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1200.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1200.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/11</SalesInvoiceRefNo>
+    <Date>05-Jan-2017</Date>
+    <CustomerName>Grand Mart Trading Co W.L.L.</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>650.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>650.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/12</SalesInvoiceRefNo>
+    <Date>05-Jan-2017</Date>
+    <CustomerName>Universal - Specialty Food Group L.L.C</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>350.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>350.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/13</SalesInvoiceRefNo>
+    <Date>05-Jan-2017</Date>
+    <CustomerName>Salam Hospitality</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1920.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1920.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/14</SalesInvoiceRefNo>
+    <Date>07-Jan-2017</Date>
+    <CustomerName>Universal - Specialty Food Group L.L.C</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>450.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>450.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/15</SalesInvoiceRefNo>
+    <Date>07-Jan-2017</Date>
+    <CustomerName>Amwaj Catering Services</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>900.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>900.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/16</SalesInvoiceRefNo>
+    <Date>07-Jan-2017</Date>
+    <CustomerName>Qatar Automobiles Company</CustomerName>
+    <WorkDescr>40mm4300x2100x2100mm- MITS</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>19500.00</Amount>
+    <Discount>250.00</Discount>
+    <TotalAmount>19250.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/17</SalesInvoiceRefNo>
+    <Date>07-Jan-2017</Date>
+    <CustomerName>Jaida Motors &amp; Trading Co</CustomerName>
+    <WorkDescr>40mm5000x2100x2100mm-ISUZU ,BAM</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>25000.00</Amount>
+    <Discount>2000.00</Discount>
+    <TotalAmount>23000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/18</SalesInvoiceRefNo>
+    <Date>07-Jan-2017</Date>
+    <CustomerName>United International</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1490.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1490.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/19</SalesInvoiceRefNo>
+    <Date>07-Jan-2017</Date>
+    <CustomerName>Qatar Automobiles Company</CustomerName>
+    <WorkDescr>40mm5500x2200x2200mm</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>27000.00</Amount>
+    <Discount>2000.00</Discount>
+    <TotalAmount>25000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/20</SalesInvoiceRefNo>
+    <Date>08-Jan-2017</Date>
+    <CustomerName>MEDICAL &amp; INSTRUMENTS SCIENTIFIC CORPORATION</CustomerName>
+    <WorkDescr>Carrier Transicold Viento 200</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>14000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>14000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/21</SalesInvoiceRefNo>
+    <Date>08-Jan-2017</Date>
+    <CustomerName>Grand Mart Trading Co W.L.L.</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>710.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>710.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/22</SalesInvoiceRefNo>
+    <Date>08-Jan-2017</Date>
+    <CustomerName>Jaida Motors &amp; Trading Co</CustomerName>
+    <WorkDescr>Thermal Matser T2500 + 100MM 5000X2100X2100MM ,ISUZU ,BAM</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>49500.00</Amount>
+    <Discount>3000.00</Discount>
+    <TotalAmount>46500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/23</SalesInvoiceRefNo>
+    <Date>08-Jan-2017</Date>
+    <CustomerName>Jaida Motors &amp; Trading Co</CustomerName>
+    <WorkDescr>Thermal Matser T2500 + 100MM 5000X2100X2100MM ,ISUZU ,BAM</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>49500.00</Amount>
+    <Discount>3000.00</Discount>
+    <TotalAmount>46500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/24</SalesInvoiceRefNo>
+    <Date>09-Jan-2017</Date>
+    <CustomerName>Nestle Qatar Trading LLC</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>5110.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>5110.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/25</SalesInvoiceRefNo>
+    <Date>09-Jan-2017</Date>
+    <CustomerName>Qatar Automobiles Company</CustomerName>
+    <WorkDescr>Thermal Matser T2500 + 5500x2200x2200mm</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>50000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>50000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/26</SalesInvoiceRefNo>
+    <Date>09-Jan-2017</Date>
+    <CustomerName>Qatar Automobiles Company</CustomerName>
+    <WorkDescr>Thermal Matser T2500 + 5500x2200x2200mm</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>50000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>50000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/27</SalesInvoiceRefNo>
+    <Date>09-Jan-2017</Date>
+    <CustomerName>Amwaj Catering Services</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>4490.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>4490.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/28</SalesInvoiceRefNo>
+    <Date>10-Jan-2017</Date>
+    <CustomerName>National Car Company</CustomerName>
+    <WorkDescr>Thermoking T600-R + 100mm 5600x2200x2200mm ,BAM</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>112500.00</Amount>
+    <Discount>3000.00</Discount>
+    <TotalAmount>109500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/29</SalesInvoiceRefNo>
+    <Date>10-Jan-2017</Date>
+    <CustomerName>WS Productions</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>850.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>850.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/30</SalesInvoiceRefNo>
+    <Date>10-Jan-2017</Date>
+    <CustomerName>Four Rivers Food Distibutors</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1670.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1670.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/31</SalesInvoiceRefNo>
+    <Date>11-Jan-2017</Date>
+    <CustomerName>Khalil Ali Akbar Lari Group .WLL</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1350.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1350.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/32</SalesInvoiceRefNo>
+    <Date>11-Jan-2017</Date>
+    <CustomerName>Ali Bin Ali:Ali Bin Ali- IA</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1910.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1910.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/33</SalesInvoiceRefNo>
+    <Date>11-Jan-2017</Date>
+    <CustomerName>Newrest Gulf</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>730.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>730.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/34</SalesInvoiceRefNo>
+    <Date>11-Jan-2017</Date>
+    <CustomerName>Grand Mart Trading Co W.L.L.</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>400.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>400.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/35</SalesInvoiceRefNo>
+    <Date>11-Jan-2017</Date>
+    <CustomerName>Qatar Automobiles Company</CustomerName>
+    <WorkDescr>Thermal Matser T2500 + 100mm 4400x2100x2100 PUB Mit - BAM</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>45000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>45000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/36</SalesInvoiceRefNo>
+    <Date>11-Jan-2017</Date>
+    <CustomerName>Qatar Automobiles Company</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>5000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>5000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/37</SalesInvoiceRefNo>
+    <Date>11-Jan-2017</Date>
+    <CustomerName>Interim Group</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>350.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>350.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/38</SalesInvoiceRefNo>
+    <Date>11-Jan-2017</Date>
+    <CustomerName>Crompton International</CustomerName>
+    <WorkDescr>MRA BUS AC UNIT</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>44000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>44000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/39</SalesInvoiceRefNo>
+    <Date>12-Jan-2017</Date>
+    <CustomerName>Bakemart</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>875.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>875.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/40</SalesInvoiceRefNo>
+    <Date>14-Jan-2017</Date>
+    <CustomerName>Auto Run Rent A Car</CustomerName>
+    <WorkDescr>Thermal Matser T1400-R + 50MM INSULATED PANEL STD -AL FURATH</WorkDescr>
+    <Quantity>2</Quantity>
+    <Amount>97000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>97000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/41</SalesInvoiceRefNo>
+    <Date>14-Jan-2017</Date>
+    <CustomerName>Qatar Automobiles Company</CustomerName>
+    <WorkDescr>Thermal Matser T2500 + 5500x2200x2200mm</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>50000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>50000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/42</SalesInvoiceRefNo>
+    <Date>14-Jan-2017</Date>
+    <CustomerName>Qatar Automobiles Company</CustomerName>
+    <WorkDescr>Thermal Matser T2500 + 5500x2200x2200mm</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>50000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>50000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/44</SalesInvoiceRefNo>
+    <Date>14-Jan-2017</Date>
+    <CustomerName>UNITED CAR RENTALS Co W.L.L</CustomerName>
+    <WorkDescr>Thermal Matser T1400-R</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>0.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>23000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/44</SalesInvoiceRefNo>
+    <Date>14-Jan-2017</Date>
+    <CustomerName>UNITED CAR RENTALS Co W.L.L</CustomerName>
+    <WorkDescr>Thermal Matser T1400-R</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>24500.00</Amount>
+    <Discount>1500.00</Discount>
+    <TotalAmount>23000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/45</SalesInvoiceRefNo>
+    <Date>14-Jan-2017</Date>
+    <CustomerName>Khalil Ali Akbar Lari Group .WLL</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1210.00</Amount>
+    <Discount>110.00</Discount>
+    <TotalAmount>1100.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/47</SalesInvoiceRefNo>
+    <Date>14-Jan-2017</Date>
+    <CustomerName>Tawfiq Sulthan &amp; Partner Groups</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1450.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1450.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/48</SalesInvoiceRefNo>
+    <Date>15-Jan-2017</Date>
+    <CustomerName>Gulf Consolidated Cont W.L.L</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>500.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>500.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/49</SalesInvoiceRefNo>
+    <Date>16-Jan-2017</Date>
+    <CustomerName>Well Care Trading</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>4700.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>4700.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/50</SalesInvoiceRefNo>
+    <Date>16-Jan-2017</Date>
+    <CustomerName>International Fish</CustomerName>
+    <WorkDescr>Box Repairing</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>200.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>200.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/51</SalesInvoiceRefNo>
+    <Date>16-Jan-2017</Date>
+    <CustomerName>Arabian Supplies W.L.L.</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1050.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1050.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/52</SalesInvoiceRefNo>
+    <Date>16-Jan-2017</Date>
+    <CustomerName>Qatar Automobiles Company</CustomerName>
+    <WorkDescr>Thermal Matser T2500 + 100mm 4400x2100x2100 PUB Mit - BAM</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>45000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>45000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/53</SalesInvoiceRefNo>
+    <Date>16-Jan-2017</Date>
+    <CustomerName>Qatar Automobiles Company</CustomerName>
+    <WorkDescr>Thermal Matser T2500 + 100mm 4400x2100x2100 PUB Mit - BAM</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>45000.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>45000.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/54</SalesInvoiceRefNo>
+    <Date>16-Jan-2017</Date>
+    <CustomerName>Chef Middle East WLL</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>750.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>750.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/55</SalesInvoiceRefNo>
+    <Date>16-Jan-2017</Date>
+    <CustomerName>Warwick Doha Hotel</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>350.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>350.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/56</SalesInvoiceRefNo>
+    <Date>18-Jan-2017</Date>
+    <CustomerName>United International</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>750.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>750.00</TotalAmount>
+  </Items>
+</NewDataSet>

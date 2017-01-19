@@ -547,7 +547,15 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    var internalId = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 20, true, txn);
+                    string internalId = "";
+                    if(model.isProjectBased==0)
+                    {
+                         internalId = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 20, true, txn);
+                    }
+                    else
+                    {
+                         internalId = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 43, true, txn);
+                    }
                     model.WorkShopRequestRefNo = internalId.ToString();
                     string query = @"INSERT INTO WorkShopRequest(
                                     WorkShopRequestRefNo, 
