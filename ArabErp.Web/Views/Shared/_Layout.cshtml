@@ -706,6 +706,10 @@
                                 {
                                     <li><a href="@Url.Action("Pending", "WorkShopRequest", new { isProjectBased = 1 })">Material Request</a></li>
                                 }
+                                @if (formPermission.Find(x => x.FormId == 160) != null)
+                                {
+                                    <li><a href="@Url.Action("Create", "AdditionalWorkShopRequest", new { isProjectBased = 1 })">Additional Material Request</a></li>
+                                }
                                 @if (formPermission.Find(x => x.FormId == 157) != null)
                                 {
                                 <li>
