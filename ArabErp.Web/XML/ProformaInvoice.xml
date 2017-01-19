@@ -33,18 +33,25 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <ProformaInvoiceRefNo>PRO-16/43</ProformaInvoiceRefNo>
-    <ProformaInvoiceDate>25-Aug-2016</ProformaInvoiceDate>
-    <CustomerName>M/S Opera</CustomerName>
-    <CustomerAddress>doorc121,kaloor,kerala,1,98778</CustomerAddress>
-    <SaleOrderRefNo>SAL/76</SaleOrderRefNo>
+    <ProformaInvoiceRefNo>AARC/PI/17/1</ProformaInvoiceRefNo>
+    <ProformaInvoiceDate>19-Jan-2017</ProformaInvoiceDate>
+    <CustomerName>Jaida Motors &amp; Trading Co</CustomerName>
+    <CustomerAddress>Doha- Qatar,,UAE,1,0</CustomerAddress>
+    <SaleOrderRefNo>AARC/SO/TR/ 1</SaleOrderRefNo>
+    <PaymentTerms>Net 60</PaymentTerms>
   </Head>
   <Items>
     <Quantity>1</Quantity>
-    <WorkDescriptionRefNo>WD/0/31</WorkDescriptionRefNo>
-    <WorkDescription>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</WorkDescription>
+    <WorkDescriptionRefNo>WD/3</WorkDescriptionRefNo>
+    <WorkDescription>Thermoking T600-R + 100mm 6100x2300x2300mm ,BAM</WorkDescription>
     <UnitName>job</UnitName>
-    <Rate>12220.00</Rate>
-    <Amount>12000.00</Amount>
+    <Amount>0.00</Amount>
+  </Items>
+  <Items>
+    <Quantity>1</Quantity>
+    <WorkDescriptionRefNo>WD/3</WorkDescriptionRefNo>
+    <WorkDescription>Thermoking T600-R + 100mm 6100x2300x2300mm ,BAM</WorkDescription>
+    <UnitName>job</UnitName>
+    <Amount>0.00</Amount>
   </Items>
 </NewDataSet>

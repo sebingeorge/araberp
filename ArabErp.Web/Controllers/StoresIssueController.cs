@@ -192,8 +192,8 @@ namespace ArabErp.Web.Controllers
 
 
 
-
-        public ActionResult Print(int Id)
+        //-------PRINT
+        public ActionResult StoreIssue(int Id)
         {
 
             ReportDocument rd = new ReportDocument();

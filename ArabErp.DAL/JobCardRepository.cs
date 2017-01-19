@@ -103,8 +103,7 @@ namespace ArabErp
 	                            NULL BoxId,
 	                            '' BoxName,
 	                            S.isService,
-	                            S.isProjectBased,
-
+	                            S.isProjectBased,SE.UnitDetails,
 								STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName FROM SaleOrderItemUnit T1
 									LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
 									LEFT JOIN Item T3 ON T1.EvaporatorUnitId = T3.ItemId
@@ -115,7 +114,7 @@ namespace ArabErp
                             FROM SaleOrder S 
                             INNER JOIN Customer C ON S.CustomerId = C.CustomerId
                             INNER JOIN SaleOrderItem SI ON SI.SaleOrderId = S.SaleOrderId
-
+                            LEFT JOIN ServiceEnquiry SE ON SE.ServiceEnquiryId = S.ServiceEnquiryId
                             WHERE SI.SaleOrderItemId = @id";// +SoItemId.ToString();
                 }
                 JobCard jobcard = connection.Query<JobCard>(query, new { id = SoItemId }).FirstOrDefault();
@@ -776,5 +775,7 @@ namespace ArabErp
                 throw;
             }
         }
+
+     
     }
 }
