@@ -16,20 +16,7 @@
                 <xs:element name="CZip" type="xs:string" minOccurs="0" />
                 <xs:element name="CState" type="xs:string" minOccurs="0" />
                 <xs:element name="CContactPerson" type="xs:string" minOccurs="0" />
-                <xs:element name="VehicleMake" type="xs:string" minOccurs="0" />
-                <xs:element name="VehicleRegNo" type="xs:string" minOccurs="0" />
-                <xs:element name="VehicleChassisNo" type="xs:string" minOccurs="0" />
-                <xs:element name="VehicleKm" type="xs:string" minOccurs="0" />
-                <xs:element name="BoxMake" type="xs:string" minOccurs="0" />
-                <xs:element name="BoxNo" type="xs:string" minOccurs="0" />
-                <xs:element name="BoxSize" type="xs:string" minOccurs="0" />
-                <xs:element name="FreezerMake" type="xs:string" minOccurs="0" />
-                <xs:element name="FreezerModel" type="xs:string" minOccurs="0" />
-                <xs:element name="FreezerSerialNo" type="xs:string" minOccurs="0" />
-                <xs:element name="FreezerHours" type="xs:string" minOccurs="0" />
-                <xs:element name="TailLiftMake" type="xs:string" minOccurs="0" />
-                <xs:element name="TailLiftModel" type="xs:string" minOccurs="0" />
-                <xs:element name="TailLiftSerialNo" type="xs:string" minOccurs="0" />
+                <xs:element name="UnitDetails" type="xs:string" minOccurs="0" />
                 <xs:element name="Complaints" type="xs:string" minOccurs="0" />
                 <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
                 <xs:element name="Street" type="xs:string" minOccurs="0" />
@@ -62,21 +49,17 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <ServiceEnquiryRefNo>AARC/SE/17/26</ServiceEnquiryRefNo>
-    <ServiceEnquiryDate>10-Jan-2017</ServiceEnquiryDate>
-    <CustomerName>Four Rivers Food Distibutors</CustomerName>
-    <CDoorNo>Doha ,Qatar</CDoorNo>
+    <ServiceEnquiryRefNo>AARC/P/SE/2</ServiceEnquiryRefNo>
+    <ServiceEnquiryDate>17-Jan-2017</ServiceEnquiryDate>
+    <CustomerName>AJM Kooheji &amp; Sons</CustomerName>
+    <CDoorNo>Salwa Road, Doha-Qatar</CDoorNo>
+    <CStreet>Tel/Fax: +974 44696239</CStreet>
     <CPhone>0</CPhone>
     <CZip>0</CZip>
     <CState>UAE</CState>
     <CContactPerson>0</CContactPerson>
-    <VehicleMake>Mitsubishi 4.3</VehicleMake>
-    <VehicleRegNo>118739</VehicleRegNo>
-    <FreezerMake>TK</FreezerMake>
-    <FreezerModel>T600-R</FreezerModel>
-    <FreezerSerialNo>5001263722</FreezerSerialNo>
-    <Complaints>1) Oil Service
-2) Water Leak Inside</Complaints>
+    <UnitDetails>ytftfhg</UnitDetails>
+    <Complaints>uhhj</Complaints>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -87,8 +70,8 @@
     <Phone>974 4435 7216</Phone>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <Image1>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <CreatedUser>safiq</CreatedUser>
-    <CreatedUsersig>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreatedUsersig>
-    <CreatedDes>Workshop Controller</CreatedDes>
+    <CreatedUser>ihits</CreatedUser>
+    <CreatedUsersig>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\</CreatedUsersig>
+    <CreatedDes>Asst.Sales Manager</CreatedDes>
   </Head>
 </NewDataSet>
