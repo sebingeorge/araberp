@@ -149,7 +149,7 @@ namespace ArabErp.Web.Controllers
             }
             if (view.PendingJobcardQC)
             {
-                var list = new DeliveryChallanRepository().PendingDeliveryChallan(0, OrganizationId);
+                var list = new DeliveryChallanRepository().PendingDelivery( OrganizationId);
                 view.NoOfJobcardQC = list.Count();
             }
 
