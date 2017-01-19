@@ -75,6 +75,7 @@
                     <label for="WorkShopRequestRefNo">Request No.</label>
                     @Html.HiddenFor(m => m.isAdditionalRequest)
                     @Html.HiddenFor(m => m.WorkShopRequestId)
+                    @Html.HiddenFor(m => m.isProjectBased)
                     @Html.TextBoxFor(m => m.WorkShopRequestRefNo, new { @class = "form_input", autocomplete = "off", @required = "true", @readonly = "true" })
                 </div>
                 <div class="col-md-2">

@@ -67,22 +67,23 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DV/17/59</DeliveryChallanRefNo>
+    <DeliveryChallanRefNo>DV/17/57</DeliveryChallanRefNo>
     <DeliveryChallanDate>18-Jan-2017</DeliveryChallanDate>
-    <Customer>Opera Cafe LTD</Customer>
-    <CDoorNo>Doha , Qatar</CDoorNo>
-    <CStreet>Email:operarhico@hotmail.com</CStreet>
+    <Customer>Sea View Fish</Customer>
+    <CDoorNo>Doha, Qatar</CDoorNo>
+    <CStreet />
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SER/17/49</SaleRefNo>
+    <SaleRefNo>AARC/SER/17/54</SaleRefNo>
     <SONoDate>18 Jan 2017</SONoDate>
-    <JobcardNo>AARC/17/JC-S/48</JobcardNo>
+    <JobcardNo>AARC/17/JC-S/47</JobcardNo>
     <JCDate>18-Jan-2017 00:00:00</JCDate>
-    <RegistrationNo>66471</RegistrationNo>
+    <RegistrationNo>301004</RegistrationNo>
+    <ChassisNo>GK011400</ChassisNo>
     <WorkDesc>General Checkup &amp; Repair</WorkDesc>
-    <VehicleModel>Nissan Urvan STD</VehicleModel>
+    <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
     <Employee>Mohammed Safiq</Employee>
-    <FreezerName>C-350</FreezerName>
-    <FreezerPartNo>0001199626</FreezerPartNo>
+    <FreezerName>T2500</FreezerName>
+    <FreezerPartNo>TH-28UP-06</FreezerPartNo>
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -96,12 +97,16 @@
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <LPONo xml:space="preserve"> </LPONo>
     <LPODate>18-Jan-2017</LPODate>
-    <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <CreatedUser>ihits</CreatedUser>
+    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\7411a949-2e26-4420-b235-c34c44127143.jpg</CreateSignature>
     <ApprovedUsersig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
   </Head>
   <Items>
-    <Description>Fabricate New Compressor Bracket - Under Warranty</Description>
+    <Description>First Free General Service of TM T2500:
+Compressor Belt Tension Check-up &amp; Bracket Checking
+General Check-up &amp; Check Cooling
+Electrical Connection Check-up &amp; Adjustments
+</Description>
     <UoM>ea</UoM>
     <Quantity>1</Quantity>
   </Items>

@@ -907,5 +907,29 @@ namespace ArabErp.DAL
                 return connection.Query<DeliveryChallan>(sql, new { }).ToList();
             }
         }
+
+
+        public IEnumerable<PendingJC> PendingDelivery(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<PendingJC>(@"SELECT ISNULL(SO.SaleOrderRefNo, '')+' - '+CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderNoDate, VM.VehicleModelName+' - '+VM.VehicleModelDescription VehicleModel, WD.WorkDescr, CUS.CustomerName, SOI.SaleOrderItemId,SOI.IsPaymentApprovedForDelivery INTO #TEMP FROM SaleOrderItem SOI
+                    INNER JOIN SaleOrder SO ON SO.SaleOrderId = SOI.SaleOrderId
+                    LEFT JOIN VehicleModel VM ON SOI.VehicleModelId = VM.VehicleModelId
+                    INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+                    INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
+                    WHERE  ISNULL(SOI.isActive, 1) = 1 /* AND ISNULL(VM.isActive, 1) = 1*/ and SO.OrganizationId = @OrganizationId AND SO.isProjectBased = 0;
+
+                    SELECT J.JobCardId, ISNULL(J.JobCardNo, '')+' - '+CONVERT(VARCHAR, J.JobCardDate, 106) JobCardNoDate, T.SaleOrderNoDate, T.VehicleModel, T.WorkDescr, T.CustomerName,T.IsPaymentApprovedForDelivery,
+                    ISNULL(VI.RegistrationNo, '') + CASE WHEN ISNULL(VI.RegistrationNo, '') <> '' AND ISNULL(VI.ChassisNo, '') <> '' THEN ' - ' ELSE '' END + ISNULL(VI.ChassisNo, '')RegistrationNo
+                    FROM JobCard J 
+                    LEFT JOIN DeliveryChallan VO ON J.JobCardId = VO.JobCardId
+                    INNER JOIN #TEMP T ON J.SaleOrderItemId = T.SaleOrderItemId
+                    LEFT JOIN VehicleInPass VI ON T.SaleOrderItemId = VI.SaleOrderItemId
+                    WHERE ISNULL(J.JodCardCompleteStatus, 0) = 1 AND VO.JobCardId IS NULL ;
+
+                    DROP TABLE #TEMP;", new {OrganizationId = OrganizationId }).ToList();
+            }
+        }
     }
 }

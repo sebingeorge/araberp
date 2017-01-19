@@ -11,7 +11,7 @@ namespace ArabErp.DAL
     public class SalesRegisterRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<SalesRegister> GetSalesRegister(DateTime? from, DateTime? to,int id ,int OrganizationId)
+        public IEnumerable<SalesRegister> GetSalesRegister(DateTime? from, DateTime? to,int id ,int OrganizationId, int? project)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -50,10 +50,14 @@ namespace ArabErp.DAL
                                 inner join Customer C ON C.CustomerId=SO.CustomerId
                                 --inner join WorkDescription W ON W.WorkDescriptionId=SOI.WorkDescriptionId
                                 --left join Unit U ON U.UnitId=SOI.UnitId
-                                where SalesInvoiceDate >= @from AND SalesInvoiceDate <= @to and S.OrganizationId=@OrganizationId and SO.CustomerId=ISNULL(NULLIF(@id, 0),SO.CustomerId)
-                                GROUP BY S.SalesInvoiceId, SalesInvoiceRefNo, SalesInvoiceDate, CustomerName, SI.Discount, S.TotalAmount";
+                                where SalesInvoiceDate >= @from AND SalesInvoiceDate <= @to 
+                                    and S.OrganizationId=@OrganizationId 
+                                    and SO.CustomerId=ISNULL(NULLIF(@id, 0),SO.CustomerId)
+                                    AND SO.isProjectBased = ISNULL(@project, SO.isProjectBased)
+                                GROUP BY S.SalesInvoiceId, SalesInvoiceRefNo, SalesInvoiceDate, CustomerName, SI.Discount, S.TotalAmount
+                                ORDER BY S.SalesInvoiceDate, S.SalesInvoiceId";
 
-                return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, from = from, to = to, id=id }).ToList();
+                return connection.Query<SalesRegister>(qry, new { OrganizationId = OrganizationId, from = from, to = to, id=id, project = project }).ToList();
             }
         }
 

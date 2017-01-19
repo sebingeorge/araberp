@@ -20,8 +20,9 @@
      
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
+        var type = $("#cboType").val();
         var url = '@Url.Action("SaleRegister")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id ;
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&project=" + type;
         $("#Sales_Reg").load(url, function () {
             $("#Sales_Reg").removeClass("fade");
         });
@@ -62,6 +63,14 @@
             <div class="col-md-3">
                 <label for="cboCustomer">Customer</label>
                 @Html.DropDownList("cboCustomer", (SelectList)ViewBag.SupplierList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+            <div class="col-md-2">
+                <label for="cboType">Project/Transport</label>
+                <select class="form_input" id="cboType" onchange="Filter()">
+                    <option value="" selected>All</option>
+                    <option value="0">Transport</option>
+                    <option value="1">Project</option>
+                </select>
             </div>
         </div>
         <br />

@@ -44,6 +44,10 @@
                {
                    total += Model.NoOfWRForStoreIssue;
                }
+               if (Model.PendingJobcardQC && alertPermissions.PendingJobcardQC)
+               {
+                   total += Model.NoOfJobcardQC;
+           }
            }
 <ul class="nav navbar-nav">
     <li class="top6"> 
@@ -124,7 +128,17 @@
                     </a>
                 </li>
             }
-            
+            @if (Model.PendingJobcardQC && alertPermissions.PendingJobcardQC)
+            {
+                <li>
+                    <a href="@Url.Action("Index", "DeliveryChallan")" class="form_input">
+                        <span class="badge pull-right">
+                            @Model.NoOfJobcardQC
+                        </span>
+                        Pending Jobcard for Delivery Note 
+                    </a>
+                </li>
+            }
         </ul>
     </li>
 </ul>
