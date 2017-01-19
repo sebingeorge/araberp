@@ -253,6 +253,29 @@
         $('#room_' + index + '_units_popup').removeClass('hide');
         $('#room_' + index + '_doors_popup').removeClass('hide');
     }
+    function formValidation() {
+        var status = true;
+        var lastObject;
+        var index;
+        $('.Quantity').each(function (i, obj) {
+            alert(obj);
+            var Qty = $(obj).val();
+            index = obj.id.substring(16, 17);
+            if (Number(Qty) == '' || Number(Qty)==0) {
+                //QuerySheetItems_0__ProjectRoomUnits_2__Quantity
+                //$("#StockPointId").focus();
+                status = false;
+                lastObject = obj;
+                index = obj.id.substring(16, 17);
+            }
+        });
+        if (status == false) {
+            UnitSelection(index);
+            toastr.info("Unit quantity cannot be zero");
+            $('#unitselectionpopup').modal();
+        }
+        return status;
+    }
 </script>
 
 
@@ -274,7 +297,7 @@
         }
     </div>
     <div class="main-part pad1">
-        @using (Html.BeginForm("CreateQuerySheet", null, FormMethod.Post))
+        @using (Html.BeginForm("CreateQuerySheet", null, FormMethod.Post, new { @class = "createFrom", @onsubmit = "return formValidation()" }))
         {
             @Html.HiddenFor(m => m.QuerySheetId)
             @Html.HiddenFor(m => m.Type)
