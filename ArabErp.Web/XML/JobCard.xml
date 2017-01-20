@@ -76,33 +76,35 @@
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Box>100mm 4400x2100x2100mm- ISUZU ,BAM</Box>
+    <Accessories> DOUBLE LAYER SIDE CRASHGUARD, FOLDING STEP, Zepro Tail Lift- 1.5 Ton</Accessories>
     <CreatedUser>murali</CreatedUser>
     <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
     <CreatedDes>Inventory Controller </CreatedDes>
   </Head>
   <Items>
-    <TaskDate>18-Jan-2017</TaskDate>
-    <Employee>SHEMEER BASHEERKUTTY BASHEERKUTTY</Employee>
-    <Description>Unit Fixing</Description>
-    <Hours>16.00</Hours>
-  </Items>
-  <Items>
-    <TaskDate>21-Jan-2017</TaskDate>
-    <Employee>Santheep Maraveedu Balan</Employee>
-    <Description>General Maintenance </Description>
-    <Hours>10.00</Hours>
-  </Items>
-  <Items>
-    <TaskDate>10-Jan-2017</TaskDate>
+    <TaskDate>07-Jan-2017</TaskDate>
     <Employee>Ei Maung</Employee>
-    <Description>Tail Lift Fixing</Description>
+    <Description>Box Fixing</Description>
     <Hours>14.00</Hours>
   </Items>
   <Items>
-    <TaskDate>11-Jan-2017</TaskDate>
-    <Employee>MANEESH MANIYAN MANIYAN</Employee>
-    <Description>Unit Fixing</Description>
-    <Hours>10.00</Hours>
+    <TaskDate>08-Jan-2017</TaskDate>
+    <Employee>Ei Maung</Employee>
+    <Description>Side Guard Fitting</Description>
+    <Hours>14.00</Hours>
+  </Items>
+  <Items>
+    <TaskDate />
+    <Employee />
+    <Description />
+    <Hours />
+  </Items>
+  <Items>
+    <TaskDate />
+    <Employee />
+    <Description />
+    <Hours />
   </Items>
   <Items>
     <TaskDate />
