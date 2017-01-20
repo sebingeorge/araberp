@@ -37,6 +37,7 @@
                 <xs:element name="FreezerMake" type="xs:string" minOccurs="0" />
                 <xs:element name="FreezerModel" type="xs:string" minOccurs="0" />
                 <xs:element name="VehicleMake" type="xs:string" minOccurs="0" />
+                <xs:element name="Accessories" type="xs:string" minOccurs="0" />
                 <xs:element name="CreatedUser" type="xs:string" minOccurs="0" />
                 <xs:element name="CreateSignature" type="xs:string" minOccurs="0" />
                 <xs:element name="CreatedDes" type="xs:string" minOccurs="0" />
@@ -58,13 +59,13 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>AARC/JC/17/16</JobCardNo>
-    <JobCardDate>17-Jan-2017</JobCardDate>
-    <SaleOrderRefNo>122376</SaleOrderRefNo>
-    <Unit>Hwasung HT 250</Unit>
-    <Customer>Food Quality Co ( PRAN Food )</Customer>
-    <ChasisNo>122376</ChasisNo>
-    <VModel>MITSUBISHI 4.3 TON</VModel>
+    <JobCardNo>AARC/JC/17/4</JobCardNo>
+    <JobCardDate>03-Jan-2017</JobCardDate>
+    <SaleOrderRefNo>P28367</SaleOrderRefNo>
+    <Unit>Thermoking V500 Max 20</Unit>
+    <Customer>Jaida Motors &amp; Trading Co</Customer>
+    <ChasisNo>P28367</ChasisNo>
+    <VModel>Isuzu NPR </VModel>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -74,33 +75,35 @@
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Box>100mm 4400x2100x2100mm- ISUZU ,BAM</Box>
+    <Accessories> DOUBLE LAYER SIDE CRASHGUARD, FOLDING STEP, Zepro Tail Lift- 1.5 Ton</Accessories>
     <CreatedUser>murali</CreatedUser>
     <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
     <CreatedDes>Inventory Controller </CreatedDes>
   </Head>
   <Items>
-    <TaskDate>18-Jan-2017</TaskDate>
-    <Employee>SHEMEER BASHEERKUTTY BASHEERKUTTY</Employee>
+    <TaskDate>07-Jan-2017</TaskDate>
+    <Employee>Ei Maung</Employee>
+    <Description>Box Fixing</Description>
+    <Hours>14.00</Hours>
+  </Items>
+  <Items>
+    <TaskDate>08-Jan-2017</TaskDate>
+    <Employee>Ei Maung</Employee>
+    <Description>Side Guard Fitting</Description>
+    <Hours>14.00</Hours>
+  </Items>
+  <Items>
+    <TaskDate>10-Jan-2017</TaskDate>
+    <Employee>Ei Maung</Employee>
+    <Description>Tail Lift Fixing</Description>
+    <Hours>14.00</Hours>
+  </Items>
+  <Items>
+    <TaskDate>11-Jan-2017</TaskDate>
+    <Employee>MANEESH MANIYAN MANIYAN</Employee>
     <Description>Unit Fixing</Description>
-    <Hours>16.00</Hours>
-  </Items>
-  <Items>
-    <TaskDate>21-Jan-2017</TaskDate>
-    <Employee>Santheep Maraveedu Balan</Employee>
-    <Description>General Maintenance </Description>
     <Hours>10.00</Hours>
-  </Items>
-  <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
-  </Items>
-  <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
   </Items>
   <Items>
     <TaskDate />
