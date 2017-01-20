@@ -59,13 +59,12 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>AARC/17/JC-S/50</JobCardNo>
-    <JobCardDate>18-Jan-2017</JobCardDate>
-    <SaleOrderRefNo>42511</SaleOrderRefNo>
-    <Unit>TM / T2500</Unit>
-    <Customer>Grand Mart Trading Co W.L.L.</Customer>
-    <ChasisNo>42511</ChasisNo>
-    <VModel>Mitsubishi 4.3</VModel>
+    <JobCardNo>AARC/JC/P/17/1</JobCardNo>
+    <JobCardDate>20-Jan-2017</JobCardDate>
+    <SaleOrderRefNo />
+    <Unit>Carrier Condenser Chiller CRM-150-AY, Carrier Evaporator Chiller CAE 3164, Carrier Condenser Chiller CRM-750-EX, Carrier Evaporator Freezer CAB 4467</Unit>
+    <Customer>Abdul Asiz Trading Est</Customer>
+    <ChasisNo />
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -75,18 +74,16 @@
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Box />
-    <Complaints>1) Front Panel Accident Repair
-2) General Service of Unit</Complaints>
-    <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
-    <CreatedDes>Workshop Controller</CreatedDes>
+    <Box>AL FURAT SLIDING DOOR 3000(H)X2000(W)X100(T)MM-RHS, AL FURAT SLIDING DOOR 3000(H)X2000(W)X100(T)MM-LHS</Box>
+    <CreatedUser>ihits</CreatedUser>
+    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\c779c0f1-d661-4f36-a870-3008ffe91985.jpg</CreateSignature>
+    <CreatedDes>Asst.Sales Manager</CreatedDes>
   </Head>
   <Items>
-    <TaskDate>18-Jan-2017</TaskDate>
-    <Employee>Santheep Maraveedu Balan</Employee>
-    <Description>General Maintenance </Description>
-    <Hours>8.00</Hours>
+    <TaskDate>20-Jan-2017</TaskDate>
+    <Employee>Giriesh Gopi</Employee>
+    <Description>Unit Fixing</Description>
+    <Hours>10.00</Hours>
   </Items>
   <Items>
     <TaskDate />
