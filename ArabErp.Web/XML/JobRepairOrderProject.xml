@@ -49,17 +49,18 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <ServiceEnquiryRefNo>AARC/P/SE/2</ServiceEnquiryRefNo>
-    <ServiceEnquiryDate>17-Jan-2017</ServiceEnquiryDate>
-    <CustomerName>AJM Kooheji &amp; Sons</CustomerName>
-    <CDoorNo>Salwa Road, Doha-Qatar</CDoorNo>
-    <CStreet>Tel/Fax: +974 44696239</CStreet>
+    <ServiceEnquiryRefNo>AARC/P/SER/17/1</ServiceEnquiryRefNo>
+    <ServiceEnquiryDate>19-Jan-2017</ServiceEnquiryDate>
+    <CustomerName>Adansa Trading</CustomerName>
+    <CDoorNo>Doha - Qatar</CDoorNo>
+    <CStreet />
     <CPhone>0</CPhone>
     <CZip>0</CZip>
     <CState>UAE</CState>
     <CContactPerson>0</CContactPerson>
-    <UnitDetails>ytftfhg</UnitDetails>
-    <Complaints>uhhj</Complaints>
+    <UnitDetails>unit detailsss</UnitDetails>
+    <Complaints>complaint 1
+complant 2</Complaints>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
