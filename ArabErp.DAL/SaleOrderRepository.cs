@@ -1227,7 +1227,15 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    model.ServiceEnquiryRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 33, true, txn);
+                    if (model.isProjectBased == 0)
+                    {
+                        model.ServiceEnquiryRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 33, true, txn);
+                    }
+                    else
+                    {
+                        model.ServiceEnquiryRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 41, true, txn);
+                    }
+                   
                     #region query
                     string query = @"update SaleOrder set SaleOrderDate=@SaleOrderDate,CustomerOrderRef=@CustomerOrderRef WHERE SaleOrderId = @SaleOrderId;";
                     #endregion
