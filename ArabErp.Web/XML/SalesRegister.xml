@@ -37,41 +37,31 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <From>01-Jan-2016</From>
-    <To>19-Jan-2017</To>
-    <Customer>UNITED CAR RENTALS Co W.L.L</Customer>
+    <From>01-Jan-2017</From>
+    <To>20-Jan-2017</To>
+    <Customer>United International</Customer>
     <type>All</type>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
   </Head>
   <Items>
-    <SalesInvoiceRefNo>AARC/SI/16/1007</SalesInvoiceRefNo>
-    <Date>20-Dec-2016</Date>
-    <CustomerName>UNITED CAR RENTALS Co W.L.L</CustomerName>
-    <WorkDescr>Thermal Matser T1400-R</WorkDescr>
+    <SalesInvoiceRefNo>AARC/SI/17/18</SalesInvoiceRefNo>
+    <Date>07-Jan-2017</Date>
+    <CustomerName>United International</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
     <Quantity>1</Quantity>
-    <Amount>24500.00</Amount>
-    <Discount>1500.00</Discount>
-    <TotalAmount>23000.00</TotalAmount>
-  </Items>
-  <Items>
-    <SalesInvoiceRefNo>AARC/SI/17/44</SalesInvoiceRefNo>
-    <Date>14-Jan-2017</Date>
-    <CustomerName>UNITED CAR RENTALS Co W.L.L</CustomerName>
-    <WorkDescr>Thermal Matser T1400-R</WorkDescr>
-    <Quantity>1</Quantity>
-    <Amount>0.00</Amount>
+    <Amount>1490.00</Amount>
     <Discount>0.00</Discount>
-    <TotalAmount>23000.00</TotalAmount>
+    <TotalAmount>1490.00</TotalAmount>
   </Items>
   <Items>
-    <SalesInvoiceRefNo>AARC/SI/17/44</SalesInvoiceRefNo>
-    <Date>14-Jan-2017</Date>
-    <CustomerName>UNITED CAR RENTALS Co W.L.L</CustomerName>
-    <WorkDescr>Thermal Matser T1400-R</WorkDescr>
+    <SalesInvoiceRefNo>AARC/SI/17/56</SalesInvoiceRefNo>
+    <Date>18-Jan-2017</Date>
+    <CustomerName>United International</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
     <Quantity>1</Quantity>
-    <Amount>24500.00</Amount>
-    <Discount>1500.00</Discount>
-    <TotalAmount>23000.00</TotalAmount>
+    <Amount>750.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>750.00</TotalAmount>
   </Items>
 </NewDataSet>
