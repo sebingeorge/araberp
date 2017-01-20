@@ -34,7 +34,11 @@ namespace ArabErp
             {
                 string query = string.Empty;
                 query += @" SELECT SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, 
-                            V.VehicleModelName,ISNULL(WR.WorkShopRequestRefNo,'-')WorkShopRequestRefNo, W.WorkDescr WorkDescription,
+                            V.VehicleModelName,ISNULL(WR.WorkShopRequestRefNo,'-')WorkShopRequestRefNo,WorkDescription=(case when  S.isProjectBased = 0 then  W.WorkDescr  else
+                            STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName FROM SaleOrderItemUnit T1
+                            LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
+                            LEFT JOIN Item T3 ON T1.EvaporatorUnitId = T3.ItemId
+                            WHERE T1.SaleOrderItemId = SI.SaleOrderItemId FOR XML PATH('')), 1, 2, '') end),
                             IsPaymentApprovedForJobOrder, ISNULL(VIP.RegistrationNo, '')RegistrationNo,ISNULL(VIP.ChassisNo, '') ChassisNo,
                             DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) Remaindays,S.isService
                             FROM SaleOrder S 
@@ -467,9 +471,9 @@ namespace ArabErp
             {
                 string qry = string.Empty;
 
-                if(service==0)
+                if (service == 0)
                 {
-                  qry = @"SELECT JobCardId,JobCardNo,JobCardDate,CustomerName,S.CustomerId,
+                    qry = @"SELECT JobCardId,JobCardNo,JobCardDate,CustomerName,S.CustomerId,
                                I1.ItemName FreezerUnitName,I2.ItemName BoxName, 
                                E.EmployeeName,VM.VehicleModelName,J.isProjectBased,
                                ISNULL(ChassisNo,'')ChasisNo,ISNULL(RegistrationNo,'')RegistrationNo
@@ -509,7 +513,7 @@ namespace ArabErp
                                AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%')
                                ORDER BY J.JobCardDate DESC, J.CreatedDate DESC";
                 }
-               
+
                 return connection.Query<JobCard>(qry, new { id = id, cusid = cusid, from = from, to = to, OrganizationId = OrganizationId, ProjectBased = ProjectBased, service = service, RegNo = RegNo }).ToList();
 
             }
@@ -808,6 +812,6 @@ namespace ArabErp
             }
         }
 
-     
+
     }
 }

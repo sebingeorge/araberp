@@ -1303,7 +1303,7 @@ namespace ArabErp.Web.Controllers
                 new SaleOrderRepository().UpdateServiceEnquiry(model);
                 TempData["success"] = "Updated Successfully (" + model.ServiceEnquiryRefNo + ")";
                 TempData["ServiceEnquiryRefNo"] = model.ServiceEnquiryRefNo;
-                return RedirectToAction("EnquiryList");
+                return RedirectToAction("EnquiryList", new { isProjectBased = model.isProjectBased });
             }
             catch (Exception)
             {
@@ -1323,7 +1323,7 @@ namespace ArabErp.Web.Controllers
 
                 TempData["Success"] = "Deleted Successfully!";
                 TempData["ServiceEnquiryRefNo"] = ref_no;
-                return RedirectToAction("EnquiryList");
+                return RedirectToAction("EnquiryList", new { isProjectBased = 0 });
             }
             catch (Exception)
             {
