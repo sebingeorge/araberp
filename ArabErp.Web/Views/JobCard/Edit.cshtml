@@ -308,13 +308,16 @@
 
                     </div>
                     
-                    <div class="row form-group">
+                   if(Model.isService ==0)
+                    {
+                       <div class="row form-group">
                         <div class="col-md-12">
                             <label for="accessories">Accessories</label>
                             @Html.TextBoxFor(m => m.Accessories, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                            @*@Html.HiddenFor(m => m.WorkDescriptionId, new { @class = "form_input", autocomplete = "off" })*@
                         </div>
-
-                    </div>
+                   </div>  
+                    }
                 }
 
                 @if (Model.isService == 0)
