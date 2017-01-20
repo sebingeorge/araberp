@@ -145,7 +145,7 @@ namespace ArabErp.DAL
                     int id = connection.Query<int>(sql, objItem, trn).Single();
                     objItem.ItemId = id;
 
-                    if (objItem.FreezerUnit || objItem.Box)
+                    if (objItem.FreezerUnit || objItem.Box || objItem.CondenserUnit || objItem.Door ||objItem.EvaporatorUnit)
                     {
                         InsertItemVsBOM(connection, trn, objItem);
                         InsertItemVsTasks(connection, trn, objItem);
@@ -168,10 +168,12 @@ namespace ArabErp.DAL
 
         private void InsertItemVsTasks(IDbConnection connection, IDbTransaction txn, Item model)
         {
+
             string query = @"INSERT INTO ItemVsTasks(ItemId, JobCardTaskMasterId, Hours)
                             VALUES(@ItemId, @JobCardTaskMasterId, @Hours)";
             foreach (var item in model.ItemVsTasks)
             {
+                if (item.JobCardTaskMasterId == 0) continue;
                 connection.Execute(query, new { ItemId = model.ItemId, JobCardTaskMasterId = item.JobCardTaskMasterId, Hours = item.Hours }, txn);
             }
         }

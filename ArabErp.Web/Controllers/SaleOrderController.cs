@@ -128,7 +128,7 @@ namespace ArabErp.Web.Controllers
                 model.SaleOrderRefNo = internalId;
                 model.SaleOrderDate = DateTime.Now;
                 model.EDateArrival = DateTime.Now;
-                model.EDateDelivery = DateTime.Now;
+                model.EDateDelivery = DateTime.Now.AddDays(1);
             }
             catch (NullReferenceException nx)
             {

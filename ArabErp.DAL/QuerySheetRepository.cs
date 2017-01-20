@@ -271,6 +271,7 @@ namespace ArabErp.DAL
                     {
                         foreach (QuerySheetUnit item in items.ProjectRoomUnits)
                         {
+                         
                             item.QuerySheetItemId = items.QuerySheetItemId;
 
                             sql = @"insert  into QuerySheetItemUnit(QuerySheetItemId,EvaporatorUnitId,CondenserUnitId,Quantity) 
@@ -281,6 +282,7 @@ namespace ArabErp.DAL
                         }
                         foreach (QuerySheetDoor item in items.ProjectRoomDoors)
                         {
+                            if (item.DoorId == "") continue;
                             item.QuerySheetItemId = items.QuerySheetItemId;
                             sql = @"insert  into QuerySheetItemDoor(QuerySheetItemId,DoorId,Quantity) 
                                        Values (@QuerySheetItemId,@DoorId,@Quantity)";
