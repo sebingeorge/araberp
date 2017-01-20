@@ -21,13 +21,13 @@ namespace ArabErp.Web.Controllers
             repo = new JobCardRepository();
         }
         // GET: JobCard
-        public ActionResult Index(int isProjectBased = 0, int service = 0)
+        public ActionResult Index(int ProjectBased = 0, int service = 0)
         {
             try
             {
-                FillJCNo(isProjectBased, service);
-                FillCustomerinJC(isProjectBased, service);
-                ViewBag.ProjectBased = isProjectBased;
+                FillJCNo(ProjectBased, service);
+                FillCustomerinJC(ProjectBased, service);
+                ViewBag.ProjectBased = ProjectBased;
                 ViewBag.service = service;
                 return View();
             }
@@ -212,6 +212,7 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
+                ViewBag.ProjectBased = ProjectBased;
                 from = from ?? DateTime.Today.AddMonths(-1);
                 to = to ?? DateTime.Today;
                 return PartialView("_PreviousList", new JobCardRepository().GetAllJobCards(ProjectBased, service, id, cusid, OrganizationId, from, to, RegNo));
