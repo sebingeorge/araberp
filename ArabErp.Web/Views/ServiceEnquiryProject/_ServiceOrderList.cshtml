@@ -10,7 +10,9 @@
 
     function Exit() {
         var url = '@Url.Action("PendingEnquiries")';
+        url += "?isProjectBased=1";
         window.location = url;
+       
     }
 </script>
 <div class="row">

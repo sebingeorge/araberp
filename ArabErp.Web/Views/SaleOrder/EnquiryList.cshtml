@@ -12,7 +12,9 @@
         window.location = url;
     }
     function Exit() {
-        location.href = '@Url.Action("ServiceEnquiry")';
+        var url = '@Url.Action("ServiceEnquiry")';
+        url += "?isProjectBased=0";
+        window.location = url;
     }
 </script>
 
