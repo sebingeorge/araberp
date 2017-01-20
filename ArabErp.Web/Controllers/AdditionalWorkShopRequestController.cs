@@ -12,17 +12,18 @@ namespace ArabErp.Web.Controllers
     public class AdditionalWorkShopRequestController : BaseController
     {
         // GET: AdditionalWorkShopRequest
-        public ActionResult Index()
+        public ActionResult Index(int  isProjectBased)
         {
+            ViewBag.isProjectBased = isProjectBased;
             FillCustomer();
             FillWorkshopRequests();
             FillJobCard();
             return View();
         }
 
-        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int customer = 0, int jobcard = 0)
+        public ActionResult PreviousList(int isProjectBased,DateTime? from, DateTime? to, int id = 0, int customer = 0, int jobcard = 0)
         {
-            return PartialView("_PreviousListGrid", new WorkShopRequestRepository().PreviousList(OrganizationId: OrganizationId, from: from, to: to, id: id, jobcard: jobcard, customer: customer));
+            return PartialView("_PreviousListGrid", new WorkShopRequestRepository().PreviousList(isProjectBased: isProjectBased, OrganizationId: OrganizationId, from: from, to: to, id: id, jobcard: jobcard, customer: customer));
         }
 
         public ActionResult Create(int isProjectBased)

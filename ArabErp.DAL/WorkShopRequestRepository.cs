@@ -859,7 +859,7 @@ namespace ArabErp.DAL
 
 
 
-        public IEnumerable<WorkShopRequest> PreviousList(int OrganizationId, DateTime? from, DateTime? to, int id = 0, int customer = 0, int jobcard = 0)
+        public IEnumerable<WorkShopRequest> PreviousList(int isProjectBased, int OrganizationId, DateTime? from, DateTime? to, int id = 0, int customer = 0, int jobcard = 0)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -880,7 +880,7 @@ namespace ArabErp.DAL
 	                                INNER JOIN Customer CUS ON WR.CustomerId = CUS.CustomerId
                                 WHERE isAdditionalRequest = 1
 	                                AND WR.isActive = 1
-	                                AND WR.OrganizationId = @OrganizationId
+	                                AND WR.OrganizationId = @OrganizationId and SO.isProjectBased=@isProjectBased 
                                     AND CONVERT(DATE, WR.WorkShopRequestDate, 106) BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
                                     AND WR.WorkShopRequestId = ISNULL(NULLIF(CAST(@id AS INT), 0), WR.WorkShopRequestId)
                                     AND WR.JobCardId = ISNULL(NULLIF(CAST(@jobcard AS INT), 0), WR.JobCardId)
@@ -893,7 +893,8 @@ namespace ArabErp.DAL
                     to = to,
                     customer = customer,
                     id = id,
-                    jobcard = jobcard
+                    jobcard = jobcard,
+                    isProjectBased = isProjectBased
                 }).ToList();
             }
         }

@@ -47,23 +47,23 @@
                 <span id="slno@(i + 1)">@(i + 1)</span>
                 @Html.HiddenFor(m => Model.ProjectRooms[i].QuerySheetItemId)
             </td>
-            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].RoomDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].ExternalRoomDimension, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].ColdRoomArea, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].ColdRoomLocation, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].TemperatureRequired, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].PanelThicknessANDSpec, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].FloorDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].ProductDetails, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].ProductIncomingTemperature, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].PipeLength, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].DoorSizeTypeAndNumberOfDoor, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].Refrigerant, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].RoomDetails, new { @class = "form_input form_input-h", autocomplete = "off",@readonly="readonly" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].ExternalRoomDimension, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].ColdRoomArea, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].ColdRoomLocation, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].TemperatureRequired, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].PanelThicknessANDSpec, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].FloorDetails, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].ProductDetails, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].ProductIncomingTemperature, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].PipeLength, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].DoorSizeTypeAndNumberOfDoor, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].Refrigerant, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })</td>
+            <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })</td>
             @if (true)//Model.Type != "RoomDetails"
             {
                 <td nowrap onclick="ShowUnitSelectionGrid(@i)" class="grid-cell" data-toggle="modal" data-target="#unitselectionpopup"><a href="#" class="unit">Select Unit & Door</a></td>
-                <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                <td>@Html.TextAreaFor(m => Model.ProjectRooms[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off", @readonly = "readonly" })</td>
                 @*<td>@Html.TextBoxFor(m => Model.ProjectRooms[i].Cost, new { @class = "form_input numbers-only text-right", autocomplete = "off" })</td>*@
             }
 

@@ -277,6 +277,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("FreezerMake");
             ds.Tables["Head"].Columns.Add("FreezerModel");
             ds.Tables["Head"].Columns.Add("VehicleMake");
+            ds.Tables["Head"].Columns.Add("Accessories");
             ds.Tables["Head"].Columns.Add("CreatedUser");
             ds.Tables["Head"].Columns.Add("CreateSignature");
             ds.Tables["Head"].Columns.Add("CreatedDes");
@@ -325,6 +326,7 @@ namespace ArabErp.Web.Controllers
             dr["FreezerMake"] = Head.FreezerMake;
             dr["FreezerModel"] = Head.FreezerModel;
             dr["VehicleMake"] = Head.VehicleMake;
+            dr["Accessories"] = Head.Accessories;
             dr["CreatedUser"] = Head.CreatedUser;
             dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
             dr["CreatedDes"] = Head.CreatedDes;

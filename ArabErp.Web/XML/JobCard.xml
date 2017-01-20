@@ -38,6 +38,7 @@
                 <xs:element name="FreezerMake" type="xs:string" minOccurs="0" />
                 <xs:element name="FreezerModel" type="xs:string" minOccurs="0" />
                 <xs:element name="VehicleMake" type="xs:string" minOccurs="0" />
+                <xs:element name="Accessories" type="xs:string" minOccurs="0" />
                 <xs:element name="CreatedUser" type="xs:string" minOccurs="0" />
                 <xs:element name="CreateSignature" type="xs:string" minOccurs="0" />
                 <xs:element name="CreatedDes" type="xs:string" minOccurs="0" />
@@ -74,29 +75,34 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Box>AL FURAT SLIDING DOOR 3000(H)X2000(W)X100(T)MM-RHS, AL FURAT SLIDING DOOR 3000(H)X2000(W)X100(T)MM-LHS</Box>
-    <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
-    <CreatedDes>Asst.Sales Manager</CreatedDes>
+    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <CreatedUser>murali</CreatedUser>
+    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
+    <CreatedDes>Inventory Controller </CreatedDes>
   </Head>
   <Items>
+    <TaskDate>18-Jan-2017</TaskDate>
+    <Employee>SHEMEER BASHEERKUTTY BASHEERKUTTY</Employee>
+    <Description>Unit Fixing</Description>
+    <Hours>16.00</Hours>
+  </Items>
+  <Items>
     <TaskDate>21-Jan-2017</TaskDate>
-    <Employee>Pareed Aliyar</Employee>
-    <Description>Box Fixing</Description>
+    <Employee>Santheep Maraveedu Balan</Employee>
+    <Description>General Maintenance </Description>
     <Hours>10.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>10-Jan-2017</TaskDate>
+    <Employee>Ei Maung</Employee>
+    <Description>Tail Lift Fixing</Description>
+    <Hours>14.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>11-Jan-2017</TaskDate>
+    <Employee>MANEESH MANIYAN MANIYAN</Employee>
+    <Description>Unit Fixing</Description>
+    <Hours>10.00</Hours>
   </Items>
   <Items>
     <TaskDate />
