@@ -9,6 +9,7 @@
               <xs:sequence>
                 <xs:element name="JobCardNo" type="xs:string" minOccurs="0" />
                 <xs:element name="JobCardDate" type="xs:string" minOccurs="0" />
+                <xs:element name="EDC" type="xs:string" minOccurs="0" />
                 <xs:element name="SaleOrderRefNo" type="xs:string" minOccurs="0" />
                 <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
                 <xs:element name="CustomerPhone" type="xs:string" minOccurs="0" />
@@ -61,9 +62,10 @@
   <Head>
     <JobCardNo>AARC/JC/P/17/1</JobCardNo>
     <JobCardDate>20-Jan-2017</JobCardDate>
+    <EDC>20-Jan-2017</EDC>
     <SaleOrderRefNo />
-    <Unit>Carrier Condenser Chiller CRM-150-AY, Carrier Evaporator Chiller CAE 3164, Carrier Condenser Chiller CRM-750-EX, Carrier Evaporator Freezer CAB 4467</Unit>
-    <Customer>Abdul Asiz Trading Est</Customer>
+    <Unit>Carrier Condenser Chiller CRM-2500-GY, Carrier Evaporator Freezer CAB 5367</Unit>
+    <Customer>Ajaj Farms</Customer>
     <ChasisNo />
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -74,16 +76,23 @@
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Box>AL FURAT SLIDING DOOR 3000(H)X2000(W)X100(T)MM-RHS, AL FURAT SLIDING DOOR 3000(H)X2000(W)X100(T)MM-LHS</Box>
-    <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\c779c0f1-d661-4f36-a870-3008ffe91985.jpg</CreateSignature>
-    <CreatedDes>Asst.Sales Manager</CreatedDes>
+    <Box>100mm 4400x2100x2100mm- ISUZU ,BAM</Box>
+    <Accessories> DOUBLE LAYER SIDE CRASHGUARD, FOLDING STEP, Zepro Tail Lift- 1.5 Ton</Accessories>
+    <CreatedUser>murali</CreatedUser>
+    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
+    <CreatedDes>Inventory Controller </CreatedDes>
   </Head>
   <Items>
-    <TaskDate>20-Jan-2017</TaskDate>
-    <Employee>Giriesh Gopi</Employee>
-    <Description>Unit Fixing</Description>
-    <Hours>10.00</Hours>
+    <TaskDate>07-Jan-2017</TaskDate>
+    <Employee>Ei Maung</Employee>
+    <Description>Box Fixing</Description>
+    <Hours>14.00</Hours>
+  </Items>
+  <Items>
+    <TaskDate>08-Jan-2017</TaskDate>
+    <Employee>Ei Maung</Employee>
+    <Description>Side Guard Fitting</Description>
+    <Hours>14.00</Hours>
   </Items>
   <Items>
     <TaskDate />

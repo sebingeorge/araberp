@@ -50,7 +50,7 @@
   </xs:schema>
   <Head>
     <ServiceEnquiryRefNo>AARC/P/SER/17/1</ServiceEnquiryRefNo>
-    <ServiceEnquiryDate>19-Jan-2017</ServiceEnquiryDate>
+    <ServiceEnquiryDate>20-Jan-2017</ServiceEnquiryDate>
     <CustomerName>Adansa Trading</CustomerName>
     <CDoorNo>Doha - Qatar</CDoorNo>
     <CStreet />
@@ -58,9 +58,8 @@
     <CZip>0</CZip>
     <CState>UAE</CState>
     <CContactPerson>0</CContactPerson>
-    <UnitDetails>unit detailsss</UnitDetails>
-    <Complaints>complaint 1
-complant 2</Complaints>
+    <UnitDetails>cvcb</UnitDetails>
+    <Complaints>bcvbvcb</Complaints>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
