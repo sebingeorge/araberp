@@ -1,7 +1,8 @@
 ﻿@model IList<ArabErp.Domain.JobCard>
 
 @{
-    int isProjectBased = Convert.ToInt32(Request.QueryString["isProjectBased"].ToString());
+    int isProjectBased = ViewBag.ProjectBased;
+
 }
 
 <table class="table table-bordered table-hover">

@@ -2,6 +2,7 @@
 <table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
+            <th width="1%" class="text-center"><h1>#</h1></th>
             <th width="10%"><h1>Invoice No.</h1></th>
             <th width="10%"><h1>Date</h1></th>
             <th width="20%"><h1>Customer</h1></th>
@@ -20,10 +21,11 @@
     <tbody class="grid_row">
         @if (Model != null && Model.Count > 0)
         {
+            int i = 0;
             foreach (var item in Model)
             {
                 <tr>
-
+                    <td class="grid-cell" align="center">@(++i)</td>
                     <td class="grid-cell">@item.SalesInvoiceRefNo</td>
                     <td class="grid-cell">@item.SalesInvoiceDate.ToString("dd/MMM/yyyy")</td>
                     <td class="grid-cell">@item.CustomerName</td>
