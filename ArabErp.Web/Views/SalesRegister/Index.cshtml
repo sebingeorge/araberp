@@ -39,8 +39,9 @@
         var from = $("#txtFrom").val();
         console.log(from);
         var to = $("#txtTo").val();
+        var type = $("#cboType").val();
         var url = '@Url.Action("Print")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&name=" + name;
+        url += "?project=" + type+"&from=" + from + "&to=" + to + "&id=" + id + "&name=" + name ;
         window.open(url);
 
     }

@@ -471,7 +471,7 @@ namespace ArabErp
                 {
                   qry = @"SELECT JobCardId,JobCardNo,JobCardDate,CustomerName,S.CustomerId,
                                I1.ItemName FreezerUnitName,I2.ItemName BoxName, 
-                               E.EmployeeName,VM.VehicleModelName,
+                               E.EmployeeName,VM.VehicleModelName,J.isProjectBased,
                                ISNULL(ChassisNo,'')ChasisNo,ISNULL(RegistrationNo,'')RegistrationNo
                                FROM JobCard J 
                                INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
@@ -493,7 +493,7 @@ namespace ArabErp
                 {
                     qry = @"SELECT JobCardId,JobCardNo,JobCardDate,CustomerName,S.CustomerId,
                                SE.FreezerMake FreezerUnitName,SE.BoxMake BoxName,
-                               E.EmployeeName,VM.VehicleModelName,
+                               E.EmployeeName,VM.VehicleModelName,J.isProjectBased,
                                ISNULL(ChassisNo,'')ChasisNo,ISNULL(RegistrationNo,'')RegistrationNo
                                FROM JobCard J 
                                INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId

@@ -37,7 +37,7 @@
     function PreviousList() {
         var isProjectBased = $("#isProjectBased").val();
         var url = '@Url.Action("Index")';
-        url = url + "?isProjectBased=" + isProjectBased + "&service=" + @isService;
+        url = url + "?ProjectBased=" + isProjectBased + "&service=" + @isService;
         window.location = url;
     }
 
