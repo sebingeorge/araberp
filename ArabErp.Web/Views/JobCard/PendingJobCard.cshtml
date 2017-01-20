@@ -70,21 +70,15 @@
                                     <th width="12%" title="Sale Estimate No. & Date"><h1>SE No. & Date</h1></th>}
                                 else
                                 {
-                                    <th width="12%" title="Sale Order No. & Date"><h1>SO No. & Date</h1></th> 
-                               
-                                   <th width="10%"><h1>Workshop Req.No.</h1></th>
+                                    <th width="12%" title="Sale Order No. & Date"><h1>SO No. & Date</h1></th>
+
+                                    <th width="10%"><h1>Workshop Req.No.</h1></th>
                                 }
 
-                                 @if (isProjectBased == 0)
-                                {
+                              
                                     <th width="41%"><h1>Work Description</h1></th>
-                                }
                                
-                                 @if (isProjectBased == 1 && isService == 0)
-                                 {
-                                    <th width="20%"><h1>Units</h1></th>
-                                  <th width="20%"><h1>Doors</h1></th>
-                                 }
+
                                 @if (isProjectBased == 0)
                                 {
                                     <th width="10%"><h1>Vehicle Model</h1></th>
@@ -102,9 +96,9 @@
                         <tbody class="grid_row">
                             @if (Model.Count() > 0)
                             {
-                                        foreach (var item in Model)
-                                        {
-                                        <tr>
+                                foreach (var item in Model)
+                                {
+                                    <tr>
                                         @if (isService == 1)
                                         {
                                             <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
@@ -114,27 +108,22 @@
                                             <td class="grid-cell">@item.SaleOrderRefNo &amp; @item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
                                             <td class="grid-cell">@item.WorkShopRequestRefNo</td>
                                         }
+
                                       
-                                        @if (isProjectBased == 0)
-                                        {
                                             <td class="grid-cell">@item.WorkDescription</td>
-                                        }
-                                     
-                                        @if (isProjectBased == 1 && isService == 0)
-                                        {
-                                            <td class="grid-cell"></td>
-                                            <td class="grid-cell"></td>
-                                        }
+                                      
+
+
                                         @if (isProjectBased == 0)
                                         {
                                             <td class="grid-cell">@item.VehicleModelName</td>
                                             <td>
-                                               @item.RegistrationNo
+                                                @item.RegistrationNo
                                                 @if ((item.RegistrationNo != null && item.RegistrationNo != "") && (item.ChassisNo != null && item.ChassisNo != ""))
                                                 {
                                                     @: -
                                               }
-                                               @item.ChassisNo
+                                                @item.ChassisNo
                                             </td>
                                         }
 

@@ -395,10 +395,14 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = String.Format(@"select distinct E.EmployeeName SalesExecutiveName ,C.CustomerName,SQ.*,STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(MAX)) [text()]
+                string sql = String.Format(@"select distinct E.EmployeeName SalesExecutiveName ,C.CustomerName,SQ.*,WorkDescription=(case when SQ.IsProjectBased=0 then STUFF((SELECT ', ' + CAST(W.WorkDescr AS VARCHAR(MAX)) [text()]
                              FROM SalesQuotationItem S inner join WorkDescription W on W.WorkDescriptionId=S.WorkDescriptionId
                              WHERE S.SalesQuotationId = SI.SalesQuotationId
-                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescription,
+                             FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') else STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName FROM ProjectQuotationItemUnit T1
+                             LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
+                             LEFT JOIN Item T3 ON T1.EvaporatorUnitId = T3.ItemId
+                             WHERE T1.SalesQuotationItemId = SI.SalesQuotationItemId FOR XML PATH('')), 1, 2, '')
+                             end),
 							 DATEDIFF(DAY, SQ.QuotationDate, GETDATE()) Ageing,
 							 DATEDIFF(DAY, GETDATE(), SQ.ExpectedDeliveryDate) DaysLeft,
                              SQ.ExpectedDeliveryDate

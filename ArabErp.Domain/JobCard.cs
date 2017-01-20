@@ -81,6 +81,7 @@ namespace ArabErp.Domain
 
         public string SaleOrderRefNo { get; set; }
         public string BayName { get; set; }
+        public string Accessories { get; set; }
         public string HeldBy { get; set; }
         public DateTime HeldOn { get; set; }
         public string Units { get; set; }
