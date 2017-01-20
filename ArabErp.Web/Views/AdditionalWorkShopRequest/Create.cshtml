@@ -62,9 +62,12 @@
         return true;
     }
 
-    function PreviousList() {
+    function PreviousList(isProjectBased) {
+        
         var url = '@Url.Action("Index")';
+        url += "?isProjectBased=" + isProjectBased;
         window.location = url;
+      
     }
 
 </script>
@@ -146,9 +149,9 @@
             <div class="row">
 
                 <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     <input type="submit" class="form-button right" value="Save">
-                    <input type="button" class="form-button left" onclick="PreviousList()" value="Previous">
+                    <input type="button" class="form-button left" onclick="PreviousList(@Model.isProjectBased)" value="Previous">
                 </div>
 
             </div>

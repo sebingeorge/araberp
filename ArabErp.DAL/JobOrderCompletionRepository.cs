@@ -72,7 +72,10 @@ namespace ArabErp.DAL
                 else
                 {
                     query = "SELECT distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerId, C.CustomerName,0 VehicleModelId, '' VehicleModelName,";
-                    query += " W.WorkDescr, W.WorkDescriptionId, J.SpecialRemarks, (ISNULL(SS.WorkShopRequestId,0))StoreIssued,(ISNULL(SS.WorkShopRequestId,0))StoreIssued";
+                    query += " WorkDescr=(case when J.isService=0 then STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName FROM SaleOrderItemUnit T1";
+                    query += " LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId";
+                    query += " LEFT JOIN Item T3 ON T1.EvaporatorUnitId = T3.ItemId";
+                    query += " WHERE T1.SaleOrderItemId = SI.SaleOrderItemId FOR XML PATH('')), 1, 2, '')else W.WorkDescr end), W.WorkDescriptionId, J.SpecialRemarks, (ISNULL(SS.WorkShopRequestId,0))StoreIssued,(ISNULL(SS.WorkShopRequestId,0))StoreIssued";
                     query += " FROM JobCard J INNER JOIN SaleOrder S on S.SaleOrderId = J.SaleOrderId";
                     query += " INNER JOIN SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
                     query += " INNER JOIN Customer C on S.CustomerId = C.CustomerId";
