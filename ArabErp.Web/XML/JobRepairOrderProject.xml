@@ -49,17 +49,17 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <ServiceEnquiryRefNo>AARC/P/SE/2</ServiceEnquiryRefNo>
-    <ServiceEnquiryDate>17-Jan-2017</ServiceEnquiryDate>
-    <CustomerName>AJM Kooheji &amp; Sons</CustomerName>
-    <CDoorNo>Salwa Road, Doha-Qatar</CDoorNo>
-    <CStreet>Tel/Fax: +974 44696239</CStreet>
+    <ServiceEnquiryRefNo>AARC/P/SER/17/4</ServiceEnquiryRefNo>
+    <ServiceEnquiryDate>20-Jan-2017</ServiceEnquiryDate>
+    <CustomerName>Adansa Trading</CustomerName>
+    <CDoorNo>Doha - Qatar</CDoorNo>
+    <CStreet />
     <CPhone>0</CPhone>
     <CZip>0</CZip>
     <CState>UAE</CState>
     <CContactPerson>0</CContactPerson>
-    <UnitDetails>ytftfhg</UnitDetails>
-    <Complaints>uhhj</Complaints>
+    <UnitDetails>asdddddddddddddddddddddddddd</UnitDetails>
+    <Complaints>dsaaaaaaaaaaaaaa</Complaints>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -69,9 +69,9 @@
     <Email>info@arabrefrigeration.com</Email>
     <Phone>974 4435 7216</Phone>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <CreatedUser>ihits</CreatedUser>
-    <CreatedUsersig>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\</CreatedUsersig>
+    <CreatedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</CreatedUsersig>
     <CreatedDes>Asst.Sales Manager</CreatedDes>
   </Head>
 </NewDataSet>
