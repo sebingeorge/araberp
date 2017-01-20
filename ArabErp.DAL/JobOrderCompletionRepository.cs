@@ -146,11 +146,12 @@ namespace ArabErp.DAL
                             ORDER BY JobCardDailyActivityDate DESC) EndDate
                             FROM JobCardTask JT
 	                        INNER JOIN JobCardTaskMaster M ON JT.JobCardTaskMasterId = M.JobCardTaskMasterId
-	                        LEFT JOIN JobCardDailyActivity DA ON JT.JobCardId = DA.JobCardId
-	                        LEFT JOIN JobCardDailyActivityTask DAT ON DA.JobCardDailyActivityId = DAT.JobCardDailyActivityId AND JT.JobCardTaskId = DAT.JobCardTaskId
+	                        --LEFT JOIN JobCardDailyActivity DA ON JT.JobCardId = DA.JobCardId
+	                        LEFT JOIN JobCardDailyActivityTask DAT ON /*DA.JobCardDailyActivityId = DAT.JobCardDailyActivityId AND*/ JT.JobCardTaskId = DAT.JobCardTaskId
 	                        LEFT JOIN Employee EMP ON JT.EmployeeId = EMP.EmployeeId
 	                        LEFT JOIN #TOTAL T ON EMP.EmployeeId = T.EmployeeId AND DAT.JobCardTaskId = T.JobCardTaskId
-                            WHERE JT.JobCardId = @JobCardId;
+                            WHERE JT.JobCardId = @JobCardId
+							ORDER BY SlNo;
 
                             DROP TABLE #TOTAL;";
                 jobcard.JobCardTask = connection.Query<JobCardCompletionTask>(query, new { JobCardId = JobCardId }).ToList();
