@@ -1184,9 +1184,10 @@ namespace ArabErp.DAL
             {
                 try
                 {
-                    string query = @"select S.*,SE.ServiceEnquiryRefNo,SE.ServiceEnquiryDate,W.WorkDescr,V.VehicleModelName,SE.Complaints,SE.UnitDetails from SaleOrder S 
+                    string query = @"select S.*,SE.ServiceEnquiryRefNo,SE.ServiceEnquiryDate,W.WorkDescr,V.VehicleModelName,SE.Complaints,SE.UnitDetails,JobCardId from SaleOrder S 
 						left join ServiceEnquiry SE ON SE.ServiceEnquiryId=S.ServiceEnquiryId 
 						left join SaleOrderItem SI On SI.SaleOrderId=S.SaleOrderId
+                        left join JobCard J ON J.SaleOrderId=S.SaleOrderId
 						left join VehicleModel V ON V.VehicleModelId=SI.VehicleModelId
 						left join WorkDescription W ON W. WorkDescriptionId=SI.WorkDescriptionId where S.SaleOrderId=@id AND S.OrganizationId = @org ";
                     return connection.Query<ServiceEnquiry>(query, new { id = id, org = OrganizationId }).FirstOrDefault();

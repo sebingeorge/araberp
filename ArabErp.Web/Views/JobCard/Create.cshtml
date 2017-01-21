@@ -242,10 +242,14 @@
                     <div class="row form-group">
                         @if (Model.isService == 1)
                         {
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label for="wrkdes">Unit Details</label>
                                 @Html.TextAreaFor(m => m.UnitDetails, new { @class = "form_input", autocomplete = "off", @readonly = "true", @style = "height:60px" })
                                
+                            </div>
+                            <div class="col-md-6">
+                                <label for="wrkdes">Complaints</label>
+                                @Html.TextAreaFor(m => m.Complaints, new { @class = "form_input", autocomplete = "off", @readonly = "true", @style = "height:60px" })
                             </div>
                         }
                         else

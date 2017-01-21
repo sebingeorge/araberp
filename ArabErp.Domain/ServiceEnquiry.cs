@@ -50,7 +50,7 @@ namespace ArabErp.Domain
         public int IsConfirmed { get; set; }
         //public int CreatedBy { get; set; }
         //public DateTime CreatedDate { get; set; }
-
+        public int JobCardId { get; set; }
         public int Used { get; set; }
 
     }
