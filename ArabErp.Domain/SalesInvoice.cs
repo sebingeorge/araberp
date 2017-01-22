@@ -29,6 +29,7 @@ namespace ArabErp.Domain
         public string PaymentTerms { get; set; }
         public string CurrencySymbol { get; set; }
         public decimal TotalAmount { get; set; }
+        public decimal PrintTotalAmount { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
@@ -65,7 +66,7 @@ namespace ArabErp.Domain
         public int isService { get; set; }
         public string CreatedDes { get; set; }
         public string ApprovedDes { get; set; }
-
+     
         public List<PrintDescription> PrintDescriptions { get; set; }
         public List<SalesInvoiceItem> SaleInvoiceItems { get; set; }
     }

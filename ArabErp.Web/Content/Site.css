@@ -527,6 +527,33 @@ input[type="text"]:disabled {
         background: #333;
         height: 16px;
     }
+.lblue 
+{
+    background-color:
+	#50D8B0;
+}
+.lreserved
+{
+    background-color:#37CDF9;
+		
+}
+.detail 
+{
+    font-weight:bold;
+    padding-top:5px;
+}
+.status 
+{
+    padding-top:10px;
+}
+a.unit 
+{
+    text-decoration:underline;
+}
+a.unit:hover 
+{
+    text-decoration:none;
+}
 
 .links {
     list-style-type: none;

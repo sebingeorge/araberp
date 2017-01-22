@@ -24,6 +24,7 @@ namespace ArabErp.Domain
         public decimal? Rate { get; set; }
         public decimal? Discount { get; set; }
         public decimal? Amount { get; set; }
+        public decimal? PrintAmount { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
@@ -40,5 +41,6 @@ namespace ArabErp.Domain
         public string SaleOrderRefNo { get; set; }
         public DateTime SaleOrderDate { get; set; }
         public string CustomerName { get; set; }
+        public bool isAccessory { get; set; }
     }
 }

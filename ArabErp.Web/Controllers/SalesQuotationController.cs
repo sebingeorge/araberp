@@ -64,14 +64,14 @@ namespace ArabErp.Web.Controllers
             //    var allErrors = ModelState.Values.SelectMany(v => v.Errors);
 
 
-                DropDowns();
-                FillWrkDesc();
-                FillVehicle();
-                FillUnit();
-                FillSalesQuotationStatus();
-                FillRateSettings();
+            DropDowns();
+            FillWrkDesc();
+            FillVehicle();
+            FillUnit();
+            FillSalesQuotationStatus();
+            FillRateSettings();
 
-                //return View(model);
+            //return View(model);
             //}
             model.OrganizationId = OrganizationId;
             model.CreatedDate = System.DateTime.Now;
@@ -132,28 +132,22 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = System.DateTime.Now;
             model.CreatedBy = UserID.ToString();
 
-            SalesQuotation result = new SalesQuotationRepository().InsertSalesQuotation(model);
+            SalesQuotation result = new SalesQuotationRepository().InsertProjectQuotation(model);
             if (result.SalesQuotationId > 0)
             {
-                TempData["Success"] = "Added Successfully!";
-                TempData["QuotationRefNo"] = result.QuotationRefNo;
+                TempData["Success"] = "Saved Successfully. Reference No. is " + model.QuotationRefNo;
                 return RedirectToAction("CreateProject");
             }
             else
             {
-                TempData["error"] = "Oops!!..Something Went Wrong!!";
-                TempData["SaleOrderRefNo"] = null;
-
+                TempData["error"] = "Some error occurred. Please try again.";
                 DropDowns();
                 FillWrkDescForProject();
                 FillVehicle();
                 FillQuerySheet();
                 FillUnit();
-
-
                 return View("Create", model);
             }
-
         }
 
         public ActionResult CreateAfterSalesTrans(int id = 0)//DeliveryChallanId is received here
@@ -305,17 +299,18 @@ namespace ArabErp.Web.Controllers
         {
             FillQuotationNo(ProjectBased, AfterSales);
             FillSQCustomer(ProjectBased, AfterSales);
+            FillSQEmployee(ProjectBased, AfterSales);
             ViewBag.isProjectBased = ProjectBased;
             ViewBag.isAfterSales = AfterSales;
             return View();
         }
 
-        public ActionResult SalesQuotationsList(DateTime? from, DateTime? to, int ProjectBased, int AfterSales, int id = 0, int cusid = 0)
+        public ActionResult SalesQuotationsList(DateTime? from, DateTime? to, int ProjectBased, int AfterSales, int id = 0, int cusid = 0, int Employee=0)
         {
             from = from ?? DateTime.Today.AddMonths(-1);
             to = to ?? DateTime.Today;
             ViewBag.ProjectBased = ProjectBased;
-            return PartialView("_SalesQuotationsList", new SalesQuotationRepository().GetPreviousList(ProjectBased, AfterSales, id, cusid, OrganizationId, from, to));
+            return PartialView("_SalesQuotationsList", new SalesQuotationRepository().GetPreviousList(ProjectBased, AfterSales, id, cusid, OrganizationId, from, to, Employee));
         }
 
         public ActionResult Edit(int id = 0)
@@ -325,9 +320,10 @@ namespace ArabErp.Web.Controllers
             DropDowns();
             ItemDropdown();
             FillVehicle();
-            FillQuerySheetInQuot();
+            //FillQuerySheetInQuot();
             FillUnit();
             FillRateSettings();
+            FillUnitDoorUnit();
             var repo = new SalesQuotationRepository();
 
             var sorepo = new SaleOrderRepository();
@@ -363,6 +359,12 @@ namespace ArabErp.Web.Controllers
             }
             catch { }
             salesquotation.Materials = repo.GetSalesQuotationMaterials(id);
+
+            #region getting quotation room, unit and door details
+            if (salesquotation.isProjectBased)
+                salesquotation.ProjectRooms = new SaleOrderRepository().GetRoomDetailsFromQuotation(id); 
+            #endregion
+
             if (salesquotation.Materials == null || salesquotation.Materials.Count == 0)
             {
                 salesquotation.Materials.Add(new SalesQuotationMaterial());
@@ -371,8 +373,10 @@ namespace ArabErp.Web.Controllers
             {
                 return View("EditTransportation", salesquotation);
             }
+            FillQuerySheetIncludingCurrent(salesquotation.QuerySheetId, OrganizationId);
             return View("Edit", salesquotation);
         }
+
         [HttpPost]
         public ActionResult Edit(SalesQuotation model)
         {
@@ -386,7 +390,10 @@ namespace ArabErp.Web.Controllers
             var repo = new SalesQuotationRepository();
             try
             {
-                new SalesQuotationRepository().UpdateSalesQuotation(model);
+                if (model.isProjectBased)
+                    new SalesQuotationRepository().UpdateProjectSalesQuotation(model);
+                else
+                    new SalesQuotationRepository().UpdateSalesQuotation(model);
                 TempData["success"] = "Updated Successfully (" + model.QuotationRefNo + ")";
                 return RedirectToAction("PreviousList", new { ProjectBased = Convert.ToInt32(model.isProjectBased), AfterSales = Convert.ToInt32(model.isAfterSales) });
             }
@@ -414,9 +421,10 @@ namespace ArabErp.Web.Controllers
 
 
             SalesQuotation salesquotation = repo.GetSalesQuotation(SalesQuotationId);
-
+            //salesquotation.SalesQuotationItems[0].UnitName = "Nos";
             if (!salesquotation.isProjectBased && !salesquotation.isAfterSales)
             {
+                
                 FillWrkDesc();
             }
             else if (salesquotation.isProjectBased && !salesquotation.isAfterSales)
@@ -426,13 +434,15 @@ namespace ArabErp.Web.Controllers
 
             else if (salesquotation.isAfterSales)
             {
+              
                 FillWrkDescAfterSales();
 
             }
             salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(SalesQuotationId);
             salesquotation.Materials = repo.GetSalesQuotationMaterials(SalesQuotationId);
-            salesquotation.SalesQuotationItems[0].UnitName = "Nos";
+            //FillUnitDoorUnit();
+            //salesquotation.ProjectRooms = new SaleOrderRepository().GetRoomDetailsFromQuotation(SalesQuotationId);
             ViewBag.SubmitAction = "Approve";
             return View("Create", salesquotation);
         }
@@ -703,6 +713,10 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.customerlist = new SelectList(new DropdownRepository().FillSQCustomer(OrganizationId, ProjectBased, AfterSales), "Id", "Name");
         }
+        public void FillSQEmployee(int ProjectBased, int AfterSales)
+        {
+            ViewBag.Employeelist = new SelectList(new DropdownRepository().FillSQEmployee(OrganizationId, ProjectBased, AfterSales), "Id", "Name");
+        }
         public void FillWrkDesc()
         {
             var repo = new DropdownRepository();
@@ -775,6 +789,10 @@ namespace ArabErp.Web.Controllers
             var repo = new DropdownRepository();
             var list = repo.QuerySheetNoInQuotationDropdown();
             ViewBag.QuerySheetNolist = new SelectList(list, "Id", "Name");
+        }
+        private void FillQuerySheetIncludingCurrent(int QuerySheetId, int OrganizationId)
+        {
+            ViewBag.QuerySheetNolist = new SelectList(new DropdownRepository().QuerySheetIncludingCurrentDropdown(QuerySheetId, OrganizationId), "Id", "Name");
         }
         private void ItemDropdown()
         {
@@ -903,7 +921,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Designation");
             ds.Tables["Head"].Columns.Add("Image1");
             ds.Tables["Head"].Columns.Add("UserName");
-           // ds.Tables["Head"].Columns.Add("EmpDesignation");
+            // ds.Tables["Head"].Columns.Add("EmpDesignation");
             ds.Tables["Head"].Columns.Add("Sign");
 
 
@@ -953,7 +971,7 @@ namespace ArabErp.Web.Controllers
             dr["UserName"] = Head.EmpNmae;
             //dr["EmpDesignation"] = Head.EmpDesignation;
             dr["Sign"] = Server.MapPath("~/App_images/") + Head.ApprovedUsersig;
-           
+
             ds.Tables["Head"].Rows.Add(dr);
 
             SalesQuotationRepository repo1 = new SalesQuotationRepository();
@@ -1026,7 +1044,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Image1");
 
             //-------DT
-           
+
             ds.Tables["Items"].Columns.Add("QuotRef");
             ds.Tables["Items"].Columns.Add("Date");
             ds.Tables["Items"].Columns.Add("Customer");
@@ -1101,6 +1119,45 @@ namespace ArabErp.Web.Controllers
             {
                 throw;
             }
+        }
+
+        public ActionResult GetRoomDetailsFromQuerySheet(int querySheetId)
+        {
+            FillUnitDoorUnit();
+            SalesQuotation model = new SalesQuotationRepository().GetRoomDetailsFromQuerySheet(querySheetId);
+            return PartialView("_ProjectRooms", model);
+        }
+
+        public ActionResult GetRoomDetailsFromQuotation(int salesQuotationId)
+        {
+            FillUnitDoorUnit();
+            SalesQuotation model = new SalesQuotation();
+            model.ProjectRooms = new SaleOrderRepository().GetRoomDetailsFromQuotation(salesQuotationId);
+            return PartialView("_ProjectRooms", model);
+        }
+
+        //public void UnitDropDown()
+        //{
+        //    ViewBag.UnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
+        //}
+        void FillUnitDoorUnit()
+        {
+            CondenserDropDown();
+            EvaporatorDropDown();
+            DoorDropDown();
+
+        }
+        void CondenserDropDown()
+        {
+            ViewBag.CondenserList = new SelectList(new DropdownRepository().FillCondenserUnit(), "Id", "Name");
+        }
+        void EvaporatorDropDown()
+        {
+            ViewBag.EvaporatorList = new SelectList(new DropdownRepository().FillEvaporatorUnit(), "Id", "Name");
+        }
+        void DoorDropDown()
+        {
+            ViewBag.DoorList = new SelectList(new DropdownRepository().FillDoor(), "Id", "Name");
         }
     }
 }

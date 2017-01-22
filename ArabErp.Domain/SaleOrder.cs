@@ -18,6 +18,7 @@ namespace ArabErp.Domain
         public string SaleOrderNoDate { get; set; }
         public int CustomerId { get; set; }
         public string CustomerName { get; set; }
+        public string ItemName { get; set; }
         public string CustomerAddress { get; set; }
         //[Required]
         public string CustomerOrderRef { get; set; }
@@ -56,7 +57,7 @@ namespace ArabErp.Domain
         public DateTime SaleOrderHoldDate { get; set; }
         [Required]
         public DateTime SaleOrderReleaseDate { get; set; }
-        [Required]
+        //[Required]
         public List<SaleOrderItem> Items { get; set; }
         public List<SalesQuotationMaterial> Materials { get; set; }
         public bool Select { get; set; }
@@ -97,8 +98,12 @@ namespace ArabErp.Domain
         public DateTime ServiceEnquiryDate { get; set; }
         public string WorkDescr { get; set; }
         public string VehicleModelName { get; set; }
-
-
+        public int SaleOrderItemUnitId { get; set; }
+        public int EvaporatorUnitId { get; set; }
+        public string RegistrationNo { get; set; }
+        public string ChassisNo { get; set; }
+        
+        public List<QuerySheetItem> ProjectRooms { get; set; }
     }
 }
 

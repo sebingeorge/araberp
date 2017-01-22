@@ -45,7 +45,13 @@
     }
 
     function formValidation() {
-        return true;
+        var VehicleRegNo = $("#VehicleRegNo").val();
+        var VehicleChassisNo = $("#VehicleChassisNo").val();
+        if ((VehicleRegNo == VehicleChassisNo) && VehicleRegNo !== '' && VehicleChassisNo !== '') {
+            toastr.info("Vehicle Registration No. & Chassis No. should not be same");
+            return false
+        }
+        else return true;
     }
 
     function OnCustomerChanged(cust) {
@@ -83,7 +89,7 @@
 
     function PreviousList() {
         var url = '@Url.Action("EnquiryList")';
-        //url += "?type=0&service=1";
+        url += "?isProjectBased=0";
         window.location = url;
     }
 

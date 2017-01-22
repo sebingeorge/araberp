@@ -62,20 +62,19 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <ServiceEnquiryRefNo>AARC/SE/1</ServiceEnquiryRefNo>
-    <ServiceEnquiryDate>29-Nov-2016</ServiceEnquiryDate>
-    <CustomerName>Amwaj Catering Services</CustomerName>
-    <CDoorNo>Doha ,Qatar</CDoorNo>
+    <ServiceEnquiryRefNo>AARC/SE/17/57</ServiceEnquiryRefNo>
+    <ServiceEnquiryDate>18-Jan-2017</ServiceEnquiryDate>
+    <CustomerName>Qatar Canadian Trading Company</CustomerName>
+    <CDoorNo>Doha, Qatar</CDoorNo>
+    <CStreet />
     <CPhone>0</CPhone>
     <CZip>0</CZip>
     <CState>UAE</CState>
     <CContactPerson>0</CContactPerson>
-    <VehicleMake>Mit 4.3</VehicleMake>
-    <VehicleRegNo>222457</VehicleRegNo>
-    <FreezerMake>Carrier</FreezerMake>
-    <FreezerModel>Z30S</FreezerModel>
-    <FreezerSerialNo>PC121164</FreezerSerialNo>
-    <Complaints>Not Working</Complaints>
+    <VehicleMake>Mitsubishi 4.3</VehicleMake>
+    <VehicleRegNo>213962</VehicleRegNo>
+    <TailLiftModel>Tail Lift</TailLiftModel>
+    <Complaints>1) Tail Lift Not Working</Complaints>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -85,9 +84,9 @@
     <Email>info@arabrefrigeration.com</Email>
     <Phone>974 4435 7216</Phone>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <CreatedUser>safiq</CreatedUser>
-    <CreatedUsersig>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreatedUsersig>
-    <CreatedDes>W/shop Controler Cum Accountant</CreatedDes>
+    <CreatedUsersig>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreatedUsersig>
+    <CreatedDes>Workshop Controller</CreatedDes>
   </Head>
 </NewDataSet>

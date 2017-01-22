@@ -25,14 +25,23 @@ namespace ArabErp.Web.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Create(int? SaleOrderId, int? saleorderitem)
+        public ActionResult Create(int? SaleOrderId, int? saleorderitem, int? SaleOrderItemUnitId, int? EvaConUnitId)
         {
             ItemDropdown();
             WorkShopRequestRepository repo = new WorkShopRequestRepository();
             WorkShopRequest model = repo.GetSaleOrderForWorkshopRequest(SaleOrderId ?? 0);
             model.SaleOrderItemId = saleorderitem ?? 0;
             model.WorkDescription = repo.GetCombinedWorkDescriptionSaleOrderForWorkshopRequest(SaleOrderId ?? 0).WorkDescription;
-            var WSList = repo.GetWorkShopRequestData(SaleOrderId ?? 0, saleorderitem ?? 0);
+            List<WorkShopRequestItem> WSList = new List<WorkShopRequestItem>();
+            if(model.isProjectBased==1)
+            {
+                WSList = repo.GetWorkShopRequestDataForProject(SaleOrderItemUnitId ?? 0, EvaConUnitId ?? 0);
+            }
+            else
+            {
+               WSList = repo.GetWorkShopRequestData(SaleOrderId ?? 0, saleorderitem ?? 0);
+            }
+          
             model.Items = new List<WorkShopRequestItem>();
             //model.Isused = true;
             foreach (var item in WSList)
@@ -65,6 +74,8 @@ namespace ArabErp.Web.Controllers
             model.WorkShopRequestRefNo = internalId;
             model.WorkShopRequestDate = System.DateTime.Today;
             model.RequiredDate = System.DateTime.Today;
+            model.SaleOrderItemUnitId = SaleOrderItemUnitId ?? 0;
+            model.EvaConUnitId = EvaConUnitId ?? 0;
             return View(model);
         }
 
@@ -191,7 +202,7 @@ namespace ArabErp.Web.Controllers
 
             var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId, isProjectBased, saleOrder.Trim());
 
-
+            ViewBag.ProjectBased = isProjectBased;
 
             return PartialView("_PendingGrid", slist);
         }
@@ -420,7 +431,7 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("WorkShopRequest{0}.pdf", Id.ToString()));
+                return File(stream, "application/pdf");//, String.Format("WorkShopRequest{0}.pdf", Id.ToString()));
             }
             catch (Exception ex)
             {

@@ -1,11 +1,17 @@
 ﻿@model ArabErp.Domain.SalesInvoice
 
+@{
+    //var totalPrintAmount = Model.SaleInvoiceItems.Sum(a => a.Amount);
+}
+
+
 <script type="text/javascript">
 
     $(document).ready(function(){
         //$('#print-description-table input').attr("disabled", "true");
         //$('#print-description-table textarea').attr("disabled", "true");
         $('#print-description-table .glyphicon').hide();
+        
     })
 
     function AddPrintDescRow() {
@@ -55,6 +61,39 @@
             }
         }
     }
+    function Amountchanges() {
+        var qty = 0;
+        var rate = 0;
+        var amount = 0;
+        var total = 0;
+        var net = 0;
+
+        $('.PriceEach').each(function (i, obj) {
+           
+            var qty = 0;
+            var rate = 0;
+
+            console.log(obj);
+            qty=$("#PrintDescriptions_" + i + "__Quantity").val();
+            if(eval($("#PrintDescriptions_" + i + "__PriceEach").val() != 0 && eval($("#PrintDescriptions_" + i + "__PriceEach").val() != '')))
+            rate = rate + eval($("#PrintDescriptions_" + i + "__PriceEach").val());
+            amount = (qty * rate);
+            total = total + amount;
+            //$("#PrintDescriptions_" + i + "__Quantity").val();
+            $("#PrintDescriptions_" + i + "__Amount").val(amount);
+
+        });
+        $("#gridTotals").text(total);
+        net = total;
+        $("#PrintTotalAmount").val(total.toFixed(2));
+       
+        //$("#lblTotalAmount").text(net.toFixed(2));
+
+        //net += amount;
+        //alert(net);
+        //$("#TotalAmount").val(total.toFixed(2));
+        //$("#lblTotalAmount").text(net.toFixed(2));
+    }
 
 </script>
 
@@ -94,13 +133,13 @@
                             @Html.TextBoxFor(m => m.PrintDescriptions[i].UoM, new { @class = "form_input", @readonly = "readonly", @tabindex = "-1" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Quantity, new { @class = "form_input numbers-only", @readonly = "readonly", @tabindex = "-1" })
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Quantity, new { @class = "form_input Quantity", @readonly = "readonly", @tabindex = "-1" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.PrintDescriptions[i].PriceEach, new { @class = "form_input numbers-only", @required = "true" })
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].PriceEach, new { @class = "form_input PriceEach", @required = "true", @onchange = "Amountchanges()", @onkeyup = "Amountchanges()" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Amount, new { @class = "form_input numbers-only"@*, @readonly = "readonly"*@, @tabindex = "-1", @required = "true" })
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Amount, new { @class = "form_input numbers-only", @readonly = "readonly", @tabindex = "-1", @required = "true" })
                         </td>
                         <td style="vertical-align:middle">
                             <a class="glyphicon glyphicon-plus" style="top:0px" onclick="AddPrintDescRow()"></a>
@@ -118,4 +157,23 @@
             }
         }
     </tbody>
+    <tfoot>
+        <tr class="grid_heading">
+            <th class="text-center"><h1></h1></th>
+            <th class="text-center"></th>
+            @if (Model.InvoiceType == "Final")
+            {
+                <th class="text-center"><h1></h1></th>
+            }
+            <th class="text-right"></th>
+            <th></th>
+            <th class="text-right"><h1>Total</h1></th>
+            @*<th class="text-right">
+                </th>*@
+            <th class="text-right"><span id="gridTotals">@Model.PrintTotalAmount</span></th>
+            @Html.HiddenFor(m => m.PrintTotalAmount)
+            <th></th>
+        </tr>
+    </tfoot>
+
 </table>

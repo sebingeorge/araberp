@@ -11,7 +11,7 @@ namespace ArabErp.DAL
     public class IndentVsSOVsInpassStatusRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<IndentVsSOVsInpassStatus> GetGRNRegister()
+        public IEnumerable<IndentVsSOVsInpassStatus> GetIndentRegister(int status, string supplier = "", string item = "", string indentno = "", string sono = "", string grnno = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -33,9 +33,20 @@ namespace ArabErp.DAL
                         LEFT JOIN Supplier S ON S.SupplierId=SO.SupplierId
                         LEFT JOIN GRNItem GI ON GI.SupplyOrderItemId=SOI.SupplyOrderItemId AND GI.ItemId=I.ItemId
                         LEFT JOIN GRN G ON G.GRNId=GI.GRNId
-                        LEFT JOIN [User] GU ON GU.UserId=G.CreatedBy";
+                        LEFT JOIN [User] GU ON GU.UserId=G.CreatedBy
+                        WHERE isnull(S.SupplierName,'')  LIKE '%'+@supplier+'%'
+                        AND isnull(I.ItemName,'')  LIKE '%'+@item+'%'
+                        AND isnull(P.PurchaseRequestNo,'')  LIKE '%'+@indentno+'%'
+                        AND isnull(SO.SupplyOrderNo,'')  LIKE '%'+@sono+'%'
+                        AND isnull(G.GRNNo,'')  LIKE '%'+@grnno+'%'";
+                if (status == 1)
+                    sql += " AND SO.SupplyOrderId is Null";
+                else if (status == 2)
+                    sql += " AND G.GRNId is Null";
+                else if (status == 3)
+                    sql += " AND SO.SupplyOrderId is Null AND G.GRNId is Null";
 
-                return connection.Query<IndentVsSOVsInpassStatus>(sql);
+                return connection.Query<IndentVsSOVsInpassStatus>(sql, new { supplier = supplier, item = item, indentno = indentno, sono = sono, grnno = grnno });
             }
         }
     }

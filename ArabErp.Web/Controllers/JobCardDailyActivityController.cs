@@ -32,18 +32,25 @@ namespace ArabErp.Web.Controllers
             JobCard jc = jcRepo.GetDetailsById(Id, null);
             FillTaks(jc.WorkDescriptionId);
             JobCardDailyActivity model = new JobCardDailyActivity();
-            model.JobCardDailyActivityRefNo = DatabaseCommonRepository.GetNextDocNo(27, OrganizationId);
+             if (jc.isProjectBased==1)
+            {
+                model.JobCardDailyActivityRefNo = DatabaseCommonRepository.GetNextDocNo(38, OrganizationId);
+            }
+            else
+            {
+                model.JobCardDailyActivityRefNo = DatabaseCommonRepository.GetNextDocNo(27, OrganizationId);
+            }
             model.CreatedDate = DateTime.Now;
             model.JobCardDailyActivityDate = DateTime.Now;
             model.isProjectBased = jc.isProjectBased;
             model.JobCardDailyActivityTask = new JobCardDailyActivityRepository().GetJobCardTasksForDailyActivity(Id, OrganizationId);
-            if (model.JobCardDailyActivityTask.Count > 0)
-            {
-                foreach (var item in model.JobCardDailyActivityTask)
-                {
-                    item.StartTime = "9:00am"; item.EndTime = "6.00pm";
-                }
-            }
+            //if (model.JobCardDailyActivityTask.Count > 0)
+            //{
+            //    foreach (var item in model.JobCardDailyActivityTask)
+            //    {
+            //        item.StartTime = "00:00"; item.EndTime = "00.00";
+            //    }
+            //}
             //model.JobCardDailyActivityTask = new List<JobCardDailyActivityTask>();
             //model.JobCardDailyActivityTask.Add(new JobCardDailyActivityTask() { TaskStartDate = DateTime.Now, TaskEndDate = DateTime.Now});
             Employee emp = emRepo.GetEmployee(jc.EmployeeId);

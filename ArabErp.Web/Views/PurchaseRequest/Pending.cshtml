@@ -31,10 +31,10 @@
         $("#wr-pending").addClass("fade");
         var WRNo = $("#txtWRNo").val().trim();
         var cusid = $("#cboCustomer").val();
-
+        var Type = $("#cboType").val().trim();
         var url = '@Url.Action("PendingPurchaseRequest")';
 
-        url += "?cusid=" + cusid + "&WRNo=" + encodeURIComponent(WRNo);
+        url += "?cusid=" + cusid + "&WRNo=" + encodeURIComponent(WRNo) + "&Type=" + encodeURIComponent(Type);
 
         $("#wr-pending").load(url, function () {
             $("#wr-pending").removeClass("fade");
@@ -60,7 +60,14 @@
                 <label for="cboCustomer">Customer</label>
                 @Html.DropDownList("cboCustomer", (SelectList)ViewBag.CustomerList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
-
+            <div class="col-md-2">
+                <label for="txtType">Project/Transport</label>
+                <select id="cboType" class="form_input" onchange="Filter()">
+                    <option value="all" selected>All</option>
+                    <option value="project">Project</option>
+                    <option value="transport">Transport</option>
+                </select>
+            </div>
         </div>
 
         <br />

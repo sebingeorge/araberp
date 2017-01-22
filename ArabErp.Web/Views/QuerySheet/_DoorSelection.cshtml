@@ -1,0 +1,38 @@
+﻿@model ArabErp.Domain.QuerySheet
+@{
+    int currentIndex = ViewBag.currentIndex;
+}
+<div class="table-responsive scroll2 ">
+    <table style="width:200%" class="table table-bordered" id="tab_logic_door@(currentIndex)" @*style="overflow-x:scroll;margin-bottom:0px"*@>
+        <thead>
+            <tr class="grid_heading">
+                <th width="1%" class="text-center"></th>
+                <th width="2%" class="text-center"><h1>#</h1></th>
+                <th width="20%">
+                    <h1>
+                        Door&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </h1>
+                </th>
+                <th width="10%" class="text-right"><h1>Quantity</h1></th>
+                <th width="1%" class="text-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.QuerySheetItems[currentIndex].ProjectRoomDoors.Count; i++)
+            {
+                <tr id="@i">
+                    <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeleteDoor(@i,@currentIndex)"></a></td>
+                    <td align="center">
+                        <input type="hidden" id="Rowdoor_@i" />
+                        <span id="sldono@(i + 1)">@(i + 1)</span>
+                        @Html.HiddenFor(m=>Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].QuerySheetItemId)
+                    </td>
+                    <td>@Html.DropDownListFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].DoorId, new SelectList(ViewBag.DoorList, "Value", "Text", Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].DoorId), "Select Door", new { @class = "form_input" })</td>
+                    <td>@Html.TextBoxFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomDoors[i].Quantity, new { @class = "form_input numbers-only text-right Quantity", autocomplete = "off" })</td>
+                    <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddDoorRow(@currentIndex)"></a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

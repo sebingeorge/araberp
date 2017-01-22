@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Employee Availability";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -8,9 +7,10 @@
     function Filter() {
         var month = Number($("#month-filter").val()) + 1;
         var year = Number($("#year-filter").val());
+        var type = Number($("#type-filter").val());
         var url = '@Url.Action("EmployeeGrid")';
         $("#employee-grid").addClass("fade");
-        $("#employee-grid").load(url, { month: month, year: year }, function () {
+        $("#employee-grid").load(url, { month: month, year: year, isProject: type }, function () {
             $("#employee-grid").removeClass("fade");
         });
     }
@@ -48,13 +48,23 @@
                 <label for="">Year</label>
                 @Html.DropDownList("year-filter", new SelectList(
                   new List<Object>{
-                       new { value = ViewBag.Year, text = ViewBag.Year },
-                       new { value = ViewBag.Year + 1, text = ViewBag.Year + 1 }
+                       new { value = ViewBag.StartYear, text = ViewBag.StartYear },
+                       new { value = ViewBag.EndYear, text = ViewBag.EndYear }
                     },
                   "value",
                   "text", ViewBag.Year), "Select Year", new { @class = "form_input", @onchange = "Filter()" })
             </div>
-            <div class="col-md-3 col-md-offset-5">
+            <div class="col-md-2">
+                <label for="">Year</label>
+                @Html.DropDownList("type-filter", new SelectList(
+                  new List<Object>{
+                       new { value = 0, text = "Transport" },
+                       new { value = 1, text = "Project" }
+                    },
+                  "value",
+                  "text", 0), new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+            <div class="col-md-3 col-md-offset-3">
                 <div class="col-md-4 pmtop">
                     <div class="reddot"></div>Project
                 </div>
@@ -64,7 +74,7 @@
             </div>
         </div>
 
-        <div class="scroll6" id="employee-grid">            
+        <div class="scroll6" id="employee-grid">
             @Html.Action("EmployeeGrid")
         </div>
 

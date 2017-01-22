@@ -103,5 +103,6 @@ namespace ArabErp.Domain
 
         public int VehicleModelId { get; set; }
         public string DeliveryTerms { get; set; }
+        public List<QuerySheetItem> ProjectRooms { get; set; }
     }
 }

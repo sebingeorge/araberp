@@ -1,13 +1,22 @@
 ﻿@model IList<ArabErp.Domain.JobCard>
 
+@{
+    int isProjectBased = ViewBag.ProjectBased;
+    }
+
 <table class="table table-bordered table-hover">
     <thead>
         <tr class="grid_heading">
             <th width="14%"><h1>Job Card No. &amp; Date</h1></th>
             <th width="30%"><h1>Customer</h1></th>
-            <th width="20%"><h1>Freezer Unit</h1></th>
-            <th width="20%"><h1>Box</h1></th>
-            <th width="20%" nowrap><h1> Reg No./Chassis No.</h1></th>
+            @if (isProjectBased == 0)
+            {
+            <th width="15%"><h1>Freezer Unit</h1></th>
+            <th width="15%"><h1>Box</h1></th>
+            <th width="20%"><h1>Vehicle Model</h1></th>
+            <th width="15%" nowrap><h1> Reg No./Chassis No.</h1></th>
+            }
+         
             <th width="15%"><h1>Engineer/Supervisor</h1></th>
             <th width="1%" class="text-center"><h1></h1></th>
         </tr>
@@ -21,27 +30,27 @@
                 <tr>
                     <td>@item.JobCardNo - @item.JobCardDate.ToString("dd/MMMM/yyyy")</td>
                     <td>@item.CustomerName</td>
-                    <td>@item.FreezerUnitName</td>
-                    <td>@item.BoxName</td>
-                
-                    <td>
-                        @item.RegistrationNo
-                        @if ((item.RegistrationNo != null && item.RegistrationNo != "") && (item.ChasisNo != null && item.ChasisNo != ""))
-                        {
-                            @: -
+
+                    @if (isProjectBased == 0)
+                    {
+                        <td>@item.FreezerUnitName</td>
+                        <td>@item.BoxName</td>
+                        <td>@item.VehicleModelName</td>
+                        <td>
+                            @item.RegistrationNo
+                            @if ((item.RegistrationNo != null && item.RegistrationNo != "") && (item.ChasisNo != null && item.ChasisNo != ""))
+                            {
+                                @: -
                                     }
-                       @item.ChasisNo
-                    </td>
-
-
+                            @item.ChasisNo
+                        </td>
+                    }
+                
                     <td>@item.EmployeeName</td>
                     <td>
                         <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.JobCardId)" /></center>
                     </td>
-                    @*<td>
-                            <center><input type="button" value="Print" onclick="GoToPrint(@item.JobCardId)" checked class="form-button4" /></center>
-                        </td>*@
-                </tr>
+                 </tr>
             }
         }
         else

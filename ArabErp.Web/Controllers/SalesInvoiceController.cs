@@ -22,15 +22,19 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.type = type;
             FillSalesInvoice(type);
+            ViewBag.startdate = FYStartdate;
             return View();
         }
 
         public ActionResult PreviousList(string type, DateTime? from, DateTime? to, int id = 0)
         {
+            from = from ?? FYStartdate;
+            to = to ?? DateTime.Today;
             return PartialView("_PreviousListGrid", new SalesInvoiceRepository().PreviousList(type: type, from: from, to: to, id: id, OrganizationId: OrganizationId));
         }
 
         public ActionResult PendingSalesInvoice(string invType, string InstallType = "all")
+        
         {
          
             //ViewBag.saleOrderList = new SelectList(Repo.GetSalesInvoiceCustomerList(invType, OrganizationId), "SaleOrderId", "SaleOrderRefNoWithDate");
@@ -213,7 +217,7 @@ namespace ArabErp.Web.Controllers
             var repo = new SalesInvoiceRepository();
             SalesInvoice model = repo.GetInvoiceHd(id ?? 0, type);
             model.SaleInvoiceItems = repo.GetInvoiceItems(id ?? 0);
-
+           
             //var saleinvoice = new SalesInvoiceRepository().GetInvoiceHd(id, type);
             //model.Items = repo.GetSaleOrderItem(SaleOrderId ?? 0);
 
@@ -237,10 +241,11 @@ namespace ArabErp.Web.Controllers
             var repo = new SalesInvoiceRepository();
             SalesInvoice si = (new SalesInvoiceRepository()).GetInvoiceHd(id ?? 0, type);
             new SalesInvoiceRepository().UpdateSIApproval(id ?? 0, model.IsApprovedDate, model.IsApprovedBy);
+            TempData["success"] = "Approved successfully";
             return RedirectToAction("PendingApproval");
         }
 
-        public ActionResult Print(int Id)
+        public ActionResult InvoiceReport(int Id)
         {
 
             ReportDocument rd = new ReportDocument();
@@ -398,7 +403,7 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-        public ActionResult getMaterialCost(int id)
+        public ActionResult getMaterialCost(int id)//JobCardId is received here
         {
             var list = new SalesInvoiceRepository().getMaterialCost(id);
             if (list == null) list = new List<MaterialCostForService>();

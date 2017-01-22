@@ -4,6 +4,17 @@
     ViewBag.Title = "Create Additional Workshop Request";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    int isProjectBased = 0;
+    try
+    {
+        isProjectBased = Convert.ToInt32(Request.QueryString["isProjectBased"].ToString() ?? "0");
+    }
+    catch
+    {
+
+    }
+}
 
 <script type="text/javascript">
 
@@ -51,16 +62,27 @@
         return true;
     }
 
-    function PreviousList() {
+    function PreviousList(isProjectBased) {
+        
         var url = '@Url.Action("Index")';
+        url += "?isProjectBased=" + isProjectBased;
         window.location = url;
+      
     }
 
 </script>
 
 <div class="row">
     <div class="form-head1">
+     @if (isProjectBased == 1)
+      {
+        <h4>Additional Material Request</h4>
+      }
+     else
+     {
         <h4>Additional Workshop Request</h4>
+     }
+                                            
     </div>
     <div class="main-part pad1">
         @using (Html.BeginForm("Create", null, FormMethod.Post, new { @class = "createFrom", onsubmit = "return formValidation()", @id = "stock_return_form" }))
@@ -81,6 +103,7 @@
                     @Html.HiddenFor(m => m.SaleOrderId)
                     @Html.HiddenFor(m => m.CustomerId)
                     @Html.HiddenFor(m => m.CustomerOrderRef)
+                    @Html.HiddenFor(m => m.isProjectBased)
                     @Html.DropDownListFor(m => m.JobCardId, (SelectList)ViewBag.JobCardList, "Select Job Card", new { @class = "form_input", autocomplete = "off", @required = "true" })
                 </div>
                 <div class="col-md-3">
@@ -126,9 +149,9 @@
             <div class="row">
 
                 <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button right" onclick="Exit();">Exit</button>
+                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
                     <input type="submit" class="form-button right" value="Save">
-                    <input type="button" class="form-button left" onclick="PreviousList()" value="Previous">
+                    <input type="button" class="form-button left" onclick="PreviousList(@Model.isProjectBased)" value="Previous">
                 </div>
 
             </div>

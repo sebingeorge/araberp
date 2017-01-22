@@ -4,8 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
+    $(document).ready(function () {
+        $("#ItemId").combobox();
+        $("#cboPartNo").combobox();
+    })
 
-    function FillItem() {
+    @*function FillItem() {
         var Code = $('#itmCatId').val();
 
         var Url = '@Url.Action("Item")';
@@ -19,17 +23,18 @@
 
         }
 
-    }
+    }*@
     function Filter() {
+       
         $("#Current_stock").addClass("fade");
         var stkid = $("#cboStockpoint").val();
-        var itmcatid = $("#itmCatId").val();
-        var itmid = $("#filter-Material").val().trim();
-        var PartNo = $("#filter-PartNo").val().trim();
-        var itmGroup = $("#cboGroup").val();
-        var itmSubGroup = $("#cboSubGroup").val();
+        var itmcatid = $("#ItemCategoryId").val();
+        var ItemGroupId = $("#ItemGroupId").val();
+        var ItemSubGroupId = $("#ItemSubGroupId").val();
+        var itmid = $("#ItemId").val();
+        var PartNo = $("#cboPartNo").val().trim();
         var url = '@Url.Action("CurrentStockRegister")';
-        url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid + "&PartNo=" + encodeURIComponent(PartNo) + "&itmGroup=" + itmGroup + "&itmSubGroup=" + itmSubGroup;
+        url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid + "&PartNo=" + encodeURIComponent(PartNo) + "&ItemGroupId=" + ItemGroupId + "&ItemSubGroupId=" + ItemSubGroupId;
         $("#Current_stock").load(url, function () {
             $("#Current_stock").removeClass("fade");
         });
@@ -41,14 +46,131 @@
     function GoToPrint() {
         var Spname = $("#cboStockpoint option:selected").text();
         var Spid = $("#cboStockpoint").val();
-        var ItmCatid = $("#itmCatId").val();
-        var ItmCatname = $("#itmCatId option:selected").text();
-        var Itmid = $("#filter-Material").val().trim();
-        var PartNo = $("#filter-PartNo").val().trim();
+        var ItmCatid = $("#ItemCategoryId").val();
+        var ItmCatname = $("#ItemCategoryId option:selected").text();
+        var ItemGroupId = $("#ItemGroupId").val();
+        var ItemGroupname = $("#ItemGroupId option:selected").text();
+        var ItemSubGroupId = $("#ItemSubGroupId").val();
+        var ItemSubGroupname = $("#ItemSubGroupId option:selected").text();
+        var Itmid = $("#ItemId").val().trim();
+        var Itmname = $("#ItemId option:selected").text();
+        var PartNo = $("#cboPartNo").val().trim();
+        var PartName = $("#cboPartNo option:selected").text();
         var url = '@Url.Action("Print")';
-        url += "?Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmid=" + Itmid + "&PartNo=" + encodeURIComponent(PartNo);
+        url += "?Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmid=" + Itmid + "&Itmname=" + (Itmname == '' ? 0 : Itmname) + "&PartNo=" + PartNo + "&PartName=" + (PartName == '' ? 0 : PartName) + "&ItemGroupId=" + ItemGroupId + "&ItemGroupname=" + (ItemGroupname == '' ? 0 : ItemGroupname) + "&ItemSubGroupId=" + ItemSubGroupId + "&ItemSubGroupname=" + (ItemSubGroupname == '' ? 0 : ItemSubGroupname);
+        alert(url)
         window.location = url;
     }
+
+
+    function FillItemGroup() {
+        var Code = $('#ItemCategoryId').val();
+        var Url = '@Url.Action("ItemGroup")';
+        var UrlSubGroup = '@Url.Action("ItemSubGroup")';
+        if (Code == '') {
+            $("#DivItemGroup").load(Url, { Code: 0 });
+            $("#DivItemSubGroup").load(UrlSubGroup, { Code: 0 });
+        }
+        else {
+            $("#DivItemGroup").load(Url, { Code: Code });
+            $("#DivItemSubGroup").load(UrlSubGroup, { Code: 0 });
+        }
+
+        $("#Current_stock").addClass("fade");
+        var stkid = $("#cboStockpoint").val();
+        var itmcatid = $("#ItemCategoryId").val();
+        var ItemGroupId = $("#ItemGroupId").val();
+        var ItemSubGroupId = $("#ItemSubGroupId").val();
+        var itmid = $("#ItemId").val();
+        var PartNo = $("#cboPartNo").val().trim();
+        var url = '@Url.Action("CurrentStockRegister")';
+        url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid + "&PartNo=" + encodeURIComponent(PartNo) + "&ItemGroupId=" + ItemGroupId + "&ItemSubGroupId=" + ItemSubGroupId; $("#Current_stock").load(url, function () {
+            $("#Current_stock").removeClass("fade");
+        });
+    }
+    function FillItemSubGroup() {
+        var Code = $('#ItemGroupId').val();
+        var Url = '@Url.Action("ItemSubGroup")';
+        if (Code == '') {
+            $("#DivItemSubGroup").load(Url, { Code: 0 });
+        }
+        else {
+            $("#DivItemSubGroup").load(Url, { Code: Code });
+        }
+        $("#Current_stock").addClass("fade");
+        var stkid = $("#cboStockpoint").val();
+        var itmcatid = $("#ItemCategoryId").val();
+        var ItemGroupId = $("#ItemGroupId").val();
+        var ItemSubGroupId = $("#ItemSubGroupId").val();
+        var itmid = $("#ItemId").val();
+        var PartNo = $("#cboPartNo").val().trim();
+        var url = '@Url.Action("CurrentStockRegister")';
+        url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid + "&PartNo=" + encodeURIComponent(PartNo) + "&ItemGroupId=" + ItemGroupId + "&ItemSubGroupId=" + ItemSubGroupId; $("#Current_stock").load(url, function () {
+            $("#Current_stock").removeClass("fade");
+        });
+    }
+
+    function FillItem() {
+        var Code = $('#ItemSubGroupId').val();
+        var Url = '@Url.Action("Material")';
+        if (Code == '') {
+            $("#DivItem").load(Url, { Code: 0 });
+        }
+        else {
+            $("#DivItem").load(Url, { Code: Code });
+        }
+        $("#Current_stock").addClass("fade");
+        var stkid = $("#cboStockpoint").val();
+        var itmcatid = $("#ItemCategoryId").val();
+        var ItemGroupId = $("#ItemGroupId").val();
+        var ItemSubGroupId = $("#ItemSubGroupId").val();
+        var itmid = $("#ItemId").val();
+        var PartNo = $("#cboPartNo").val().trim();
+        var url = '@Url.Action("CurrentStockRegister")';
+        url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid + "&PartNo=" + encodeURIComponent(PartNo) + "&ItemGroupId=" + ItemGroupId + "&ItemSubGroupId=" + ItemSubGroupId; $("#Current_stock").load(url, function () {
+            $("#Current_stock").removeClass("fade");
+        });
+    }
+        function OnMaterialChange() {
+
+            var id = $("#ItemId").val();
+            if (id != '') {
+                var url = '@Url.Action("GetPartNo")';
+                $.getJSON(url, { itemId: id },
+                    function (data) {
+                        debugger
+                        var arr = data.split('|');
+                        //$("#items_" + index + "__PartNo").val(arr[0]);
+                        $("#cboPartNo").combobox("destroy");
+                        $("#cboPartNo").val(id);
+                        debugger
+                        $("#cboPartNo").combobox();
+
+                    });
+
+            }
+            else {
+                //$("#items_" + index + "__PartNo").val('');
+                $("#cboPartNo").combobox("destroy");
+                $("#cboPartNo").val('');
+                $("#cboPartNo").combobox();
+
+            }
+
+            $("#Current_stock").addClass("fade");
+            var stkid = $("#cboStockpoint").val();
+            var itmcatid = $("#ItemCategoryId").val();
+            var ItemGroupId = $("#ItemGroupId").val();
+            var ItemSubGroupId = $("#ItemSubGroupId").val();
+            var itmid = $("#ItemId").val();
+            var PartNo = $("#cboPartNo").val().trim();
+            var url = '@Url.Action("CurrentStockRegister")';
+            url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid + "&PartNo=" + encodeURIComponent(PartNo) + "&ItemGroupId=" + ItemGroupId + "&ItemSubGroupId=" + ItemSubGroupId; $("#Current_stock").load(url, function () {
+                $("#Current_stock").removeClass("fade");
+            });
+
+        }
+    
 </script>
 <div class="row">
 
@@ -60,38 +182,45 @@
         <div class="row">
 
             <div class="col-md-2">
-                <label for="filter-Material">Material/Spares</label>
-                <input id="filter-Material" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
-            </div>
-
-            <div class="col-md-2">
-                <label for="filter-PartNo">Part No.</label>
-                <input id="filter-PartNo" class="form_input" placeholder="Search for Part No." onkeyup="Filter()" onchange="Filter()" />
-            </div>
-
-
-           
-            <div class="col-md-2">
-                <label for="cboItemCat">Item Category</label>
-                @Html.DropDownListFor(m => Model.itmCatId, (SelectList)ViewBag.ItemCatList, "Any", new { @class = "form_input", @onchange = "FillItem();Filter()" })
-                @Html.HiddenFor(m => Model.itmCatId)
-            </div>
-            <div class="col-md-2">
                 <label for="cboStockpoint">Stock Point</label>
-                @Html.DropDownList("cboStockpoint", (SelectList)ViewBag.WarehouseList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                @Html.DropDownList("cboStockpoint", (SelectList)ViewBag.WarehouseList, "Any", new { @class = "form_input", onchange = "Filter()" })
             </div>
 
             <div class="col-md-2">
-                <label for="cboGroup">Group</label>
-                @Html.DropDownList("cboGroup", (SelectList)ViewBag.ItemGroup, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                <label for="code" class="label1">Item Category</label>
+                @Html.Action("ItemCategory")
+            </div>
+            <div class="col-md-2">
+                <label for="code" class="label1">Item Group</label>
+                <div id="DivItemGroup">
+                    @Html.Action("ItemGroup", "Item", new { Code = Model.itmCatId })
+                </div>
             </div>
 
             <div class="col-md-2">
-                <label for="cboSubGroup">SubGroup</label>
-                @Html.DropDownList("cboSubGroup", (SelectList)ViewBag.ItemSubgroup, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                <label for="code" class="label1">Item Sub Group</label>
+                <div id="DivItemSubGroup">
+                    @Html.Action("ItemSubGroup", "Item", new { Code = Model.itmGrpId })
+                </div>
             </div>
 
+
+            <div class="col-md-2">
+                <label for="code" class="label1">Material/Spares</label>
+                <div id="DivItem">
+                    @Html.Action("Material", "StockMovementRegister", new { Code = Model.itmSubGrpId })
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <label for="cboPart no">Part No.</label>
+                <div>
+                    @Html.DropDownList("cboPartNo", (SelectList)ViewBag.partNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                    @Html.HiddenFor(m => Model.ItemId)
+                </div>
+            </div>
         </div>
+      
         <br />
         <div class="row">
             <div class="main-grid main-grid-top scroll1">

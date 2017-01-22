@@ -48,41 +48,41 @@ namespace ArabErp.DAL
             }
         }
 
-        public QuerySheet GetQuerySheet(int QuerySheetId)
-        {
+//        public QuerySheet GetQuerySheet(int QuerySheetId)
+//        {
 
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string query;
-                IDbTransaction txn = connection.BeginTransaction();
+//            using (IDbConnection connection = OpenConnection(dataConnection))
+//            {
+//                string query;
+//                IDbTransaction txn = connection.BeginTransaction();
 
-                query = @"select * from QuerySheet
-                        where QuerySheetId=@QuerySheetId";
+//                query = @"select * from QuerySheet
+//                        where QuerySheetId=@QuerySheetId";
 
-                var model = connection.Query<QuerySheet>(query, new
-                {
-                    QuerySheetId = QuerySheetId
-                }, txn).First<QuerySheet>();
+//                var model = connection.Query<QuerySheet>(query, new
+//                {
+//                    QuerySheetId = QuerySheetId
+//                }, txn).First<QuerySheet>();
 
-                try
-                {
-                    query = @"DELETE FROM QuerySheetItem WHERE QuerySheetId = @QuerySheetId
-                            DELETE FROM ProjectCosting WHERE QuerySheetId = @QuerySheetId
-                            DELETE FROM QuerySheet WHERE QuerySheetId = @QuerySheetId";
-                    connection.Execute(query, new { QuerySheetId = QuerySheetId }, txn);
-                    txn.Rollback();
+//                try
+//                {
+//                    query = @"DELETE FROM QuerySheetItem WHERE QuerySheetId = @QuerySheetId
+//                            DELETE FROM ProjectCosting WHERE QuerySheetId = @QuerySheetId
+//                            DELETE FROM QuerySheet WHERE QuerySheetId = @QuerySheetId";
+//                    connection.Execute(query, new { QuerySheetId = QuerySheetId }, txn);
+//                    txn.Rollback();
 
-                    model.isUsed = false;
-                    return model;
-                }
-                catch
-                {
-                    txn.Rollback();
-                    model.isUsed = true;
-                }
-                return model;
-            }
-        }
+//                    model.isUsed = false;
+//                    return model;
+//                }
+//                catch
+//                {
+//                    txn.Rollback();
+//                    model.isUsed = true;
+//                }
+//                return model;
+//            }
+//        }
 
         public IList<QuerySheet> GetQuerySheets(string Type,string querysheet, int OrganizationId, DateTime? from, DateTime? to)
         {
@@ -180,11 +180,16 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    string query = @"DELETE FROM QuerySheetItem WHERE QuerySheetId = @QuerySheetId
-                                DELETE FROM ProjectCosting WHERE QuerySheetId = @QuerySheetId";
+
+                    string query = @" DELETE FROM QuerySheetItem WHERE QuerySheetId = @QuerySheetId";
+                                    
+                                    //DELETE FROM QuerySheetItemUnit U inner join QuerySheetItem I on U.QuerySheetItemId=I.QuerySheetItemId WHERE I.QuerySheetId = @QuerySheetId
+                                   //DELETE FROM QuerySheetItemDoor D inner join QuerySheetItem I on D.QuerySheetItemId=I.QuerySheetItemId WHERE I.QuerySheetId = @QuerySheetId
+                                  //DELETE FROM ProjectCosting WHERE QuerySheetId = @QuerySheetId
 
                     connection.Execute(query, new { QuerySheetId = model.QuerySheetId }, txn);
-
+                  
+                    //var row = 0;
                     //foreach (ProjectCost item in model.Items)
                     //{
                     //    item.QuerySheetId = model.QuerySheetId;
@@ -196,8 +201,33 @@ namespace ArabErp.DAL
                         item.QuerySheetId = model.QuerySheetId;
                         new ProjectCostRepository().InsertQuerySheetItem(item, connection, txn);
                     }
+//                    foreach (QuerySheetItem items in model.QuerySheetItems)
+//                    {
+//                        items.QuerySheetId = model.QuerySheetId;
+//                        new ProjectCostRepository().InsertQuerySheetItem(items, connection, txn);
 
-                    query = @"UPDATE QuerySheetItem SET  QuerySheetRefNo = @QuerySheetRefNo,QuerySheetDate = @QuerySheetDate,ProjectName = @ProjectName,ContactPerson = @ContactPerson,ContactNumber = @ContactNumber,
+//                        foreach (QuerySheetUnit item in items.ProjectRoomUnits)
+//                        {
+//                            item.QuerySheetItemId = items.QuerySheetItemId;
+
+//                            query = @"insert  into QuerySheetItemUnit(QuerySheetItemId,EvaporatorUnitId,CondenserUnitId,Quantity) 
+//                                       Values (@QuerySheetItemId,@EvaporatorUnitId,@CondenserUnitId,@Quantity)";
+
+//                            row = connection.Execute(query, item, txn);
+
+//                        }
+//                        foreach (QuerySheetDoor item in items.ProjectRoomDoors)
+//                        {
+//                            item.QuerySheetItemId = items.QuerySheetItemId;
+//                            query = @"insert  into QuerySheetItemDoor(QuerySheetItemId,DoorId,Quantity) 
+//                                       Values (@QuerySheetItemId,@DoorId,@Quantity)";
+
+//                            row = connection.Execute(query, item, txn);
+
+//                        }
+//                    }
+                  
+                    query = @"UPDATE QuerySheet SET  QuerySheetRefNo = @QuerySheetRefNo,QuerySheetDate = @QuerySheetDate,ProjectName = @ProjectName,ContactPerson = @ContactPerson,ContactNumber = @ContactNumber,
 	   	                      Email = @Email
 	                          OUTPUT inserted.QuerySheetRefNo
                               WHERE QuerySheetId = @QuerySheetId";
@@ -224,25 +254,52 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                   
-//                  
+                    string sql = "";
+                    //                  
                     var row = 0;
+
                     foreach (QuerySheetItem item in model.QuerySheetItems)
                     {
-                        item.QuerySheetId = model.QuerySheetId;
-                        item.Type = model.Type;
-                        string sql = @"UPDATE QuerySheetItem SET Refrigerant = @Refrigerant,EletricalPowerAvailability = @EletricalPowerAvailability ,Kilowatt = @Kilowatt,Unit = @Unit,Cost = @Cost,PipeLength = @PipeLength WHERE QuerySheetId = @QuerySheetId
-                                       UPDATE QuerySheet  SET Type=@Type WHERE QuerySheetId = @QuerySheetId";
 
+                        sql = @"UPDATE QuerySheetItem SET Kilowatt = @Kilowatt,Cost = @Cost WHERE QuerySheetItemId = @QuerySheetItemId";
                         row = connection.Execute(sql, item, txn);
-                         
-                     }
 
-                    InsertLoginHistory(dataConnection,model.CreatedBy, "Update", typeof(QuerySheet).Name, model.QuerySheetId.ToString(), model.OrganizationId.ToString());
+                    }
+                    sql = @"UPDATE QuerySheet  SET Type=@Type WHERE QuerySheetId = @QuerySheetId";
+                    row = connection.Execute(sql, model, txn);
+                    foreach (QuerySheetItem items in model.QuerySheetItems)
+                    {
+                        foreach (QuerySheetUnit item in items.ProjectRoomUnits)
+                        {
+                         
+                            item.QuerySheetItemId = items.QuerySheetItemId;
+
+                            sql = @"insert  into QuerySheetItemUnit(QuerySheetItemId,EvaporatorUnitId,CondenserUnitId,Quantity) 
+                                       Values (@QuerySheetItemId,@EvaporatorUnitId,@CondenserUnitId,@Quantity)";
+
+                            row = connection.Execute(sql, item, txn);
+
+                        }
+                        foreach (QuerySheetDoor item in items.ProjectRoomDoors)
+                        {
+                            if (item.DoorId == "") continue;
+                            item.QuerySheetItemId = items.QuerySheetItemId;
+                            sql = @"insert  into QuerySheetItemDoor(QuerySheetItemId,DoorId,Quantity) 
+                                       Values (@QuerySheetItemId,@DoorId,@Quantity)";
+
+                            row = connection.Execute(sql, item, txn);
+
+                        }
+                    }
+                  
+
+                 
+
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Update", typeof(QuerySheet).Name, model.QuerySheetId.ToString(), model.OrganizationId.ToString());
                     txn.Commit();
                     return row;
-                   
-                    
+
+
                 }
                 catch (Exception ex)
                 {
@@ -292,6 +349,67 @@ namespace ArabErp.DAL
                 {
                     return 0;
                 }
+            }
+        }
+
+
+        public List<QuerySheetUnit> GetQuerySheetItemUnit(int QuerySheetId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT * from QuerySheetItemUnit Q INNER JOIN QuerySheetItem QI ON Q.QuerySheetItemId=QI.QuerySheetItemId
+                                  WHERE QI.QuerySheetId = @QuerySheetId";
+                return connection.Query<QuerySheetUnit>(sql, new { QuerySheetId = QuerySheetId }).ToList();
+            }
+        }
+        public List<QuerySheetDoor> GetQuerySheetItemDoor(int QuerySheetId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" SELECT * from QuerySheetItemDoor Q INNER JOIN QuerySheetItem QI ON Q.QuerySheetItemId=QI.QuerySheetItemId
+                                  WHERE QI.QuerySheetId = @QuerySheetId";
+                return connection.Query<QuerySheetDoor>(sql, new { QuerySheetId = QuerySheetId }).ToList();
+            }
+        }
+
+        public QuerySheet GetQuerySheetItem(int querySheetId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                QuerySheet model = new QuerySheet();
+             
+                string query = @"select * from QuerySheet
+                                 where QuerySheetId=@id
+
+                                 SELECT *  FROM QuerySheetItem   WHERE QuerySheetId = @id
+                              
+                                SELECT QuerySheetItemId INTO #Rooms FROM QuerySheetItem WHERE QuerySheetId = @id
+
+                                SELECT
+	                                *
+                                FROM QuerySheetItemUnit
+                                WHERE QuerySheetItemId IN (SELECT QuerySheetItemId FROM #Rooms)
+
+                                SELECT
+	                                *
+                                FROM QuerySheetItemDoor
+                                WHERE QuerySheetItemId IN (SELECT QuerySheetItemId FROM #Rooms)
+
+                                DROP TABLE #Rooms;";
+
+                using (var dataset = connection.QueryMultiple(query, new { id = querySheetId }))
+                {
+                    model = dataset.Read<QuerySheet>().First();
+                    model.QuerySheetItems = dataset.Read<QuerySheetItem>().AsList();
+                    List<QuerySheetUnit> units = dataset.Read<QuerySheetUnit>().AsList();
+                    List<QuerySheetDoor> doors = dataset.Read<QuerySheetDoor>().AsList();
+                    foreach (var item in model.QuerySheetItems)
+                    {
+                        item.ProjectRoomUnits = units.Where(x => x.QuerySheetItemId == item.QuerySheetItemId).Select(x => x).ToList();
+                        item.ProjectRoomDoors = doors.Where(x => x.QuerySheetItemId == item.QuerySheetItemId).Select(x => x).ToList();
+                    }
+                }
+                return model;
             }
         }
     }

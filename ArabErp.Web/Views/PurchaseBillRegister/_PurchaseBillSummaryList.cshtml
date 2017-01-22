@@ -3,7 +3,10 @@
     <table class="table table-bordered">
         <thead>
             <tr class="grid_heading">
-                <th width="30%"><h1>Date Wise</h1></th>
+                <th width="15%"><h1>Date Wise</h1></th>
+                <th width="18%"><h1>Bill No. & Date</h1></th>
+                <th width="30%"><h1>LPO No. & Date</h1></th>
+                <th width="50%"><h1>GRN No. & Date</h1></th>
                 <th class="text-right" width="10%"><h1>Purchase Amount</h1></th>
             </tr>
         </thead>
@@ -15,6 +18,9 @@
                 <tr>
 
                     <td class="grid-cell">@item.PurchaseBillDate.ToString("dd/MMM/yyyy")</td>
+                    <td class="grid-cell ">@item.PurchaseBillRefNo</td>
+                    <td class="grid-cell ">@item.SupplyOrderNo</td>
+                    <td class="grid-cell ">@item.GRNNo</td>
                     <td class="grid-cell text-right">@item.Amount</td>
                 </tr>
             </tbody>

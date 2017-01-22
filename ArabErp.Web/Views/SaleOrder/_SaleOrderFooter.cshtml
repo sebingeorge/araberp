@@ -30,11 +30,12 @@
 </div>
     }
 <div class="row">
-    <div class="part1">
+    @*<div class="part1">*@
                 <div class="col-md-12">
             <label for="SpecialRemarks">Special Remarks</label>
             @if (actionName == "Create")
             {
+               
                 @Html.TextAreaFor(m => Model.SpecialRemarks, new { @class = "form_input form_input-h", autocomplete = "off" })
             }
             else
@@ -43,7 +44,7 @@
 
             }
         </div>
-    </div>
+    @*</div>*@
 </div>
 
         <div class="row">
@@ -148,12 +149,20 @@
             }
         </div>
     </div>
+@if (Model.isProjectBased == 0)
+            {
     <div class="col-md-2">
         <div class="part4">
             <label for="EDateArrival">Expected Date of Arrival</label>
+        
             @Html.TextBoxFor(m => Model.EDateArrival, Model.EDateArrival.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
         </div>
     </div>
+            }
+else
+{
+    @Html.HiddenFor(m => Model.EDateArrival)
+}
     <div class="col-md-2">
         <div class="part4">
             @if (Model.isProjectBased == 0)
@@ -164,7 +173,7 @@
             {
                 <label for="EDateDelivery">Expected Commission Date</label>
             }
-         
+          
             @Html.TextBoxFor(m => Model.EDateDelivery, Model.EDateDelivery.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
         </div>
     </div>

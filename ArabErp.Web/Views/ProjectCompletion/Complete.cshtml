@@ -1,7 +1,7 @@
 ﻿@model ArabErp.Domain.ProjectCompletion
 
 @{
-    ViewBag.Title = "Complete Project";
+    ViewBag.Title = "Project Commissioning/Handover";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,23 +18,6 @@
             changeMonth: true,
             yearRange: year + ":" + (year + 3)
         });
-
-        //---------------------toastr---------------------------//
-        toastr.options = {
-            "positionClass": "toast-bottom-full-width",
-            "timeOut": "5000",
-            "extendedTimeOut": "2000"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{ TempData["success"] = TempData["error"] = ""; }
-        //------------------------------------------------------//
-
     })
 
     function Back() {
@@ -46,7 +29,7 @@
 
 <div class="row">
     <div class="form-head1">
-        <h4>Project Completion Commissioning/Handover</h4>
+        <h4>Project Commissioning/Handover</h4>
     </div>
     <div class="main-part pad1">
         <form method="post">
@@ -82,7 +65,13 @@
                     </div>*@
             </div>
 
-            <h5>Chiller:</h5>
+            <strong>Room Details:</strong>
+            @foreach (var item in Model.ProjectRoomAndUnitDetails)
+            {
+                @Html.Partial("_ProjectRoomAndUnitDetails", item)
+            }
+
+            @*<h5>Chiller:</h5>
             <hr>
             <div class="row form-group">
                 <div class="col-md-1">
@@ -139,7 +128,7 @@
                     <label for="FreezerQuantity">Quantity</label>
                     @Html.TextBoxFor(m => m.FreezerQuantity, new { @class = "form_input" })
                 </div>
-            </div>
+            </div>*@
 
             @*<strong>Job Card details:</strong>
                 @Html.Action("JobCardDetails", Model.SaleOrderId)

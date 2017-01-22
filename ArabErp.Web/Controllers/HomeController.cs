@@ -79,6 +79,7 @@ namespace ArabErp.Web.Controllers
         [AllowAnonymous]
         public ActionResult LoadQuickView()
         {
+            if (Session["user"] == null) return RedirectToAction("LogOff", "Account");
             QuickView view = new QuickView();
             view.PendingDirectPurchaseRequests = true;
             view.PendingTransQuotations = true;
@@ -90,6 +91,7 @@ namespace ArabErp.Web.Controllers
             view.MaterialStockBelowMinLevel = true;
             view.PendingVechicleInpass = true;
             view.PendingWRForStoreIssue = true;
+            view.PendingJobcardQC = true;
             if (view.PendingProjectQuotations)
             {
                 SalesQuotationRepository repo = new SalesQuotationRepository();
@@ -145,6 +147,13 @@ namespace ArabErp.Web.Controllers
                 var list = new WorkShopRequestRepository().PendingWorkshopRequests("","","","");
                 view.NoOfWRForStoreIssue = list.Count();
             }
+            if (view.PendingJobcardQC)
+            {
+                var list = new DeliveryChallanRepository().PendingDelivery( OrganizationId);
+                view.NoOfJobcardQC = list.Count();
+            }
+
+
             IEnumerable<ERPAlerts> Alerts;
             if (Session["alertpermissions"] == null)
             {
@@ -194,6 +203,9 @@ namespace ArabErp.Web.Controllers
                             break;
                         case 8:
                             alertpermission.PendingWRForStoreIssue = true;
+                            break;
+                        case 9:
+                            alertpermission.PendingJobcardQC = true;
                             break;
                         default:
                             break;

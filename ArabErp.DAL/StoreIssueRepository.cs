@@ -200,7 +200,8 @@ namespace ArabErp.DAL
         /// Return all active store issues
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<StoresIssuePreviousList> PreviousList(string StoreIssue = "", string Jobcard = "", string Customer = "", string RegNo = "", string Request="")
+
+        public IEnumerable<StoresIssuePreviousList> PreviousList(DateTime? from, DateTime? to, string StoreIssue = "", string Jobcard = "", string Customer = "", string RegNo = "", string Request = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
 
@@ -220,16 +221,17 @@ namespace ArabErp.DAL
 	                                LEFT JOIN Customer C ON WR.CustomerId = C.CustomerId
 									LEFT JOIN JobCard J  ON J.JobCardId=WR.JobCardId
 									LEFT JOIN VehicleInPass V ON V.VehicleInPassId=J.InPassId
-                                WHERE ISNULL(SI.isActive, 1) = 1
+                                WHERE SI.StoreIssueDate >= @from AND SI.StoreIssueDate <= @to 
+                                AND ISNULL(SI.isActive, 1) = 1
                                 AND  isnull(WR.WorkShopRequestRefNo,'') LIKE '%'+@Request+'%'
                                 AND isnull(CustomerName,'') LIKE '%'+@Customer+'%'
                                 AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%'
 			                    OR ISNULL(V.ChassisNo, '') LIKE '%'+@RegNo+'%')
 				                AND ISNULL(J.JobCardNo, '') LIKE '%'+@Jobcard+'%'
-								AND ISNULL(SI.StoreIssueRefNo, '') LIKE '%'+@StoreIssue+'%'
-                                AND ISNULL(SI.StoreIssueDate, '') LIKE '%'+@StoreIssue+'%'
+								AND (ISNULL(SI.StoreIssueRefNo, '') LIKE '%'+@StoreIssue+'%'
+                                OR ISNULL(SI.StoreIssueDate, '') LIKE '%'+@StoreIssue+'%')
                                 ORDER BY StoreIssueDate DESC, SI.CreatedDate DESC;";
-                return connection.Query<StoresIssuePreviousList>(query, new { StoreIssue = StoreIssue, Jobcard = Jobcard, Customer = Customer, RegNo = RegNo, Request = Request }).ToList();
+                return connection.Query<StoresIssuePreviousList>(query, new { from = from, to = to, StoreIssue = StoreIssue, Jobcard = Jobcard, Customer = Customer, RegNo = RegNo, Request = Request }).ToList();
             }
         }
 
@@ -242,7 +244,7 @@ namespace ArabErp.DAL
                                 StoreIssueId,StoreIssueRefNo,StoreIssueDate,StockPointName,C.CustomerName, ORR.CountryName,
                                 CONCAT(W.WorkShopRequestRefNo,' , ' ,CONVERT(Varchar(15),W.WorkShopRequestDate,106))WONODATE,
                                 CONCAT(SO.SaleOrderRefNo,' , ',CONVERT(Varchar(15),SO.SaleOrderDate,106))SONODATE,
-                                W.RequiredDate,S.Remarks,S.EmployeeId,EmployeeName,j.JobCardNo
+                                W.RequiredDate,S.Remarks,S.EmployeeId,EmployeeName,j.JobCardNo,U.UserName,U.Signature
                                 FROM StoreIssue S
 								INNER JOIN Stockpoint SP ON SP.StockPointId=S.StockPointId
                                 INNER JOIN WorkShopRequest W ON W.WorkShopRequestId=S.WorkShopRequestId
@@ -250,8 +252,9 @@ namespace ArabErp.DAL
                                 INNER JOIN Customer C ON C.CustomerId=W.CustomerId 
 								INNER JOIN Employee E ON E.EmployeeId=S.EmployeeId 
 							    INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
+                                INNER JOIN [User] U ON U.UserId=S.CreatedBy
                                 left  JOIN Country ORR ON ORR.CountryId=O.Country
-								left join JobCard J ON J.JobCardId=w.JobCardId
+								left join JobCard J ON J.JobCardId=W.JobCardId
                                 WHERE StoreIssueId=@StoreIssueId";
 
                 var objConsumption = connection.Query<StoreIssue>(sql, new

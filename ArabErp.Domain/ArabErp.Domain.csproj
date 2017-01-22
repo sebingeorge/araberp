@@ -96,6 +96,9 @@
     <Compile Include="PrefixSettingsVsOrganization.cs" />
     <Compile Include="PrintDescription.cs" />
     <Compile Include="ProjectCompletion.cs" />
+    <Compile Include="ProjectRoomAndUnitDetails.cs" />
+    <Compile Include="PurchaseBillPostingList.cs" />
+    <Compile Include="PurchaseBillPostingTransaction.cs" />
     <Compile Include="PurchaseRequestRegister.cs" />
     <Compile Include="QCParameters.cs" />
     <Compile Include="QuerySheetItem.cs" />
@@ -161,6 +164,7 @@
     <Compile Include="SalesExecutive.cs" />
     <Compile Include="SalesInvoice.cs" />
     <Compile Include="SalesInvoiceItem.cs" />
+    <Compile Include="SalesInvoicePostingList.cs" />
     <Compile Include="SalesQuotation.cs" />
     <Compile Include="SalesQuotationItem.cs" />
     <Compile Include="SalesQuotationList.cs" />
@@ -168,6 +172,7 @@
     <Compile Include="SalesRegister.cs" />
     <Compile Include="SalesTarget.cs" />
     <Compile Include="ServiceEnquiry.cs" />
+    <Compile Include="ServiceRegister.cs" />
     <Compile Include="StandardSellingRate.cs" />
     <Compile Include="StockCreation.cs" />
     <Compile Include="StockCreationConsumedItem.cs" />

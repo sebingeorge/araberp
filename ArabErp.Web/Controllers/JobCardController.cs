@@ -21,13 +21,13 @@ namespace ArabErp.Web.Controllers
             repo = new JobCardRepository();
         }
         // GET: JobCard
-        public ActionResult Index(int isProjectBased = 0,int service=0)
+        public ActionResult Index(int ProjectBased = 0, int service = 0)
         {
             try
             {
-                FillJCNo(isProjectBased,service);
-                FillCustomerinJC(isProjectBased,service);
-                ViewBag.ProjectBased = isProjectBased;
+                FillJCNo(ProjectBased, service);
+                FillCustomerinJC(ProjectBased, service);
+                ViewBag.ProjectBased = ProjectBased;
                 ViewBag.service = service;
                 return View();
             }
@@ -47,7 +47,7 @@ namespace ArabErp.Web.Controllers
             }
         }
         public ActionResult Create(int? Id, int? isProjectBased)//SaleOrderItemId is received here
-         {
+        {
             try
             {
                 FillEmployee();
@@ -55,7 +55,11 @@ namespace ArabErp.Web.Controllers
                 SaleOrderRepository soRepo = new SaleOrderRepository();
                 isProjectBased = soRepo.IsProjectOrVehicle(Id ?? 0);
                 JobCard model = repo.GetJobCardDetails(Id ?? 0, isProjectBased ?? 0);
-                model.JobCardNo = DatabaseCommonRepository.GetNextDocNo(model.isService == 1 ? 34 : 16, OrganizationId);
+                model.JobCardNo = DatabaseCommonRepository.GetNextDocNo(
+                    model.isService == 1 ?
+                    (isProjectBased ?? 0) == 1 ? 40 : 34 :
+                    (isProjectBased ?? 0) == 1 ? 39 : 16,
+                    OrganizationId);
                 model.isProjectBased = isProjectBased ?? 0;
                 model.JobCardTasks = new List<JobCardTask>();
                 model.JobCardTasks.Add(new JobCardTask() { TaskDate = DateTime.Now });
@@ -97,7 +101,7 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
-                IEnumerable<PendingSO> pendingSo = repo.GetPendingSO(isProjectBased ?? 0, OrganizationId,service??0);
+                IEnumerable<PendingSO> pendingSo = repo.GetPendingSO(isProjectBased ?? 0, OrganizationId, service ?? 0);
                 return View(pendingSo);
             }
 
@@ -129,6 +133,9 @@ namespace ArabErp.Web.Controllers
                     return RedirectToAction("PendingJobCard", new { isProjectBased = model.isProjectBased, service = model.isService });
                 }
                 TempData["error"] = "Some error occured while saving. Please try again.";
+                FillBay(model.isService);
+                FillAllTasks();
+                FillEmployee();
                 return View(model);
             }
 
@@ -188,13 +195,13 @@ namespace ArabErp.Web.Controllers
         //    ViewBag.inpassList = new SelectList(new DropdownRepository().VehicleInPassDropdown(), "Id", "Name");
         //}
 
-        public void FillJCNo(int isProjectBased,int service)
+        public void FillJCNo(int isProjectBased, int service)
         {
-            ViewBag.JCNoList = new SelectList(new DropdownRepository().JCNODropdown(OrganizationId, isProjectBased,service), "Id", "Name");
+            ViewBag.JCNoList = new SelectList(new DropdownRepository().JCNODropdown(OrganizationId, isProjectBased, service), "Id", "Name");
         }
         public void FillCustomerinJC(int isProjectBased, int service)
         {
-            ViewBag.CusList = new SelectList(new DropdownRepository().JCCustomerDropdown(OrganizationId, isProjectBased,service), "Id", "Name");
+            ViewBag.CusList = new SelectList(new DropdownRepository().JCCustomerDropdown(OrganizationId, isProjectBased, service), "Id", "Name");
         }
         private void FillAllTasks()
         {
@@ -205,6 +212,7 @@ namespace ArabErp.Web.Controllers
         {
             try
             {
+                ViewBag.ProjectBased = ProjectBased;
                 from = from ?? DateTime.Today.AddMonths(-1);
                 to = to ?? DateTime.Today;
                 return PartialView("_PreviousList", new JobCardRepository().GetAllJobCards(ProjectBased, service, id, cusid, OrganizationId, from, to, RegNo));
@@ -225,22 +233,22 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-       
 
-        public ActionResult Print(int Id)
+
+        public ActionResult JobCardReport(int Id)
         {
 
             ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "JobCard.rpt"));
 
             DataSet ds = new DataSet();
             ds.Tables.Add("Head");
-           
+
             ds.Tables.Add("Items");
 
             //-------HEAD
             ds.Tables["Head"].Columns.Add("JobCardNo");
             ds.Tables["Head"].Columns.Add("JobCardDate");
+            ds.Tables["Head"].Columns.Add("EDC");
             ds.Tables["Head"].Columns.Add("SaleOrderRefNo");
             ds.Tables["Head"].Columns.Add("CustomerName");
             ds.Tables["Head"].Columns.Add("CustomerPhone");
@@ -269,10 +277,11 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("FreezerMake");
             ds.Tables["Head"].Columns.Add("FreezerModel");
             ds.Tables["Head"].Columns.Add("VehicleMake");
+            ds.Tables["Head"].Columns.Add("Accessories");
             ds.Tables["Head"].Columns.Add("CreatedUser");
             ds.Tables["Head"].Columns.Add("CreateSignature");
             ds.Tables["Head"].Columns.Add("CreatedDes");
-            
+
             //-------DT
             ds.Tables["Items"].Columns.Add("TaskDate");
             ds.Tables["Items"].Columns.Add("Employee");
@@ -287,13 +296,14 @@ namespace ArabErp.Web.Controllers
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["JobCardNo"] = Head.JobCardNo;
             dr["JobCardDate"] = Head.JobCardDate.ToString("dd-MMM-yyyy");
+            dr["EDC"] = Head.JobCardDate.ToString("dd-MMM-yyyy");
             dr["SaleOrderRefNo"] = Head.RegistrationNo;
             dr["CustomerName"] = Head.CustomerName;
             dr["CustomerPhone"] = Head.CPhone;
             dr["CustomerContactPerson"] = Head.ContactPerson;
             dr["Customer"] = Head.Customer;
             dr["Unit"] = Head.FreezerUnitName;
-            dr["ChasisNo"] = Head.ChasisNo;
+            dr["ChasisNo"] = Head.RegistrationNo;
             //dr["TaskDate"] = Head.TaskDate;
             dr["VModel"] = Head.VehicleModelName;
             dr["Technician"] = Head.Technician;
@@ -305,7 +315,7 @@ namespace ArabErp.Web.Controllers
             dr["Phone"] = Head.Phone;
             dr["Fax"] = Head.Fax;
             dr["Email"] = Head.Email;
-           // dr["ContactPerson"] = Head.ContactPerson;
+            // dr["ContactPerson"] = Head.ContactPerson;
             dr["Zip"] = Head.Zip;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
@@ -316,6 +326,7 @@ namespace ArabErp.Web.Controllers
             dr["FreezerMake"] = Head.FreezerMake;
             dr["FreezerModel"] = Head.FreezerModel;
             dr["VehicleMake"] = Head.VehicleMake;
+            dr["Accessories"] = Head.Accessories;
             dr["CreatedUser"] = Head.CreatedUser;
             dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
             dr["CreatedDes"] = Head.CreatedDes;
@@ -346,7 +357,7 @@ namespace ArabErp.Web.Controllers
             }
             if (Items.Count >= 0)
             {
-                int n =23-Items.Count;
+                int n = 23 - Items.Count;
 
                 for (int i = 0; i <= n; i++)
                 {
@@ -362,6 +373,10 @@ namespace ArabErp.Web.Controllers
                 }
             }
 
+            if (Head.isProjectBased == 0)
+                rd.Load(Path.Combine(Server.MapPath("~/Reports"), "JobCard.rpt"));
+            else rd.Load(Path.Combine(Server.MapPath("~/Reports"), "JobCard_Project.rpt"));
+
             ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "JobCard.xml"), XmlWriteMode.WriteSchema);
 
             rd.SetDataSource(ds);
@@ -369,8 +384,6 @@ namespace ArabErp.Web.Controllers
             Response.Buffer = false;
             Response.ClearContent();
             Response.ClearHeaders();
-
-
             try
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
@@ -379,7 +392,7 @@ namespace ArabErp.Web.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -422,10 +435,10 @@ namespace ArabErp.Web.Controllers
             try
             {
                 if (JobCardId == 0) return RedirectToAction("Index", "Home");
-                JobCard model = new JobCardRepository().GetJobCardDetails2(JobCardId, OrganizationId);
-                string ref_no = new JobCardRepository().DeleteJobCard(JobCardId);
-                TempData["success"] = "Deleted Successfully (" + ref_no + ")";
-                return RedirectToAction("Index", new { isProjectBased = model.isProjectBased });
+                //JobCard model = new JobCardRepository().GetJobCardDetails2(JobCardId, OrganizationId);
+                JobCard model = new JobCardRepository().DeleteJobCard(JobCardId);
+                TempData["success"] = "Deleted Successfully (" + model.JobCardNo + ")";
+                return RedirectToAction("Index", new { isProjectBased = model.isProjectBased, service = model.isService });
             }
             catch (Exception)
             {

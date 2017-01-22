@@ -17,11 +17,18 @@ namespace ArabErp.DAL
         /// Return all job cards waiting for completion
         /// </summary>
         /// <returns></returns>
-        public List<Dropdown> JobCardDropdown(int organizationId, int jobCardId = 0)
+        public List<Dropdown> JobCardDropdown(int organizationId, int isProjectBased = 0)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(JodCardCompleteStatus, 0) = 0 AND ISNULL(isActive, 1) = 1 AND OrganizationId = @org OR JobCardId = @jobCardId", new { jobCardId = jobCardId, org = organizationId }).ToList();
+                return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(JodCardCompleteStatus, 0) = 0 AND ISNULL(isActive, 1) = 1   AND OrganizationId = @org and isProjectBased = @isProjectBased", new { isProjectBased = isProjectBased, org = organizationId }).ToList();
+            }
+        }
+        public List<Dropdown> JobCardDropdownforAddtional(int isProjectBased, int organizationId, int jobCardId = 0)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(JodCardCompleteStatus, 0) = 0 AND ISNULL(isActive, 1) = 1 and isProjectBased=@isProjectBased  AND OrganizationId = @org OR JobCardId = @jobCardId", new { jobCardId = jobCardId, org = organizationId, isProjectBased = isProjectBased }).ToList();
             }
         }
         /// <summary>
@@ -33,6 +40,17 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item WHERE ISNULL(isActive, 1) = 1 ORDER BY ItemName").ToList();
+            }
+        }
+        /// <summary>
+        /// Item expt door ,evaporator and condenser
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> ItemWithoutDoorUnitDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item WHERE ISNULL(isActive, 1) = 1 and CondenserUnit=0 and EvaporatorUnit=0 and Door=0 ORDER BY ItemName").ToList();
             }
         }
         /// <summary>
@@ -149,6 +167,30 @@ namespace ArabErp.DAL
             {
                 var param = new DynamicParameters();
                 return connection.Query<Dropdown>("select ItemId Id,ItemName Name from item where FreezerUnit=1 and isActive=1").ToList();
+            }
+        }
+        public List<Dropdown> FillCondenserUnit()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select ItemId Id,ItemName Name from item where CondenserUnit=1 and isActive=1").ToList();
+            }
+        }
+        public List<Dropdown> FillEvaporatorUnit()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select ItemId Id,ItemName Name from item where EvaporatorUnit=1 and isActive=1").ToList();
+            }
+        }
+        public List<Dropdown> FillDoor()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+                return connection.Query<Dropdown>("select ItemId Id,ItemName Name from item where Door=1 and isActive=1").ToList();
             }
         }
         public List<Dropdown> FillVehicle()
@@ -770,7 +812,18 @@ namespace ArabErp.DAL
                                                     new { OrganizationId = OrganizationId, ProjectBased = ProjectBased, AfterSales = AfterSales }).ToList();
             }
         }
+        public List<Dropdown> FillSQEmployee(int OrganizationId, int ProjectBased, int AfterSales)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
 
+                return connection.Query<Dropdown>(@"SELECT  Distinct E.[EmployeeId] Id,E.[EmployeeName] Name
+                                                    FROM SalesQuotation S
+                                                    INNER JOIN Employee E on E.EmployeeId = S.[SalesExecutiveId]
+                                                    WHERE S.OrganizationId = @OrganizationId AND S.isProjectBased = " + ProjectBased + " and S.isAfterSales=" + AfterSales,
+                                                    new { OrganizationId = OrganizationId, ProjectBased = ProjectBased, AfterSales = AfterSales }).ToList();
+            }
+        }
         public List<Dropdown> PurchaseBillNoDropdown()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -940,13 +993,20 @@ namespace ArabErp.DAL
         /// <summary>
         /// for MRP 
         /// </summary>
-        /// <returns>Critical Items Only
+        /// <returns>
         /// </returns>
         public List<Dropdown> ItemFGDropdown()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item I INNER JOIN ItemCategory IC ON IC.itmCatId=I.ItemCategoryId WHERE ISNULL(I.isActive, 1) = 1 AND  IC.CategoryName='Finished Goods' and I.CriticalItem=1").ToList();
+                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item I  WHERE ISNULL(I.isActive, 1) = 1 AND I.BatchRequired=1 AND (I.FreezerUnit=1 OR I.Box=1)").ToList();
+            }
+        }
+        public List<Dropdown> ItemRMDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item I  WHERE ISNULL(I.isActive, 1) = 1 AND ISNULL(I.BatchRequired,0)=0 AND (ISNULL(I.FreezerUnit,0)=0 OR ISNULL(I.Box,0)=0) and isnull(MinLevel,0)>0").ToList();
             }
         }
         /// <summary>
@@ -1076,6 +1136,23 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<Dropdown>("SELECT JobCardTaskMasterId Id, JobCardTaskName Name FROM JobCardTaskMaster WHERE ISNULL(isActive, 1) = 1").ToList();
+            }
+        }
+
+        public IEnumerable QuerySheetIncludingCurrentDropdown(int QuerySheetId, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>(@"SELECT 
+	                                                    QuerySheetId Id, 
+	                                                    QuerySheetRefNo Name 
+                                                    FROM QuerySheet 
+                                                    WHERE ISNULL(isActive, 1) = 1
+                                                    AND QuerySheetId NOT IN (SELECT QuerySheetId FROM SalesQuotation 
+                                                                                WHERE QuerySheetId IS NOT NULL 
+                                                                                AND QuerySheetId <> " + QuerySheetId.ToString() + @") 
+                                                    AND [Type] = 'Costing'
+                                                    AND OrganizationId= " + OrganizationId.ToString()).ToList();
             }
         }
     }

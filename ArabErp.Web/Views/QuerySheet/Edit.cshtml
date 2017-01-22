@@ -138,6 +138,12 @@
         })
         $("#costingTotal").text(amount.toFixed(2));
     }
+    function UnitSelection(index) {
+        $('div[id$="_units_popup"]').addClass('hide');
+        $('div[id$="_doors_popup"]').addClass('hide');
+        $('#room_' + index + '_units_popup').removeClass('hide');
+        $('#room_' + index + '_doors_popup').removeClass('hide');
+    }
 </script>
 
 
@@ -211,17 +217,16 @@
                     <th width="5%" nowrap><h1>Product Incoming Temperature</h1></th>
                     <th width="5%" nowrap><h1>Pipe Length</h1></th>
                     <th width="5%" nowrap><h1>Door Size</h1></th>
+                    <th width="5%"><h1>Refrigerant</h1></th>
+                    <th width="5%" nowrap><h1>Electrical Power</h1></th>
                     @if (Model.Type != "RoomDetails")
                     {
-
-                        <th width="5%"><h1>Refrigerant</h1></th>
-                        <th width="5%" nowrap><h1>Electrical Power</h1></th>
+                        <th nowrap width="15%"><h1></h1></th>
                         <th width="5%"><h1>Kilowatt</h1></th>
-                        <th width="10%"><h1>Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
-                        <th width="5%"><h1>Cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>
+                        @*<th width="5%" class="text-right"><h1>Cost&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></th>*@
+
                     }
                     <th width="1%" class="text-center"></th>
-
                 </tr>
             </thead>
             <tbody>
@@ -245,21 +250,18 @@
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].ProductIncomingTemperature, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].PipeLength, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].DoorSizeTypeAndNumberOfDoor, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Refrigerant, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                        <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
                         @if (Model.Type != "RoomDetails")
                         {
-                            <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Refrigerant, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                            <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].EletricalPowerAvailability, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
+                            <td onclick="UnitSelection(@i)" class="grid-cell" value="Unit Selection" data-toggle="modal" data-target="#unitselectionpopup"><a href="#" class="unit">Select Unit & Door</a></td>
                             <td>@Html.TextAreaFor(m => Model.QuerySheetItems[i].Kilowatt, new { @class = "form_input form_input-h", autocomplete = "off" })</td>
-                            <td>@Html.DropDownListFor(m => m.QuerySheetItems[i].Unit, new SelectList(ViewBag.UnitList, "Value", "Text", Model.QuerySheetItems[i].Unit), new { @class = "form_input" })</td>
-                            <td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Cost, new { @class = "form_input numbers-only", autocomplete = "off" })</td>
+                            @*<td>@Html.TextBoxFor(m => Model.QuerySheetItems[i].Cost, new { @class = "form_input numbers-only", autocomplete = "off" })</td>*@
                         }
-
                         <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus del" style="top:0px" onclick="AddRow()"></a></td>
                     </tr>
                 }
-
             </tbody>
-
         </table>
     </div>
     <br />
@@ -272,17 +274,65 @@
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <input type="button" class="form-button right" value="Exit" onclick="Back('@Model.Type')" />
-                    @if (Model.isUsed)
+                    @if (Model.Type == "Unit" || Model.Type == "Costing")
                     {
                         <em class="perm">**Cannot delete/update because the query sheet is already used somewhere.</em>
                     }
                     else
                     {
-                        @*<button type="submit" class="form-button right">Update</button>
-                        <button type="button" class="form-button left" onclick="DeleteQuerySheet('@Model.QuerySheetId')">Delete</button>*@ 
+                        <button type="submit" class="form-button right">Update</button>
+                        <button type="button" class="form-button left" onclick="DeleteQuerySheet('@Model.QuerySheetId')">Delete</button> 
                     }
                 </div>
             </div>
+              <!-- Unit & Door Selection Column Click PopUp -->
+    <div id="unitselectionpopup" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg" style="width:800px">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Select Unit</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="unitselection">
+                        @if (Model.QuerySheetItems != null && Model.QuerySheetItems.Count > 0)
+                        {
+                            for (int i = 0; i < Model.QuerySheetItems.Count; i++)
+                            {
+                                ViewBag.currentIndex = i;
+                                <div id="room_@(i)_units_popup" class="hide">
+                                    @Html.Partial("_UnitSelection", Model)
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+                @*............Door Selection Grid...................*@
+
+                <div class="modal-header">
+                    @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                    <h4 class="modal-title">Select Door</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="doorselection">
+                        @if (Model.QuerySheetItems != null && Model.QuerySheetItems.Count > 0)
+                        {
+                            for (int i = 0; i < Model.QuerySheetItems.Count; i++)
+                            {
+                                ViewBag.currentIndex = i;
+                                <div id="room_@(i)_doors_popup" class="hide">
+                                    @Html.Partial("_DoorSelection", Model)
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
         }
     </div>
 </div>

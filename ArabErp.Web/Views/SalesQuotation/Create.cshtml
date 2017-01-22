@@ -17,6 +17,13 @@
 
 }
 
+<style type="text/css">
+    .cost-notifier {
+        float: right;
+        font-size: large;
+        margin-top: 6px;
+    }
+</style>
 
 <script>
 
@@ -39,19 +46,19 @@
         @if (actionName == "Create")
         {
            @: url += "?ProjectBased=0" + "&AfterSales=0";
-                                        }
+                                                                        }
         else if (actionName == "CreateProject")
         {
             @: url += "?ProjectBased=1" + "&AfterSales=0";;
-                                        }
+                                                                        }
         else if (actionName == "CreateAfterSalesTrans")
         {
             @: url += "?ProjectBased=0" + "&AfterSales=1";;
-                                        }
+                                                                        }
         else if (actionName == "CreateAfterSalesProject")
            {
                @: url += "?ProjectBased=1" + "&AfterSales=1";;
-                                           }
+                                                                           }
         window.location = url;
 
     }
@@ -79,8 +86,8 @@
         @if (Model.isAfterSales)
         {
             @: $("#CustomerId").val(@Model.CustomerId);
-                            @: $("#CustomerId").trigger("onchange");
-                        }
+                                                            @: $("#CustomerId").trigger("onchange");
+                                                        }
     });
     function CustomerChanged(cust) {
         var cusId = cust.value;
@@ -94,6 +101,7 @@
             success: function (result) {
                 if (result.Success) { // this sets the value from the response
                     $('#CurrencyId').val(result.CurrencyId);
+                    $('#CurrencyName').val(result.CurrencyName);
                     $("#CustomerAddress").val(result.Address);
                     $("#ContactPerson").val(result.ContactPerson);
                 } else {
@@ -106,27 +114,6 @@
     }
 
     $(document).ready(function () {
-        toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        if ('@TempData["success"]' != "" && '@TempData["QuotationRefNo"]' != "") {
-            toastr.success('@TempData["success"]' + '   Sales Quotation No. is : ' + '@TempData["QuotationRefNo"]');
-        }
-        else if ('@TempData["error"]' != "") {
-            toastr.error('@TempData["error"]');
-        }
-        @{ TempData["success"] = TempData["error"] = "";}
-
         //bind keypress event for new row inputs.
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
@@ -136,7 +123,12 @@
         @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
         {
             @:removeOnChange();
-        }
+                                        }
+
+        @if (Model.isProjectBased && actionName == "Approve")
+        {
+            @: OnQuerySheetChanged($('#QuerySheetId'));
+                }
     });
 
     function removeOnChange(){
@@ -353,9 +345,9 @@
         @if (!new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
         {
             @:for(var i=0; i< @Model.SalesQuotationItems.Count; i++){
-            @:    OnRateTypeChanged(i);
-            @:}
-        }
+                                                            @:    OnRateTypeChanged(i);
+                                                            @:}
+                                        }
     }
 
     function ExitToPendingApproval(){
@@ -369,8 +361,18 @@
         if (id != '' || id != 0) {
             var url = '@Url.Action("GetQuerySheetCostingAmount")';
             $.getJSON(url, { id: id }, function (data) {
-                $("#costing-amount-notifier").html("<em>Project cost for Query Sheet <strong>" + $("#QuerySheetId option:selected").text() + "</strong> is <strong>" + $("#CurrencyId option:selected").text() + " " + data + "/-</strong></em>");
+                $("#costing-amount-notifier").html("<em>Project cost for Query Sheet <strong>" + $("#QuerySheetId option:selected").text() + "</strong> is <strong>" + $("#CurrencyName").val() + " " + data + "</strong></em>");
+                $('#GrandTotal').val(data);
             })
+            $('#project_rooms_grid').html('<div style="border: 1px solid white;'+
+                                            'padding: 10px;'+
+                                            'background: #c5c5c5;'+
+                                            'margin-bottom: 15px;">'+
+                                            '<center><strong>Loading room details here...</strong></center>'+
+                                            '</div>');
+            url = '@Url.Action("GetRoomDetailsFromQuerySheet")';
+            $('#project_rooms_grid').load(url, { querySheetId: id });
+            //$('#unitselection').load(url, { querySheetId: id })
         }
         else{
             $("#costing-amount-notifier").text("");
@@ -414,6 +416,9 @@
             @Html.HiddenFor(m => m.SalesQuotationId)
             @Html.HiddenFor(m => m.isProjectBased)
             @Html.HiddenFor(m => m.isAfterSales)
+            @Html.HiddenFor(m => m.GrandTotal)
+            @Html.HiddenFor(m => m.CurrencyId)
+            <input type="hidden" id="CurrencyName" />
             if (Model.ProjectCompletionId != null && Model.ProjectCompletionId != 0)
             {
                 @Html.HiddenFor(m => m.ProjectCompletionId)
@@ -555,8 +560,6 @@
 
                 </div>
             </div>
-
-
 
             <script>
                 $(document).ready(function () {
@@ -771,180 +774,18 @@
                     @if (new[] { "CreateAfterSalesTrans", "CreateAfterSalesProject" }.Contains(ViewContext.RouteData.GetRequiredString("action")))
                     {
                         @:removeOnChange();
-                    }
+                                        }
                 }
             </script>
 
-            <table class="table table-bordered" id="tab_logic">
-                <thead>
-                    <tr class="grid_heading">
-                        @if (actionName == "Create" || actionName == "CreateProject")
-                        {
-                            <th width="2%" class="text-center"></th>
-                        }
-                        <th width="1%" class="text-center"><h1>#</h1></th>
-                        <th width="45%" class="text-left"><h1>Work Description</h1></th>
-                        @*@if (new[] { "Create", "CreateAferSales", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
-                        {
-                            <th width="10%"><h1>Rate Settings</h1></th>
-                        }*@
-                        <th width="5%" class="text-right"><h1>Qty.</h1></th>
-                        <th width="5%" class="text-right"><h1>UoM</h1></th>
-                        <th width="7%" class="text-right"><h1>Rate</h1></th>
-
-                        <th width="7%" class="text-right"><h1>Discount</h1></th>
-                        <th width="7%" class="text-right"><h1>Amount</h1></th>
-                        <th width="7%" class="text-right"><h1>Total</h1></th>
-                        @if (actionName == "Create" || actionName == "CreateProject")
-                        {
-                            <th width="2%">&nbsp;</th>
-                        }
-                    </tr>
-                </thead>
-                <tbody id="table_validation">
-                    @for (int i = 0; i < Model.SalesQuotationItems.Count; i++)
+            <div id="project_rooms_grid" style="overflow-x: auto;">
+                @*@if (Model.isProjectBased && actionName == "Approve")
                     {
-                        <tr id="@i">
-                            @if (actionName == "Create" || actionName == "CreateProject")
-                            {
-                                <td style="vertical-align:middle"><a class="glyphicon glyphicon-minus" style="top:0px" onclick="Delete(@i)"></a></td>
-                            }
-                            <td align="center">
-                                <span id="slno@(i + 1)">@(i + 1)</span>
-                                @Html.HiddenFor(m => m.SalesQuotationItems[i].SlNo)
-                                @*@Html.HiddenFor(m => m.SalesQuotationItems[i].Quantity)*@
-                                @Html.HiddenFor(m => m.SalesQuotationItems[i].UnitId)
-                            </td>
+                        @Html.Partial("_ProjectRooms", Model);
 
-                            <td>
-                                <input type="hidden" id="Row_@i" />
-                                @if (ViewBag.actionName.ToString() == "Approve")
-                                {
-                                    @Html.TextBoxFor(m => m.SalesQuotationItems[i].WorkDescr, new { @class = "form_input ", autocomplete = "off", @disabled = "true" })
-                                }
-                                else
-                                {
-                                    @Html.DropDownListFor(x => Model.SalesQuotationItems[i].WorkDescriptionId, new SelectList(ViewBag.workdesclist, "Value", "Text",
-                                    Model.SalesQuotationItems[i].WorkDescriptionId), "Select Work Description", new
-                                    {
-                                        @class = "form_input",
-                                        autocomplete = "off",
-                                        @onchange = "OnWorkDescChanged(" + i + ")",
-                                        @placeholder = "Search for Work Description",
-                                        @required = "true"
-                                    })
-                                }
-                            </td>
-
-                            @*@if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
-                            {
-                                <td>
-                                    <!--column to show rate settings (required only for transportation)-->
-                                    @Html.DropDownListFor(m => m.SalesQuotationItems[i].RateType, new SelectList(ViewBag.rateSettings, "Value", "Text", Model.SalesQuotationItems[i].RateType), new { @class = "form_input", @onchange = "OnRateTypeChanged(" + i + ")" })
-                                </td>
-                            }*@
-
-
-                            <td>
-                                @Html.TextBoxFor(m => m.SalesQuotationItems[i].Quantity, new
-                                   {
-                                       @class = "form_input clQuantity  ",
-                                       @style = "text-align:right",
-                                       autocomplete = "off",
-                                       placeholder = "Qty",
-                                       value = "1",
-                                       @required = "true",
-                                       @onkeyup = "QuantityChanged(" + i + ")"
-                                   })
-                            </td>
-                            <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].UnitName, new { @class = "form_input text-left", @readonly = "true" })</td>
-                            <td>
-                                @Html.TextBoxFor(m => m.SalesQuotationItems[i].Rate, new
-                                       {
-                                           @class = "form_input numbers-only clrate validateqty",
-                                           autocomplete = "off",
-                                           @style = "text-align:right",
-                                           placeholder = "Rate",
-                                           @onchange = "QuantityChanged(" + i + ");",
-                                           @onkeyup = "QuantityChanged(" + i + ")",
-                                           @required = "true"
-                                       })
-                            </td>
-
-                            <td>
-                                @Html.TextBoxFor(m => m.SalesQuotationItems[i].Discount, new
-                                    {
-                                        @class = "form_input numbers-only",
-                                        autocomplete = "off",
-                                        @style = "text-align:right",
-                                        placeholder = "Discount",
-                                        @onchange = "QuantityChanged(" + i + ");",
-                                        @onkeyup = "QuantityChanged(" + i + ")"
-                                    })
-                            </td>
-
-                            <td>@Html.TextBoxFor(m => m.SalesQuotationItems[i].Amount, new { @class = "form_input clAmount", autocomplete = "off", @style = "text-align:right", placeholder = "Amount", @readonly = "true", @onchange = "QuantityChanged(" + i + ");" })</td>
-                            <td>
-                                @Html.TextBoxFor(m => m.SalesQuotationItems[i].TotalAmount, new { @class = "form_input", autocomplete = "off", @style = "text-align:right", @readonly = "readonly" })
-                            </td>
-                            @if (actionName == "Create" || actionName == "CreateProject")
-                            {
-                                <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
-                            }
-                        </tr>
-                    }
-
-                </tbody>
-                <tfoot>
-                    <tr class="grid_heading">
-                        @if (actionName == "Create" || actionName == "CreateProject")
-                        {
-                            <th class="text-center"></th>
-                        }
-                        <th class="text-center"></th>
-                        <th class="text-center "><h1></h1></th>
-                        @*@if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
-                        {
-                            <th></th>
-                        }*@
-                        <th class="text-center"><h1></h1></th>
-
-                        <th class="text-center"><h1>Total</h1></th>
-                        <th class="text-right">
-                            <h1>
-
-                                @Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
-                            </h1>
-                        </th>
-                        <th class="text-right">
-                            <span id="span-DiscountTotal"></span>
-                        </th>
-
-                        <th class="text-right">
-                            <span id="QtyAmount"></span>
-                        </th>
-                        <th class="text-right"><span id="NetTotalAmount"></span></th>
-                        @if (actionName == "Create" || actionName == "CreateProject")
-                        {
-                            <th class="text-right"></th>
-                        }
-                    </tr>
-                </tfoot>
-            </table>
-            if (Model.Materials != null && Model.Materials.Count > 0)
-            {
-                @Html.Partial("_MaterialList")
-            }
-            if (@Model.isAfterSales)
-            {
-                <div class="row form-group">
-                    <div class="col-md-12">
-
-                        <label class="tamount">Grand Total: <span id="lblTotalAmount"></span></label>
-
-                    </div>
-                </div>
-            }
+                    }*@
+            </div>
+            <br />
             <div class="row">
 
                 <div class="col-md-12">
@@ -957,9 +798,6 @@
                     </div>
 
                 </div>
-
-
-
 
                 <div class="col-md-11 col-sm-10" style="display:inline-block;position:relative;">
 
@@ -1032,12 +870,12 @@
                     }
                     else if (actionName == "CreateProject")
                     {
-                        <button type="button" class="form-button right" onclick="GotoProjectIndex()">Exit</button>
+                        <button type="button" class="form-button right" onclick="GotoIndex()">Exit</button>
                         <button type="submit" class="form-button right">Save</button>
                         <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                         if (Model.isProjectBased)
                         {
-                            <span id="costing-amount-notifier"></span>
+                            <span id="costing-amount-notifier" class="cost-notifier"></span>
                         }
                     }
                     else if (actionName == "CreateAfterSalesTrans")
@@ -1048,7 +886,7 @@
                         <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                         if (Model.isProjectBased)
                         {
-                            <span id="costing-amount-notifier"></span>
+                            <span id="costing-amount-notifier" class="cost-notifier"></span>
                         }
 
                     }
@@ -1067,14 +905,17 @@
                     else if (ViewBag.actionName.ToString() == "Approve")
                     {
                         <button type="button" class="form-button right" onclick="ExitToPendingApproval()">Exit</button>
+                        <button type="submit" class="form-button right">Approve</button>
                         if (Model.isProjectBased)
                         {
-                            <span id="costing-amount-notifier"></span>
+                            <span id="costing-amount-notifier" class="cost-notifier"></span>
                         }
-                        <button type="submit" class="form-button right">Approve</button>
                     }
                 </div>
             </div>
+
+
+
         }
 
     </div>

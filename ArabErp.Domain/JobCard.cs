@@ -42,7 +42,7 @@ namespace ArabErp.Domain
         public string Customer { get; set; }
         public string Technician { get; set; }
         public string EmployeeName { get; set; }
-      
+        public string UnitDetails { get; set; }
         public int CurrencyId { get; set; }
         public string CurrencyName { get; set; }
        // public string OrganizationRefNo { get; set; }
@@ -80,6 +80,12 @@ namespace ArabErp.Domain
         public int isService { get; set; }
 
         public string SaleOrderRefNo { get; set; }
+        public string BayName { get; set; }
+        public string Accessories { get; set; }
+        public string HeldBy { get; set; }
+        public DateTime HeldOn { get; set; }
+        public string Units { get; set; }
+        public string Doors { get; set; }
     }
     public class JobCardForDailyActivity
     {

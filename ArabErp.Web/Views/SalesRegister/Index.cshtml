@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Sales Invoice Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -20,8 +20,9 @@
      
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
+        var type = $("#cboType").val();
         var url = '@Url.Action("SaleRegister")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id ;
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&project=" + type;
         $("#Sales_Reg").load(url, function () {
             $("#Sales_Reg").removeClass("fade");
         });
@@ -38,16 +39,17 @@
         var from = $("#txtFrom").val();
         console.log(from);
         var to = $("#txtTo").val();
+        var type = $("#cboType").val();
         var url = '@Url.Action("Print")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&name=" + name;
-        window.location = url;
+        url += "?project=" + type+"&from=" + from + "&to=" + to + "&id=" + id + "&name=" + name ;
+        window.open(url);
 
     }
 
 </script>
 <div class="row">
     <div class="form-head1">
-        <h4>Sales Register</h4>
+        <h4>Sales Invoice Register</h4>
     </div>
     <div class="main-part pad1">
         <div class="row">
@@ -62,6 +64,14 @@
             <div class="col-md-3">
                 <label for="cboCustomer">Customer</label>
                 @Html.DropDownList("cboCustomer", (SelectList)ViewBag.SupplierList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+            <div class="col-md-2">
+                <label for="cboType">Project/Transport</label>
+                <select class="form_input" id="cboType" onchange="Filter()">
+                    <option value="" selected>All</option>
+                    <option value="0">Transport</option>
+                    <option value="1">Project</option>
+                </select>
             </div>
         </div>
         <br />

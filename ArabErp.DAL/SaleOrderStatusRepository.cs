@@ -11,7 +11,7 @@ namespace ArabErp.DAL
     public class SaleOrderStatusRepository:BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<SaleOrderStatus> GetSaleOrderStatus(string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "", string InstallType="")
+        public IEnumerable<SaleOrderStatus> GetSaleOrderStatus(DateTime? from, DateTime? to, string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "", string InstallType = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -55,8 +55,9 @@ namespace ArabErp.DAL
                         PurchaseRequest = cast('' as varchar(max)), 
                         SuppyOrder =  cast('' as varchar(max)), 
                         GRN = cast('' as varchar(max)), 
-                        SalesInvoice = case when SLI.SalesInvoiceId is null then NULL else SLIH.SalesInvoiceRefNo + ',' + CONVERT (VARCHAR(15),SLIH.SalesInvoiceDate,106) end, 
-                        Allocation = case when IB.SerialNo is null then NULL else IB.SerialNo end
+                        Allocations = cast('' as varchar(max)), 
+                        SalesInvoice = case when SLI.SalesInvoiceId is null then NULL else SLIH.SalesInvoiceRefNo + ',' + CONVERT (VARCHAR(15),SLIH.SalesInvoiceDate,106) end 
+                       -- Allocation = case when IB.SerialNo is null then NULL else IB.SerialNo end
                         into #RESULT
                         from SaleOrderItem SI inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId 
                         inner join Customer C on C.CustomerId = S.CustomerId 
@@ -78,6 +79,12 @@ namespace ArabErp.DAL
                         --select A.SaleOrderItemId, J.JobCardNo, J.JobCardDate from #RESULT A left join JobCard J on J.SaleOrderItemId = A.SaleOrderItemId
                         --where J.SaleOrderItemId is not null
 
+                        update #RESULT set Allocations= 
+						(STUFF((SELECT ', ' + CAST(IV.SerialNo AS VARCHAR(MAX))
+                        from ItemBatch IV
+						where IV.SaleOrderItemId = #RESULT.SaleOrderItemId
+					     FOR XML PATH('')),1,1,''))
+
                         update R set R.JobCard = J.JobCardNo +', '+ CONVERT (VARCHAR(15),J.JobCardDate,106) 
                         from JobCard J, #RESULT R
                         where J.SaleOrderId = R.SaleOrderId and R.SaleOrderItemId = J.SaleOrderItemId;
@@ -91,19 +98,28 @@ namespace ArabErp.DAL
                         from DeliveryChallan D,JobCard J, #RESULT R
                         where D.JobCardId = J.JobCardId and  J.SaleOrderId = R.SaleOrderId and R.SaleOrderItemId = J.SaleOrderItemId;
 
-                        update #RESULT set WorkShopRequest = (STUFF((SELECT ', ' + CAST(T.WorkShopRequestRefNo AS VARCHAR(MAX))
+                         update #RESULT set WorkShopRequest = (STUFF((SELECT ', ' + CAST(T.WorkShopRequestRefNo AS VARCHAR(MAX)) +'-' + CAST(CONVERT (VARCHAR(15),T.RequiredDate,106)AS VARCHAR(MAX))
                         FROM WorkShopRequest T where T.SaleOrderId = #RESULT.SaleOrderId
                         FOR XML PATH('')),1,1,''))
 
-                        update #RESULT set PurchaseRequest = (STUFF((SELECT ', ' + CAST(P.PurchaseRequestNo AS VARCHAR(MAX))
+                        update #RESULT set PurchaseRequest = (STUFF((SELECT ', ' + CAST(P.PurchaseRequestNo AS VARCHAR(MAX))+'-' + CAST(CONVERT (VARCHAR(15),p.PurchaseRequestDate,106) AS VARCHAR(MAX))
                         FROM PurchaseRequest P inner join WorkShopRequest W on P.WorkShopRequestId = W.WorkShopRequestId where W.SaleOrderId = #RESULT.SaleOrderId
                         FOR XML PATH('')),1,1,''))
 
-                        update #RESULT set SuppyOrder = (STUFF((SELECT distinct ', ' + CAST(SI.SupplyOrderNo AS VARCHAR(MAX))
+                        update #RESULT set SuppyOrder = (STUFF((SELECT distinct ', ' + CAST(SI.SupplyOrderNo AS VARCHAR(MAX))+'-' + CAST(CONVERT(VARCHAR(15),SI.RequiredDate,106) AS VARCHAR(MAX))
                         FROM PurchaseRequest P inner join WorkShopRequest W on P.WorkShopRequestId = W.WorkShopRequestId 
                         inner join PurchaseRequestItem PRI on PRI.PurchaseRequestId = P.PurchaseRequestId
                         inner join SupplyOrderItem SUI on SUI.PurchaseRequestItemId = PRI.PurchaseRequestItemId
                         inner join SupplyOrder SI on SI.SupplyOrderId = SUI.SupplyOrderId
+                        where W.SaleOrderId = #RESULT.SaleOrderId
+                        FOR XML PATH('')),1,1,''))
+
+                        update #RESULT set GRN = (STUFF((SELECT distinct ', ' + CAST(G.GRNNo AS VARCHAR(MAX))+'-' + CAST(CONVERT(VARCHAR(15),G.GRNDate,106) AS VARCHAR(MAX))
+                        FROM GRN G inner join GRNItem GI on G.GRNId =GI.GRNId
+                        inner join SupplyOrderItem SOI on GI.SupplyOrderItemId = SOI.SupplyOrderItemId
+                        inner join PurchaseRequestItem PRI on PRI.PurchaseRequestItemId = SOI.PurchaseRequestItemId
+                        inner join PurchaseRequest PR on PR.PurchaseRequestId = PRI.PurchaseRequestId
+						inner join  WorkShopRequest W on W.WorkShopRequestId=PR.WorkShopRequestId
                         where W.SaleOrderId = #RESULT.SaleOrderId
                         FOR XML PATH('')),1,1,''))
 
@@ -112,10 +128,10 @@ namespace ArabErp.DAL
                         AND isnull(CustomerOrderRef,'')  LIKE '%'+@lpoNo+'%'
                         AND isnull(RegistrationNo,'')  LIKE '%'+@ChassisNo+'%'
                         AND  ISNULL(isService, 0) = CASE @InstallType WHEN 'service' THEN 1 WHEN 'new' THEN 0 WHEN 'all' THEN ISNULL(isService, 0) END
-
+                        AND SaleOrderDate >= @from AND SaleOrderDate <= @to 
                         drop table #RESULT;";
 
-                   return connection.Query<SaleOrderStatus>(sql, new { customer = customer, sono = sono, lpoNo = lpoNo, ChassisNo = ChassisNo, InstallType = InstallType });
+                   return connection.Query<SaleOrderStatus>(sql, new {from=from,to=to, customer = customer, sono = sono, lpoNo = lpoNo, ChassisNo = ChassisNo, InstallType = InstallType });
             }
         }
         public IEnumerable<SaleOrderStatus> GetSaleOrderStatusDTPrint(string customer = "", string sono = "", string lpoNo = "", string ChassisNo = "")

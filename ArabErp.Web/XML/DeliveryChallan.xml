@@ -67,23 +67,23 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DV/16/1507</DeliveryChallanRefNo>
-    <DeliveryChallanDate>27-Dec-2016</DeliveryChallanDate>
-    <Customer>Nestle Qatar Trading LLC</Customer>
-    <CDoorNo>PO Box : 24603</CDoorNo>
-    <CStreet>Doha, Qatar</CStreet>
+    <DeliveryChallanRefNo>DV/17/57</DeliveryChallanRefNo>
+    <DeliveryChallanDate>18-Jan-2017</DeliveryChallanDate>
+    <Customer>Sea View Fish</Customer>
+    <CDoorNo>Doha, Qatar</CDoorNo>
+    <CStreet />
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SER/43</SaleRefNo>
-    <SONoDate>21 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC-S/41</JobcardNo>
-    <JCDate>21-Dec-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>220216</RegistrationNo>
+    <SaleRefNo>AARC/SER/17/54</SaleRefNo>
+    <SONoDate>18 Jan 2017</SONoDate>
+    <JobcardNo>AARC/17/JC-S/47</JobcardNo>
+    <JCDate>18-Jan-2017 00:00:00</JCDate>
+    <RegistrationNo>301004</RegistrationNo>
+    <ChassisNo>GK011400</ChassisNo>
     <WorkDesc>General Checkup &amp; Repair</WorkDesc>
     <VehicleModel>MITSUBISHI 4.3 TON</VehicleModel>
     <Employee>Mohammed Safiq</Employee>
-    <QuotationRefNo>AARC/SER/980/12/16</QuotationRefNo>
-    <FreezerName>Viento 200</FreezerName>
-    <FreezerPartNo>PB941232</FreezerPartNo>
+    <FreezerName>T2500</FreezerName>
+    <FreezerPartNo>TH-28UP-06</FreezerPartNo>
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -93,23 +93,19 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo>Quote &amp; Mail Confirm</LPONo>
-    <LPODate>21-Dec-2016</LPODate>
-    <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
-    <ApprovedUsersig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
+    <LPONo xml:space="preserve"> </LPONo>
+    <LPODate>18-Jan-2017</LPODate>
+    <CreatedUser>ihits</CreatedUser>
+    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\7411a949-2e26-4420-b235-c34c44127143.jpg</CreateSignature>
+    <ApprovedUsersig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
   </Head>
   <Items>
-    <Description>Replace Evaporator Fan Motor – 2No’s
-Replace Condenser Fan Motor
-Replace Engine Pulley
-Replace Idler Pulley
-Replace Compressor Belt
-Electrical Repair
-General Check-up &amp; Maintenance
-Labor Charges
+    <Description>First Free General Service of TM T2500:
+Compressor Belt Tension Check-up &amp; Bracket Checking
+General Check-up &amp; Check Cooling
+Electrical Connection Check-up &amp; Adjustments
 </Description>
     <UoM>ea</UoM>
     <Quantity>1</Quantity>

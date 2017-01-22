@@ -33,8 +33,8 @@ namespace ArabErp.DAL
                 )
                 update T set T.OUTQTY = B.Quantity from B inner join #TEMP T on T.StockUpdateId = B.StockUpdateId;
 
-                select * from #TEMP";
-
+                select * from #TEMP
+                 order by stocktrnDate asc";
 
 
                 return connection.Query<ClosingStock>(qry, new { stkid = stkid, itmcatid = itmcatid, itmGrpId = itmGrpId, itmSubGrpId = itmSubGrpId, itmid = itmid, OrganizationId = OrganizationId, from = from, to = to, partno = partno }).ToList();

@@ -57,7 +57,9 @@ namespace ArabErp.Web.Controllers
             }
             else
             {
-
+              
+                FillCountryDropdown();
+                FillCompanyDropdown();
                 dropdown();
                 TempData["error"] = "This Organization Name Already Exists!!";
                 TempData["OrganizationRefNo"] = null;

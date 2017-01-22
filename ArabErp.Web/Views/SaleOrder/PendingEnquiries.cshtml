@@ -17,6 +17,7 @@
     }
     function PreviousList() {
         var url = '@Url.Action("ServiceOrderList")';
+        url += "?isProjectBased=0";
         window.location = url;
     }
 </script>

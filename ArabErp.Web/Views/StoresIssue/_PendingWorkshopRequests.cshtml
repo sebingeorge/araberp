@@ -54,12 +54,12 @@
                                     }
                                 </td>
                                 <td>
-                                    <strong>@Model[i].RegistrationNo</strong>
+                                    @Model[i].RegistrationNo
                                     @if ((Model[i].RegistrationNo != null && Model[i].RegistrationNo != "") && (Model[i].ChassisNo != null && Model[i].ChassisNo != ""))
                                     {
                                         @: -
                                     }
-                                    <strong>@Model[i].ChassisNo</strong>
+                                   @Model[i].ChassisNo
                                 </td>
                                 <td>
                                     @if (Model[i].RequiredDate == DateTime.MinValue)

@@ -9,6 +9,7 @@ namespace ArabErp.Domain
     {
         public int JobCardTaskId { get; set; }
         public int JobCardId { get; set; }
+        public int JobCardTaskMasterId { get; set; }
         public int EmployeeId { get; set; }
         public DateTime TaskDate { get; set; }
         public decimal Hours { get; set; }
@@ -24,5 +25,6 @@ namespace ArabErp.Domain
         public decimal StartTime { get; set; }
         public decimal EndTime { get; set; }
         public string JobCardTaskName { get; set; }
+        public bool isTaskUsed { get; set; }
     }
 }

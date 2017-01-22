@@ -60,6 +60,7 @@
         var partNo = $("#PartNo option:selected").text();
         var url = '@Url.Action("Print")';
         url += "?Itmname=" + (Itmname == '' ? 0 : Itmname) + "&Itmid=" + Itmid + "&batchname=" + (batchname == '' ? 0 : batchname) + "&batch=" + encodeURIComponent(batch) + "&partNo=" + (partNo == '' ? 0 : partNo);
+       
         window.open(url);
 
        
@@ -105,7 +106,7 @@ function stripedTable() {
 <div class="row">
 
     <div class="form-head1">
-        <h4>Material Planning Report</h4>
+        <h4>Material Planning Report - RM</h4>
     </div>
 
     <div class="main-part pad1">
@@ -126,14 +127,14 @@ function stripedTable() {
    
          
         @*</div>*@
-            <div class="col-md-3">
+            @*<div class="col-md-3">
                 <label for="txtBatch">Batch</label>
                 <select id="cboBatch" class="form_input" onchange="Filter()">
                     <option value="all" selected>All</option>
                     <option value="batch">Batch</option>
                     <option value="nobatch">Non-Batch</option>
                 </select>
-            </div>
+            </div>*@
             @*<div class="col-md-2">
                 <label for="cboBatch">Batch</label>
                 @Html.DropDownList("cboBatch", (SelectList)ViewBag.BatchList, "Any", new { @class = "form_input", @onchange = "Filter()" })

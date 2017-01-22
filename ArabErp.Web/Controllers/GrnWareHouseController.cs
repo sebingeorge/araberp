@@ -36,14 +36,14 @@ namespace ArabErp.Web.Controllers
             return View( );
         }
         
-        public ActionResult PreviousListGRN(string Grn = "", string Supplier="")
+        public ActionResult PreviousListGRN(string Grn = "", string Supplier="",string LPO="")
         {
             var repo = new GRNRepository();
-            IEnumerable<GRN> GRNList = repo.GetGRNPreviousList(Grn, Supplier, OrganizationId);
+            IEnumerable<GRN> GRNList = repo.GetGRNPreviousList(Grn, Supplier,LPO, OrganizationId);
             return PartialView("_PreviousListGRN", GRNList);
         }
         public ActionResult Create(IList<PendingForGRN> list)
-        {
+         {
             try
             {
                 GRN model = new GRN();
@@ -78,10 +78,13 @@ namespace ArabErp.Web.Controllers
                     }
                     else //if not direct purchase
                     {
-                        id = (from PendingForGRN p in list
+                        var selectedlist = (from PendingForGRN p in list
                               where p.isChecked
-                              select p.SupplyOrderId).ToList();
-                        if (id.Count > 0)
+                              select p).ToList();
+                        //if (selectedlist.)
+                        if (selectedlist.Count > 0)
+
+                       
                         {
                             List<GRNAddition> Additions = new List<GRNAddition>();
                             Additions.Add(new GRNAddition());
@@ -89,9 +92,9 @@ namespace ArabErp.Web.Controllers
                             List<GRNDeduction> Deductions = new List<GRNDeduction>();
                             Deductions.Add(new GRNDeduction());
 
-                            model = new GRNRepository().GetGRNDetails(list[0].SupplierId);
+                            model = new GRNRepository().GetGRNDetails(selectedlist[0].SupplierId);
                             model.GRNDate = DateTime.Today;
-                            model.Items = new GRNRepository().GetGRNItem(id);
+                            model.Items = new GRNRepository().GetGRNItem(selectedlist.Select(m=>m.SupplyOrderId).ToList());
                             model.Additions = Additions;
                             model.Deductions = Deductions;
                         }
@@ -315,9 +318,10 @@ namespace ArabErp.Web.Controllers
                 //var result5 = new GRNItemRepository().DeleteGRNADDDED(Id);
                 //var result2 = new GRNItemRepository().DeleteGRNItem(Id);
                 //var result4 = new StockUpdateRepository().DeleteGRNStockUpdate(Id);
-                var result3 = new GRNRepository().DeleteGRNHD(Id);
+                //var result3 = new GRNRepository().DeleteGRNHD(Id);
+                var result3 = new GRNRepository().DeleteGRN(Id);
 
-                if (Id > 0)
+                if (result3 > 0)
                 {
                     TempData["success"] = "Deleted succesfully";
                     return RedirectToAction("PreviousList");
@@ -346,6 +350,8 @@ namespace ArabErp.Web.Controllers
                 return PartialView("_PendingGrid", new List<PendingForGRN>());
             }
         }
+
+       
 
         public ActionResult PendingDirectPurchaseGrid()
         {

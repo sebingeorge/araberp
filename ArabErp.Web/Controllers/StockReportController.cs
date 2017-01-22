@@ -24,7 +24,12 @@ namespace ArabErp.Web.Controllers
             FillItemCategory();
             FillItemGroup();
             FillItemSubGroup();
-            return View();
+            //FillWarehouse();
+            StockReportSummary stk = new StockReportSummary();
+            stk.ItemId = 0;
+            stk.itmGrpId = 0;
+            stk.itmSubGrpId = 0;
+            return View(stk);
         }
 
         public void FillItemCategory()
@@ -48,11 +53,15 @@ namespace ArabErp.Web.Controllers
             ViewBag.ItemSubGrpList = new SelectList(result, "Id", "Name");
         }
 
+
+
         public ActionResult Stockreport(string itmid = "", string PartNo = "", int itmcatid = 0, int itmGrpId = 0, int itmSubGrpId = 0)
         {
 
-            return PartialView("_StockReportRegister", new StockReportRepository().GetStockData(itmid, PartNo,itmcatid,itmGrpId,itmSubGrpId));
+            return PartialView("_StockReportRegister", new StockReportRepository().GetStockData(itmid, PartNo, itmcatid, itmGrpId, itmSubGrpId));
         }
+
+        
         public ActionResult DrillDown(int itemId)
         {
             StockReportRepository repo = new StockReportRepository();
@@ -141,6 +150,41 @@ namespace ArabErp.Web.Controllers
             {
                 throw;
             }
+        }
+
+
+        public ActionResult ItemCategory()
+        {
+            FillItemCategory();
+            return PartialView("_ItemCategoryDropdown");
+        }
+        public ActionResult ItemSubGroup(int Code)
+        {
+            FillItemSubGroup(Code);
+            return PartialView("_ItemSubGroupDropdown");
+        }
+        public ActionResult ItemGroup(int Code)
+        {
+            FillItemGroup(Code);
+            return PartialView("_ItemGroupDropdown");
+        }
+        public void FillItemGroup(int Id)
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillItemGroup(Id);
+            ViewBag.ItemGroupList = new SelectList(List, "Id", "Name");
+        }
+        public void FillItemSubGroup(int Id)
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillItemSubGroup(Id);
+            ViewBag.ItemSubGroupList = new SelectList(List, "Id", "Name");
+        }
+        public void FillWarehouse()
+        {
+            DropdownRepository repo = new DropdownRepository();
+            var result = repo.StockpointDropdown();
+            ViewBag.WarehouseList = new SelectList(result, "Id", "Name");
         }
     }
 }

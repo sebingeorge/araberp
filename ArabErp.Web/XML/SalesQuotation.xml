@@ -33,7 +33,6 @@
                 <xs:element name="Phone" type="xs:string" minOccurs="0" />
                 <xs:element name="CurrencyName" type="xs:string" minOccurs="0" />
                 <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
-                <xs:element name="Designation" type="xs:string" minOccurs="0" />
                 <xs:element name="Image1" type="xs:string" minOccurs="0" />
                 <xs:element name="UserName" type="xs:string" minOccurs="0" />
                 <xs:element name="Sign" type="xs:string" minOccurs="0" />
@@ -59,33 +58,38 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <QuotationRefNo>AARC/SQ/5</QuotationRefNo>
-    <QuotationDate>30-Nov-2016</QuotationDate>
+    <QuotationRefNo>SQ/2</QuotationRefNo>
+    <QuotationDate>20-Nov-2016</QuotationDate>
     <CustomerName>Abdul Asiz Trading Est</CustomerName>
     <CustomerAddress>Salwa road, Doha -QatarDohaDoha</CustomerAddress>
     <ContactPerson>-</ContactPerson>
-    <SalesExecutive> Anoop</SalesExecutive>
-    <PredictedClosingDate>30-Nov-2016 12:00:00 AM</PredictedClosingDate>
-    <QuotationValidToDate>30-Nov-2016</QuotationValidToDate>
-    <ExpectedDeliveryDate>30-Nov-2016 12:00:00 AM</ExpectedDeliveryDate>
-    <SalesQuotationStatusName>Won</SalesQuotationStatusName>
-    <QuotationStage>aa</QuotationStage>
-    <CountryName>UAE</CountryName>
+    <SalesExecutive>JACOB</SalesExecutive>
+    <PredictedClosingDate>20-Nov-2016 12:00:00 AM</PredictedClosingDate>
+    <QuotationValidToDate>20-Nov-2016 12:00:00 AM</QuotationValidToDate>
+    <ExpectedDeliveryDate>20-Nov-2016 12:00:00 AM</ExpectedDeliveryDate>
+    <SalesQuotationStatusName>Active</SalesQuotationStatusName>
+    <QuotationStage>1</QuotationStage>
+    <DiscountRemarks>nothing</DiscountRemarks>
+    <Discount>2000</Discount>
+    <DoorNo>Al Mumtazah Building, First Floor, Door No.3, </DoorNo>
+    <Street>P.O Box:13037, Doha, Qatar</Street>
+    <CountryName>QATAR</CountryName>
+    <Fax>+974 4441 4762</Fax>
+    <Phone>+974 4435 7214 / 15</Phone>
     <CurrencyName>QAR</CurrencyName>
-    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
-    <Designation>Asst.Sales Manager</Designation>
-    <Image1>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <UserName>ihits</UserName>
-    <Sign>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Sign>
+    <OrganizationName>Arab Air-conditioning &amp; Refrigeration Co. WLL</OrganizationName>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
+    <UserName>Benny</UserName>
+    <Sign>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Sign>
   </Head>
   <Items>
-    <WorkDescr>Carrier Condensing Unit + 100mm 3300x2000x2000mm- ISUZU ,AL Shehili</WorkDescr>
-    <Quantity>1</Quantity>
-    <Rate>11110.00</Rate>
+    <WorkDescr>Carrier Transicold Viento 200 + 100mm 4300x2000x1800mm- MITS</WorkDescr>
+    <Quantity>2</Quantity>
+    <Rate>20000.00</Rate>
     <UOM>Nos</UOM>
-    <Discount>110.00</Discount>
-    <Amount>11110.00</Amount>
-    <TotalAmount>11000.00</TotalAmount>
-    <WorkDescription> Carrier Condensing Unit + 100mm 3300x2000x2000mm- ISUZU ,AL Shehili</WorkDescription>
+    <Discount>1000.00</Discount>
+    <Amount>40000.00</Amount>
+    <TotalAmount>39000.00</TotalAmount>
+    <WorkDescription> Carrier Transicold Viento 200 + 100mm 4300x2000x1800mm- MITS</WorkDescription>
   </Items>
 </NewDataSet>

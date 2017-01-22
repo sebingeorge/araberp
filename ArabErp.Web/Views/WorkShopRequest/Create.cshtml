@@ -100,6 +100,8 @@
             {
                 @Html.HiddenFor(m=>m.isProjectBased)
                 @Html.HiddenFor(m=>m.SaleOrderItemId)
+                @Html.HiddenFor(m => m.SaleOrderItemUnitId)
+                @Html.HiddenFor(m => m.EvaConUnitId)
                 @Html.HiddenFor(m => m.SaleOrderId, new { @class = "form_input", autocomplete = "off" })
                 @Html.HiddenFor(m => m.CustomerId, new { @class = "form_input", autocomplete = "off" })
                 <div class="row form-group">
@@ -143,7 +145,8 @@
                     </div>
                    
                 </div>*@
-
+  if(@Model.isProjectBased==0)
+  { 
     <div class="row form-group">
         <div class="col-md-12">
             <div class="row">
@@ -156,7 +159,7 @@
             </div>
         </div>
     </div>
-
+            }
 
     @Html.Partial("_DisplayWorkShopRequestData", Model)
   

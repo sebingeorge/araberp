@@ -23,6 +23,7 @@ namespace ArabErp.Domain
         public List<JobCardCompletionTask> JobCardTask { get; set; }
         public int? isProjectBased { get; set; }
         public bool StoreIssued { get; set; }
+        public bool isOnHold { get; set; }
     }
     public class JobCardCompletionTask : JobCardCompletion
     {

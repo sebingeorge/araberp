@@ -103,13 +103,14 @@
                 </div>
                 <div class="row form-group">
                     <div class="col-md-2">
-                        <label>Employee</label>
-                        @Html.TextBoxFor(m => m.EmployeeName, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
-                    </div>
-                    <div class="col-md-2">
-                        <label>Job Card Ref.</label>
+                        <label>Job Card No.</label>
                         @Html.TextBoxFor(m => m.JobCardNo, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                     </div>
+                    <div class="col-md-2">
+                        <label>Engineer/Supervisor</label>
+                        @Html.TextBoxFor(m => m.EmployeeName, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+                  
                 </div>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="tab_logic">

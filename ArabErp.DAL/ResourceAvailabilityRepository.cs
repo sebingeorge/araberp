@@ -17,7 +17,7 @@ namespace ArabErp.DAL
             return dataConnection;
         }
 
-        public List<EmployeeResourceAvailability> GetEmployeeAvailability(int month, int year, int OrganizationId)
+        public List<EmployeeResourceAvailability> GetEmployeeAvailability(int month, int year, int isProject, int OrganizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -37,12 +37,13 @@ namespace ArabErp.DAL
 	                                RIGHT JOIN Employee EMP ON JT.EmployeeId = EMP.EmployeeId
 									LEFT JOIN EmployeeCategory EC ON EMP.CategoryId = EC.EmpCategoryId
                                 WHERE ISNULL(JC.JodCardCompleteStatus, 0) = 0
-                                AND ISNULL(MONTH(JT.TaskDate), @month) = @month
-                                AND ISNULL(YEAR(JT.TaskDate), @year) = @year
-                                AND ISNULL(JC.OrganizationId, @OrganizationId) = @OrganizationId
+                                AND MONTH(JT.TaskDate) = ISNULL(@month, MONTH(GETDATE()))
+                                AND YEAR(JT.TaskDate) = ISNULL(@year, MONTH(GETDATE()))
+                                AND JC.OrganizationId = @OrganizationId
+                                AND JC.isProjectBased = @isProject
                                 ORDER BY EMP.EmployeeName;";
 
-                return connection.Query<EmployeeResourceAvailability>(query, new { month = month, year = year, OrganizationId = OrganizationId }).ToList();
+                return connection.Query<EmployeeResourceAvailability>(query, new { month = month, year = year, isProject = isProject, OrganizationId = OrganizationId }).ToList();
             }
         }
     }
