@@ -306,8 +306,7 @@
     function DeleteQuerySheet(id) {
         //alert(id);
         var url = '@Url.Action("Delete")';
-        url += "/" + id;
-
+        url += "?Id=" + id + "&type=" + "@ViewBag.Type";
         window.location = url;
     }
 

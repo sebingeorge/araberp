@@ -298,7 +298,7 @@ namespace ArabErp.Web.Controllers
 
         }
 
-        public ActionResult Delete(int Id)
+        public ActionResult Delete(int Id, string type)
         {
             ViewBag.Title = "Delete";
 
@@ -314,11 +314,11 @@ namespace ArabErp.Web.Controllers
                 //var result2 = new QuerySheetRepository().DeleteProjectCosting(Id);
                 try
                 {
-                    var ref_no = new QuerySheetRepository().DeleteQuerySheet(Id, UserID.ToString(), OrganizationId);
+                    var ref_no = new QuerySheetRepository().DeleteQuerySheet(Id, UserID.ToString(), OrganizationId, type);
 
                     TempData["success"] = "Deleted Successfully (" + ref_no + ")";
                     //return RedirectToAction("PreviousList");
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new { type = ViewBag.Type });
                 }
                 catch (Exception)
                 {

@@ -91,7 +91,7 @@ namespace ArabErp.DAL
                 string sql = @"select * from QuerySheet
                                 where isActive=1 and OrganizationId = @OrganizationId
 	                            and QuerySheetDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
-	                            AND QuerySheetRefNo LIKE '%'+@querysheet+'%' --and Type=@Type
+	                            AND QuerySheetRefNo LIKE '%'+@querysheet+'%' and Type=@Type
                                 ORDER BY QuerySheetDate DESC, CreatedDate DESC";
                 return connection.Query<QuerySheet>(sql, new { Type = Type, OrganizationId = OrganizationId, querysheet = querysheet, to = to, from = from }).ToList();
 
@@ -128,18 +128,34 @@ namespace ArabErp.DAL
         /// Delete QuerySheet Details
         /// </summary>
         /// <returns></returns>
-        public string DeleteQuerySheet(int Id, string CreatedBy, int OrganizationId)
+        public string DeleteQuerySheet(int Id, string CreatedBy, int OrganizationId, string type)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    string query = @"DELETE FROM QuerySheetItem WHERE QuerySheetId = @QuerySheetId;
-                                DELETE FROM ProjectCosting WHERE QuerySheetId = @QuerySheetId;
-                                DELETE FROM QuerySheet OUTPUT deleted.QuerySheetRefNo WHERE QuerySheetId = @QuerySheetId;";
+                    //string query = @"DELETE FROM QuerySheetItem WHERE QuerySheetId = @QuerySheetId;
+                    //            DELETE FROM ProjectCosting WHERE QuerySheetId = @QuerySheetId;
+                    //            DELETE FROM QuerySheet OUTPUT deleted.QuerySheetRefNo WHERE QuerySheetId = @QuerySheetId;";
+                    string query;
 
-                    string ref_no = connection.Query<string>(query, new { QuerySheetId = Id }, txn).First();
+                    if (type == "Costing")
+                    {
+                        query = @"DELETE FROM ProjectCosting WHERE QuerySheetId = @id;
+                                UPDATE QuerySheet SET Type = 'Unit', CostingAmount = NULL WHERE QuerySheetId = @id;
+                                SELECT QuerySheetRefNo FROM QuerySheet WHERE QuerySheetId = @id;";
+                    }
+                    else if (type == "Unit")
+                        query = @"DELETE FROM QuerySheetItemUnit WHERE QuerySheetItemId IN (SELECT QuerySheetItemId FROM QuerySheetItem WHERE QuerySheetId = @id);
+                                DELETE FROM QuerySheetItemDoor WHERE QuerySheetItemId IN (SELECT QuerySheetItemId FROM QuerySheetItem WHERE QuerySheetId = @id);
+                                UPDATE QuerySheet SET Type = 'RoomDetails' WHERE QuerySheetId = @id;
+                                SELECT QuerySheetRefNo FROM QuerySheet WHERE QuerySheetId = @id;";
+                    else
+                        query = @"DELETE FROM QuerySheetItem WHERE QuerySheetId = @id;
+                                DELETE FROM QuerySheet OUTPUT deleted.QuerySheetRefNo WHERE QuerySheetId = @id";
+
+                    string ref_no = connection.Query<string>(query, new { id = Id }, txn).First();
                     InsertLoginHistory(dataConnection, CreatedBy, "Delete", typeof(QuerySheet).Name, Id.ToString(), OrganizationId.ToString());
                     txn.Commit();
                     return ref_no;
