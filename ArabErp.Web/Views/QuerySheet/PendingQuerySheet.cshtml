@@ -68,7 +68,7 @@
                                     <td class="grid-cell">@item.QuerySheetDate.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.ProjectName</td>
                                     <td class="grid-cell">@item.ContactPerson</td>
-                                    <td><center>@Html.ActionLink("Select", "CreateQuerySheetUnit", "QuerySheet", new { QuerySheetid = @item.QuerySheetId, type = @ViewBag.Type }, new { @class = "form-button5", @style = "text-align:center" })</center></td>
+                                    <td><center>@Html.ActionLink("Select", "CreateQuerySheetUnit", "QuerySheet", new { QuerySheetid = @item.QuerySheetId, type = ViewBag.Type }, new { @class = "form-button5", @style = "text-align:center" })</center></td>
                                 </tr>
 
                             }

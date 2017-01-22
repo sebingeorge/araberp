@@ -208,7 +208,7 @@ namespace ArabErp.Web.Controllers
             return PartialView("QuerySheetList", new QuerySheetRepository().GetQuerySheets(Type, OrganizationId: OrganizationId, querysheet: querysheet, from: from, to: to));
         }
 
-        public ActionResult Edit(int id = 0)
+        public ActionResult Edit(string type, int id = 0)
         {
             try
             {
@@ -220,7 +220,7 @@ namespace ArabErp.Web.Controllers
                  
                     QuerySheet = new QuerySheetRepository().GetQuerySheetItem(id);
                     QuerySheet.Items = repo.GetProjectCost(id);
-           
+                    ViewBag.Type = type;
                     return View(QuerySheet);
                 }
                 else
@@ -247,7 +247,7 @@ namespace ArabErp.Web.Controllers
             }
 
             TempData["success"] = "";
-            return RedirectToAction("CreateQuerySheet");
+            return RedirectToAction("Index", new { Type = "Unit" });
         }
 
         [HttpPost]
@@ -272,16 +272,18 @@ namespace ArabErp.Web.Controllers
             {
                 try
                 {
-
-                    string ref_no = new QuerySheetRepository().UpdateQuerySheet(model);
+                    string ref_no;
+                    if (model.Type == "Unit")
+                        ref_no = new QuerySheetRepository().UpdateQuerySheetUnitSelection(model);
+                    else ref_no = new QuerySheetRepository().UpdateQuerySheet(model);
 
                     TempData["success"] = "Updated successfully. Query Sheet Reference No. is " + ref_no;
                     TempData["error"] = "";
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new { Type = "Unit" });
                 }
                 catch (SqlException)
                 {
-                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.";
+                    TempData["error"] = "Some error occured while saving. Please try again.";
                 }
                 catch (NullReferenceException)
                 {
@@ -291,7 +293,7 @@ namespace ArabErp.Web.Controllers
                 {
                     TempData["error"] = "Some error occured. Please try again.";
                 }
-                return RedirectToAction("CreateQuerySheet");
+                return RedirectToAction("Index", new { Type = "Unit" });
             }
 
         }

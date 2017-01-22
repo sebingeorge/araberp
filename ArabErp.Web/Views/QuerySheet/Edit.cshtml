@@ -33,7 +33,7 @@
         });
         OnCostingAmountChanged();
 
-        if ('@Model.Type' == 'Unit' || '@Model.Type' == 'Costing') {
+        if (@*'@Model.Type' == 'Unit' ||*@ '@Model.Type' == 'Costing') {
             $('.glyphicon-minus').hide();
             $('.glyphicon-plus').hide();
         }
@@ -157,6 +157,7 @@
         @using (Html.BeginForm(null, null, FormMethod.Post))
         {
             @Html.HiddenFor(m => m.QuerySheetId)
+            @Html.HiddenFor(m => m.Type)
 
             <div class="row form-group">
 
@@ -274,9 +275,10 @@
             <div class="row">
                 <div class="col-md-12 hrpart">
                     <input type="button" class="form-button right" value="Exit" onclick="Back('@Model.Type')" />
-                    @if (Model.Type == "Unit" || Model.Type == "Costing")
+                    @*@if (Model.Type == "Costing")*@
+                    @if (Model.Type != ViewBag.Type)
                     {
-                        <em class="perm">**Cannot delete/update because the query sheet is already used somewhere.</em>
+                        <em class="perm">**Cannot delete/update because the query sheet is already used.</em>
                     }
                     else
                     {
