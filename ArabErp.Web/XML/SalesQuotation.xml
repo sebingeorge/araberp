@@ -1,0 +1,91 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="QuotationRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="QuotationDate" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerAddress" type="xs:string" minOccurs="0" />
+                <xs:element name="ContactPerson" type="xs:string" minOccurs="0" />
+                <xs:element name="SalesExecutive" type="xs:string" minOccurs="0" />
+                <xs:element name="PredictedClosingDate" type="xs:string" minOccurs="0" />
+                <xs:element name="QuotationValidToDate" type="xs:string" minOccurs="0" />
+                <xs:element name="ExpectedDeliveryDate" type="xs:string" minOccurs="0" />
+                <xs:element name="Remarks" type="xs:string" minOccurs="0" />
+                <xs:element name="PaymentTerms" type="xs:string" minOccurs="0" />
+                <xs:element name="SalesQuotationStatusName" type="xs:string" minOccurs="0" />
+                <xs:element name="QuotationStage" type="xs:string" minOccurs="0" />
+                <xs:element name="Competitors" type="xs:string" minOccurs="0" />
+                <xs:element name="DiscountRemarks" type="xs:string" minOccurs="0" />
+                <xs:element name="Discount" type="xs:string" minOccurs="0" />
+                <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Street" type="xs:string" minOccurs="0" />
+                <xs:element name="State" type="xs:string" minOccurs="0" />
+                <xs:element name="CountryName" type="xs:string" minOccurs="0" />
+                <xs:element name="Zip" type="xs:string" minOccurs="0" />
+                <xs:element name="Fax" type="xs:string" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="Phone" type="xs:string" minOccurs="0" />
+                <xs:element name="CurrencyName" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Designation" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+                <xs:element name="UserName" type="xs:string" minOccurs="0" />
+                <xs:element name="Sign" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="WorkDescr" type="xs:string" minOccurs="0" />
+                <xs:element name="Quantity" type="xs:string" minOccurs="0" />
+                <xs:element name="Rate" type="xs:string" minOccurs="0" />
+                <xs:element name="UOM" type="xs:string" minOccurs="0" />
+                <xs:element name="Discount" type="xs:string" minOccurs="0" />
+                <xs:element name="Amount" type="xs:string" minOccurs="0" />
+                <xs:element name="TotalAmount" type="xs:string" minOccurs="0" />
+                <xs:element name="WorkDescription" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <QuotationRefNo>AARC/SQ/5</QuotationRefNo>
+    <QuotationDate>30-Nov-2016</QuotationDate>
+    <CustomerName>Abdul Asiz Trading Est</CustomerName>
+    <CustomerAddress>Salwa road, Doha -QatarDohaDoha</CustomerAddress>
+    <ContactPerson>-</ContactPerson>
+    <SalesExecutive> Anoop</SalesExecutive>
+    <PredictedClosingDate>30-Nov-2016 12:00:00 AM</PredictedClosingDate>
+    <QuotationValidToDate>30-Nov-2016</QuotationValidToDate>
+    <ExpectedDeliveryDate>30-Nov-2016 12:00:00 AM</ExpectedDeliveryDate>
+    <SalesQuotationStatusName>Won</SalesQuotationStatusName>
+    <QuotationStage>aa</QuotationStage>
+    <CountryName>UAE</CountryName>
+    <CurrencyName>QAR</CurrencyName>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+    <Designation>Asst.Sales Manager</Designation>
+    <Image1>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <UserName>ihits</UserName>
+    <Sign>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Sign>
+  </Head>
+  <Items>
+    <WorkDescr>Carrier Condensing Unit + 100mm 3300x2000x2000mm- ISUZU ,AL Shehili</WorkDescr>
+    <Quantity>1</Quantity>
+    <Rate>11110.00</Rate>
+    <UOM>Nos</UOM>
+    <Discount>110.00</Discount>
+    <Amount>11110.00</Amount>
+    <TotalAmount>11000.00</TotalAmount>
+    <WorkDescription> Carrier Condensing Unit + 100mm 3300x2000x2000mm- ISUZU ,AL Shehili</WorkDescription>
+  </Items>
+</NewDataSet>

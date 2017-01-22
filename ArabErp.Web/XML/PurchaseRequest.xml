@@ -1,0 +1,185 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="PurchaseRequestNo" type="xs:string" minOccurs="0" />
+                <xs:element name="PurchaseRequestDate" type="xs:string" minOccurs="0" />
+                <xs:element name="WorkShopRequestId" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
+                <xs:element name="SpecialRemarks" type="xs:string" minOccurs="0" />
+                <xs:element name="RequiredDate" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerOrderRef" type="xs:string" minOccurs="0" />
+                <xs:element name="WorkShopRequestRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="PartNo" type="xs:string" minOccurs="0" />
+                <xs:element name="ItemName" type="xs:string" minOccurs="0" />
+                <xs:element name="Quantity" type="xs:string" minOccurs="0" />
+                <xs:element name="UnitName" type="xs:string" minOccurs="0" />
+                <xs:element name="ItemId" type="xs:string" minOccurs="0" />
+                <xs:element name="MinLevel" type="xs:string" minOccurs="0" />
+                <xs:element name="WRRequestQty" type="xs:string" minOccurs="0" />
+                <xs:element name="CurrentStock" type="xs:string" minOccurs="0" />
+                <xs:element name="WRIssueQty" type="xs:string" minOccurs="0" />
+                <xs:element name="TotalQty" type="xs:string" minOccurs="0" />
+                <xs:element name="InTransitQty" type="xs:string" minOccurs="0" />
+                <xs:element name="PendingPRQty" type="xs:string" minOccurs="0" />
+                <xs:element name="ShortorExcess" type="xs:string" minOccurs="0" />
+                <xs:element name="Remarks" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <PurchaseRequestNo>PRQ/15</PurchaseRequestNo>
+    <PurchaseRequestDate>25-Oct-2016</PurchaseRequestDate>
+    <WorkShopRequestId>1011</WorkShopRequestId>
+    <CustomerName>Al Qusaimi Meat Co</CustomerName>
+    <RequiredDate>25-Oct-2016 12:00:00 AM</RequiredDate>
+    <CustomerOrderRef>SO/6 - QUSAIMI</CustomerOrderRef>
+    <WorkShopRequestRefNo>WRQ/6,19/Oct/2016</WorkShopRequestRefNo>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
+  </Head>
+  <Items>
+    <ItemName> COMPRESSOR CLUTCH COIL  TM16 12V</ItemName>
+    <UnitName>Nos</UnitName>
+    <ItemId>2</ItemId>
+    <MinLevel>1</MinLevel>
+    <WRRequestQty>3</WRRequestQty>
+    <CurrentStock>0</CurrentStock>
+    <WRIssueQty>0</WRIssueQty>
+    <InTransitQty>0</InTransitQty>
+    <PendingPRQty>3.00</PendingPRQty>
+    <ShortorExcess>0</ShortorExcess>
+  </Items>
+  <Items>
+    <PartNo />
+    <ItemName> FLEXIBLE HOSE 20MM  (25M)</ItemName>
+    <UnitName>Roll</UnitName>
+    <ItemId>4</ItemId>
+    <MinLevel>1</MinLevel>
+    <WRRequestQty>25</WRRequestQty>
+    <CurrentStock>20</CurrentStock>
+    <WRIssueQty>0</WRIssueQty>
+    <InTransitQty>0</InTransitQty>
+    <PendingPRQty>25.00</PendingPRQty>
+    <ShortorExcess>0</ShortorExcess>
+  </Items>
+  <Items>
+    <PartNo />
+    <ItemName> FUEL FILTER MITSUBISHI</ItemName>
+    <UnitName>Nos</UnitName>
+    <ItemId>6</ItemId>
+    <MinLevel>1</MinLevel>
+    <WRRequestQty>7</WRRequestQty>
+    <CurrentStock>80</CurrentStock>
+    <WRIssueQty>0</WRIssueQty>
+    <InTransitQty>0</InTransitQty>
+    <PendingPRQty>7.00</PendingPRQty>
+    <ShortorExcess>0</ShortorExcess>
+  </Items>
+  <Items>
+    <ItemName> FUSE HOLDER</ItemName>
+    <UnitName>Nos</UnitName>
+    <ItemId>7</ItemId>
+    <MinLevel>1</MinLevel>
+    <WRRequestQty>4</WRRequestQty>
+    <CurrentStock>5</CurrentStock>
+    <WRIssueQty>0</WRIssueQty>
+    <InTransitQty>0</InTransitQty>
+    <PendingPRQty>4.00</PendingPRQty>
+    <ShortorExcess>0</ShortorExcess>
+  </Items>
+  <Items>
+    <PartNo />
+    <ItemName> ON OFF SWITCH</ItemName>
+    <UnitName>Nos</UnitName>
+    <ItemId>8</ItemId>
+    <MinLevel>1</MinLevel>
+    <WRRequestQty>1</WRRequestQty>
+    <CurrentStock>5</CurrentStock>
+    <WRIssueQty>0</WRIssueQty>
+    <InTransitQty>0</InTransitQty>
+    <PendingPRQty>1.00</PendingPRQty>
+    <ShortorExcess>0</ShortorExcess>
+  </Items>
+  <Items>
+    <PartNo />
+    <ItemName>CLUCTCH PLATE TM13</ItemName>
+    <UnitName>Nos</UnitName>
+    <ItemId>34</ItemId>
+    <MinLevel>1</MinLevel>
+    <WRRequestQty>1</WRRequestQty>
+    <CurrentStock>0</CurrentStock>
+    <WRIssueQty>0</WRIssueQty>
+    <InTransitQty>0</InTransitQty>
+    <PendingPRQty>1.00</PendingPRQty>
+    <ShortorExcess>0</ShortorExcess>
+  </Items>
+  <Items>
+    <PartNo />
+    <ItemName> SULPHURIC ACID 20 LTR CAN</ItemName>
+    <UnitName>Liter</UnitName>
+    <ItemId>101</ItemId>
+    <MinLevel>1</MinLevel>
+    <WRRequestQty>10</WRRequestQty>
+    <CurrentStock>0</CurrentStock>
+    <WRIssueQty>0</WRIssueQty>
+    <InTransitQty>0</InTransitQty>
+    <PendingPRQty>10.00</PendingPRQty>
+    <ShortorExcess>0</ShortorExcess>
+  </Items>
+  <Items>
+    <PartNo />
+    <ItemName>Shaft Seal - 80023</ItemName>
+    <UnitName>Nos</UnitName>
+    <ItemId>864</ItemId>
+    <MinLevel>1</MinLevel>
+    <WRRequestQty>14</WRRequestQty>
+    <CurrentStock>0</CurrentStock>
+    <WRIssueQty>0</WRIssueQty>
+    <InTransitQty>0</InTransitQty>
+    <PendingPRQty>14.00</PendingPRQty>
+    <ShortorExcess>0</ShortorExcess>
+  </Items>
+  <Items>
+    <PartNo />
+    <ItemName>Carrier Aircurtain- XP609SR</ItemName>
+    <UnitName>Nos</UnitName>
+    <ItemId>865</ItemId>
+    <MinLevel>1</MinLevel>
+    <WRRequestQty>6</WRRequestQty>
+    <CurrentStock>0</CurrentStock>
+    <WRIssueQty>0</WRIssueQty>
+    <InTransitQty>0</InTransitQty>
+    <PendingPRQty>6.00</PendingPRQty>
+    <ShortorExcess>0</ShortorExcess>
+  </Items>
+  <Items>
+    <ItemName>itmtest</ItemName>
+    <UnitName>unittest</UnitName>
+    <ItemId>872</ItemId>
+    <MinLevel>1</MinLevel>
+    <WRRequestQty>1</WRRequestQty>
+    <CurrentStock>0</CurrentStock>
+    <WRIssueQty>0</WRIssueQty>
+    <InTransitQty>0</InTransitQty>
+    <PendingPRQty>1.00</PendingPRQty>
+    <ShortorExcess>0</ShortorExcess>
+  </Items>
+</NewDataSet>

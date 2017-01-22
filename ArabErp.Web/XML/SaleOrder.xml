@@ -1,0 +1,73 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="SaleOrderNoDate" type="xs:string" minOccurs="0" />
+                <xs:element name="QuotationNoDate" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerAddress" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerOrderRef" type="xs:string" minOccurs="0" />
+                <xs:element name="SpecialRemarks" type="xs:string" minOccurs="0" />
+                <xs:element name="PaymentTerms" type="xs:string" minOccurs="0" />
+                <xs:element name="DeliveryTerms" type="xs:string" minOccurs="0" />
+                <xs:element name="CommissionAgentName" type="xs:string" minOccurs="0" />
+                <xs:element name="CommissionAmount" type="xs:string" minOccurs="0" />
+                <xs:element name="SalesExecutiveId" type="xs:string" minOccurs="0" />
+                <xs:element name="EDateArrival" type="xs:string" minOccurs="0" />
+                <xs:element name="EDateDelivery" type="xs:string" minOccurs="0" />
+                <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Street" type="xs:string" minOccurs="0" />
+                <xs:element name="State" type="xs:string" minOccurs="0" />
+                <xs:element name="CountryName" type="xs:string" minOccurs="0" />
+                <xs:element name="Zip" type="xs:string" minOccurs="0" />
+                <xs:element name="Fax" type="xs:string" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="Phone" type="xs:string" minOccurs="0" />
+                <xs:element name="ContactPerson" type="xs:string" minOccurs="0" />
+                <xs:element name="CurrencyName" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="WorkDescr" type="xs:string" minOccurs="0" />
+                <xs:element name="Quantity" type="xs:string" minOccurs="0" />
+                <xs:element name="Rate" type="xs:string" minOccurs="0" />
+                <xs:element name="Discount" type="xs:string" minOccurs="0" />
+                <xs:element name="Amount" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <SaleOrderNoDate>SO/4 - 17 Nov 2016</SaleOrderNoDate>
+    <QuotationNoDate>SQ/8 - 17 Nov 2016</QuotationNoDate>
+    <CustomerName>JAMCO</CustomerName>
+    <CustomerAddress>,,</CustomerAddress>
+    <CustomerOrderRef>JAMCO-1</CustomerOrderRef>
+    <EDateArrival>17-Nov-2016</EDateArrival>
+    <EDateDelivery>20-Nov-2016</EDateDelivery>
+    <CountryName>UAE</CountryName>
+    <CurrencyName>QAR</CurrencyName>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
+  </Head>
+  <Items>
+    <WorkDescr>Thermoking T600-R + 100mm 3300x2000x2100mm- MITS</WorkDescr>
+    <Quantity>1</Quantity>
+    <Rate>3000.00</Rate>
+    <Discount>200.00</Discount>
+    <Amount>2800.00</Amount>
+  </Items>
+</NewDataSet>

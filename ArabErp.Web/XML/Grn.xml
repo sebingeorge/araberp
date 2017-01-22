@@ -1,0 +1,74 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="GRNNo" type="xs:string" minOccurs="0" />
+                <xs:element name="GRNDate" type="xs:string" minOccurs="0" />
+                <xs:element name="SupplierName" type="xs:string" minOccurs="0" />
+                <xs:element name="WareHouseName" type="xs:string" minOccurs="0" />
+                <xs:element name="SupplierDCNoAndDate" type="xs:string" minOccurs="0" />
+                <xs:element name="VehicleNo" type="xs:string" minOccurs="0" />
+                <xs:element name="GatePassNo" type="xs:string" minOccurs="0" />
+                <xs:element name="SpecialRemarks" type="xs:string" minOccurs="0" />
+                <xs:element name="GRNCurrencyName" type="xs:string" minOccurs="0" />
+                <xs:element name="ReceivedBy" type="xs:string" minOccurs="0" />
+                <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Street" type="xs:string" minOccurs="0" />
+                <xs:element name="State" type="xs:string" minOccurs="0" />
+                <xs:element name="Country" type="xs:string" minOccurs="0" />
+                <xs:element name="Phone" type="xs:string" minOccurs="0" />
+                <xs:element name="Fax" type="xs:string" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="ContactPerson" type="xs:string" minOccurs="0" />
+                <xs:element name="CurrencyName" type="xs:string" minOccurs="0" />
+                <xs:element name="Zip" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ItemName" type="xs:string" minOccurs="0" />
+                <xs:element name="PartNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Remarks" type="xs:string" minOccurs="0" />
+                <xs:element name="Qty" type="xs:string" minOccurs="0" />
+                <xs:element name="UoM" type="xs:string" minOccurs="0" />
+                <xs:element name="Rate" type="xs:string" minOccurs="0" />
+                <xs:element name="Discount" type="xs:string" minOccurs="0" />
+                <xs:element name="Amount" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <GRNNo>GRN/10</GRNNo>
+    <GRNDate>05-Nov-2016</GRNDate>
+    <SupplierName>A Aziz Bin Khalid Al Ghanem Group</SupplierName>
+    <WareHouseName>Main Store</WareHouseName>
+    <SupplierDCNoAndDate>JSUJHHE9837390JJJ</SupplierDCNoAndDate>
+    <GRNCurrencyName>QAR</GRNCurrencyName>
+    <ReceivedBy>Deepak</ReceivedBy>
+    <CurrencyName>QAR</CurrencyName>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
+  </Head>
+  <Items>
+    <ItemName>COMPRESSOR CLUTCH COIL  TM16 24V</ItemName>
+    <PartNo />
+    <Qty>4</Qty>
+    <UoM>Nos</UoM>
+    <Rate>10.000</Rate>
+    <Discount>10.000</Discount>
+    <Amount>40.000</Amount>
+  </Items>
+</NewDataSet>

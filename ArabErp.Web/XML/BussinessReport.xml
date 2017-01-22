@@ -1,0 +1,228 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Month" type="xs:string" minOccurs="0" />
+                <xs:element name="Year" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="QuotRef" type="xs:string" minOccurs="0" />
+                <xs:element name="Date" type="xs:string" minOccurs="0" />
+                <xs:element name="Customer" type="xs:string" minOccurs="0" />
+                <xs:element name="Lead" type="xs:string" minOccurs="0" />
+                <xs:element name="Descr" type="xs:string" minOccurs="0" />
+                <xs:element name="Status" type="xs:string" minOccurs="0" />
+                <xs:element name="GrandTot" type="xs:string" minOccurs="0" />
+                <xs:element name="RevisionNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Reason" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <Month>October</Month>
+    <Year>2016</Year>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
+  </Head>
+  <Items>
+    <QuotRef>SQ/P/6</QuotRef>
+    <Date>18-Oct-2016</Date>
+    <Customer>Abdul Asiz Trading Est</Customer>
+    <Lead>Deepak</Lead>
+    <Status>Active</Status>
+    <GrandTot>700.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/P/6</QuotRef>
+    <Date>18-Oct-2016</Date>
+    <Customer>Abdul Asiz Trading Est</Customer>
+    <Lead>Deepak</Lead>
+    <Status>Active</Status>
+    <GrandTot>700.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/6</QuotRef>
+    <Date>18-Oct-2016</Date>
+    <Customer>Delta Group</Customer>
+    <Lead>Shafi</Lead>
+    <Descr>COMPRESSOR CLUTCH COIL  TM16 12V</Descr>
+    <Status>Active</Status>
+    <GrandTot>800.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/6</QuotRef>
+    <Date>18-Oct-2016</Date>
+    <Customer>Delta Group</Customer>
+    <Lead>Shafi</Lead>
+    <Descr>COMPRESSOR CLUTCH COIL  TM16 12V</Descr>
+    <Status>Active</Status>
+    <GrandTot>800.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/P/7</QuotRef>
+    <Date>18-Oct-2016</Date>
+    <Customer>Arctic Cooling Company</Customer>
+    <Lead>Programmer</Lead>
+    <Status>Active</Status>
+    <GrandTot>100.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/8</QuotRef>
+    <Date>18-Oct-2016</Date>
+    <Customer>Majid Al Futtaim</Customer>
+    <Lead>Shafi</Lead>
+    <Descr>AUTO CABLE   GREEN  2MM</Descr>
+    <Status>Active</Status>
+    <GrandTot>100.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/9</QuotRef>
+    <Date>18-Oct-2016</Date>
+    <Customer>Al Ajjaj Limited  Company</Customer>
+    <Lead>Deepak</Lead>
+    <Descr>COMPRESSOR CLUTCH COIL  TM16 12V</Descr>
+    <Status>Active</Status>
+    <GrandTot>54000.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/10</QuotRef>
+    <Date>18-Oct-2016</Date>
+    <Customer>Al Khair Trading &amp; Aluminium Co. WLL</Customer>
+    <Lead>Deepak</Lead>
+    <Descr>COMPRESSOR CLUTCH COIL  TM16 12V</Descr>
+    <Status>Active</Status>
+    <GrandTot>59000.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/11</QuotRef>
+    <Date>18-Oct-2016</Date>
+    <Customer>Al Qusaimi Meat Co</Customer>
+    <Lead>Deepak</Lead>
+    <Descr>COMPRESSOR CLUTCH COIL  TM16 12V</Descr>
+    <Status>Active</Status>
+    <GrandTot>112096.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/11</QuotRef>
+    <Date>18-Oct-2016</Date>
+    <Customer>Al Qusaimi Meat Co</Customer>
+    <Lead>Deepak</Lead>
+    <Descr>itmtest</Descr>
+    <Status>Active</Status>
+    <GrandTot>112096.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/11</QuotRef>
+    <Date>18-Oct-2016</Date>
+    <Customer>Al Qusaimi Meat Co</Customer>
+    <Lead>Deepak</Lead>
+    <Descr>COMPRESSOR CLUTCH COIL  TM16 12V</Descr>
+    <Status>Active</Status>
+    <GrandTot>112096.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/13</QuotRef>
+    <Date>20-Oct-2016</Date>
+    <Customer>Al Borom Food Stuff</Customer>
+    <Lead>Deepak</Lead>
+    <Descr>COMPRESSOR CLUTCH COIL  TM16 12V</Descr>
+    <Status>Active</Status>
+    <GrandTot>14000.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/14</QuotRef>
+    <Date>21-Oct-2016</Date>
+    <Customer>Al OSRA Restaurant</Customer>
+    <Lead>Deepak</Lead>
+    <Descr>item2</Descr>
+    <Status>Active</Status>
+    <GrandTot>110.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/P/8</QuotRef>
+    <Date>23-Oct-2016</Date>
+    <Customer>Al Absar Export and Import</Customer>
+    <Lead>Programmer</Lead>
+    <Status>Active</Status>
+    <GrandTot>700.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/P/8</QuotRef>
+    <Date>23-Oct-2016</Date>
+    <Customer>Al Absar Export and Import</Customer>
+    <Lead>Programmer</Lead>
+    <Status>Active</Status>
+    <GrandTot>700.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/12</QuotRef>
+    <Date>20-Oct-2016</Date>
+    <Customer>Al Nafaihi Ice  Factory, Shamal</Customer>
+    <Lead>Deepak</Lead>
+    <Descr>COMPRESSOR CLUTCH COIL  TM16 12V</Descr>
+    <Status>Active</Status>
+    <GrandTot>87000.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/16/REV2</QuotRef>
+    <Date>26-Oct-2016</Date>
+    <Customer>Al Sahba Food Stuff Trading Co W.L.L.</Customer>
+    <Lead>Deepak</Lead>
+    <Descr>COMPRESSOR CLUTCH COIL  TM16 12V</Descr>
+    <Status>Active</Status>
+    <GrandTot>56000.00</GrandTot>
+    <RevisionNo>2</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/17/REV1</QuotRef>
+    <Date>31-Oct-2016</Date>
+    <Customer>Al Foliage</Customer>
+    <Lead>Deepak</Lead>
+    <Descr>COMPRESSOR CLUTCH COIL  TM16 12V</Descr>
+    <Status>Active</Status>
+    <GrandTot>71500.00</GrandTot>
+    <RevisionNo>1</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>SQ/15/REV2</QuotRef>
+    <Date>22-Oct-2016</Date>
+    <Customer>Adansa Trading</Customer>
+    <Lead>Deepak</Lead>
+    <Descr>COMPRESSOR CLUTCH COIL  TM16 12V</Descr>
+    <Status>Active</Status>
+    <GrandTot>1000.00</GrandTot>
+    <RevisionNo>2</RevisionNo>
+    <Reason>this is the reason for revising this quotation 2</Reason>
+  </Items>
+</NewDataSet>
