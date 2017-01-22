@@ -279,7 +279,7 @@ namespace ArabErp.Web.Controllers
 
                     TempData["success"] = "Updated successfully. Query Sheet Reference No. is " + ref_no;
                     TempData["error"] = "";
-                    return RedirectToAction("Index", new { Type = "Unit" });
+                    return RedirectToAction("Index", new { Type = model.Type });
                 }
                 catch (SqlException)
                 {
@@ -293,7 +293,7 @@ namespace ArabErp.Web.Controllers
                 {
                     TempData["error"] = "Some error occured. Please try again.";
                 }
-                return RedirectToAction("Index", new { Type = "Unit" });
+                return RedirectToAction("Index", new { Type = model.Type });
             }
 
         }
