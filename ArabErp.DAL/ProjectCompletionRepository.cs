@@ -105,9 +105,9 @@ namespace ArabErp.DAL
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
                     string query = @"SELECT
-	                                IB.ItemBatchId,
-	                                I.ItemName,
-	                                SerialNo
+	                            IB.ItemBatchId,
+	                            I.ItemName,
+	                            SerialNo
                                 FROM JobCard JC
                                 INNER JOIN ItemBatch IB ON JC.SaleOrderItemId = IB.SaleOrderItemId
                                 LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
@@ -184,7 +184,7 @@ namespace ArabErp.DAL
 	                                    --ColdRoomLocation Location,
 	                                    C.CustomerName
                                     FROM QuerySheet QS
-	                                    INNER JOIN SalesQuotation SQ ON QS.QuerySheetId = SQ.QuerySheetId
+	                                    LEFT JOIN SalesQuotation SQ ON QS.QuerySheetId = SQ.QuerySheetId
 	                                    INNER JOIN SaleOrder SO ON SQ.SalesQuotationId = SO.SalesQuotationId
 	                                    INNER JOIN Customer C ON SQ.CustomerId = C.CustomerId
                                     WHERE SO.SaleOrderId = @SaleOrderId
@@ -204,7 +204,7 @@ namespace ArabErp.DAL
 	                                    QI.TemperatureRequired
                                     FROM QuerySheet QS
 	                                    INNER JOIN QuerySheetItem QI ON QS.QuerySheetId = QI.QuerySheetId
-	                                    INNER JOIN SalesQuotation SQ ON QS.QuerySheetId = SQ.QuerySheetId
+	                                    LEFT JOIN SalesQuotation SQ ON QS.QuerySheetId = SQ.QuerySheetId
 	                                    INNER JOIN SaleOrder SO ON SQ.SalesQuotationId = SO.SalesQuotationId
 	                                    INNER JOIN Customer C ON SQ.CustomerId = C.CustomerId
                                     WHERE SO.SaleOrderId = @SaleOrderId";
@@ -265,7 +265,7 @@ namespace ArabErp.DAL
                                     FROM ProjectCompletion PC
 	                                    INNER JOIN SaleOrder SO ON PC.SaleOrderId = SO.SaleOrderId
 	                                    INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
-	                                    INNER JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
+	                                    LEFT JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
 	                                    INNER JOIN QuerySheet QS ON SQ.QuerySheetId = QS.QuerySheetId 
                                 WHERE PC.ProjectCompletionId = @ProjectCompletionId ";
 
@@ -292,8 +292,8 @@ namespace ArabErp.DAL
 	                                    I.ItemName,
 	                                    CONVERT(VARCHAR, IB.WarrantyStartDate, 106) WarrantyStartDate,
 	                                    CONVERT(VARCHAR, IB.WarrantyExpireDate, 106) WarrantyExpireDate
-                                    FROM ItemBatch IB
-	                                    INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+                                        FROM ItemBatch IB
+	                                    LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
 	                                    INNER JOIN Item I ON GI.ItemId = I.ItemId
                                     WHERE IB.ProjectCompletionId = @ProjectCompletionId";
                     return connection.Query<ItemBatch>(query, new { ProjectCompletionId = ProjectCompletionId }).ToList();

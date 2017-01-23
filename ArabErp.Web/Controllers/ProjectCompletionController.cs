@@ -111,6 +111,7 @@ namespace ArabErp.Web.Controllers
         {
             if (id == 0) return RedirectToAction("Index", "Home");
             ProjectCompletion model = new ProjectCompletionRepository().GetProjectCompletion(id);
+            //model.ItemBatches = new ProjectCompletionRepository().GetSerialNos(id).ToList<ItemBatch>();
             model.ItemBatches = new ProjectCompletionRepository().GetSerialNosByProjectCompletioId(model.ProjectCompletionId);
             return View(model);
         }

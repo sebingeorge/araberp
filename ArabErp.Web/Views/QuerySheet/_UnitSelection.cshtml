@@ -35,7 +35,7 @@
                     
                     <td>@Html.DropDownListFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].CondenserUnitId, new SelectList(ViewBag.CondenserList, "Value", "Text", Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].CondenserUnitId), "Select Condenser Unit", new { @class = "form_input" })</td>
                     <td>@Html.DropDownListFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].EvaporatorUnitId, new SelectList(ViewBag.EvaporatorList, "Value", "Text", Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].EvaporatorUnitId), "Select Evaporator Unit", new { @class = "form_input" })</td>
-                    <td>@Html.TextBoxFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].Quantity, new { @class = "form_input numbers-only text-right Quantity", autocomplete = "off" })</td>
+                    <td>@Html.TextBoxFor(m => Model.QuerySheetItems[currentIndex].ProjectRoomUnits[i].Quantity, new { @class = "form_input numbers-only text-right UnitQty", autocomplete = "off" })</td>
 
                     <td style="vertical-align:middle"><a id="add_row" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddUnitRow(@currentIndex)"></a></td>
                 </tr>

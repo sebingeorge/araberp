@@ -82,9 +82,9 @@
         var url = '@Url.Action("PendingSalesInvoiceDt")';
         url += "?SalesOrderId=" + SalesOrderId + "&invType=" + invType + "&DeliveryNo=" + encodeURIComponent(DeliveryNo) + "&CustomerName=" + encodeURIComponent(CustomerName) + "&RegNo=" + encodeURIComponent(RegNo) + "&InstallType=" + encodeURIComponent(InstallType);
         $("#SalesInvoiceListDiv").load(url, function () {
-        $("#SalesInvoiceListDiv").removeClass("fade");
+            $("#SalesInvoiceListDiv").removeClass("fade");
         });
-       
+
     }
 </script>
 <style>
@@ -104,85 +104,88 @@
         <div class="main-part pad1">
             <div class="row">
                 <div class="part">
-                    <div class="col-md-2">
-                        <label for="txtDeliveryNo">Delivery No.</label>
-                        <input type="text" class="form_input" id="txtDeliveryNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Delivery No." />
-                    </div>
-                    @if(invType=="Final")
-                    { 
-                    <div class="col-md-2">
-                        <label for="txtRegNo">Reg. No./Chassis No.</label>
-                        <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Reg. No./Chassis No." />
-                    </div>
+                    @if(invType!="Inter")
+                    {
+                        <div class="col-md-2">
+                            <label for="txtDeliveryNo">Delivery No.</label>
+                            <input type="text" class="form_input" id="txtDeliveryNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Delivery No." />
+                        </div>
+                    }
+                        @if(invType=="Final")
+                    {
+                            <div class="col-md-2">
+                                <label for="txtRegNo">Reg. No./Chassis No.</label>
+                                <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Reg. No./Chassis No." />
+                            </div>
                    }
-                    <div class="col-md-2">
-                        <label for="txtCustomer">Customer</label>
-                        <input type="text" class="form_input" id="txtCustomer" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Customer" />
-                    </div>
-                    <div class="col-md-3">
-                        <label for="txtCustomer">Service/New Installation</label>
-                        <select id="cboType" class="form_input" onchange="Filter()">
-                            <option value="all" selected>All</option>
-                            <option value="service">Service</option>
-                            <option value="new">New Installation</option>
-                        </select>
-                    </div>
-                    @*<div class="col-md-3">
-                        <label for="cboType">New Installation/Service</label>
-                        @Html.DropDownList("cboType", (SelectList)ViewBag.Type, "Any", new { @class = "form_input", @onchange = "Filter()" })
-                    </div>*@
+                        <div class="col-md-2">
+                            <label for="txtCustomer">Customer</label>
+                            <input type="text" class="form_input" id="txtCustomer" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Customer" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="txtCustomer">Service/New Installation</label>
+                            <select id="cboType" class="form_input" onchange="Filter()">
+                                <option value="all" selected>All</option>
+                                <option value="service">Service</option>
+                                <option value="new">New Installation</option>
+                            </select>
+                        </div>
+                        @*<div class="col-md-3">
+                                <label for="cboType">New Installation/Service</label>
+                                @Html.DropDownList("cboType", (SelectList)ViewBag.Type, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                            </div>*@
 
+                    </div>
                 </div>
-            </div>
-            <br />
+                        <br />
 
-            @*<div class="row form-group">
-                    <div class="col-md-3">
-                        <label for="cboSaleOrder">Sale Order</label>
-                        @Html.HiddenFor(m => Model.SaleOrderId)
-                        @Html.DropDownList("cboSaleOrder", (SelectList)ViewBag.saleOrderList, "Select Sale Order", new { @class = "form_input", @onchange = "OpenCustomerInvoice(this, '', '')", @placeholder = "Search for Sale Order" })
-                    </div>
-                </div>*@
-            @*<div class="main-list wid" style="margin-bottom:10px" id="PendingCustomerInvoiceDiv">
-                    <div class="main-grid">
-                        <div>
-                            <div class="table-responsive">
-                                <h5>Invoice List</h5>
-                                <table id="PendingCustomerInvoiceTable" class="table table-bordered">
-                                    <thead style="position:relative;display:block">
-                                        <tr class="grid_heading">
-                                            <th style="min-width: 400px"><h1>Customer</h1></th>
-                                            <th style="min-width:400px"><h1>Sale Order Number</h1></th>
-                                            <th style="min-width:231px"><h1>Select</h1></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody style="display:  block;overflow:scroll;height:100px">
-                                        @for (int i = 0; i < Model.Count(); i++)
-                                        {
-                                            <tr>
-                                                <td style="min-width: 400px">@Html.TextBoxFor(m => Model[i].Customer, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })</td>
-                                                <td style="min-width: 400px">@Html.TextBoxFor(m => Model[i].SaleOrderRefNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
-                                                <td style="min-width:231px"><div class="form-button3 mleft"><center><a onclick="OpenCustomerInvoice('@Model[i].SaleOrderId','@Model[i].Customer','@Model[i].SaleOrderRefNoWithDate');">View</a></center></div></td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                        @*<div class="row form-group">
+                                <div class="col-md-3">
+                                    <label for="cboSaleOrder">Sale Order</label>
+                                    @Html.HiddenFor(m => Model.SaleOrderId)
+                                    @Html.DropDownList("cboSaleOrder", (SelectList)ViewBag.saleOrderList, "Select Sale Order", new { @class = "form_input", @onchange = "OpenCustomerInvoice(this, '', '')", @placeholder = "Search for Sale Order" })
+                                </div>
+                            </div>*@
+                        @*<div class="main-list wid" style="margin-bottom:10px" id="PendingCustomerInvoiceDiv">
+                                <div class="main-grid">
+                                    <div>
+                                        <div class="table-responsive">
+                                            <h5>Invoice List</h5>
+                                            <table id="PendingCustomerInvoiceTable" class="table table-bordered">
+                                                <thead style="position:relative;display:block">
+                                                    <tr class="grid_heading">
+                                                        <th style="min-width: 400px"><h1>Customer</h1></th>
+                                                        <th style="min-width:400px"><h1>Sale Order Number</h1></th>
+                                                        <th style="min-width:231px"><h1>Select</h1></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody style="display:  block;overflow:scroll;height:100px">
+                                                    @for (int i = 0; i < Model.Count(); i++)
+                                                    {
+                                                        <tr>
+                                                            <td style="min-width: 400px">@Html.TextBoxFor(m => Model[i].Customer, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })</td>
+                                                            <td style="min-width: 400px">@Html.TextBoxFor(m => Model[i].SaleOrderRefNoWithDate, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })</td>
+                                                            <td style="min-width:231px"><div class="form-button3 mleft"><center><a onclick="OpenCustomerInvoice('@Model[i].SaleOrderId','@Model[i].Customer','@Model[i].SaleOrderRefNoWithDate');">View</a></center></div></td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+
+                        <div class="" id="SalesInvoiceListDiv">
+                            @Html.Action("PendingSalesInvoiceDt")
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 hrpart">
+                                <input type="button" class="form-button left" value="Previous" onclick="PreviousList()" />
+                                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                                <button type="submit" class="form-button right" id="BtnSubmit" disabled>Proceed</button>
                             </div>
                         </div>
                     </div>
-                </div>*@
-
-            <div class="" id="SalesInvoiceListDiv">
-                @Html.Action("PendingSalesInvoiceDt")
-            </div>
-            <div class="row">
-                <div class="col-md-12 hrpart">
-                    <input type="button" class="form-button left" value="Previous" onclick="PreviousList()" />
-                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-                    <button type="submit" class="form-button right" id="BtnSubmit" disabled>Proceed</button>
-                </div>
-            </div>
-        </div>
     }
-</div>
+                </div>
 
