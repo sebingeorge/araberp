@@ -177,12 +177,14 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Delete(int Id)
         {
-
-            Item objItem = new ItemRepository().GetItem(Id);
-
             FillUnit();
-
-
+            FillItem();
+            FillJobCardTaskMaster();
+            Item objItem = new ItemRepository().GetItem(Id);
+            objItem.ItemVsBom = new ItemRepository().GetItemVsBom(Id);
+            if (objItem.ItemVsBom.Count == 0) objItem.ItemVsBom.Add(new WorkVsItem());
+            objItem.ItemVsTasks = new ItemRepository().GetItemVsTasks(Id);
+            if (objItem.ItemVsTasks.Count == 0) objItem.ItemVsTasks.Add(new WorkVsTask());
             return View(objItem);
 
 

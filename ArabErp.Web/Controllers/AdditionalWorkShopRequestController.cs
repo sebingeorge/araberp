@@ -16,13 +16,17 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.isProjectBased = isProjectBased;
             FillCustomer();
-            FillWorkshopRequests();
-            FillJobCard();
+            FillWorkshopRequests(isProjectBased);
+           FillJobCard();
+          // ViewBag.startdate = FYStartdate;
             return View();
         }
 
-        public ActionResult PreviousList(int isProjectBased,DateTime? from, DateTime? to, int id = 0, int customer = 0, int jobcard = 0)
+        public ActionResult PreviousList(int isProjectBased, DateTime? from, DateTime? to, int id = 0, int jobcard = 0, int customer = 0)
         {
+            
+            //from = from ?? FYStartdate;
+            //to = to ?? DateTime.Today;
             return PartialView("_PreviousListGrid", new WorkShopRequestRepository().PreviousList(isProjectBased: isProjectBased, OrganizationId: OrganizationId, from: from, to: to, id: id, jobcard: jobcard, customer: customer));
         }
 
@@ -193,9 +197,9 @@ namespace ArabErp.Web.Controllers
         }
 
         #region Dropdowns
-        private void FillWorkshopRequests()
+        private void FillWorkshopRequests(int isProjectBased)
         {
-            ViewBag.wrList = new SelectList(new DropdownRepository().WorkshopRequestDropdown(OrganizationId: OrganizationId), "Id", "Name");
+            ViewBag.wrList = new SelectList(new DropdownRepository().WorkshopRequestDropdown(OrganizationId: OrganizationId, isProjectBased:isProjectBased), "Id", "Name");
         }
         private void FillCustomer()
         {

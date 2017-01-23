@@ -634,8 +634,9 @@ namespace ArabErp.DAL
 
                                 WHERE INV.OrganizationId=@OrganizationId AND INV.SalesInvoiceDate >= @from AND INV.SalesInvoiceDate <= @to
                                 AND INV.SalesInvoiceId=ISNULL(NULLIF(@id, 0),INV.SalesInvoiceId)
-                                ORDER BY INV.SalesInvoiceDate DESC,INV.SalesInvoiceId,INV.SalesInvoiceRefNo,
-                                SO.SaleOrderRefNo,SO.SaleOrderDate,C.CustomerName";
+                                ORDER BY INV.SalesInvoiceDate DESC,INV.SalesInvoiceRefNo DESC";
+                               //ORDER BY INV.SalesInvoiceDate DESC,INV.SalesInvoiceId,INV.SalesInvoiceRefNo DESC,
+                               // SO.SaleOrderRefNo,SO.SaleOrderDate,C.CustomerName
                 return connection.Query<SalesInvoice>(query, new
                 {
                     OrganizationId = OrganizationId,

@@ -77,6 +77,15 @@ namespace ArabErp.Web.Controllers
             return ConsumedItems;
         }
 
+        //[HttpGet]
+        //public JsonResult GetBOM(int finitemid)
+        //{
+          
+        //    StockCreationConsumedItem List = new SubAssemblyRepository().GetBOM(finitemid);
+        //    var Result = new { finitemId = List.ItemId};
+        //    return Json(Result, JsonRequestBehavior.AllowGet);
+        //}
+
         public ActionResult GetStockQuantity(string date, int id = 0, int stockpoint = 0)
         {
             try
