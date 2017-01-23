@@ -20,6 +20,16 @@ namespace ArabErp.DAL
             return dataConnection;
         }
 
+        public List<StockCreationConsumedItem> GetBOM(int finitemid)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+                string query = "SELECT BomItemId ItemId,I.ItemName FROM ItemVsBom IB INNER JOIN Item I ON I.ItemId=IB.BomItemId WHERE IB.ItemId= @finitemid";
+                return connection.Query<StockCreationConsumedItem>(query, new { finitemid = finitemid }).ToList<StockCreationConsumedItem>();
+            }
+        }
+
         public string CreateSubAssembly(SubAssembly model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

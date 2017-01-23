@@ -83,6 +83,32 @@
         }
     }
 
+    @*function FinishedItemChange(index)
+    {
+        var finitemid = $("#FinishedGoods_" + index + "__ItemId").val();
+        alert(finitemid);
+        //var finitemid=item.value;
+        $.ajax({
+            url:"@Url.Action("GetBOM", "SubAssembly")",
+            data:{finitemid:finitemid},
+            cache:false,
+            type: "GET",
+            timeout: 10000,
+            dataType: "json",
+            success: function (result){
+                if (result.Success) 
+                { // this sets the value from the response
+                    $('#finitemId').val(result.ItemId);
+                    //$('#finitem').val(result.item);
+                } 
+                else 
+                {
+                    $('#SomeOtherHtmlTextBox').val("Failed");
+                }
+            }
+        })
+    }*@
+
     function OnFinishedMaterialChanged(index) {
         var item = $("#FinishedGoods_" + index + "__ItemId").val();
         if (item == '') return;
@@ -98,6 +124,8 @@
             $("#FinishedGoods_" + index + "__ItemId").combobox("destroy");
             $("#FinishedGoods_" + index + "__ItemId").combobox();
         }
+
+        //FinishedItemChange(index);
     }
 
 </script>
