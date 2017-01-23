@@ -565,7 +565,7 @@ namespace ArabErp
 								--V.ChassisNo + CASE WHEN ISNULL(V.RegistrationNo, '') <> '' AND ISNULL(V.ChassisNo, '') <> '' THEN ' - ' END + V.RegistrationNo ChasisNo,
                                 ISNULL(V.RegistrationNo, '') + CASE WHEN ISNULL(V.RegistrationNo, '') <> '' AND ISNULL(V.ChassisNo, '') <> '' THEN ' - ' ELSE '' END + ISNULL(V.ChassisNo, '') RegistrationNo, 
                                 VM.VehicleModelName,US.UserName CreatedUser,US.Signature CreatedUsersig,DI.DesignationName CreatedDes,
-                                J.Complaints, J.isProjectBased,
+                                J.Complaints, J.isProjectBased,J.isService,
                                 STUFF((SELECT DISTINCT ', ' + I.ItemName 
                                 FROM SaleOrderItem SOI
                                 INNER JOIN WorkShopRequest WR ON WR.SaleOrderId=SOI.SaleOrderId 
@@ -616,7 +616,7 @@ namespace ArabErp
 								SE.Complaints,
 								concat(SE.BoxMake,CASE WHEN (ISNULL(LTRIM(RTRIM(SE.BoxMake)),'') = '' OR ISNULL(LTRIM(RTRIM(SE.BoxNo)), '') = '') THEN '' ELSE ' / ' END ,SE.BoxNo) BoxName,
 								concat(SE.FreezerMake,CASE WHEN (ISNULL(LTRIM(RTRIM(SE.FreezerMake)),'') = '' OR ISNULL(LTRIM(RTRIM(SE.FreezerModel)), '') = '') THEN '' ELSE ' / ' END ,SE.FreezerModel) FreezerUnitName,
-								SE.VehicleMake VehicleModelName,SE.ServiceEnquiryId,US.UserName CreatedUser,US.Signature CreatedUsersig,DI.DesignationName CreatedDes, J.isProjectBased
+								SE.VehicleMake VehicleModelName,SE.ServiceEnquiryId,US.UserName CreatedUser,US.Signature CreatedUsersig,DI.DesignationName CreatedDes,J.isProjectBased,J.isService,SE.UnitDetails
                                 FROM JobCard J
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
