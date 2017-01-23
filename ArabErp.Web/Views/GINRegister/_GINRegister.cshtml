@@ -7,6 +7,8 @@
             <th width="10%"><h1>Part No.</h1></th>
             <th width="10%" class="text-right"><h1>Stock</h1></th>
             <th width="5%"><h1>Unit</h1></th>
+            <th width="10%"><h1>SO No.</h1></th>
+            <th width="10%"><h1>JobCard No.</h1></th>
             <th width="10%"><h1>WR.No.</h1></th>
             <th width="10%" class="text-right"><h1>Required Qty.</h1></th>
             <th width="10%" class="text-right"><h1>Issued Qty.</h1></th>
@@ -29,11 +31,12 @@
                 <td rowspan="@val1" class="grid-cell">@item.ItemName</td>
                 <td rowspan="@val1" class="grid-cell">@item.PartNo</td>
                 <td rowspan="@val1" class="grid-cell text-right">@item.STOCK</td>
-               <td rowspan="@val1" class="grid-cell">@item.UnitName</td>
+                <td rowspan="@val1" class="grid-cell">@item.UnitName</td>
                  
                  }
                
-}
+}               <td class="grid-cell">@item.SaleOrderRefNo</td>
+                <td class="grid-cell">@item.JobCardNo</td>
                 <td class="grid-cell">@item.WorkShopRequestRefNo</td>
                 <td class="grid-cell text-right">@item.Quantity</td>
                 <td class="grid-cell text-right">@item.ISSQTY</td>
