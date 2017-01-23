@@ -281,7 +281,9 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("CreatedUser");
             ds.Tables["Head"].Columns.Add("CreateSignature");
             ds.Tables["Head"].Columns.Add("CreatedDes");
-
+            ds.Tables["Head"].Columns.Add("isProjectBased");
+            ds.Tables["Head"].Columns.Add("isService");
+            ds.Tables["Head"].Columns.Add("UnitDetails");
             //-------DT
             ds.Tables["Items"].Columns.Add("TaskDate");
             ds.Tables["Items"].Columns.Add("Employee");
@@ -330,6 +332,10 @@ namespace ArabErp.Web.Controllers
             dr["CreatedUser"] = Head.CreatedUser;
             dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
             dr["CreatedDes"] = Head.CreatedDes;
+            dr["isProjectBased"] = Head.isProjectBased;
+            dr["isService"] = Head.isService;
+            dr["UnitDetails"] = Head.UnitDetails;
+            
             ds.Tables["Head"].Rows.Add(dr);
 
             JobCardTaskRepository repo1 = new JobCardTaskRepository();
