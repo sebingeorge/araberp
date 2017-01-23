@@ -196,7 +196,6 @@ namespace ArabErp.Web.Controllers
                 ServiceEnquiry model = new SaleOrderRepository().GetServiceOrderDetails(id, OrganizationId);
                 model.Used = new SaleOrderRepository().Count(id);
                 model.SaleOrderDate = DateTime.Today;
-                model.isProjectBased = 0;
                 model.isService = 1;
                 model.IsConfirmed = 1;
                 model.Items = new List<SaleOrderItem>();
@@ -226,7 +225,7 @@ namespace ArabErp.Web.Controllers
                 new SaleOrderRepository().UpdateServiceOrder(model);
                 TempData["success"] = "Updated Successfully (" + model.SaleOrderRefNo + ")";
                 TempData["ServiceEnquiryRefNo"] = model.SaleOrderRefNo;
-                return RedirectToAction("ServiceOrderList");
+                return RedirectToAction("ServiceOrderList", new { isProjectBased=model.isProjectBased });
             }
             catch (Exception)
             {

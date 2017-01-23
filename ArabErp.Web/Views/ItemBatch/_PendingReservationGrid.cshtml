@@ -64,7 +64,17 @@
                         @*<input type="text" value="*@@(Model[i].Quantity - Model[i].ReservedQuantity)@*" class="form_input text-right" disabled />*@
                     </td>
                     <td>
-                        <center><input type="button" class="form-button4" value="Select" title="Select this sale order for reserving serial number" onclick="OnItemSelected('@Model[i].SaleOrderItemId', '@Model[i].ItemId')" /></center>
+                        <center>
+                            @if (Model[i].SerialNo == null || Model[i].SerialNo == "")
+                            {
+                                <span class="perm">No Serial No found</span>
+                            }
+                            else
+                            {
+                                <input type="button" class="form-button4" value="Select" title="Select this sale order for reserving serial number" onclick="OnItemSelected('@Model[i].SaleOrderItemId', '@Model[i].ItemId')" />
+
+                            }
+                        </center>
                     </td>
                 </tr>
             }
@@ -79,4 +89,3 @@
         }
     </tbody>
 </table>
-

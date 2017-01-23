@@ -2,8 +2,7 @@
 
 @{
     int isProjectBased = ViewBag.ProjectBased;
-
-}
+    }
 
 <table class="table table-bordered table-hover">
     <thead>
@@ -17,6 +16,7 @@
             <th width="20%"><h1>Vehicle Model</h1></th>
             <th width="15%" nowrap><h1> Reg No./Chassis No.</h1></th>
             }
+         
             <th width="15%"><h1>Engineer/Supervisor</h1></th>
             <th width="1%" class="text-center"><h1></h1></th>
         </tr>
@@ -45,7 +45,7 @@
                             @item.ChasisNo
                         </td>
                     }
-                   
+                
                     <td>@item.EmployeeName</td>
                     <td>
                         <center><input type="button" class="form-button4" value="Select" title="Select to view details" onclick="Open(@item.JobCardId)" /></center>
