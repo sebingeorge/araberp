@@ -43,7 +43,7 @@
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
         var url = '@Url.Action("PreviousList")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&jobcard=" + jobcard + "&customer=" + customer;
+        url += "?isProjectBased=" + "@ViewBag.isProjectBased"+"&from=" +from+ "&to=" + to + "&id=" + id + "&jobcard=" + jobcard + "&customer=" + customer;
         $("#previous-list").load(url, function () {
             $("#previous-list").removeClass("fade");
         });

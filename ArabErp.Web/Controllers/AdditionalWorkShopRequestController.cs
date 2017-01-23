@@ -17,12 +17,16 @@ namespace ArabErp.Web.Controllers
             ViewBag.isProjectBased = isProjectBased;
             FillCustomer();
             FillWorkshopRequests();
-            FillJobCard();
+           FillJobCard();
+          // ViewBag.startdate = FYStartdate;
             return View();
         }
 
-        public ActionResult PreviousList(int isProjectBased,DateTime? from, DateTime? to, int id = 0, int customer = 0, int jobcard = 0)
+        public ActionResult PreviousList(int isProjectBased, DateTime? from, DateTime? to, int id = 0, int jobcard = 0, int customer = 0)
         {
+            
+            //from = from ?? FYStartdate;
+            //to = to ?? DateTime.Today;
             return PartialView("_PreviousListGrid", new WorkShopRequestRepository().PreviousList(isProjectBased: isProjectBased, OrganizationId: OrganizationId, from: from, to: to, id: id, jobcard: jobcard, customer: customer));
         }
 

@@ -42,6 +42,9 @@
                 <xs:element name="CreatedUser" type="xs:string" minOccurs="0" />
                 <xs:element name="CreateSignature" type="xs:string" minOccurs="0" />
                 <xs:element name="CreatedDes" type="xs:string" minOccurs="0" />
+                <xs:element name="isProjectBased" type="xs:string" minOccurs="0" />
+                <xs:element name="isService" type="xs:string" minOccurs="0" />
+                <xs:element name="UnitDetails" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -60,11 +63,13 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>AARC/JC/SER/P/17/4</JobCardNo>
-    <JobCardDate>22-Jan-2017</JobCardDate>
-    <EDC>22-Jan-2017</EDC>
-    <Unit />
+    <JobCardNo>AARC/JC/P/17/1</JobCardNo>
+    <JobCardDate>20-Jan-2017</JobCardDate>
+    <EDC>20-Jan-2017</EDC>
+    <SaleOrderRefNo />
+    <Unit>Carrier Condenser Chiller CRM-150-AY, Carrier Evaporator Chiller CAE 3164, Carrier Condenser Chiller CRM-750-EX, Carrier Evaporator Freezer CAB 4467</Unit>
     <Customer>Abdul Asiz Trading Est</Customer>
+    <ChasisNo />
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -73,17 +78,18 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Box />
-    <Complaints>qwqqw</Complaints>
+    <Image1>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Box>AL FURAT SLIDING DOOR 3000(H)X2000(W)X100(T)MM-RHS, AL FURAT SLIDING DOOR 3000(H)X2000(W)X100(T)MM-LHS</Box>
     <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
+    <CreateSignature>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_Images\c779c0f1-d661-4f36-a870-3008ffe91985.jpg</CreateSignature>
     <CreatedDes>Asst.Sales Manager</CreatedDes>
+    <isProjectBased>1</isProjectBased>
+    <isService>0</isService>
   </Head>
   <Items>
-    <TaskDate>22-Jan-2017</TaskDate>
-    <Employee>Aung Thet Htay</Employee>
-    <Description>Box Fixing</Description>
+    <TaskDate>20-Jan-2017</TaskDate>
+    <Employee>Giriesh Gopi</Employee>
+    <Description>Unit Fixing</Description>
     <Hours>10.00</Hours>
   </Items>
   <Items>
