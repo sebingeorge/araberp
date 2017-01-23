@@ -44,7 +44,7 @@
 
     function OnItemSelected(id) {
         var url = '@Url.Action("Edit")';
-        url += "?id=" + id;
+        url += "?type=@ViewBag.Type&id=" + id;
         window.location = url;
     }
     function Exit() {
@@ -107,15 +107,14 @@
 
         <br />
         <div id="querysheetlist">
-            @Html.Action("QuerySheetList", new {@ViewBag.Type})
+            @Html.Action("QuerySheetList", new { @ViewBag.Type })
         </div>
 
-                <div class="row">
-                    <div class="col-md-12 hrpart">
-                        <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-                    </div>
-                </div>
-
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
             </div>
         </div>
 
+    </div>
+</div>

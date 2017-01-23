@@ -60,11 +60,11 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>AARC/JC/SP/17/3</JobCardNo>
-    <JobCardDate>21-Jan-2017</JobCardDate>
-    <EDC>21-Jan-2017</EDC>
+    <JobCardNo>AARC/JC/SER/P/17/4</JobCardNo>
+    <JobCardDate>22-Jan-2017</JobCardDate>
+    <EDC>22-Jan-2017</EDC>
     <Unit />
-    <Customer>Al Furat Refrigeration Devices Trading Co</Customer>
+    <Customer>Abdul Asiz Trading Est</Customer>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -73,17 +73,17 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <Box />
-    <Complaints>fghh</Complaints>
+    <Complaints>qwqqw</Complaints>
     <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_Images\c779c0f1-d661-4f36-a870-3008ffe91985.jpg</CreateSignature>
+    <CreateSignature>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
     <CreatedDes>Asst.Sales Manager</CreatedDes>
   </Head>
   <Items>
-    <TaskDate>21-Jan-2017</TaskDate>
+    <TaskDate>22-Jan-2017</TaskDate>
     <Employee>Aung Thet Htay</Employee>
-    <Description>General Maintenance </Description>
+    <Description>Box Fixing</Description>
     <Hours>10.00</Hours>
   </Items>
   <Items>
