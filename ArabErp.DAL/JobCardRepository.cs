@@ -34,11 +34,11 @@ namespace ArabErp
             {
                 string query = string.Empty;
                 query += @" SELECT SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, 
-                            V.VehicleModelName,ISNULL(WR.WorkShopRequestRefNo,'-')WorkShopRequestRefNo,WorkDescription=(case when  S.isProjectBased = 0 then  W.WorkDescr  else
+                            V.VehicleModelName,ISNULL(WR.WorkShopRequestRefNo,'-')WorkShopRequestRefNo,WorkDescription=(case when  S.isProjectBased = 0 THEN  W.WorkDescr  ELSE CASE WHEN S.isService=0 THEN 
                             STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName FROM SaleOrderItemUnit T1
                             LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
                             LEFT JOIN Item T3 ON T1.EvaporatorUnitId = T3.ItemId
-                            WHERE T1.SaleOrderItemId = SI.SaleOrderItemId FOR XML PATH('')), 1, 2, '') end),
+                            WHERE T1.SaleOrderItemId = SI.SaleOrderItemId FOR XML PATH('')), 1, 2, '') ELSE SE.UnitDetails END END),
                             IsPaymentApprovedForJobOrder, ISNULL(VIP.RegistrationNo, '')RegistrationNo,ISNULL(VIP.ChassisNo, '') ChassisNo,
                             DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) Remaindays,S.isService
                             FROM SaleOrder S 
@@ -47,6 +47,7 @@ namespace ArabErp
                             LEFT JOIN  WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
                             LEFT JOIN  VehicleModel V on V.VehicleModelId = SI.VehicleModelId
                             LEFT JOIN  JobCard J on J.SaleOrderItemId = SI.SaleOrderItemId 
+                            LEFT JOIN ServiceEnquiry SE ON SE.ServiceEnquiryId=S.ServiceEnquiryId
                             LEFT JOIN  WorkShopRequest WR ON WR.SaleOrderItemId=SI.SaleOrderItemId";
                 if (isProjectBased == 1)
                 {
@@ -137,7 +138,7 @@ namespace ArabErp
 	                            NULL BoxId,
 	                            '' BoxName,
 	                            S.isService,
-	                            S.isProjectBased,SE.UnitDetails,
+	                            S.isProjectBased,SE.UnitDetails,SE.Complaints,
 								STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName FROM SaleOrderItemUnit T1
 									LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
 									LEFT JOIN Item T3 ON T1.EvaporatorUnitId = T3.ItemId
@@ -615,7 +616,7 @@ namespace ArabErp
 								SE.Complaints,
 								concat(SE.BoxMake,CASE WHEN (ISNULL(LTRIM(RTRIM(SE.BoxMake)),'') = '' OR ISNULL(LTRIM(RTRIM(SE.BoxNo)), '') = '') THEN '' ELSE ' / ' END ,SE.BoxNo) BoxName,
 								concat(SE.FreezerMake,CASE WHEN (ISNULL(LTRIM(RTRIM(SE.FreezerMake)),'') = '' OR ISNULL(LTRIM(RTRIM(SE.FreezerModel)), '') = '') THEN '' ELSE ' / ' END ,SE.FreezerModel) FreezerUnitName,
-								SE.VehicleMake VehicleModelName,SE.ServiceEnquiryId,US.UserName CreatedUser,US.Signature CreatedUsersig,DI.DesignationName CreatedDes
+								SE.VehicleMake VehicleModelName,SE.ServiceEnquiryId,US.UserName CreatedUser,US.Signature CreatedUsersig,DI.DesignationName CreatedDes, J.isProjectBased
                                 FROM JobCard J
                                 INNER JOIN SaleOrder S ON S.SaleOrderId=J.SaleOrderId
                                 INNER JOIN Customer C ON C.CustomerId=S.CustomerId
@@ -658,8 +659,7 @@ namespace ArabErp
                     ISNULL(VI.RegistrationNo, '') + CASE WHEN ISNULL(VI.RegistrationNo, '') <> '' AND ISNULL(VI.ChassisNo, '') <> '' THEN ' - ' ELSE '' END + ISNULL(VI.ChassisNo, '') RegistrationNo, 
                     VI.VehicleInPassId InPassId, S.isProjectBased,
 					JC.JobCardId, JC.JobCardNo, JC.BayId, CONVERT(VARCHAR, JC.RequiredDate, 106) RequiredDate, JC.EmployeeId,s.isService, 
-                    JC.SpecialRemarks, JC.Complaints,
-
+                    JC.SpecialRemarks, JC.Complaints,SE.UnitDetails,
 					STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName FROM SaleOrderItemUnit T1
 						LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
 						LEFT JOIN Item T3 ON T1.EvaporatorUnitId = T3.ItemId
@@ -687,6 +687,7 @@ namespace ArabErp
 					LEFT JOIN Item FU ON W.FreezerUnitId = FU.ItemId
 					LEFT JOIN Item B ON W.BoxId = B.ItemId
                     INNER JOIN JobCard JC ON SOI.SaleOrderItemId = JC.SaleOrderItemId
+                    LEFT JOIN ServiceEnquiry SE ON SE.ServiceEnquiryId=S.ServiceEnquiryId 
 					WHERE JC.JobCardId = @JobCardId";
                 //}
                 //else

@@ -16,14 +16,14 @@ namespace ArabErp.Web.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class JobCard_Project : ReportClass {
+    public class ClosingStockReport : ReportClass {
         
-        public JobCard_Project() {
+        public ClosingStockReport() {
         }
         
         public override string ResourceName {
             get {
-                return "JobCard_Project.rpt";
+                return "ClosingStockReport.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace ArabErp.Web.Reports {
         
         public override string FullResourceName {
             get {
-                return "ArabErp.Web.Reports.JobCard_Project.rpt";
+                return "ArabErp.Web.Reports.ClosingStockReport.rpt";
             }
             set {
                 // Do nothing
@@ -98,9 +98,9 @@ namespace ArabErp.Web.Reports {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedJobCard_Project : Component, ICachedReport {
+    public class CachedClosingStockReport : Component, ICachedReport {
         
-        public CachedJobCard_Project() {
+        public CachedClosingStockReport() {
         }
         
         [Browsable(false)]
@@ -137,7 +137,7 @@ namespace ArabErp.Web.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            JobCard_Project rpt = new JobCard_Project();
+            ClosingStockReport rpt = new ClosingStockReport();
             rpt.Site = this.Site;
             return rpt;
         }

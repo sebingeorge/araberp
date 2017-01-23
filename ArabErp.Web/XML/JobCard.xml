@@ -60,13 +60,11 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>AARC/JC/P/17/1</JobCardNo>
-    <JobCardDate>20-Jan-2017</JobCardDate>
-    <EDC>20-Jan-2017</EDC>
-    <SaleOrderRefNo />
-    <Unit>Carrier Condenser Chiller CRM-2500-GY, Carrier Evaporator Freezer CAB 5367</Unit>
-    <Customer>Ajaj Farms</Customer>
-    <ChasisNo />
+    <JobCardNo>AARC/JC/SER/P/17/4</JobCardNo>
+    <JobCardDate>22-Jan-2017</JobCardDate>
+    <EDC>22-Jan-2017</EDC>
+    <Unit />
+    <Customer>Abdul Asiz Trading Est</Customer>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -75,24 +73,18 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Box>100mm 4400x2100x2100mm- ISUZU ,BAM</Box>
-    <Accessories> DOUBLE LAYER SIDE CRASHGUARD, FOLDING STEP, Zepro Tail Lift- 1.5 Ton</Accessories>
-    <CreatedUser>murali</CreatedUser>
-    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
-    <CreatedDes>Inventory Controller </CreatedDes>
+    <Image1>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Box />
+    <Complaints>qwqqw</Complaints>
+    <CreatedUser>ihits</CreatedUser>
+    <CreateSignature>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
+    <CreatedDes>Asst.Sales Manager</CreatedDes>
   </Head>
   <Items>
-    <TaskDate>07-Jan-2017</TaskDate>
-    <Employee>Ei Maung</Employee>
+    <TaskDate>22-Jan-2017</TaskDate>
+    <Employee>Aung Thet Htay</Employee>
     <Description>Box Fixing</Description>
-    <Hours>14.00</Hours>
-  </Items>
-  <Items>
-    <TaskDate>08-Jan-2017</TaskDate>
-    <Employee>Ei Maung</Employee>
-    <Description>Side Guard Fitting</Description>
-    <Hours>14.00</Hours>
+    <Hours>10.00</Hours>
   </Items>
   <Items>
     <TaskDate />
