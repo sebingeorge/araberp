@@ -16,7 +16,7 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.isProjectBased = isProjectBased;
             FillCustomer();
-            FillWorkshopRequests();
+            FillWorkshopRequests(isProjectBased);
            FillJobCard();
           // ViewBag.startdate = FYStartdate;
             return View();
@@ -197,9 +197,9 @@ namespace ArabErp.Web.Controllers
         }
 
         #region Dropdowns
-        private void FillWorkshopRequests()
+        private void FillWorkshopRequests(int isProjectBased)
         {
-            ViewBag.wrList = new SelectList(new DropdownRepository().WorkshopRequestDropdown(OrganizationId: OrganizationId), "Id", "Name");
+            ViewBag.wrList = new SelectList(new DropdownRepository().WorkshopRequestDropdown(OrganizationId: OrganizationId, isProjectBased:isProjectBased), "Id", "Name");
         }
         private void FillCustomer()
         {

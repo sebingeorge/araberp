@@ -726,7 +726,7 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="OrganizationId"></param>
         /// <returns></returns>
-        public IEnumerable WorkshopRequestDropdown(int OrganizationId)
+        public IEnumerable WorkshopRequestDropdown(int OrganizationId, int isProjectBased)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -734,11 +734,13 @@ namespace ArabErp.DAL
 	                                                    WR.WorkShopRequestId Id,
 	                                                    WR.WorkShopRequestRefNo Name
                                                     FROM WorkShopRequest WR
+                                                    INNER JOIN SaleOrder SO ON WR.SaleOrderId = SO.SaleOrderId
                                                     WHERE isAdditionalRequest = 1
 	                                                    AND WR.isActive = 1
 	                                                    AND WR.OrganizationId = @OrganizationId
-                                                    ORDER BY WorkShopRequestDate DESC, CreatedDate DESC",
-                                                    new { OrganizationId = OrganizationId }).ToList();
+                                                        AND SO.isProjectBased=@isProjectBased
+                                                    ORDER BY WorkShopRequestDate DESC,WR.CreatedDate DESC",
+                                                    new { OrganizationId = OrganizationId, isProjectBased = isProjectBased }).ToList();
             }
         }
 
