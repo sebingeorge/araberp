@@ -47,35 +47,31 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <WorkShopRequestRefNo>MRQ/3</WorkShopRequestRefNo>
-    <WorkShopRequestDate>18-Oct-2016</WorkShopRequestDate>
-    <CustomerName>Abdul Asiz Trading Est</CustomerName>
-    <CustomerOrderRef>saleorder1</CustomerOrderRef>
-    <SaleOrderRefNo>SO/P/4</SaleOrderRefNo>
-    <EDateArrival>18-Oct-2016</EDateArrival>
-    <EDateDelivery>28-Oct-2016</EDateDelivery>
-    <WorkDescription> project Work Description For Testing, project wrk test</WorkDescription>
-    <RequiredDate>29-Oct-2016</RequiredDate>
-    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
+    <WorkShopRequestRefNo>MRQ/17/1</WorkShopRequestRefNo>
+    <WorkShopRequestDate>19-Jan-2017</WorkShopRequestDate>
+    <CustomerName>AJM Kooheji &amp; Sons</CustomerName>
+    <CustomerOrderRef>ry56</CustomerOrderRef>
+    <SaleOrderRefNo>AARC/SO/P/17/1</SaleOrderRefNo>
+    <EDateArrival>19-Jan-2017</EDateArrival>
+    <EDateDelivery>19-Jan-2017</EDateDelivery>
+    <SpecialRemarks>kl;</SpecialRemarks>
+    <RequiredDate>20-Jan-2017</RequiredDate>
+    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
+    <Street>Hiteen Street, Muntazah </Street>
+    <State>Doha</State>
+    <CountryName>QATAR</CountryName>
+    <Zip>13037</Zip>
+    <Fax>974 4414 2910</Fax>
+    <Email>info@arabrefrigeration.com</Email>
+    <Phone>974 4435 7216</Phone>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <Title>MATERIAL REQUEST</Title>
   </Head>
   <Items>
-    <ItemName>COMPRESSOR CLUTCH COIL  TM16 24V</ItemName>
-    <PartNo />
-    <Quantity>30</Quantity>
-    <UnitName>Nos</UnitName>
-  </Items>
-  <Items>
-    <ItemName>FUEL FILTER MITSUBISHI</ItemName>
-    <PartNo />
-    <Quantity>80</Quantity>
-    <UnitName>Nos</UnitName>
-  </Items>
-  <Items>
-    <ItemName>ELBOW-40-60290-01</ItemName>
-    <PartNo />
-    <Quantity>30</Quantity>
+    <ItemName>Carrier Evaporator Chiller CAE 3364</ItemName>
+    <PartNo>CAE3364</PartNo>
+    <Quantity>1.00</Quantity>
     <UnitName>Nos</UnitName>
   </Items>
 </NewDataSet>

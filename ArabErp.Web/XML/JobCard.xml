@@ -63,13 +63,14 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>AARC/JC/P/17/1</JobCardNo>
-    <JobCardDate>20-Jan-2017</JobCardDate>
-    <EDC>20-Jan-2017</EDC>
-    <SaleOrderRefNo />
-    <Unit>Carrier Condenser Chiller CRM-150-AY, Carrier Evaporator Chiller CAE 3164, Carrier Condenser Chiller CRM-750-EX, Carrier Evaporator Freezer CAB 4467</Unit>
-    <Customer>Abdul Asiz Trading Est</Customer>
-    <ChasisNo />
+    <JobCardNo>AARC/17/JC-S/62</JobCardNo>
+    <JobCardDate>23-Jan-2017</JobCardDate>
+    <EDC>23-Jan-2017</EDC>
+    <SaleOrderRefNo>240231</SaleOrderRefNo>
+    <Unit>Carrier / Z30S</Unit>
+    <Customer>Amwaj Catering Services</Customer>
+    <ChasisNo>240231</ChasisNo>
+    <VModel>Mitsubishi 4.3</VModel>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -78,19 +79,21 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Box>AL FURAT SLIDING DOOR 3000(H)X2000(W)X100(T)MM-RHS, AL FURAT SLIDING DOOR 3000(H)X2000(W)X100(T)MM-LHS</Box>
-    <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_Images\c779c0f1-d661-4f36-a870-3008ffe91985.jpg</CreateSignature>
-    <CreatedDes>Asst.Sales Manager</CreatedDes>
-    <isProjectBased>1</isProjectBased>
-    <isService>0</isService>
+    <Image1>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <Box />
+    <Complaints>1. General Service 
+2. Tail Lift Service</Complaints>
+    <CreatedUser>safiq</CreatedUser>
+    <CreateSignature>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <CreatedDes>Workshop Controller</CreatedDes>
+    <isProjectBased>0</isProjectBased>
+    <isService>1</isService>
   </Head>
   <Items>
-    <TaskDate>20-Jan-2017</TaskDate>
-    <Employee>Giriesh Gopi</Employee>
-    <Description>Unit Fixing</Description>
-    <Hours>10.00</Hours>
+    <TaskDate>23-Jan-2017</TaskDate>
+    <Employee>Rajesh Kumar Singh</Employee>
+    <Description>General Maintenance </Description>
+    <Hours>4.00</Hours>
   </Items>
   <Items>
     <TaskDate />
