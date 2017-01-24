@@ -436,16 +436,14 @@
 
                 <div class="col-md-2">
                     <label for="PredictedClosingDate">Predicted Closing Date</label>
-
                     @Html.TextBoxFor(m => m.PredictedClosingDate, Model.PredictedClosingDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
-
                 </div>
+
                 <div class="col-md-2">
                     <label for="QuotationValidToDate">Quotation Valid To Date</label>
-
                     @Html.TextBoxFor(m => m.QuotationValidToDate, Model.QuotationValidToDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off" })
-
                 </div>
+
                 <div class="col-md-2">
                     @if (Model.isProjectBased)
                     {
@@ -554,7 +552,7 @@
 
                 <div class="col-md-3">
                     <label for="VehicleModelId">Vehicle Model</label>
-                    @Html.DropDownListFor(m => m.VehicleModelId, new SelectList(ViewBag.vehiclelist, "Value", "Text", Model.VehicleModelId), "Select Vehicle Model", new { @class = "form_input", @required = "true" })
+                    @Html.DropDownListFor(m => m.VehicleModelId, (SelectList)ViewBag.vehiclelist, "Select Vehicle Model", new { @class = "form_input", @required = "true" })
                 </div>
             </div>
 
@@ -841,11 +839,11 @@
 
                             <td>
                                 <input type="hidden" id="Row_@i" />
-                                @Html.DropDownListFor(m => m.SalesQuotationItems[i].FreezerUnitId, new SelectList(ViewBag.freezerUnitList, "Value", "Text"), "Select Reefer Unit",
+                                @Html.DropDownListFor(m => m.SalesQuotationItems[i].FreezerUnitId, new SelectList(ViewBag.freezerUnitList, "Value", "Text",Model.SalesQuotationItems[i].FreezerUnitId), "Select Reefer Unit",
                                 new { @class = "form_input", @placeholder = "Search for Reefer Unit" })
                             </td>
                             <td>
-                                @Html.DropDownListFor(m => m.SalesQuotationItems[i].BoxId, new SelectList(ViewBag.boxList, "Value", "Text"), "Select Box",
+                                @Html.DropDownListFor(m => m.SalesQuotationItems[i].BoxId, new SelectList(ViewBag.boxList, "Value", "Text",Model.SalesQuotationItems[i].BoxId), "Select Box",
                                 new { @class = "form_input", @placeholder = "Search for Box" })
                                 @*@if (ViewBag.actionName.ToString() == "Approve")
                                     {
@@ -927,23 +925,26 @@
                 </tbody>
                 <tfoot>
                     <tr class="grid_heading">
-                        @*@if (actionName == "Create" || actionName == "CreateProject")
-                            {*@
+
+                        @if (actionName == "Create" || actionName == "CreateProject")
+                        {
+                         <th class="text-center"></th>
+                        }
+                       
                         <th class="text-center"></th>
-                        @*}*@
                         <th class="text-center"></th>
-                        <th class="text-center "><h1></h1></th>
-                        <th></th>
+                        <th class="text-center "></th>
+                        
                         @*@if (new[] { "Create", "Approve" }.Contains(ViewContext.RouteData.GetRequiredString("action")) && !Model.isProjectBased)
                             {
                                 <th></th>
                             }*@
+                        @*<th class="text-center"><h1></h1></th>*@
                         <th class="text-center"><h1></h1></th>
-
+                        
                         <th class="text-center"><h1>Total</h1></th>
                         <th class="text-right">
                             <h1>
-
                                 @Html.DropDownListFor(m => m.CurrencyId, (SelectList)ViewBag.currlist, "Select Currency", new { @class = "form_input", autocomplete = "off" })
                             </h1>
                         </th>
@@ -955,10 +956,10 @@
                             <span id="span-DiscountTotal"></span>
                         </th>
                         <th class="text-right"><span id="NetTotalAmount"></span></th>
-                        @*@if (actionName == "Create" || actionName == "CreateProject")
-                            {*@
+                        @if (actionName == "Create" || actionName == "CreateProject")
+                            {
                         <th width="2%">&nbsp;</th>
-                        @*}*@
+                        }
                     </tr>
                 </tfoot>
             </table>
@@ -979,6 +980,16 @@
                 </div>
             }
 
+            if (actionName == "Create" || actionName == "CreateProject")
+            {
+             <div class="row form-group">
+                    <div class="col-md-12">
+                        <label class="tamount">Grand Total: <span id="lblTotalAmount"></span></label>
+                    </div>
+                </div>
+            }
+
+            
             <div class="row">
 
                 <div class="col-md-12">

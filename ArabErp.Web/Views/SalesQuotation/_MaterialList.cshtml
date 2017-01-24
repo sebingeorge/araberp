@@ -209,16 +209,16 @@
 
         $("#TotalAmount").text(parseFloat(amount));
         $("#Amount").val(parseFloat(amount));
-        //var abc = parseFloat($("#NetTotalAmount").text());
-        //if (isNaN(abc)) {
+       var abc = parseFloat($("#NetTotalAmount").text());
+        if (isNaN(abc)) {
 
-        //    abc = parseFloat("0");
+            abc = parseFloat("0");
 
-        //}
+        }
 
-        //grandtotal= parseFloat($("#TotalAmount").text()) + abc;
+        grandtotal= parseFloat($("#TotalAmount").text()) + abc;
         //alert(grandtotal);
-        //$("#lblTotalAmount").text(parseFloat(grandtotal));
+        $("#lblTotalAmount").text(parseFloat(grandtotal));
     }
 
 </script>

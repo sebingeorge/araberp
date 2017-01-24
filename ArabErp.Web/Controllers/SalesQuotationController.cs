@@ -408,18 +408,18 @@ namespace ArabErp.Web.Controllers
         public ActionResult Approve(int SalesQuotationId)
         {
 
-
             DropDowns();
             FillVehicle();
             FillQuerySheetInQuot();
             FillUnit();
             FillRateSettings();
             ItemDropdown();
+            FillUnitDoorUnit();
+
             var repo = new SalesQuotationRepository();
 
             var sorepo = new SaleOrderRepository();
-
-
+            
             SalesQuotation salesquotation = repo.GetSalesQuotation(SalesQuotationId);
             //salesquotation.SalesQuotationItems[0].UnitName = "Nos";
             if (!salesquotation.isProjectBased && !salesquotation.isAfterSales)
@@ -436,15 +436,26 @@ namespace ArabErp.Web.Controllers
             {
               
                 FillWrkDescAfterSales();
+                if (salesquotation.isProjectBased)
+                    salesquotation.ProjectCompleionDetails = new ProjectCompletionRepository().GetProjectCompletion(salesquotation.ProjectCompletionId);
+                else
+                    salesquotation.DeliveryChallanDetails = new DeliveryChallanRepository().GetDeliveryChallan(salesquotation.DeliveryChallanId);
 
             }
             salesquotation.CustomerAddress = sorepo.GetCusomerAddressByKey(salesquotation.CustomerId);
             salesquotation.SalesQuotationItems = repo.GetSalesQuotationItems(SalesQuotationId);
             salesquotation.Materials = repo.GetSalesQuotationMaterials(SalesQuotationId);
+            //salesquotation.VehicleModelId = salesquotation.SalesQuotationItems[0].VehicleModelId;
             //FillUnitDoorUnit();
             //salesquotation.ProjectRooms = new SaleOrderRepository().GetRoomDetailsFromQuotation(SalesQuotationId);
             ViewBag.SubmitAction = "Approve";
-            return View("Create", salesquotation);
+
+            if (salesquotation.isProjectBased)
+                 return View("Create", salesquotation);
+            else
+                salesquotation.VehicleModelId = salesquotation.SalesQuotationItems[0].VehicleModelId;
+                return View("CreateTransportation", salesquotation);
+           
         }
         public ActionResult Approve(SalesQuotation model)
         {
