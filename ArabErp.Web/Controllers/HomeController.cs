@@ -204,5 +204,10 @@ namespace ArabErp.Web.Controllers
             ViewBag.AlertPermissions = alertpermission;
             return PartialView("_QuickView", view);
         }
+        [AllowAnonymous]
+        public ActionResult ShowSessionDetails()
+        {
+            return View();
+        }
     }
 }
