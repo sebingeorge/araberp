@@ -30,8 +30,8 @@ namespace ArabErp.DAL
                     inner join VehicleInPass VI ON VI.VehicleInPassId=J.InPassId
                     left join VehicleModel V on V.VehicleModelId = W.VehicleModelId 
                     where (ISNULL(J.JodCardCompleteStatus,0) <> 1 OR ISNULL(J.isOnHold, 0) = 1) and J.isProjectBased = 0 AND J.OrganizationId = @OrganizationId
-                    and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)
-                    AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')";
+                    and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)";
+//                    AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')";
                 }
                 else
                 {
