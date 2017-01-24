@@ -377,7 +377,7 @@ namespace ArabErp.DAL
             {
                 try
                 {
-                    string sql = @"SELECT CostingAmount FROM QuerySheet WHERE QuerySheetId = @id";
+                    string sql = @"SELECT isnull(CostingAmount,0)CostingAmount FROM QuerySheet WHERE QuerySheetId = @id";
                     return connection.Query<decimal>(sql, new { id = id }).ToList<decimal>().First();
                 }
                 catch (InvalidOperationException)
