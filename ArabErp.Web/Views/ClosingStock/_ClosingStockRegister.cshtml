@@ -23,8 +23,8 @@
             <td class="grid-cell">@item.ItemRefNo</td>
             <td class="grid-cell">@item.PartNo</td>
             <td class="grid-cell text-right">@item.Quantity</td>
-            <td class="grid-cell text-right"></td>
-            <td class="grid-cell text-right"></td>
+            <td class="grid-cell text-right">@item.AverageRate</td>
+            <td class="grid-cell text-right">@(item.Quantity * item.AverageRate)</td>
             <td class="grid-cell">@item.UnitName</td>
 
         </tr>

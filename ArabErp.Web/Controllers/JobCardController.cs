@@ -298,7 +298,7 @@ namespace ArabErp.Web.Controllers
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["JobCardNo"] = Head.JobCardNo;
             dr["JobCardDate"] = Head.JobCardDate.ToString("dd-MMM-yyyy");
-            dr["EDC"] = Head.JobCardDate.ToString("dd-MMM-yyyy");
+            dr["EDC"] = Head.RequiredDate.ToString("dd-MMM-yyyy");
             dr["SaleOrderRefNo"] = Head.RegistrationNo;
             dr["CustomerName"] = Head.CustomerName;
             dr["CustomerPhone"] = Head.CPhone;

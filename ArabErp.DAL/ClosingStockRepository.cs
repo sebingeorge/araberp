@@ -39,8 +39,8 @@ namespace ArabErp.DAL
       {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                //              
-                string qry = @"SELECT ItemRefNo,ISNULL(PartNo,'-')PartNo,ItemName,SUM(Quantity)Quantity,UnitName FROM StockUpdate SU INNER JOIN Item I ON I.ItemId=SU.ItemId
+                       
+                string qry = @"SELECT ItemRefNo,ISNULL(PartNo,'-')PartNo,ItemName,I.ItemId,SUM(Quantity)Quantity,UnitName,0 AverageRate INTO #TEMP FROM StockUpdate SU INNER JOIN Item I ON I.ItemId=SU.ItemId
                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                INNER JOIN ItemGroup  IG ON IG.ItemGroupId=I.ItemGroupId
 								INNER JOIN ItemSubGroup IGS ON IGS.ItemSubGroupId=I.ItemSubGroupId
@@ -49,7 +49,35 @@ namespace ArabErp.DAL
                                I.ItemGroupId=ISNULL(NULLIF(@itmGroup,0),I.ItemGroupId) and I.ItemSubGroupId=ISNULL(NULLIF(@itmSubgroup,0),I.ItemSubGroupId)
                                AND CONVERT(DATE, SU.stocktrnDate, 106)<=CONVERT(DATE, @Ason, 106)
                                  and isnull(I.PartNo,'') like '%'+@partno+'%'
-                               GROUP BY ItemRefNo,PartNo,ItemName,UnitName";
+                               GROUP BY ItemRefNo,PartNo,ItemName,UnitName,I.ItemId
+
+                                SELECT * into #A from 
+                                (
+                                SELECT MAX(GRNItemId)GRNItemId, ItemId, Rate FROM GRNItem GROUP BY ItemId, Rate
+                                UNION
+                                SELECT MAX(GRNItemId), ItemId, Rate FROM GRNItem WHERE GRNItemId NOT IN 
+                                (SELECT MAX(GRNItemId) FROM GRNItem GROUP BY ItemId) GROUP BY ItemId, Rate
+                                UNION
+                                SELECT MAX(GRNItemId), ItemId, Rate FROM GRNItem WHERE GRNItemId NOT IN
+                                (SELECT MAX(GRNItemId) FROM GRNItem GROUP BY ItemId
+                                UNION
+                                SELECT MAX(GRNItemId) FROM GRNItem WHERE GRNItemId NOT IN 
+                                (SELECT MAX(GRNItemId) FROM GRNItem GROUP BY ItemId) GROUP BY ItemId) GROUP BY ItemId, Rate
+                                )AS A;
+
+                                with B as 
+                                (
+                                select  ItemId,(SUM(Rate)/count(ItemId))Average from #A  group by Rate,ItemId  
+                                )
+                                update T SET T.AverageRate=B.Average from B inner join #TEMP T ON T.ItemId=B.ItemId;
+                                with C as 
+                                (
+                                select ItemId,Rate from StandardRate
+                                )
+                                update T SET T.AverageRate=C.Rate from C inner join #TEMP T ON T.ItemId=C.ItemId WHERE  T.AverageRate=0
+                               
+                                SELECT * FROM #TEMP";
+
                 return connection.Query<ClosingStock>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, OrganizationId = OrganizationId, Ason = asOn, partno = partno, itmGroup = itmGroup, itmSubgroup = itmSubgroup }).ToList();
             }
         }
