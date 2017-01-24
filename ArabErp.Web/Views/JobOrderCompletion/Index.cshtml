@@ -16,13 +16,12 @@
 
         var cusid = $("#cboCustomer").val();
        
-        //var RegNo = $("#txtRegNo").val().trim();
+        var RegNo = $("#txtRegNo").val().trim();
         //alert(RegNo)
 
         var url = '@Url.Action("PendingJobOrderCompletion")';
 
-        url += "?isProjectBased=" + "@ViewBag.ProjectBased" +"&id=" + id + "&cusid=" + cusid 
-            //+ "&RegNo=" + encodeURIComponent(RegNo);
+        url += "?isProjectBased=" + "@ViewBag.ProjectBased" +"&id=" + id + "&cusid=" + cusid +"&RegNo=" + encodeURIComponent(RegNo);
 
         $("#jobcardlist").load(url, function () {
             $("#jobcardlist").removeClass("fade");
