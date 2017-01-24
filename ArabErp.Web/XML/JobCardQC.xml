@@ -1,0 +1,69 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="JobCardQCRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="JobCardNo" type="xs:string" minOccurs="0" />
+                <xs:element name="JcDate" type="xs:string" minOccurs="0" />
+                <xs:element name="JobCardQCDate" type="xs:string" minOccurs="0" />
+                <xs:element name="Customer" type="xs:string" minOccurs="0" />
+                <xs:element name="VehicleModel" type="xs:string" minOccurs="0" />
+                <xs:element name="EmployeeName" type="xs:string" minOccurs="0" />
+                <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Street" type="xs:string" minOccurs="0" />
+                <xs:element name="State" type="xs:string" minOccurs="0" />
+                <xs:element name="Country" type="xs:string" minOccurs="0" />
+                <xs:element name="Phone" type="xs:string" minOccurs="0" />
+                <xs:element name="Fax" type="xs:string" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="ContactPerson" type="xs:string" minOccurs="0" />
+                <xs:element name="Zip" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ParaName" type="xs:string" minOccurs="0" />
+                <xs:element name="QCParamName" type="xs:string" minOccurs="0" />
+                <xs:element name="QCParamValue" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <JobCardQCRefNo>QC/6</JobCardQCRefNo>
+    <JobCardNo>JC/5</JobCardNo>
+    <JcDate>27-Oct-2016 12:00:00 AM</JcDate>
+    <JobCardQCDate>31-Oct-2016 10:05:37 AM</JobCardQCDate>
+    <Customer>Al Ajjaj Limited  Company</Customer>
+    <VehicleModel>Isuzu NPR 5.0Ton Truck</VehicleModel>
+    <EmployeeName>Shafi</EmployeeName>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+  </Head>
+  <Items>
+    <ParaName>Chiller Box</ParaName>
+    <QCParamName>qcparatest</QCParamName>
+    <QCParamValue>2</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Dry Box</ParaName>
+    <QCParamName>Quality Parameter 1</QCParamName>
+    <QCParamValue>3</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Van</ParaName>
+    <QCParamName>Quality Parameter 2</QCParamName>
+    <QCParamValue>4</QCParamValue>
+  </Items>
+</NewDataSet>

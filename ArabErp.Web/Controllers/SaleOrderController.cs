@@ -108,7 +108,7 @@ namespace ArabErp.Web.Controllers
                 //FillUnit();
                 FillEmployee();
                 //FillQuotationNo(1);
-
+                
                 var repo = new SaleOrderRepository();
                 model = repo.GetSaleOrderFrmQuotation(SalesQuotationId ?? 0);
                 model.ProjectRooms = new SaleOrderRepository().GetRoomDetailsFromQuotation(SalesQuotationId ?? 0);
@@ -128,7 +128,7 @@ namespace ArabErp.Web.Controllers
                 model.SaleOrderRefNo = internalId;
                 model.SaleOrderDate = DateTime.Now;
                 model.EDateArrival = DateTime.Now;
-                model.EDateDelivery = DateTime.Now;
+                model.EDateDelivery = DateTime.Now.AddDays(1);
             }
             catch (NullReferenceException nx)
             {
@@ -257,6 +257,25 @@ namespace ArabErp.Web.Controllers
             var list = repo.FillUnit();
             ViewBag.unitlist = new SelectList(list, "Id", "Name");
         }
+        void FillFreezerUnit()
+        {
+            CondenserDropDown();
+            EvaporatorDropDown();
+            DoorDropDown();
+
+        }
+        void CondenserDropDown()
+        {
+            ViewBag.CondenserList = new SelectList(new DropdownRepository().FillCondenserUnit(), "Id", "Name");
+        }
+        void EvaporatorDropDown()
+        {
+            ViewBag.EvaporatorList = new SelectList(new DropdownRepository().FillEvaporatorUnit(), "Id", "Name");
+        }
+        void DoorDropDown()
+        {
+            ViewBag.DoorList = new SelectList(new DropdownRepository().FillDoor(), "Id", "Name");
+        }
         public void FillCurrency()
         {
             var repo = new SaleOrderRepository();
@@ -275,11 +294,8 @@ namespace ArabErp.Web.Controllers
             var list = repo.QuotationInSaleOrderDropdown(isProjectBased);
             ViewBag.QuotationNolist = new SelectList(list, "Id", "Name");
         }
-        private void FillFreezerUnit()
-        {
-            ViewBag.freezerUnitList = new SelectList(new DropdownRepository().FillFreezerUnit(), "Id", "Name");
-        }
-
+      
+     
         [HttpPost]
         public ActionResult Create(SaleOrder model)
         {
@@ -290,22 +306,42 @@ namespace ArabErp.Web.Controllers
                     model.OrganizationId = OrganizationId;
                     model.CreatedDate = System.DateTime.Now;
                     model.CreatedBy = UserID.ToString();
-
-                    string id = new SaleOrderRepository().InsertSaleOrder(model);
-                    if (id.Split('|')[0] != "0")
+                    var repo = new SaleOrderRepository();
+                    bool isexists = repo.IsFieldExists(repo.ConnectionString(), "SaleOrder", "CustomerOrderRef", model.CustomerOrderRef, null, null);
+                    if (!isexists)
                     {
-                        TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
-                        TempData["error"] = "";
-                        return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 0 });
+                        string id = new SaleOrderRepository().InsertSaleOrder(model);
+                        if (id.Split('|')[0] != "0")
+                        {
+                            TempData["success"] = "Saved successfully. Sale Order Reference No. is " + id.Split('|')[1];
+                            TempData["error"] = "";
+                            return RedirectToAction("PendingSalesQutoforSaleOrder", new { ProjectBased = 0 });
+                        }
+                        else
+                        {
+                            throw new Exception();
+                        }
                     }
                     else
                     {
-                        throw new Exception();
+
+                        TempData["error"] = "This Customer Order Ref no. already exists!";
+                        FillWrkDesc();
+                        FillUnit();
+                        FillCustomer();
+                        FillVehicle();
+                        FillCurrency();
+                        FillCommissionAgent();
+                        FillEmployee();
+                        return View("Create", model);
                     }
-                }
-                else
-                {
-                    var allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                    
+                    //else
+                    //{
+                    //    var allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                    //}
+
+                    
                 }
             }
             catch (SqlException sx)
@@ -740,14 +776,26 @@ namespace ArabErp.Web.Controllers
                 FillCommissionAgent();
                 FillUnit();
                 FillEmployee();
-
+                FillWrkDesc();
                 FillVehicle();
                 var repo = new SaleOrderRepository();
                 SaleOrder model = repo.GetSaleOrder(id);
+                if(type==0)
+              
+                {
+               
                 model.Items = repo.GetSaleOrderItem(id);
                 model.Materials = repo.GetSaleOrderMaterial(id);
-                FillWrkDesc();
+            
                 return View("Edit", model);
+            }
+            else
+            {
+                FillFreezerUnit();
+                //model = repo.GetSaleOrderFrmQuotation(id);
+                model.ProjectRooms = new SaleOrderRepository().GetRoomDetailsFromQuotation(model.SalesQuotationId??0);
+                return View("EditProject", model);
+            }
             }
             else
             {
@@ -796,24 +844,31 @@ namespace ArabErp.Web.Controllers
             return View(model);
 
         }
-
+      
         public ActionResult Delete(int id, string isProjectBased, string isAfterSales)
         {
-
             try
             {
-                string ref_no = new SaleOrderRepository().DeleteSaleOrder(id, Convert.ToInt32(isAfterSales));
+                 string ref_no="";
+                if (isProjectBased == "0")
+                {
+                    ref_no = new SaleOrderRepository().DeleteSaleOrder(id, Convert.ToInt32(isAfterSales));
+                }
+                else
+                {
+                    ref_no = new SaleOrderRepository().DeleteProjectSaleOrder(id);
+                }
                 TempData["success"] = "Deleted Successfully (" + ref_no + ")";
                 return RedirectToAction("Index", new { type = Convert.ToInt32(isProjectBased) });
             }
             catch (Exception)
             {
                 TempData["error"] = "Some error occured while deleting. Please try again.";
-                return RedirectToAction("Edit", new { id = id });
+               
+                    return RedirectToAction("Edit", new { id = id });
+              
             }
         }
-
-
         public ActionResult Print(int Id)
         {
 
@@ -970,7 +1025,7 @@ namespace ArabErp.Web.Controllers
             {
                 TempData["error"] = "Some error occurred. Please try again.";
             }
-            return RedirectToAction("PendingEnquiries");
+            return RedirectToAction("PendingEnquiries", new { isProjectBased = 0 });
         }
 
         [HttpPost]
@@ -982,7 +1037,7 @@ namespace ArabErp.Web.Controllers
                 model.CreatedBy = UserID.ToString();
                 string ref_no = new SaleOrderRepository().InsertServiceOrder(model);
                 TempData["success"] = "Saved Successfully. Reference No. is " + ref_no;
-                return RedirectToAction("PendingEnquiries");
+                return RedirectToAction("PendingEnquiries", new {isProjectBased = 0});
             }
             catch (Exception)
             {
@@ -1014,7 +1069,6 @@ namespace ArabErp.Web.Controllers
                 IsConfirmed = 0
             });
         }
-
         [HttpPost]
         public ActionResult ServiceEnquiry(ServiceEnquiry model)
         {
@@ -1024,6 +1078,7 @@ namespace ArabErp.Web.Controllers
                 model.CreatedBy = UserID.ToString(); ;
                 model.CreatedDate = System.DateTime.Now;
                 model.IsConfirmed = 0;
+                model.isProjectBased = 0;
                 string ref_no = new SaleOrderRepository().InsertServiceEnquiry(model);
                 if (ref_no.Length > 0)
                 {
@@ -1041,16 +1096,12 @@ namespace ArabErp.Web.Controllers
                 return View(model);
             }
         }
-
-        public ActionResult PendingEnquiries()
+        public ActionResult PendingEnquiries(int? isProjectBased)
         {
-            return View(new SaleOrderRepository().GetPendingServiceEnquiries(OrganizationId));
+            return View(new SaleOrderRepository().GetPendingServiceEnquiries(OrganizationId,isProjectBased??0));
         }
-
-
-        public ActionResult PrintJob(int id)//ServiceEnquiryId is received here
+        public ActionResult JobRepairOrder(int ServiceEnquiryId)//ServiceEnquiryId is received here
         {
-
             ReportDocument rd = new ReportDocument();
             rd.Load(Path.Combine(Server.MapPath("~/Reports"), "JobRepairOrder.rpt"));
 
@@ -1107,7 +1158,7 @@ namespace ArabErp.Web.Controllers
 
             SaleOrderRepository repo = new SaleOrderRepository();
             ServiceEnquiry se = new ServiceEnquiry();
-            var Head = repo.GetJobPrintHD(id, OrganizationId);
+            var Head = repo.GetJobPrintHD(ServiceEnquiryId, OrganizationId);
 
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["ServiceEnquiryRefNo"] = Head.ServiceEnquiryRefNo;
@@ -1188,16 +1239,16 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("JobRepairOrder{0}.pdf", id.ToString()));
+                return File(stream, "application/pdf");
             }
             catch (Exception ex)
             {
                 throw;
             }
         }
-        public ActionResult EnquiryList()
+        public ActionResult EnquiryList(int? isProjectBased)
         {
-            return View(new SaleOrderRepository().GetPendingServiceEnquiryList(OrganizationId));
+            return View(new SaleOrderRepository().GetPendingServiceEnquiryList(OrganizationId, isProjectBased??0));
         }
         [HttpGet]
         public ActionResult EditEnquiry(int id)//ServiceEnquiryId is received here
@@ -1252,7 +1303,7 @@ namespace ArabErp.Web.Controllers
                 new SaleOrderRepository().UpdateServiceEnquiry(model);
                 TempData["success"] = "Updated Successfully (" + model.ServiceEnquiryRefNo + ")";
                 TempData["ServiceEnquiryRefNo"] = model.ServiceEnquiryRefNo;
-                return RedirectToAction("EnquiryList");
+                return RedirectToAction("EnquiryList", new { isProjectBased = model.isProjectBased });
             }
             catch (Exception)
             {
@@ -1272,7 +1323,7 @@ namespace ArabErp.Web.Controllers
 
                 TempData["Success"] = "Deleted Successfully!";
                 TempData["ServiceEnquiryRefNo"] = ref_no;
-                return RedirectToAction("EnquiryList");
+                return RedirectToAction("EnquiryList", new { isProjectBased = 0 });
             }
             catch (Exception)
             {
@@ -1281,10 +1332,10 @@ namespace ArabErp.Web.Controllers
             }
         }
 
-        public ActionResult ServiceOrderList()
+        public ActionResult ServiceOrderList(int isProjectBased)
         {
 
-            return View("_ServiceOrderList", new SaleOrderRepository().GetPendingServiceOrderList(OrganizationId));
+            return View("_ServiceOrderList", new SaleOrderRepository().GetPendingServiceOrderList(OrganizationId,isProjectBased));
             // return PartialView("_PreviousList", new SaleOrderRepository().GetPreviousList(ProjectBased, id, cusid, OrganizationId, from, to, service));
         }
         public ActionResult ServiceOrderEdit(int id = 0)//ServiceEnquiryId is received here
@@ -1302,7 +1353,6 @@ namespace ArabErp.Web.Controllers
                 ServiceEnquiry model = new SaleOrderRepository().GetServiceOrderDetails(id, OrganizationId);
                 model.Used = new SaleOrderRepository().Count(id);
                 model.SaleOrderDate = DateTime.Today;
-                model.isProjectBased = 0;
                 model.isService = 1;
                 model.IsConfirmed = 1;
                 model.Items = new List<SaleOrderItem>();
@@ -1319,7 +1369,7 @@ namespace ArabErp.Web.Controllers
             {
                 TempData["error"] = "Some error occurred. Please try again.";
             }
-            return RedirectToAction("PendingEnquiries");
+            return RedirectToAction("PendingEnquiries", new {isProjectBased =0});
         }
 
         [HttpPost]
@@ -1332,7 +1382,7 @@ namespace ArabErp.Web.Controllers
                 new SaleOrderRepository().UpdateServiceOrder(model);
                 TempData["success"] = "Updated Successfully (" + model.SaleOrderRefNo + ")";
                 TempData["ServiceEnquiryRefNo"] = model.SaleOrderRefNo;
-                return RedirectToAction("ServiceOrderList");
+                return RedirectToAction("ServiceOrderList", new { isProjectBased = model.isProjectBased });
             }
             catch (Exception)
             {

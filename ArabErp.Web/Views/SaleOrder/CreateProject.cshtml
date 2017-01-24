@@ -197,16 +197,12 @@
                         @Html.HiddenFor(m=>m.isProjectBased)
                         @Html.HiddenFor(m => m.isAfterSales)
                         @Html.HiddenFor(m => m.CurrencyId)
+                        @Html.HiddenFor(m => m.TotalAmount)
                         @Html.Partial("_SaleOrderHead",Model)
                         <div id="wordescriptions">
-                        @*@Html.Partial("_DisplaySOList", Model)*@
+                      
                         </div>
-                        @*<strong>Tail lift/accessories:</strong>
-                        if (Model.Materials != null && Model.Materials.Count > 0)
-                        {
-                            @Html.Partial("_MaterialList", Model)
-                        }*@
-                        
+                     
                         @Html.Partial("_ProjectRooms", Model)
                         
                         @Html.Partial("_SaleOrderFooter", Model)

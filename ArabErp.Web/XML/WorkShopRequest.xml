@@ -1,0 +1,77 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="WorkShopRequestRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="WorkShopRequestDate" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerOrderRef" type="xs:string" minOccurs="0" />
+                <xs:element name="SaleOrderRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="EDateArrival" type="xs:string" minOccurs="0" />
+                <xs:element name="EDateDelivery" type="xs:string" minOccurs="0" />
+                <xs:element name="WorkDescription" type="xs:string" minOccurs="0" />
+                <xs:element name="SpecialRemarks" type="xs:string" minOccurs="0" />
+                <xs:element name="RequiredDate" type="xs:string" minOccurs="0" />
+                <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Street" type="xs:string" minOccurs="0" />
+                <xs:element name="State" type="xs:string" minOccurs="0" />
+                <xs:element name="CountryName" type="xs:string" minOccurs="0" />
+                <xs:element name="Zip" type="xs:string" minOccurs="0" />
+                <xs:element name="Fax" type="xs:string" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="Phone" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+                <xs:element name="Title" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ItemName" type="xs:string" minOccurs="0" />
+                <xs:element name="PartNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Remarks" type="xs:string" minOccurs="0" />
+                <xs:element name="Quantity" type="xs:string" minOccurs="0" />
+                <xs:element name="UnitName" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <WorkShopRequestRefNo>MRQ/17/1</WorkShopRequestRefNo>
+    <WorkShopRequestDate>19-Jan-2017</WorkShopRequestDate>
+    <CustomerName>AJM Kooheji &amp; Sons</CustomerName>
+    <CustomerOrderRef>ry56</CustomerOrderRef>
+    <SaleOrderRefNo>AARC/SO/P/17/1</SaleOrderRefNo>
+    <EDateArrival>19-Jan-2017</EDateArrival>
+    <EDateDelivery>19-Jan-2017</EDateDelivery>
+    <SpecialRemarks>kl;</SpecialRemarks>
+    <RequiredDate>20-Jan-2017</RequiredDate>
+    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
+    <Street>Hiteen Street, Muntazah </Street>
+    <State>Doha</State>
+    <CountryName>QATAR</CountryName>
+    <Zip>13037</Zip>
+    <Fax>974 4414 2910</Fax>
+    <Email>info@arabrefrigeration.com</Email>
+    <Phone>974 4435 7216</Phone>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Title>MATERIAL REQUEST</Title>
+  </Head>
+  <Items>
+    <ItemName>Carrier Evaporator Chiller CAE 3364</ItemName>
+    <PartNo>CAE3364</PartNo>
+    <Quantity>1.00</Quantity>
+    <UnitName>Nos</UnitName>
+  </Items>
+</NewDataSet>

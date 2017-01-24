@@ -79,7 +79,7 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 IDbTransaction txn = connection.BeginTransaction();
-                string sql = @"UPDATE SalesInvoice SET SalesInvoiceRefNo=@SalesInvoiceRefNo,SalesInvoiceDate = @SalesInvoiceDate ,
+                string sql = @"UPDATE SalesInvoice SET SalesInvoiceDate = @SalesInvoiceDate,
                                SalesInvoiceDueDate=@SalesInvoiceDueDate,SaleOrderId=@SaleOrderId,SpecialRemarks=@SpecialRemarks,
                                PaymentTerms = @PaymentTerms,Addition=@Addition,Deduction=@Deduction,AdditionRemarks=@AdditionRemarks,
                                DeductionRemarks=@DeductionRemarks,InvoiceType=@InvoiceType,isProjectBased=@isProjectBased,
@@ -149,7 +149,8 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    string query = @"DELETE FROM SalesInvoiceItem WHERE SalesInvoiceId=@Id;
+                    string query = @"DELETE FROM SalesInvoiceAccessory WHERE SalesInvoiceId = @Id;
+                                     DELETE FROM SalesInvoiceItem WHERE SalesInvoiceId=@Id;
                                      DELETE FROM SalesInvoice OUTPUT deleted.SalesInvoiceRefNo WHERE SalesInvoiceId=@Id;";
                     string output = connection.Query<string>(query, new { Id = Id }, txn).First();
                     txn.Commit();
@@ -227,20 +228,21 @@ namespace ArabErp.DAL
                 string sql = string.Empty;
                 if (invType == "Inter")
                 {
-                    sql = @"SELECT * INTO #SaleOrder FROM SaleOrder WHERE SaleOrderId=ISNULL(NULLIF(@SaleOrderId, 0),@SaleOrderId) AND isActive=1;
-                            SELECT SO.SaleOrderId SaleOrderId,SOI.WorkDescriptionId WorkDescriptionId,SOI.SaleOrderItemId SaleOrderItemId,SOI.Quantity Quantity,SOI.Rate Rate,SOI.Amount Amount,SOI.VehicleModelId,JC.JobCardNo JobCardNo, JC.JobCardDate INTO #TEMP_ORDER 
+                    sql = @"SELECT * INTO #SaleOrder FROM SaleOrder WHERE  isActive=1 and isProjectBased=1;
+                            SELECT SO.SaleOrderId SaleOrderId,SO.SaleOrderRefNo,SO.CustomerId,SO.SaleOrderDate,SOI.WorkDescriptionId WorkDescriptionId,SOI.SaleOrderItemId SaleOrderItemId,SOI.Quantity Quantity,SOI.Rate Rate,SOI.Amount Amount,SOI.VehicleModelId,JC.JobCardNo JobCardNo, JC.JobCardDate INTO #TEMP_ORDER 
                             FROM #SaleOrder SO LEFT JOIN SaleOrderItem SOI ON SO.SaleOrderId=SOI.SaleOrderId
 	        				LEFT JOIN JobCard JC ON JC.SaleOrderItemId=SOI.SaleOrderItemId;		        			
-                            SELECT * INTO #SalesInvoice FROM SalesInvoice WHERE SaleOrderId=ISNULL(NULLIF(@SaleOrderId, 0),@SaleOrderId) AND isActive=1;
+                            SELECT * INTO #SalesInvoice FROM SalesInvoice WHERE isActive=1;
                             SELECT SI.SaleOrderId,SII.SaleOrderItemId INTO #TEMP_INVOICE FROM #SalesInvoice SI LEFT JOIN SalesInvoiceItem SII ON SI.SalesInvoiceId=SII.SalesInvoiceId;
-                            SELECT O.SaleOrderId,O.SaleOrderItemId,O.Quantity,O.Rate,O.Amount,O.VehicleModelId,O.WorkDescriptionId WorkDescriptionId,W.WorkDescr WorkDescr,O.JobCardNo JobCardNo, O.JobCardDate INTO #RESULT FROM #TEMP_ORDER O 
+                            SELECT O.SaleOrderId,O.SaleOrderRefNo,O.SaleOrderDate,O.CustomerId,O.SaleOrderItemId,O.Quantity,O.Rate,O.Amount,O.VehicleModelId,O.WorkDescriptionId WorkDescriptionId,W.WorkDescr WorkDescr,O.JobCardNo JobCardNo, O.JobCardDate INTO #RESULT FROM #TEMP_ORDER O 
                             LEFT JOIN #TEMP_INVOICE I ON O.SaleOrderId=I.SaleOrderId AND O.SaleOrderItemId=I.SaleOrderItemId 
                             LEFT JOIN WorkDescription W ON W.WorkDescriptionId=O.WorkDescriptionId
                             WHERE I.SaleOrderId IS NULL AND I.SaleOrderItemId IS NULL;
-                            SELECT R.SaleOrderId SaleOrderId,R.SaleOrderItemId SaleOrderItemId,R.Quantity Quantity,R.Rate Rate,r.Amount Amount,
+                            SELECT R.SaleOrderId SaleOrderId,R.SaleOrderItemId SaleOrderItemId,R.SaleOrderRefNo,R.SaleOrderDate,R.Quantity Quantity,R.Rate Rate,r.Amount Amount,C.CustomerName,
                             CONCAT(V.VehicleModelName,'',VehicleModelDescription) VehicleModelName,R.WorkDescr WorkDescription,R.JobCardNo JobCardNo, CONVERT(VARCHAR, R.JobCardDate, 106)JobCardDate,VIP.RegistrationNo,VIP.ChassisNo FROM #RESULT R 
                             LEFT JOIN VehicleModel V ON R.VehicleModelId=V.VehicleModelId
                             LEFT JOIN VehicleInPass VIP ON VIP.SaleOrderItemId=R.SaleOrderItemId
+	                        LEFT JOIN Customer C ON C.CustomerId=R.CustomerId
                             DROP TABLE #RESULT;
                             DROP TABLE #SaleOrder;
                             DROP TABLE #SalesInvoice;
@@ -267,7 +269,7 @@ namespace ArabErp.DAL
 							R.SaleOrderItemId SaleOrderItemId,R.Quantity Quantity,R.Rate Rate,r.Amount Amount,C.CustomerName,
                             CONCAT(V.VehicleModelName,'',VehicleModelDescription)
 							VehicleModelName,R.WorkDescr WorkDescription,R.JobCardNo JobCardNo, 
-							CONVERT(VARCHAR, R.JobCardDate, 106)JobCardDate,VIP.RegistrationNo,VIP.ChassisNo, DC.DeliveryChallanRefNo,
+							CONVERT(VARCHAR, R.JobCardDate, 106)JobCardDate,isnull(VIP.RegistrationNo,'')RegistrationNo,isnull(VIP.ChassisNo,'')ChassisNo, DC.DeliveryChallanRefNo,
 							CONVERT(VARCHAR, DC.DeliveryChallanDate, 106)DeliveryChallanDate FROM #RESULT R 
 							LEFT JOIN Customer C ON C.CustomerId=R.CustomerId
                             LEFT JOIN VehicleModel V ON R.VehicleModelId=V.VehicleModelId
@@ -520,8 +522,8 @@ namespace ArabErp.DAL
 
                     result = connection.Query<SalesInvoice>(sql, model, trn).Single<SalesInvoice>();
 
-                    #region update customer order ref to [SaleOrder] if isService = 1
-                    if (model.isService == 1)
+                    #region update customer order ref to [SaleOrder] 
+                    //if (model.isService == 1)
                     {
                         sql = @"UPDATE SaleOrder SET CustomerOrderRef = '" + model.CustomerOrderRef.Trim() + @"'
                                 WHERE SaleOrderId = " + model.SaleOrderId;
@@ -592,20 +594,49 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"SELECT INV.SalesInvoiceId,INV.SalesInvoiceRefNo,INV.SalesInvoiceDate,
-	                             SO.SaleOrderRefNo,SO.SaleOrderDate,D.DeliveryChallanRefNo,
-                                 C.CustomerName Customer,V.RegistrationNo,ChassisNo,
-	                             ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
-                                 FROM SalesInvoice INV
-                                 LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
-                                 LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
-                                 LEFT JOIN VehicleInPass V ON V.SaleOrderId=SO.SaleOrderId
-                                 LEFT JOIN JobCard J ON J.SaleOrderId=SO.SaleOrderId
-                                 LEFT JOIN DeliveryChallan D ON D.JobCardId=J.JobCardId 
-                                 WHERE 
-								 INV.OrganizationId=1 
-                                 ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
+//                string query = @"SELECT INV.SalesInvoiceId,INV.SalesInvoiceRefNo,INV.SalesInvoiceDate,
+//	                             SO.SaleOrderRefNo,SO.SaleOrderDate,D.DeliveryChallanRefNo,
+//                                 C.CustomerName Customer,V.RegistrationNo,ChassisNo,
+//	                             ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
+//                                 FROM SalesInvoice INV
+//                                 LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
+//                                 LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
+//                                 LEFT JOIN VehicleInPass V ON V.SaleOrderId=SO.SaleOrderId
+//                                 LEFT JOIN JobCard J ON J.SaleOrderId=SO.SaleOrderId
+//                                 LEFT JOIN DeliveryChallan D ON D.JobCardId=J.JobCardId 
+//                                 WHERE 
+//								 INV.OrganizationId=1 
+//                                 ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
+                string query = @"SELECT DISTINCT INV.SalesInvoiceId,INV.SalesInvoiceRefNo,INV.SalesInvoiceDate,
+                                SO.SaleOrderRefNo,SO.SaleOrderDate,C.CustomerName Customer,
 
+                                STUFF((SELECT ', ' +  isnull(V.RegistrationNo,'')+ CASE WHEN ISNULL(V.RegistrationNo, '') <> '' AND ISNULL(V.ChassisNo, '') <> '' THEN ' - ' ELSE '' END + ISNULL(V.ChassisNo, '') 
+                                FROM  VehicleInPass V
+                                WHERE V.SaleOrderItemId=INVI.SaleOrderItemId
+                                FOR XML PATH('')), 1, 1, '') RegistrationNo,
+
+                              -- STUFF((SELECT ', ' + isnull(V.ChassisNo,'')
+                               --FROM  VehicleInPass V
+                              -- WHERE V.SaleOrderItemId=INVI.SaleOrderItemId
+                              -- FOR XML PATH('')), 1, 1, '')ChasisNo,
+
+                                STUFF((SELECT DISTINCT ', ' + isnull(D.DeliveryChallanRefNo,'')
+                                FROM  DeliveryChallan D
+                                INNER JOIN JobCard J ON J.SaleOrderId=SO.SaleOrderId 
+                                WHERE D.JobCardId=INVI.JobCardId 
+                                FOR XML PATH('')), 1, 1, '')DeliveryChallanRefNo,
+
+                                ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
+                                FROM SalesInvoice INV
+                                INNER JOIN SalesInvoiceItem INVI ON INV.SalesInvoiceId=INVI.SalesInvoiceId
+                                INNER JOIN  SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
+                                LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
+
+                                WHERE INV.OrganizationId=@OrganizationId AND INV.SalesInvoiceDate >= @from AND INV.SalesInvoiceDate <= @to
+                                AND INV.SalesInvoiceId=ISNULL(NULLIF(@id, 0),INV.SalesInvoiceId)
+                                ORDER BY INV.SalesInvoiceDate DESC,INV.SalesInvoiceRefNo DESC";
+                               //ORDER BY INV.SalesInvoiceDate DESC,INV.SalesInvoiceId,INV.SalesInvoiceRefNo DESC,
+                               // SO.SaleOrderRefNo,SO.SaleOrderDate,C.CustomerName
                 return connection.Query<SalesInvoice>(query, new
                 {
                     OrganizationId = OrganizationId,
@@ -651,14 +682,32 @@ namespace ArabErp.DAL
             {
 
                 string sql = @" select SI.SalesInvoiceId,SI.SaleOrderItemId,SI.JobCardId,W.WorkDescr WorkDescription,SI.Quantity QuantityTxt,
-                                SI.Rate,SI.Discount,SI.Amount,/*U.UnitName*/'No(s)' Unit,V.VehicleModelName from SalesInvoiceItem SI 
+                                SI.Rate,SI.Discount,SI.Amount,/*U.UnitName*/'No(s)' Unit,V.VehicleModelName, 0 isAccessory, 0 ItemId from SalesInvoiceItem SI 
                                 inner join SaleOrderItem S ON S.SaleOrderItemId=SI.SaleOrderItemId
                                 inner join WorkDescription W ON W.WorkDescriptionId=S.WorkDescriptionId
                                 left join Unit U ON U.UnitId=S.UnitId
                                 left join VehicleModel V ON V.VehicleModelId=W.VehicleModelId
-                                WHERE SalesInvoiceId= @Id";
+                                WHERE SalesInvoiceId= @Id
 
+                                UNION ALL
 
+                                SELECT
+	                                ACC.SalesInvoiceId,
+	                                0 SaleOrderItemId,
+	                                0 JobCardId,
+	                                I.ItemName WorkDescription,
+	                                ACC.Quantity QuantityTxt,
+	                                ACC.Rate,
+	                                ACC.Discount,
+	                                ACC.Amount,
+	                                U.UnitName Unit,
+	                                '' VehicleModelName,
+	                                1 isAccessory,
+	                                I.ItemId
+                                FROM SalesInvoiceAccessory ACC
+                                INNER JOIN Item I ON ACC.ItemId = I.ItemId
+                                INNER JOIN Unit U ON I.ItemUnitId = U.UnitId
+                                WHERE SalesInvoiceId = @Id";
                 var objInvoiceItem = connection.Query<SalesInvoiceItem>(sql, new { Id = Id }).ToList<SalesInvoiceItem>();
 
                 return objInvoiceItem;

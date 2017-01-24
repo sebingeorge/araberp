@@ -121,6 +121,7 @@
                 return false;
             }
             else {
+                
                 var url = '@Url.Action("LogOff", "Account")';
                 location.href = url;
             }
@@ -190,7 +191,6 @@
                                                 {
                                                     <li><a href="@Url.Action("Index","Item")">Item</a></li>
                                                 }
-                                         
                                             </ul>
                                         </div>
                                     </li>
@@ -706,6 +706,32 @@
                                 {
                                     <li><a href="@Url.Action("Pending", "WorkShopRequest", new { isProjectBased = 1 })">Material Request</a></li>
                                 }
+                                @if (formPermission.Find(x => x.FormId == 160) != null)
+                                {
+                                    <li><a href="@Url.Action("Create", "AdditionalWorkShopRequest", new { isProjectBased = 1 })">Additional Material Request</a></li>
+                                }
+                                @if (formPermission.Find(x => x.FormId == 157) != null)
+                                {
+                                <li>
+                                    <a href="#" data-toggle="collapse" data-target="#project-service">Service<span class="caret arrow"></span></a>
+                                    <div id="project-service" class="collapse">
+                                        <ul>
+                                            @if (formPermission.Find(x => x.FormId == 157) != null)
+                                            {
+                                                <li><a href="@Url.Action("ServiceEnquiryProject", "ServiceEnquiryProject")">Service Enquiry</a></li>
+                                            }
+                                            @if (formPermission.Find(x => x.FormId == 158) != null)
+                                            {
+                                                <li><a href="@Url.Action("PendingEnquiries", "ServiceEnquiryProject", new { isprojectbased = 1 })">Service Order</a></li>
+                                            }
+                                            @if (formPermission.Find(x => x.FormId == 159) != null)
+                                            {
+                                                <li><a href="@Url.Action("PendingJobCard", "JobCard", new {isprojectbased = 1,service = 1 })">Service Job Card</a></li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                                } 
                                 @if (formPermission.Find(x => x.FormId == 78) != null
                                     || formPermission.Find(x => x.FormId == 79) != null
                                     || formPermission.Find(x => x.FormId == 80) != null
@@ -717,7 +743,7 @@
                                             <ul>
                                                 @if (formPermission.Find(x => x.FormId == 78) != null)
                                                 {
-                                                    <li><a href="@Url.Action("PendingJobCard", "JobCard", new { isProjectBased = 1 })">Job Card</a></li>
+                                                    <li><a href="@Url.Action("PendingJobCard", "JobCard", new { isProjectBased = 1, service=0 })">Job Card</a></li>
                                                 }
                                                 @if (formPermission.Find(x => x.FormId == 79) != null)
                                                 {
@@ -733,7 +759,7 @@
                                 }
                                 @if (formPermission.Find(x => x.FormId == 81) != null)
                                 {
-                                    <li><a href="@Url.Action("Pending", "ProjectCompletion")">Project Completion</a></li>
+                                    <li><a href="@Url.Action("Pending", "ProjectCompletion")">Project Commissioning</a></li>
                                 }
                             </ul>
                         </div>
@@ -761,11 +787,11 @@
                                                 }
                                                 @if (formPermission.Find(x => x.FormId == 140) != null)
                                                 {
-                                                    <li><a href="@Url.Action("PendingEnquiries", "SaleOrder")">Service Order</a></li>
+                                                    <li><a href="@Url.Action("PendingEnquiries", "SaleOrder", new { isprojectbased = 0 })">Service Order</a></li>
                                                 }
                                                 @if (formPermission.Find(x => x.FormId == 139) != null)
                                                 {
-                                                    <li><a href="@Url.Action("PendingJobCard", "JobCard", new { service = 1 })">Service Job Card</a></li>
+                                                    <li><a href="@Url.Action("PendingJobCard", "JobCard", new {isprojectbased = 0, service = 1 })">Service Job Card</a></li>
                                                 }
                                             </ul>
                                         </div>
@@ -838,7 +864,7 @@
                                           }
                                             @if (formPermission.Find(x => x.FormId == 89) != null)
                                             {
-                                                <li><a href="@Url.Action("Create","AdditionalWorkShopRequest")">Additional Workshop Request</a></li>
+                                                <li><a href="@Url.Action("Create", "AdditionalWorkShopRequest", new { isProjectBased = 0 })">Additional Workshop Request</a></li>
                                             }
                                         </ul>
                                     </div>
@@ -987,7 +1013,7 @@
                                             }
                                             @if (formPermission.Find(x => x.FormId == 109) != null)
                                             {
-                                                <li><a href="@Url.Action("Index", "SalesRegister")">Sales Register</a></li>
+                                                <li><a href="@Url.Action("Index", "SalesRegister")">Sales Invoice Register</a></li>
                                             }
                                             @if (formPermission.Find(x => x.FormId == 110) != null)
                                             {
@@ -1090,7 +1116,7 @@
                                     || formPermission.Find(x => x.FormId == 145) != null
                                     || formPermission.Find(x => x.FormId == 129) != null
                                     || formPermission.Find(x => x.FormId == 148) != null
-                                    || formPermission.Find(x => x.FormId == 154) != null)
+                                    || formPermission.Find(x => x.FormId == 153) != null)
                                     {
                                         <li>
                                             <a href="#" data-toggle="collapse" data-target="#misreports-tracking-reports">Tracking Reports<span class="caret arrow"></span></a>
@@ -1132,7 +1158,7 @@
                                 {
                                     <li><a href="@Url.Action("Index", "VehicleInpassRegister")">Vehicle Inpass Register</a></li>
                                 }
-                                @if (formPermission.Find(x => x.FormId == 154) != null)
+                                @if (formPermission.Find(x => x.FormId == 153) != null)
                                 {
                                     <li><a href="@Url.Action("Index", "ServiceRegister")">Service Due Register</a></li>
                                 }
@@ -1180,7 +1206,7 @@
                                 {
                                     <li><a href="@Url.Action("Index","ProfitabilityReport")">Job Profitability</a></li>
                                 }
-                                @if (formPermission.Find(x => x.FormId == 151) != null)
+                                @if (formPermission.Find(x => x.FormId == 152) != null)
                                 {
                                     <li><a href="@Url.Action("Index", "QuickBookExport")">Quick Book Export</a></li>
                                 }

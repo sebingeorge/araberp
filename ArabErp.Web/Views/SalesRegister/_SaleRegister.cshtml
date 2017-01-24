@@ -1,40 +1,57 @@
-﻿
-@model IList<ArabErp.Domain.SalesRegister>
+﻿@model IList<ArabErp.Domain.SalesRegister>
 <table class="table table-bordered">
     <thead>
         <tr class="grid_heading">
+            <th width="1%" class="text-center"><h1>#</h1></th>
             <th width="10%"><h1>Invoice No.</h1></th>
             <th width="10%"><h1>Date</h1></th>
             <th width="20%"><h1>Customer</h1></th>
             <th width="20%"><h1>Work Description</h1></th>
-            <th width="5%" class="text-right"><h1>Qty.</h1></th>
-            <th width="5%"><h1>Unit</h1></th>
-            <th width="5%" class="text-right"><h1>Rate</h1></th>
-            <th width="10%" class="text-right"><h1>Amount</h1></th>
+            <th width="5%" class="text-right"><h1>Qty</h1></th>
+            @*<th width="5%"><h1>Unit</h1></th>*@
+            @*<th width="5%" class="text-right"><h1>Rate</h1></th>*@
+            <th width="10%" class="text-right"><h1>Amount <span style="font-size:smaller;text-decoration:none">(Qty x Rate)</span></h1></th>
             <th width="5%" class="text-right"><h1>Discount</h1></th>
             <th width="10%" class="text-right"><h1>Net Amount</h1></th>
-         
+
 
 
         </tr>
     </thead>
-    @foreach (var item in Model)
-    {
-        <tbody class="grid_row">
+    <tbody class="grid_row">
+        @if (Model != null && Model.Count > 0)
+        {
+            int i = 0;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td class="grid-cell">@item.SalesInvoiceRefNo</td>
+                    <td class="grid-cell">@item.SalesInvoiceDate.ToString("dd/MMM/yyyy")</td>
+                    <td class="grid-cell">@item.CustomerName</td>
+                    <td class="grid-cell">@item.WorkDescr</td>
+                    <td class="grid-cell text-right">@item.Quantity</td>
+                    @*<td class="grid-cell">@item.UnitName</td>*@
+                    @*<td class="grid-cell text-right">@item.Rate</td>*@
+                    <td class="grid-cell text-right">@item.Amount</td>
+                    <td class="grid-cell text-right">@item.Discount</td>
+                    <td class="grid-cell text-right">@item.TotalAmount</td>
+
+                </tr>
+
+            }
+        }
+        else
+        {
             <tr>
-                <td class="grid-cell">@item.SalesInvoiceRefNo</td>
-                <td class="grid-cell">@item.SalesInvoiceDate.ToString("dd/MMM/yyyy")</td>
-                <td class="grid-cell">@item.CustomerName</td>
-                <td class="grid-cell">@item.WorkDescr</td>
-                <td class="grid-cell text-right">@item.Quantity</td>
-                <td class="grid-cell">@item.UnitName</td>
-                <td class="grid-cell text-right">@item.Rate</td>
-                <td class="grid-cell text-right">@item.Amount</td>
-                <td class="grid-cell text-right">@item.Discount</td>
-                <td class="grid-cell text-right">@item.TotalAmount</td>
-
+                <td colspan="8" align="center">
+                    <em>No items to show!</em>
+                </td>
             </tr>
-
-        </tbody>
-    }
+        }
+    </tbody>
 </table>
+<div class="row">
+    <div class="col-md-3 col-md-offset-9 text-right">
+        <h4><strong>Grand Total : @Model.Sum(x => x.TotalAmount)</strong></h4>
+    </div>
+</div>

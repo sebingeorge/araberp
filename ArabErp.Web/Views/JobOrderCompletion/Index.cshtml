@@ -13,14 +13,16 @@
 
         $("#jobcardlist").addClass("fade");
         var id = $("#cboJCNo").val();
+
         var cusid = $("#cboCustomer").val();
+       
         var RegNo = $("#txtRegNo").val().trim();
+        //alert(RegNo)
 
         var url = '@Url.Action("PendingJobOrderCompletion")';
 
-        url += "?id=" + id + "&cusid=" + cusid + "&RegNo=" + encodeURIComponent(RegNo)
-            + "&isProjectBased=" + @ViewBag.ProjectBased ;
-        //alert(url);
+        url += "?isProjectBased=" + "@ViewBag.ProjectBased" +"&id=" + id + "&cusid=" + cusid +"&RegNo=" + encodeURIComponent(RegNo);
+
         $("#jobcardlist").load(url, function () {
             $("#jobcardlist").removeClass("fade");
         });
@@ -57,11 +59,14 @@
                 <label for="cboCustomer">Customer</label>
                 @Html.DropDownList("cboCustomer", (SelectList)ViewBag.CusList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
-
+           @if(isProjectBased==0)
+            {
             <div class="col-md-2">
                 <label for="txtRegNo">Reg. No./Chassis No.</label>
                 <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Reg. No./Chassis No." />
             </div>
+            }
+          
         </div>
 
         <br />

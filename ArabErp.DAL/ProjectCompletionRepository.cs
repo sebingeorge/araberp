@@ -105,13 +105,14 @@ namespace ArabErp.DAL
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
                     string query = @"SELECT
-	                                IB.ItemBatchId,
-	                                I.ItemName,
-	                                SerialNo
+	                            IB.ItemBatchId,
+	                            I.ItemName,
+	                            SerialNo
                                 FROM JobCard JC
                                 INNER JOIN ItemBatch IB ON JC.SaleOrderItemId = IB.SaleOrderItemId
-                                INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
-                                INNER JOIN Item I ON GI.ItemId = I.ItemId
+                                LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+								LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId 
+                                INNER JOIN Item I ON GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId
                                 WHERE JC.SaleOrderId = @SaleOrderId";
                     return connection.Query<ItemBatch>(query, new { SaleOrderId = SaleOrderId }).ToList();
                 }
@@ -183,11 +184,37 @@ namespace ArabErp.DAL
 	                                    --ColdRoomLocation Location,
 	                                    C.CustomerName
                                     FROM QuerySheet QS
-	                                    INNER JOIN SalesQuotation SQ ON QS.QuerySheetId = SQ.QuerySheetId
+	                                    LEFT JOIN SalesQuotation SQ ON QS.QuerySheetId = SQ.QuerySheetId
+	                                    INNER JOIN SaleOrder SO ON SQ.SalesQuotationId = SO.SalesQuotationId
+	                                    INNER JOIN Customer C ON SQ.CustomerId = C.CustomerId
+                                    WHERE SO.SaleOrderId = @SaleOrderId
+                                    
+                                    SELECT 
+	                                    QI.RoomDetails,
+	                                    ExternalRoomDimension,
+	                                    Refrigerant,
+	                                    ISNULL(QI.Quantity, 1) Quantity,
+	                                    QI.QuerySheetItemId,
+	                                    STUFF((SELECT ', ' + T2.ItemName FROM QuerySheetItemUnit T1
+			                                    LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
+			                                    WHERE T1.QuerySheetItemId = QI.QuerySheetItemId FOR XML PATH('')), 1, 2, '') CondensingUnit,
+	                                    STUFF((SELECT ', ' + T2.ItemName FROM QuerySheetItemUnit T1
+			                                    LEFT JOIN Item T2 ON T1.EvaporatorUnitId = T2.ItemId
+			                                    WHERE T1.QuerySheetItemId = QI.QuerySheetItemId FOR XML PATH('')), 1, 2, '') Evaporator,
+	                                    QI.TemperatureRequired
+                                    FROM QuerySheet QS
+	                                    INNER JOIN QuerySheetItem QI ON QS.QuerySheetId = QI.QuerySheetId
+	                                    LEFT JOIN SalesQuotation SQ ON QS.QuerySheetId = SQ.QuerySheetId
 	                                    INNER JOIN SaleOrder SO ON SQ.SalesQuotationId = SO.SalesQuotationId
 	                                    INNER JOIN Customer C ON SQ.CustomerId = C.CustomerId
                                     WHERE SO.SaleOrderId = @SaleOrderId";
-                    return connection.Query<ProjectCompletion>(query, new { SaleOrderId = id }).First();
+                    ProjectCompletion _model = new ProjectCompletion();
+                    using (var dataset = connection.QueryMultiple(query, new { SaleOrderId = id }))
+                    {
+                        _model = dataset.Read<ProjectCompletion>().First();
+                        _model.ProjectRoomAndUnitDetails = dataset.Read<ProjectRoomAndUnitDetails>().ToList();
+                    }
+                    return _model;
                 }
                 catch (Exception ex)
                 {
@@ -238,7 +265,7 @@ namespace ArabErp.DAL
                                     FROM ProjectCompletion PC
 	                                    INNER JOIN SaleOrder SO ON PC.SaleOrderId = SO.SaleOrderId
 	                                    INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
-	                                    INNER JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
+	                                    LEFT JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
 	                                    INNER JOIN QuerySheet QS ON SQ.QuerySheetId = QS.QuerySheetId 
                                 WHERE PC.ProjectCompletionId = @ProjectCompletionId ";
 
@@ -265,8 +292,8 @@ namespace ArabErp.DAL
 	                                    I.ItemName,
 	                                    CONVERT(VARCHAR, IB.WarrantyStartDate, 106) WarrantyStartDate,
 	                                    CONVERT(VARCHAR, IB.WarrantyExpireDate, 106) WarrantyExpireDate
-                                    FROM ItemBatch IB
-	                                    INNER JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+                                        FROM ItemBatch IB
+	                                    LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
 	                                    INNER JOIN Item I ON GI.ItemId = I.ItemId
                                     WHERE IB.ProjectCompletionId = @ProjectCompletionId";
                     return connection.Query<ItemBatch>(query, new { ProjectCompletionId = ProjectCompletionId }).ToList();

@@ -1,0 +1,158 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Month" type="xs:string" minOccurs="0" />
+                <xs:element name="Year" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="QuotRef" type="xs:string" minOccurs="0" />
+                <xs:element name="Date" type="xs:string" minOccurs="0" />
+                <xs:element name="Customer" type="xs:string" minOccurs="0" />
+                <xs:element name="Lead" type="xs:string" minOccurs="0" />
+                <xs:element name="Descr" type="xs:string" minOccurs="0" />
+                <xs:element name="Status" type="xs:string" minOccurs="0" />
+                <xs:element name="GrandTot" type="xs:string" minOccurs="0" />
+                <xs:element name="RevisionNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Reason" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <Month>November</Month>
+    <Year>2016</Year>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+  </Head>
+  <Items>
+    <QuotRef>AARC/SQ/1</QuotRef>
+    <Date>23-Nov-2016</Date>
+    <Customer>Jaida Motors &amp; Trading Co</Customer>
+    <Lead>Rajesh Ratheesh Chandran</Lead>
+    <Descr>Thermoking T600-R</Descr>
+    <Status>Won</Status>
+    <GrandTot>196500.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>AARC/SQ/1</QuotRef>
+    <Date>23-Nov-2016</Date>
+    <Customer>Jaida Motors &amp; Trading Co</Customer>
+    <Lead>Rajesh Ratheesh Chandran</Lead>
+    <Descr>Thermoking T600-R</Descr>
+    <Status>Won</Status>
+    <GrandTot>196500.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>AARC/SQ/2/REV4</QuotRef>
+    <Date>29-Nov-2016</Date>
+    <Customer>Qatar Automobiles Company</Customer>
+    <Lead>Rajesh Ratheesh Chandran</Lead>
+    <Descr>Thermal Matser T2500</Descr>
+    <Status>Won</Status>
+    <GrandTot>90000.00</GrandTot>
+    <RevisionNo>4</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>AARC/SQ/3</QuotRef>
+    <Date>30-Nov-2016</Date>
+    <Customer>Qatar Automobiles Company</Customer>
+    <Lead>Rajesh Ratheesh Chandran</Lead>
+    <Descr>Thermal Matser T2500</Descr>
+    <Status>Won</Status>
+    <GrandTot>400000.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>AARC/SQ/4</QuotRef>
+    <Date>28-Nov-2016</Date>
+    <Customer>Lulu Hypermarket D Ring Road</Customer>
+    <Lead>Rajesh Ratheesh Chandran</Lead>
+    <Descr>Thermoking T600-R</Descr>
+    <Status>Won</Status>
+    <GrandTot>87000.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>AARC/SQ/5</QuotRef>
+    <Date>24-Nov-2016</Date>
+    <Customer>Jaida Motors &amp; Trading Co</Customer>
+    <Lead>Rajesh Ratheesh Chandran</Lead>
+    <Status>Won</Status>
+    <GrandTot>23000.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>AARC/SQ/6</QuotRef>
+    <Date>20-Nov-2016</Date>
+    <Customer>Jaida Motors &amp; Trading Co</Customer>
+    <Lead>Rajesh Ratheesh Chandran</Lead>
+    <Descr>Thermoking T600-R</Descr>
+    <Status>Won</Status>
+    <GrandTot>182000.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>AARC/SQ/7</QuotRef>
+    <Date>17-Nov-2016</Date>
+    <Customer>Qatar Automobiles Company</Customer>
+    <Lead>Rajesh Ratheesh Chandran</Lead>
+    <Status>Won</Status>
+    <GrandTot>21000.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>AARC/SQ/8</QuotRef>
+    <Date>17-Nov-2016</Date>
+    <Customer>Qatar Automobiles Company</Customer>
+    <Lead>Rajesh Ratheesh Chandran</Lead>
+    <Status>Won</Status>
+    <GrandTot>25000.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>AARC/SQ/9</QuotRef>
+    <Date>02-Nov-2016</Date>
+    <Customer>National Car Company</Customer>
+    <Lead>Rajesh Ratheesh Chandran</Lead>
+    <Descr>Thermoking T600-R</Descr>
+    <Status>Won</Status>
+    <GrandTot>109500.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>AARC/SQ/10</QuotRef>
+    <Date>22-Nov-2016</Date>
+    <Customer>Jaida Motors &amp; Trading Co</Customer>
+    <Lead>Rajesh Ratheesh Chandran</Lead>
+    <Descr>Thermoking T600-R</Descr>
+    <Status>Won</Status>
+    <GrandTot>111000.00</GrandTot>
+    <RevisionNo>0</RevisionNo>
+  </Items>
+  <Items>
+    <QuotRef>AARC/SQ/12/REV1</QuotRef>
+    <Date>26-Nov-2016</Date>
+    <Customer>AL MANHAL WATER COMPANY Co. Ltd. W.L.L</Customer>
+    <Lead>Rajesh Ratheesh Chandran</Lead>
+    <Status>Won</Status>
+    <GrandTot>55000.00</GrandTot>
+    <RevisionNo>1</RevisionNo>
+  </Items>
+</NewDataSet>

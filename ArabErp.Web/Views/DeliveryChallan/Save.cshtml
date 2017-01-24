@@ -29,7 +29,7 @@
                 $("#txtVehicleModel").val(data.VehicleModel);
                 $("#txtWork").val(data.WorkDescr);
                 $("#txtCustomer").val(data.CustomerName);
-                $("#txtRegNo").val(data.RegistrationNo);
+                $("#RegistrationNo").val(data.RegistrationNo);
                 $("#txtChassisNo").val(data.ChassisNo);
                 $("#txtPaymentTerms").val(data.PaymentTerms);
             });
@@ -91,7 +91,15 @@
                 </div>
                 <div class="col-md-2">
                     <label>Reg. No.</label>
-                    <input type="text" class="form_input" id="txtRegNo" readonly />
+                   @if (Model.isService == 0)
+                {
+                    @*<input type="text" class="form_input" id="txtRegNo" />*@
+                    @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input ", autocomplete = "off"})
+                }
+                   else
+                   {
+                       @Html.TextBoxFor(m => m.RegistrationNo, new { @class = "form_input ", autocomplete = "off", @required = "true", @readonly = "true" })
+                   }
                 </div>
                 <div class="col-md-2">
                     <label>Chassis No.</label>
@@ -220,13 +228,33 @@
             </div>
             @*</div>*@
 
-            <div class="row">
+            @*<div class="row">
                 <div class="col-md-12 col-md hrpart">
-                    <input class="form-button right" type="button" value="Exit" onclick="Back()" />
-                    <input class="form-button right" type="submit" value="Save" />
+                   
                     @*<input class="form-button left" type="button" value="Back" onclick="Back()" />*@
-                </div>
-            </div>
+                @*</div>*@
+            @*</div>*@
+    <div class="row">
+
+        <div class="col-md-12 hrpart">
+
+
+            @if (Model.StoreIssued == false)
+            {
+                <span class="perm">
+                    <em>**Store Issue is not done for this Delivery Challan</em>
+                </span>
+                <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+            }
+            else
+            { 
+                <input class="form-button right" type="button" value="Exit" onclick="Back()" />
+                <input class="form-button right" type="submit" value="Save" />
+            }
+
+        </div>
+
+    </div>
         }
 
     </div>

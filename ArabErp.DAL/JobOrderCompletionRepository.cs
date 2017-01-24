@@ -14,14 +14,14 @@ namespace ArabErp.DAL
     public class JobOrderCompletionRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<JobOrderPending> GetPendingJobOrder(int? isProjectBased, int OrganizationId, int id, int cusid, string RegNo = "")
-        {
+        public IEnumerable<JobOrderPending> GetPendingJobOrder(int? ProjectBased, int OrganizationId, int id, int cusid, string RegNo = "")
+     {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = string.Empty;
-                if ((isProjectBased ?? 0) == 0)
+                if ((ProjectBased ?? 0) == 0)
                 {
-                    query = @"select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, V.VehicleModelName,RegistrationNo,ChassisNo, J.isOnHold
+                    query = @"select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, V.VehicleModelName,isnull(RegistrationNo,'')RegistrationNo,isnull(ChassisNo,'')ChassisNo, J.isOnHold
                      from JobCard J
                     inner join SaleOrderItem SI on SI.SaleOrderItemId = J.SaleOrderItemId
                     inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId
@@ -35,19 +35,18 @@ namespace ArabErp.DAL
                 }
                 else
                 {
-                    query = @"select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, '' VehicleModelName,RegistrationNo,ChassisNo, J.isOnHold
+                    query = @"select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, '' VehicleModelName,isnull(RegistrationNo,'')RegistrationNo,isnull(ChassisNo,'')ChassisNo, J.isOnHold
                     from JobCard J
                     inner join SaleOrderItem SI on SI.SaleOrderItemId = J.SaleOrderItemId
                     inner join SaleOrder S on S.SaleOrderId = SI.SaleOrderId
                     inner join Customer C on S.CustomerId = C.CustomerId 
-                    inner join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
-                    inner join VehicleInPass VI ON VI.VehicleInPassId=J.InPassId
+                    LEFT join WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId
+                    LEFT join VehicleInPass VI ON VI.VehicleInPassId=J.InPassId
                     where ISNULL(J.JodCardCompleteStatus,0) <> 1 and J.isProjectBased = 1 AND J.OrganizationId = @OrganizationId
-                    and  J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)
-                    AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%' OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')";
+                    and J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)";
                 }
 
-                return connection.Query<JobOrderPending>(query, new { isProjectBased = isProjectBased, OrganizationId = OrganizationId, id = id, cusid = cusid, RegNo = RegNo });
+                return connection.Query<JobOrderPending>(query, new { isProjectBased = ProjectBased, OrganizationId = OrganizationId, id = id, cusid = cusid, RegNo = RegNo});
             }
         }
 
@@ -73,11 +72,14 @@ namespace ArabErp.DAL
                 else
                 {
                     query = "SELECT distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerId, C.CustomerName,0 VehicleModelId, '' VehicleModelName,";
-                    query += " W.WorkDescr, W.WorkDescriptionId, J.SpecialRemarks, (ISNULL(SS.WorkShopRequestId,0))StoreIssued,(ISNULL(SS.WorkShopRequestId,0))StoreIssued";
+                    query += " WorkDescr=(case when J.isService=0 then STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName FROM SaleOrderItemUnit T1";
+                    query += " LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId";
+                    query += " LEFT JOIN Item T3 ON T1.EvaporatorUnitId = T3.ItemId";
+                    query += " WHERE T1.SaleOrderItemId = SI.SaleOrderItemId FOR XML PATH('')), 1, 2, '')else W.WorkDescr end), W.WorkDescriptionId, J.SpecialRemarks, (ISNULL(SS.WorkShopRequestId,0))StoreIssued,(ISNULL(SS.WorkShopRequestId,0))StoreIssued";
                     query += " FROM JobCard J INNER JOIN SaleOrder S on S.SaleOrderId = J.SaleOrderId";
                     query += " INNER JOIN SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId";
                     query += " INNER JOIN Customer C on S.CustomerId = C.CustomerId";
-                    query += " INNER JOIN WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
+                    query += " LEFT JOIN WorkDescription W on W.WorkDescriptionId = SI.WorkDescriptionId";
                     query += " LEFT JOIN WorkShopRequest WR ON WR.SaleOrderId=J.SaleOrderId";
                     query += " LEFT JOIN StoreIssue SS ON SS.WorkShopRequestId=WR.WorkShopRequestId";
                     query += " where J.JobCardId = " + JobCardId.ToString() + " and J.isProjectBased = 1";
@@ -147,11 +149,12 @@ namespace ArabErp.DAL
                             ORDER BY JobCardDailyActivityDate DESC) EndDate
                             FROM JobCardTask JT
 	                        INNER JOIN JobCardTaskMaster M ON JT.JobCardTaskMasterId = M.JobCardTaskMasterId
-	                        LEFT JOIN JobCardDailyActivity DA ON JT.JobCardId = DA.JobCardId
-	                        LEFT JOIN JobCardDailyActivityTask DAT ON DA.JobCardDailyActivityId = DAT.JobCardDailyActivityId AND JT.JobCardTaskId = DAT.JobCardTaskId
+	                        --LEFT JOIN JobCardDailyActivity DA ON JT.JobCardId = DA.JobCardId
+	                        LEFT JOIN JobCardDailyActivityTask DAT ON /*DA.JobCardDailyActivityId = DAT.JobCardDailyActivityId AND*/ JT.JobCardTaskId = DAT.JobCardTaskId
 	                        LEFT JOIN Employee EMP ON JT.EmployeeId = EMP.EmployeeId
 	                        LEFT JOIN #TOTAL T ON EMP.EmployeeId = T.EmployeeId AND DAT.JobCardTaskId = T.JobCardTaskId
-                            WHERE JT.JobCardId = @JobCardId;
+                            WHERE JT.JobCardId = @JobCardId
+							ORDER BY SlNo;
 
                             DROP TABLE #TOTAL;";
                 jobcard.JobCardTask = connection.Query<JobCardCompletionTask>(query, new { JobCardId = JobCardId }).ToList();

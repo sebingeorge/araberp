@@ -18,7 +18,7 @@ namespace ArabErp.Web.Controllers
         // GET: SalesRegister
         public ActionResult Index()
         {
-            ViewBag.startdate = FYStartdate;
+            ViewBag.startdate = Convert.ToDateTime("01/" + DateTime.Today.Month + "/" + DateTime.Today.Year);
             FillCustomer();
             return View();
         }
@@ -28,16 +28,14 @@ namespace ArabErp.Web.Controllers
             var result = repo.SICustomerDropdown(OrganizationId);
             ViewBag.SupplierList = new SelectList(result, "Id", "Name");
         }
-        public ActionResult SaleRegister(DateTime? from, DateTime? to, int id = 0)
+        public ActionResult SaleRegister(DateTime? from, DateTime? to, int? project, int id = 0)
         {
-
-            from = from ?? FYStartdate;
+            from = from ?? Convert.ToDateTime("01/" + DateTime.Today.Month + "/" + DateTime.Today.Year);
             to = to ?? DateTime.Today;
-            return PartialView("_SaleRegister", new SalesRegisterRepository().GetSalesRegister(from, to, id, OrganizationId));
+            return PartialView("_SaleRegister", new SalesRegisterRepository().GetSalesRegister(from, to, id, OrganizationId, project));
         }
 
-
-        public ActionResult Print(DateTime? from, DateTime? to, int id = 0, string name = "")
+        public ActionResult Print(int? project,DateTime? from, DateTime? to, int id = 0, string name = "" )
         {
 
             ReportDocument rd = new ReportDocument();
@@ -51,6 +49,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("From");
             ds.Tables["Head"].Columns.Add("To");
             ds.Tables["Head"].Columns.Add("Customer");
+            ds.Tables["Head"].Columns.Add("type");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
 
@@ -65,7 +64,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("Discount");
             ds.Tables["Items"].Columns.Add("Unit");
             ds.Tables["Items"].Columns.Add("TotalAmount");
-            
+
 
             SupplyOrderRegisterRepository repo = new SupplyOrderRegisterRepository();
             var Head = repo.GetSupplyOrderRegisterHD(from, to, OrganizationId);
@@ -74,13 +73,15 @@ namespace ArabErp.Web.Controllers
             dr["From"] = from.Value.ToShortDateString();
             dr["To"] = to.Value.ToShortDateString();
             dr["Customer"] = name;
+            dr["type"] = project == null ? "All" : project == 1 ? "Project" : "Transport";
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             ds.Tables["Head"].Rows.Add(dr);
 
 
             SalesRegisterRepository repo1 = new SalesRegisterRepository();
-            var Items = repo1.GetSalesRegisterDTPrint(from, to, id,OrganizationId);
+            //var Items = repo1.GetSalesRegisterDTPrint(from, to, id, OrganizationId);
+            var Items = repo1.GetSalesRegister(from, to, id, OrganizationId, project);
 
             foreach (var item in Items)
             {
@@ -95,7 +96,7 @@ namespace ArabErp.Web.Controllers
                     Amount = item.Amount,
                     Discount = item.Discount,
                     TotalAmount = item.TotalAmount,
-                    UnitName=item.UnitName
+                    UnitName = item.UnitName
                 };
 
                 DataRow dri = ds.Tables["Items"].NewRow();
@@ -125,13 +126,13 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("SalesRegister.pdf"));
+                return File(stream, "application/pdf");//, String.Format("SalesRegister.pdf"));
             }
             catch (Exception ex)
             {
                 throw;
             }
         }
-      
+
     }
 }

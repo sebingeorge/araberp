@@ -1,0 +1,67 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="From" type="xs:string" minOccurs="0" />
+                <xs:element name="To" type="xs:string" minOccurs="0" />
+                <xs:element name="Customer" type="xs:string" minOccurs="0" />
+                <xs:element name="type" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="SalesInvoiceRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Date" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
+                <xs:element name="WorkDescr" type="xs:string" minOccurs="0" />
+                <xs:element name="Quantity" type="xs:string" minOccurs="0" />
+                <xs:element name="Rate" type="xs:string" minOccurs="0" />
+                <xs:element name="Amount" type="xs:string" minOccurs="0" />
+                <xs:element name="Discount" type="xs:string" minOccurs="0" />
+                <xs:element name="Unit" type="xs:string" minOccurs="0" />
+                <xs:element name="TotalAmount" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <From>01-Jan-2017</From>
+    <To>20-Jan-2017</To>
+    <Customer>United International</Customer>
+    <type>All</type>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+  </Head>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/18</SalesInvoiceRefNo>
+    <Date>07-Jan-2017</Date>
+    <CustomerName>United International</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>1490.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>1490.00</TotalAmount>
+  </Items>
+  <Items>
+    <SalesInvoiceRefNo>AARC/SI/17/56</SalesInvoiceRefNo>
+    <Date>18-Jan-2017</Date>
+    <CustomerName>United International</CustomerName>
+    <WorkDescr>General Checkup &amp; Repair</WorkDescr>
+    <Quantity>1</Quantity>
+    <Amount>750.00</Amount>
+    <Discount>0.00</Discount>
+    <TotalAmount>750.00</TotalAmount>
+  </Items>
+</NewDataSet>

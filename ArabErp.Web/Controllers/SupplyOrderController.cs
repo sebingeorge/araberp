@@ -371,8 +371,8 @@ namespace ArabErp.Web.Controllers
             }
 
         }
-
-        public ActionResult Print(int Id)
+        //-------PRINT
+        public ActionResult PurchaseOrder(int Id)
         {
 
             ReportDocument rd = new ReportDocument();
@@ -420,7 +420,8 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("SupPostBoxNo");
             ds.Tables["Head"].Columns.Add("CreatedDes");
             ds.Tables["Head"].Columns.Add("ApproveDes");
-
+            ds.Tables["Head"].Columns.Add("NetDiscount");
+            ds.Tables["Head"].Columns.Add("NetAmount");
 
 
             //-------DT
@@ -478,7 +479,9 @@ namespace ArabErp.Web.Controllers
             dr["SupFax"] = Head.SupFax;
             dr["SupEmail"] = Head.SupEmail;
             dr["SupPostBoxNo"] = Head.SupPostBoxNo;
-       
+            dr["NetDiscount"] = Head.NetDiscount;
+            dr["NetAmount"] = Head.NetAmount;
+
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
             ds.Tables["Head"].Rows.Add(dr);
@@ -534,7 +537,8 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("SupplyOrder{0}.pdf", Id.ToString()));
+                return File(stream, "application/pdf");
+
             }
             catch (Exception ex)
             {

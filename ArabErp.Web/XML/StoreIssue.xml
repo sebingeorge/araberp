@@ -1,0 +1,85 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Head">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="StoreIssueRefNo" type="xs:string" minOccurs="0" />
+                <xs:element name="StoreIssueDate" type="xs:string" minOccurs="0" />
+                <xs:element name="StockpointName" type="xs:string" minOccurs="0" />
+                <xs:element name="CustomerName" type="xs:string" minOccurs="0" />
+                <xs:element name="WONODATE" type="xs:string" minOccurs="0" />
+                <xs:element name="SONODATE" type="xs:string" minOccurs="0" />
+                <xs:element name="RequiredDate" type="xs:string" minOccurs="0" />
+                <xs:element name="Remarks" type="xs:string" minOccurs="0" />
+                <xs:element name="EmployeeName" type="xs:string" minOccurs="0" />
+                <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
+                <xs:element name="Street" type="xs:string" minOccurs="0" />
+                <xs:element name="State" type="xs:string" minOccurs="0" />
+                <xs:element name="CountryName" type="xs:string" minOccurs="0" />
+                <xs:element name="Phone" type="xs:string" minOccurs="0" />
+                <xs:element name="Fax" type="xs:string" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="ContactPerson" type="xs:string" minOccurs="0" />
+                <xs:element name="Zip" type="xs:string" minOccurs="0" />
+                <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Image1" type="xs:string" minOccurs="0" />
+                <xs:element name="JobCardNo" type="xs:string" minOccurs="0" />
+                <xs:element name="CreateUser" type="xs:string" minOccurs="0" />
+                <xs:element name="CreateSig" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Items">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ItemName" type="xs:string" minOccurs="0" />
+                <xs:element name="RequiredQuantity" type="xs:string" minOccurs="0" />
+                <xs:element name="IssuedQuantity" type="xs:string" minOccurs="0" />
+                <xs:element name="PendingQuantity" type="xs:string" minOccurs="0" />
+                <xs:element name="StockQuantity" type="xs:string" minOccurs="0" />
+                <xs:element name="CurrentIssuedQuantity" type="xs:string" minOccurs="0" />
+                <xs:element name="UnitName" type="xs:string" minOccurs="0" />
+                <xs:element name="PartNo" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Head>
+    <StoreIssueRefNo>SI/17/93</StoreIssueRefNo>
+    <StoreIssueDate>18-Jan-2017</StoreIssueDate>
+    <StockpointName>Main Store</StockpointName>
+    <CustomerName>Al Danah Trading &amp; Contracting Co.</CustomerName>
+    <WONODATE>A-WRQ/17/44 , 18 Jan 2017</WONODATE>
+    <SONODATE>AARC/SER/17/46 , 17 Jan 2017</SONODATE>
+    <RequiredDate>18-Jan-2017 00:00:00</RequiredDate>
+    <EmployeeName>Giriesh Gopi</EmployeeName>
+    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
+    <Street>Hiteen Street, Muntazah </Street>
+    <State>Doha</State>
+    <CountryName>QATAR</CountryName>
+    <Fax>974 4414 2910</Fax>
+    <Email>info@arabrefrigeration.com</Email>
+    <Zip>13037</Zip>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <JobCardNo>AARC/17/JC-S/46</JobCardNo>
+    <CreateUser>aakash</CreateUser>
+    <CreateSig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\</CreateSig>
+  </Head>
+  <Items>
+    <ItemName>IDLER PULLEY - BLACK</ItemName>
+    <RequiredQuantity>1.00</RequiredQuantity>
+    <IssuedQuantity>1</IssuedQuantity>
+    <PendingQuantity>0</PendingQuantity>
+    <StockQuantity>33.000</StockQuantity>
+    <CurrentIssuedQuantity>1</CurrentIssuedQuantity>
+    <UnitName>Nos</UnitName>
+  </Items>
+</NewDataSet>

@@ -22,15 +22,19 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.type = type;
             FillSalesInvoice(type);
+            ViewBag.startdate = FYStartdate;
             return View();
         }
 
         public ActionResult PreviousList(string type, DateTime? from, DateTime? to, int id = 0)
         {
+            from = from ?? FYStartdate;
+            to = to ?? DateTime.Today;
             return PartialView("_PreviousListGrid", new SalesInvoiceRepository().PreviousList(type: type, from: from, to: to, id: id, OrganizationId: OrganizationId));
         }
 
         public ActionResult PendingSalesInvoice(string invType, string InstallType = "all")
+        
         {
          
             //ViewBag.saleOrderList = new SelectList(Repo.GetSalesInvoiceCustomerList(invType, OrganizationId), "SaleOrderId", "SaleOrderRefNoWithDate");
@@ -241,7 +245,7 @@ namespace ArabErp.Web.Controllers
             return RedirectToAction("PendingApproval");
         }
 
-        public ActionResult Print(int Id)
+        public ActionResult InvoiceReport(int Id)
         {
 
             ReportDocument rd = new ReportDocument();

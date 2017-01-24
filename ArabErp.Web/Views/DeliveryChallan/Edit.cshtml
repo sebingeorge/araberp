@@ -44,7 +44,7 @@
     }
 
     function GoToPrint() {
-        var url = '@Url.Action("Print", new { Id = Model.DeliveryChallanId })';
+        var url = '@Url.Action("DeliveryChallan", new { DeliveryChallanId = Model.DeliveryChallanId })';
         window.open(url);
     }
 
@@ -100,7 +100,13 @@
                 </div>
                 <div class="col-md-2">
                     <label>Reg. No.</label>
-                    @Html.TextBoxFor(m => Model.RegistrationNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    @if (Model.isService == 0) { 
+                    @Html.TextBoxFor(m => Model.RegistrationNo, new { @class = "form_input", autocomplete = "off" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => Model.RegistrationNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })
+                    }
                     @*<input type="text" class="form_input" id="txtRegNo" readonly />*@
                 </div>
                 <div class="col-md-2">

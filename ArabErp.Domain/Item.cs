@@ -37,6 +37,9 @@ namespace ArabErp.Domain
         public Boolean CriticalItem { get; set; }
         public Boolean FreezerUnit { get; set; }
         public Boolean Box { get; set; }
+        public Boolean CondenserUnit { get; set; }
+        public Boolean EvaporatorUnit { get; set; }
+        public Boolean Door { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int? OrganizationId { get; set; }
@@ -44,13 +47,9 @@ namespace ArabErp.Domain
         public string ItemGroupName { get; set; }
         public string ItemSubGroupName { get; set; }
         public string UnitName { get; set; }
-
         public string DoorNo { get; set; }
-
         public string Street { get; set; }
-
         public string State { get; set; }
-
         public int Country { get; set; }
         public string CountryName { get; set; }
         public string Zip { get; set; }
@@ -62,6 +61,7 @@ namespace ArabErp.Domain
         public string Image1 { get; set; }
         public decimal? CurrentStock { get; set; }
         public bool isConsumable { get; set; }
+
 
         public List<WorkVsItem> ItemVsBom { get; set; }
         public List<WorkVsTask> ItemVsTasks { get; set; }

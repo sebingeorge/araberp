@@ -1,16 +1,13 @@
 ﻿@model ArabErp.Domain.ProjectCompletion
 
 @{
-    ViewBag.Title = "Project Completion Details";
+    ViewBag.Title = "Project Commissioning Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script type="text/javascript">
 
     $(document).ready(function () {
-
-        //$('input').attr("readonly", true);
-
         $("#ProjectCompletionDate").datepicker({
             dateFormat: "dd MM yy"
         });
@@ -21,53 +18,22 @@
             changeMonth: true,
             yearRange: year + ":" + (year + 3)
         });
-
-        //---------------------toastr---------------------------//
-        toastr.options = {
-            "positionClass": "toast-bottom-full-width",
-            "timeOut": "5000",
-            "extendedTimeOut": "2000"
-        }
-        if ('@TempData["success"]' != '') {
-            toastr.success('@TempData["success"]');
-        }
-        else if ('@TempData["error"]' != '') {
-            toastr.error('@TempData["error"]'.split('|')[0]);
-            console.log('@TempData["error"]'.split('|')[1]);
-        }
-        @{ TempData["success"] = TempData["error"] = ""; }
-        //------------------------------------------------------//
-
     })
 
-    function GoToPrint(id) {
-        var url = '@Url.Action("Print")';
-        url += "?Id=" + id;
-        window.location = url;
-    }
-
-    function Delete() {
-        var url = '@Url.Action("Delete", new { ProjectCompletionId = Model.ProjectCompletionId })';
-        window.location = url;
-    }
-
-    function Exit() {
-        var url = '@Url.Action("Index")';
+    function Back() {
+        var url = '@Url.Action("Pending")';
         window.location = url;
     }
 
 </script>
 
 <div class="row">
-    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "ProjectCompletion_form"}))
-        {
     <div class="form-head1">
-        <h4>Project Completion Commissioning/Handover Details</h4>
+        <h4>Project Commissioning/Handover</h4>
     </div>
     <div class="main-part pad1">
         <form method="post">
             @Html.HiddenFor(m => m.SaleOrderId)
-            @Html.HiddenFor(m => m.ProjectCompletionId)
             <div class="row form-group">
                 <div class="col-md-2">
                     <label for="ProjectCompletionRefNo">Project Completion No.</label>
@@ -82,7 +48,7 @@
                     @Html.TextBoxFor(m => m.ProjectWarrantyExpiryDate, Model.ProjectWarrantyExpiryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
                 </div>
             </div>
-            @Html.Action("SaleOrderDetails", new { id = Model.SaleOrderId })
+            @Html.Action("SaleOrderDetails", Model.SaleOrderId)
 
             <div class="row form-group">
                 <div class="col-md-4">
@@ -93,149 +59,24 @@
                     <label for="aaa">Client</label>
                     @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input", @readonly = "true" })
                 </div>
-                @*<div class="col-md-4">
-                    <label for="aaa">Location</label>
-                    @Html.TextBoxFor(m => m.Location, new { @class = "form_input", @readonly = "true" })
-                </div>*@
             </div>
 
-            <h5>Chiller:</h5>
-            <hr>
-            <div class="row form-group">
-                <div class="col-md-1">
-                    <label for="ChillerTemperature">Temperature</label>
-                    @Html.TextBoxFor(m => m.ChillerTemperature, new { @class = "form_input" })
-                </div>
-                <div class="col-md-2">
-                    <label for="ChillerDimension">Dimension</label>
-                    @Html.TextBoxFor(m => m.ChillerDimension, new { @class = "form_input" })
-                </div>
-                <div class="col-md-3">
-                    <label for="ChillerCondensingUnit">Condensing Unit</label>
-                    @Html.TextBoxFor(m => m.ChillerCondensingUnit, new { @class = "form_input" })
-                </div>
-                <div class="col-md-3">
-                    <label for="ChillerEvaporator">Evaporator</label>
-                    @Html.TextBoxFor(m => m.ChillerEvaporator, new { @class = "form_input" })
-                </div>
-                <div class="col-md-2">
-                    <label for="ChillerRefrigerant">Refrigerant</label>
-                    @Html.TextBoxFor(m => m.ChillerRefrigerant, new { @class = "form_input" })
-                </div>
-                <div class="col-md-1">
-                    <label for="ChillerQuantity">Quantity</label>
-                    @Html.TextBoxFor(m => m.ChillerQuantity, new { @class = "form_input" })
-                </div>
-            </div>
+            <strong>Room Details:</strong>
+            @foreach (var item in Model.ProjectRoomAndUnitDetails)
+            {
+                @Html.Partial("_ProjectRoomAndUnitDetails", item)
+            }
 
 
-            <h5>Freezer:</h5>
-            <hr>
-            <div class="row form-group">
-                <div class="col-md-1">
-                    <label for="FreezerTemperature">Temperature</label>
-                    @Html.TextBoxFor(m => m.FreezerTemperature, new { @class = "form_input" })
-                </div>
-                <div class="col-md-2">
-                    <label for="FreezerDimension">Dimension</label>
-                    @Html.TextBoxFor(m => m.FreezerDimension, new { @class = "form_input" })
-                </div>
-                <div class="col-md-3">
-                    <label for="FreezerCondensingUnit">Condensing Unit</label>
-                    @Html.TextBoxFor(m => m.FreezerCondensingUnit, new { @class = "form_input" })
-                </div>
-                <div class="col-md-3">
-                    <label for="FreezerEvaporator">Evaporator</label>
-                    @Html.TextBoxFor(m => m.FreezerEvaporator, new { @class = "form_input" })
-                </div>
-                <div class="col-md-2">
-                    <label for="FreezerRefrigerant">Refrigerant</label>
-                    @Html.TextBoxFor(m => m.FreezerRefrigerant, new { @class = "form_input" })
-                </div>
-                <div class="col-md-1">
-                    <label for="FreezerQuantity">Quantity</label>
-                    @Html.TextBoxFor(m => m.FreezerQuantity, new { @class = "form_input" })
-                </div>
-            </div>
-
-            @*<strong>Job Card details:</strong>
-                @Html.Action("JobCardDetails", Model.SaleOrderId)
-                <br />*@
             <strong>Reserved Materials/Spares:</strong>
-            <div class="table-responsive scroll4">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="grid_heading">
-                            <th width="2%" class="text-center">#</th>
-                            <th width="30%"><h1>Serial Number</h1></th>
-                            <th width="30%"><h1>Item</h1></th>
-                            <th width="10%" nowrap><h1>Warranty Start Date</h1></th>
-                            <th width="10%" nowrap><h1>Warranty Expiry Date</h1></th>
-                        </tr>
-                    </thead>
-                    <tbody class="grid_row">
-                        @if (Model.ItemBatches.Count > 0)
-                        {
-                            int i = 0;
-                            foreach (var item in Model.ItemBatches)
-                            {
-                                <tr>
-                                    <td align="center">
-                                        @Html.HiddenFor(m => m.ItemBatches[i].ItemBatchId)
-                                        @*<input class="form_input" value="*@@(i + 1)@*" disabled />*@
-                                    </td>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.ItemBatches[i].SerialNo, new { @class = "form_input", @readonly = "true" })
-                                    </td>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.ItemBatches[i].ItemName, new { @class = "form_input", @readonly = "true" })
-                                    </td>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.ItemBatches[i].WarrantyStartDate, Model.ItemBatches[i].WarrantyStartDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input numbers-only", @required = "true", @readonly = "true" })
-                                    </td>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.ItemBatches[i].WarrantyExpireDate, Model.ItemBatches[i].WarrantyExpireDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input numbers-only", @required = "true", @readonly = "true" })
-                                    </td>
-                                </tr>
-                                i++;
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="5">
-                                    <center>
-                                        <em>
-                                            No reserved items could be found!
-                                        </em>
-                                    </center>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+            @Html.Partial("_ItemBatchDetails", Model)
             <div class="row">
                 <div class="col-md-12 col-md hrpart">
-                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                    @if(Model.IsUsed)
-                    {
-                        <span class="perm">
-                            <em>**Cannot edit/delete this Project Completion, because it is either used in another process or completed.</em>
-                        </span>
-                    }
-                    else
-                    {
-                        <button type="submit" class="form-button right">Edit</button>
-                        <input type="button" value="Delete" onclick="Delete()" class="form-button left" />
-                    }
-                    <input type="button" value="Print" onclick="GoToPrint(@Model.ProjectCompletionId)" class="form-button right" />
-                    
+                    <input class="form-button right" type="button" value="Exit" onclick="Back()" />
+                    <input class="form-button right" type="submit" value="Save" />
+
                 </div>
             </div>
         </form>
     </div>
-        }
 </div>
-
-

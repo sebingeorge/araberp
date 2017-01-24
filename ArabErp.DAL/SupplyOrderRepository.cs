@@ -23,10 +23,10 @@ namespace ArabErp.DAL
                 try
                 {
                     objSupplyOrder.SupplyOrderNo = DatabaseCommonRepository.GetNewDocNo(connection, objSupplyOrder.OrganizationId, 9, true, trn);
-                    string sql = @"insert into SupplyOrder(SupplyOrderNo,SupplyOrderDate,SupplierId,QuotaionNoAndDate,SpecialRemarks,
-                                   PaymentTerms,DeliveryTerms,RequiredDate,CreatedBy,CreatedDate,OrganizationId, CurrencyId) 
-                                   Values (@SupplyOrderNo,@SupplyOrderDate,@SupplierId,@QuotaionNoAndDate,@SpecialRemarks,@PaymentTerms,
-                                   @DeliveryTerms,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId, @CurrencyId);
+                    string sql = @"insert into SupplyOrder(SupplyOrderNo,SupplyOrderDate,SupplierId,QuotaionNoAndDate,SpecialRemarks,PaymentTerms,
+                                   DeliveryTerms,RequiredDate,CreatedBy,CreatedDate,OrganizationId,CurrencyId,NetDiscount,DiscountRemarks,NetAmount) 
+                                   Values (@SupplyOrderNo,@SupplyOrderDate,@SupplierId,@QuotaionNoAndDate,@SpecialRemarks,@PaymentTerms,@DeliveryTerms,
+                                           @RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId, @CurrencyId,@NetDiscount,@DiscountRemarks,@NetAmount);
                                    SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = connection.Query<int>(sql, objSupplyOrder, trn).Single<int>();
@@ -225,7 +225,7 @@ namespace ArabErp.DAL
 	                                PaymentTerms,
 	                                DeliveryTerms,
 	                                RequiredDate,
-	                                CurrencyId,
+	                                CurrencyId,NetDiscount,DiscountRemarks,NetAmount,
 									@isUsed isUsed
                                 FROM SupplyOrder
                                 WHERE SupplyOrderId = @SupplyOrderId
@@ -308,9 +308,9 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @" UPDATE SupplyOrder SET SupplyOrderNo=@SupplyOrderNo,SupplyOrderDate = @SupplyOrderDate ,SupplierId = @SupplierId ,
-                                QuotaionNoAndDate = @QuotaionNoAndDate ,
-                                SpecialRemarks = @SpecialRemarks,PaymentTerms = @PaymentTerms,DeliveryTerms = @DeliveryTerms,
-                                RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,CurrencyId=@CurrencyId
+                                QuotaionNoAndDate = @QuotaionNoAndDate , SpecialRemarks = @SpecialRemarks,PaymentTerms = @PaymentTerms,
+                                DeliveryTerms = @DeliveryTerms,RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,
+                                CurrencyId=@CurrencyId,NetDiscount=@NetDiscount,DiscountRemarks=@DiscountRemarks,NetAmount=@NetAmount
                                 WHERE SupplyOrderId = @SupplyOrderId";
                 var id = connection.Execute(sql, objSupplyOrder);
                 //InsertLoginHistory(dataConnection, objSupplyOrder.CreatedBy, "Update", "LPO", id.ToString(), "0");
@@ -555,25 +555,16 @@ namespace ArabErp.DAL
             {
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
-                    string query = @"SELECT O.*,SU.DoorNo SupDoorNo,Su.State SupState,SU.Phone SupPhone,SU.Fax SupFax,Su.Email SupEmail,SU.PostBoxNo SupPostBoxNo, CU.CountryName SupCountryName,
-                                    SupplyOrderId,
-	                                SupplyOrderNo,
-                                    SU.SupplierName,
-	                                CONVERT(DATETIME, SupplyOrderDate, 106) SupplyOrderDate,
-	                                QuotaionNoAndDate,
-	                                SpecialRemarks,
-	                                S.PaymentTerms,
-	                                DeliveryTerms,
-	                                RequiredDate,
-	                               CurrencyName,
-								   U.UserName CreatedUser,
-								   U.Signature CreatedUsersig ,
-								   D.DesignationName CreatedDes,
-								   DU.DesignationName ApprovedDes,
-								   UI.UserName ApprovedUser ,
-								   UI.Signature ApprovedUsersig,
-								   ORR.CountryName
+                    string query = @"SELECT O.*,SU.DoorNo SupDoorNo,Su.State SupState,SU.Phone SupPhone,SU.Fax SupFax,Su.Email SupEmail,
+                                    SU.PostBoxNo SupPostBoxNo, CU.CountryName SupCountryName,
+                                    S.SupplyOrderId,SupplyOrderNo,SU.SupplierName,CONVERT(DATETIME, SupplyOrderDate, 106) SupplyOrderDate,
+                                    QuotaionNoAndDate,SpecialRemarks,S.PaymentTerms,DeliveryTerms,RequiredDate,CurrencyName,U.UserName CreatedUser,
+                                    U.Signature CreatedUsersig ,D.DesignationName CreatedDes,DU.DesignationName ApprovedDes,UI.UserName ApprovedUser ,
+                                    UI.Signature ApprovedUsersig,ORR.CountryName, 
+                                    Sum(ISNULL(SI.Amount,0))Amount,ISNULL(NetDiscount,0)NetDiscount,
+                                    (Sum(ISNULL(SI.Amount,0))-ISNULL(NetDiscount,0))NetAmount 
                                    FROM SupplyOrder S
+                                   INNER JOIN SupplyOrderItem SI ON SI.SupplyOrderId=S.SupplyOrderId
 								   INNER JOIN Supplier SU ON SU.SupplierId=S.SupplierId
 							       INNER JOIN Organization O ON O.OrganizationId=S.OrganizationId
 								   left JOIN Currency C ON C.CurrencyId=S.CurrencyId
@@ -583,8 +574,15 @@ namespace ArabErp.DAL
 								   left join Designation D ON D.DesignationId=U.DesignationId
 								   left join [User] UI ON UI.UserId=S.ApprovedBy
 								   left join Designation DU ON DU.DesignationId=UI.DesignationId
-                                   WHERE SupplyOrderId = @SupplyOrderId
-	                               AND ISNULL(S.isActive, 1) = 1;";
+                                   WHERE S.SupplyOrderId = @SupplyOrderId
+	                               AND ISNULL(S.isActive, 1) = 1
+                                   GROUP BY O.OrganizationId,O.OrganizationName,O.isActive,O.CurrencyId,O.OrganizationRefNo,O.FyId,
+                                   O.DoorNo,O.Street,O.State,O.Country,O.Phone,O.Fax,O.Email,O.ContactPerson,O.Zip,O.Image1,O.cmpCode,
+                                   SU.DoorNo,Su.State,SU.Phone,SU.Fax ,Su.Email,
+                                   SU.PostBoxNo,CU.CountryName,
+                                   S.SupplyOrderId,SupplyOrderNo,SU.SupplierName,SupplyOrderDate,
+                                   QuotaionNoAndDate,SpecialRemarks,S.PaymentTerms,DeliveryTerms,RequiredDate,CurrencyName,U.UserName,
+                                   U.Signature,D.DesignationName,DU.DesignationName,UI.UserName,UI.Signature,ORR.CountryName,NetDiscount,NetAmount;";
 
                     var objSupplyOrder = connection.Query<SupplyOrder>(query, new
                     {

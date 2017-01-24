@@ -64,16 +64,17 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>AARC/SI/17/27</SalesInvoiceRefNo>
-    <SalesInvoiceDate>09-Jan-2017</SalesInvoiceDate>
-    <VehicleOutPassNo>DV/17/4</VehicleOutPassNo>
-    <CustomerName>Amwaj Catering Services</CustomerName>
-    <Address>Doha ,Qatar,,0</Address>
-    <CustomerOrderRef>Mail Confirm</CustomerOrderRef>
-    <RegistrationNo>202313</RegistrationNo>
-    <JobCardNo>AARC/17/JC-S/2</JobCardNo>
-    <TotalAmount>4490.00</TotalAmount>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <SalesInvoiceRefNo>AARC/SI/17/56</SalesInvoiceRefNo>
+    <SalesInvoiceDate>18-Jan-2017</SalesInvoiceDate>
+    <VehicleOutPassNo>DV/17/52</VehicleOutPassNo>
+    <CustomerName>United International</CustomerName>
+    <Address>Doha, Qatar,,0</Address>
+    <CustomerOrderRef />
+    <PaymentTerms>Due on Receipt</PaymentTerms>
+    <RegistrationNo>42569</RegistrationNo>
+    <JobCardNo>AARC/17/JC-S/43</JobCardNo>
+    <TotalAmount>750.00</TotalAmount>
+    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
@@ -86,44 +87,25 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <CreateUser>safiq</CreateUser>
-    <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSig>
+    <CreateSig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSig>
     <CreatedDes>Workshop Controller</CreatedDes>
-    <ApproveSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</ApproveSig>
+    <ApproveSig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\</ApproveSig>
   </Head>
   <Items>
-    <PrintDescription>Compressor Shaft Seal
-Battery
-Engine Rear Seal
-Regulator Brush
-O-ring
-Filter Drier
-Gasket
-Engine to Compressor Belt
-Compressor to Motor Belt
-Alternator Belt
-Evaporator Shaft Belt
-Water Pump Belt
-Pressure Testing, Vacuuming &amp; Gas Charging
-Labor Charges</PrintDescription>
-    <Quantity>1.00</Quantity>
-    <UoM>ea</UoM>
-    <PriceEach>4490.00</PriceEach>
-    <Amount>4490.00</Amount>
-  </Items>
-  <Items>
-    <PrintDescription>Oil Service of TK MD 200:
+    <PrintDescription>Oil Service of Hwasung HT 250:
 Replace Engine Oil, Oil Filter, Fuel Filter, Air Filter,
 Replace By-pass Oil Filter
 Top-up Refrigerant &amp; Coolant Water
-General Check-up &amp; Maintenance</PrintDescription>
+General Check-up &amp; Maintenance
+</PrintDescription>
     <Quantity>1.00</Quantity>
     <UoM>ea</UoM>
-    <PriceEach>0.00</PriceEach>
-    <Amount>0.00</Amount>
+    <PriceEach>750.00</PriceEach>
+    <Amount>750.00</Amount>
   </Items>
   <DeliveryChallans>
-    <DeliveryChallanRefNo>DV/17/4</DeliveryChallanRefNo>
-    <JobCardNo>AARC/17/JC-S/2</JobCardNo>
-    <Chassiss_RegNo>202313</Chassiss_RegNo>
+    <DeliveryChallanRefNo>DV/17/52</DeliveryChallanRefNo>
+    <JobCardNo>AARC/17/JC-S/43</JobCardNo>
+    <Chassiss_RegNo>42569</Chassiss_RegNo>
   </DeliveryChallans>
 </NewDataSet>

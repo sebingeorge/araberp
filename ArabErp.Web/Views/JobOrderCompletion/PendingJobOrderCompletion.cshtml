@@ -13,8 +13,9 @@
             @if (isProjectBased == 0)
             {
                 <th width="25%"><h1>Vehicle Model</h1></th>
+                <th width="20%" nowrap><h1> Reg No./Chassis No.</h1></th>
             }
-            <th width="20%" nowrap><h1> Reg No./Chassis No.</h1></th>
+           
             <th width="1%"><center><h1></h1></center></th>
         </tr>
     </thead>
@@ -31,18 +32,16 @@
                     @if (isProjectBased == 0)
                     {
                         <td>@item.VehicleModelName</td>
+                        <td>
+                            @item.RegistrationNo
+                            @if ((item.RegistrationNo != null && item.RegistrationNo != "") && (item.ChassisNo != null && item.ChassisNo != ""))
+                            {
+                                @: -
+                                                        }
+                            @item.ChassisNo
+                        </td>
                     }
-
-                    <td>
-                        @item.RegistrationNo
-                        @if ((item.RegistrationNo != null && item.RegistrationNo != "") && (item.ChasisNo != null && item.ChasisNo != ""))
-                        {
-                            @: -
-                                    }
-                        @item.ChasisNo
-                    </td>
-
-                    <td>
+                        <td>
                         <center>
                             @if (item.isOnHold)
                             {

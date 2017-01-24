@@ -62,9 +62,10 @@
         var cusid = $("#cboCustomer").val();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
+        var Employee=$("#cboEmployee").val();
         var url = '@Url.Action("SalesQuotationsList")';
       
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&ProjectBased=" + @ViewBag.isProjectBased + "&AfterSales=" + @ViewBag.isAfterSales ;
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid +"&Employee="+ Employee +"&ProjectBased=" + @ViewBag.isProjectBased + "&AfterSales=" + @ViewBag.isAfterSales ;
         $("#Quotationlist").load(url, function () {
             $("#Quotationlist").removeClass("fade");
 
@@ -89,9 +90,14 @@
                 @Html.DropDownList("sqNo", (SelectList)ViewBag.QuotationNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="cboCustomer">Customer</label>
                 @Html.DropDownList("cboCustomer", (SelectList)ViewBag.customerlist, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+
+            <div class="col-md-2">
+                <label for="cboEmployee">Employee</label>
+                @Html.DropDownList("cboEmployee", (SelectList)ViewBag.Employeelist, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
 
             <div class="col-md-2">

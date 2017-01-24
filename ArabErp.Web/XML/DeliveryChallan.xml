@@ -67,26 +67,26 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DV/17/20</DeliveryChallanRefNo>
-    <DeliveryChallanDate>09-Jan-2017</DeliveryChallanDate>
-    <Customer>Crompton International</Customer>
-    <CDoorNo>Doha , Qatar</CDoorNo>
-    <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SO/TR/18</SaleRefNo>
-    <SONoDate>14 Dec 2016</SONoDate>
-    <JobcardNo>AARC/JC/40</JobcardNo>
-    <JCDate>31-Dec-2016 12:00:00 AM</JCDate>
-    <RegistrationNo>153619</RegistrationNo>
-    <ChassisNo>0</ChassisNo>
-    <WorkDesc>MRA BUS AC UNIT</WorkDesc>
-    <VehicleModel>TATA 66 SEATER</VehicleModel>
+    <DeliveryChallanRefNo>DV/17/68</DeliveryChallanRefNo>
+    <DeliveryChallanDate>19-Jan-2017</DeliveryChallanDate>
+    <Customer>UNITED CAR RENTALS Co W.L.L</Customer>
+    <CDoorNo>Doha</CDoorNo>
+    <CStreet />
+    <CCountry>QATAR</CCountry>
+    <SaleRefNo>AARC/SO/TR/17/7</SaleRefNo>
+    <SONoDate>08 Jan 2017</SONoDate>
+    <JobcardNo>AARC/JC/17/8</JobcardNo>
+    <JCDate>11-Jan-2017 00:00:00</JCDate>
+    <RegistrationNo>213239</RegistrationNo>
+    <WorkDesc>Thermal Matser T1400-R</WorkDesc>
+    <VehicleModel>Toyota Hiace Standard Glass Van , 3 seater</VehicleModel>
     <Employee>Mohammed Safiq</Employee>
-    <PaymentTerms>100% before Delivery</PaymentTerms>
-    <QuotationRefNo>AARC/SQ/18</QuotationRefNo>
-    <FreezerName>MRA BUS AC UNIT</FreezerName>
-    <FreezerPartNo>D4BB G015387</FreezerPartNo>
-    <FreezerId>952</FreezerId>
-    <Box>1260</Box>
+    <PaymentTerms>Due on Receipt</PaymentTerms>
+    <QuotationRefNo>AARC/SQ/17/6</QuotationRefNo>
+    <FreezerName>Thermal Matser T1400-R</FreezerName>
+    <FreezerPartNo>TH-11VP-71</FreezerPartNo>
+    <FreezerId>1240</FreezerId>
+    <Box>AARC 1273</Box>
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -96,18 +96,24 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
+    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo>CITC/179/2016</LPONo>
-    <LPODate>14-Dec-2016</LPODate>
+    <LPONo>9985</LPONo>
+    <LPODate>08-Jan-2017</LPODate>
     <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
-    <ApprovedUsersig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
+    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <ApprovedUsersig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
   </Head>
   <Items>
-    <Description>Supply, Installation &amp; Commissioning of MRA 512PN
-Bus AC Unit into Tata 66Seater Bus
-</Description>
+    <Description>Supply &amp; Installation of 50mm Panel on Walls &amp; 100mm Panels on Floor 
+Covered with 2mm thick Aluminum Chequered Sheet with 1 Door 
+(One Rear Doors) into Toyota Hiace 6str Van</Description>
+    <UoM>ea</UoM>
+    <Quantity>1</Quantity>
+  </Items>
+  <Items>
+    <Description>Supply, Installation &amp; Commissioning of Thermal Master
+T1400 (12V without Stand-by) into Toyota Hiace Van</Description>
     <UoM>ea</UoM>
     <Quantity>1</Quantity>
   </Items>

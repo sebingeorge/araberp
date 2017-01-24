@@ -130,10 +130,10 @@ namespace ArabErp.DAL
 
                 string sql = @"insert  into Item(ItemRefNo,PartNo,ItemName,ItemPrintName,ItemShortName,ItemGroupId,ItemSubGroupId,
                                                 ItemCategoryId,ItemUnitId,MinLevel,ReorderLevel,MaxLevel,BatchRequired,StockRequired,
-                                                CriticalItem,FreezerUnit,Box,OrganizationId,CreatedBy,CreatedDate, isConsumable) Values
+                                                CriticalItem,FreezerUnit,Box,OrganizationId,CreatedBy,CreatedDate, isConsumable,CondenserUnit,EvaporatorUnit,Door) Values
                                                 (@ItemRefNo,@PartNo,@ItemName,@ItemPrintName,@ItemShortName,@ItemGroupId,@ItemSubGroupId,
                                                 @ItemCategoryId,@ItemUnitId,@MinLevel,@ReorderLevel,@MaxLevel,@BatchRequired,@StockRequired,
-                                                @CriticalItem,@FreezerUnit,@Box,@OrganizationId,@CreatedBy,@CreatedDate, @isConsumable);
+                                                @CriticalItem,@FreezerUnit,@Box,@OrganizationId,@CreatedBy,@CreatedDate, @isConsumable,@CondenserUnit,@EvaporatorUnit,@Door);
                                                 SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -145,7 +145,7 @@ namespace ArabErp.DAL
                     int id = connection.Query<int>(sql, objItem, trn).Single();
                     objItem.ItemId = id;
 
-                    if (objItem.FreezerUnit || objItem.Box)
+                    if (objItem.FreezerUnit || objItem.Box || objItem.CondenserUnit || objItem.Door ||objItem.EvaporatorUnit)
                     {
                         InsertItemVsBOM(connection, trn, objItem);
                         InsertItemVsTasks(connection, trn, objItem);
@@ -168,10 +168,12 @@ namespace ArabErp.DAL
 
         private void InsertItemVsTasks(IDbConnection connection, IDbTransaction txn, Item model)
         {
+
             string query = @"INSERT INTO ItemVsTasks(ItemId, JobCardTaskMasterId, Hours)
                             VALUES(@ItemId, @JobCardTaskMasterId, @Hours)";
             foreach (var item in model.ItemVsTasks)
             {
+                if (item.JobCardTaskMasterId == 0) continue;
                 connection.Execute(query, new { ItemId = model.ItemId, JobCardTaskMasterId = item.JobCardTaskMasterId, Hours = item.Hours }, txn);
             }
         }
@@ -231,7 +233,7 @@ namespace ArabErp.DAL
                                ItemShortName = @ItemShortName,ItemGroupId = @ItemGroupId,ItemSubGroupId = @ItemSubGroupId,
                                ItemCategoryId = @ItemCategoryId,ItemUnitId = @ItemUnitId ,MinLevel = @MinLevel,MaxLevel = @MaxLevel,
                                ReorderLevel = @ReorderLevel,BatchRequired = @BatchRequired ,StockRequired = @StockRequired,
-                               CriticalItem=@CriticalItem,FreezerUnit=@FreezerUnit,Box=@Box, isConsumable = @isConsumable OUTPUT INSERTED.ItemId  WHERE ItemId = @ItemId";
+                               CriticalItem=@CriticalItem,FreezerUnit=@FreezerUnit,Box=@Box, isConsumable = @isConsumable,CondenserUnit =@CondenserUnit,EvaporatorUnit =@EvaporatorUnit,Door =@Door OUTPUT INSERTED.ItemId  WHERE ItemId = @ItemId";
 
                 try
                 {
@@ -239,7 +241,8 @@ namespace ArabErp.DAL
                     //objItem.ItemId = id;
                     DeleteItemVsBom(connection, txn, objItem.ItemId);
                     DeleteItemVsTasks(connection, txn, objItem.ItemId);
-                    if (objItem.FreezerUnit || objItem.Box)
+                    if (objItem.FreezerUnit || objItem.Box || objItem.CondenserUnit || objItem.Door || objItem.EvaporatorUnit)
+                    //if (objItem.FreezerUnit || objItem.Box)
                     {
                         InsertItemVsBOM(connection, txn, objItem);
                         InsertItemVsTasks(connection, txn, objItem);

@@ -73,7 +73,9 @@ namespace ArabErp.Domain
         public string SupEmail { get; set; }
         public string CreatedDes { get; set; }
         public string ApprovedDes { get; set; }
-      
+        public decimal NetDiscount { get; set; }
+        public string DiscountRemarks { get; set; }
+        public decimal NetAmount { get; set; }
         public List<SupplyOrderItem> SupplyOrderItems { get; set; }
         public bool isUsed { get; set; }
         // public string SoNoWithDate
