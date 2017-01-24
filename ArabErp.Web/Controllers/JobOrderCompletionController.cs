@@ -57,10 +57,10 @@ namespace ArabErp.Web.Controllers
             return View(jobcard);
         }
 
-        public ActionResult PendingJobOrderCompletion(int isProjectBased, int id = 0, int cusid = 0/*, string RegNo = ""*/)
+        public ActionResult PendingJobOrderCompletion(int isProjectBased, int id = 0, int cusid = 0, string RegNo = "")
            
         {
-            return PartialView("PendingJobOrderCompletion", new JobOrderCompletionRepository().GetPendingJobOrder(isProjectBased, OrganizationId, id, cusid/*, RegNo*/));
+            return PartialView("PendingJobOrderCompletion", new JobOrderCompletionRepository().GetPendingJobOrder(isProjectBased, OrganizationId, id, cusid, RegNo));
 
             //JobOrderCompletionRepository repo = new JobOrderCompletionRepository();
             //var result = repo.GetPendingJobOrder(isProjectBased, OrganizationId);
