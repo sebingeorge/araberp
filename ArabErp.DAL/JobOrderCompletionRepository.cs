@@ -250,7 +250,10 @@ namespace ArabErp.DAL
                             query = string.Empty;
                             //query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where JobCardId = " + jobcard.JobCardId.ToString() + ";";
                             //query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + ",StartTime = " + item.StartTime.ToString() + ",EndTime = " + item.EndTime.ToString() + "  where SlNo = " + item.SlNo.ToString() + " and JobCardId = " + jobcard.JobCardId.ToString() + ";";
+                            if (jobcard.isProjectBased == 0)
                             query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where SlNo = " + item.SlNo.ToString() + " and JobCardId = " + jobcard.JobCardId.ToString() + ";";
+                            else
+                                query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where JobCardTaskId = " + item.JobCardTaskId.ToString();
                             connection.Query(query, transaction: txn);
                         }
                     }

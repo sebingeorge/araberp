@@ -424,7 +424,7 @@ namespace ArabErp.Web.Controllers
             {
                 new JobCardRepository().UpdateJobCard(model);
                 TempData["success"] = "Updated Successfully (" + model.JobCardNo + ")";
-                return RedirectToAction("Index", new { isProjectBased = model.isProjectBased, service = model.isService });
+                return RedirectToAction("Index", new { ProjectBased = model.isProjectBased, service = model.isService });
             }
             catch (Exception)
             {
@@ -444,7 +444,7 @@ namespace ArabErp.Web.Controllers
                 //JobCard model = new JobCardRepository().GetJobCardDetails2(JobCardId, OrganizationId);
                 JobCard model = new JobCardRepository().DeleteJobCard(JobCardId);
                 TempData["success"] = "Deleted Successfully (" + model.JobCardNo + ")";
-                return RedirectToAction("Index", new { isProjectBased = model.isProjectBased, service = model.isService });
+                return RedirectToAction("Index", new { ProjectBased = model.isProjectBased, service = model.isService });
             }
             catch (Exception)
             {

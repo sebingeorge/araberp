@@ -245,7 +245,7 @@
                             <div class="col-md-6">
                                 <label for="wrkdes">Unit Details</label>
                                 @Html.TextAreaFor(m => m.UnitDetails, new { @class = "form_input", autocomplete = "off", @readonly = "true", @style = "height:60px" })
-                               
+
                             </div>
                             <div class="col-md-6">
                                 <label for="wrkdes">Complaints</label>
@@ -299,15 +299,15 @@
                             @Html.DropDownListFor(m => Model.BayId, (SelectList)ViewBag.BayList, "Select Bay", new { @class = "form_input", autocomplete = "off", @required = "true" })
                         </div>
                     </div>
-                    if(Model.isService ==0)
+                    if (Model.isService == 0)
                     {
-                       <div class="row form-group">
-                        <div class="col-md-12">
-                            <label for="accessories">Accessories</label>
-                            @Html.TextBoxFor(m => m.Accessories, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
-                            @*@Html.HiddenFor(m => m.WorkDescriptionId, new { @class = "form_input", autocomplete = "off" })*@
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label for="accessories">Accessories</label>
+                                @Html.TextBoxFor(m => m.Accessories, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                                @*@Html.HiddenFor(m => m.WorkDescriptionId, new { @class = "form_input", autocomplete = "off" })*@
+                            </div>
                         </div>
-                   </div>  
                     }
                 }
 
@@ -329,7 +329,10 @@
                                 <th width="35%"><h1>Task</h1></th>
                                 @*@if (Model.isProjectBased == 0)
                                     {*@
-                                <th width="35%"><h1>Technician</h1></th>
+                                @if (Model.isProjectBased == 0)
+                                {
+                                    <th width="35%"><h1>Technician</h1></th>
+                                }
                                 @*}*@
                                 <th width="12%"><h1>Date</h1></th>
                                 <th width="5%"><h1>Hrs.</h1></th>
@@ -350,9 +353,12 @@
                                     </td>
                                     @*@if (Model.isProjectBased == 0)
                                         {*@
-                                    <td>
-                                        @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Technician", new { @class = "form_input", autocomplete = "off", @onchange = "CheckDuplication(this," + row + ")" })
-                                    </td>
+                                    @if (Model.isProjectBased == 0)
+                                    {
+                                        <td>
+                                            @Html.DropDownListFor(m => Model.JobCardTasks[row].EmployeeId, (SelectList)ViewBag.EmployeeList, "Select Technician", new { @class = "form_input", autocomplete = "off", @onchange = "CheckDuplication(this," + row + ")" })
+                                        </td>
+                                    }
                                     @*}*@
                                     <td>
                                         @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly", @onchange = "CheckDuplication(this," + row + ")" })
@@ -364,7 +370,7 @@
                                         <a id="add_@row" class="glyphicon glyphicon-plus" @*type="button" value="Add"*@ onclick="AddRowBelow(@row);" style="top:0;"></a>
                                     </td>
                                 </tr>
-                                row++;
+                                    row++;
                             }
                         </tbody>
                     </table>
