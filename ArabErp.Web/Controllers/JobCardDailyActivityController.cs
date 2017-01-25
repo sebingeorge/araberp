@@ -30,11 +30,13 @@ namespace ArabErp.Web.Controllers
             JobCardRepository jcRepo = new JobCardRepository();
             EmployeeRepository emRepo = new EmployeeRepository();
             JobCard jc = jcRepo.GetDetailsById(Id, null);
-            FillTaks(jc.WorkDescriptionId);
+            //FillTaks(jc.WorkDescriptionId);
             JobCardDailyActivity model = new JobCardDailyActivity();
              if (jc.isProjectBased==1)
             {
                 model.JobCardDailyActivityRefNo = DatabaseCommonRepository.GetNextDocNo(38, OrganizationId);
+                FillTasks();
+                FillEmployees();
             }
             else
             {
@@ -43,7 +45,18 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = DateTime.Now;
             model.JobCardDailyActivityDate = DateTime.Now;
             model.isProjectBased = jc.isProjectBased;
-            model.JobCardDailyActivityTask = new JobCardDailyActivityRepository().GetJobCardTasksForDailyActivity(Id, OrganizationId);
+            if (model.isProjectBased == 0)
+                model.JobCardDailyActivityTask = new JobCardDailyActivityRepository().GetJobCardTasksForDailyActivity(Id, OrganizationId);
+            else
+            {
+                model.JobCardDailyActivityTask = new List<JobCardDailyActivityTask>();
+                model.JobCardDailyActivityTask.Add(new JobCardDailyActivityTask
+                {
+                    TaskStartDate = model.JobCardDailyActivityDate,
+                    TaskEndDate = model.JobCardDailyActivityDate
+                });
+            }
+
             //if (model.JobCardDailyActivityTask.Count > 0)
             //{
             //    foreach (var item in model.JobCardDailyActivityTask)
@@ -61,6 +74,16 @@ namespace ArabErp.Web.Controllers
             ViewBag.isTxnPending = true;
             return View(model);
         }
+
+        private void FillEmployees()
+        {
+            ViewBag.employeeList = new SelectList(new DropdownRepository().EmployeeDropdown(), "Id", "Name");
+        }
+
+        private void FillTasks()
+        {
+            ViewBag.taskList = new SelectList(new DropdownRepository().TaskDropdown(OrganizationId), "Id", "Name");
+        }
         [HttpPost]
         public ActionResult Create(JobCardDailyActivity model)
         {
@@ -73,7 +96,11 @@ namespace ArabErp.Web.Controllers
                 {
                     JobCardDailyActivityRepository repo = new JobCardDailyActivityRepository();
                     model.CreatedDate = DateTime.Now;
-                    var id = repo.InsertJobCardDailyActivity(model);
+                    int id = 0;
+                    if (model.isProjectBased == 0)
+                        id = repo.InsertJobCardDailyActivity(model);
+                    else
+                        id = repo.InsertProjectDailyActivity(model);
                     if (id == 0)
                     {
                         TempData["error"] = "Some error occured while saving. Please try again.";

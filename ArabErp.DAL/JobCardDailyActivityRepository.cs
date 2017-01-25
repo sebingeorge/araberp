@@ -24,13 +24,13 @@ namespace ArabErp.DAL
 
                     if (objJobCardDailyActivity.isProjectBased == 1)
                     {
-                         internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCardDailyActivity.OrganizationId, 38, true, trn);
+                        internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCardDailyActivity.OrganizationId, 38, true, trn);
                     }
                     else
                     {
-                         internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCardDailyActivity.OrganizationId, 27, true, trn);
+                        internalId = DatabaseCommonRepository.GetNewDocNo(connection, objJobCardDailyActivity.OrganizationId, 27, true, trn);
                     }
-                   
+
                     objJobCardDailyActivity.JobCardDailyActivityRefNo = internalId.ToString();
                     string sql = @"insert  into JobCardDailyActivity (JobCardDailyActivityDate,JobCardId,JobCardDailyActivityRefNo,Remarks,EmployeeId,CreatedBy,CreatedDate,OrganizationId) 
                                                             Values (@JobCardDailyActivityDate,@JobCardId,@JobCardDailyActivityRefNo,@Remarks,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId);
@@ -41,7 +41,7 @@ namespace ArabErp.DAL
 
                     foreach (var item in objJobCardDailyActivity.JobCardDailyActivityTask)
                     {
-                        if (item.ActualHours == null ||  item.ActualHours == 0) continue;
+                        if (item.ActualHours == null || item.ActualHours == 0) continue;
                         item.JobCardDailyActivityId = id;
                         item.CreatedDate = DateTime.Now;
                         sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
@@ -267,6 +267,108 @@ namespace ArabErp.DAL
                     throw ex;
                 }
             }
+        }
+
+        public int InsertProjectDailyActivity(JobCardDailyActivity model)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
+                    //int _DailyActivityId = 0;
+                    model.JobCardDailyActivityRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId, 38, true, txn);
+                    string sql1 = @"SELECT JobCardTaskId FROM JobCardTask WHERE 
+                                    JobCardTaskMasterId = @JobCardTaskMasterId AND 
+                                    TaskDate = CONVERT(VARCHAR, @TaskStartDate, 106) AND 
+                                    JobCardId = @id AND EmployeeId IS NULL",
+                    sql2 = @"DELETE FROM JobCardTask WHERE JobCardTaskId IN @id",
+                    sql3 = @"INSERT INTO JobCardTask (JobCardId, JobCardTaskMasterId, SlNo, EmployeeId, TaskDate, [Hours], CreatedBy, OrganizationId, isActive)
+                           OUTPUT inserted.JobCardTaskId VALUES (@JobCardId, @JobCardTaskMasterId, @SlNo, @EmployeeId, @TaskDate, @Hours, @CreatedBy, @OrganizationId, 1)",
+                    sql4 = @"SELECT JobCardTaskId FROM JobCardTask WHERE 
+                                    JobCardTaskMasterId = @JobCardTaskMasterId AND 
+                                    TaskDate = CONVERT(VARCHAR, @TaskStartDate, 106) AND 
+                                    JobCardId = @id AND EmployeeId = @EmployeeId";
+                    model.JobCardDailyActivityId = InsertDailyActivityHead(model, connection, txn);
+                    foreach (var item in model.JobCardDailyActivityTask)
+                    {
+                        item.JobCardDailyActivityId = model.JobCardDailyActivityId;
+                        List<int> existingTasks = connection.Query<int>(sql1, new
+                        {
+                            JobCardTaskMasterId = item.JobCardTaskMasterId,
+                            TaskStartDate = item.TaskStartDate,
+                            id = model.JobCardId
+                        }, txn).ToList();
+
+                        if (existingTasks.Count > 0)
+                            connection.Execute(sql2, new { id = existingTasks }, txn);
+
+                        item.JobCardTaskId = connection.Query<int>(sql4, new
+                                            {
+                                                JobCardTaskMasterId = item.JobCardTaskMasterId,
+                                                TaskStartDate = item.TaskStartDate,
+                                                id = model.JobCardId,
+                                                EmployeeId = item.EmployeeId
+                                            }, txn).FirstOrDefault();
+                        if (item.JobCardTaskId == 0)
+                        {
+                            item.JobCardTaskId = connection.Query<int>(sql3, new
+                            {
+                                JobCardId = model.JobCardId,
+                                JobCardTaskMasterId = item.JobCardTaskMasterId,
+                                SlNo = 0, //SlNo should be given here
+                                EmployeeId = item.EmployeeId,
+                                TaskDate = item.TaskStartDate,
+                                Hours = item.ActualHours,
+                                CreatedBy = model.CreatedBy,
+                                OrganizationId = model.OrganizationId
+                            }, txn).FirstOrDefault();
+                            if (item.JobCardTaskId <= 0) throw new Exception("Insertion of task failed.");
+                            InsertDailyActivityTasks(item, connection, txn);
+                        }
+                        else
+                            InsertDailyActivityTasks(item, connection, txn);
+                        //}
+                        //else
+                        //{
+                        //    InsertDailyActivityTasks(item, connection, txn);
+                        //}
+                    }
+                    InsertLoginHistory(dataConnection, model.CreatedBy, "Create", "DailyActivity", model.JobCardDailyActivityId.ToString(), model.OrganizationId.ToString());
+                    txn.Commit();
+                    return model.JobCardDailyActivityId;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+        private int InsertDailyActivityHead(JobCardDailyActivity model, IDbConnection connection, IDbTransaction txn)
+        {
+            string sql = @"insert  into JobCardDailyActivity (JobCardDailyActivityDate,JobCardId,JobCardDailyActivityRefNo,Remarks,EmployeeId,CreatedBy,CreatedDate,OrganizationId) 
+                           Values (@JobCardDailyActivityDate,@JobCardId,@JobCardDailyActivityRefNo,@Remarks,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId);
+                           SELECT CAST(SCOPE_IDENTITY() as int)";
+
+            return connection.Query<int>(sql, model, txn).Single();
+        }
+
+        private int InsertDailyActivityTasks(JobCardDailyActivityTask item, IDbConnection connection, IDbTransaction txn)
+        {
+            //foreach (var item in model.JobCardDailyActivityTask)
+            //{
+            if (item.ActualHours == null || item.ActualHours == 0) return 0;
+            item.JobCardDailyActivityId = item.JobCardDailyActivityId;
+            item.CreatedDate = DateTime.Now;
+            item.TaskEndDate = item.TaskStartDate;
+            string sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
+                        (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, NULLIF(@EmployeeId, 0), @StartTime, @EndTime);
+                        SELECT CAST(SCOPE_IDENTITY() as int)";
+            var taskid = connection.Query<int>(sql, item, txn).Single();
+            //}
+            return 1;
         }
     }
 }

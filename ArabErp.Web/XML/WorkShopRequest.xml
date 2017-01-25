@@ -69,8 +69,21 @@
     <Title>WORKSHOP REQUEST</Title>
   </Head>
   <Items>
-    <ItemName>MOUNTING BUSH</ItemName>
-    <Quantity>1.00</Quantity>
+    <ItemName>COMPRESSOR CLUTCH COIL  TM16 24V</ItemName>
+    <PartNo />
+    <Quantity>30</Quantity>
+    <UnitName>Nos</UnitName>
+  </Items>
+  <Items>
+    <ItemName>FUEL FILTER MITSUBISHI</ItemName>
+    <PartNo />
+    <Quantity>80</Quantity>
+    <UnitName>Nos</UnitName>
+  </Items>
+  <Items>
+    <ItemName>ELBOW-40-60290-01</ItemName>
+    <PartNo />
+    <Quantity>30</Quantity>
     <UnitName>Nos</UnitName>
   </Items>
 </NewDataSet>

@@ -304,53 +304,63 @@ namespace ArabErp.DAL
                 new { SaleOrderId = SaleOrderId, SaleOrderItemId = SaleOrderItemId }).ToList();
             }
         }
-        public List<WorkShopRequestItem> GetWorkShopRequestDataForProject(int SaleOrderItemUnitId, int SaleOrderUnitId)
+        public List<WorkShopRequestItem> GetWorkShopRequestDataForProject(int saleorderitem)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-           
 
-                string query = @"SELECT T1.* 
+
+                string query = @"select EvaporatorUnitId ITEMID into #T from SaleOrderItemUnit where SaleOrderItemId  = @saleorderitem
+                                 union 
+                                 select CondenserUnitId from SaleOrderItemUnit where SaleOrderItemId  = @saleorderitem
+                                 union 
+                                 select DoorId from SaleOrderItemDoor where SaleOrderItemId = @saleorderitem
+
+
+                                SELECT T1.* 
                                 INTO #TEMP1 FROM 
-                                (   SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName FROM SaleOrderItemUnit U
+                                (  SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName,0 orderkey from SaleOrderItem SI 
+                                    INNER JOIN SaleOrderItemUnit U ON SI.SaleOrderItemId=U.SaleOrderItemId
                                     INNER JOIN ITEM I ON I.ItemId=U.EvaporatorUnitId
                                     INNER JOIN Unit IU ON I.ItemUnitId = IU.UnitId
-                                    WHERE U.SaleOrderItemUnitId = @SaleOrderItemUnitId 
-                                    and U.EvaporatorUnitId = @SaleOrderUnitId 
+                                    where SI.SaleOrderItemId = @saleorderitem
 
                                     UNION ALL
 
-                                    SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName FROM SaleOrderItemUnit U
+                                    SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName,1 orderkey from SaleOrderItem SI 
+                                    INNER JOIN SaleOrderItemUnit U ON SI.SaleOrderItemId=U.SaleOrderItemId
                                     INNER JOIN ITEM I ON I.ItemId=U.CondenserUnitId
                                     INNER JOIN Unit IU ON I.ItemUnitId = IU.UnitId
-                                    WHERE U.SaleOrderItemUnitId = @SaleOrderItemUnitId 
-                                    and  U.CondenserUnitId = @SaleOrderUnitId
+                                    where SI.SaleOrderItemId = @saleorderitem
 
                                     UNION ALL
 
-                                    SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName FROM SaleOrderItemDoor U
+                                    SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName,2 orderkey from SaleOrderItem SI 
+                                    INNER JOIN SaleOrderItemDoor U ON SI.SaleOrderItemId=U.SaleOrderItemId
                                     INNER JOIN ITEM I ON I.ItemId=U.DoorId
                                     INNER JOIN Unit IU ON I.ItemUnitId = IU.UnitId
-                                    WHERE U.SaleOrderItemDoorId = @SaleOrderItemUnitId 
-                                    and U.DoorId = @SaleOrderUnitId  
+                                    where SI.SaleOrderItemId  = @saleorderitem
 
                                     UNION ALL
 
-                                    SELECT I.ItemId,I.ItemName,I.PartNo,B.Quantity,IU.UnitName FROM ItemVsBom B 
+                                    SELECT I.ItemId,I.ItemName,I.PartNo,B.Quantity,IU.UnitName,3 orderkey FROM ItemVsBom B 
                                     INNER JOIN ITEM I ON I.ItemId = B.BomItemId
                                     INNER JOIN Unit IU ON I.ItemUnitId = IU.UnitId
-                                    WHERE B.ItemId = @SaleOrderUnitId) T1;
+                                    WHERE B.ItemId IN(SELECT ITEMID FROM #T) 
+                                    ) T1;
                 
                                     SELECT
                 	                ItemId, ItemName, PartNo, SUM(Quantity) Quantity, UnitName
                                     FROM #TEMP1
-                                    GROUP BY ItemId, ItemName, PartNo, UnitName
+                                    GROUP BY ItemId, ItemName, PartNo, UnitName,orderkey
+                                    order by orderkey
                 
-                                    DROP TABLE #TEMP1;";
+                                    DROP TABLE #TEMP1
+                                    DROP TABLE #T;";
 
                 return connection.Query<WorkShopRequestItem>(query,
-                new { SaleOrderItemUnitId = SaleOrderItemUnitId, SaleOrderUnitId = SaleOrderUnitId }).ToList();
+                new { saleorderitem = saleorderitem }).ToList();
             }
         }
         /// <summary>

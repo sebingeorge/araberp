@@ -30,7 +30,7 @@ namespace ArabErp.DAL
                                     FROM SaleOrder SO
 	                                    INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
 										LEFt JOIN ProjectCompletion PC ON SO.SaleOrderId = PC.SaleOrderId
-                                    WHERE SO.isProjectBased = 1
+                                    WHERE SO.isProjectBased = 1 and SO.isservice=0
 	                                    AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
 	                                    AND SO.SaleOrderApproveStatus = 1
 	                                    AND SO.OrganizationId = @OrganizationId

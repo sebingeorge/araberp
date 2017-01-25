@@ -560,7 +560,7 @@ namespace ArabErp
                 var objJobcard = connection.Query<JobCard>(sql, new { JobCardId = JobCardId, OrganizationId = OrganizationId }).First<JobCard>();
                 if (objJobcard.isService == 0)
                 {
-                    sq = @"SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,
+                    sq = @"SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,J.RequiredDate,
                               C.CustomerName Customer,
 								--V.ChassisNo + CASE WHEN ISNULL(V.RegistrationNo, '') <> '' AND ISNULL(V.ChassisNo, '') <> '' THEN ' - ' END + V.RegistrationNo ChasisNo,
                                 ISNULL(V.RegistrationNo, '') + CASE WHEN ISNULL(V.RegistrationNo, '') <> '' AND ISNULL(V.ChassisNo, '') <> '' THEN ' - ' ELSE '' END + ISNULL(V.ChassisNo, '') RegistrationNo, 
@@ -610,7 +610,7 @@ namespace ArabErp
                 }
                 else
                 {
-                    qu = @"SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,
+                    qu = @"SELECT O.*,J.JobCardId,JobCardNo,JobCardDate,J.RequiredDate,
                               C.CustomerName Customer,U.ItemName FreezerUnitName,
 								v.RegistrationNo RegistrationNo,VM.VehicleModelName,UI.ItemName BoxName,
 								SE.Complaints,

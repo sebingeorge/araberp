@@ -40,5 +40,6 @@ namespace ArabErp.Domain
         public decimal? ActualHours { get; set; }
         public int? Hours { get; set; }
         public int Existing { get; set; }
+        public int JobCardTaskId { get; set; }
     }
 }
