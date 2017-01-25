@@ -196,8 +196,6 @@ namespace ArabErp.DAL
 	                                S.isAfterSales,
 	                                CASE WHEN (SELECT COUNT(JobCardId) FROM JobCard WHERE SaleOrderId = @SaleOrderId) > 0
 		                                THEN 1 
-	                                WHEN (SELECT COUNT(SaleOrderId) FROM SaleOrder WHERE SaleOrderId = @SaleOrderId AND SaleOrderApproveStatus = 1) > 0
-		                                THEN 1
 	                                WHEN (SELECT COUNT(SaleOrderId) FROM WorkshopRequest WHERE SaleOrderId = @SaleOrderId) > 0
 		                                THEN 1
 	                                ELSE 0
@@ -382,9 +380,102 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"UPDATE SaleOrder SET SaleOrderDate = @SaleOrderDate, CustomerOrderRef = @CustomerOrderRef,SpecialRemarks = @SpecialRemarks,CommissionAgentId = @CommissionAgentId,CommissionAmount = @CommissionAmount,SalesExecutiveId = @SalesExecutiveId, EDateArrival = @EDateArrival, EDateDelivery = @EDateDelivery, DeliveryTerms = @DeliveryTerms  WHERE SaleOrderId = @SaleOrderId";
+                IDbTransaction txn = connection.BeginTransaction();
 
-                var id = connection.Execute(sql, objSaleOrder);
+                string sql = @"UPDATE SaleOrder SET SaleOrderDate = @SaleOrderDate, CustomerOrderRef = @CustomerOrderRef,SpecialRemarks = @SpecialRemarks,
+                               CommissionAgentId = @CommissionAgentId,CommissionAmount = @CommissionAmount,SalesExecutiveId = @SalesExecutiveId,
+                               EDateArrival = @EDateArrival,EDateDelivery = @EDateDelivery, DeliveryTerms = @DeliveryTerms  
+                               WHERE SaleOrderId = @SaleOrderId";
+                var id = connection.Execute(sql, objSaleOrder,txn);
+
+                if (objSaleOrder.isProjectBased == 0)
+                {
+                    #region delete SaleOrder Item
+                    sql = @"DELETE FROM SaleOrderItem WHERE SaleOrderId = @SaleOrderId";
+                    connection.Execute(sql, new { SaleOrderId = objSaleOrder.SaleOrderId },txn);
+                    #endregion
+
+                    #region delete SaleOrder Material
+                    sql = @"DELETE FROM SaleOrderMaterial WHERE SaleOrderId = @SaleOrderId";
+                    connection.Execute(sql, new { SaleOrderId = objSaleOrder.SaleOrderId },txn);
+                    #endregion
+
+                    #region insert SaleOrder Item
+                    foreach (SaleOrderItem item in objSaleOrder.Items)
+                    {
+                        item.SaleOrderId = objSaleOrder.SaleOrderId;
+                        new SaleOrderItemRepository().InsertSaleOrderItem(item, connection, txn);
+                    }
+                    if (objSaleOrder.Materials != null && objSaleOrder.Materials.Count > 0)
+                    {
+                        foreach (SalesQuotationMaterial item in objSaleOrder.Materials)
+                        {
+                            if (item.ItemId == null) continue;
+                            item.SaleOrderId = objSaleOrder.SaleOrderId;
+                            new SaleOrderItemRepository().InsertSaleOrderMaterial(item, connection, txn);
+                        }
+                    }
+                    #endregion
+
+                }
+
+                else
+                {
+
+                  
+                    #region delete SaleOrder Item Unit
+                    sql = @"DELETE FROM SaleOrderItemUnit WHERE SaleOrderItemId IN (SELECT SaleOrderItemId FROM SaleOrderItem WHERE SaleOrderId = @SaleOrderId)";
+                    connection.Execute(sql, new { SaleOrderId = objSaleOrder.SaleOrderId }, txn);
+                    #endregion
+
+                    #region delete SaleOrder Item Door
+                    sql = @"DELETE FROM SaleOrderItemDoor WHERE SaleOrderItemId IN (SELECT SaleOrderItemId FROM SaleOrderItem WHERE SaleOrderId = @SaleOrderId)";
+                    connection.Execute(sql, new { SaleOrderId = objSaleOrder.SaleOrderId }, txn);
+                    #endregion
+
+                    #region delete SaleOrder Item
+                    sql = @"DELETE FROM SaleOrderItem WHERE SaleOrderId = @SaleOrderId";
+                    connection.Execute(sql, new { SaleOrderId = objSaleOrder.SaleOrderId }, txn);
+                    #endregion
+
+                    #region saving sale order details [SaleOrderItem]
+                    sql = @"INSERT INTO SaleOrderItem
+                            ([SaleOrderId],[SlNo],[Quantity],[isActive])
+                            VALUES
+                            (@SaleOrderId,@SlNo,@Quantity,1)
+                            SELECT CAST(SCOPE_IDENTITY() AS INT)";
+                    objSaleOrder.Items = new List<SaleOrderItem>();
+                    objSaleOrder.Items.Add(new SaleOrderItem
+                    {
+                        SaleOrderId = objSaleOrder.SaleOrderId,
+                        SlNo = 1,
+                        Quantity = 1
+                    });
+                    var _SaleOrderItemId = connection.Query<int>(sql, objSaleOrder.Items[0], txn).First();
+              
+                    #endregion
+                    #region saving room units [SaleOrderItemUnit]
+                    foreach (var room in objSaleOrder.ProjectRooms)
+                    {
+                        foreach (QuerySheetUnit item in room.ProjectRoomUnits)
+                        {
+                            item.QuerySheetItemId = _SaleOrderItemId;
+                            sql = @"insert  into SaleOrderItemUnit(SaleOrderItemId,EvaporatorUnitId,CondenserUnitId,Quantity) 
+                                    Values (@QuerySheetItemId,@EvaporatorUnitId,@CondenserUnitId,@Quantity)";
+                            connection.Execute(sql, item, txn);
+                        }
+                        foreach (QuerySheetDoor item in room.ProjectRoomDoors)
+                        {
+                            item.QuerySheetItemId = _SaleOrderItemId;
+                            sql = @"insert  into SaleOrderItemDoor(SaleOrderItemId,DoorId,Quantity) 
+                                    Values (@QuerySheetItemId,@DoorId,@Quantity)";
+                            connection.Execute(sql, item, txn);
+                        }
+                    }
+                    #endregion
+
+                }
+                txn.Commit();
                 InsertLoginHistory(dataConnection, objSaleOrder.CreatedBy, "Update", "Sale Order", id.ToString(), "0");
                 return id;
             }
