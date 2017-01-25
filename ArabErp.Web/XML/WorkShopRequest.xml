@@ -47,35 +47,30 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <WorkShopRequestRefNo>MRQ/3</WorkShopRequestRefNo>
-    <WorkShopRequestDate>18-Oct-2016</WorkShopRequestDate>
-    <CustomerName>Abdul Asiz Trading Est</CustomerName>
-    <CustomerOrderRef>saleorder1</CustomerOrderRef>
-    <SaleOrderRefNo>SO/P/4</SaleOrderRefNo>
-    <EDateArrival>18-Oct-2016</EDateArrival>
-    <EDateDelivery>28-Oct-2016</EDateDelivery>
-    <WorkDescription> project Work Description For Testing, project wrk test</WorkDescription>
-    <RequiredDate>29-Oct-2016</RequiredDate>
-    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
-    <Title>MATERIAL REQUEST</Title>
+    <WorkShopRequestRefNo>A-WRQ/45</WorkShopRequestRefNo>
+    <WorkShopRequestDate>25-Dec-2016</WorkShopRequestDate>
+    <CustomerName>Ali Bin Ali logistics</CustomerName>
+    <CustomerOrderRef xml:space="preserve"> </CustomerOrderRef>
+    <SaleOrderRefNo>AARC/SER/49</SaleOrderRefNo>
+    <EDateArrival>25-Dec-2016</EDateArrival>
+    <EDateDelivery>25-Dec-2016</EDateDelivery>
+    <WorkDescription> General Checkup &amp; Repair</WorkDescription>
+    <RequiredDate>25-Dec-2016</RequiredDate>
+    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
+    <Street>Hiteen Street, Muntazah </Street>
+    <State>Doha</State>
+    <CountryName>QATAR</CountryName>
+    <Zip>13037</Zip>
+    <Fax>974 4414 2910</Fax>
+    <Email>info@arabrefrigeration.com</Email>
+    <Phone>974 4435 7216</Phone>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <Title>WORKSHOP REQUEST</Title>
   </Head>
   <Items>
-    <ItemName>COMPRESSOR CLUTCH COIL  TM16 24V</ItemName>
-    <PartNo />
-    <Quantity>30</Quantity>
-    <UnitName>Nos</UnitName>
-  </Items>
-  <Items>
-    <ItemName>FUEL FILTER MITSUBISHI</ItemName>
-    <PartNo />
-    <Quantity>80</Quantity>
-    <UnitName>Nos</UnitName>
-  </Items>
-  <Items>
-    <ItemName>ELBOW-40-60290-01</ItemName>
-    <PartNo />
-    <Quantity>30</Quantity>
+    <ItemName>MOUNTING BUSH</ItemName>
+    <Quantity>1.00</Quantity>
     <UnitName>Nos</UnitName>
   </Items>
 </NewDataSet>

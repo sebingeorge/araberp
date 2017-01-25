@@ -52,14 +52,14 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <StoreIssueRefNo>SI/17/93</StoreIssueRefNo>
-    <StoreIssueDate>18-Jan-2017</StoreIssueDate>
+    <StoreIssueRefNo>SI/17/120</StoreIssueRefNo>
+    <StoreIssueDate>25-Jan-2017</StoreIssueDate>
     <StockpointName>Main Store</StockpointName>
-    <CustomerName>Al Danah Trading &amp; Contracting Co.</CustomerName>
-    <WONODATE>A-WRQ/17/44 , 18 Jan 2017</WONODATE>
-    <SONODATE>AARC/SER/17/46 , 17 Jan 2017</SONODATE>
-    <RequiredDate>18-Jan-2017 00:00:00</RequiredDate>
-    <EmployeeName>Giriesh Gopi</EmployeeName>
+    <CustomerName>Qatar Automobiles Company</CustomerName>
+    <WONODATE>WRQ/17/20 , 09 Jan 2017</WONODATE>
+    <SONODATE>AARC/SO/TR/17/8 , 09 Jan 2017</SONODATE>
+    <RequiredDate>12-Jan-2017 12:00:00 AM</RequiredDate>
+    <EmployeeName>HIRAN BABU REMESH BABU</EmployeeName>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -68,18 +68,18 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <JobCardNo>AARC/17/JC-S/46</JobCardNo>
-    <CreateUser>aakash</CreateUser>
-    <CreateSig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\</CreateSig>
+    <Image1>81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <CreateUser>ihits</CreateUser>
+    <CreateSig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\</CreateSig>
   </Head>
   <Items>
-    <ItemName>IDLER PULLEY - BLACK</ItemName>
+    <ItemName>Thermoking T600-R</ItemName>
     <RequiredQuantity>1.00</RequiredQuantity>
     <IssuedQuantity>1</IssuedQuantity>
     <PendingQuantity>0</PendingQuantity>
-    <StockQuantity>33.000</StockQuantity>
+    <StockQuantity>9.000</StockQuantity>
     <CurrentIssuedQuantity>1</CurrentIssuedQuantity>
     <UnitName>Nos</UnitName>
+    <PartNo>T600R</PartNo>
   </Items>
 </NewDataSet>

@@ -64,7 +64,7 @@ namespace ArabErp.Domain
         public bool isApproved { get; set; }
         public int SaleOrderItemUnitId { get; set; }
         public int EvaConUnitId { get; set; }
-        public bool isIssueUsed { get; set; }
+      
         public List<WorkShopRequestItem> Items { get; set; }
         public List<WorkShopRequestItem> AdditionalMaterials { get; set; }
     }
