@@ -433,6 +433,41 @@ namespace ArabErp.DAL
             }
         }
 
+//        public int UpdateWorkShopRequest(WorkShopRequest objWorkShopRequest)
+//        {
+//            using (IDbConnection connection = OpenConnection(dataConnection))
+//            {
+//                string sql = string.Empty;
+//                IDbTransaction txn = connection.BeginTransaction();
+
+
+//                sql = @"UPDATE WorkShopRequest SET WorkShopRequestRefNo = @WorkShopRequestRefNo ,WorkShopRequestDate = @WorkShopRequestDate ,SaleOrderId = @SaleOrderId ,CustomerId = @CustomerId,CustomerOrderRef = @CustomerOrderRef,SpecialRemarks = @SpecialRemarks,RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,isAdditionalRequest=@isAdditionalRequest  WHERE WorkShopRequestId = @WorkShopRequestId;
+//	                               
+//                        DELETE FROM WorkShopRequestItem WHERE WorkShopRequestId = @WorkShopRequestId;";
+
+//                try
+//                {
+//                    var id = connection.Execute(sql, objWorkShopRequest, txn);
+//                    var saleorderitemrepo = new SalesQuotationItemRepository();
+
+//                    foreach (var item in objWorkShopRequest.Items)
+//                    {
+//                        item.WorkShopRequestId = objWorkShopRequest.WorkShopRequestId;
+//                        new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, txn);
+//                    }
+
+
+//                    InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Update", "Workshop Request", id.ToString(), objWorkShopRequest.OrganizationId.ToString());
+//                    txn.Commit();
+//                    return id;
+//                }
+//                catch (Exception ex)
+//                {
+//                    txn.Rollback();
+//                    throw ex;
+//                }
+//            }
+//        }
         public int UpdateWorkShopRequest(WorkShopRequest objWorkShopRequest)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -443,18 +478,39 @@ namespace ArabErp.DAL
 
                 sql = @"UPDATE WorkShopRequest SET WorkShopRequestRefNo = @WorkShopRequestRefNo ,WorkShopRequestDate = @WorkShopRequestDate ,SaleOrderId = @SaleOrderId ,CustomerId = @CustomerId,CustomerOrderRef = @CustomerOrderRef,SpecialRemarks = @SpecialRemarks,RequiredDate = @RequiredDate,CreatedBy = @CreatedBy,CreatedDate = @CreatedDate,isAdditionalRequest=@isAdditionalRequest  WHERE WorkShopRequestId = @WorkShopRequestId;
 	                               
-                        DELETE FROM WorkShopRequestItem WHERE WorkShopRequestId = @WorkShopRequestId;";
+                        --DELETE FROM WorkShopRequestItem WHERE WorkShopRequestId = @WorkShopRequestId;";
 
                 try
                 {
                     var id = connection.Execute(sql, objWorkShopRequest, txn);
-                    var saleorderitemrepo = new SalesQuotationItemRepository();
+                    #region get the list of items in use
+                    var StoreIssued = objWorkShopRequest.Items.Where(x => x.isIssueUsed).Select(x => x.WorkShopRequestItemId).ToList();
+                    #endregion
 
-                    foreach (var item in objWorkShopRequest.Items)
+                    #region delete items that are not in use
+                    sql = @"DELETE FROM WorkShopRequestItem WHERE WorkShopRequestId = @WorkShopRequestId AND WorkShopRequestItemId NOT IN @StoreIssued";
+                    connection.Execute(sql, new { WorkShopRequestId = objWorkShopRequest.WorkShopRequestId, StoreIssued = StoreIssued }, txn);
+                    #endregion
+
+                    #region insert item that are not in use
+                    var ItemList = objWorkShopRequest.Items.Where(x => !x.isIssueUsed || x.WorkShopRequestItemId == 0).Select(x => x).ToList();
+
+
+                    foreach (var item in ItemList)
                     {
                         item.WorkShopRequestId = objWorkShopRequest.WorkShopRequestId;
-                        new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, txn);
+                        item.WorkShopRequestItemId = item.WorkShopRequestItemId;
+                        if (new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, txn) == 0)
+                            throw new Exception("Some error occured while saving jobcard WorkshopRequestItem");
                     }
+                    #endregion
+                    //var saleorderitemrepo = new SalesQuotationItemRepository();
+
+                    //foreach (var item in objWorkShopRequest.Items)
+                    //{
+                    //    item.WorkShopRequestId = objWorkShopRequest.WorkShopRequestId;
+                    //    new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, txn);
+                    //}
 
 
                     InsertLoginHistory(dataConnection, objWorkShopRequest.CreatedBy, "Update", "Workshop Request", id.ToString(), objWorkShopRequest.OrganizationId.ToString());
