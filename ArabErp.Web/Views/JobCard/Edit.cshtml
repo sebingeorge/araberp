@@ -137,7 +137,7 @@
 
         @*var url = '@Url.Action("Index", new { isProjectBased = Model.isProjectBased })';*@
         var url = '@Url.Action("Index")';
-        url += "?isProjectBased=" + @Model.isProjectBased + "&service=" + @Model.isService;
+        url += "?ProjectBased=" + @Model.isProjectBased + "&service=" + @Model.isService;
         window.location = url;
     }
 
