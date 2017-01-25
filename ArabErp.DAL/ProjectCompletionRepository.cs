@@ -309,16 +309,13 @@ namespace ArabErp.DAL
             {
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
-                    string query = @"SELECT
-	                            IB.ItemBatchId,
-	                            I.ItemName,
-	                            SerialNo
-                                FROM JobCard JC
-                                INNER JOIN ItemBatch IB ON JC.SaleOrderItemId = IB.SaleOrderItemId
-                                LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
-								LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId 
-                                INNER JOIN Item I ON GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId
-                                WHERE IB.ProjectCompletionId = @ProjectCompletionId";
+                    string query = @"SELECT IB.ItemBatchId,I.ItemName,SerialNo,DATEDIFF(month, WarrantyStartDate, WarrantyExpireDate)WarrantyPeriodInMonths
+                                    FROM JobCard JC
+                                    INNER JOIN ItemBatch IB ON JC.SaleOrderItemId = IB.SaleOrderItemId
+                                    LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+							        LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId 
+                                    INNER JOIN Item I ON GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId
+                                    WHERE IB.ProjectCompletionId = @ProjectCompletionId";
                     return connection.Query<ItemBatch>(query, new { ProjectCompletionId = ProjectCompletionId }).ToList();
                 }
             }
