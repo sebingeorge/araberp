@@ -1411,6 +1411,8 @@
     <Content Include="Views\ServiceEnquiryProject\_ServiceOrderList.cshtml" />
     <Content Include="Views\ServiceEnquiryProject\EditEnquiry.cshtml" />
     <Content Include="Views\Home\ShowSessionDetails.cshtml" />
+    <Content Include="Views\ClosingStock\ClosingStockWithAvgRate.cshtml" />
+    <Content Include="Views\ClosingStock\_ClosingStockWithAvgRateRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
