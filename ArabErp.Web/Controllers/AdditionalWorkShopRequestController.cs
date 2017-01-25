@@ -84,6 +84,7 @@ namespace ArabErp.Web.Controllers
             {
                 if (id != 0)
                 {
+                 
                     ItemDropdown();
                     FillPartNo();
                     WorkShopRequest WorkShopRequest = new WorkShopRequest();
@@ -160,10 +161,24 @@ namespace ArabErp.Web.Controllers
                 return RedirectToAction("Edit", new { id = id });
             }
         }
+
+        //public void FillEmployee()
+        //{
+        //    var List = JobCardQCRepo.FillEmployee();
+        //    ViewBag.EmployeeList = new SelectList(List, "Id", "Name");
+        //}
         public void JobCardDropdown(int isProjectBased, int jobCardId = 0)
         {
-            ViewBag.JobCardList = new SelectList(new DropdownRepository().JobCardDropdownforAddtional(jobCardId: jobCardId, organizationId: OrganizationId, isProjectBased: isProjectBased), "Id", "Name");
+            DropdownRepository repo = new DropdownRepository();
+            var List = repo.JobCardDropdownforAddtional(jobCardId: jobCardId, organizationId: OrganizationId, isProjectBased: isProjectBased);
+
+            ViewBag.JobCardList = new SelectList(List, "Id", "Name");
         }
+        //public void JobCardDropdown(int isProjectBased, int jobCardId = 0)
+        //{
+
+        //    ViewBag.JobCardList = new SelectList(new DropdownRepository().JobCardDropdownforAddtional(jobCardId: jobCardId, organizationId: OrganizationId, isProjectBased: isProjectBased), "Id", "Name");
+        //}
       
         public JsonResult GetJobCardDetails(int jobCardId)
         {

@@ -47,15 +47,15 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <WorkShopRequestRefNo>MRQ/17/1</WorkShopRequestRefNo>
-    <WorkShopRequestDate>19-Jan-2017</WorkShopRequestDate>
-    <CustomerName>AJM Kooheji &amp; Sons</CustomerName>
-    <CustomerOrderRef>ry56</CustomerOrderRef>
-    <SaleOrderRefNo>AARC/SO/P/17/1</SaleOrderRefNo>
-    <EDateArrival>19-Jan-2017</EDateArrival>
-    <EDateDelivery>19-Jan-2017</EDateDelivery>
-    <SpecialRemarks>kl;</SpecialRemarks>
-    <RequiredDate>20-Jan-2017</RequiredDate>
+    <WorkShopRequestRefNo>A-WRQ/45</WorkShopRequestRefNo>
+    <WorkShopRequestDate>25-Dec-2016</WorkShopRequestDate>
+    <CustomerName>Ali Bin Ali logistics</CustomerName>
+    <CustomerOrderRef xml:space="preserve"> </CustomerOrderRef>
+    <SaleOrderRefNo>AARC/SER/49</SaleOrderRefNo>
+    <EDateArrival>25-Dec-2016</EDateArrival>
+    <EDateDelivery>25-Dec-2016</EDateDelivery>
+    <WorkDescription> General Checkup &amp; Repair</WorkDescription>
+    <RequiredDate>25-Dec-2016</RequiredDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -65,13 +65,25 @@
     <Email>info@arabrefrigeration.com</Email>
     <Phone>974 4435 7216</Phone>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\81a4c1db-3c02-4dbc-a629-10bd046bb6be.png</Image1>
-    <Title>MATERIAL REQUEST</Title>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <Title>WORKSHOP REQUEST</Title>
   </Head>
   <Items>
-    <ItemName>Carrier Evaporator Chiller CAE 3364</ItemName>
-    <PartNo>CAE3364</PartNo>
-    <Quantity>1.00</Quantity>
+    <ItemName>COMPRESSOR CLUTCH COIL  TM16 24V</ItemName>
+    <PartNo />
+    <Quantity>30</Quantity>
+    <UnitName>Nos</UnitName>
+  </Items>
+  <Items>
+    <ItemName>FUEL FILTER MITSUBISHI</ItemName>
+    <PartNo />
+    <Quantity>80</Quantity>
+    <UnitName>Nos</UnitName>
+  </Items>
+  <Items>
+    <ItemName>ELBOW-40-60290-01</ItemName>
+    <PartNo />
+    <Quantity>30</Quantity>
     <UnitName>Nos</UnitName>
   </Items>
 </NewDataSet>

@@ -20,6 +20,7 @@ namespace ArabErp.Domain
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public int SlNo { get; set; }
+        public bool isIssueUsed { get; set; }
         //public string WorkDescr { get; set; }
         public string ItemName { get; set; }
         public decimal? ActualQuantity { get; set; }

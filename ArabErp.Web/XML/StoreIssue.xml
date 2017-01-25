@@ -52,15 +52,15 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <StoreIssueRefNo>SI/17/109</StoreIssueRefNo>
-    <StoreIssueDate>22-Jan-2017</StoreIssueDate>
+    <StoreIssueRefNo>SI/17/1</StoreIssueRefNo>
+    <StoreIssueDate>01-Jan-2017</StoreIssueDate>
     <StockpointName>Main Store</StockpointName>
-    <CustomerName>UNITED CAR RENTALS Co W.L.L</CustomerName>
-    <WONODATE>A-WRQ/17/61 , 22 Jan 2017</WONODATE>
-    <SONODATE>AARC/SO/TR/17/7 , 08 Jan 2017</SONODATE>
-    <RequiredDate>22-Jan-2017 12:00:00 AM</RequiredDate>
-    <Remarks>Bracket set -</Remarks>
-    <EmployeeName>Aung Tun Oo</EmployeeName>
+    <CustomerName>National Car Company</CustomerName>
+    <WONODATE>WRQ/9 , 03 Dec 2016</WONODATE>
+    <SONODATE>AARC/SO/TR/9 , 03 Dec 2016</SONODATE>
+    <RequiredDate>04-Dec-2016 12:00:00 AM</RequiredDate>
+    <Remarks>Unit - GLW 1072043   /   Tail Lift Zepro - 319463</Remarks>
+    <EmployeeName>Muraliraj Andydevra</EmployeeName>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -70,17 +70,27 @@
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <Image1>81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
-    <JobCardNo>AARC/JC/17/15</JobCardNo>
-    <CreateUser>rafi</CreateUser>
-    <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</CreateSig>
+    <CreateUser>murali</CreateUser>
+    <CreateSig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\</CreateSig>
   </Head>
   <Items>
-    <ItemName>TOYOTA COMPRESSOR BRACKET BAM</ItemName>
+    <ItemName>Thermoking T600-R</ItemName>
     <RequiredQuantity>1.00</RequiredQuantity>
     <IssuedQuantity>1</IssuedQuantity>
     <PendingQuantity>0</PendingQuantity>
-    <StockQuantity>4.000</StockQuantity>
+    <StockQuantity>9.000</StockQuantity>
     <CurrentIssuedQuantity>1</CurrentIssuedQuantity>
     <UnitName>Nos</UnitName>
+    <PartNo>T600R</PartNo>
+  </Items>
+  <Items>
+    <ItemName>Zepro Tail Lift- 1.5 Ton</ItemName>
+    <RequiredQuantity>1.00</RequiredQuantity>
+    <IssuedQuantity>1</IssuedQuantity>
+    <PendingQuantity>0</PendingQuantity>
+    <StockQuantity>10.000</StockQuantity>
+    <CurrentIssuedQuantity>1</CurrentIssuedQuantity>
+    <UnitName>Nos</UnitName>
+    <PartNo>ZEPRO 1.5</PartNo>
   </Items>
 </NewDataSet>

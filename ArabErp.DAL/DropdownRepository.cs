@@ -24,6 +24,8 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(JodCardCompleteStatus, 0) = 0 AND ISNULL(isActive, 1) = 1   AND OrganizationId = @org and isProjectBased = @isProjectBased", new { isProjectBased = isProjectBased, org = organizationId }).ToList();
             }
         }
+
+      
         public List<Dropdown> JobCardDropdownforAddtional(int isProjectBased, int organizationId, int jobCardId = 0)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

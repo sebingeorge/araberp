@@ -33,6 +33,7 @@
                 <xs:element name="Phone" type="xs:string" minOccurs="0" />
                 <xs:element name="CurrencyName" type="xs:string" minOccurs="0" />
                 <xs:element name="OrganizationName" type="xs:string" minOccurs="0" />
+                <xs:element name="Designation" type="xs:string" minOccurs="0" />
                 <xs:element name="Image1" type="xs:string" minOccurs="0" />
                 <xs:element name="UserName" type="xs:string" minOccurs="0" />
                 <xs:element name="Sign" type="xs:string" minOccurs="0" />
@@ -58,38 +59,30 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <QuotationRefNo>SQ/2</QuotationRefNo>
-    <QuotationDate>20-Nov-2016</QuotationDate>
+    <QuotationRefNo>AARC/SQ/P/17/3</QuotationRefNo>
+    <QuotationDate>24-Jan-2017</QuotationDate>
     <CustomerName>Abdul Asiz Trading Est</CustomerName>
     <CustomerAddress>Salwa road, Doha -QatarDohaDoha</CustomerAddress>
     <ContactPerson>-</ContactPerson>
-    <SalesExecutive>JACOB</SalesExecutive>
-    <PredictedClosingDate>20-Nov-2016 12:00:00 AM</PredictedClosingDate>
-    <QuotationValidToDate>20-Nov-2016 12:00:00 AM</QuotationValidToDate>
-    <ExpectedDeliveryDate>20-Nov-2016 12:00:00 AM</ExpectedDeliveryDate>
-    <SalesQuotationStatusName>Active</SalesQuotationStatusName>
-    <QuotationStage>1</QuotationStage>
-    <DiscountRemarks>nothing</DiscountRemarks>
-    <Discount>2000</Discount>
-    <DoorNo>Al Mumtazah Building, First Floor, Door No.3, </DoorNo>
-    <Street>P.O Box:13037, Doha, Qatar</Street>
+    <SalesExecutive>Anavarool Islam Ajimullah Ansari</SalesExecutive>
+    <PredictedClosingDate>24-Jan-2017 12:00:00 AM</PredictedClosingDate>
+    <QuotationValidToDate>24-Jan-2017</QuotationValidToDate>
+    <ExpectedDeliveryDate>24-Jan-2017 12:00:00 AM</ExpectedDeliveryDate>
+    <SalesQuotationStatusName>Won</SalesQuotationStatusName>
+    <QuotationStage>2</QuotationStage>
+    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
+    <Street>Hiteen Street, Muntazah </Street>
+    <State>Doha</State>
     <CountryName>QATAR</CountryName>
-    <Fax>+974 4441 4762</Fax>
-    <Phone>+974 4435 7214 / 15</Phone>
+    <Zip>13037</Zip>
+    <Fax>974 4414 2910</Fax>
+    <Email>info@arabrefrigeration.com</Email>
+    <Phone>974 4435 7216</Phone>
     <CurrencyName>QAR</CurrencyName>
-    <OrganizationName>Arab Air-conditioning &amp; Refrigeration Co. WLL</OrganizationName>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Image1>
-    <UserName>Benny</UserName>
-    <Sign>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</Sign>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Designation>Asst.Sales Manager</Designation>
+    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <UserName>ihits</UserName>
+    <Sign>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\</Sign>
   </Head>
-  <Items>
-    <WorkDescr>Carrier Transicold Viento 200 + 100mm 4300x2000x1800mm- MITS</WorkDescr>
-    <Quantity>2</Quantity>
-    <Rate>20000.00</Rate>
-    <UOM>Nos</UOM>
-    <Discount>1000.00</Discount>
-    <Amount>40000.00</Amount>
-    <TotalAmount>39000.00</TotalAmount>
-    <WorkDescription> Carrier Transicold Viento 200 + 100mm 4300x2000x1800mm- MITS</WorkDescription>
-  </Items>
 </NewDataSet>
