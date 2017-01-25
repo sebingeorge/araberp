@@ -145,7 +145,7 @@ namespace ArabErp.Web.Controllers
             return RedirectToAction("Index", new { isProjectBased = model.isProjectBased });
         }
         
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id,int isProjectBased)
         {
 
             try
@@ -153,7 +153,7 @@ namespace ArabErp.Web.Controllers
                 if (id == 0) return RedirectToAction("Index", "Home");
                 string ref_no = new WorkShopRequestRepository().DeleteWorkShopRequest(id);
                 TempData["success"] = "Deleted Successfully (" + ref_no + ")";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { isProjectBased = isProjectBased });
             }
             catch (Exception)
             {

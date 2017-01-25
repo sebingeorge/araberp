@@ -52,14 +52,13 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <StoreIssueRefNo>SI/17/1</StoreIssueRefNo>
-    <StoreIssueDate>01-Jan-2017</StoreIssueDate>
+    <StoreIssueRefNo>SI/17/6</StoreIssueRefNo>
+    <StoreIssueDate>03-Jan-2017</StoreIssueDate>
     <StockpointName>Main Store</StockpointName>
-    <CustomerName>National Car Company</CustomerName>
-    <WONODATE>WRQ/9 , 03 Dec 2016</WONODATE>
-    <SONODATE>AARC/SO/TR/9 , 03 Dec 2016</SONODATE>
-    <RequiredDate>04-Dec-2016 12:00:00 AM</RequiredDate>
-    <Remarks>Unit - GLW 1072043   /   Tail Lift Zepro - 319463</Remarks>
+    <CustomerName>Jaida Motors &amp; Trading Co</CustomerName>
+    <WONODATE>A-WRQ/17/4 , 03 Jan 2017</WONODATE>
+    <SONODATE>AARC/SO/TR/28 , 21 Dec 2016</SONODATE>
+    <RequiredDate>03-Jan-2017 12:00:00 AM</RequiredDate>
     <EmployeeName>Muraliraj Andydevra</EmployeeName>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -70,27 +69,35 @@
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <Image1>81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <JobCardNo>AARC/JC/23</JobCardNo>
     <CreateUser>murali</CreateUser>
     <CreateSig>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\</CreateSig>
   </Head>
   <Items>
-    <ItemName>Thermoking T600-R</ItemName>
-    <RequiredQuantity>1.00</RequiredQuantity>
-    <IssuedQuantity>1</IssuedQuantity>
+    <ItemName>MS FLAT BAR 40X3MM X 6MTR</ItemName>
+    <RequiredQuantity>2.00</RequiredQuantity>
+    <IssuedQuantity>2</IssuedQuantity>
     <PendingQuantity>0</PendingQuantity>
-    <StockQuantity>9.000</StockQuantity>
-    <CurrentIssuedQuantity>1</CurrentIssuedQuantity>
-    <UnitName>Nos</UnitName>
-    <PartNo>T600R</PartNo>
+    <StockQuantity>56.000</StockQuantity>
+    <CurrentIssuedQuantity>2</CurrentIssuedQuantity>
+    <UnitName>Len</UnitName>
   </Items>
   <Items>
-    <ItemName>Zepro Tail Lift- 1.5 Ton</ItemName>
-    <RequiredQuantity>1.00</RequiredQuantity>
-    <IssuedQuantity>1</IssuedQuantity>
+    <ItemName>MS HOLLOW SECTION 50X25X3MM 6MTR</ItemName>
+    <RequiredQuantity>5.00</RequiredQuantity>
+    <IssuedQuantity>5</IssuedQuantity>
     <PendingQuantity>0</PendingQuantity>
-    <StockQuantity>10.000</StockQuantity>
-    <CurrentIssuedQuantity>1</CurrentIssuedQuantity>
-    <UnitName>Nos</UnitName>
-    <PartNo>ZEPRO 1.5</PartNo>
+    <StockQuantity>50.000</StockQuantity>
+    <CurrentIssuedQuantity>5</CurrentIssuedQuantity>
+    <UnitName>Len</UnitName>
+  </Items>
+  <Items>
+    <ItemName>MS HOLLOW SECTION 25X25X2MM 6MTR </ItemName>
+    <RequiredQuantity>5.00</RequiredQuantity>
+    <IssuedQuantity>5</IssuedQuantity>
+    <PendingQuantity>0</PendingQuantity>
+    <StockQuantity>50.000</StockQuantity>
+    <CurrentIssuedQuantity>5</CurrentIssuedQuantity>
+    <UnitName>Mtr</UnitName>
   </Items>
 </NewDataSet>
