@@ -15,7 +15,7 @@ namespace ArabErp.DAL
     {
         static string dataConnection = GetConnectionString("arab");
         public IEnumerable<JobOrderPending> GetPendingJobOrder(int? isProjectBased, int OrganizationId, int id, int cusid, string RegNo = "")
-     {
+        {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = string.Empty;
@@ -250,7 +250,10 @@ namespace ArabErp.DAL
                             query = string.Empty;
                             //query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where JobCardId = " + jobcard.JobCardId.ToString() + ";";
                             //query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + ",StartTime = " + item.StartTime.ToString() + ",EndTime = " + item.EndTime.ToString() + "  where SlNo = " + item.SlNo.ToString() + " and JobCardId = " + jobcard.JobCardId.ToString() + ";";
-                            query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where SlNo = " + item.SlNo.ToString() + " and JobCardId = " + jobcard.JobCardId.ToString() + ";";
+                            if (jobcard.isProjectBased == 0)
+                                query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where SlNo = " + item.SlNo.ToString() + " and JobCardId = " + jobcard.JobCardId.ToString() + ";";
+                            else
+                                query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where JobCardTaskId = " + item.JobCardTaskId.ToString();
                             connection.Query(query, transaction: txn);
                         }
                     }

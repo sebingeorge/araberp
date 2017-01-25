@@ -10,6 +10,7 @@
 
     $(function () {
         $("#JobCardDailyActivityDate").datepicker({ dateFormat: "dd/MM/yy" });
+        $('.taskdate').datepicker({ dateFormat: "dd/MM/yy" });
         $(".timepicker").timepicker({
             //minTime: '9',
             //maxTime: '8:30am',
@@ -29,36 +30,37 @@
             $("#" + obj.id).removeClass("hasDatepicker");
             $("#" + obj.id).datepicker({ dateFormat: "dd/MM/yy" });
         });
+        $(".timepicker").timepicker();
     }
-    //function AddAdditionRow() {
-    //    var i = 0;
-    //    var no = 0;
-    //    $('.TaskRow').each(function (j, obj) {
-    //        var row = Number(obj.id.replace("Row_", ""));
-    //        console.log(j);
-    //        i = j;
-    //    });
-    //    i++;
-    //    console.log(i);
+    function AddAdditionRow() {
+        var i = 0;
+        var no = 0;
+        $('.TaskRow').each(function (j, obj) {
+            var row = Number(obj.id.replace("Row_", ""));
+            console.log(j);
+            i = j;
+        });
+        i++;
+        console.log(i);
 
-    //    var clone = $('#Row_0').clone();
-    //    clone.html($(clone).html().replace(/\JobCardDailyActivityTask_0__/g, 'JobCardDailyActivityTask_' + i + '__'));
-    //    clone.html($(clone).html().replace(/\JobCardDailyActivityTask_0__/g, 'JobCardDailyActivityTask_' + i + '__'));
-    //    clone.html($(clone).html().replace(/\JobCardDailyActivityTask[0]./g, 'JobCardDailyActivityTask[' + i + '].'));
-    //    clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
-    //    clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
-    //    clone.html($(clone).html().replace(/\Row_0/g, 'Row_' + i + ''));
-    //    clone.html($(clone).html().replace(/\add_0/g, 'add_' + i + ''));
+        var clone = $('#Row_0').clone();
+        clone.html($(clone).html().replace(/\JobCardDailyActivityTask_0__/g, 'JobCardDailyActivityTask_' + i + '__'));
+        clone.html($(clone).html().replace(/\JobCardDailyActivityTask_0__/g, 'JobCardDailyActivityTask_' + i + '__'));
+        clone.html($(clone).html().replace(/\JobCardDailyActivityTask[0]./g, 'JobCardDailyActivityTask[' + i + '].'));
+        clone.html($(clone).html().replace(/\[0\]/g, '[' + i + ']'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        clone.html($(clone).html().replace(/\Row_0/g, 'Row_' + i + ''));
+        clone.html($(clone).html().replace(/\add_0/g, 'add_' + i + ''));
 
-    //    $("#tab_logic").append('<tr id="Row_' + i + '" class="TaskRow">' + clone.html() + '  </tr>');
-    //    assignTaskDate();
+        $("#tab_logic").append('<tr id="Row_' + i + '" class="TaskRow">' + clone.html() + '  </tr>');
+        assignTaskDate();
 
-    //    //bind keypress event
-    //    $(".numbers-only").keypress(function (e) {
-    //        if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { }
-    //        else { return false; }
-    //    });
-    //}
+        //bind keypress event
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 45 && $(this).val().indexOf('-') == -1) || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { }
+            else { return false; }
+        });
+    }
 
     function Back() {
         var url = '@Url.Action("PendingJobcardTasks", new { type = Model.isProjectBased })';
@@ -142,7 +144,10 @@
                 <table class="table table-bordered" id="tab_logic">
                     <thead>
                         <tr class="grid_heading">
-
+                            @if (Model.isProjectBased == 1)
+                            {
+                                <th width="2%" class="text-center"></th>
+                            }
                             <th width="2%" class="text-center"><h1>#</h1></th>
                             <th width="20%" class="text-left"><h1>Technician</h1></th>
                             <th width="20%" class="text-left"><h1>Task</h1></th>
@@ -150,7 +155,10 @@
                             <th width="10%"><h1>Start Time</h1></th>
                             <th width="10%"><h1>End Time</h1></th>
                             <th width="10%"><h1>Actual Hours</h1></th>
-                            @*<th width="2%" class="text-center"></th>*@
+                            @if (Model.isProjectBased == 1)
+                            {
+                                <th width="2%" class="text-center"></th>
+                            }
                         </tr>
                     </thead>
                     <tbody class="grid_row" id="table_validation">
@@ -158,28 +166,65 @@
                         @foreach (var item in Model.JobCardDailyActivityTask)
                         {
                             <tr id="Row_@i" class="TaskRow">
-
-                                <td width="1%" align="center">@(i + 1)</td>
                                 @*<td width="26%">@Html.DropDownListFor(m => Model.JobCardDailyActivityTask[i].JobCardTaskId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off" })</td>*@
-                                @*@if (Model.isProjectBased == 0)
-                                {*@
+                                @if (Model.isProjectBased == 1)
+                                {
+                                    <td></td>
+                                }
+                                <td width="1%" align="center">@(i + 1)</td>
+                                @if (Model.isProjectBased == 0)
+                                {
                                     <td width="5%">
                                         @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].EmployeeId)
                                         @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].EmployeeName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                                     </td>
-                                @*}*@
+                                }
+                                else
+                                {
+                                    <td width="26%">@Html.DropDownListFor(m => Model.JobCardDailyActivityTask[i].EmployeeId, (SelectList)ViewBag.employeeList, "Select Technician", new { @class = "form_input", autocomplete = "off" })</td>
+                                }
+                                @if (Model.isProjectBased == 0)
+                                {
+                                    <td width="5%">
+                                        @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].JobCardTaskMasterId)
+                                        @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].JobCardTaskId)
+                                        @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].JobCardTaskName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td width="26%">@Html.DropDownListFor(m => Model.JobCardDailyActivityTask[i].JobCardTaskMasterId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off" })</td>
+                                }
+                                @if (Model.isProjectBased == 0)
+                                {
+                                    <td>@Model.JobCardDailyActivityTask[i].TaskStartDate.ToString("dd/MMMM/yyyy")</td>
+                                    @*<td width="5%">*@@Html.HiddenFor(m => m.JobCardDailyActivityTask[i].TaskStartDate)@*</td>*@
+                                    @*<td width="5%">*@@Html.HiddenFor(m => m.JobCardDailyActivityTask[i].TaskEndDate)@*</td>*@
+                                }
+                                else
+                                {
+                                    <td>
+                                        @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].TaskStartDate, Model.JobCardDailyActivityTask[i].TaskStartDate.ToString("dd/MMMM/yyyy"),
+                                        new { @class = "form_input taskdate", @readonly = "true" })
+                                    </td>
+                                }
                                 <td width="5%">
-                                    @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].JobCardTaskMasterId)
-                                    @Html.HiddenFor(m => m.JobCardDailyActivityTask[i].JobCardTaskId)
-                                    @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].JobCardTaskName, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
+                                    @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].StartTime, new
+                                          {
+                                              @class = "form_input timepicker",
+                                              autocomplete = "off"@*, @required = "true"*@ })
                                 </td>
-                                <td>@Model.JobCardDailyActivityTask[i].TaskStartDate.ToString("dd/MMMM/yyyy")</td>
-                                @*<td width="5%">*@@Html.HiddenFor(m => m.JobCardDailyActivityTask[i].TaskStartDate)@*</td>*@
-                                @*<td width="5%">*@@Html.HiddenFor(m => m.JobCardDailyActivityTask[i].TaskEndDate)@*</td>*@
-                                <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].StartTime, new { @class = "form_input timepicker", autocomplete = "off"@*, @required = "true"*@ })</td>
-                                <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].EndTime, new { @class = "form_input timepicker", autocomplete = "off"@*, @required = "true"*@ })</td>
-                                <td width="10%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].ActualHours, new { @class = "form_input numbers-only", autocomplete = "off", @placeholder = "0"})</td>
-                                @*<td style="vertical-align:middle"><a id="add_@i" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>*@
+                                <td width="5%">
+                                    @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].EndTime, new
+                                          {
+                                              @class = "form_input timepicker",
+                                              autocomplete = "off"@*, @required = "true"*@ })
+                                </td>
+                                <td width="10%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].ActualHours, new { @class = "form_input numbers-only", autocomplete = "off", @placeholder = "0" })</td>
+                                @if (Model.isProjectBased == 1)
+                                {
+                                    <td style="vertical-align:middle"><a id="add_@i" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>
+                                }
                             </tr>
                                 i++;
                         }
