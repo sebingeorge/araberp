@@ -48,7 +48,7 @@
                     @Html.TextBoxFor(m => m.ProjectWarrantyExpiryDate, Model.ProjectWarrantyExpiryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
                 </div>
             </div>
-            @Html.Action("SaleOrderDetails", Model.SaleOrderId)
+            @Html.Action("SaleOrderDetails",new{ id=Model.SaleOrderId})
 
             <div class="row form-group">
                 <div class="col-md-4">
