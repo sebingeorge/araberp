@@ -241,7 +241,8 @@ namespace ArabErp.DAL
                     //objItem.ItemId = id;
                     DeleteItemVsBom(connection, txn, objItem.ItemId);
                     DeleteItemVsTasks(connection, txn, objItem.ItemId);
-                    if (objItem.FreezerUnit || objItem.Box)
+                    if (objItem.FreezerUnit || objItem.Box || objItem.CondenserUnit || objItem.Door || objItem.EvaporatorUnit)
+                    //if (objItem.FreezerUnit || objItem.Box)
                     {
                         InsertItemVsBOM(connection, txn, objItem);
                         InsertItemVsTasks(connection, txn, objItem);

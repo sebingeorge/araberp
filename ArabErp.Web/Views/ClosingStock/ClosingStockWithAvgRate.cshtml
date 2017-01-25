@@ -1,0 +1,85 @@
+﻿@model ArabErp.Domain.ClosingStock
+@{
+    ViewBag.Title = "ClosingStockWithAvgRate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#txtAsOn").datepicker({
+            dateFormat: "dd-MM-yy"
+        });
+    })
+    function FillItem() {
+        var Code = $('#itmCatId').val();
+
+        var Url = '@Url.Action("Item")';
+
+        if (Code == '') {
+            $("#DivItem").load(Url, { Code: 0 });
+
+        }
+        else {
+            $("#DivItem").load(Url, { Code: Code });
+
+        }
+
+    }
+    function Filter() {
+        $("#Closing_stock").addClass("fade");
+        var stkid = $("#cboStockpoint").val();
+        var itmid = $("#ItemId").val().trim();
+        var PartNo = $("#filter-PartNo").val().trim();
+        var Ason = $("#txtAsOn").val();
+        var url = '@Url.Action("ClosingStockWithAvgRateRegister")';
+        url += "?Ason=" + Ason + "&stkid=" + stkid + "&itmid=" + encodeURIComponent(itmid) + "&PartNo=" + encodeURIComponent(PartNo);
+        $("#Closing_stock").load(url, function () {
+            $("#Closing_stock").removeClass("fade");
+        });
+    }
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+   
+</script>
+<div class="row">
+
+    <div class="form-head1">
+        <h4>Closing Stock Report with Value</h4>
+    </div>
+    <div class="main-part pad1">
+        <div class="row">
+            <div class="col-md-2">
+                <label>As On Date</label>
+                <input id="txtAsOn" value="@System.DateTime.Today.ToString("dd-MMMM-yyyy")" onchange="Filter()" class="form_input" />
+            </div>
+            <div class="col-md-2">
+                <label for="cboStockpoint">Stock Point</label>
+                @Html.DropDownList("cboStockpoint", (SelectList)ViewBag.WarehouseList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+            <div class="col-md-2">
+                <label for="ItemId">Material/Spares</label>
+                <input id="ItemId" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
+            </div>
+            <div class="col-md-2">
+                <label for="filter-PartNo">Part No.</label>
+                <input id="filter-PartNo" class="form_input" placeholder="Search for Part No." onkeyup="Filter()" onchange="Filter()" />
+            </div>
+         </div>
+        <br />
+        <div class="row">
+            <div class="main-grid main-grid-top scroll1">
+                <div class="table-responsive" id="Closing_stock">
+                    @Html.Action("ClosingStockWithAvgRateRegister")
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 hrpart">
+                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                @*<input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />*@
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -58,6 +58,7 @@ namespace ArabErp.Web.Controllers
         }
 
         public ActionResult PendingJobOrderCompletion(int isProjectBased, int id = 0, int cusid = 0, string RegNo = "")
+           
         {
             return PartialView("PendingJobOrderCompletion", new JobOrderCompletionRepository().GetPendingJobOrder(isProjectBased, OrganizationId, id, cusid, RegNo));
 

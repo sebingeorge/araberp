@@ -6,6 +6,10 @@
         $(".numbers-only").keypress(function (e) {
             if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
         });
+
+        $('#tab_logic select[id$="__ItemId"]').combobox();
+        $('#tab_logic select[id^="cboPartNo"]').combobox();
+
             });
 
     function ValueChanged(row) {
@@ -73,9 +77,9 @@
         clone.html($(clone).html().replace(/slno0/, 'slno' + i + ''));
         
         $("#tab_logic").append('<tr id="Row_' + i + '" class="WorkRow">' + clone.html() + '  </tr>');
-
         resetValues(i);
-
+        $("#Row_" + i).find('span[class="custom-combobox"]').remove();
+        $("#Items_" + i + "__ItemId").combobox();
     }
     function resetValues(index) {
         $("#Items_" + index + "__ItemId").val('');
@@ -185,6 +189,7 @@
                       }            
                         @Html.HiddenFor(m => m.Items[row].ItemId)                      
                     </td>
+                
                     <td id="partno@(row)">@Html.TextBoxFor(m => m.Items[row].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "readonly", @tabindex = "-1" })</td>
                     <td>@Html.TextBoxFor(m => m.Items[row].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
                   

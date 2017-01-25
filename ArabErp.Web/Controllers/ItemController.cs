@@ -66,13 +66,13 @@ namespace ArabErp.Web.Controllers
 
             var repo = new ItemRepository();
 
-            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Item", "ItemName", oitem.ItemName, null, null);
+            bool isexists = repo.IsFieldExistsWithActive(repo.ConnectionString(), "Item", "ItemName", oitem.ItemName, null, null);
             if (!isexists)
             {
 
                 if (oitem.PartNo != null)
 
-                    isexists = repo.IsFieldExists(repo.ConnectionString(), "Item", "PartNo", oitem.PartNo, null, null);
+                    isexists = repo.IsFieldExistsWithActive(repo.ConnectionString(), "Item", "PartNo", oitem.PartNo, null, null);
 
                 if (!isexists)
                 {
@@ -145,7 +145,7 @@ namespace ArabErp.Web.Controllers
             var repo = new ItemRepository();
 
 
-            bool isexists = repo.IsFieldExists(repo.ConnectionString(), "Item", "ItemName", model.ItemName, "ItemId", model.ItemId);
+            bool isexists = repo.IsFieldExistsWithActive(repo.ConnectionString(), "Item", "ItemName", model.ItemName, "ItemId", model.ItemId);
             if (!isexists)
             {
                 var result = new ItemRepository().UpdateItem(model);
@@ -177,12 +177,14 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult Delete(int Id)
         {
-
-            Item objItem = new ItemRepository().GetItem(Id);
-
             FillUnit();
-
-
+            FillItem();
+            FillJobCardTaskMaster();
+            Item objItem = new ItemRepository().GetItem(Id);
+            objItem.ItemVsBom = new ItemRepository().GetItemVsBom(Id);
+            if (objItem.ItemVsBom.Count == 0) objItem.ItemVsBom.Add(new WorkVsItem());
+            objItem.ItemVsTasks = new ItemRepository().GetItemVsTasks(Id);
+            if (objItem.ItemVsTasks.Count == 0) objItem.ItemVsTasks.Add(new WorkVsTask());
             return View(objItem);
 
 

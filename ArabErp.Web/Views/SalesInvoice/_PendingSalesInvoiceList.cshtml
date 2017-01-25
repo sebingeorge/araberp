@@ -154,12 +154,15 @@
             <thead>
                 <tr class="grid_heading">
                     <th width="15%">Sale Order No. &amp; Date</th>
-                    <th width="20%"><h1>Delivery Challan No. &amp; Date</h1></th>
+                    @if (Request.QueryString["invType"] != "Inter")
+                    {
+                        <th width="20%"><h1>Delivery Challan No. &amp; Date</h1></th>
+                    }
                     <th width="20%"><h1>Job Card No. &amp; Date</h1></th>
-                     @if(Request.QueryString["invType"] == "Final")
-                     { 
-                    <th width="25%"><h1>Reg. No. & Chassis No.</h1></th>
-                     }
+                    @if (Request.QueryString["invType"] == "Final")
+                    {
+                        <th width="25%"><h1>Reg. No. & Chassis No.</h1></th>
+                    }
                     <th width="25%"><h1>Customer</h1></th>
                     <th width="5%" class="text-right"><h1>Qty</h1></th>
                     <th width="7%" class="text-right"><h1>Rate</h1></th>
@@ -179,12 +182,15 @@
                         <td>
                             <strong>@Model[i].SaleOrderRefNo</strong> - @Model[i].SaleOrderDate.ToString("dd/MMMM/yyyyy")
                         </td>
+                   @if (Request.QueryString["invType"] != "Inter")
+                    {
                         <td>
                             @*@Html.TextBoxFor(m => Model[i].WorkDescription, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
                             <strong>@Model[i].DeliveryChallanRefNo</strong> - @Model[i].DeliveryChallanDate.ToString("dd/MMMM/yyyy")
                             @Html.HiddenFor(m => m[i].DeliveryChallanRefNo)
                             @Html.HiddenFor(m => m[i].DeliveryChallanDate)
                         </td>
+                   }
                         <td>
                             <strong>@Model[i].JobCardNo</strong> - @Model[i].JobCardDate.ToString("dd/MMMM/yyyy")
                             @*@Html.TextBoxFor(m => Model[i].JobCardNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly" })*@
@@ -200,13 +206,13 @@
                                 @Model[i].ChassisNo
                             </td>
                         }
-                       
+
                         <td>@Model[i].CustomerName</td>
                         <td align="right">
                             @Model[i].Quantity
                             @*@Html.TextBoxFor(m => Model[i].Quantity, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })*@
                         </td>
-                      
+
                         <td align="right">
                             @Model[i].Rate
                             @*@Html.TextBoxFor(m => Model[i].Rate, new { @class = "form_input clAmount", @style = "text-align:right", autocomplete = "off", @readonly = "readonly" })*@
@@ -252,4 +258,3 @@
         }
     </table>
 </div>
-

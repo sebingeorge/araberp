@@ -14,12 +14,12 @@ namespace ArabErp.DAL
     public class JobOrderCompletionRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-        public IEnumerable<JobOrderPending> GetPendingJobOrder(int? isProjectBased, int OrganizationId, int id, int cusid, string RegNo = "")
-        {
+        public IEnumerable<JobOrderPending> GetPendingJobOrder(int? ProjectBased, int OrganizationId, int id, int cusid, string RegNo = "")
+     {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string query = string.Empty;
-                if ((isProjectBased ?? 0) == 0)
+                if ((ProjectBased ?? 0) == 0)
                 {
                     query = @"select distinct J.JobCardId, J.JobCardNo, J.JobCardDate, C.CustomerName, V.VehicleModelName,isnull(RegistrationNo,'')RegistrationNo,isnull(ChassisNo,'')ChassisNo, J.isOnHold
                      from JobCard J
@@ -46,7 +46,7 @@ namespace ArabErp.DAL
                     and J.JobCardId = ISNULL(NULLIF(@id, 0), J.JobCardId) and S.CustomerId = ISNULL(NULLIF(@cusid, 0), S.CustomerId)";
                 }
 
-                return connection.Query<JobOrderPending>(query, new { isProjectBased = isProjectBased, OrganizationId = OrganizationId, id = id, cusid = cusid, RegNo = RegNo });
+                return connection.Query<JobOrderPending>(query, new { isProjectBased = ProjectBased, OrganizationId = OrganizationId, id = id, cusid = cusid, RegNo = RegNo});
             }
         }
 
@@ -251,7 +251,7 @@ namespace ArabErp.DAL
                             //query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where JobCardId = " + jobcard.JobCardId.ToString() + ";";
                             //query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + ",StartTime = " + item.StartTime.ToString() + ",EndTime = " + item.EndTime.ToString() + "  where SlNo = " + item.SlNo.ToString() + " and JobCardId = " + jobcard.JobCardId.ToString() + ";";
                             if (jobcard.isProjectBased == 0)
-                                query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where SlNo = " + item.SlNo.ToString() + " and JobCardId = " + jobcard.JobCardId.ToString() + ";";
+                            query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where SlNo = " + item.SlNo.ToString() + " and JobCardId = " + jobcard.JobCardId.ToString() + ";";
                             else
                                 query = "update JobCardTask set ActualHours = " + item.ActualHours.ToString() + " where JobCardTaskId = " + item.JobCardTaskId.ToString();
                             connection.Query(query, transaction: txn);

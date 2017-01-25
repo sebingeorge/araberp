@@ -25,7 +25,7 @@ namespace ArabErp.Web.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Create(int? SaleOrderId, int? saleorderitem, int? SaleOrderItemUnitId, int? EvaConUnitId)
+        public ActionResult Create(int? SaleOrderId, int? saleorderitem)
         {
             ItemDropdown();
             WorkShopRequestRepository repo = new WorkShopRequestRepository();
@@ -35,7 +35,7 @@ namespace ArabErp.Web.Controllers
             List<WorkShopRequestItem> WSList = new List<WorkShopRequestItem>();
             if(model.isProjectBased==1)
             {
-                WSList = repo.GetWorkShopRequestDataForProject(SaleOrderItemUnitId ?? 0, EvaConUnitId ?? 0);
+                WSList = repo.GetWorkShopRequestDataForProject(saleorderitem ?? 0);
             }
             else
             {
@@ -74,8 +74,7 @@ namespace ArabErp.Web.Controllers
             model.WorkShopRequestRefNo = internalId;
             model.WorkShopRequestDate = System.DateTime.Today;
             model.RequiredDate = System.DateTime.Today;
-            model.SaleOrderItemUnitId = SaleOrderItemUnitId ?? 0;
-            model.EvaConUnitId = EvaConUnitId ?? 0;
+         
             return View(model);
         }
 

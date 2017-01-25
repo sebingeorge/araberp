@@ -32,7 +32,7 @@
                     </td>
                     <td>
                     @Html.HiddenFor(m => Model.ProjectRooms[currentIndex].ProjectRoomDoors[i].DoorId)
-                    @Html.DropDownListFor(m => m.ProjectRooms[currentIndex].ProjectRoomDoors[i].DoorId, new SelectList(ViewBag.DoorList, "Value", "Text", Model.ProjectRooms[currentIndex].ProjectRoomDoors[i].DoorId), new { @class = "form_input", @disabled = "true" })
+                    @Html.DropDownListFor(m => m.ProjectRooms[currentIndex].ProjectRoomDoors[i].DoorId, new SelectList(ViewBag.DoorList, "Value", "Text", Model.ProjectRooms[currentIndex].ProjectRoomDoors[i].DoorId),"Select Door", new { @class = "form_input", @disabled = "true" })
                     </td>
                     <td>
                    
