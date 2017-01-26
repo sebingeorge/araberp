@@ -63,7 +63,7 @@ namespace ArabErp.DAL
                                        INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
                                        INNER JOIN ItemGroup  IG ON IG.ItemGroupId=I.ItemGroupId
         							   INNER JOIN ItemSubGroup IGS ON IGS.ItemSubGroupId=I.ItemSubGroupId
-                                       WHERE I.BatchRequired=1  and I.ItemName LIKE '%'+@itmid+'%'  
+                                       WHERE ISNULL(I.isConsumable,0)=0  and I.ItemName LIKE '%'+@itmid+'%'  
                                        AND SU.OrganizationId=@OrganizationId AND SU.StockPointId = ISNULL(NULLIF(@stkid, 0), SU.StockPointId)
                                        AND CONVERT(DATE, SU.stocktrnDate, 106)<=CONVERT(DATE, @Ason, 106)
                                        and isnull(I.PartNo,'') like '%'+@partno+'%'

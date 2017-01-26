@@ -1,0 +1,35 @@
+﻿
+@model IList<ArabErp.Domain.ProfitabilityReport>
+
+<table class="table table-responsive table-bordered">
+    <thead class="grid_heading">
+        <tr>
+            <th nowrap>Sale Order Ref</th>
+            <th nowrap>Material/Spares</th>
+            <th nowrap class="text-right">Rate</th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.SaleOrderRefNo</td>
+                    <td>@item.ItemName</td>
+                    <td class="text-right">@item.Purchase</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td align="center" colspan="7">
+                    <em>No Sale Order found!</em>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+

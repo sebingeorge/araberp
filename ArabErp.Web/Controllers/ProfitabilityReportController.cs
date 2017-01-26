@@ -22,7 +22,20 @@ namespace ArabErp.Web.Controllers
             return View(repo.GetProfitabilityReport());
         }
 
+        public ActionResult PurchaseDetails(int id)
+        {
+            return PartialView("_PurchaseDetails", new ProfitabilityReportRepository().GetPurchaseDetails(id));
+        }
 
+        public ActionResult ExpenseDetails(int id)
+        {
+            return PartialView("_ExpenseDetails", new ProfitabilityReportRepository().GetPurchaseDetails(id));
+        }
+
+        public ActionResult LabourDetails(int id)
+        {
+            return PartialView("_LabourDetails", new ProfitabilityReportRepository().GetPurchaseDetails(id));
+        }
         public ActionResult Print()
         {
 
@@ -68,7 +81,7 @@ namespace ArabErp.Web.Controllers
                 {
                     SaleOrderRefNo = item.SaleOrderRefNo,
                     SaleOrderDate = item.SaleOrderDate,
-                    CustomerName = item.CustomerName,
+                    ItemName = item.ItemName,
                     OrderAmount = item.OrderAmount,
                     Purchase = item.Purchase,
                     Expense = item.Expense,
@@ -79,7 +92,7 @@ namespace ArabErp.Web.Controllers
                 DataRow dri = ds.Tables["Items"].NewRow();
                 dri["SaleOrderRefNo"] = SupplyOrderRegItem.SaleOrderRefNo;
                 dri["SaleOrderDate"] = SupplyOrderRegItem.SaleOrderDate.ToString("dd-MMM-yyyy");
-                dri["CustomerName"] = SupplyOrderRegItem.CustomerName;
+                dri["CustomerName"] = SupplyOrderRegItem.ItemName;
                 dri["OrderAmount"] = SupplyOrderRegItem.OrderAmount;
                 dri["Purchase"] = SupplyOrderRegItem.Purchase;
                 dri["Expense"] = SupplyOrderRegItem.Expense;

@@ -17,7 +17,31 @@
         window.open(url);
     }
 
+    function PurchaseDetails(Id)
+    {
+        var url = '@Url.Action("PurchaseDetails")';
+        url += '?id=' + Id;
+        $('#purchasedetails').html('Loading Purchase Details...<br><br>');
+        $('#purchasedetails').load(url);
 
+    }
+
+    function ExpenseDetails(Id)
+    {
+        var url = '@Url.Action("ExpenseDetails")';
+        url += '?id=' + Id;
+        $('#ExpenseDetails').html('Loading Expense Details...<br><br>');
+        $('#ExpenseDetails').load(url);
+
+    }
+
+    function LabourDetails(Id) {
+        var url = '@Url.Action("LabourDetails")';
+        url += '?id=' + Id;
+        $('#LabourDetails').html('Loading Labour Details...<br><br>');
+        $('#LabourDetails').load(url);
+
+    }
     </script>
     <div class="row">
         <div class="form-head1">
@@ -49,13 +73,20 @@
                                     decimal profit = item.SalesInvoice - (item.Purchase + item.Expense + item.Labour);
                                     <tbody class="grid_row">
                                         <tr>
-                                            <td class="grid-cell">@item.SaleOrderRefNo</td>
+                                           
+                                            <td 
+                                                class="grid-cell">@item.SaleOrderRefNo
+                                                @Html.HiddenFor(m => @item.SaleOrderId)
+                                            </td>
                                             <td class="grid-cell">@item.SaleOrderDate.ToString("dd/MMM/yyyy")</td>
                                             <td class="grid-cell">@item.CustomerName</td>
                                             <td class="grid-cell text-right">@item.OrderAmount</td>
-                                            <td class="grid-cell text-right">@item.Purchase</td>
-                                            <td class="grid-cell text-right">@item.Expense</td>
-                                            <td class="grid-cell text-right">@item.Labour</td>
+                                            @*<td class="grid-cell text-right">@item.Purchase</td>*@
+                                            @*<td class="grid-cell text-right">@item.Expense</td>*@
+                                            @*<td class="grid-cell text-right">@item.Labour</td>*@
+                                            <td onclick="PurchaseDetails(@item.SaleOrderId)" class="grid-cell text-right" value="Get Purchase Details" style="width: 150px;cursor:pointer;" data-toggle="modal" data-target="#Purchasedetailspopup">@item.Purchase</td>
+                                            <td onclick="ExpenseDetails(@item.SaleOrderId)" class="grid-cell text-right" value="Get Expense Details" style="width: 150px;cursor:pointer;" data-toggle="modal" data-target="#Expensedetailspopup">@item.Expense</td>
+                                            <td onclick="LabourDetails(@item.SaleOrderId)" class="grid-cell text-right" value="Get Labour Details" style="width: 150px;cursor:pointer;" data-toggle="modal" data-target="#Labourdetailspopup">@item.Labour</td>
                                             <td class="grid-cell text-right">@item.SalesInvoice</td>
                                             <td class="grid-cell text-right">@profit</td>
                                         </tr>
@@ -73,3 +104,60 @@
 
         </div>
     </div>
+
+ <!-- Purchase Coloumn Click PopUp -->
+<div id="Purchasedetailspopup" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:800px">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Purchase Details</h4>
+            </div>
+            <div class="modal-body">
+                <div id="purchasedetails"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Expense Coloumn Click PopUp -->
+<div id="Expensedetailspopup" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:800px">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Expense Details</h4>
+            </div>
+            <div class="modal-body">
+                <div id="ExpenseDetails"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Labour Coloumn Click PopUp -->
+<div id="Labourdetailspopup" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:800px">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Labour Details</h4>
+            </div>
+            <div class="modal-body">
+                <div id="LabourDetails"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

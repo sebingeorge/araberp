@@ -25,6 +25,12 @@
         window.location = url;
     }
 
+    function GoToPrint(id)
+    {
+        var url = '@Url.Action("ProjectCompletionReport")';
+        url += "?Id=" + id;
+        window.open(url);
+    }
 </script>
 
 <div class="row">
@@ -75,7 +81,7 @@
                 <div class="col-md-12 col-md hrpart">
                     <input class="form-button right" type="button" value="Exit" onclick="Back()" />
                     <input class="form-button right" type="submit" value="Edit" />
-
+                    <input type="button" value="Print" onclick="GoToPrint(@Model.ProjectCompletionId)" class="form-button right" />
                 </div>
             </div>
         </form>

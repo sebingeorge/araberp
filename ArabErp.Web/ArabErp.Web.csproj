@@ -1413,6 +1413,9 @@
     <Content Include="Views\Home\ShowSessionDetails.cshtml" />
     <Content Include="Views\ClosingStock\ClosingStockWithAvgRate.cshtml" />
     <Content Include="Views\ClosingStock\_ClosingStockWithAvgRateRegister.cshtml" />
+    <Content Include="Views\ProfitabilityReport\_PurchaseDetails.cshtml" />
+    <Content Include="Views\ProfitabilityReport\_ExpenseDetails.cshtml" />
+    <Content Include="Views\ProfitabilityReport\_LabourDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
