@@ -309,16 +309,13 @@ namespace ArabErp.DAL
             {
                 using (IDbConnection connection = OpenConnection(dataConnection))
                 {
-                    string query = @"SELECT
-	                            IB.ItemBatchId,
-	                            I.ItemName,
-	                            SerialNo
-                                FROM JobCard JC
-                                INNER JOIN ItemBatch IB ON JC.SaleOrderItemId = IB.SaleOrderItemId
-                                LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
-								LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId 
-                                INNER JOIN Item I ON GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId
-                                WHERE IB.ProjectCompletionId = @ProjectCompletionId";
+                    string query = @"SELECT IB.ItemBatchId,I.ItemName,SerialNo,DATEDIFF(month, WarrantyStartDate, WarrantyExpireDate)WarrantyPeriodInMonths
+                                    FROM JobCard JC
+                                    INNER JOIN ItemBatch IB ON JC.SaleOrderItemId = IB.SaleOrderItemId
+                                    LEFT JOIN GRNItem GI ON IB.GRNItemId = GI.GRNItemId
+							        LEFT JOIN OpeningStock OS ON IB.OpeningStockId = OS.OpeningStockId 
+                                    INNER JOIN Item I ON GI.ItemId = I.ItemId OR OS.ItemId = I.ItemId
+                                    WHERE IB.ProjectCompletionId = @ProjectCompletionId";
                     return connection.Query<ItemBatch>(query, new { ProjectCompletionId = ProjectCompletionId }).ToList();
                 }
             }
@@ -451,15 +448,25 @@ namespace ArabErp.DAL
                 {
                     string query = string.Empty;
 
-                    query = @"  SELECT O.*,PC.*,SO.SaleOrderId, SO.SaleOrderRefNo,SO.SaleOrderDate,
-                                C.CustomerName,QS.ProjectName,'' Location,ISNULL(SQ.ProjectCompletionId,0)IsUsed
-                                    FROM ProjectCompletion PC
-	                                    INNER JOIN SaleOrder SO ON PC.SaleOrderId = SO.SaleOrderId
-	                                    INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
-	                                    INNER JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
-	                                    INNER JOIN QuerySheet QS ON SQ.QuerySheetId = QS.QuerySheetId 
-										 INNER JOIN Organization O ON O.OrganizationId=PC.OrganizationId
-										 left  JOIN Country ORR ON ORR.CountryId=O.Country
+                query = @"  SELECT O.*,PC.*,SO.SaleOrderId, SO.SaleOrderRefNo,SO.SaleOrderDate,
+                                        C.CustomerName,QS.ProjectName,'' Location,ISNULL(SQ.ProjectCompletionId,0)IsUsed,
+                                        QI.RoomDetails,ExternalRoomDimension FreezerDimension,Refrigerant FreezerRefrigerant,
+                                        ISNULL(QI.Quantity, 1) FreezerQuantity ,QI.QuerySheetItemId,
+                                        STUFF((SELECT ', ' + T2.ItemName FROM QuerySheetItemUnit T1
+                                        LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
+                                        WHERE T1.QuerySheetItemId = QI.QuerySheetItemId FOR XML PATH('')), 1, 2, '') FreezerCondensingUnit,
+                                        STUFF((SELECT ', ' + T2.ItemName FROM QuerySheetItemUnit T1
+                                        LEFT JOIN Item T2 ON T1.EvaporatorUnitId = T2.ItemId
+                                        WHERE T1.QuerySheetItemId = QI.QuerySheetItemId FOR XML PATH('')), 1, 2, '') FreezerEvaporator,
+                                        QI.TemperatureRequired FreezerTemperature
+                                FROM ProjectCompletion PC
+                                        INNER JOIN SaleOrder SO ON PC.SaleOrderId = SO.SaleOrderId
+                                        INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+                                        INNER JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
+                                        INNER JOIN QuerySheet QS ON SQ.QuerySheetId = QS.QuerySheetId 
+                                        INNER JOIN QuerySheetItem QI ON QI.QuerySheetId=SQ.QuerySheetId
+                                        INNER JOIN Organization O ON O.OrganizationId=PC.OrganizationId
+                                        left  JOIN Country ORR ON ORR.CountryId=O.Country
                                 WHERE PC.ProjectCompletionId =@ProjectCompletionId";
 
                     ProjectCompletion ProjectCompletion = connection.Query<ProjectCompletion>(query, new { ProjectCompletionId = ProjectCompletionId, OrganizationId = OrganizationId }).FirstOrDefault();

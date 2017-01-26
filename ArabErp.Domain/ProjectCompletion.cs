@@ -31,6 +31,7 @@ namespace ArabErp.Domain
         public string ChillerRefrigerant { get; set; }
         public string ChillerQuantity { get; set; }
 
+        public string RoomDetails { get; set; }
         public string FreezerTemperature { get; set; }
         public string FreezerDimension { get; set; }
         public string FreezerCondensingUnit { get; set; }

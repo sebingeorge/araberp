@@ -17,5 +17,9 @@ namespace ArabErp.Domain
         public decimal Expense { get; set; }
         public decimal Labour { get; set; }
         public decimal SalesInvoice { get; set; }
+        public string ItemName { get; set; }
+        public string Quantity { get; set; }
+        public decimal Rate { get; set; }
+        public decimal Amount { get; set; }
     }
 }
