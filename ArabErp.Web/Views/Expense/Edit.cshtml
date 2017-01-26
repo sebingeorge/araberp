@@ -71,6 +71,10 @@
 
         $("#ExpenseBillItem_" + i + "__SlNo").val((i + 1));
         numbersOnly();
+        $("#ExpenseBillItem_" + i + "__AddDedId").val('');
+        $("#ExpenseBillItem_" + i + "__ExpenseItemQty").val('');
+        $("#ExpenseBillItem_" + i + "__ExpenseItemRate").val('');
+        $("#ExpenseBillItem_" + i + "__ExpenseItemAmount").val('');
     }
     function AddDelete(index) {
 
@@ -136,8 +140,6 @@
         i++;
 
 
-
-
         var index = (new Date()).getTime(); // unique indexer
         var clone = $('#0').clone(); // clone the BatchProducts item
         clone.html($(clone).html().replace(/\deductions_0__/g, 'deductions_' + i + '__'));
@@ -150,6 +152,10 @@
         $("#tab_logic_deduction").append('<tr id="' + i + '">' + clone.html() + '  </tr>');
         $("#deductions_" + i + "__SlNo").val((i + 1));
         numbersOnly();
+      
+        $("#deductions_" + i + "__AddDedId").val('');
+        $("#deductions_" + i + "__ExpenseItemAmount").val();
+
     }
     function DedDelete(index) {
 

@@ -68,11 +68,11 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                return connection.Query<Dropdown>("SELECT CurrencyId Id,CurrencyName Name FROM Currency WHERE isActive=0").ToList();
+                return connection.Query<Dropdown>("SELECT CurrencyId Id,CurrencyName Name FROM Currency WHERE isActive=1").ToList();
             }
         }
 
-        public string Insert(ExpenseBill expenseBill)
+       public string Insert(ExpenseBill expenseBill)
         {
             int id = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -103,7 +103,7 @@ namespace ArabErp.DAL
                     {
                         sql = string.Empty;
                         sql += "insert into ExpenseBillItem(ExpenseId, AddDedId, ExpenseItemRate, ExpenseItemQty, ExpenseItemAmount, ExpenseItemAddDed)";
-                        sql += " values(@ExpenseId, @AddDedId, @ExpenseItemRate, @ExpenseItemQty, @ExpenseItemAmount, @ExpenseItemAddDed)";
+                        sql += " values(@ExpenseId,ISNULL(@AddDedId,0),  @ExpenseItemRate, @ExpenseItemQty, @ExpenseItemAmount, @ExpenseItemAddDed)";
 
                         item.ExpenseId = id;
                         item.ExpenseItemAddDed = 1;
@@ -114,7 +114,7 @@ namespace ArabErp.DAL
                     {
                         sql = string.Empty;
                         sql += "insert into ExpenseBillItem(ExpenseId, AddDedId, ExpenseItemRate, ExpenseItemQty, ExpenseItemAmount, ExpenseItemAddDed)";
-                        sql += " values(@ExpenseId, @AddDedId, @ExpenseItemRate, @ExpenseItemQty, @ExpenseItemAmount, @ExpenseItemAddDed)";
+                        sql += " values(@ExpenseId, ISNULL(@AddDedId,0),  @ExpenseItemRate, @ExpenseItemQty, @ExpenseItemAmount, @ExpenseItemAddDed)";
 
                         item.ExpenseId = id;
                         item.ExpenseItemAddDed = 2;
@@ -132,6 +132,66 @@ namespace ArabErp.DAL
             }
             return expenseBill.ExpenseNo;
         }
+       public string InsertDT(ExpenseBill expenseBill)
+       {
+           int id = 0;
+           using (IDbConnection connection = OpenConnection(dataConnection))
+           {
+               IDbTransaction trn = connection.BeginTransaction();
+               try
+               {
+                   var internalId = DatabaseCommonRepository.GetNewDocNo(connection, expenseBill.OrganizationId, 14, true, trn);
+
+                   expenseBill.ExpenseNo = internalId;
+
+                   if (expenseBill.SoOrJc == "JC")
+                   {
+                       expenseBill.SaleOrderId = null;
+                   }
+                   else
+                   {
+                       expenseBill.JobCardId = null;
+                   }
+                   string sql = string.Empty;
+                   //sql += "insert into ExpenseBill(ExpenseNo,ExpenseDate,ExpenseBillRef,ExpenseBillDate,ExpenseBillDueDate,SupplierId,ExpenseRemarks,TotalAddition,TotalDeduction,TotalAmount,CurrencyId,SaleOrderId,JobCardId,OrganizationId)";
+                   //sql += " values(@ExpenseNo,@ExpenseDate,@ExpenseBillRef,@ExpenseBillDate,@ExpenseBillDueDate,@SupplierId,@ExpenseRemarks,@TotalAddition,@TotalDeduction,@TotalAmount,@CurrencyId,@SaleOrderId,@JobCardId,@OrganizationId);";
+                   //sql += " SELECT CAST(SCOPE_IDENTITY() as int);";
+
+                   //id = connection.Query<int>(sql, expenseBill, trn).Single();
+
+                   foreach (var item in expenseBill.ExpenseBillItem)
+                   {
+                       sql = string.Empty;
+                       sql += "insert into ExpenseBillItem(ExpenseId, AddDedId, ExpenseItemRate, ExpenseItemQty, ExpenseItemAmount, ExpenseItemAddDed)";
+                       sql += " values(@ExpenseId,ISNULL(@AddDedId,0), @ExpenseItemRate, @ExpenseItemQty, @ExpenseItemAmount, @ExpenseItemAddDed)";
+
+                       item.ExpenseId = expenseBill.ExpenseId;
+                       item.ExpenseItemAddDed = 1;
+
+                       connection.Query(sql, item, trn);
+                   }
+                   foreach (var item in expenseBill.deductions)
+                   {
+                       sql = string.Empty;
+                       sql += "insert into ExpenseBillItem(ExpenseId, AddDedId, ExpenseItemRate, ExpenseItemQty, ExpenseItemAmount, ExpenseItemAddDed)";
+                       sql += " values(@ExpenseId, ISNULL(@AddDedId,0), @ExpenseItemRate, @ExpenseItemQty, @ExpenseItemAmount, @ExpenseItemAddDed)";
+
+                       item.ExpenseId = expenseBill.ExpenseId;
+                       item.ExpenseItemAddDed = 2;
+
+                       connection.Query(sql, item, trn);
+                   }
+                   InsertLoginHistory(dataConnection, expenseBill.CreatedBy, "Create", "Expense Bill", id.ToString(), "0");
+                   trn.Commit();
+               }
+               catch (Exception ex)
+               {
+                   trn.Rollback();
+               }
+
+           }
+           return expenseBill.ExpenseNo;
+       }
         public IList<ExpenseBillListViewModel> GetList(int id, int supid, DateTime? from, DateTime? to)
 
         {
@@ -243,17 +303,23 @@ namespace ArabErp.DAL
         /// Delete ExpenseBill HD Details
         /// </summary>
         /// <returns></returns>
-        public int DeleteExpenseBillHD(int Id, string CreatedBy)
+        public string UpdateExpenseBillHD(ExpenseBill objExpenseBill)
         {
-            int result = 0;
+            //string result;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" DELETE FROM ExpenseBill WHERE ExpenseId=@Id";
+                //string sql = @" DELETE FROM ExpenseBill WHERE ExpenseId=@Id";
+                string sql = @"UPDATE ExpenseBill SET ExpenseDate = @ExpenseDate,ExpenseBillRef=@ExpenseBillRef,
+                               ExpenseBillDate=@ExpenseBillDate,ExpenseBillDueDate=@ExpenseBillDueDate,
+                               SupplierId = @SupplierId,ExpenseRemarks=@ExpenseRemarks,TotalAddition=@TotalAddition,TotalDeduction=@TotalDeduction,
+                               TotalAmount=@TotalAmount,CurrencyId=@CurrencyId,SaleOrderId=@SaleOrderId,
+                               JobCardId = @JobCardId,OrganizationId = @OrganizationId
+                               OUTPUT INSERTED.ExpenseNo WHERE ExpenseId = @ExpenseId";
+
                 {
 
-                    var id = connection.Execute(sql, new { Id = Id });
-                    InsertLoginHistory(dataConnection, CreatedBy, "Delete", "Expense Bill", id.ToString(), "0");
-                    return id;
+                    var id = connection.Execute(sql, objExpenseBill);
+                    return objExpenseBill.ExpenseNo;
 
                 }
 
@@ -269,6 +335,23 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @" DELETE FROM ExpenseBillItem WHERE ExpenseId=@Id";
+
+                {
+
+                    var id = connection.Execute(sql, new { Id = Id });
+                    return id;
+
+                }
+
+            }
+        }
+
+        public int DeleteExpenseBillHD(int Id)
+        {
+            int result = 0;
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" DELETE FROM ExpenseBill WHERE ExpenseId=@Id";
 
                 {
 

@@ -70,7 +70,12 @@
         $("#tab_logic").append('<tr id="Row_Ad_Id_' + i + '">' + clone.html() + '  </tr>');
 
         $("#ExpenseBillItem_" + i + "__SlNo").val((i + 1));
+
         numbersOnly();
+        $("#ExpenseBillItem_" + i + "__AddDedId").val('');
+        $("#ExpenseBillItem_" + i + "__ExpenseItemQty").val('');
+        $("#ExpenseBillItem_" + i + "__ExpenseItemRate").val('');
+        $("#ExpenseBillItem_" + i + "__ExpenseItemAmount").val('');
     }
     function AddDelete(index) {
 
