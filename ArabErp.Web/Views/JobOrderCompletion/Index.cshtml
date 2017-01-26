@@ -13,17 +13,21 @@
 
         $("#jobcardlist").addClass("fade");
         var id = $("#cboJCNo").val();
-        var r=@ViewBag.ProjectBased;
-        alert(r);
+        var ProjectBased=@ViewBag.ProjectBased;
         var cusid = $("#cboCustomer").val();
-       
-        var RegNo = $("#txtRegNo").val().trim();
-        //alert(RegNo)
-
         var url = '@Url.Action("PendingJobOrderCompletion")';
-
-        url += "?isProjectBased=" + "@ViewBag.ProjectBased" +"&id=" + id + "&cusid=" + cusid +"&RegNo=" + encodeURIComponent(RegNo);
-
+      
+        if(ProjectBased==0)
+        {
+            var RegNo = $("#txtRegNo").val().trim();
+            url += "?isProjectBased=" + "@ViewBag.ProjectBased" +"&id=" + id + "&cusid=" + cusid +"&RegNo=" + encodeURIComponent(RegNo);
+           
+        }
+        else
+        {
+            url += "?isProjectBased=" + "@ViewBag.ProjectBased" +"&id=" + id + "&cusid=" + cusid;
+         
+        }
         $("#jobcardlist").load(url, function () {
             $("#jobcardlist").removeClass("fade");
         });
