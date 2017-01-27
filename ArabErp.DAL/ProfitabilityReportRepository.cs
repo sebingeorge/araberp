@@ -63,7 +63,39 @@ namespace ArabErp.DAL
                 return connection.Query<ProfitabilityReport>(sql, new { id = id }).ToList();
             }
         }
+        public IEnumerable<ProfitabilityReport> GetExpenseDetails(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
 
+
+                 string sql = @"SELECT ExpenseNo,Convert (varchar(20),ExpenseDate,106)ExpenseDate,
+                                S.SupplierName Supplier,TotalAmount Amount 
+                                FROM ExpenseBill E
+                                INNER JOIN Supplier S ON S.SupplierId=E.SupplierId
+                                WHERE SaleOrderId=@id";
+
+                return connection.Query<ProfitabilityReport>(sql, new { id = id }).ToList();
+            }
+        }
+        public IEnumerable<ProfitabilityReport> GetLabourDetails(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+
+
+                 string sql = @"SELECT EMP.EmployeeName,JCTM.JobCardTaskName,
+                                JCT.ActualHours,JCTM.MinimumRate Rate,
+                                CAST((ISNULL(JCTM.MinimumRate, 0) * ISNULL(JCT.ActualHours, 0)) AS DECIMAL(18,2)) Amount
+                                FROM JobCard JC
+                                INNER JOIN JobCardTask JCT ON JC.JobCardId = JCT.JobCardId
+                                INNER JOIN JobCardTaskMaster JCTM ON JCT.JobCardTaskMasterId = JCTM.JobCardTaskMasterId
+                                INNER JOIN Employee EMP ON JCT.EmployeeId = EMP.EmployeeId
+                                WHERE  SaleOrderId=@id";
+
+                return connection.Query<ProfitabilityReport>(sql, new { id = id }).ToList();
+            }
+        }
         public IEnumerable<ProfitabilityReport> GetProfitabilityReportDTPrint()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

@@ -1,12 +1,15 @@
 ﻿
 @model IList<ArabErp.Domain.ProfitabilityReport>
-
+@{
+    var total = Model.Sum(x => x.Amount);
+}
 <table class="table table-responsive table-bordered">
     <thead class="grid_heading">
         <tr>
-            <th nowrap>Sale Order Ref</th>
-            <th nowrap>Material/Spares</th>
-            <th nowrap class="text-right">Rate</th>
+            <th nowrap>Expense Bill No.</th>
+            <th nowrap>Expense Date</th>
+            <th nowrap>Supplier</th>
+            <th nowrap class="text-right">Amount</th>
         </tr>
     </thead>
     <tbody class="grid_row">
@@ -15,9 +18,10 @@
             foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.SaleOrderRefNo</td>
-                    <td>@item.ItemName</td>
-                    <td class="text-right">@item.Purchase</td>
+                    <td>@item.ExpenseNo</td>
+                    <td>@item.ExpenseDate</td>
+                    <td>@item.Supplier</td>
+                    <td class="text-right">@item.Amount</td>
                 </tr>
             }
         }
@@ -30,6 +34,13 @@
             </tr>
         }
     </tbody>
+
+    <tfoot class="grid_heading">
+        <tr>
+            <th colspan="3" class="text-right">Total</th>
+            <th class="text-right">@total</th>
+        </tr>
+    </tfoot>
 
 </table>
 

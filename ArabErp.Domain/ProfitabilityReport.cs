@@ -21,5 +21,14 @@ namespace ArabErp.Domain
         public string Quantity { get; set; }
         public decimal Rate { get; set; }
         public decimal Amount { get; set; }
+        //---------------Expense
+        public string ExpenseNo { get; set; }
+        public string ExpenseDate { get; set; }
+        public string Supplier { get; set; }
+        //---------------Labour
+        public string EmployeeName { get; set; }
+        public string JobCardTaskName { get; set; }
+        public string ActualHours { get; set; }
+
     }
 }

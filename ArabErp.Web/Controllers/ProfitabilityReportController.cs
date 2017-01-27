@@ -29,12 +29,12 @@ namespace ArabErp.Web.Controllers
 
         public ActionResult ExpenseDetails(int id)
         {
-            return PartialView("_ExpenseDetails", new ProfitabilityReportRepository().GetPurchaseDetails(id));
+            return PartialView("_ExpenseDetails", new ProfitabilityReportRepository().GetExpenseDetails(id));
         }
 
         public ActionResult LabourDetails(int id)
         {
-            return PartialView("_LabourDetails", new ProfitabilityReportRepository().GetPurchaseDetails(id));
+            return PartialView("_LabourDetails", new ProfitabilityReportRepository().GetLabourDetails(id));
         }
         public ActionResult Print()
         {
