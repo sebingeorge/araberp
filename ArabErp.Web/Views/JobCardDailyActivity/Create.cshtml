@@ -8,6 +8,15 @@
 }
 <script type="text/javascript">
 
+    $(document).ready(function () {
+        //$("#Items_0__SlNo").val('1');
+       
+        $('#tab_logic select[id$="__EmployeeId"]').combobox();
+        $('#tab_logic select[id$="__JobCardTaskMasterId"]').combobox();
+        //$('#tab_logic select[id^="JobCardTaskMasterId"]').combobox();
+    });
+
+
     $(function () {
         $("#JobCardDailyActivityDate").datepicker({ dateFormat: "dd/MM/yy" });
         $('.taskdate').datepicker({ dateFormat: "dd/MM/yy" });
@@ -183,7 +192,8 @@
                                 }
                                 else
                                 {
-                                    <td width="26%">@Html.DropDownListFor(m => Model.JobCardDailyActivityTask[i].EmployeeId, (SelectList)ViewBag.employeeList, "Select Technician", new { @class = "form_input", autocomplete = "off" })</td>
+                                     <td width="26%">@Html.DropDownListFor(m => m.JobCardDailyActivityTask[i].EmployeeId, new SelectList(ViewBag.employeeList, "value", "Text", Model.JobCardDailyActivityTask[i].EmployeeId), "Select Technician", new { @class = "form_input", autocomplete = "off" })</td>
+                                    @*<td width="26%">@Html.DropDownListFor(m => Model.JobCardDailyActivityTask[i].EmployeeId, (SelectList)ViewBag.employeeList, "Select Technician", new { @class = "form_input", autocomplete = "off" })</td>*@
                                 }
                                 @if (Model.isProjectBased == 0)
                                 {
@@ -195,7 +205,8 @@
                                 }
                                 else
                                 {
-                                    <td width="26%">@Html.DropDownListFor(m => Model.JobCardDailyActivityTask[i].JobCardTaskMasterId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off" })</td>
+                                    <td width="26%">@Html.DropDownListFor(m => m.JobCardDailyActivityTask[i].JobCardTaskMasterId, new SelectList(ViewBag.TaskList, "value", "Text", Model.JobCardDailyActivityTask[i].JobCardTaskMasterId), "Select Task", new { @class = "form_input", autocomplete = "off" })</td>
+                                    @*<td width="26%">@Html.DropDownListFor(m => Model.JobCardDailyActivityTask[i].JobCardTaskMasterId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off" })</td>*@
                                 }
                                 @if (Model.isProjectBased == 0)
                                 {
