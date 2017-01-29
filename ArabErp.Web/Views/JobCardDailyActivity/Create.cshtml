@@ -63,6 +63,11 @@
 
         $("#tab_logic").append('<tr id="Row_' + i + '" class="TaskRow">' + clone.html() + '  </tr>');
         assignTaskDate();
+        $('#tab_logic #Row_' + i).find('span[class="custom-combobox"]').remove();
+        $("#JobCardDailyActivityTask_" + i + "__EmployeeId").val('');
+        $('#tab_logic #JobCardDailyActivityTask_' + i + '__EmployeeId').combobox();
+        $("#JobCardDailyActivityTask_" + i + "__JobCardTaskMasterId").val('');
+        $('#tab_logic #JobCardDailyActivityTask_' + i + '__JobCardTaskMasterId').combobox();
 
         //bind keypress event
         $(".numbers-only").keypress(function (e) {

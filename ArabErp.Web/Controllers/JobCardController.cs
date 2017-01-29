@@ -66,7 +66,8 @@ namespace ArabErp.Web.Controllers
                 model.JobCardDate = DateTime.Now;
                 model.RequiredDate = DateTime.Now;
                 FillBay(model.isService);
-                FillAllTasks();
+                //FillAllTasks();
+                FillTasks(model.isProjectBased);
                 //if (model.isService == 1)
                 //    FillTaks(model.WorkDescriptionId);
                 //else
@@ -90,6 +91,12 @@ namespace ArabErp.Web.Controllers
                 ViewData["Error"] = ErrorMessage;
                 return View("ShowError");
             }
+        }
+
+        private void FillTasks(int isProjectBased)
+        {
+            var result = new DropdownRepository().TaskDropdown1(isProjectBased);
+            ViewBag.TaskList = new SelectList(result, "Id", "Name");
         }
 
         private void FillFreezerAndBoxTasks(int? SaleOrderItemId)
@@ -134,7 +141,8 @@ namespace ArabErp.Web.Controllers
                 }
                 TempData["error"] = "Some error occured while saving. Please try again.";
                 FillBay(model.isService);
-                FillAllTasks();
+                //FillAllTasks();
+                FillTasks(model.isProjectBased);
                 FillEmployee();
                 return View(model);
             }
@@ -408,7 +416,8 @@ namespace ArabErp.Web.Controllers
             JobCard model = new JobCardRepository().GetJobCardDetails2(id, OrganizationId);
             FillBay1(model.JobCardId);
             FillEmployee();
-            FillAllTasks();
+            //FillAllTasks();
+            FillTasks(model.isProjectBased);
             //FillTaks(model.WorkDescriptionId);
             //if (model.isService == 1)
             //    FillTaks(model.WorkDescriptionId);

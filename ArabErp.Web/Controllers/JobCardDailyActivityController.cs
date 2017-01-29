@@ -35,7 +35,8 @@ namespace ArabErp.Web.Controllers
              if (jc.isProjectBased==1)
             {
                 model.JobCardDailyActivityRefNo = DatabaseCommonRepository.GetNextDocNo(38, OrganizationId);
-                FillTasks();
+                //FillTasks();
+                FillTasks(jc.isProjectBased);
                 FillEmployees();
             }
             else
@@ -83,6 +84,10 @@ namespace ArabErp.Web.Controllers
         private void FillTasks()
         {
             ViewBag.taskList = new SelectList(new DropdownRepository().TaskDropdown(OrganizationId), "Id", "Name");
+        }
+        private void FillTasks(int isProjectBased)
+        {
+            ViewBag.taskList = new SelectList(new DropdownRepository().TaskDropdown1(isProjectBased), "Id", "Name");
         }
         [HttpPost]
         public ActionResult Create(JobCardDailyActivity model)
