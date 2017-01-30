@@ -18,5 +18,6 @@ namespace ArabErp.Domain
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public int OrganizationId { get; set; }
+        public int SaleOrderId { get; set; }
     }
 }

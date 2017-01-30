@@ -10,7 +10,12 @@
     $(document).ready(function(){
         //$('#print-description-table input').attr("disabled", "true");
         //$('#print-description-table textarea').attr("disabled", "true");
-        $('#print-description-table .glyphicon').hide();
+        if ('@Model.InvoiceType' == 'Final') {
+            $('#print-description-table .glyphicon').hide();
+        }
+        else if ('@Model.InvoiceType' == 'Inter') {
+            $('#print-description-table .allow-entry').removeAttr("readonly");
+        }
         
     })
 
@@ -127,16 +132,16 @@
                             </span>
                         </td>
                         <td>
-                            @Html.TextAreaFor(m => m.PrintDescriptions[i].Description, new { @class = "form_input", @style = "height: 57px", @readonly = "readonly", @tabindex = "-1" })
+                            @Html.TextAreaFor(m => m.PrintDescriptions[i].Description, new { @class = "form_input allow-entry", @style = "height: 57px", @readonly = "readonly", @tabindex = "-1" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.PrintDescriptions[i].UoM, new { @class = "form_input", @readonly = "readonly", @tabindex = "-1" })
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].UoM, new { @class = "form_input allow-entry", @readonly = "readonly", @tabindex = "-1" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Quantity, new { @class = "form_input Quantity", @readonly = "readonly", @tabindex = "-1" })
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Quantity, new { @class = "form_input Quantity allow-entry", @readonly = "readonly", @tabindex = "-1" })
                         </td>
                         <td>
-                            @Html.TextBoxFor(m => m.PrintDescriptions[i].PriceEach, new { @class = "form_input PriceEach", @required = "true", @onchange = "Amountchanges()", @onkeyup = "Amountchanges()" })
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].PriceEach, new { @class = "form_input PriceEach allow-entry", @required = "true", @onchange = "Amountchanges()", @onkeyup = "Amountchanges()" })
                         </td>
                         <td>
                             @Html.TextBoxFor(m => m.PrintDescriptions[i].Amount, new { @class = "form_input numbers-only", @readonly = "readonly", @tabindex = "-1", @required = "true" })
@@ -161,10 +166,10 @@
         <tr class="grid_heading">
             <th class="text-center"><h1></h1></th>
             <th class="text-center"></th>
-            @if (Model.InvoiceType == "Final")
-            {
+            @*@if (Model.InvoiceType == "Final")
+            {*@
                 <th class="text-center"><h1></h1></th>
-            }
+            @*}*@
             <th class="text-right"></th>
             <th></th>
             <th class="text-right"><h1>Total</h1></th>
