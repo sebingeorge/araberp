@@ -121,7 +121,8 @@
                                 <th width="20%" class="text-left"><h1>Task</h1></th>
                                 <th width="10%"><h1>Start Time</h1></th>
                                 <th width="10%"><h1>End Time</h1></th>
-                                <th width="10%"><h1>Actual Hours</h1></th>
+                                <th width="10%"><h1>OT</h1></th>
+                                <th width="10%"><h1>Total Hours</h1></th>
                                 @*<th width="1%" class="text-center"></th>*@
                             </tr>
                         </thead>
@@ -146,6 +147,7 @@
                                     </td>
                                     <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].StartTime, new { @class = "taskdate form_input timepicker", autocomplete = "off" })</td>
                                     <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].EndTime, new { @class = "taskdate form_input timepicker", autocomplete = "off" })</td>
+                                    <td width="5%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].OverTime, new { @class = "form_input", autocomplete = "off" })</td>
                                     <td width="10%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].ActualHours, new { @class = "form_input", autocomplete = "off" })</td>
                                     @*<td style="vertical-align:middle"><a id="add_@i" class="glyphicon glyphicon-plus" style="top:0px" onclick="AddAdditionRow()"></a></td>*@
                                 </tr>

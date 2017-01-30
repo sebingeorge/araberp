@@ -56,7 +56,7 @@ namespace ArabErp.DAL
 	                            T.JobCardDailyActivityId,T.EmployeeId,E.EmployeeName,JTA.JobCardTaskMasterId,
                                 JTA.JobCardTaskName, T.StartTime, T.EndTime,T.ActualHours,
 							    CONVERT(VARCHAR, GETDATE(), 106) TaskStartDate,
-							    CONVERT(VARCHAR, GETDATE(), 106) TaskEndDate
+							    CONVERT(VARCHAR, GETDATE(), 106) TaskEndDate,OverTime
                                 FROM JobCardDailyActivityTask T
                                 INNER JOIN JobCardDailyActivity JDA ON JDA.JobCardDailyActivityId=T.JobCardDailyActivityId
                                 INNER JOIN JobCardTask JT ON JT.JobCardTaskId=T.JobCardTaskId

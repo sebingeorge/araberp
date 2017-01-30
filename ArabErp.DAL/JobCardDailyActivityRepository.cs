@@ -44,8 +44,8 @@ namespace ArabErp.DAL
                         if (item.ActualHours == null || item.ActualHours == 0) continue;
                         item.JobCardDailyActivityId = id;
                         item.CreatedDate = DateTime.Now;
-                        sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
-                                (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, NULLIF(@EmployeeId, 0), @StartTime, @EndTime);
+                        sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,OverTime,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
+                                (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@OverTime,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, NULLIF(@EmployeeId, 0), @StartTime, @EndTime);
                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -363,8 +363,8 @@ namespace ArabErp.DAL
             item.JobCardDailyActivityId = item.JobCardDailyActivityId;
             item.CreatedDate = DateTime.Now;
             item.TaskEndDate = item.TaskStartDate;
-            string sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
-                        (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, NULLIF(@EmployeeId, 0), @StartTime, @EndTime);
+            string sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,OverTime,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
+                        (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@OverTime,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, NULLIF(@EmployeeId, 0), @StartTime, @EndTime);
                         SELECT CAST(SCOPE_IDENTITY() as int)";
             var taskid = connection.Query<int>(sql, item, txn).Single();
             //}
