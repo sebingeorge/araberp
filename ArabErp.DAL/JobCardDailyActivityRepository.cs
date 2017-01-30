@@ -44,8 +44,8 @@ namespace ArabErp.DAL
                         if (item.ActualHours == null || item.ActualHours == 0) continue;
                         item.JobCardDailyActivityId = id;
                         item.CreatedDate = DateTime.Now;
-                        sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
-                                (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, NULLIF(@EmployeeId, 0), @StartTime, @EndTime);
+                        sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,OverTime,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
+                                (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@OverTime,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, NULLIF(@EmployeeId, 0), @StartTime, @EndTime);
                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -173,7 +173,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" select J.JobCardId,J.JobCardNo, J.JobCardDate, E.EmployeeName,W.WorkDescr,J.RequiredDate,
+                string sql = string.Empty;
+                if(type==0)
+                {
+                sql = @" select J.JobCardId,J.JobCardNo, J.JobCardDate, E.EmployeeName,W.WorkDescr,J.RequiredDate,
                                 CustomerName,RegistrationNo,ChassisNo
                                 from JobCard J
                                 inner join SaleOrder S on S.SaleOrderId=J.SaleOrderId
@@ -188,6 +191,30 @@ namespace ArabErp.DAL
 			                    OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')
 	                            AND ISNULL(J.JobCardNo,'') LIKE '%'+@jcno+'%'
 						        AND J.isActive = 1";
+            }
+                else
+                {
+
+                    sql = @" select J.JobCardId,J.JobCardNo, J.JobCardDate, E.EmployeeName,J.RequiredDate,
+											CustomerName,
+											STUFF((SELECT distinct ', ' + CAST(JTM.JobCardTaskName AS VARCHAR(MAX)) [text()]
+											FROM JobCard JOB
+											inner join JobCardTask M on M.JobCardId = JOB.JobCardId
+											inner join JobCardTaskMaster JTM ON jtm.JobCardTaskMasterId=M.JobCardTaskMasterId
+											WHERE JOB.JobCardId=J.JobCardId
+											FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescr
+											from JobCard J
+											inner join SaleOrder S on S.SaleOrderId=J.SaleOrderId
+											inner join Employee E on E.EmployeeId = J.EmployeeId
+											inner join Customer C on C.CustomerId=S.CustomerId
+											where J.JodCardCompleteStatus is null
+											AND J.OrganizationId = @OrganizationId
+											AND	J.isProjectBased = @type
+--										AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%'
+--										OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')
+											AND ISNULL(J.JobCardNo,'') LIKE '%'+@jcno+'%'
+											AND J.isActive = 1";
+                }
                 return connection.Query<JobCardForDailyActivity>(sql, new { OrganizationId = OrganizationId, type = type, RegNo = RegNo, jcno = jcno });
             }
         }
@@ -249,8 +276,8 @@ namespace ArabErp.DAL
                     {
                         item.JobCardDailyActivityId = objJobCardDailyActivity.JobCardDailyActivityId;
                         item.CreatedDate = DateTime.Now;
-                        sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
-                        (@JobCardDailyActivityId,@JobCardTaskMasterId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, @EmployeeId, @StartTime, @EndTime);
+                        sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,OverTime,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
+                        (@JobCardDailyActivityId,@JobCardTaskMasterId,@TaskStartDate,@TaskEndDate,@OverTime,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, @EmployeeId, @StartTime, @EndTime);
                         SELECT CAST(SCOPE_IDENTITY() as int)";
 
 
@@ -363,8 +390,8 @@ namespace ArabErp.DAL
             item.JobCardDailyActivityId = item.JobCardDailyActivityId;
             item.CreatedDate = DateTime.Now;
             item.TaskEndDate = item.TaskStartDate;
-            string sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
-                        (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, NULLIF(@EmployeeId, 0), @StartTime, @EndTime);
+            string sql = @"insert  into JobCardDailyActivityTask (JobCardDailyActivityId,JobCardTaskId,TaskStartDate,TaskEndDate,OverTime,ActualHours,CreatedBy,CreatedDate,OrganizationId, EmployeeId, StartTime, EndTime) Values 
+                        (@JobCardDailyActivityId,@JobCardTaskId,@TaskStartDate,@TaskEndDate,@OverTime,@ActualHours,@CreatedBy,@CreatedDate,@OrganizationId, NULLIF(@EmployeeId, 0), @StartTime, @EndTime);
                         SELECT CAST(SCOPE_IDENTITY() as int)";
             var taskid = connection.Query<int>(sql, item, txn).Single();
             //}
