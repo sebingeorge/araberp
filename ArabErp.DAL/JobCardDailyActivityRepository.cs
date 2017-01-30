@@ -197,7 +197,7 @@ namespace ArabErp.DAL
 
                     sql = @" select J.JobCardId,J.JobCardNo, J.JobCardDate, E.EmployeeName,J.RequiredDate,
 											CustomerName,
-											STUFF((SELECT ', ' + CAST(JTM.JobCardTaskName AS VARCHAR(MAX)) [text()]
+											STUFF((SELECT distinct ', ' + CAST(JTM.JobCardTaskName AS VARCHAR(MAX)) [text()]
 											FROM JobCard JOB
 											inner join JobCardTask M on M.JobCardId = JOB.JobCardId
 											inner join JobCardTaskMaster JTM ON jtm.JobCardTaskMasterId=M.JobCardTaskMasterId
