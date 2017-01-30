@@ -91,12 +91,12 @@ namespace ArabErp.DAL
                     var id = connection.Execute(sql, objSalesInvoice, txn);
 
                     #region update customer order ref to [SaleOrder] if isService = 1
-                    if (objSalesInvoice.isService == 1)
-                    {
-                        sql = @"UPDATE SaleOrder SET CustomerOrderRef = '" + objSalesInvoice.CustomerOrderRef.Trim() + @"'
+                    //if (objSalesInvoice.isService == 1)
+                    //{
+                        sql = @"UPDATE SaleOrder SET CustomerOrderRef = '" + (objSalesInvoice.CustomerOrderRef == null ? "''" : objSalesInvoice.CustomerOrderRef.Trim()) + @"'
                                 WHERE SaleOrderId = " + objSalesInvoice.SaleOrderId;
                         if (connection.Execute(sql, transaction: txn) <= 0) throw new Exception();
-                    }
+                    //}
                     #endregion
 
                     var SalesInvoiceItemRepo = new SalesInvoiceItemRepository();
@@ -220,7 +220,7 @@ namespace ArabErp.DAL
                 return objSalesInvoices;
             }
         }
-        public List<SalesInvoiceItem> GetPendingSalesInvoiceList(int SaleOrderId,string invType, string DeliveryNo, string CustomerName, string RegNo,string InstallType)
+        public List<SalesInvoiceItem> GetPendingSalesInvoiceList(int SaleOrderId, string invType, string DeliveryNo, string CustomerName, string RegNo, string InstallType)
         {
             //  int salesOrderId = Convert.ToInt32(SalesOrderId);
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -313,7 +313,9 @@ namespace ArabErp.DAL
                             DROP TABLE #TEMP_ORDER;";
                 }
 
-                return connection.Query<SalesInvoiceItem>(sql, new { SaleOrderId = SaleOrderId, 
+                return connection.Query<SalesInvoiceItem>(sql, new
+                {
+                    SaleOrderId = SaleOrderId,
                     DeliveryNo = DeliveryNo,
                     CustomerName = CustomerName,
                     RegNo = RegNo,
@@ -522,10 +524,10 @@ namespace ArabErp.DAL
 
                     result = connection.Query<SalesInvoice>(sql, model, trn).Single<SalesInvoice>();
 
-                    #region update customer order ref to [SaleOrder] 
+                    #region update customer order ref to [SaleOrder]
                     //if (model.isService == 1)
                     {
-                        sql = @"UPDATE SaleOrder SET CustomerOrderRef = '" + model.CustomerOrderRef.Trim() + @"'
+                        sql = @"UPDATE SaleOrder SET CustomerOrderRef = '" + (model.CustomerOrderRef == null ? "''" : model.CustomerOrderRef.Trim()) + @"'
                                 WHERE SaleOrderId = " + model.SaleOrderId;
                         if (connection.Execute(sql, transaction: trn) <= 0) throw new Exception();
                     }
@@ -594,19 +596,19 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-//                string query = @"SELECT INV.SalesInvoiceId,INV.SalesInvoiceRefNo,INV.SalesInvoiceDate,
-//	                             SO.SaleOrderRefNo,SO.SaleOrderDate,D.DeliveryChallanRefNo,
-//                                 C.CustomerName Customer,V.RegistrationNo,ChassisNo,
-//	                             ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
-//                                 FROM SalesInvoice INV
-//                                 LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
-//                                 LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
-//                                 LEFT JOIN VehicleInPass V ON V.SaleOrderId=SO.SaleOrderId
-//                                 LEFT JOIN JobCard J ON J.SaleOrderId=SO.SaleOrderId
-//                                 LEFT JOIN DeliveryChallan D ON D.JobCardId=J.JobCardId 
-//                                 WHERE 
-//								 INV.OrganizationId=1 
-//                                 ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
+                //                string query = @"SELECT INV.SalesInvoiceId,INV.SalesInvoiceRefNo,INV.SalesInvoiceDate,
+                //	                             SO.SaleOrderRefNo,SO.SaleOrderDate,D.DeliveryChallanRefNo,
+                //                                 C.CustomerName Customer,V.RegistrationNo,ChassisNo,
+                //	                             ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
+                //                                 FROM SalesInvoice INV
+                //                                 LEFT JOIN SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
+                //                                 LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
+                //                                 LEFT JOIN VehicleInPass V ON V.SaleOrderId=SO.SaleOrderId
+                //                                 LEFT JOIN JobCard J ON J.SaleOrderId=SO.SaleOrderId
+                //                                 LEFT JOIN DeliveryChallan D ON D.JobCardId=J.JobCardId 
+                //                                 WHERE 
+                //								 INV.OrganizationId=1 
+                //                                 ORDER BY INV.SalesInvoiceDate DESC, INV.CreatedDate DESC";
                 string query = @"SELECT DISTINCT INV.SalesInvoiceId,INV.SalesInvoiceRefNo,INV.SalesInvoiceDate,
                                 SO.SaleOrderRefNo,SO.SaleOrderDate,C.CustomerName Customer,
 
@@ -635,8 +637,8 @@ namespace ArabErp.DAL
                                 WHERE INV.OrganizationId=@OrganizationId AND INV.SalesInvoiceDate >= @from AND INV.SalesInvoiceDate <= @to
                                 AND INV.SalesInvoiceId=ISNULL(NULLIF(@id, 0),INV.SalesInvoiceId)
                                 ORDER BY INV.SalesInvoiceDate DESC,INV.SalesInvoiceRefNo DESC";
-                               //ORDER BY INV.SalesInvoiceDate DESC,INV.SalesInvoiceId,INV.SalesInvoiceRefNo DESC,
-                               // SO.SaleOrderRefNo,SO.SaleOrderDate,C.CustomerName
+                //ORDER BY INV.SalesInvoiceDate DESC,INV.SalesInvoiceId,INV.SalesInvoiceRefNo DESC,
+                // SO.SaleOrderRefNo,SO.SaleOrderDate,C.CustomerName
                 return connection.Query<SalesInvoice>(query, new
                 {
                     OrganizationId = OrganizationId,
