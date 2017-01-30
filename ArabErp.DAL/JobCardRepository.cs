@@ -467,7 +467,7 @@ namespace ArabErp
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = "select * from JobCard where JobCardId = " + JobCardId.ToString();
+                string sql = "select J.*,C.CustomerName from JobCard J inner join SaleOrder S ON S.SaleOrderId=J.SaleOrderId inner join Customer C ON C.CustomerId=S.CustomerId   where JobCardId = " + JobCardId.ToString();
                 JobCard jc = connection.Query<JobCard>(sql).Single();
                 jc.JobCardTasks = new List<JobCardTask>();
                 if (jc != null)

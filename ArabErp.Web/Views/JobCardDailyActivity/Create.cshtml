@@ -154,7 +154,10 @@
                     <label>Engineer/Supervisor</label>
                     @Html.TextBoxFor(m => m.EmployeeName, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                 </div>
-
+                <div class="col-md-2">
+                    <label>Customer</label>
+                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                </div>
             </div>
             <div class="table-responsive">
                 <table class="table table-bordered" id="tab_logic">
@@ -170,7 +173,7 @@
                             <th width="10%"><h1>Date</h1></th>
                             <th width="10%"><h1>Start Time</h1></th>
                             <th width="10%"><h1>End Time</h1></th>
-                            <th width="10%"><h1>OT</h1></th>
+                            <th width="7%"><h1>Over Time</h1></th>
                             <th width="10%"><h1>Total Hours</h1></th>
                             @if (Model.isProjectBased == 1)
                             {

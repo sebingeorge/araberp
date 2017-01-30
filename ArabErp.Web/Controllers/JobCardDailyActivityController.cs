@@ -38,6 +38,7 @@ namespace ArabErp.Web.Controllers
                 //FillTasks();
                 FillTasks(jc.isProjectBased);
                 FillEmployees();
+
             }
             else
             {
@@ -46,6 +47,7 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = DateTime.Now;
             model.JobCardDailyActivityDate = DateTime.Now;
             model.isProjectBased = jc.isProjectBased;
+            model.CustomerName = jc.CustomerName;
             if (model.isProjectBased == 0)
                 model.JobCardDailyActivityTask = new JobCardDailyActivityRepository().GetJobCardTasksForDailyActivity(Id, OrganizationId);
             else

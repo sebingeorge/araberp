@@ -173,7 +173,10 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" select J.JobCardId,J.JobCardNo, J.JobCardDate, E.EmployeeName,W.WorkDescr,J.RequiredDate,
+                string sql = string.Empty;
+                if(type==0)
+                {
+                sql = @" select J.JobCardId,J.JobCardNo, J.JobCardDate, E.EmployeeName,W.WorkDescr,J.RequiredDate,
                                 CustomerName,RegistrationNo,ChassisNo
                                 from JobCard J
                                 inner join SaleOrder S on S.SaleOrderId=J.SaleOrderId
@@ -188,6 +191,30 @@ namespace ArabErp.DAL
 			                    OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')
 	                            AND ISNULL(J.JobCardNo,'') LIKE '%'+@jcno+'%'
 						        AND J.isActive = 1";
+            }
+                else
+                {
+
+                    sql = @" select J.JobCardId,J.JobCardNo, J.JobCardDate, E.EmployeeName,J.RequiredDate,
+											CustomerName,
+											STUFF((SELECT ', ' + CAST(JTM.JobCardTaskName AS VARCHAR(MAX)) [text()]
+											FROM JobCard JOB
+											inner join JobCardTask M on M.JobCardId = JOB.JobCardId
+											inner join JobCardTaskMaster JTM ON jtm.JobCardTaskMasterId=M.JobCardTaskMasterId
+											WHERE JOB.JobCardId=J.JobCardId
+											FOR XML PATH(''), TYPE).value('.','NVARCHAR(MAX)'),1,2,' ') WorkDescr
+											from JobCard J
+											inner join SaleOrder S on S.SaleOrderId=J.SaleOrderId
+											inner join Employee E on E.EmployeeId = J.EmployeeId
+											inner join Customer C on C.CustomerId=S.CustomerId
+											where J.JodCardCompleteStatus is null
+											AND J.OrganizationId = @OrganizationId
+											AND	J.isProjectBased = @type
+--										AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%'
+--										OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')
+											AND ISNULL(J.JobCardNo,'') LIKE '%'+@jcno+'%'
+											AND J.isActive = 1";
+                }
                 return connection.Query<JobCardForDailyActivity>(sql, new { OrganizationId = OrganizationId, type = type, RegNo = RegNo, jcno = jcno });
             }
         }
