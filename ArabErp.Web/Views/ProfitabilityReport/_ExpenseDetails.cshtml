@@ -1,0 +1,46 @@
+﻿
+@model IList<ArabErp.Domain.ProfitabilityReport>
+@{
+    var total = Model.Sum(x => x.Amount);
+}
+<table class="table table-responsive table-bordered">
+    <thead class="grid_heading">
+        <tr>
+            <th nowrap>Expense Bill No.</th>
+            <th nowrap>Expense Date</th>
+            <th nowrap>Supplier</th>
+            <th nowrap class="text-right">Amount</th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ExpenseNo</td>
+                    <td>@item.ExpenseDate</td>
+                    <td>@item.Supplier</td>
+                    <td class="text-right">@item.Amount</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td align="center" colspan="7">
+                    <em>No Sale Order found!</em>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+    <tfoot class="grid_heading">
+        <tr>
+            <th colspan="3" class="text-right">Total</th>
+            <th class="text-right">@total</th>
+        </tr>
+    </tfoot>
+
+</table>
+

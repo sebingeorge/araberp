@@ -1047,6 +1047,7 @@
                                             {
                                                 <li><a href="@Url.Action("Index", "CustomerWiseSalesRegister")">Customer Wise Sales</a></li>
                                             }
+                                           
                                         </ul>
                                     </div>
                                 </li>
@@ -1077,9 +1078,13 @@
                                             {
                                                 <li><a href="@Url.Action("Index","ClosingStock")">Closing Stock Report</a></li>
                                             }
+                                            @if (formPermission.Find(x => x.FormId == 161) != null)
+                                            {
+                                                <li><a href="@Url.Action("ClosingStockWithAvgRate", "ClosingStock")">Closing Stock Report with Value</a></li>
+                                            }
                                             @if (formPermission.Find(x => x.FormId == 121) != null)
                                             {
-                                                <li><a href="@Url.Action("Index","StockReport")">Stock Report</a></li>
+                                                <li><a href="@Url.Action("Index","StockReport")">Stock Summary Report</a></li>
                                             }
                                             @if (formPermission.Find(x => x.FormId == 122) != null)
                                             {

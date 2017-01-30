@@ -84,6 +84,7 @@ namespace ArabErp.Web.Controllers
             {
                 if (id != 0)
                 {
+                 
                     ItemDropdown();
                     FillPartNo();
                     WorkShopRequest WorkShopRequest = new WorkShopRequest();
@@ -144,7 +145,7 @@ namespace ArabErp.Web.Controllers
             return RedirectToAction("Index", new { isProjectBased = model.isProjectBased });
         }
         
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id,int isProjectBased)
         {
 
             try
@@ -152,7 +153,7 @@ namespace ArabErp.Web.Controllers
                 if (id == 0) return RedirectToAction("Index", "Home");
                 string ref_no = new WorkShopRequestRepository().DeleteWorkShopRequest(id);
                 TempData["success"] = "Deleted Successfully (" + ref_no + ")";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { isProjectBased = isProjectBased });
             }
             catch (Exception)
             {
@@ -160,10 +161,24 @@ namespace ArabErp.Web.Controllers
                 return RedirectToAction("Edit", new { id = id });
             }
         }
+
+        //public void FillEmployee()
+        //{
+        //    var List = JobCardQCRepo.FillEmployee();
+        //    ViewBag.EmployeeList = new SelectList(List, "Id", "Name");
+        //}
         public void JobCardDropdown(int isProjectBased, int jobCardId = 0)
         {
-            ViewBag.JobCardList = new SelectList(new DropdownRepository().JobCardDropdownforAddtional(jobCardId: jobCardId, organizationId: OrganizationId, isProjectBased: isProjectBased), "Id", "Name");
+            DropdownRepository repo = new DropdownRepository();
+            var List = repo.JobCardDropdownforAddtional(jobCardId: jobCardId, organizationId: OrganizationId, isProjectBased: isProjectBased);
+
+            ViewBag.JobCardList = new SelectList(List, "Id", "Name");
         }
+        //public void JobCardDropdown(int isProjectBased, int jobCardId = 0)
+        //{
+
+        //    ViewBag.JobCardList = new SelectList(new DropdownRepository().JobCardDropdownforAddtional(jobCardId: jobCardId, organizationId: OrganizationId, isProjectBased: isProjectBased), "Id", "Name");
+        //}
       
         public JsonResult GetJobCardDetails(int jobCardId)
         {

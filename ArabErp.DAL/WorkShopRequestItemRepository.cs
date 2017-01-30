@@ -85,9 +85,15 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"SELECT Slno,I.ItemId,I.ItemName,I.PartNo,WRI.Remarks,Quantity,U.UnitName FROM WorkShopRequestItem WRI
+//                string sql = @"SELECT Slno,I.ItemId,I.ItemName,I.PartNo,WRI.Remarks,Quantity,U.UnitName FROM WorkShopRequestItem WRI
+//                               INNER JOIN Item I ON I.ItemId=WRI.ItemId
+//                               INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+//                               WHERE WRI.WorkShopRequestId=@WorkShopRequestId";
+
+                string sql = @"SELECT Slno,I.ItemId,I.ItemName,I.PartNo,WRI.Remarks,Quantity,U.UnitName ,WRI.WorkShopRequestItemId,CASE WHEN SI.StoreIssueItemId IS NULL THEN 0 ELSE 1 END isIssueUsed FROM WorkShopRequestItem WRI
                                INNER JOIN Item I ON I.ItemId=WRI.ItemId
                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+							   LEFT JOIN StoreIssueItem SI ON SI.WorkShopRequestItemId=WRI.WorkShopRequestItemId
                                WHERE WRI.WorkShopRequestId=@WorkShopRequestId";
 
                 return connection.Query<WorkShopRequestItem>(sql, new { WorkShopRequestId = WorkShopRequestId }).ToList();

@@ -40,7 +40,7 @@ namespace ArabErp.DAL
                     if (model.Materials != null && model.Materials.Count > 0)
                     {
 
-                        model.TotalMaterialAmount = model.Materials.Sum(m => (m.Rate ?? 0 * m.Quantity ?? 0));
+                        model.TotalMaterialAmount = model.Materials.Sum(m => ((m.Rate ?? 0) * (m.Quantity ?? 0)));
 
                     }
                     model.GrandTotal = (model.TotalWorkAmount + model.TotalMaterialAmount);

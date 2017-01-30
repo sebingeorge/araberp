@@ -1,0 +1,49 @@
+﻿
+@model IList<ArabErp.Domain.ProfitabilityReport>
+
+@{
+    var total = Model.Sum(x => x.Amount);
+}
+<table class="table table-responsive table-bordered">
+    <thead class="grid_heading">
+        <tr>
+            <th nowrap>Employee</th>
+            <th nowrap>Task Name</th>
+            <th nowrap>Actual Hours</th>
+            <th nowrap class="text-right">Rate</th>
+            <th nowrap class="text-right">Amount</th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.EmployeeName</td>
+                    <td>@item.JobCardTaskName</td>
+                    <td>@item.ActualHours</td>
+                    <td class="text-right">@item.Rate</td>
+                    <td class="text-right">@item.Amount</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td align="center" colspan="7">
+                    <em>No Sale Order found!</em>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+    <tfoot class="grid_heading">
+        <tr>
+            <th colspan="4" class="text-right">Total</th>
+            <th class="text-right">@total</th>
+        </tr>
+    </tfoot>
+</table>
+
+

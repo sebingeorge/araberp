@@ -24,6 +24,8 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(JodCardCompleteStatus, 0) = 0 AND ISNULL(isActive, 1) = 1   AND OrganizationId = @org and isProjectBased = @isProjectBased", new { isProjectBased = isProjectBased, org = organizationId }).ToList();
             }
         }
+
+
         public List<Dropdown> JobCardDropdownforAddtional(int isProjectBased, int organizationId, int jobCardId = 0)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
@@ -72,6 +74,15 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT DISTINCT itmCatId Id,CategoryName Name FROM ItemCategory IC INNER JOIN Item I ON I.ItemCategoryId =IC.itmCatId INNER JOIN GRNItem G ON G.ItemId =I.ItemId INNER JOIN PurchaseBillItem PI ON PI.GRNItemId=G.GRNItemId WHERE ISNULL(IC.isActive, 1) = 1").ToList();
             }
         }
+
+        public List<Dropdown> TaskDropdown1(int isProjectBased)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT JobCardTaskMasterId Id, JobCardTaskName Name FROM JobCardTaskMaster WHERE ISNULL(isActive, 1) = 1 AND isProjectBased = " + isProjectBased).ToList();
+            }
+        }
+
         /// <summary>
         /// Return all active employees
         /// </summary>

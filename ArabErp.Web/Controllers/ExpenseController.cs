@@ -209,10 +209,13 @@ namespace ArabErp.Web.Controllers
                 try
                 {
                     var result2 = new ExpenseRepository().DeleteExpenseBillDT(model.ExpenseId);
-                    var result3 = new ExpenseRepository().DeleteExpenseBillHD(model.ExpenseId, UserID.ToString());
-                    string id = new ExpenseRepository().Insert(model);
+                    string result3 = new ExpenseRepository().UpdateExpenseBillHD(model);
+                    string id = new ExpenseRepository().InsertDT(model);
+                    
+                //TempData["success"] = "Updated Successfully (" + model.SalesInvoiceRefNo + ")";
+                //TempData["SalesInvoiceRefNo"] = model.SalesInvoiceRefNo;
 
-                    TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + id;
+                    TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + result3;
                     TempData["error"] = "";
                     return RedirectToAction("Create");
                 }
@@ -248,7 +251,7 @@ namespace ArabErp.Web.Controllers
             else
             {
                 var result2 = new ExpenseRepository().DeleteExpenseBillDT(Id);
-                var result3 = new ExpenseRepository().DeleteExpenseBillHD(Id, UserID.ToString());
+                var result3 = new ExpenseRepository().DeleteExpenseBillHD(Id);
 
                 if (Id > 0)
                 {

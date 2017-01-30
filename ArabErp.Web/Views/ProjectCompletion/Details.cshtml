@@ -25,6 +25,12 @@
         window.location = url;
     }
 
+    function GoToPrint(id)
+    {
+        var url = '@Url.Action("ProjectCompletionReport")';
+        url += "?Id=" + id;
+        window.open(url);
+    }
 </script>
 
 <div class="row">
@@ -34,6 +40,7 @@
     <div class="main-part pad1">
         <form method="post">
             @Html.HiddenFor(m => m.SaleOrderId)
+            @Html.HiddenFor(m=>m.ProjectCompletionId)
             <div class="row form-group">
                 <div class="col-md-2">
                     <label for="ProjectCompletionRefNo">Project Completion No.</label>
@@ -48,7 +55,7 @@
                     @Html.TextBoxFor(m => m.ProjectWarrantyExpiryDate, Model.ProjectWarrantyExpiryDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input", @readonly = "true", @required = "true" })
                 </div>
             </div>
-            @Html.Action("SaleOrderDetails", Model.SaleOrderId)
+            @Html.Action("SaleOrderDetails",new{ id=Model.SaleOrderId})
 
             <div class="row form-group">
                 <div class="col-md-4">
@@ -73,8 +80,8 @@
             <div class="row">
                 <div class="col-md-12 col-md hrpart">
                     <input class="form-button right" type="button" value="Exit" onclick="Back()" />
-                    <input class="form-button right" type="submit" value="Save" />
-
+                    <input class="form-button right" type="submit" value="Edit" />
+                    <input type="button" value="Print" onclick="GoToPrint(@Model.ProjectCompletionId)" class="form-button right" />
                 </div>
             </div>
         </form>

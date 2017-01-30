@@ -35,23 +35,20 @@
                                            
                                             <span id="slno@(row1)">@(row1 + 1)</span>
                                         </td>
-                                        <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).SaleOrderRefNo@*" /></td>*@
-                                        <td class="grid-cell">@*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).CustomerName@*" /></td>*@
-                                        <td class="grid-cell">
-                                            @*<input type="text" disabled="disabled" class="form_input" value="*@ @Model.ElementAt(i).CustomerOrderRef@*" /></td>*@
+                                        <td class="grid-cell">@Model.ElementAt(i).SaleOrderRefNo</td>
+                                        <td class="grid-cell">@Model.ElementAt(i).CustomerName</td>
+                                        <td class="grid-cell">@Model.ElementAt(i).CustomerOrderRef</td>
+   
 
-                                          
 
-                                            @if (Model.ElementAt(i).isProjectBased == 1)
-                                            {
-                                                 <td class="grid-cell">@Model.ElementAt(i).ItemName</td>
+
+                                           @if (ViewBag.ProjectBased == 0)
+                                           {
+                                            <td class="grid-cell">@Model.ElementAt(i).RegistrationNo</td>
                                             }
-                                            else
-                                            {
-                                                <td class="grid-cell"> @Model.ElementAt(i).RegistrationNo</td>
-                                                <td class="grid-cell">@*<input type="text" class="form_input" value="*@ @Model.ElementAt(i).WorkDescription@*" data-toggle="popover" data-placement="right" data-content="@Model.ElementAt(i).WorkDescription" />*@</td>
-                                            }
-                                        
+                                         
+                                               
+                                        <td class="grid-cell">@Model.ElementAt(i).WorkDescription</td>
                                         <td class="grid-cell">@Model.ElementAt(i).Ageing</td>
                                         <td class="grid-cell">@Model.ElementAt(i).EDateArrival.ToString("dd/MMM/yyyy")</td>
                                         <td class="grid-cell">@Model.ElementAt(i).EDateDelivery.ToString("dd/MMM/yyyy")</td>
@@ -59,7 +56,7 @@
                                         <td>
                                       
                                             <center>
-                                                @Html.ActionLink("Select", "Create", "WorkShopRequest", new { SaleOrderId = Model.ElementAt(i).SaleOrderId, saleorderitem = Model.ElementAt(i).SaleOrderItemId, SaleOrderItemUnitId = Model.ElementAt(i).SaleOrderItemUnitId,EvaConUnitId = Model.ElementAt(i).EvaporatorUnitId }, new { @class = "form-button5" })
+                                                @Html.ActionLink("Select", "Create", "WorkShopRequest", new { SaleOrderId = Model.ElementAt(i).SaleOrderId, saleorderitem = Model.ElementAt(i).SaleOrderItemId }, new { @class = "form-button5" })
                                             </center>
                                      
                                       

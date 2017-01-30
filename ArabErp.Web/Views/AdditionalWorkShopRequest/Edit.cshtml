@@ -7,14 +7,16 @@
 
 <script type="text/javascript">
 
-    function Exit() {
-        location.href = '@Url.Action("Index", "AdditionalWorkShopRequest")';
+    function Exit(isProjectBased) {
 
+        var url = '@Url.Action("Index")';
+        url +="?isProjectBased=" +isProjectBased;
+        window.location = url;
     }
-    function DeleteAddWr(id) {
-
+    function DeleteAddWr(id, isProjectBased) {
+       
         var url = '@Url.Action("Delete")';
-        url += "?id=" + id;
+        url += "?id=" + id + "&isProjectBased=" + isProjectBased;
         window.location = url;
     }
 
@@ -135,17 +137,20 @@
             <div class="row">
 
                 <div class="col-md-12 hrpart">
-                    <button type="button" class="form-button right" onclick="Exit()">Exit</button>
+                
+                    <input class="form-button right" type="button" value="Exit" onclick="Exit(@Model.isProjectBased)" />
+                  
+                    <input type="submit" class="form-button right" value="Edit">
                     @if (Model.Isused || Model.IsStoreused)
                     {
                         <span class="perm">
-                            <em>**Cannot edit/delete this Additional Workshop Request, because it is already in use.</em>
+                            <em>**Cannot delete this Additional Workshop Request, because it is already in use.</em>
                         </span>
                     }
                     else
                     {
-                        <input type="submit" class="form-button right" value="Edit">
-                        <input type="button" value="Delete" onclick="DeleteAddWr(@Model.WorkShopRequestId)" class="form-button left" />
+                       
+                        <input type="button" value="Delete" onclick="DeleteAddWr(@Model.WorkShopRequestId,@Model.isProjectBased)" class="form-button left" />
 
                     }
                 </div>

@@ -111,8 +111,8 @@ namespace ArabErp.Web.Controllers
         {
             if (id == 0) return RedirectToAction("Index", "Home");
             ProjectCompletion model = new ProjectCompletionRepository().GetProjectCompletion(id);
-            //model.ItemBatches = new ProjectCompletionRepository().GetSerialNos(id).ToList<ItemBatch>();
-            model.ItemBatches = new ProjectCompletionRepository().GetSerialNosByProjectCompletioId(model.ProjectCompletionId);
+
+            model.ItemBatches = new ProjectCompletionRepository().GetSerialNosByProjectCompletioId(model.ProjectCompletionId).ToList<ItemBatch>();
             return View(model);
         }
 
@@ -158,7 +158,7 @@ namespace ArabErp.Web.Controllers
 
         }
 
-        public ActionResult Print(int Id)
+        public ActionResult ProjectCompletionReport(int Id)
         {
 
             ReportDocument rd = new ReportDocument();
@@ -170,25 +170,26 @@ namespace ArabErp.Web.Controllers
             //-------HEAD
             ds.Tables["Head"].Columns.Add("ProjectCompletionRefNo");
             ds.Tables["Head"].Columns.Add("ProjectCompletionDate");
+            ds.Tables["Head"].Columns.Add("ProjectName");
+            ds.Tables["Head"].Columns.Add("SaleOrderRefNo");
+            ds.Tables["Head"].Columns.Add("SaleOrderDate");
+            ds.Tables["Head"].Columns.Add("CustomerName");
+
             ds.Tables["Head"].Columns.Add("ChillerTemperature");
             ds.Tables["Head"].Columns.Add("ChillerDimension");
             ds.Tables["Head"].Columns.Add("ChillerCondensingUnit");
             ds.Tables["Head"].Columns.Add("ChillerEvaporator");
             ds.Tables["Head"].Columns.Add("ChillerRefrigerant");
             ds.Tables["Head"].Columns.Add("ChillerQuantity");
+
+            ds.Tables["Head"].Columns.Add("RoomDetails");
             ds.Tables["Head"].Columns.Add("FreezerTemperature");
             ds.Tables["Head"].Columns.Add("FreezerDimension");
-
             ds.Tables["Head"].Columns.Add("FreezerCondensingUnit");
             ds.Tables["Head"].Columns.Add("FreezerEvaporator");
             ds.Tables["Head"].Columns.Add("FreezerRefrigerant");
             ds.Tables["Head"].Columns.Add("FreezerQuantity");
-            ds.Tables["Head"].Columns.Add("SaleOrderRefNo");
-            ds.Tables["Head"].Columns.Add("SaleOrderDate");
-            ds.Tables["Head"].Columns.Add("CustomerName");
-            ds.Tables["Head"].Columns.Add("ProjectName");
-            // ds.Tables["Head"].Columns.Add("[Location]");
-
+          
             //Organization
             ds.Tables["Head"].Columns.Add("DoorNo");
             ds.Tables["Head"].Columns.Add("Street");
@@ -207,22 +208,25 @@ namespace ArabErp.Web.Controllers
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["ProjectCompletionRefNo"] = Head.ProjectCompletionRefNo;
             dr["ProjectCompletionDate"] = Head.ProjectCompletionDate.ToString("dd-MMM-yyyy");
+            dr["ProjectName"] = Head.ProjectName;
+            dr["SaleOrderRefNo"] = Head.SaleOrderRefNo;
+            dr["SaleOrderDate"] = Head.SaleOrderDate;
+            dr["CustomerName"] = Head.CustomerName;
+
             dr["ChillerTemperature"] = Head.ChillerTemperature;
             dr["ChillerDimension"] = Head.ChillerDimension;
             dr["ChillerCondensingUnit"] = Head.ChillerDimension;
             dr["ChillerEvaporator"] = Head.ChillerEvaporator;
             dr["ChillerRefrigerant"] = Head.ChillerRefrigerant;
             dr["ChillerQuantity"] = Head.ChillerQuantity;
+
+            dr["RoomDetails"] = Head.RoomDetails;
             dr["FreezerTemperature"] = Head.FreezerTemperature;
-            dr["FreezerDimension"] = Head.FreezerEvaporator;
+            dr["FreezerDimension"] = Head.FreezerDimension;
             dr["FreezerCondensingUnit"] = Head.FreezerCondensingUnit;
             dr["FreezerEvaporator"] = Head.FreezerEvaporator;
             dr["FreezerRefrigerant"] = Head.FreezerRefrigerant;
             dr["FreezerQuantity"] = Head.FreezerQuantity;
-            dr["SaleOrderRefNo"] = Head.SaleOrderRefNo;
-            dr["SaleOrderDate"] = Head.SaleOrderDate;
-            dr["CustomerName"] = Head.CustomerName;
-            dr["ProjectName"] = Head.ProjectName;
 
             dr["DoorNo"] = Head.DoorNo;
             dr["Street"] = Head.Street;
@@ -251,7 +255,7 @@ namespace ArabErp.Web.Controllers
             {
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
-                return File(stream, "application/pdf", String.Format("ProjectCompletion{0}.pdf", Id.ToString()));
+                return File(stream, "application/pdf");
             }
             catch (Exception ex)
             {

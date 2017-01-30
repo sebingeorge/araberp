@@ -189,14 +189,16 @@
             </div>
         </div>
         <br />
-        <div class="main-grid main-grid-top scroll3">
-            <div class="table-responsive">
-                <div class="row" id="stock-grid">
-                    @Html.Action("Stockreport")
+
+        <div class="row">
+            <div class="main-grid main-grid-top scroll3">
+                <div class="table-responsive">
+                    <div id="stock-grid">
+                        @Html.Action("Stockreport")
+                    </div>
                 </div>
             </div>
         </div>
-
         @*<div class="row-count1">
                 <h5>Row Count:- @Model.Count()</h5>
             </div>*@
