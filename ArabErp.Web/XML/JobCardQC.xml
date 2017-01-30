@@ -7,13 +7,12 @@
           <xs:element name="Head">
             <xs:complexType>
               <xs:sequence>
-                <xs:element name="JobCardQCRefNo" type="xs:string" minOccurs="0" />
-                <xs:element name="JobCardNo" type="xs:string" minOccurs="0" />
-                <xs:element name="JcDate" type="xs:string" minOccurs="0" />
-                <xs:element name="JobCardQCDate" type="xs:string" minOccurs="0" />
+                <xs:element name="JobCardQCNoDate" type="xs:string" minOccurs="0" />
+                <xs:element name="JobCardNoDate" type="xs:string" minOccurs="0" />
                 <xs:element name="Customer" type="xs:string" minOccurs="0" />
                 <xs:element name="VehicleModel" type="xs:string" minOccurs="0" />
                 <xs:element name="EmployeeName" type="xs:string" minOccurs="0" />
+                <xs:element name="Status" type="xs:string" minOccurs="0" />
                 <xs:element name="DoorNo" type="xs:string" minOccurs="0" />
                 <xs:element name="Street" type="xs:string" minOccurs="0" />
                 <xs:element name="State" type="xs:string" minOccurs="0" />
@@ -42,28 +41,146 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardQCRefNo>QC/6</JobCardQCRefNo>
-    <JobCardNo>JC/5</JobCardNo>
-    <JcDate>27-Oct-2016 12:00:00 AM</JcDate>
-    <JobCardQCDate>31-Oct-2016 10:05:37 AM</JobCardQCDate>
-    <Customer>Al Ajjaj Limited  Company</Customer>
-    <VehicleModel>Isuzu NPR 5.0Ton Truck</VehicleModel>
-    <EmployeeName>Shafi</EmployeeName>
-    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L.</OrganizationName>
+    <JobCardQCNoDate>QC/17/40 - 29 Jan 2017</JobCardQCNoDate>
+    <JobCardNoDate>AARC/JC/17/18 - 22 Jan 2017</JobCardNoDate>
+    <Customer>UNITED CAR RENTALS Co W.L.L</Customer>
+    <VehicleModel>Toyota Hiace Standard Glass Van , 3 seater</VehicleModel>
+    <EmployeeName>Mohammed Safiq</EmployeeName>
+    <Status>True</Status>
+    <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
+    <Street>Hiteen Street, Muntazah </Street>
+    <State>Doha</State>
+    <Country>QATAR</Country>
+    <Phone>974 4435 7216</Phone>
+    <Fax>974 4414 2910</Fax>
+    <Email>info@arabrefrigeration.com</Email>
+    <Zip>13037</Zip>
+    <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
+    <Image1>81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
   </Head>
   <Items>
-    <ParaName>Chiller Box</ParaName>
-    <QCParamName>qcparatest</QCParamName>
-    <QCParamValue>2</QCParamValue>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Box Name / Dimention</QCParamName>
+    <QCParamValue>Al Furat</QCParamValue>
   </Items>
   <Items>
-    <ParaName>Dry Box</ParaName>
-    <QCParamName>Quality Parameter 1</QCParamName>
-    <QCParamValue>3</QCParamValue>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>BAM OR TCTI Box No </QCParamName>
+    <QCParamValue>NA</QCParamValue>
   </Items>
   <Items>
-    <ParaName>Freezer Van</ParaName>
-    <QCParamName>Quality Parameter 2</QCParamName>
-    <QCParamValue>4</QCParamValue>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>AARC Punching No</QCParamName>
+    <QCParamValue>1291</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Side Crash Guard</QCParamName>
+    <QCParamValue>NA</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Movable Partition / Wiring</QCParamName>
+    <QCParamValue>NA</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Tail Lift / Wiring</QCParamName>
+    <QCParamValue>NA</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Drain Hole</QCParamName>
+    <QCParamValue>NA</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Unit Installation Work</QCParamName>
+    <QCParamValue>Done</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Box - S/D or Without S/D</QCParamName>
+    <QCParamValue>NA</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Cabin Cleaning </QCParamName>
+    <QCParamValue>Done</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Box inside / out side cleaning</QCParamName>
+    <QCParamValue>Done</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Painting</QCParamName>
+    <QCParamValue>NA</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Damages / Scratches</QCParamName>
+    <QCParamValue>NA</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Box Wiring </QCParamName>
+    <QCParamValue>NA</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Arab Name Plate</QCParamName>
+    <QCParamValue>NA</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Reflecative Sticker</QCParamName>
+    <QCParamValue>NA</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Diesel Level</QCParamName>
+    <QCParamValue>NA</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Box Ceiling Light</QCParamName>
+    <QCParamValue>NA</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Breake / Signal  / Parking Light</QCParamName>
+    <QCParamValue>Done</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Tyres Coundition</QCParamName>
+    <QCParamValue>Good</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Mud Flap</QCParamName>
+    <QCParamValue>NA</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Plastic Curtain</QCParamName>
+    <QCParamValue>Done</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Folding Step/Bumber</QCParamName>
+    <QCParamValue>NA</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Service Book</QCParamName>
+    <QCParamValue>Done</QCParamValue>
+  </Items>
+  <Items>
+    <ParaName>Freezer Box</ParaName>
+    <QCParamName>Tools </QCParamName>
+    <QCParamValue>Dne</QCParamValue>
   </Items>
 </NewDataSet>
