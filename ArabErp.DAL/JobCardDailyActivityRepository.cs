@@ -319,6 +319,8 @@ namespace ArabErp.DAL
                     model.JobCardDailyActivityId = InsertDailyActivityHead(model, connection, txn);
                     foreach (var item in model.JobCardDailyActivityTask)
                     {
+                        if (item.ActualHours == null || item.ActualHours == 0 ||
+                            item.EmployeeId == 0 || item.JobCardTaskMasterId == 0) continue;
                         item.JobCardDailyActivityId = model.JobCardDailyActivityId;
                         List<int> existingTasks = connection.Query<int>(sql1, new
                         {

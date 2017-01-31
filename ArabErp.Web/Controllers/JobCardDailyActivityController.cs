@@ -99,8 +99,8 @@ namespace ArabErp.Web.Controllers
                 model.CreatedBy = UserID.ToString();
                 model.OrganizationId = OrganizationId;
                 model.CreatedDate = DateTime.Now;
-                if (ModelState.IsValid)
-                {
+                //if (ModelState.IsValid)
+                //{
                     JobCardDailyActivityRepository repo = new JobCardDailyActivityRepository();
                     model.CreatedDate = DateTime.Now;
                     int id = 0;
@@ -116,11 +116,11 @@ namespace ArabErp.Web.Controllers
                     TempData["success"] = "Saved Successfully.";
                     TempData["previousAction"] = "Create";
                     return RedirectToAction("Details", new { id = id, type = model.isProjectBased });
-                }
-                else
-                {
-                    return View("Create", new { Id = model.JobCardId });
-                }
+                //}
+                //else
+                //{
+                //    return View("Create", new { Id = model.JobCardId });
+                //}
             }
             catch (Exception)
             {
