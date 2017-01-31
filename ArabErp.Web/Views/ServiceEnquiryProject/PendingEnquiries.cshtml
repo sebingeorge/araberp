@@ -39,6 +39,7 @@
                                 <th width="12%" nowrap><h1>Service Enquiry No.</h1></th>
                                 <th width="12%" nowrap><h1>Service Enquiry Date</h1></th>
                                 <th width="12%"><h1>Customer</h1></th>
+                                <th width="18%"><h1>Other Details</h1></th>
                                 <th width="1%"><center><h1></h1></center></th>
                             </tr>
                         </thead>
@@ -53,7 +54,7 @@
                                         <td>@item.ServiceEnquiryRefNo</td>
                                         <td>@item.ServiceEnquiryDate.ToString("dd/MMMM/yyyy")</td>
                                         <td>@item.CustomerName</td>
-                                       
+                                        <td>@item.OtherDetails</td>
                                         <td>
                                             <input type="button" class="form-button5" value="Select" onclick="OnItemSelected(@item.ServiceEnquiryId)" />
                                         </td>

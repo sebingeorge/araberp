@@ -37,13 +37,14 @@ namespace ArabErp
             {
                 string query = string.Empty;
                 query += @" SELECT SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, 
-                            V.VehicleModelName,ISNULL(WR.WorkShopRequestRefNo,'-')WorkShopRequestRefNo,WorkDescription=(case when  S.isProjectBased = 0 THEN  W.WorkDescr  ELSE CASE WHEN S.isService=0 THEN 
+                            V.VehicleModelName,ISNULL(WR.WorkShopRequestRefNo,'-')WorkShopRequestRefNo,
+                            WorkDescription=(case when  S.isProjectBased = 0 THEN  W.WorkDescr  ELSE CASE WHEN S.isService=0 THEN 
                             STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName FROM SaleOrderItemUnit T1
                             LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
                             LEFT JOIN Item T3 ON T1.EvaporatorUnitId = T3.ItemId
                             WHERE T1.SaleOrderItemId = SI.SaleOrderItemId FOR XML PATH('')), 1, 2, '') ELSE SE.UnitDetails END END),
                             IsPaymentApprovedForJobOrder, ISNULL(VIP.RegistrationNo, '')RegistrationNo,ISNULL(VIP.ChassisNo, '') ChassisNo,
-                            DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) Remaindays,S.isService
+                            DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) Remaindays,S.isService,SE.OtherDetails
                             FROM SaleOrder S 
                             INNER JOIN Customer C on S.CustomerId = C.CustomerId
                             INNER JOIN SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId

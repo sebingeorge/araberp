@@ -52,6 +52,7 @@ namespace ArabErp.Domain
         //public DateTime CreatedDate { get; set; }
         public int JobCardId { get; set; }
         public int Used { get; set; }
+        public string OtherDetails { get; set; }
 
     }
 }
