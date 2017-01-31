@@ -21,9 +21,9 @@ namespace ArabErp.Web.Controllers
        {
             return View();
         }
-        public ActionResult PendingJobcards(int type = 0, string RegNo = "", string jcno = "")
+        public ActionResult PendingJobcards(int type = 0, string RegNo = "", string jcno = "",string customer="")
         {
-            return PartialView((new JobCardDailyActivityRepository()).PendingJobcardTasks(type, OrganizationId, RegNo, jcno));
+            return PartialView((new JobCardDailyActivityRepository()).PendingJobcardTasks(type, OrganizationId, RegNo, jcno,customer));
         }
         public ActionResult Create(int Id)
         {
