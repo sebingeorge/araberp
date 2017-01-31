@@ -202,6 +202,9 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Zip");
             ds.Tables["Head"].Columns.Add("OrganizationName");
             ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("CreatedUser");
+            ds.Tables["Head"].Columns.Add("CreateSignature");
+            ds.Tables["Head"].Columns.Add("CreatedDes");
             ProjectCompletionRepository repo = new ProjectCompletionRepository();
             var Head = repo.GetProjectCompletionHD(Id, OrganizationId);
 
@@ -239,6 +242,9 @@ namespace ArabErp.Web.Controllers
             dr["Zip"] = Head.Zip;
             dr["OrganizationName"] = Head.OrganizationName;
             dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            dr["CreatedUser"] = Head.CreatedUser;
+            dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
+            dr["CreatedDes"] = Head.CreatedDes;
             ds.Tables["Head"].Rows.Add(dr);
 
 
