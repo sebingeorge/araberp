@@ -23,6 +23,7 @@
         $("#PurchaseRequestDate").datepicker({ dateFormat: "dd-MM-yy" });
         $("#RequiredDate").datepicker({ dateFormat: "dd-MM-yy" });
         $("#PurchaseRequestNo").focus();
+        $('[data-icon="tooltip"]').tooltip();
     });
     $(document).ready(function () {
         //bind keypress event for new row inputs.
@@ -132,7 +133,9 @@
                                     <td>@Html.TextBoxFor(m => m.items[i].ShortorExcess, new { @class = "form_input", @style = "text-align:right", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
                                     <td>@Html.TextBoxFor(m => m.items[i].Quantity, new { @class = "form_input numbers-only", @style = "text-align:right", autocomplete = "off", @onfocus = "OnTextboxFocused(this)" })</td>
                                     <td>@Html.TextBoxFor(m => m.items[i].UnitName, new { @class = "form_input", @style = "text-align:left", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })</td>
-                                    <td><a href="#" onclick="ShowLastPurchaseRate(@Model.items[i].ItemId)" data-toggle="modal" data-target="#myModal">Last Purchase Rate</a></td>
+                                    <td>
+                                        <a href="#" data-icon="tooltip" data-placement="left" title="Purchase Information" class="glyphicon glyphicon-info-sign" style=" top: 2px;" onclick="ShowLastPurchaseRate(@Model.items[i].ItemId)" data-toggle="modal" data-target="#myModal"></a>
+                                    </td>
                                 </tr>
                                 row++;
                             }
