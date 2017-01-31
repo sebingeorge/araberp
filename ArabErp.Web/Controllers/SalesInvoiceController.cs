@@ -92,11 +92,13 @@ namespace ArabErp.Web.Controllers
                 //int deliveryChallanId = new DeliveryChallanRepository().GetDeliveryChallanIdFromJobCardId()
                 saleinvoice.PrintDescriptions = new SalesInvoiceRepository().GetPrintDescriptions(SelectedSaleOrderItemId);
             }
-            if (saleinvoice.InvoiceType == "Inter" || saleinvoice.InvoiceType == "Final")
+            if (saleinvoice.InvoiceType == "Inter")
             {
                 saleinvoice.isProjectBased = 1;
+                if (saleinvoice.PrintDescriptions == null || saleinvoice.PrintDescriptions.Count == 0)
+                    saleinvoice.PrintDescriptions.Add(new PrintDescription());
             }
-            else
+            else if(saleinvoice.InvoiceType == "Final")
             {
                 saleinvoice.isProjectBased = 0;
             }

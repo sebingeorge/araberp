@@ -198,9 +198,17 @@
                         @Html.HiddenFor(m => m.isProjectBased)
                         @Html.HiddenFor(m => m.isService)
                     </div>
-                    <div class="col-md-2">
-                        <label for="JobCardDate">Date</label>
 
+                    @if (Model.isProjectBased == 1)
+                    { 
+                        <div class="col-md-2">
+                        <label for="JobInternalNo">Internal Job Card No.</label>
+                        @Html.TextBoxFor(m => m.InternalJobCardNo, new { @class = "form_input", autocomplete = "off", @required = "true" })
+                        </div>
+                    }
+                   
+               <div class="col-md-2">
+                        <label for="JobCardDate">Date</label>
                         @Html.TextBoxFor(m => m.JobCardDate, Model.JobCardDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
                     </div>
                 </div>

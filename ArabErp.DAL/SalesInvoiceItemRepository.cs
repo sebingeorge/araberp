@@ -90,13 +90,22 @@ namespace ArabErp.DAL
                     #endregion
 
                     string sql = @"SELECT * INTO #SaleOrderItem FROM SaleOrderItem WHERE SaleOrderId=@SaleOrderId AND SaleOrderItemId IN (@SaleOrderItemIdList)
-                                    SELECT s.SaleOrderId SaleOrderId,S.SaleOrderItemId SaleOrderItemId, W.WorkDescr WorkDescription, V.VehicleModelName, 
-                                    S.Quantity QuantityTxt,U.UnitName Unit,S.Rate Rate,S.Discount Discount,S.Amount Amount,j.JobCardId JobCardId,
+                                    SELECT s.SaleOrderId SaleOrderId,S.SaleOrderItemId SaleOrderItemId, 
+                                    CASE WHEN SO.isProjectBased = 1 THEN QS.ProjectName ELSE W.WorkDescr END WorkDescription, 
+                                    V.VehicleModelName, 
+                                    S.Quantity QuantityTxt,U.UnitName Unit,
+                                    CASE WHEN SO.isProjectBased = 1 THEN SO.TotalAmount ELSE S.Rate END Rate,
+                                    ISNULL(S.Discount, 0.00) Discount,
+                                    CASE WHEN SO.isProjectBased = 1 THEN SO.TotalAmount ELSE S.Amount END Amount,
+                                    j.JobCardId JobCardId,
                                     0 isAccessory, 0 ItemId
                                     FROM #SaleOrderItem S LEFT JOIN Unit U on S.UnitId=U.UnitId
                                     LEFT JOIN WorkDescription W on S.WorkDescriptionId=W.WorkDescriptionId
                                     Left JOIN VehicleModel V on S.VehicleModelId=V.VehicleModelId
                                     left join JobCard J on J.SaleOrderItemId=S.SaleOrderItemId
+                                    LEFT JOIN SaleOrder SO ON SO.SaleOrderId = S.SaleOrderId
+                                    LEFT JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
+                                    LEFT JOIN QuerySheet QS ON SQ.QuerySheetId = QS.QuerySheetId
 
                                     UNION ALL
 
