@@ -63,6 +63,9 @@ namespace ArabErp.Domain
         public string ContactPerson { get; set; }
         public string OrganizationName { get; set; }
         public string Image1 { get; set; }
+        public string CreatedUsersig { get; set; }
+        public string CreatedUser { get; set; }
+        public string CreatedDes { get; set; }
         public List<ProjectRoomAndUnitDetails> ProjectRoomAndUnitDetails { get; set; }
 
     }

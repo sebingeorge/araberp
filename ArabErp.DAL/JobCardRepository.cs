@@ -14,7 +14,10 @@ namespace ArabErp
     public class JobCardRepository : BaseRepository
     {
         static string dataConnection = GetConnectionString("arab");
-
+        public string ConnectionString()
+        {
+            return dataConnection;
+        }
         //private SqlConnection connection;
 
         //   private SqlConnection connection => _connection ?? (_connection = ConnectionManager.connection);
@@ -34,13 +37,14 @@ namespace ArabErp
             {
                 string query = string.Empty;
                 query += @" SELECT SI.SaleOrderItemId,SaleOrderRefNo, SaleOrderDate, C.CustomerName, S.CustomerOrderRef, 
-                            V.VehicleModelName,ISNULL(WR.WorkShopRequestRefNo,'-')WorkShopRequestRefNo,WorkDescription=(case when  S.isProjectBased = 0 THEN  W.WorkDescr  ELSE CASE WHEN S.isService=0 THEN 
+                            V.VehicleModelName,ISNULL(WR.WorkShopRequestRefNo,'-')WorkShopRequestRefNo,
+                            WorkDescription=(case when  S.isProjectBased = 0 THEN  W.WorkDescr  ELSE CASE WHEN S.isService=0 THEN 
                             STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName FROM SaleOrderItemUnit T1
                             LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
                             LEFT JOIN Item T3 ON T1.EvaporatorUnitId = T3.ItemId
                             WHERE T1.SaleOrderItemId = SI.SaleOrderItemId FOR XML PATH('')), 1, 2, '') ELSE SE.UnitDetails END END),
                             IsPaymentApprovedForJobOrder, ISNULL(VIP.RegistrationNo, '')RegistrationNo,ISNULL(VIP.ChassisNo, '') ChassisNo,
-                            DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) Remaindays,S.isService
+                            DATEDIFF(DAY, S.SaleOrderDate, GETDATE()) Ageing, DATEDIFF(DAY, GETDATE(), S.EDateDelivery) Remaindays,S.isService,SE.OtherDetails
                             FROM SaleOrder S 
                             INNER JOIN Customer C on S.CustomerId = C.CustomerId
                             INNER JOIN SaleOrderItem SI on SI.SaleOrderId = S.SaleOrderId
@@ -198,8 +202,11 @@ namespace ArabErp
                         objJobCard.isProjectBased == 1 ? 39 : 16, true, trn);
                     objJobCard.JobCardNo = internalId.ToString();
                     int id = 0;
-                    string sql = @"insert  into JobCard(JobCardNo,JobCardDate,SaleOrderId,InPassId,WorkDescriptionId,FreezerUnitId,BoxId,BayId,SpecialRemarks,RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId,isProjectBased, isService, Complaints) Values 
-                                                       (@JobCardNo,@JobCardDate,@SaleOrderId,@InPassId,NULLIF(@WorkDescriptionId, 0),@FreezerUnitId,@BoxId,@BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId,@isProjectBased, @isService, @Complaints);
+                    string sql = @"insert  into JobCard(JobCardNo,InternalJobCardNo,JobCardDate,SaleOrderId,InPassId,WorkDescriptionId,FreezerUnitId,BoxId,BayId,SpecialRemarks,
+                                                        RequiredDate,EmployeeId,CreatedBy,CreatedDate,OrganizationId, SaleOrderItemId,isProjectBased,isService, Complaints) 
+                                                 Values(@JobCardNo,@InternalJobCardNo,@JobCardDate,@SaleOrderId,@InPassId,NULLIF(@WorkDescriptionId, 0),@FreezerUnitId,@BoxId,
+                                                        @BayId,@SpecialRemarks,@RequiredDate,@EmployeeId,@CreatedBy,@CreatedDate,@OrganizationId,@SaleOrderItemId,
+                                                        @isProjectBased, @isService, @Complaints);
                     SELECT CAST(SCOPE_IDENTITY() as int)";
 
                     id = connection.Query<int>(sql, objJobCard, trn).Single();
@@ -233,7 +240,8 @@ namespace ArabErp
             {
                 IDbTransaction txn = connection.BeginTransaction();
                 string sql = @"UPDATE JobCard SET
-	                                [JobCardDate] = @JobCardDate,
+                                    InternalJobCardNo=@InternalJobCardNo,
+	                                JobCardDate = @JobCardDate,
 	                                BayId = @BayId,
 	                                SpecialRemarks=@SpecialRemarks,
 	                                RequiredDate=@RequiredDate,
@@ -658,7 +666,7 @@ namespace ArabErp
                     0 GoodsLanded, 0 BayId, W.FreezerUnitId FreezerUnitId, FU.ItemName FreezerUnitName, W.BoxId BoxId, B.ItemName BoxName, 
                     ISNULL(VI.RegistrationNo, '') + CASE WHEN ISNULL(VI.RegistrationNo, '') <> '' AND ISNULL(VI.ChassisNo, '') <> '' THEN ' - ' ELSE '' END + ISNULL(VI.ChassisNo, '') RegistrationNo, 
                     VI.VehicleInPassId InPassId, S.isProjectBased,
-					JC.JobCardId, JC.JobCardNo, JC.BayId, CONVERT(VARCHAR, JC.RequiredDate, 106) RequiredDate, JC.EmployeeId,s.isService, 
+					JC.JobCardId, JC.JobCardNo, JC.InternalJobCardNo,JC.BayId, CONVERT(VARCHAR, JC.RequiredDate, 106) RequiredDate, JC.EmployeeId,s.isService, 
                     JC.SpecialRemarks, JC.Complaints,SE.UnitDetails,
 					STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName FROM SaleOrderItemUnit T1
 						LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId

@@ -169,7 +169,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable<JobCardForDailyActivity> PendingJobcardTasks(int type, int OrganizationId, string RegNo = "", string jcno = "")
+        public IEnumerable<JobCardForDailyActivity> PendingJobcardTasks(int type, int OrganizationId, string RegNo = "", string jcno = "",string customer="")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -190,6 +190,7 @@ namespace ArabErp.DAL
                                 AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%'
 			                    OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')
 	                            AND ISNULL(J.JobCardNo,'') LIKE '%'+@jcno+'%'
+                                AND ISNULL(CustomerName,'') LIKE '%'+@customer+'%'
 						        AND J.isActive = 1";
             }
                 else
@@ -210,12 +211,13 @@ namespace ArabErp.DAL
 											where J.JodCardCompleteStatus is null
 											AND J.OrganizationId = @OrganizationId
 											AND	J.isProjectBased = @type
---										AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%'
---										OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')
+--										--AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%'
+--										--OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')
 											AND ISNULL(J.JobCardNo,'') LIKE '%'+@jcno+'%'
+	                                  AND ISNULL(CustomerName,'') LIKE '%'+@customer+'%'
 											AND J.isActive = 1";
                 }
-                return connection.Query<JobCardForDailyActivity>(sql, new { OrganizationId = OrganizationId, type = type, RegNo = RegNo, jcno = jcno });
+                return connection.Query<JobCardForDailyActivity>(sql, new { OrganizationId = OrganizationId, type = type, RegNo = RegNo, jcno = jcno,customer=customer});
             }
         }
 
@@ -319,6 +321,8 @@ namespace ArabErp.DAL
                     model.JobCardDailyActivityId = InsertDailyActivityHead(model, connection, txn);
                     foreach (var item in model.JobCardDailyActivityTask)
                     {
+                        if (item.ActualHours == null || item.ActualHours == 0 ||
+                            item.EmployeeId == 0 || item.JobCardTaskMasterId == 0) continue;
                         item.JobCardDailyActivityId = model.JobCardDailyActivityId;
                         List<int> existingTasks = connection.Query<int>(sql1, new
                         {

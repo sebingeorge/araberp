@@ -48,10 +48,10 @@
             var row = Number(obj.id.replace("Row_", ""));
             console.log(j);
             i = j;
+          
         });
         i++;
         console.log(i);
-
         var clone = $('#Row_0').clone();
         clone.html($(clone).html().replace(/\JobCardDailyActivityTask_0__/g, 'JobCardDailyActivityTask_' + i + '__'));
         clone.html($(clone).html().replace(/\JobCardDailyActivityTask_0__/g, 'JobCardDailyActivityTask_' + i + '__'));

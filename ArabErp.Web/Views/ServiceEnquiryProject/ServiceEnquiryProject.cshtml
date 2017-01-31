@@ -99,6 +99,7 @@
         window.location = url;
     }
     function Delete(id) {
+        alert(id);
         var url = '@Url.Action("DeleteServiceorderList")';
         url += "?id=" + id;
         window.location = url;
@@ -196,6 +197,13 @@
                 </table>
             </div>
 
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="Complaints">Other Details</label>
+                    @Html.TextAreaFor(m => Model.OtherDetails, new { @class = "form_input", @style = "height: 30px", @autocomplete = "off" })
+                </div>
+            </div>
+            
             <div class="row">
                 <div class="col-md-12">
                     <label for="Complaints">Unit Details</label>

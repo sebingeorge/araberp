@@ -64,17 +64,17 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>AARC/SI/17/75</SalesInvoiceRefNo>
-    <SalesInvoiceDate>23-Jan-2017</SalesInvoiceDate>
-    <VehicleOutPassNo>DV/17/80</VehicleOutPassNo>
-    <CustomerName>Teyseer Services Company W.L.L</CustomerName>
-    <Address>Doha, Qatar,,0</Address>
-    <CustomerOrderRef>38615</CustomerOrderRef>
+    <SalesInvoiceRefNo>AARC/SI/17/109</SalesInvoiceRefNo>
+    <SalesInvoiceDate>30-Jan-2017</SalesInvoiceDate>
+    <VehicleOutPassNo>DV/17/121</VehicleOutPassNo>
+    <CustomerName>Al Shrooq</CustomerName>
+    <Address>Doha - Qatar,,</Address>
+    <CustomerOrderRef>Quote Confirm</CustomerOrderRef>
     <PaymentTerms>Due on Receipt</PaymentTerms>
-    <RegistrationNo>229753</RegistrationNo>
-    <JobCardNo>AARC/17/JC-S/45</JobCardNo>
-    <TotalAmount>1200.00</TotalAmount>
-    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <RegistrationNo>27134</RegistrationNo>
+    <JobCardNo>AARC/17/JC-S/91</JobCardNo>
+    <TotalAmount>2200.00</TotalAmount>
+    <Image1>E:\Asha\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
@@ -87,25 +87,22 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <CreateUser>safiq</CreateUser>
-    <CreateSig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSig>
+    <CreateSig>E:\Asha\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSig>
     <CreatedDes>Workshop Controller</CreatedDes>
-    <ApproveSig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\</ApproveSig>
+    <ApproveSig>E:\Asha\ArabErp\ArabErp.Web\App_images\</ApproveSig>
   </Head>
   <Items>
-    <PrintDescription>Scope of Work:
-•	Front Panel Repair / Re-enforcing
-•	Re Aligning the Unit
-•	General Check-up
-•	Labor Charges
+    <PrintDescription>Supply of Control Panel Assembly - Dhollandia
+
 </PrintDescription>
     <Quantity>1.00</Quantity>
     <UoM>ea</UoM>
-    <PriceEach>1200.00</PriceEach>
-    <Amount>1200.00</Amount>
+    <PriceEach>2200.00</PriceEach>
+    <Amount>2200.00</Amount>
   </Items>
   <DeliveryChallans>
-    <DeliveryChallanRefNo>DV/17/80</DeliveryChallanRefNo>
-    <JobCardNo>AARC/17/JC-S/45</JobCardNo>
-    <Chassiss_RegNo>229753</Chassiss_RegNo>
+    <DeliveryChallanRefNo>DV/17/121</DeliveryChallanRefNo>
+    <JobCardNo>AARC/17/JC-S/91</JobCardNo>
+    <Chassiss_RegNo>27134</Chassiss_RegNo>
   </DeliveryChallans>
 </NewDataSet>

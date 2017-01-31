@@ -81,7 +81,14 @@ namespace ArabErp.Web.Controllers
                 saleinvoice.InvoiceType = ObjSaleInvoiceItem[0].invType;
 
                 string internalId = "";
-                internalId = DatabaseCommonRepository.GetNextDocNo(7, OrganizationId);
+                if (saleinvoice.InvoiceType == "Inter")
+                {
+                    internalId = DatabaseCommonRepository.GetNextDocNo(44, OrganizationId);
+                }
+                else
+                {
+                    internalId = DatabaseCommonRepository.GetNextDocNo(7, OrganizationId);
+                }
                 saleinvoice.SalesInvoiceDate = System.DateTime.Today;
                 saleinvoice.SalesInvoiceRefNo = internalId;
 

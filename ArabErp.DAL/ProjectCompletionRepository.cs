@@ -448,10 +448,12 @@ namespace ArabErp.DAL
                 {
                     string query = string.Empty;
 
-                query = @"  SELECT O.*,PC.*,SO.SaleOrderId, SO.SaleOrderRefNo,SO.SaleOrderDate,
+                    query = @"  
+                              SELECT O.*,PC.*,SO.SaleOrderId, SO.SaleOrderRefNo,SO.SaleOrderDate,
                                         C.CustomerName,QS.ProjectName,'' Location,ISNULL(SQ.ProjectCompletionId,0)IsUsed,
                                         QI.RoomDetails,ExternalRoomDimension FreezerDimension,Refrigerant FreezerRefrigerant,
-                                        ISNULL(QI.Quantity, 1) FreezerQuantity ,QI.QuerySheetItemId,
+                                        ISNULL(QI.Quantity, 1) FreezerQuantity ,QI.QuerySheetItemId,US.UserName CreatedUser,US.[Signature] CreatedUsersig,
+										DI.DesignationName CreatedDes,
                                         STUFF((SELECT ', ' + T2.ItemName FROM QuerySheetItemUnit T1
                                         LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
                                         WHERE T1.QuerySheetItemId = QI.QuerySheetItemId FOR XML PATH('')), 1, 2, '') FreezerCondensingUnit,
@@ -467,6 +469,8 @@ namespace ArabErp.DAL
                                         INNER JOIN QuerySheetItem QI ON QI.QuerySheetId=SQ.QuerySheetId
                                         INNER JOIN Organization O ON O.OrganizationId=PC.OrganizationId
                                         left  JOIN Country ORR ON ORR.CountryId=O.Country
+										left join [User] US ON US.[UserId]=PC.CreatedBy
+								        left join Designation DI ON DI.DesignationId=US.DesignationId
                                 WHERE PC.ProjectCompletionId =@ProjectCompletionId";
 
                     ProjectCompletion ProjectCompletion = connection.Query<ProjectCompletion>(query, new { ProjectCompletionId = ProjectCompletionId, OrganizationId = OrganizationId }).FirstOrDefault();
