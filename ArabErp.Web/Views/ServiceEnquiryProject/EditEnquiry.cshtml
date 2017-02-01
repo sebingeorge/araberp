@@ -78,8 +78,12 @@
     }
 
     function Exit() {
+        
         var url = '@Url.Action("EnquiryList")';
+        url += "?isProjectBased=1";
         window.location = url;
+        @*var url = '@Url.Action("EnquiryList")';
+        window.location = url;*@
     }
 
     @*function Edit(id) {
