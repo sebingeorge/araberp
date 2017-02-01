@@ -45,9 +45,10 @@ $(function () {
                 $(this.input).removeAttr("required");
             }
 
-            if ($(this.element).attr("disabled") == "disabled") {
-                $(this.input).attr("style", "color:red");
-            }
+            //make disabled control's color red
+            //if ($(this.element).attr("disabled") == "disabled") {
+            //    $(this.input).attr("style", "color:red");
+            //}
 
             this._on(this.input, {
                 autocompleteselect: function (event, ui) {
