@@ -82,9 +82,38 @@
         $("#QtyAmount").val((rate - discount).toFixed(2));
     }
 
-    function Exit() {
-        var url = '@Url.Action("Index", "Home")';
+    @*function Exit() {
+        var url = '@Url.Action("PendingEnquiries", "SaleOrder")';
+        url += "?isProjectBased=0";
         window.location = url;
+    }*@
+
+    function Exit() {
+        @*alert('@actionName');*@
+
+        if ('@actionName' == 'ServiceOrderEdit')
+        {
+            var url = '@Url.Action("ServiceOrderList", "SaleOrder")';
+            url += "?isProjectBased=0";
+            window.location = url;
+        }
+    else if ('@actionName' == "ServiceOrder")
+        {
+            var url = '@Url.Action("PendingEnquiries", "SaleOrder")';
+            url += "?isProjectBased=0";
+            window.location = url;
+        }
+    else if ('@actionName' == "EditEnquiry")
+        {
+            var url = '@Url.Action("PendingEnquiries", "SaleOrder")';
+            url += "?isProjectBased=1";
+            window.location = url;
+        }
+    else if ('@actionName' == "ServiceEnquiry") {
+        var url = '@Url.Action("Index", "Home")';
+        url += "?isProjectBased=1";
+        window.location = url;
+    }
     }
 
     function PreviousList() {
@@ -103,7 +132,11 @@
         url += "?id=" + id;
         window.location = url;
     }
-
+    function DeleteEnquiry(id) {
+        var url = '@Url.Action("DeleteEnquiry")';
+        url += "?id=" + id;
+        window.location = url;
+    }
 </script>
 
 <div class="row">
@@ -345,7 +378,7 @@
                             <input type="button" class="form-button right" onclick="PrintEnquiry()" value="Print">
                             <button type="submit" class="form-button right">Edit</button>
                             @*<button type="button" class="form-button left">Delete()</button>*@
-                              <button type="button" class="form-button left" onclick="Delete('@Model.SaleOrderId')">Delete</button>
+                            <button type="button" class="form-button left" onclick="DeleteEnquiry('@Model.ServiceEnquiryId')">Delete</button>
                         }
                         else if (actionName == "ServiceEnquiry")
                         {
