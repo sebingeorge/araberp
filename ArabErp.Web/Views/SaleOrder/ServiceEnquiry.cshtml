@@ -83,7 +83,8 @@
     }
 
     function Exit() {
-        var url = '@Url.Action("Index", "Home")';
+        var url = '@Url.Action("PendingEnquiries", "SaleOrder")';
+        url += "?isProjectBased=0";
         window.location = url;
     }
 
