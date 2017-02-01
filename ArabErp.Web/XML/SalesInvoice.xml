@@ -64,17 +64,15 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>AARC/SI/17/109</SalesInvoiceRefNo>
-    <SalesInvoiceDate>30-Jan-2017</SalesInvoiceDate>
-    <VehicleOutPassNo>DV/17/121</VehicleOutPassNo>
-    <CustomerName>Al Shrooq</CustomerName>
-    <Address>Doha - Qatar,,</Address>
-    <CustomerOrderRef>Quote Confirm</CustomerOrderRef>
-    <PaymentTerms>Due on Receipt</PaymentTerms>
-    <RegistrationNo>27134</RegistrationNo>
-    <JobCardNo>AARC/17/JC-S/91</JobCardNo>
-    <TotalAmount>2200.00</TotalAmount>
-    <Image1>E:\Asha\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <SalesInvoiceRefNo>IINV/2</SalesInvoiceRefNo>
+    <SalesInvoiceDate>31-Jan-2017</SalesInvoiceDate>
+    <CustomerName>Benina Foods</CustomerName>
+    <Address>,,</Address>
+    <CustomerOrderRef>Approved Quote - AARC/SQ/P/17/2</CustomerOrderRef>
+    <PaymentTerms>50% Advance, 30% on Delivery, 20% on Commissioning</PaymentTerms>
+    <JobCardNo>AARC/JC/P/17/2</JobCardNo>
+    <TotalAmount>20000.00</TotalAmount>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
@@ -86,23 +84,9 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <CreateUser>safiq</CreateUser>
-    <CreateSig>E:\Asha\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSig>
-    <CreatedDes>Workshop Controller</CreatedDes>
-    <ApproveSig>E:\Asha\ArabErp\ArabErp.Web\App_images\</ApproveSig>
+    <CreateUser>ihits</CreateUser>
+    <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\7301a3c4-7139-4adf-9dee-1e82b6066ae6.jpg</CreateSig>
+    <CreatedDes>Asst.Sales Manager</CreatedDes>
+    <ApproveSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</ApproveSig>
   </Head>
-  <Items>
-    <PrintDescription>Supply of Control Panel Assembly - Dhollandia
-
-</PrintDescription>
-    <Quantity>1.00</Quantity>
-    <UoM>ea</UoM>
-    <PriceEach>2200.00</PriceEach>
-    <Amount>2200.00</Amount>
-  </Items>
-  <DeliveryChallans>
-    <DeliveryChallanRefNo>DV/17/121</DeliveryChallanRefNo>
-    <JobCardNo>AARC/17/JC-S/91</JobCardNo>
-    <Chassiss_RegNo>27134</Chassiss_RegNo>
-  </DeliveryChallans>
 </NewDataSet>
