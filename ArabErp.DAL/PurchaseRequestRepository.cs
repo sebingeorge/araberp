@@ -28,17 +28,8 @@ namespace ArabErp.DAL
 
                     objPurchaseRequest.PurchaseRequestNo = internalId;
 
-                    string sql = @"insert  into PurchaseRequest(PurchaseRequestNo,PurchaseRequestDate,WorkShopRequestId,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@PurchaseRequestNo,@PurchaseRequestDate,@WorkShopRequestId,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
-                    SELECT CAST(SCOPE_IDENTITY() as int)";
-
-                    var id = connection.Query<int>(sql, objPurchaseRequest, trn).Single();
-
-                    foreach (PurchaseRequestItem item in objPurchaseRequest.items)
-                    {
-                        item.PurchaseRequestId = id;
-                        if (item.Quantity == null || item.Quantity == 0) continue;
-                        new PurchaseRequestItemRepository().InsertPurchaseRequestItem(item, connection, trn);
-                    }
+                    var id = Insert(objPurchaseRequest, connection, trn);
+                    
                     InsertLoginHistory(dataConnection, objPurchaseRequest.CreatedBy, "Create", "Purchase Request", id.ToString(), "0");
                     trn.Commit();
 
@@ -50,6 +41,22 @@ namespace ArabErp.DAL
                     return "0";
                 }
             }
+        }
+
+        private object Insert(PurchaseRequest objPurchaseRequest, IDbConnection connection, IDbTransaction trn)
+        {
+            string sql = @"insert  into PurchaseRequest(PurchaseRequestNo,PurchaseRequestDate,WorkShopRequestId,SpecialRemarks,RequiredDate,CreatedBy,CreatedDate,OrganizationId) Values (@PurchaseRequestNo,@PurchaseRequestDate,@WorkShopRequestId,@SpecialRemarks,@RequiredDate,@CreatedBy,@CreatedDate,@OrganizationId);
+                    SELECT CAST(SCOPE_IDENTITY() as int)";
+
+            var id = connection.Query<int>(sql, objPurchaseRequest, trn).Single();
+
+            foreach (PurchaseRequestItem item in objPurchaseRequest.items)
+            {
+                item.PurchaseRequestId = id;
+                if (item.Quantity == null || item.Quantity == 0) continue;
+                new PurchaseRequestItemRepository().InsertPurchaseRequestItem(item, connection, trn);
+            }
+            return id;
         }
 
 
@@ -98,16 +105,37 @@ namespace ArabErp.DAL
 
         }
 
-        public PurchaseRequest UpdatePurchaseRequest(PurchaseRequest objPurchaseRequest)
+        public string UpdatePurchaseRequest(PurchaseRequest objPurchaseRequest)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" UPDATE PurchaseRequest SET PurchaseRequestNo = @PurchaseRequestNo ,PurchaseRequestDate = @PurchaseRequestDate ,
+                IDbTransaction trn = connection.BeginTransaction();
+                try
+                {
+                    string sql = @" UPDATE PurchaseRequest SET PurchaseRequestDate = @PurchaseRequestDate ,
                                 WorkShopRequestId = @WorkShopRequestId ,SpecialRemarks = @SpecialRemarks,RequiredDate = @RequiredDate  
                                 OUTPUT INSERTED.PurchaseRequestId  WHERE PurchaseRequestId = @PurchaseRequestId";
-                var id = connection.Execute(sql, objPurchaseRequest);
-                InsertLoginHistory(dataConnection, objPurchaseRequest.CreatedBy, "Update", "Purchase Request", id.ToString(), "0");
-                return objPurchaseRequest;
+                    var id = connection.Execute(sql, objPurchaseRequest, trn);
+
+                    sql = @" DELETE FROM PurchaseRequestItem WHERE PurchaseRequestId=@Id";
+                    connection.Execute(sql, new { Id = objPurchaseRequest.PurchaseRequestId }, transaction: trn);
+
+                    foreach (PurchaseRequestItem item in objPurchaseRequest.items)
+                    {
+                        item.PurchaseRequestId = objPurchaseRequest.PurchaseRequestId;
+                        if (item.Quantity == null || item.Quantity == 0) continue;
+                        new PurchaseRequestItemRepository().InsertPurchaseRequestItem(item, connection, trn);
+                    }
+
+                    InsertLoginHistory(dataConnection, objPurchaseRequest.CreatedBy, "Update", "Purchase Request", id.ToString(), "0");
+                    trn.Commit();
+                    return objPurchaseRequest.PurchaseRequestNo;
+                }
+                catch (Exception ex)
+                {
+                    trn.Rollback();
+                    throw ex;
+                }
             }
         }
         /// <summary>
@@ -138,7 +166,6 @@ namespace ArabErp.DAL
         /// <returns></returns>
         public int DeletePurchaseRequestDT(int Id)
         {
-            int result3 = 0;
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = @" DELETE FROM PurchaseRequestItem WHERE PurchaseRequestId=@Id";
@@ -229,11 +256,16 @@ namespace ArabErp.DAL
                                     LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId 
                                     LEFT JOIN PurchaseRequestItem PRI ON PR.PurchaseRequestId = PRI.PurchaseRequestId
                                     LEFT JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                                    
+                                    --modified by on 1.2.2017 3.43p
+                                    LEFT JOIN JobCard JC ON WR.SaleOrderId = JC.SaleOrderId
+
                                     WHERE /*PR.PurchaseRequestId is null and*/ WR.OrganizationId = @OrganizationId
                                     AND
 								    ISNULL(SO.isProjectBased, 0) = CASE @Type WHEN 'project' THEN 1 WHEN 'transport' THEN 0 WHEN 'all' THEN ISNULL(SO.isProjectBased, 0) END
                                     AND  WR.CustomerId = ISNULL(NULLIF(@cusid, 0),  WR.CustomerId)
                                     AND (ISNULL(WR.WorkShopRequestRefNo, '') LIKE '%'+@WRNo+'%')
+                                    AND ISNULL(JC.JodCardCompleteStatus, 0) = 0
                                     GROUP BY WR.WorkShopRequestId,
 	                                WR.WorkShopRequestRefNo,
 	                                WR.WorkShopRequestDate,

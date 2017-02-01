@@ -37,6 +37,7 @@
         $("#JobCardDate").datepicker({ dateFormat: "dd-MM-yy" });
         $("#RequiredDate").datepicker({ dateFormat: "dd-MM-yy" });
         assignTaskDate();
+        $('#tab_logic select[id$="__JobCardTaskId"]').combobox();
     });
 
     function assignTaskDate() {
@@ -73,6 +74,9 @@
         $("#tab_logic").append('<tr id="Row_' + i + '" class="TaskRow">' + clone.html() + '  </tr>');
         $('#Row_' + i).find('.taskdate').datepicker({ dateFormat: "dd-MM-yy" });
         assignTaskDate();
+        $('#tab_logic #Row_' + i).find('span[class="custom-combobox"]').remove();
+        $('#tab_logic #JobCardTasks_'+i+'__JobCardTaskId').val('');
+        $('#tab_logic #JobCardTasks_'+i+'__JobCardTaskId').combobox();
     }
 
     function DeleteRowBelow(index) {
@@ -110,10 +114,12 @@
                 $("#Row_" + j).html(clone.html());
                 //$("#WorkVsTasks_" + (j - 1) + "__SlNo").val(j);
                 $("#Row_" + (j)).attr('id', "Row_" + (j - 1));
-                $("#JobCardTasks_" + (j - 1) + "__JobCardTaskId").val(TaskId);
                 $("#JobCardTasks_" + (j - 1) + "__EmployeeId").val(Employee);
                 $("#JobCardTasks_" + (j - 1) + "__TaskDate").val(Date);
                 $("#JobCardTasks_" + (j - 1) + "__Hours").val(Hours);
+                $('#tab_logic #Row_' +  (j - 1)).find('span[class="custom-combobox"]').remove();
+                $("#JobCardTasks_" + (j - 1) + "__JobCardTaskId").val(TaskId);
+                $('#tab_logic #JobCardTasks_'+ (j - 1) +'__JobCardTaskId').combobox();
             }
         }
     }
@@ -192,9 +198,17 @@
                         @Html.HiddenFor(m => m.isProjectBased)
                         @Html.HiddenFor(m => m.isService)
                     </div>
-                    <div class="col-md-2">
-                        <label for="JobCardDate">Date</label>
 
+                    @if (Model.isProjectBased == 1)
+                    { 
+                        <div class="col-md-2">
+                        <label for="JobInternalNo">Internal Job Card No.</label>
+                        @Html.TextBoxFor(m => m.InternalJobCardNo, new { @class = "form_input", autocomplete = "off", @required = "true" })
+                        </div>
+                    }
+                   
+               <div class="col-md-2">
+                        <label for="JobCardDate">Date</label>
                         @Html.TextBoxFor(m => m.JobCardDate, Model.JobCardDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
                     </div>
                 </div>
@@ -370,7 +384,7 @@
                                         <a id="add_@row" class="glyphicon glyphicon-plus" @*type="button" value="Add"*@ onclick="AddRowBelow(@row);" style="top:0;"></a>
                                     </td>
                                 </tr>
-                                    row++;
+                                row++;
                             }
                         </tbody>
                     </table>
@@ -411,6 +425,6 @@
 
             </form>
         </div>
-    }
+                                }
 
 </div>

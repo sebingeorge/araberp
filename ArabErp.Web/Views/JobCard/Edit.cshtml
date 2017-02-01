@@ -37,6 +37,7 @@
         $("#JobCardDate").datepicker({ dateFormat: "dd-MM-yy" });
         $("#RequiredDate").datepicker({ dateFormat: "dd-MM-yy" });
         assignTaskDate();
+        $('#tab_logic select[id$="__JobCardTaskMasterId"]').combobox();
     });
 
     function assignTaskDate() {
@@ -74,6 +75,9 @@
         $('#Row_' + i).find('.taskdate').datepicker({ dateFormat: "dd-MM-yy" });
         assignTaskDate();
         resetValues(i);
+        $('#tab_logic #Row_' + i).find('span[class="custom-combobox"]').remove();
+        //$('#tab_logic #JobCardTasks_'+i+'__JobCardTaskId').val('');
+        $('#tab_logic select[id="JobCardTasks_'+i+'__JobCardTaskMasterId"]').combobox();
     }
     function DeleteRowBelow(index) {
 
@@ -114,6 +118,9 @@
                 $("#JobCardTasks_" + (j - 1) + "__EmployeeId").val(Employee);
                 $("#JobCardTasks_" + (j - 1) + "__TaskDate").val(Date);
                 $("#JobCardTasks_" + (j - 1) + "__Hours").val(Hours);
+                $('#tab_logic #Row_' +  (j - 1)).find('span[class="custom-combobox"]').remove();
+                $("#JobCardTasks_" + (j - 1) + "__JobCardTaskMasterId").val(TaskId);
+                $('#tab_logic #JobCardTasks_'+ (j - 1) +'__JobCardTaskMasterId').combobox();
             }
         }
     }
@@ -219,9 +226,17 @@
                         @Html.HiddenFor(m => m.OrganizationId)
                         @Html.HiddenFor(m => m.CreatedBy)
                     </div>
+
+                    @if (Model.isProjectBased == 1)
+                    {
+                        <div class="col-md-2">
+                            <label for="JobInternalNo">Internal Job Card No.</label>
+                            @Html.TextBoxFor(m => m.InternalJobCardNo, new { @class = "form_input", autocomplete = "off", @required = "true" })
+                        </div>
+                    }
+                    
                     <div class="col-md-2">
                         <label for="inputDate">Date</label>
-
                         @Html.TextBoxFor(m => m.JobCardDate, Model.JobCardDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true" })
                     </div>
                 </div>

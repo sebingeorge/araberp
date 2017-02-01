@@ -26,9 +26,20 @@
     function Filter() {
         $("#pending_Daily").addClass("fade");
         var url = '@Url.Action("PendingJobcards")';
-        var RegNo = $("#txtRegNo").val().trim();
         var JcNo = $("#txtJcNo").val().trim();
-        url += "?&RegNo=" + encodeURIComponent(RegNo) + "&jcno=" + encodeURIComponent(JcNo);
+        var customer = $("#txtCustomer").val().trim();
+        if ("@Request.QueryString["type"]" == "1")
+           
+        {
+            url +="?jcno=" + encodeURIComponent(JcNo) + "&customer=" + encodeURIComponent(customer);
+        }
+        else {
+            var RegNo = $("#txtRegNo").val().trim();
+            url += "?&RegNo=" + encodeURIComponent(RegNo) + "&jcno=" + encodeURIComponent(JcNo) + "&customer=" + encodeURIComponent(customer);
+
+        }
+
+        //url += "?&RegNo=" + encodeURIComponent(RegNo) + "&jcno=" + encodeURIComponent(JcNo) + "&customer=" + encodeURIComponent(customer);
         $("#pending_Daily").load(url, function () {
             $("#pending_Daily").removeClass("fade");
         });
@@ -39,22 +50,39 @@
 <div class="row">
 
     <div class="form-head1">
-        <h4>Pending Jobcard Task</h4>
+        <h4>Pending Jobcard For Daily Activity</h4>
     </div>
     <div class="main-part pad1">
         <div class="row">
             <div class="part">
-                @if(Request.QueryString["type"] != "1")
+                @if (Request.QueryString["type"] == "1")
                 {
                     <div class="col-md-2">
-                        <label for="txtRegNo">Reg. No./Chassis No.</label>
-                        <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Reg. No./Chassis No." />
+                        <label for="txtJcNo">Job Card No.</label>
+                        <input type="text" class="form_input" id="txtJcNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Job Card" />
+                    </div>
+                    
+                    <div class="col-md-2">
+                        <label for="txtCustomer">Customer</label>
+                        <input type="text" class="form_input" id="txtCustomer" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Customer" />
                     </div>
                 }
+                else 
+                {
                 <div class="col-md-2">
                     <label for="txtJcNo">Job Card No.</label>
                     <input type="text" class="form_input" id="txtJcNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Job Card" />
                 </div>
+
+                <div class="col-md-2">
+                <label for="txtRegNo">Reg. No./Chassis No.</label>
+                <input type="text" class="form_input" id="txtRegNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Reg. No./Chassis No." />
+            </div>
+    <div class="col-md-2">
+        <label for="txtCustomer">Customer</label>
+        <input type="text" class="form_input" id="txtCustomer" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Customer" />
+    </div>
+                }
             </div>
         </div>
         <br />

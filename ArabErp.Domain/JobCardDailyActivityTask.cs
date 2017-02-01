@@ -27,6 +27,7 @@ namespace ArabErp.Domain
 
         public string StartTime { get; set; }
         public string EndTime { get; set; }
+        public string OverTime { get; set; }
         public decimal Hours { get; set; }
     }
 }

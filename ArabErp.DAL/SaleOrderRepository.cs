@@ -1082,23 +1082,74 @@ namespace ArabErp.DAL
                     else
                     {
                         model.ServiceEnquiryRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 41, true, txn);
+                        model.SaleOrderRefNo = DatabaseCommonRepository.GetNewDocNo(connection, model.OrganizationId ?? 0, 42, true, txn);
                     }
-                    #region query
-                    string query = @"insert into ServiceEnquiry(ServiceEnquiryRefNo,CustomerId,VehicleMake,VehicleRegNo,VehicleChassisNo,VehicleKm,BoxMake,BoxNo,BoxSize
+                    
+                    //#region Project Based
+                     
+                    if (model.isProjectBased == 1)
+                     {
+                        string query = @"insert into ServiceEnquiry(ServiceEnquiryRefNo,CustomerId,VehicleMake,VehicleRegNo,VehicleChassisNo,VehicleKm,BoxMake,BoxNo,BoxSize
+			                            ,FreezerMake,FreezerModel,FreezerSerialNo,FreezerHours,TailLiftMake,TailLiftModel,TailLiftSerialNo,OrganizationId,IsConfirmed
+			                            ,CreatedBy,CreatedDate, ServiceEnquiryDate, Complaints,isProjectBased,UnitDetails,OtherDetails) 
+                                        OUTPUT inserted.ServiceEnquiryId
+                                        values
+                                        (@ServiceEnquiryRefNo,@CustomerId,@VehicleMake,@VehicleRegNo,@VehicleChassisNo,@VehicleKm,@BoxMake,@BoxNo,@BoxSize
+			                            ,@FreezerMake,@FreezerModel,@FreezerSerialNo,@FreezerHours,@TailLiftMake,@TailLiftModel,@TailLiftSerialNo,@OrganizationId,1
+			                            ,@CreatedBy,@CreatedDate, @ServiceEnquiryDate, @Complaints,@isProjectBased,@UnitDetails,@OtherDetails);";
+                        int id = connection.Query<int>(query, model, txn).FirstOrDefault();
+
+                        model.ServiceEnquiryId = id;
+
+                          query = @"insert  into SaleOrder 
+                                    (SaleOrderRefNo, SaleOrderDate, CustomerId, CustomerOrderRef, CurrencyId, SpecialRemarks,
+                                    EDateArrival, EDateDelivery, CreatedBy, CreatedDate,
+                                    OrganizationId, SaleOrderApproveStatus, isProjectBased, isAfterSales, isActive, isService, ServiceEnquiryId)
+                                    Values
+                                    (@SaleOrderRefNo, GETDATE(), @CustomerId, @CustomerOrderRef, (SELECT CurrencyId FROM Customer WHERE CustomerId = @CustomerId), @Complaints, 
+                                    GETDATE(), GETDATE(), @CreatedBy, GETDATE(),
+                                    @OrganizationId, 1, @isProjectBased, @isService, 1, @isService, @ServiceEnquiryId);
+                                    SELECT CAST(SCOPE_IDENTITY() as int) SaleOrderId";
+                         id = connection.Query<int>(query, model, txn).FirstOrDefault();
+                         if (id > 0)
+                         {
+                             SaleOrderItem item = new SaleOrderItem();
+                                 item.SaleOrderId = id;
+                                 item.SlNo=1;
+                                 new SaleOrderItemRepository().InsertSaleOrderItem(item, connection, txn);
+                         }
+                         else
+                         {
+                             throw new Exception();
+                         }
+
+                         //string output = connection.Query<string>(query, model, txn).FirstOrDefault();
+                         txn.Commit();
+                         return model.ServiceEnquiryRefNo;
+                     }
+                    //#endregion
+
+
+                    else
+                    {
+                        string query = @"insert into ServiceEnquiry(ServiceEnquiryRefNo,CustomerId,VehicleMake,VehicleRegNo,VehicleChassisNo,VehicleKm,BoxMake,BoxNo,BoxSize
 			                        ,FreezerMake,FreezerModel,FreezerSerialNo,FreezerHours,TailLiftMake,TailLiftModel,TailLiftSerialNo,OrganizationId,IsConfirmed
-			                        ,CreatedBy,CreatedDate, ServiceEnquiryDate, Complaints,isProjectBased,UnitDetails) 
+			                        ,CreatedBy,CreatedDate, ServiceEnquiryDate, Complaints,isProjectBased,UnitDetails,OtherDetails) 
                                     OUTPUT inserted.ServiceEnquiryRefNo
                                     values
                                     (@ServiceEnquiryRefNo,@CustomerId,@VehicleMake,@VehicleRegNo,@VehicleChassisNo,@VehicleKm,@BoxMake,@BoxNo,@BoxSize
 			                       ,@FreezerMake,@FreezerModel,@FreezerSerialNo,@FreezerHours,@TailLiftMake,@TailLiftModel,@TailLiftSerialNo,@OrganizationId,@IsConfirmed
-			                       ,@CreatedBy,@CreatedDate, @ServiceEnquiryDate, @Complaints,@isProjectBased,@UnitDetails);";
-                    #endregion
-                    string output = connection.Query<string>(query, model, txn).FirstOrDefault();
-                    txn.Commit();
-                    return output;
+			                       ,@CreatedBy,@CreatedDate, @ServiceEnquiryDate, @Complaints,@isProjectBased,@UnitDetails,@OtherDetails);";
+                        
+                        string output = connection.Query<string>(query, model, txn).FirstOrDefault();
+                        txn.Commit();
+                        return output;
+                    }
+                   
                 }
                 catch (Exception)
                 {
+                    txn.Rollback();
                     return "";
                 }
             }
@@ -1108,7 +1159,8 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"SELECT ServiceEnquiryId, ServiceEnquiryRefNo, ServiceEnquiryDate, VehicleMake, BoxMake, FreezerMake, TailLiftMake, C.CustomerName 
+                string query = @"SELECT ServiceEnquiryId,ServiceEnquiryRefNo,ServiceEnquiryDate,VehicleMake,BoxMake,FreezerMake,
+                                TailLiftMake,C.CustomerName,OtherDetails,SE.isProjectBased
                                 FROM ServiceEnquiry SE INNER JOIN Customer C ON SE.CustomerId = C.CustomerId
                                 WHERE SE.OrganizationId = @org AND ISNULL(isCancelled, 0) = 0 AND ISNULL(isConfirmed, 0) = 0 and SE.isProjectBased=@isProjectBased";
                 return connection.Query<ServiceEnquiry>(query, new { org = OrganizationId, isProjectBased = isProjectBased }).ToList();
@@ -1193,7 +1245,7 @@ namespace ArabErp.DAL
                                 VehicleKm=@VehicleKm,BoxMake=@BoxMake,BoxNo=@BoxNo,BoxSize=@BoxSize,FreezerMake=@FreezerMake,FreezerModel=@FreezerModel,
                                 FreezerSerialNo=@FreezerSerialNo,FreezerHours=@FreezerHours,TailLiftMake=@TailLiftMake,TailLiftModel=@TailLiftModel,
                                 TailLiftSerialNo=@TailLiftSerialNo,IsConfirmed=@IsConfirmed,ServiceEnquiryDate=@ServiceEnquiryDate,Complaints=@Complaints, 
-                                CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId,UnitDetails=@UnitDetails
+                                CreatedBy=@CreatedBy,CreatedDate=@CreatedDate,OrganizationId=@OrganizationId,UnitDetails=@UnitDetails,OtherDetails=@OtherDetails
                                 WHERE ServiceEnquiryId = @ServiceEnquiryId;";
                 var id = connection.Execute(sql, objServiceEnquiry, txn);
 
@@ -1213,8 +1265,7 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    string query = @"DELETE FROM SaleOrder WHERE ServiceEnquiryId = @ServiceEnquiryId;
-                                    DELETE FROM ServiceEnquiry OUTPUT deleted.ServiceEnquiryRefNo WHERE ServiceEnquiryId = @ServiceEnquiryId";
+                    string query = @"DELETE FROM ServiceEnquiry OUTPUT deleted.ServiceEnquiryRefNo WHERE ServiceEnquiryId = @ServiceEnquiryId";
                     string output = connection.Query<string>(query, new { ServiceEnquiryId = ServiceEnquiryId }, txn).First();
                     txn.Commit();
                     return output;
@@ -1251,7 +1302,7 @@ namespace ArabErp.DAL
             {
                 try
                 {
-                    string query = @"select S.*,SE.ServiceEnquiryRefNo,SE.ServiceEnquiryDate,W.WorkDescr,V.VehicleModelName,SE.Complaints,SE.UnitDetails,JobCardId from SaleOrder S 
+                    string query = @"select S.*,SE.ServiceEnquiryRefNo,SE.ServiceEnquiryDate,SE.OtherDetails,W.WorkDescr,V.VehicleModelName,SE.Complaints,SE.UnitDetails,JobCardId from SaleOrder S 
 						left join ServiceEnquiry SE ON SE.ServiceEnquiryId=S.ServiceEnquiryId 
 						left join SaleOrderItem SI On SI.SaleOrderId=S.SaleOrderId
                         left join JobCard J ON J.SaleOrderId=S.SaleOrderId
@@ -1344,8 +1395,30 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
+                    string query = @"UPDATE ServiceEnquiry SET isConfirmed=0 WHERE ServiceEnquiryId =(SELECT ServiceEnquiryId FROM SaleOrder WHERE SaleOrderId = @id)
+                                     DELETE FROM SaleOrderitem WHERE SaleOrderId = @id;
+                                     DELETE FROM SaleOrder OUTPUT deleted.[SaleOrderRefNo] WHERE SaleOrderId = @id;";
+                    string output = connection.Query<string>(query, new { id = id }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+        public string DeleteProjectServiceOrder(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
                     string query = @"DELETE FROM SaleOrderitem WHERE SaleOrderId = @id;
-                                    DELETE FROM SaleOrder OUTPUT deleted.[SaleOrderRefNo] WHERE SaleOrderId = @id";
+                                     DELETE FROM SaleOrder OUTPUT deleted.[ServiceEnquiryId] WHERE SaleOrderId = @id";
                     string output = connection.Query<string>(query, new { id = id }, txn).First();
                     txn.Commit();
                     return output;

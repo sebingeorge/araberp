@@ -79,10 +79,32 @@
         $("#Items_" + row + "__Amount").val((rate - discount).toFixed(2));
         $("#QtyAmount").val((rate - discount).toFixed(2));
     }
-
     function Exit() {
-        var url = '@Url.Action("Index", "Home")';
-        window.location = url;
+        @*alert('@actionName');*@
+
+        if ('@actionName' == 'ServiceOrderEdit')
+        {
+            var url = '@Url.Action("ServiceOrderList", "ServiceEnquiryProject")';
+            url += "?isProjectBased=1";
+            window.location = url;
+        }
+        else if ('@actionName' == "ServiceOrder")
+        {
+            var url = '@Url.Action("Index", "Home")';
+            url += "?isProjectBased=1";
+            window.location = url;
+        }
+        else if ('@actionName' == "EditEnquiry")
+        {
+            var url = '@Url.Action("ServiceOrderList", "ServiceEnquiryProject")';
+            url += "?isProjectBased=1";
+            window.location = url;
+        }
+        else if ('@actionName' == "ServiceEnquiryProject") {
+            var url = '@Url.Action("Index", "Home")';
+            url += "?isProjectBased=1";
+            window.location = url;
+        }
     }
 
     function PreviousList() {
@@ -99,7 +121,13 @@
         window.location = url;
     }
     function Delete(id) {
-        var url = '@Url.Action("DeleteServiceorderList")';
+        var url = '@Url.Action("DeleteServiceorder")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+
+    function DeleteEnquiry(id) {
+        var url = '@Url.Action("DeleteEnquiry")';
         url += "?id=" + id;
         window.location = url;
     }
@@ -198,6 +226,13 @@
 
             <div class="row">
                 <div class="col-md-12">
+                    <label for="Complaints">Other Details</label>
+                    @Html.TextAreaFor(m => Model.OtherDetails, new { @class = "form_input", @style = "height: 30px", @autocomplete = "off" })
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12">
                     <label for="Complaints">Unit Details</label>
                     @Html.TextAreaFor(m => Model.UnitDetails, new { @class = "form_input", @style = "height: 60px", @autocomplete = "off" })
                 </div>
@@ -248,17 +283,20 @@
                         }
                         else if (actionName == "ServiceOrder")
                         {
+                            
                             <button type="submit" class="form-button right">Save</button>
                         }
                         else if (actionName == "EditEnquiry")
                         {
+                           
                             <input type="button" class="form-button right" onclick="PrintEnquiry()" value="Print">
                             <button type="submit" class="form-button right">Edit</button>
                             @*<button type="button" class="form-button left">Delete()</button>*@
-                            <button type="button" class="form-button left" onclick="Delete('@Model.SaleOrderId')">Delete</button>
+                            <button type="button" class="form-button left" onclick="DeleteEnquiry('@Model.ServiceEnquiryId')">Delete</button>
                         }
                         else if (actionName == "ServiceEnquiryProject")
                         {
+                            
                             <button type="submit" class="form-button right">Save</button>
                             <input type="button" class="form-button" onclick="PreviousList()" value="Previous">
                         }

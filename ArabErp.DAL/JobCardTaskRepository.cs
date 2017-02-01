@@ -94,7 +94,7 @@ namespace ArabErp.DAL
                 string sql = @"SELECT distinct JT.TaskDate TaskDate,JM.JobCardTaskName,E.EmployeeName Employee,JT.[Hours]
                                 FROM JobCard J
                                 INNER JOIN JobCardTask JT ON J.JobCardId=JT.JobCardId
-                                INNER JOIN Employee E ON E.EmployeeId=JT.EmployeeId
+                                LEFT JOIN Employee E ON E.EmployeeId=JT.EmployeeId
                                 INNER JOIN JobCardTaskMaster JM ON JM.JobCardTaskMasterId=JT.JobCardTaskMasterId
                                 WHERE J.JobCardId=@JobCardId";
 

@@ -48,18 +48,30 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create(int? WorkShopRequestId)
         {
             PurchaseRequestRepository repo = new PurchaseRequestRepository();
-           
+
             PurchaseRequest model = repo.GetPurchaseRequestDetails(WorkShopRequestId ?? 0);
 
             var PRList = repo.GetPurchaseRequestItem(WorkShopRequestId ?? 0);
             model.items = new List<PurchaseRequestItem>();
             foreach (var item in PRList)
             {
-                var pritem = new PurchaseRequestItem { PartNo = item.PartNo, ItemName = item.ItemName, 
-                    Quantity = item.Quantity, UnitName = item.UnitName, ItemId = item.ItemId, MinLevel = item.MinLevel, 
-                    WRRequestQty = item.WRRequestQty, CurrentStock = item.CurrentStock, WRIssueQty = item.WRIssueQty, 
-                    TotalQty = item.TotalQty,InTransitQty=item.InTransitQty,PendingPRQty=item.PendingPRQty,ShortorExcess=item .ShortorExcess  };
-                    model.items.Add(pritem);
+                var pritem = new PurchaseRequestItem
+                {
+                    PartNo = item.PartNo,
+                    ItemName = item.ItemName,
+                    Quantity = item.Quantity,
+                    UnitName = item.UnitName,
+                    ItemId = item.ItemId,
+                    MinLevel = item.MinLevel,
+                    WRRequestQty = item.WRRequestQty,
+                    CurrentStock = item.CurrentStock,
+                    WRIssueQty = item.WRIssueQty,
+                    TotalQty = item.TotalQty,
+                    InTransitQty = item.InTransitQty,
+                    PendingPRQty = item.PendingPRQty,
+                    ShortorExcess = item.ShortorExcess
+                };
+                model.items.Add(pritem);
 
             }
             string internalId = "";
@@ -91,42 +103,42 @@ namespace ArabErp.Web.Controllers
         [HttpPost]
         public ActionResult Create(PurchaseRequest model)
         {
-             
-         
+
+
             try
             {
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
                     return View(model);
                 }
                 model.OrganizationId = OrganizationId;
                 model.CreatedDate = System.DateTime.Now;
                 model.CreatedBy = UserID.ToString();
-               
+
                 string id = new PurchaseRequestRepository().InsertPurchaseRequest(model);
-                   if (id.Split('|')[0] != "0")
-                   {
-                       TempData["success"] = "Saved successfully. Purchase Request Reference No. is " + id.Split('|')[1];
-                       TempData["error"] = "";
-                       return RedirectToAction("Pending");
-                   }
-                   else
-                   {
-                       throw new Exception();
-                   }
-                   }
-                   catch (SqlException sx)
-                   {
-                       TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
-                   }
-                   catch (NullReferenceException nx)
-                   {
-                       TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
-                   }
-                   catch (Exception ex)
-                   {
-                       TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
-                   }
+                if (id.Split('|')[0] != "0")
+                {
+                    TempData["success"] = "Saved successfully. Purchase Request Reference No. is " + id.Split('|')[1];
+                    TempData["error"] = "";
+                    return RedirectToAction("Pending");
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
             return RedirectToAction("Pending");
         }
 
@@ -139,10 +151,23 @@ namespace ArabErp.Web.Controllers
             model.items = new List<PurchaseRequestItem>();
             foreach (var item in PRList)
             {
-                var pritem = new PurchaseRequestItem { PartNo = item.PartNo, ItemName = item.ItemName, Quantity = item.Quantity,
-                    UnitName = item.UnitName, ItemId = item.ItemId, MinLevel = item.MinLevel, WRRequestQty = item.WRRequestQty, 
-                    CurrentStock = item.CurrentStock, WRIssueQty = item.WRIssueQty, TotalQty = item.TotalQty, InTransitQty = item.InTransitQty, 
-                    PendingPRQty = item.PendingPRQty, ShortorExcess = item.ShortorExcess,Remarks=item.Remarks  };
+                var pritem = new PurchaseRequestItem
+                {
+                    PartNo = item.PartNo,
+                    ItemName = item.ItemName,
+                    Quantity = item.Quantity,
+                    UnitName = item.UnitName,
+                    ItemId = item.ItemId,
+                    MinLevel = item.MinLevel,
+                    WRRequestQty = item.WRRequestQty,
+                    CurrentStock = item.CurrentStock,
+                    WRIssueQty = item.WRIssueQty,
+                    TotalQty = item.TotalQty,
+                    InTransitQty = item.InTransitQty,
+                    PendingPRQty = item.PendingPRQty,
+                    ShortorExcess = item.ShortorExcess,
+                    Remarks = item.Remarks
+                };
                 model.items.Add(pritem);
 
             }
@@ -159,50 +184,50 @@ namespace ArabErp.Web.Controllers
 
             var repo = new PurchaseRequestRepository();
 
-           var result1 = new PurchaseRequestRepository().CHECK(model.PurchaseRequestId);
-           if (result1>0)
-          {
-              TempData["error"] = "Sorry!!..Already Used!!";
-              TempData["PurchaseRequestNo"] = null;
-              return View("Edit", model);
-          }
-
-          else
-          {
-                try
+            var result1 = new PurchaseRequestRepository().CHECK(model.PurchaseRequestId);
+            if (result1 > 0)
             {
-              var result2 = new PurchaseRequestRepository().DeletePurchaseRequestDT(model.PurchaseRequestId);
-              var result3 = new PurchaseRequestRepository().DeletePurchaseRequestHD(model.PurchaseRequestId, UserID.ToString());
-              //var result = new PurchaseRequestRepository().UpdatePurchaseRequest(model);
-                string id = new PurchaseRequestRepository().InsertPurchaseRequest(model);
-                  if (id.Split('|')[0] != "0")
-                   {
-                       TempData["success"] = "Updated successfully. Purchase Request Reference No. is " + id.Split('|')[1];
-                       TempData["error"] = "";
-                       return RedirectToAction("PendingPurchaseRequest");
-                       //return View("Edit", model);
-                   }
-                   else
-                   {
-                       throw new Exception();
-                   }
-                   }
-                   catch (SqlException sx)
-                   {
-                       TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
-                   }
-                   catch (NullReferenceException nx)
-                   {
-                       TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
-                   }
-                   catch (Exception ex)
-                   {
-                       TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
-                   }
-            return RedirectToAction("Index");
+                TempData["error"] = "Sorry!!..Already Used!!";
+                TempData["PurchaseRequestNo"] = null;
+                return RedirectToAction("Index");
+            }
+
+            else
+            {
+                try
+                {
+                    //var result2 = new PurchaseRequestRepository().DeletePurchaseRequestDT(model.PurchaseRequestId);
+                    //var result3 = new PurchaseRequestRepository().DeletePurchaseRequestHD(model.PurchaseRequestId, UserID.ToString());
+                    var result = new PurchaseRequestRepository().UpdatePurchaseRequest(model);
+                    //string id = new PurchaseRequestRepository().InsertPurchaseRequest(model);
+                    if (result != "")
+                    {
+                        TempData["success"] = "Updated successfully. (" + result + ")";
+                        TempData["error"] = "";
+                        return RedirectToAction("Index");
+                        //return View("Edit", model);
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+                catch (SqlException sx)
+                {
+                    TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.";
+                }
+                catch (NullReferenceException nx)
+                {
+                    TempData["error"] = "Some required data was missing. Please try again.";
+                }
+                catch (Exception ex)
+                {
+                    TempData["error"] = "Some error occured. Please try again.";
+                }
+                return RedirectToAction("Index");
+            }
+
         }
-              
-          }
 
         public ActionResult Delete(int Id)
         {
@@ -226,7 +251,7 @@ namespace ArabErp.Web.Controllers
 
                     TempData["Success"] = "Deleted Successfully!";
                     //return RedirectToAction("PreviousList");
-                    return RedirectToAction("PendingPurchaseRequest");
+                    return RedirectToAction("Index");
                 }
 
                 else
@@ -238,7 +263,7 @@ namespace ArabErp.Web.Controllers
                 }
 
             }
-            
+
         }
 
         public void FillPRRefNo()
@@ -288,7 +313,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("Image1");
             ds.Tables["Head"].Columns.Add("CreatedUser");
             ds.Tables["Head"].Columns.Add("CreateSignature");
-        
+
 
 
             //-------DT
@@ -306,7 +331,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("PendingPRQty");
             ds.Tables["Items"].Columns.Add("ShortorExcess");
             ds.Tables["Items"].Columns.Add("Remarks");
-          
+
 
             PurchaseRequestRepository repo = new PurchaseRequestRepository();
             var Head = repo.GetPurchaseRequestHDDetailsPrint(Id, OrganizationId);
@@ -356,7 +381,7 @@ namespace ArabErp.Web.Controllers
                     ShortorExcess = item.ShortorExcess,
                     Remarks = item.Remarks
                 };
-                
+
 
                 DataRow dri = ds.Tables["Items"].NewRow();
                 dri["PartNo"] = pritem.PartNo;

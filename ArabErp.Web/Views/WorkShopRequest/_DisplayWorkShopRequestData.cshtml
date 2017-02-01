@@ -13,17 +13,17 @@
             });
 
     function ValueChanged(row) {
-      
-        if ($("#Items_" + row + "__isAddtionalMaterialRequest").val() == 0) {
-            var Actualqty = $("#Items_" + row + "__ActualQuantity").val();
-            var qty = $("#Items_" + row + "__Quantity").val();
+      //commented by shani on 29.1.2017 1.49p
+        //if ($("#Items_" + row + "__isAddtionalMaterialRequest").val() == 0) {
+        //    var Actualqty = $("#Items_" + row + "__ActualQuantity").val();
+        //    var qty = $("#Items_" + row + "__Quantity").val();
 
-            if (eval(qty) > eval(Actualqty)) {
-                toastr.info("Quantity shouldn't be greater than BOM Quantity");
-                $("#Items_" + row + "__Quantity").val(Actualqty);
+        //    if (eval(qty) > eval(Actualqty)) {
+        //        toastr.info("Quantity shouldn't be greater than BOM Quantity");
+        //        $("#Items_" + row + "__Quantity").val(Actualqty);
 
-            }
-        }
+        //    }
+        //}
     }
 
     function OnItemChanged(sender, index) {

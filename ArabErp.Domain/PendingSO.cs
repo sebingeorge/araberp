@@ -36,6 +36,7 @@ namespace ArabErp.Domain
 
         public DateTime JobCardDate { get; set; }
         public string WorkShopRequestRefNo { get; set; }
+        public string OtherDetails { get; set; }
         
     }
 }

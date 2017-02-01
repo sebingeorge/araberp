@@ -48,10 +48,10 @@
             var row = Number(obj.id.replace("Row_", ""));
             console.log(j);
             i = j;
+          
         });
         i++;
         console.log(i);
-
         var clone = $('#Row_0').clone();
         clone.html($(clone).html().replace(/\JobCardDailyActivityTask_0__/g, 'JobCardDailyActivityTask_' + i + '__'));
         clone.html($(clone).html().replace(/\JobCardDailyActivityTask_0__/g, 'JobCardDailyActivityTask_' + i + '__'));
@@ -63,6 +63,11 @@
 
         $("#tab_logic").append('<tr id="Row_' + i + '" class="TaskRow">' + clone.html() + '  </tr>');
         assignTaskDate();
+        $('#tab_logic #Row_' + i).find('span[class="custom-combobox"]').remove();
+        $("#JobCardDailyActivityTask_" + i + "__EmployeeId").val('');
+        $('#tab_logic #JobCardDailyActivityTask_' + i + '__EmployeeId').combobox();
+        $("#JobCardDailyActivityTask_" + i + "__JobCardTaskMasterId").val('');
+        $('#tab_logic #JobCardDailyActivityTask_' + i + '__JobCardTaskMasterId').combobox();
 
         //bind keypress event
         $(".numbers-only").keypress(function (e) {
@@ -149,7 +154,10 @@
                     <label>Engineer/Supervisor</label>
                     @Html.TextBoxFor(m => m.EmployeeName, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
                 </div>
-
+                <div class="col-md-2">
+                    <label>Customer</label>
+                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form_input ", autocomplete = "off", @readonly = "readonly" })
+                </div>
             </div>
             <div class="table-responsive">
                 <table class="table table-bordered" id="tab_logic">
@@ -165,7 +173,8 @@
                             <th width="10%"><h1>Date</h1></th>
                             <th width="10%"><h1>Start Time</h1></th>
                             <th width="10%"><h1>End Time</h1></th>
-                            <th width="10%"><h1>Actual Hours</h1></th>
+                            <th width="7%"><h1>Over Time</h1></th>
+                            <th width="10%"><h1>Total Hours</h1></th>
                             @if (Model.isProjectBased == 1)
                             {
                                 <th width="2%" class="text-center"></th>
@@ -232,6 +241,9 @@
                                           {
                                               @class = "form_input timepicker",
                                               autocomplete = "off"@*, @required = "true"*@ })
+                                </td>
+                                <td width="5%">
+                                    @Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].OverTime,new { @class = "form_input numbers-only", autocomplete = "off", @placeholder = "0" })
                                 </td>
                                 <td width="10%">@Html.TextBoxFor(m => m.JobCardDailyActivityTask[i].ActualHours, new { @class = "form_input numbers-only", autocomplete = "off", @placeholder = "0" })</td>
                                 @if (Model.isProjectBased == 1)

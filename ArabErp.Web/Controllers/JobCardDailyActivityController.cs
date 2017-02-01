@@ -21,9 +21,9 @@ namespace ArabErp.Web.Controllers
        {
             return View();
         }
-        public ActionResult PendingJobcards(int type = 0, string RegNo = "", string jcno = "")
+        public ActionResult PendingJobcards(int type = 0, string RegNo = "", string jcno = "",string customer="")
         {
-            return PartialView((new JobCardDailyActivityRepository()).PendingJobcardTasks(type, OrganizationId, RegNo, jcno));
+            return PartialView((new JobCardDailyActivityRepository()).PendingJobcardTasks(type, OrganizationId, RegNo, jcno,customer));
         }
         public ActionResult Create(int Id)
         {
@@ -35,8 +35,10 @@ namespace ArabErp.Web.Controllers
              if (jc.isProjectBased==1)
             {
                 model.JobCardDailyActivityRefNo = DatabaseCommonRepository.GetNextDocNo(38, OrganizationId);
-                FillTasks();
+                //FillTasks();
+                FillTasks(jc.isProjectBased);
                 FillEmployees();
+
             }
             else
             {
@@ -45,6 +47,7 @@ namespace ArabErp.Web.Controllers
             model.CreatedDate = DateTime.Now;
             model.JobCardDailyActivityDate = DateTime.Now;
             model.isProjectBased = jc.isProjectBased;
+            model.CustomerName = jc.CustomerName;
             if (model.isProjectBased == 0)
                 model.JobCardDailyActivityTask = new JobCardDailyActivityRepository().GetJobCardTasksForDailyActivity(Id, OrganizationId);
             else
@@ -84,6 +87,10 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.taskList = new SelectList(new DropdownRepository().TaskDropdown(OrganizationId), "Id", "Name");
         }
+        private void FillTasks(int isProjectBased)
+        {
+            ViewBag.taskList = new SelectList(new DropdownRepository().TaskDropdown1(isProjectBased), "Id", "Name");
+        }
         [HttpPost]
         public ActionResult Create(JobCardDailyActivity model)
         {
@@ -92,8 +99,8 @@ namespace ArabErp.Web.Controllers
                 model.CreatedBy = UserID.ToString();
                 model.OrganizationId = OrganizationId;
                 model.CreatedDate = DateTime.Now;
-                if (ModelState.IsValid)
-                {
+                //if (ModelState.IsValid)
+                //{
                     JobCardDailyActivityRepository repo = new JobCardDailyActivityRepository();
                     model.CreatedDate = DateTime.Now;
                     int id = 0;
@@ -109,11 +116,11 @@ namespace ArabErp.Web.Controllers
                     TempData["success"] = "Saved Successfully.";
                     TempData["previousAction"] = "Create";
                     return RedirectToAction("Details", new { id = id, type = model.isProjectBased });
-                }
-                else
-                {
-                    return View("Create", new { Id = model.JobCardId });
-                }
+                //}
+                //else
+                //{
+                //    return View("Create", new { Id = model.JobCardId });
+                //}
             }
             catch (Exception)
             {

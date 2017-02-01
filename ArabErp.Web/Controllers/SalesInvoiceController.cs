@@ -81,7 +81,14 @@ namespace ArabErp.Web.Controllers
                 saleinvoice.InvoiceType = ObjSaleInvoiceItem[0].invType;
 
                 string internalId = "";
-                internalId = DatabaseCommonRepository.GetNextDocNo(7, OrganizationId);
+                if (saleinvoice.InvoiceType == "Inter")
+                {
+                    internalId = DatabaseCommonRepository.GetNextDocNo(44, OrganizationId);
+                }
+                else
+                {
+                    internalId = DatabaseCommonRepository.GetNextDocNo(7, OrganizationId);
+                }
                 saleinvoice.SalesInvoiceDate = System.DateTime.Today;
                 saleinvoice.SalesInvoiceRefNo = internalId;
 
@@ -92,11 +99,13 @@ namespace ArabErp.Web.Controllers
                 //int deliveryChallanId = new DeliveryChallanRepository().GetDeliveryChallanIdFromJobCardId()
                 saleinvoice.PrintDescriptions = new SalesInvoiceRepository().GetPrintDescriptions(SelectedSaleOrderItemId);
             }
-            if (saleinvoice.InvoiceType == "Inter" || saleinvoice.InvoiceType == "Final")
+            if (saleinvoice.InvoiceType == "Inter")
             {
                 saleinvoice.isProjectBased = 1;
+                if (saleinvoice.PrintDescriptions == null || saleinvoice.PrintDescriptions.Count == 0)
+                    saleinvoice.PrintDescriptions.Add(new PrintDescription());
             }
-            else
+            else if(saleinvoice.InvoiceType == "Final")
             {
                 saleinvoice.isProjectBased = 0;
             }
@@ -249,12 +258,12 @@ namespace ArabErp.Web.Controllers
         {
 
             ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "SalesInvoice.rpt"));
+            //rd.Load(Path.Combine(Server.MapPath("~/Reports"), "SalesInvoice.rpt"));
 
             DataSet ds = new DataSet();
             ds.Tables.Add("Head");
             ds.Tables.Add("Items");
-            ds.Tables.Add("DeliveryChallans");
+            //ds.Tables.Add("DeliveryChallans");
 
             #region creating Head table
             ds.Tables["Head"].Columns.Add("SalesInvoiceRefNo");
@@ -286,6 +295,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("ApproveUser");
             ds.Tables["Head"].Columns.Add("ApproveSig");
             ds.Tables["Head"].Columns.Add("ApproveDes");
+            ds.Tables["Head"].Columns.Add("JobCardNum");
             #endregion
 
             #region creating Item Table
@@ -296,11 +306,11 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("Amount");
             #endregion
 
-            #region creating DeliveryChallans Table
-            ds.Tables["DeliveryChallans"].Columns.Add("DeliveryChallanRefNo");
-            ds.Tables["DeliveryChallans"].Columns.Add("JobCardNo");
-            ds.Tables["DeliveryChallans"].Columns.Add("Chassiss_RegNo");
-            #endregion
+            //#region creating DeliveryChallans Table
+            //ds.Tables["DeliveryChallans"].Columns.Add("DeliveryChallanRefNo");
+            //ds.Tables["DeliveryChallans"].Columns.Add("JobCardNo");
+            //ds.Tables["DeliveryChallans"].Columns.Add("Chassiss_RegNo");
+            //#endregion
 
             #region store data to Head table
             SalesInvoiceRepository repo = new SalesInvoiceRepository();
@@ -335,6 +345,7 @@ namespace ArabErp.Web.Controllers
             dr["ApproveUser"] = Head.ApproveUser;
             dr["ApproveSig"] = Server.MapPath("~/App_images/") + Head.ApproveSig;
             dr["ApproveDes"] = Head.ApprovedDes;
+            dr["JobCardNum"] = Head.JobCardNum;
             ds.Tables["Head"].Rows.Add(dr);
             #endregion
 
@@ -355,18 +366,29 @@ namespace ArabErp.Web.Controllers
             }
             #endregion
 
-            #region store data to DeliveryChallans table
-            var list = new SalesInvoiceRepository().GetDeliveryChallansFromInvoice(Id);
-            foreach (var item in list)
-            {
-                dr = ds.Tables["DeliveryChallans"].NewRow();
-                dr["DeliveryChallanRefNo"] = item.DeliveryChallanRefNo;
-                dr["JobCardNo"] = item.JobCardNo;
-                dr["Chassiss_RegNo"] = item.ChassisNo + (item.ChassisNo != "" && item.RegistrationNo != "" ? " - " : "") + item.RegistrationNo;
-                ds.Tables["DeliveryChallans"].Rows.Add(dr);
-            }
-            #endregion
+            //#region store data to DeliveryChallans table
+            //if (Head.InvoiceType == "Final")
+            //{
 
+            //    var list = new SalesInvoiceRepository().GetDeliveryChallansFromInvoice(Id);
+            //    foreach (var item in list)
+            //    {
+            //        dr = ds.Tables["DeliveryChallans"].NewRow();
+            //        dr["DeliveryChallanRefNo"] = item.DeliveryChallanRefNo;
+            //        dr["JobCardNo"] = item.JobCardNo;
+            //        dr["Chassiss_RegNo"] = item.ChassisNo + (item.ChassisNo != "" && item.RegistrationNo != "" ? " - " : "") + item.RegistrationNo;
+            //        ds.Tables["DeliveryChallans"].Rows.Add(dr);
+            //    }
+            //}
+            //#endregion
+            if (Head.InvoiceType == "Final")
+            {
+                rd.Load(Path.Combine(Server.MapPath("~/Reports"), "SalesInvoice.rpt"));
+            }
+            else
+            {
+                rd.Load(Path.Combine(Server.MapPath("~/Reports"), "CrystalReport3.rpt"));
+            }
             ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "SalesInvoice.xml"), XmlWriteMode.WriteSchema);
 
             rd.SetDataSource(ds);

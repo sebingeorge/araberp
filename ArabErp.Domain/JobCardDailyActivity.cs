@@ -19,6 +19,7 @@ namespace ArabErp.Domain
         public string Remarks { get; set; }
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
+        public string CustomerName { get; set; }
         public string RegistrationNo { get; set; }
         public string ChassisNo { get; set; }
         public string CreatedBy { get; set; }

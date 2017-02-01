@@ -15,5 +15,11 @@ namespace ArabErp.Domain
         public string PaymentTerms { get; set; }
         public decimal TotalAmount { get; set; }
         public string CurrencyName { get; set; }
+        public int IsSelected { get; set; }
+        public string PostStatus { get; set; }
+    }
+    public class PendingSalesBillsForPosting
+    {
+        public List<SalesInvoicePostingList> SalesInvoicePostingList { get; set; }
     }
 }

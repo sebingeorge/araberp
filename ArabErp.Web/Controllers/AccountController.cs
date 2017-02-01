@@ -185,7 +185,7 @@ namespace ArabErp.Web.Controllers
             Session.Add("OrganizationName", Organization.OrganizationName);
             var userData = String.Format("{0}|{1}|{2}|{3}|{4}|{5}",
                 user.UserId, user.UserName, user.UserPassword, user.UserEmail, "0", OrganizationId);
-            var ticket = new FormsAuthenticationTicket(1, userData, DateTime.UtcNow, DateTime.UtcNow.AddMinutes(30), isPersistent, userData, FormsAuthentication.FormsCookiePath);
+            var ticket = new FormsAuthenticationTicket(1, userData, DateTime.UtcNow, DateTime.UtcNow.AddMinutes(360), isPersistent, userData, FormsAuthentication.FormsCookiePath);
             var encryptedTicket = FormsAuthentication.Encrypt(ticket);
             var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket) { HttpOnly = true };
             cookiecollection.Add(authCookie);
@@ -200,7 +200,7 @@ namespace ArabErp.Web.Controllers
             cookiecollection.Add(userCookie);
             Session.Add("user", userCookie);
 
-            Session.Timeout = 120;
+            Session.Timeout = 360;
 
             UserRepository repo = new UserRepository();
             string ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
