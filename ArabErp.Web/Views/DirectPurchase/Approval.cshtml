@@ -7,18 +7,25 @@
 
 <script type="text/javascript">
 
-    function Approve(id) {
+    function Select(id) {
+
+        var url = '@Url.Action("Approve")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+
+    @*function Approve(id) {
         var url = '@Url.Action("Approve")';
         $.post(url, { id: id }, function (data) {
             if (data.startsWith('success')) {
                 toastr.success("Approved succesfully");
                 window.location.href = '@Url.Action("Approval")';
                 @*$("#view").load('@Url.Action("Approval")');*@
-            }
+            @*}
             else if (data.startsWith('error'))
                 toastr.error(data.split('|')[1]);
         });
-    }
+    }*@
 
 </script>
 
@@ -45,34 +52,43 @@
                                 </thead>
 
                                 <tbody class="grid_row">
-                                    @{
-                                for (int i = 0; i < Model.Count; i++)
-                                {
-                                <tr>
-                                    <td>
-                                        <input type="text" class="form_input" value="@Model[i].PurchaseRequestNo" disabled />
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form_input" value="@Model[i].SpecialRemarks" disabled />
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form_input text-right" value="@Model[i].TotalAmount" disabled />
-                                    </td>
+                                 @if (Model.Count > 0)
+                                 {
+                                     foreach (var item in Model)
+                                     {
+                                            <tr>
 
-                                    <td>
-                                        <center>
-                                            <button type="button" class="form-button5" onclick="Approve(@Model[i].DirectPurchaseRequestId)">Approve </button>
-                                            @*<button class="btn btn-xs btn-primary" onclick="Approve('@Model[i].DirectPurchaseRequestId')">*@
-                                                @*<span class="glyphicon glyphicon-edit" style="top:2px">
-                                                </span>*@
-                                           
-                                        </center>
-                                    </td>
-                                </tr>
-                                }
+                                                <td>
+                                                    <input type="text" class="form_input" value="@item.PurchaseRequestNo" disabled />
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form_input" value="@item.SpecialRemarks" disabled />
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form_input text-right" value="@item.TotalAmount" disabled />
+                                                </td>
+
+                                                <td>
+                                                    <center>
+                                                        <button type="button" class="form-button5" onclick="Select(@item.DirectPurchaseRequestId)">Select </button>
+                                                        @*<button class="btn btn-xs btn-primary" onclick="Approve('@Model[i].DirectPurchaseRequestId')">*@
+                                                        @*<span class="glyphicon glyphicon-edit" style="top:2px">
+                                        </span>*@
+
+                                                    </center>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                    <tr>
+                                        <td colspan="5">
+                                            <center><em>No items found!</em></center>
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
-
                             </table>
 
                         </div>

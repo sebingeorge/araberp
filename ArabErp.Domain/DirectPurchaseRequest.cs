@@ -42,5 +42,6 @@ namespace ArabErp.Domain
 
         public bool isUsed { get; set; }
         public bool isStockOrder { get; set; }
+        public bool isApproved { get; set; }
     }
 }
