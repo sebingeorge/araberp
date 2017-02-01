@@ -81,8 +81,9 @@
     }
 
     function Exit() {
-        var url = '@Url.Action("ServiceOrderList", "ServiceEnquiryProject")';
-        url += "?isProjectBased=1";
+        @*var url = '@Url.Action("ServiceOrderList", "ServiceEnquiryProject")';*@
+        //url += "?isProjectBased=1";
+        var url = '@Url.Action("Index", "Home")';
         window.location = url;
     }
 
