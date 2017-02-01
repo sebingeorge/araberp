@@ -81,7 +81,8 @@
     }
 
     function Exit() {
-        var url = '@Url.Action("Index", "Home")';
+        var url = '@Url.Action("ServiceOrderList", "ServiceEnquiryProject")';
+        url += "?isProjectBased=1";
         window.location = url;
     }
 
@@ -99,8 +100,13 @@
         window.location = url;
     }
     function Delete(id) {
-        alert(id);
-        var url = '@Url.Action("DeleteServiceorderList")';
+        var url = '@Url.Action("DeleteServiceorder")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+
+    function DeleteEnquiry(id) {
+        var url = '@Url.Action("DeleteEnquiry")';
         url += "?id=" + id;
         window.location = url;
     }
@@ -263,7 +269,7 @@
                             <input type="button" class="form-button right" onclick="PrintEnquiry()" value="Print">
                             <button type="submit" class="form-button right">Edit</button>
                             @*<button type="button" class="form-button left">Delete()</button>*@
-                            <button type="button" class="form-button left" onclick="Delete('@Model.SaleOrderId')">Delete</button>
+                            <button type="button" class="form-button left" onclick="DeleteEnquiry('@Model.ServiceEnquiryId')">Delete</button>
                         }
                         else if (actionName == "ServiceEnquiryProject")
                         {
