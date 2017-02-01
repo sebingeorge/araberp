@@ -36,6 +36,7 @@
                 <xs:element name="ApproveUser" type="xs:string" minOccurs="0" />
                 <xs:element name="ApproveSig" type="xs:string" minOccurs="0" />
                 <xs:element name="ApproveDes" type="xs:string" minOccurs="0" />
+                <xs:element name="JobCardNum" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -64,17 +65,17 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>AARC/SI/17/109</SalesInvoiceRefNo>
+    <SalesInvoiceRefNo>AARC/SI/17/108</SalesInvoiceRefNo>
     <SalesInvoiceDate>30-Jan-2017</SalesInvoiceDate>
-    <VehicleOutPassNo>DV/17/121</VehicleOutPassNo>
-    <CustomerName>Al Shrooq</CustomerName>
-    <Address>Doha - Qatar,,</Address>
-    <CustomerOrderRef>Quote Confirm</CustomerOrderRef>
-    <PaymentTerms>Due on Receipt</PaymentTerms>
-    <RegistrationNo>27134</RegistrationNo>
-    <JobCardNo>AARC/17/JC-S/91</JobCardNo>
-    <TotalAmount>2200.00</TotalAmount>
-    <Image1>E:\Asha\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <VehicleOutPassNo>DV/17/120</VehicleOutPassNo>
+    <CustomerName>Crompton International</CustomerName>
+    <Address>Doha , Qatar,,0</Address>
+    <CustomerOrderRef>CITC/190/2017</CustomerOrderRef>
+    <PaymentTerms>100% before Delivery</PaymentTerms>
+    <RegistrationNo>118217</RegistrationNo>
+    <JobCardNo>AARC/JC/17/17</JobCardNo>
+    <TotalAmount>41000.00</TotalAmount>
+    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
@@ -87,22 +88,22 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <CreateUser>safiq</CreateUser>
-    <CreateSig>E:\Asha\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSig>
+    <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSig>
     <CreatedDes>Workshop Controller</CreatedDes>
-    <ApproveSig>E:\Asha\ArabErp\ArabErp.Web\App_images\</ApproveSig>
+    <ApproveSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</ApproveSig>
   </Head>
   <Items>
-    <PrintDescription>Supply of Control Panel Assembly - Dhollandia
-
+    <PrintDescription>Supply, Installation &amp; Commissioning of MRA 512PN Bus AC into
+into Suitable Tata 66str Bus
 </PrintDescription>
     <Quantity>1.00</Quantity>
     <UoM>ea</UoM>
-    <PriceEach>2200.00</PriceEach>
-    <Amount>2200.00</Amount>
+    <PriceEach>41000.00</PriceEach>
+    <Amount>41000.00</Amount>
   </Items>
   <DeliveryChallans>
-    <DeliveryChallanRefNo>DV/17/121</DeliveryChallanRefNo>
-    <JobCardNo>AARC/17/JC-S/91</JobCardNo>
-    <Chassiss_RegNo>27134</Chassiss_RegNo>
+    <DeliveryChallanRefNo>DV/17/120</DeliveryChallanRefNo>
+    <JobCardNo>AARC/JC/17/17</JobCardNo>
+    <Chassiss_RegNo>118217</Chassiss_RegNo>
   </DeliveryChallans>
 </NewDataSet>
