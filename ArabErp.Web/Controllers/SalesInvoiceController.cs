@@ -263,7 +263,7 @@ namespace ArabErp.Web.Controllers
             DataSet ds = new DataSet();
             ds.Tables.Add("Head");
             ds.Tables.Add("Items");
-            //ds.Tables.Add("DeliveryChallans");
+            ds.Tables.Add("DeliveryChallans");
 
             #region creating Head table
             ds.Tables["Head"].Columns.Add("SalesInvoiceRefNo");
@@ -306,11 +306,11 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Items"].Columns.Add("Amount");
             #endregion
 
-            //#region creating DeliveryChallans Table
-            //ds.Tables["DeliveryChallans"].Columns.Add("DeliveryChallanRefNo");
-            //ds.Tables["DeliveryChallans"].Columns.Add("JobCardNo");
-            //ds.Tables["DeliveryChallans"].Columns.Add("Chassiss_RegNo");
-            //#endregion
+            #region creating DeliveryChallans Table
+            ds.Tables["DeliveryChallans"].Columns.Add("DeliveryChallanRefNo");
+            ds.Tables["DeliveryChallans"].Columns.Add("JobCardNo");
+            ds.Tables["DeliveryChallans"].Columns.Add("Chassiss_RegNo");
+            #endregion
 
             #region store data to Head table
             SalesInvoiceRepository repo = new SalesInvoiceRepository();
@@ -366,30 +366,32 @@ namespace ArabErp.Web.Controllers
             }
             #endregion
 
-            //#region store data to DeliveryChallans table
-            //if (Head.InvoiceType == "Final")
-            //{
+            #region store data to DeliveryChallans table
+            if (Head.InvoiceType == "Final")
+            {
 
-            //    var list = new SalesInvoiceRepository().GetDeliveryChallansFromInvoice(Id);
-            //    foreach (var item in list)
-            //    {
-            //        dr = ds.Tables["DeliveryChallans"].NewRow();
-            //        dr["DeliveryChallanRefNo"] = item.DeliveryChallanRefNo;
-            //        dr["JobCardNo"] = item.JobCardNo;
-            //        dr["Chassiss_RegNo"] = item.ChassisNo + (item.ChassisNo != "" && item.RegistrationNo != "" ? " - " : "") + item.RegistrationNo;
-            //        ds.Tables["DeliveryChallans"].Rows.Add(dr);
-            //    }
-            //}
-            //#endregion
+                var list = new SalesInvoiceRepository().GetDeliveryChallansFromInvoice(Id);
+                foreach (var item in list)
+                {
+                    dr = ds.Tables["DeliveryChallans"].NewRow();
+                    dr["DeliveryChallanRefNo"] = item.DeliveryChallanRefNo;
+                    dr["JobCardNo"] = item.JobCardNo;
+                    dr["Chassiss_RegNo"] = item.ChassisNo + (item.ChassisNo != "" && item.RegistrationNo != "" ? " - " : "") + item.RegistrationNo;
+                    ds.Tables["DeliveryChallans"].Rows.Add(dr);
+                }
+            }
+            #endregion
             if (Head.InvoiceType == "Final")
             {
                 rd.Load(Path.Combine(Server.MapPath("~/Reports"), "SalesInvoice.rpt"));
+                ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "SalesInvoice.xml"), XmlWriteMode.WriteSchema);
             }
             else
             {
-                rd.Load(Path.Combine(Server.MapPath("~/Reports"), "CrystalReport3.rpt"));
+                rd.Load(Path.Combine(Server.MapPath("~/Reports"), "InterInvoice.rpt"));
+                ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "InterInvoice.xml"), XmlWriteMode.WriteSchema);
             }
-            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "SalesInvoice.xml"), XmlWriteMode.WriteSchema);
+          
 
             rd.SetDataSource(ds);
 
