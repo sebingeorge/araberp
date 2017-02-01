@@ -27,7 +27,8 @@ namespace ArabErp.Web.Controllers
             }
             else if(TrnId == 2)
             {
-                var model = _repo.GetSalesInvoicePostingList();
+                PendingSalesBillsForPosting model = new PendingSalesBillsForPosting();
+                model.SalesInvoicePostingList = _repo.GetSalesInvoicePostingList(Status);
                 return PartialView("_SalesGrid", model);
             }
             else
@@ -136,6 +137,60 @@ namespace ArabErp.Web.Controllers
             }
 
             string ExcelFileName = "Purchase-JV.xls";
+            Response.Clear();
+            Response.Charset = "";
+            Response.ContentType = "application/excel";
+            Response.AddHeader("Content-Disposition", "filename=" + ExcelFileName);
+            Response.Write(sb);
+            Response.End();
+            Response.Flush();
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ExportSalesBillToExcel(PendingSalesBillsForPosting model)
+        {
+            QuickBookExportRepository repo = new QuickBookExportRepository();
+            var obj = repo.GetSalecInvoiceDetailsForExportExcel(model);
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("<Table border={0}1{0}>", (Char)34);
+            sb.Append("<tr>");
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Trans #</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Type</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Date</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Invoice Num</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Name</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Memo</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Account</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Class</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Debit</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Credit</td>", (Char)34);
+            sb.Append("</tr>");
+
+            foreach (var item in obj)
+            {
+                sb.Append("<tr>");
+                if(item.Type == "Invoice")
+                {
+                    sb.AppendFormat("<td>{1}</td>", (Char)34, item.Trans);
+                }
+                else
+                {
+                    sb.AppendFormat("<td></td>", (Char)34, item.Trans);
+                }
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.Type);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.Num);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.Date);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.Name);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.Memo);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.Account);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.Class);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.Debit);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.Credit);
+                sb.Append("</tr>");
+            }
+
+            string ExcelFileName = "Sales-JV.xls";
             Response.Clear();
             Response.Charset = "";
             Response.ContentType = "application/excel";

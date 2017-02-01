@@ -335,8 +335,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\AuthorizeUser.cs" />
-    <Compile Include="Helpers\PrevilageStatus.cs" />
+    <Compile Include="fonts\Helpers\AuthorizeUser.cs" />
+    <Compile Include="fonts\Helpers\PrevilageStatus.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />

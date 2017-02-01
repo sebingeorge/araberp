@@ -181,7 +181,6 @@ namespace ArabErp.Web.Controllers
         public ActionResult Delete(AdditionOrDeduction model)
         {
             int result = new AdditionOrDeductionRepository().Delete(model);
-
             if (result == 0)
             {
                 TempData["Success"] = "Deleted Successfully!";
