@@ -235,6 +235,25 @@ namespace ArabErp.Web.Controllers
                 return View("_ServiceOrderList", model);
             }
         }
+
+        public ActionResult DeleteServiceorder(int id = 0)
+        {
+            try
+            {
+                if (id == 0) return RedirectToAction("Index", "Home");
+                string ref_no = new SaleOrderRepository().DeleteProjectServiceOrder(id);
+
+                TempData["Success"] = "Deleted Successfully!";
+                TempData["ServiceEnquiryRefNo"] = ref_no;
+                return RedirectToAction("ServiceOrderList", new { isProjectBased = 1 });
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+                return RedirectToAction("Edit", new { id = id });
+            }
+        }
+
         public ActionResult DeleteEnquiry(int id = 0)
         {
             try
@@ -244,15 +263,15 @@ namespace ArabErp.Web.Controllers
 
                 TempData["Success"] = "Deleted Successfully!";
                 TempData["ServiceEnquiryRefNo"] = ref_no;
-                return RedirectToAction("EnquiryList", new { isProjectBased = 1 });
+                return RedirectToAction("EnquiryList", new { isProjectBased = 0 });
             }
             catch (Exception)
             {
                 TempData["error"] = "Some error occured while deleting. Please try again.";
-                return RedirectToAction("EditEnquiry", new { id = id });
+                return RedirectToAction("Edit", new { id = id });
             }
         }
-      
+            
         void FillDropDowns()
         {
             FillCustomer();

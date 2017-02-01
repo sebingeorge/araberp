@@ -1402,7 +1402,7 @@ namespace ArabErp.Web.Controllers
 
                 TempData["Success"] = "Deleted Successfully!";
                 TempData["SaleOrderRefNo"] = ref_no;
-                return RedirectToAction("ServiceOrderList");
+                return RedirectToAction("ServiceOrderList", new { isProjectBased=0 });
             }
             catch (Exception)
             {

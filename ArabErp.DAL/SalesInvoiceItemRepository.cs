@@ -45,6 +45,33 @@ namespace ArabErp.DAL
                 return objSalesInvoiceItem;
             }
         }
+//        public List<PrintDescription> GetSalesInvoiceItemforPrint(int SalesInvoiceId)
+//        {
+//            //Data is fetched from [PrintDescription] table for SalesInvoiceItem
+//            using (IDbConnection connection = OpenConnection(dataConnection))
+//            {
+//                #region old query 21.12.2016 9.57a
+//                //                string sql = @" select W.WorkDescriptionRefNo,W.WorkDescr WorkDescription,SI.Amount,SI.Rate,SI.Quantity,UnitName Unit from SalesInvoiceItem SI inner join SalesInvoice S ON SI.SalesInvoiceId=S.SalesInvoiceId
+//                //                                inner join SaleOrderItem SII ON SII.SaleOrderItemId=SI.SaleOrderItemId
+//                //                                LEFT JOIN WorkDescription W ON W.WorkDescriptionId=SII.WorkDescriptionId
+//                //                                LEFT JOIN UNIT U ON U.UnitId=SII.UnitId
+//                //                                where SI.SalesInvoiceId=@SalesInvoiceId"; 
+//                #endregion
+
+//                string sql = @"SELECT
+//	                                PD.*
+//                                FROM SalesInvoiceItem SII
+//                                INNER JOIN JobCard JC ON SII.JobCardId = JC.JobCardId
+//                                INNER JOIN DeliveryChallan DC ON JC.JobCardId = DC.JobCardId
+//                                INNER JOIN PrintDescription PD ON DC.DeliveryChallanId = PD.DeliveryChallanId
+//                                WHERE SII.SalesInvoiceId = @SalesInvoiceId";
+
+//                return connection.Query<PrintDescription>(sql, new { SalesInvoiceId = SalesInvoiceId }).ToList();
+
+               
+//            }
+//        }
+
         public List<PrintDescription> GetSalesInvoiceItemforPrint(int SalesInvoiceId)
         {
             //Data is fetched from [PrintDescription] table for SalesInvoiceItem
@@ -58,17 +85,33 @@ namespace ArabErp.DAL
                 //                                where SI.SalesInvoiceId=@SalesInvoiceId"; 
                 #endregion
 
-                string sql = @"SELECT
+                 string sq = @"select invoicetype from SalesInvoice where SalesInvoiceId=@SalesInvoiceId";
+                 var objSalesInvoice = connection.Query<PrintDescription>(sq, new { SalesInvoiceId = SalesInvoiceId }).First<PrintDescription>();
+                string sql;
+                if (objSalesInvoice.InvoiceType == "Final")
+                {
+
+                    sql = @"SELECT
 	                                PD.*
                                 FROM SalesInvoiceItem SII
                                 INNER JOIN JobCard JC ON SII.JobCardId = JC.JobCardId
                                 INNER JOIN DeliveryChallan DC ON JC.JobCardId = DC.JobCardId
                                 INNER JOIN PrintDescription PD ON DC.DeliveryChallanId = PD.DeliveryChallanId
                                 WHERE SII.SalesInvoiceId = @SalesInvoiceId";
-
+                }
+                else
+                {
+                    sql = @"	SELECT
+	                                PD.*
+                                FROM SalesInvoiceItem SII
+                                INNER JOIN JobCard JC ON SII.JobCardId = JC.JobCardId
+                                INNER JOIN SaleOrder S  ON JC.SaleOrderId = S.SaleOrderId
+								INNER JOIN PrintDescription PD ON PD.SaleOrderId=S.SaleOrderId
+                                WHERE SII.SalesInvoiceId = @SalesInvoiceId";
+                }
                 return connection.Query<PrintDescription>(sql, new { SalesInvoiceId = SalesInvoiceId }).ToList();
 
-               
+
             }
         }
 

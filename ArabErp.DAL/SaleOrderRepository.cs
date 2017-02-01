@@ -1265,8 +1265,7 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
-                    string query = @"DELETE FROM SaleOrder WHERE ServiceEnquiryId = @ServiceEnquiryId;
-                                    DELETE FROM ServiceEnquiry OUTPUT deleted.ServiceEnquiryRefNo WHERE ServiceEnquiryId = @ServiceEnquiryId";
+                    string query = @"DELETE FROM ServiceEnquiry OUTPUT deleted.ServiceEnquiryRefNo WHERE ServiceEnquiryId = @ServiceEnquiryId";
                     string output = connection.Query<string>(query, new { ServiceEnquiryId = ServiceEnquiryId }, txn).First();
                     txn.Commit();
                     return output;
@@ -1396,8 +1395,30 @@ namespace ArabErp.DAL
                 IDbTransaction txn = connection.BeginTransaction();
                 try
                 {
+                    string query = @"UPDATE ServiceEnquiry SET isConfirmed=0 WHERE ServiceEnquiryId =(SELECT ServiceEnquiryId FROM SaleOrder WHERE SaleOrderId = @id)
+                                     DELETE FROM SaleOrderitem WHERE SaleOrderId = @id;
+                                     DELETE FROM SaleOrder OUTPUT deleted.[SaleOrderRefNo] WHERE SaleOrderId = @id;";
+                    string output = connection.Query<string>(query, new { id = id }, txn).First();
+                    txn.Commit();
+                    return output;
+                }
+                catch (Exception ex)
+                {
+                    txn.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+        public string DeleteProjectServiceOrder(int id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                IDbTransaction txn = connection.BeginTransaction();
+                try
+                {
                     string query = @"DELETE FROM SaleOrderitem WHERE SaleOrderId = @id;
-                                    DELETE FROM SaleOrder OUTPUT deleted.[SaleOrderRefNo] WHERE SaleOrderId = @id";
+                                     DELETE FROM SaleOrder OUTPUT deleted.[ServiceEnquiryId] WHERE SaleOrderId = @id";
                     string output = connection.Query<string>(query, new { id = id }, txn).First();
                     txn.Commit();
                     return output;
