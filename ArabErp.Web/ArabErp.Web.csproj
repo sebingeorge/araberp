@@ -1422,6 +1422,7 @@
     <Content Include="Views\ProfitabilityReport\_PurchaseDetails.cshtml" />
     <Content Include="Views\ProfitabilityReport\_ExpenseDetails.cshtml" />
     <Content Include="Views\ProfitabilityReport\_LabourDetails.cshtml" />
+    <Content Include="Views\DirectPurchase\Approve.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

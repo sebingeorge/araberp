@@ -36,7 +36,6 @@
                 <xs:element name="ApproveUser" type="xs:string" minOccurs="0" />
                 <xs:element name="ApproveSig" type="xs:string" minOccurs="0" />
                 <xs:element name="ApproveDes" type="xs:string" minOccurs="0" />
-                <xs:element name="JobCardNum" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>

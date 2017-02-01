@@ -16,7 +16,7 @@
 <script>
 
     function Exit() {
-        location.href = '@Url.Action("Index")';
+        location.href = '@Url.Action("Approval", "DirectPurchase")';
     }
 
     function DeleteRequest(id) {
@@ -64,12 +64,19 @@
     })
 
     $(function () {
-        $("#PurchaseRequestDate").datepicker({
-            dateFormat: "d-MM-yy"
-        });
-        $("#RequiredDate").datepicker({
-            dateFormat: "d-MM-yy"
-        });
+        //$("#PurchaseRequestDate").datepicker({
+        //    dateFormat: "d-MM-yy"
+        //});
+        //$("#RequiredDate").datepicker({
+        //    dateFormat: "d-MM-yy"
+        //});
+
+        $("input").prop("readonly", "true");
+        $("select").prop("disabled", "true");
+        $("textarea").prop("readonly", "true");
+
+        $(".glyphicon-minus, .glyphicon-plus").hide();
+
         //$("#PurchaseRequestDate").change(function (s, e) {
         //    getPurchaseLimit($(this).val());
         //});
@@ -134,13 +141,28 @@
     }
 
 
+     function Approve(id) {
+         var url = '@Url.Action("Aprove")';
+         $.post(url, { id: id }, function (data) {
+             if (data.startsWith('success')) {
+                 toastr.success("Approved succesfully");
+                 window.location.href = '@Url.Action("Approval")';
+                 $("#view").load('@Url.Action("Approval")');
+             }
+             else if (data.startsWith('error'))
+                 toastr.error(data.split('|')[1]);
+         });
+     }
+
+
+    
 
 </script>
 
 <div class="row">
 
     <div class="form-head1">
-        <h4>Direct Purchase Request</h4>
+        <h4>Direct Purchase Request-Approval</h4>
     </div>
 
     <div class="main-part pad1">
@@ -168,10 +190,10 @@
                     @Html.DropDownListFor(m => m.SoOrJc, new List<SelectListItem> { new SelectListItem { Text = "Job Card", Value = "JC" }, new SelectListItem { Text = "Sale Order", Value = "SO" } }, "Select SO/JC", new { @class = "form_input", @onchange = "OptionChanged()" })
 
                     @*<select class="form_input" id="JcOrSo" onchange="OptionChanged()">
-                        <option>Select</option>
-                        <option value="JC">Job Card</option>
-                        <option value="SO">Sale Order</option>
-                    </select>*@
+                            <option>Select</option>
+                            <option value="JC">Job Card</option>
+                            <option value="SO">Sale Order</option>
+                        </select>*@
                 </div>
                 <div class="col-md-2">
                     <label id="againstId"></label>
@@ -200,20 +222,9 @@
             <div class="row">
 
                 <div class="col-md-12 hrpart">
+                    @*<button type="button" class="form-button left" onclick="DeleteRequest(@Model.DirectPurchaseRequestId)">Delete</button>*@
                     <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-
-                    @if (Model.isApproved)
-                    {
-                        <span class="perm">
-                            **Cannot edit/delete, because it is already Approved.
-                        </span>
-                    }
-                    else
-                    {
-                         <button type="submit" class="form-button right">Edit</button>
-
-                          <button type="button" class="form-button left" onclick="DeleteRequest(@Model.DirectPurchaseRequestId)">Delete</button>
-                    }
+                    <button type="button" class="form-button right" onclick="Approve(@Model.DirectPurchaseRequestId)">Approve</button>
                 </div>
 
             </div>
@@ -223,3 +234,4 @@
         </form>
     </div>
 </div>
+

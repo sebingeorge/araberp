@@ -256,11 +256,16 @@ namespace ArabErp.DAL
                                     LEFT JOIN PurchaseRequest PR ON PR.WorkShopRequestId=WR.WorkShopRequestId 
                                     LEFT JOIN PurchaseRequestItem PRI ON PR.PurchaseRequestId = PRI.PurchaseRequestId
                                     LEFT JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+                                    
+                                    --modified by on 1.2.2017 3.43p
+                                    LEFT JOIN JobCard JC ON WR.SaleOrderId = JC.SaleOrderId
+
                                     WHERE /*PR.PurchaseRequestId is null and*/ WR.OrganizationId = @OrganizationId
                                     AND
 								    ISNULL(SO.isProjectBased, 0) = CASE @Type WHEN 'project' THEN 1 WHEN 'transport' THEN 0 WHEN 'all' THEN ISNULL(SO.isProjectBased, 0) END
                                     AND  WR.CustomerId = ISNULL(NULLIF(@cusid, 0),  WR.CustomerId)
                                     AND (ISNULL(WR.WorkShopRequestRefNo, '') LIKE '%'+@WRNo+'%')
+                                    AND ISNULL(JC.JodCardCompleteStatus, 0) = 0
                                     GROUP BY WR.WorkShopRequestId,
 	                                WR.WorkShopRequestRefNo,
 	                                WR.WorkShopRequestDate,
