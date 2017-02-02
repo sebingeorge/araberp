@@ -75,7 +75,7 @@
     <RegistrationNo>175563</RegistrationNo>
     <JobCardNo>AARC/17/JC-S/89</JobCardNo>
     <TotalAmount>500.00</TotalAmount>
-    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <Image1>E:\Asha\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
@@ -93,7 +93,9 @@
     <ApproveSig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\</ApproveSig>
   </Head>
   <Items>
-    <PrintDescription>Category A 300Hours Service</PrintDescription>
+    <PrintDescription>Supply of Control Panel Assembly - Dhollandia
+
+</PrintDescription>
     <Quantity>1.00</Quantity>
     <UoM>ea</UoM>
     <PriceEach>500.00</PriceEach>
