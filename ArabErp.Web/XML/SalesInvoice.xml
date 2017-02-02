@@ -65,17 +65,17 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>AARC/SI/17/108</SalesInvoiceRefNo>
+    <SalesInvoiceRefNo>AARC/SI/17/110</SalesInvoiceRefNo>
     <SalesInvoiceDate>30-Jan-2017</SalesInvoiceDate>
-    <VehicleOutPassNo>DV/17/120</VehicleOutPassNo>
-    <CustomerName>Crompton International</CustomerName>
-    <Address>Doha , Qatar,,0</Address>
-    <CustomerOrderRef>CITC/190/2017</CustomerOrderRef>
-    <PaymentTerms>100% before Delivery</PaymentTerms>
-    <RegistrationNo>118217</RegistrationNo>
-    <JobCardNo>AARC/JC/17/17</JobCardNo>
-    <TotalAmount>41000.00</TotalAmount>
-    <Image1>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <VehicleOutPassNo>DV/17/122</VehicleOutPassNo>
+    <CustomerName>Construction Devolopment Co. L.L.C.</CustomerName>
+    <Address>P.O.Box: 8388, Doha-Qatar,,0</Address>
+    <CustomerOrderRef />
+    <PaymentTerms>Cash Payment</PaymentTerms>
+    <RegistrationNo>175563</RegistrationNo>
+    <JobCardNo>AARC/17/JC-S/89</JobCardNo>
+    <TotalAmount>500.00</TotalAmount>
+    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
@@ -88,22 +88,20 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <CreateUser>safiq</CreateUser>
-    <CreateSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSig>
+    <CreateSig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSig>
     <CreatedDes>Workshop Controller</CreatedDes>
-    <ApproveSig>E:\SHANID\ARAB ERP\ArabErp\ArabErp.Web\App_images\</ApproveSig>
+    <ApproveSig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\</ApproveSig>
   </Head>
   <Items>
-    <PrintDescription>Supply, Installation &amp; Commissioning of MRA 512PN Bus AC into
-into Suitable Tata 66str Bus
-</PrintDescription>
+    <PrintDescription>Category A 300Hours Service</PrintDescription>
     <Quantity>1.00</Quantity>
     <UoM>ea</UoM>
-    <PriceEach>41000.00</PriceEach>
-    <Amount>41000.00</Amount>
+    <PriceEach>500.00</PriceEach>
+    <Amount>500.00</Amount>
   </Items>
   <DeliveryChallans>
-    <DeliveryChallanRefNo>DV/17/120</DeliveryChallanRefNo>
-    <JobCardNo>AARC/JC/17/17</JobCardNo>
-    <Chassiss_RegNo>118217</Chassiss_RegNo>
+    <DeliveryChallanRefNo>DV/17/122</DeliveryChallanRefNo>
+    <JobCardNo>AARC/17/JC-S/89</JobCardNo>
+    <Chassiss_RegNo>175563</Chassiss_RegNo>
   </DeliveryChallans>
 </NewDataSet>
