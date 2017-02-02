@@ -48,6 +48,8 @@ namespace ArabErp.DAL
 
                     foreach (WorkShopRequestItem item in objWorkShopRequest.Items)
                     {
+                        if (item.Quantity == 0) continue;
+
                         item.WorkShopRequestId = id;
                         new WorkShopRequestItemRepository().InsertWorkShopRequestItem(item, connection, trn);
                     }
@@ -320,7 +322,7 @@ namespace ArabErp.DAL
 
                                 SELECT T1.* 
                                 INTO #TEMP1 FROM 
-                                (  SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName,0 orderkey from SaleOrderItem SI 
+                                (  SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName,I.ItemCategoryId,0 orderkey from SaleOrderItem SI 
                                     INNER JOIN SaleOrderItemUnit U ON SI.SaleOrderItemId=U.SaleOrderItemId
                                     INNER JOIN ITEM I ON I.ItemId=U.EvaporatorUnitId
                                     INNER JOIN Unit IU ON I.ItemUnitId = IU.UnitId
@@ -328,7 +330,7 @@ namespace ArabErp.DAL
 
                                     UNION ALL
 
-                                    SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName,1 orderkey from SaleOrderItem SI 
+                                    SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName,I.ItemCategoryId,1 orderkey from SaleOrderItem SI 
                                     INNER JOIN SaleOrderItemUnit U ON SI.SaleOrderItemId=U.SaleOrderItemId
                                     INNER JOIN ITEM I ON I.ItemId=U.CondenserUnitId
                                     INNER JOIN Unit IU ON I.ItemUnitId = IU.UnitId
@@ -336,7 +338,7 @@ namespace ArabErp.DAL
 
                                     UNION ALL
 
-                                    SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName,2 orderkey from SaleOrderItem SI 
+                                    SELECT I.ItemId,I.ItemName,I.PartNo,U.Quantity,IU.UnitName,I.ItemCategoryId,2 orderkey from SaleOrderItem SI 
                                     INNER JOIN SaleOrderItemDoor U ON SI.SaleOrderItemId=U.SaleOrderItemId
                                     INNER JOIN ITEM I ON I.ItemId=U.DoorId
                                     INNER JOIN Unit IU ON I.ItemUnitId = IU.UnitId
@@ -344,16 +346,16 @@ namespace ArabErp.DAL
 
                                     UNION ALL
 
-                                    SELECT I.ItemId,I.ItemName,I.PartNo,B.Quantity,IU.UnitName,3 orderkey FROM ItemVsBom B 
+                                    SELECT I.ItemId,I.ItemName,I.PartNo,B.Quantity,IU.UnitName,I.ItemCategoryId,3 orderkey FROM ItemVsBom B 
                                     INNER JOIN ITEM I ON I.ItemId = B.BomItemId
                                     INNER JOIN Unit IU ON I.ItemUnitId = IU.UnitId
                                     WHERE B.ItemId IN(SELECT ITEMID FROM #T) 
                                     ) T1;
                 
                                     SELECT
-                	                ItemId, ItemName, PartNo, SUM(Quantity) Quantity, UnitName
+                	                ItemId, ItemName,ItemCategoryId,PartNo,SUM(Quantity) Quantity,UnitName
                                     FROM #TEMP1
-                                    GROUP BY ItemId, ItemName, PartNo, UnitName,orderkey
+                                    GROUP BY ItemId,ItemName,ItemCategoryId,PartNo,UnitName,orderkey
                                     order by orderkey
                 
                                     DROP TABLE #TEMP1

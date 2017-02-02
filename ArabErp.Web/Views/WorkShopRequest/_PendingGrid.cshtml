@@ -16,8 +16,16 @@
                                  }
                                 <th width="20%" nowrap><h1> Work Description</h1></th> 
                                 <th width="5%"><h1>Ageing</h1></th>
+                                @if(ViewBag.ProjectBased==0)
+                                {
                                 <th width="8%"><h1>EDA</h1></th>
                                 <th width="8%"><h1>EDD</h1></th>
+                                }
+                                else
+                                {
+                                 <th width="8%"><h1>EDC</h1></th> 
+                                }
+                              
                                 <th width="7%"><h1>Days Left</h1></th>
                                 <th width="10%"><center><h1></h1></center></th>
                             </tr>
@@ -38,19 +46,20 @@
                                         <td class="grid-cell">@Model.ElementAt(i).SaleOrderRefNo</td>
                                         <td class="grid-cell">@Model.ElementAt(i).CustomerName</td>
                                         <td class="grid-cell">@Model.ElementAt(i).CustomerOrderRef</td>
-   
-
-
-
-                                           @if (ViewBag.ProjectBased == 0)
-                                           {
-                                            <td class="grid-cell">@Model.ElementAt(i).RegistrationNo</td>
-                                            }
-                                         
-                                               
+                                       
+                                         @if (ViewBag.ProjectBased == 0)
+                                        {
+                                         <td class="grid-cell">@Model.ElementAt(i).RegistrationNo</td>
+                                        }
+                                        
                                         <td class="grid-cell">@Model.ElementAt(i).WorkDescription</td>
                                         <td class="grid-cell">@Model.ElementAt(i).Ageing</td>
-                                        <td class="grid-cell">@Model.ElementAt(i).EDateArrival.ToString("dd/MMM/yyyy")</td>
+                                        
+                                        @if (ViewBag.ProjectBased == 0)
+                                        {
+                                         <td class="grid-cell">@Model.ElementAt(i).EDateArrival.ToString("dd/MMM/yyyy")</td>
+                                        }
+                                       
                                         <td class="grid-cell">@Model.ElementAt(i).EDateDelivery.ToString("dd/MMM/yyyy")</td>
                                         <td class="grid-cell">@Model.ElementAt(i).Remaindays</td>
                                         <td>

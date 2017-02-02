@@ -39,6 +39,9 @@ textarea {
     /*box-shadow: 1px 2px 3px #888888;*/
 }
 
+.Black{
+    color:#000;
+}
 .main-part1 {
     /*background-color:#B4B4B4;*/
     background-color: #6b7a8f;
@@ -493,6 +496,7 @@ textarea {
 
 input[type="text"]:disabled {
     background-color: transparent;
+
 }
 
 .backgroundcolortransparent {

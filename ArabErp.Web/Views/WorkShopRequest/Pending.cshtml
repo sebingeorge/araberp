@@ -23,11 +23,12 @@
     
         $("#wr-pending").addClass("fade");
         var saleOrder = $("#txtSaleOrder").val();
+        var customer = $("#txtCustomer").val();
         var isProjectBased=@ViewBag.ProjectBased;
      
         var url = '@Url.Action("WorkShopRequestPending")';
       
-        url += "?isProjectBased=" + isProjectBased + "&saleOrder=" + encodeURIComponent(saleOrder) ;
+        url += "?isProjectBased=" + isProjectBased + "&saleOrder=" + encodeURIComponent(saleOrder) + "&customer=" + encodeURIComponent(customer);
       
         $("#wr-pending").load(url, function () {
             $("#wr-pending").removeClass("fade");
@@ -54,6 +55,11 @@
             <div class="col-md-2">
                 <label for="txtSaleOrder">Sale Order No.</label>
                 <input class="form_input" onkeyup="Filter()" id="txtSaleOrder" placeholder="Search for Sale Order" />
+            </div>
+
+            <div class="col-md-2">
+                <label for="txtCustomer">Customer</label>
+                <input class="form_input" onkeyup="Filter()" id="txtCustomer" placeholder="Search for Customer" />
             </div>
         </div>
         <br />

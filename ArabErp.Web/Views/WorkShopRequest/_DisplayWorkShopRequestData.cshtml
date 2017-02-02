@@ -181,7 +181,7 @@
                     <td>
                       @if (Model.Items[row].isAddtionalMaterialRequest == 0)
                       {
-                        @Html.DropDownListFor(m => m.Items[row].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Items[row].ItemId), "Select Material/Spares", new { @class = "form_input", @autocomplete = "off", @disabled = "disabled", @onchange = "OnItemChanged(this," + row + ")" })
+                        @Html.DropDownListFor(m => m.Items[row].ItemId, new SelectList(ViewBag.itemList, "Value", "Text", Model.Items[row].ItemId), "Select Material/Spares", new { @class = "form_input Black", @autocomplete = "off", @disabled = "disabled", @onchange = "OnItemChanged(this," + row + ")" })
                       }
                       else
                       {

@@ -45,6 +45,18 @@ namespace ArabErp.DAL
             }
         }
         /// <summary>
+        /// Return  not Finished Goods items that are active
+        /// </summary>
+        /// <returns></returns>
+        public List<Dropdown> ExceptFGItemDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT ItemId Id, ItemName Name FROM Item WHERE ISNULL(isActive, 1) = 1 AND ItemCategoryId <>2 ORDER BY ItemName").ToList();
+            }
+        }
+
+        /// <summary>
         /// Item expt door ,evaporator and condenser
         /// </summary>
         /// <returns></returns>
@@ -777,20 +789,18 @@ namespace ArabErp.DAL
             }
         }
 
-        public IEnumerable JobCardForAdditionalWorkshopRequest(int OrganizationId)
+        public IEnumerable JobCardForAdditionalWorkshopRequest(int OrganizationId, int isProjectBased)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>(@"SELECT
-	                                                    JC.JobCardId Id,
-	                                                    JC.JobCardNo Name
+                return connection.Query<Dropdown>(@"SELECT JC.JobCardId Id,JC.JobCardNo Name
                                                     FROM WorkShopRequest WR
-	                                                    INNER JOIN JobCard JC ON WR.JobCardId = JC.JobCardId
+	                                                INNER JOIN JobCard JC ON WR.JobCardId = JC.JobCardId
                                                     WHERE isAdditionalRequest = 1
-	                                                    AND WR.isActive = 1
-	                                                    AND WR.OrganizationId = @OrganizationId
+	                                                AND WR.isActive = 1 AND JC.isProjectBased=@isProjectBased
+	                                                AND WR.OrganizationId = @OrganizationId
                                                     ORDER BY JobCardDate DESC, WR.CreatedDate DESC",
-                                                    new { OrganizationId = OrganizationId }).ToList();
+                                                    new { OrganizationId = OrganizationId, isProjectBased = isProjectBased }).ToList();
             }
         }
 

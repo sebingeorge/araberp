@@ -28,6 +28,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Create(int? SaleOrderId, int? saleorderitem)
         {
             ItemDropdown();
+            ExceptFGItemDropdown();
             WorkShopRequestRepository repo = new WorkShopRequestRepository();
             WorkShopRequest model = repo.GetSaleOrderForWorkshopRequest(SaleOrderId ?? 0);
             model.SaleOrderItemId = saleorderitem ?? 0;
@@ -193,13 +194,13 @@ namespace ArabErp.Web.Controllers
             ViewBag.ProjectBased = isProjectBased;
             return View();
         }
-        public ActionResult WorkShopRequestPending(int isProjectBased, string saleOrder = "")
+        public ActionResult WorkShopRequestPending(int isProjectBased, string saleOrder = "", string customer="")
         {
 
             var rep = new SaleOrderRepository();
 
 
-            var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId, isProjectBased, saleOrder.Trim());
+            var slist = rep.GetSaleOrdersPendingWorkshopRequest(OrganizationId, isProjectBased, saleOrder.Trim(), customer.Trim());
 
             ViewBag.ProjectBased = isProjectBased;
 
@@ -249,6 +250,7 @@ namespace ArabErp.Web.Controllers
         public ActionResult Edit(int? id)
         {
             ItemDropdown();
+            ExceptFGItemDropdown();
             var repo = new WorkShopRequestRepository();
             WorkShopRequest model = repo.GetWorkshopRequestHdData(id ?? 0);
             model.Items = repo.GetWorkShopRequestDtData(id ?? 0);
@@ -310,6 +312,11 @@ namespace ArabErp.Web.Controllers
         {
             ViewBag.itemList = new SelectList(new DropdownRepository().ItemDropdown(), "Id", "Name");
         }
+        private void ExceptFGItemDropdown()
+        {
+            ViewBag.ExceptFGitemList = new SelectList(new DropdownRepository().ExceptFGItemDropdown(), "Id", "Name");
+        }
+
         public JsonResult GetItemUnit(int itemId)
         {
             return Json(new StockReturnItemRepository().GetItemUnit(itemId), JsonRequestBehavior.AllowGet);

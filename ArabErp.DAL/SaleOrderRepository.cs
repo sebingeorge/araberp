@@ -232,7 +232,7 @@ namespace ArabErp.DAL
         /// </summary>
         /// <param name="model">Object of class SaleOrder</param>
         /// <returns>SaleOrders not in WorkshopRequest table</returns>
-        public List<SaleOrder> GetSaleOrdersPendingWorkshopRequest(int OrganizationId, int isProjectBased, string saleOrder = "")
+        public List<SaleOrder> GetSaleOrdersPendingWorkshopRequest(int OrganizationId, int isProjectBased, string saleOrder = "", string customer = "")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -280,7 +280,9 @@ namespace ArabErp.DAL
 		                          SELECT  S.SaleOrderRefNo +' - '+ Convert(varchar,SaleOrderDate,106) SaleOrderRefNo, 
                                   C.CustomerName,S.CustomerOrderRef,S.SaleOrderId,
                                   S.isProjectBased,S.EDateArrival,S.EDateDelivery,DATEDIFF(dd,S.SaleOrderDate,GETDATE ()) Ageing,SII.SaleOrderItemId,
-	                              DATEDIFF(dd,GETDATE (),S.EDateDelivery)Remaindays,VI.RegistrationNo,VI.ChassisNo,STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName FROM SaleOrderItemUnit T1
+	                              DATEDIFF(dd,GETDATE (),S.EDateDelivery)Remaindays,VI.RegistrationNo,VI.ChassisNo,
+                                  STUFF((SELECT ', '+T2.ItemName + ', '+ T3.ItemName 
+                                  FROM SaleOrderItemUnit T1
 								  INNER JOIN SaleOrderItem SI on SI.SaleOrderItemId= T1.SaleOrderItemId
                                   INNER JOIN SaleOrder T4 ON T4.SaleOrderId=SI.SaleOrderId
                                   LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
@@ -291,7 +293,8 @@ namespace ArabErp.DAL
 								  INNER JOIN Customer C ON S.CustomerId = C.CustomerId
                                   LEFT JOIN VehicleInPass VI ON VI.SaleOrderId=S.SaleOrderId
                                   WHERE S.OrganizationId = @OrganizationId  AND ISNULL(S.isService, 0) = 0 and S.isProjectBased=1
-						  
+						          AND S.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+                                  AND C.CustomerName LIKE '%'+@customer+'%'
                                    )T1
  
                                   SELECT * FROM #TEMP T LEFT JOIN #WORK_REQUEST WR ON T.SaleOrderItemId = WR.SaleOrderItemId WHERE WR.SaleOrderItemId IS NULL
@@ -319,6 +322,7 @@ namespace ArabErp.DAL
 	                                AND SO.OrganizationId = @OrganizationId
 	                                and SO.isProjectBased=isnull(@isProjectBased, SO.isProjectBased)
 	                                AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+                                    AND C.CustomerName LIKE '%'+@customer+'%'
 	                                AND ISNULL(SO.isService, 0) = 0
 	                                AND SO.SaleOrderId NOT IN (SELECT isnull(SaleOrderId,0) FROM WorkShopRequest WHERE SaleOrderItemId = 0 AND ISNULL(JobCardId, 0) = 0)
                                 ORDER BY SO.EDateDelivery, SO.SaleOrderDate
@@ -328,7 +332,8 @@ namespace ArabErp.DAL
 
 
 
-                var objSaleOrders = connection.Query<SaleOrder>(sql, new { OrganizationId = OrganizationId, isProjectBased = isProjectBased, saleOrder = saleOrder }).ToList<SaleOrder>();
+                var objSaleOrders = connection.Query<SaleOrder>(sql, new { OrganizationId = OrganizationId, isProjectBased = isProjectBased, 
+                                                                           saleOrder = saleOrder, customer = customer }).ToList<SaleOrder>();
 
                 return objSaleOrders;
             }

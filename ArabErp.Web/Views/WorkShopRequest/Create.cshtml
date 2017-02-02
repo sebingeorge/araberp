@@ -129,14 +129,26 @@
                         <label for="SaleOrderRefNo">SO No. & Date</label>
                         @Html.TextBoxFor(m => m.SaleOrderRefNo, new { @class = "form_input", autocomplete = "off", @readonly = "readonly", @tabindex = "-1" })
                     </div>
+                    
+                    @if(Model.isProjectBased==0)
+                    {
                     <div class="col-md-2">
                         <label for="SaleOrderRefNo">EDA</label>
                         @Html.TextBoxFor(m => m.EDateArrival, Model.EDateArrival.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true", @tabindex = "-1" })
-                </div>
+                    </div>
                     <div class="col-md-2">
                         <label for="SaleOrderRefNo">EDD</label>
                         @Html.TextBoxFor(m => m.EDateDelivery, Model.EDateDelivery.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true", @tabindex = "-1" })
-                    </div>
+                    </div> 
+                    }
+                   else
+                    {
+                    <div class="col-md-2">
+                        <label for="SaleOrderRefNo">EDC</label>
+                        @Html.TextBoxFor(m => m.EDateDelivery, Model.EDateDelivery.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @readonly = "readonly", @required = "true", @tabindex = "-1" })
+                    </div> 
+                    }
+
                 </div>
                 @*<div class="row form-group">
                     <div class="col-md-12">
