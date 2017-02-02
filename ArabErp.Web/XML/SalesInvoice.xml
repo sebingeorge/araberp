@@ -36,6 +36,7 @@
                 <xs:element name="ApproveUser" type="xs:string" minOccurs="0" />
                 <xs:element name="ApproveSig" type="xs:string" minOccurs="0" />
                 <xs:element name="ApproveDes" type="xs:string" minOccurs="0" />
+                <xs:element name="JobCardNum" type="xs:string" minOccurs="0" />
               </xs:sequence>
             </xs:complexType>
           </xs:element>
@@ -64,16 +65,16 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>AARC/SI/17/109</SalesInvoiceRefNo>
+    <SalesInvoiceRefNo>AARC/SI/17/110</SalesInvoiceRefNo>
     <SalesInvoiceDate>30-Jan-2017</SalesInvoiceDate>
-    <VehicleOutPassNo>DV/17/121</VehicleOutPassNo>
-    <CustomerName>Al Shrooq</CustomerName>
-    <Address>Doha - Qatar,,</Address>
-    <CustomerOrderRef>Quote Confirm</CustomerOrderRef>
-    <PaymentTerms>Due on Receipt</PaymentTerms>
-    <RegistrationNo>27134</RegistrationNo>
-    <JobCardNo>AARC/17/JC-S/91</JobCardNo>
-    <TotalAmount>2200.00</TotalAmount>
+    <VehicleOutPassNo>DV/17/122</VehicleOutPassNo>
+    <CustomerName>Construction Devolopment Co. L.L.C.</CustomerName>
+    <Address>P.O.Box: 8388, Doha-Qatar,,0</Address>
+    <CustomerOrderRef />
+    <PaymentTerms>Cash Payment</PaymentTerms>
+    <RegistrationNo>175563</RegistrationNo>
+    <JobCardNo>AARC/17/JC-S/89</JobCardNo>
+    <TotalAmount>500.00</TotalAmount>
     <Image1>E:\Asha\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
@@ -92,17 +93,15 @@
     <ApproveSig>E:\Asha\ArabErp\ArabErp.Web\App_images\</ApproveSig>
   </Head>
   <Items>
-    <PrintDescription>Supply of Control Panel Assembly - Dhollandia
-
-</PrintDescription>
+    <PrintDescription>Category A 300Hours Service</PrintDescription>
     <Quantity>1.00</Quantity>
     <UoM>ea</UoM>
-    <PriceEach>2200.00</PriceEach>
-    <Amount>2200.00</Amount>
+    <PriceEach>500.00</PriceEach>
+    <Amount>500.00</Amount>
   </Items>
   <DeliveryChallans>
-    <DeliveryChallanRefNo>DV/17/121</DeliveryChallanRefNo>
-    <JobCardNo>AARC/17/JC-S/91</JobCardNo>
-    <Chassiss_RegNo>27134</Chassiss_RegNo>
+    <DeliveryChallanRefNo>DV/17/122</DeliveryChallanRefNo>
+    <JobCardNo>AARC/17/JC-S/89</JobCardNo>
+    <Chassiss_RegNo>175563</Chassiss_RegNo>
   </DeliveryChallans>
 </NewDataSet>
