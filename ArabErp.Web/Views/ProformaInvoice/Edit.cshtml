@@ -196,6 +196,12 @@
                     <label for="TotalAmount" class="tamount"><b>@(Model.SymbolName)&nbsp;<span id="TotalAmount">@totalAmount </span></b></label>
                 </div>
             </div>
+            
+             <div class="row form-group">
+                <div class="col-md-12">
+                    @Html.Partial("_Printdescription", Model)
+                </div>
+            </div>
             <div class="row form-group">
                 <div class="col-md-12">
                     <div class="part1">

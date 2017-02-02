@@ -525,6 +525,12 @@
       <DependentUpon>ProformaInvoice.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\ProformaInvoiceee.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProformaInvoiceee.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\ProjectCompletion.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1423,6 +1429,7 @@
     <Content Include="Views\ProfitabilityReport\_ExpenseDetails.cshtml" />
     <Content Include="Views\ProfitabilityReport\_LabourDetails.cshtml" />
     <Content Include="Views\DirectPurchase\Approve.cshtml" />
+    <Content Include="Views\ProformaInvoice\_Printdescription.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1576,6 +1583,10 @@
     <EmbeddedResource Include="Reports\ProformaInvoice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProformaInvoice.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ProformaInvoiceee.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ProformaInvoiceee.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProjectCompletion.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

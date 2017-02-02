@@ -1,0 +1,183 @@
+﻿
+@model ArabErp.Domain.ProformaInvoice
+
+@{
+    //var totalPrintAmount = Model.SaleInvoiceItems.Sum(a => a.Amount);
+}
+
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        //$('#print-description-table input').attr("disabled", "true");
+        //$('#print-description-table textarea').attr("disabled", "true");
+        
+            //$('#print-description-table .glyphicon').hide();
+            //$('#print-description-table .allow-entry').removeAttr("readonly");
+       
+
+    })
+
+    function AddPrintDescRow() {
+        var i = 0;
+        $('#print-description-table tr[id$="_printdesc_row"]').each(function () {
+            i++;
+        });
+        //clone and replace indices
+        var clone = $('#0_printdesc_row').clone();
+        clone.html($(clone).html().replace(/PrintDescriptions_0__/g, 'PrintDescriptions_' + i + '__'));
+        clone.html($(clone).html().replace(/PrintDescriptions\[0]./g, 'PrintDescriptions[' + i + '].'));
+        clone.html($(clone).html().replace(/\(0\)/g, '(' + i + ')'));
+        clone.html($(clone).html().replace(/0_printdesc_serialno/g, i + '_printdesc_serialno'));
+        $('#print-description-table').append('<tr id="' + i + '_printdesc_row">' + clone.html() + '</tr>');
+        //----------------------end
+        $('#print-description-table #' + i + '_printdesc_serialno').text(i + 1);
+        $('#print-description-table #PrintDescriptions_' + i + '__Description').val('');
+        $('#print-description-table #PrintDescriptions_' + i + '__UoM').val('');
+        $('#print-description-table #PrintDescriptions_' + i + '__Quantity').val('');
+        $('#print-description-table #PrintDescriptions_' + i + '__Description').focus();
+    }
+
+    function DeletePrintDescRow(index) {
+        var i = 0;
+        $('#print-description-table tr[id$="_printdesc_row"]').each(function () {
+            i++;
+        });
+        if (i > 1) {
+            $('#' + index + '_printdesc_row').remove();
+            for (var j = index + 1; j < i; j++) {
+                var description = $('#PrintDescriptions_' + j + '__Description').val();
+                var uom = $('#PrintDescriptions_' + j + '__UoM').val();
+                var quantity = $('#PrintDescriptions_' + j + '__Quantity').val();
+                //clone and replace indices
+                var clone = $('#' + j + '_printdesc_row').clone(true, true);
+                clone.html($(clone).html().replace(new RegExp('PrintDescriptions_' + j + '__', 'g'), 'PrintDescriptions_' + (j - 1) + '__'));
+                clone.html($(clone).html().replace(new RegExp('PrintDescriptions\\[' + j + '].', 'g'), 'PrintDescriptions[' + (j - 1) + '].'));
+                clone.html($(clone).html().replace(new RegExp(j + '_printdesc_serialno', 'g'), (j - 1) + '_printdesc_serialno'));
+                clone.html($(clone).html().replace('DeletePrintDescRow(' + j + ')', 'DeletePrintDescRow(' + (j - 1) + ')'));
+                $('#' + j + '_printdesc_row').html(clone.html());
+                $('#' + j + '_printdesc_row').attr('id', (j - 1) + '_printdesc_row');
+                //----------------------end
+                $('#' + (j - 1) + '_printdesc_serialno').text(j);
+                $('#PrintDescriptions_' + (j - 1) + '__Description').val(description);
+                $('#PrintDescriptions_' + (j - 1) + '__UoM').val(uom);
+                $('#PrintDescriptions_' + (j - 1) + '__Quantity').val(quantity);
+            }
+        }
+    }
+    function Amountchanges() {
+        var qty = 0;
+        var rate = 0;
+        var amount = 0;
+        var total = 0;
+        var net = 0;
+
+        $('.PriceEach').each(function (i, obj) {
+
+            var qty = 0;
+            var rate = 0;
+
+            console.log(obj);
+            qty=$("#PrintDescriptions_" + i + "__Quantity").val();
+            if(eval($("#PrintDescriptions_" + i + "__PriceEach").val() != 0 && eval($("#PrintDescriptions_" + i + "__PriceEach").val() != '')))
+            rate = rate + eval($("#PrintDescriptions_" + i + "__PriceEach").val());
+            amount = (qty * rate);
+            total = total + amount;
+            //$("#PrintDescriptions_" + i + "__Quantity").val();
+            $("#PrintDescriptions_" + i + "__Amount").val(amount);
+
+        });
+        $("#gridTotals").text(total);
+        net = total;
+        $("#PrintTotalAmount").val(total.toFixed(2));
+
+        //$("#lblTotalAmount").text(net.toFixed(2));
+
+        //net += amount;
+        //alert(net);
+        //$("#TotalAmount").val(total.toFixed(2));
+        //$("#lblTotalAmount").text(net.toFixed(2));
+    }
+
+</script>
+
+<table class="table table-responsive table-bordered table-hover" id="print-description-table">
+    <thead>
+        <tr class="grid_heading">
+            <th width="1%"></th>
+            <th width="2%" class="text-center">#</th>
+            <th width="56%" nowrap>Print Description</th>
+            <th width="10%">UoM</th>
+            <th width="10%">Quantity</th>
+            <th width="10%">Price Each</th>
+            <th width="10%">Amount</th>
+            <th width="1%"></th>
+        </tr>
+    </thead>
+    <tbody class="grid_row">
+        @{
+            if (Model.PrintDescriptions != null && Model.PrintDescriptions.Count > 0)
+            {
+                for (int i = 0; i < Model.PrintDescriptions.Count; i++)
+                {
+                    <tr id="@(i)_printdesc_row">
+                        <td style="vertical-align:middle">
+                            <a class="glyphicon glyphicon-minus" style="top:0px" onclick="DeletePrintDescRow(@i)"></a>
+                        </td>
+                        <td align="center">
+                            <span id="@(i)_printdesc_serialno">
+                                @(i + 1)
+                                @Html.HiddenFor(m => m.PrintDescriptions[i].PrintDescriptionId)
+                            </span>
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(m => m.PrintDescriptions[i].Description, new { @class = "form_input allow-entry", @style = "height: 57px",  @tabindex = "-1" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].UoM, new { @class = "form_input allow-entry", @tabindex = "-1" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Quantity, new { @class = "form_input Quantity allow-entry", @tabindex = "-1" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].PriceEach, new { @class = "form_input PriceEach allow-entry",  @onchange = "Amountchanges()", @onkeyup = "Amountchanges()" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.PrintDescriptions[i].Amount, new { @class = "form_input numbers-only", @tabindex = "-1", @required = "true" })
+                        </td>
+                        <td style="vertical-align:middle">
+                            <a class="glyphicon glyphicon-plus" style="top:0px" onclick="AddPrintDescRow()"></a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td align="center" colspan="6">
+                        <em>There are no print descriptions found!</em>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+    <tfoot>
+        <tr class="grid_heading">
+            <th class="text-center"><h1></h1></th>
+            <th class="text-center"></th>
+            @*@if (Model.InvoiceType == "Final")
+                {*@
+            <th class="text-center"><h1></h1></th>
+            @*}*@
+            <th class="text-right"></th>
+            <th></th>
+            <th class="text-right"><h1>Total</h1></th>
+            @*<th class="text-right">
+                </th>*@
+            <th class="text-right"><span id="gridTotals">@Model.PrintTotalAmount</span></th>
+            @Html.HiddenFor(m => m.PrintTotalAmount)
+            <th></th>
+        </tr>
+    </tfoot>
+
+</table>

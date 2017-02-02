@@ -33,25 +33,17 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <ProformaInvoiceRefNo>AARC/PI/17/1</ProformaInvoiceRefNo>
-    <ProformaInvoiceDate>19-Jan-2017</ProformaInvoiceDate>
-    <CustomerName>Jaida Motors &amp; Trading Co</CustomerName>
-    <CustomerAddress>Doha- Qatar,,UAE,1,0</CustomerAddress>
-    <SaleOrderRefNo>AARC/SO/TR/ 1</SaleOrderRefNo>
-    <PaymentTerms>Net 60</PaymentTerms>
+    <ProformaInvoiceRefNo>AARC/PI/17/6</ProformaInvoiceRefNo>
+    <ProformaInvoiceDate>02-Feb-2017</ProformaInvoiceDate>
+    <CustomerName>Grand Mart Trading Co W.L.L.</CustomerName>
+    <CustomerAddress>Doha-Qatar,,UAE,1,0</CustomerAddress>
+    <SaleOrderRefNo>AARC/P/SE/17/3</SaleOrderRefNo>
+    <PaymentTerms>jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj</PaymentTerms>
   </Head>
   <Items>
     <Quantity>1</Quantity>
-    <WorkDescriptionRefNo>WD/3</WorkDescriptionRefNo>
-    <WorkDescription>Thermoking T600-R + 100mm 6100x2300x2300mm ,BAM</WorkDescription>
     <UnitName>job</UnitName>
-    <Amount>0.00</Amount>
-  </Items>
-  <Items>
-    <Quantity>1</Quantity>
-    <WorkDescriptionRefNo>WD/3</WorkDescriptionRefNo>
-    <WorkDescription>Thermoking T600-R + 100mm 6100x2300x2300mm ,BAM</WorkDescription>
-    <UnitName>job</UnitName>
-    <Amount>0.00</Amount>
+    <Rate>44.00</Rate>
+    <Amount>43.00</Amount>
   </Items>
 </NewDataSet>

@@ -16,14 +16,14 @@ namespace ArabErp.Web.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class InterInvoice : ReportClass {
+    public class ProformaInvoiceee : ReportClass {
         
-        public InterInvoice() {
+        public ProformaInvoiceee() {
         }
         
         public override string ResourceName {
             get {
-                return "InterInvoice.rpt";
+                return "ProformaInvoiceee.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace ArabErp.Web.Reports {
         
         public override string FullResourceName {
             get {
-                return "ArabErp.Web.Reports.InterInvoice.rpt";
+                return "ArabErp.Web.Reports.ProformaInvoiceee.rpt";
             }
             set {
                 // Do nothing
@@ -98,9 +98,9 @@ namespace ArabErp.Web.Reports {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedInterInvoice : Component, ICachedReport {
+    public class CachedProformaInvoiceee : Component, ICachedReport {
         
-        public CachedInterInvoice() {
+        public CachedProformaInvoiceee() {
         }
         
         [Browsable(false)]
@@ -137,7 +137,7 @@ namespace ArabErp.Web.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            InterInvoice rpt = new InterInvoice();
+            ProformaInvoiceee rpt = new ProformaInvoiceee();
             rpt.Site = this.Site;
             return rpt;
         }

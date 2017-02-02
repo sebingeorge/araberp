@@ -70,6 +70,9 @@ namespace ArabErp.Web.Controllers
             model.ProformaInvoiceRefNo = internalId;
             model.ProformaInvoiceDate = DateTime.Now;
 
+            model.PrintDescriptions = new ProformaInvoiceRepository().GetPrintDescriptions(SaleOrderId);
+            if (model.PrintDescriptions == null || model.PrintDescriptions.Count == 0)
+                model.PrintDescriptions.Add(new PrintDescription());
             return View(model);
         }
         [HttpPost]
@@ -124,6 +127,7 @@ namespace ArabErp.Web.Controllers
             ProformaInvoice model = new ProformaInvoiceRepository().GetProformaInvoiceHdDetails(id);
             //model.SymbolName = new CurrencyRepository().GetCurrencyFrmOrganization(OrganizationId).SymbolName;
             model.Items = new ProformaInvoiceRepository().GetProformaInvoiceItemDetails(id);
+            model.PrintDescriptions = new ProformaInvoiceRepository().GetPrintDescription(id);
             return View(model);
         }
         [HttpPost]
@@ -166,7 +170,7 @@ namespace ArabErp.Web.Controllers
         {
 
             ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "ProformaInvoice.rpt"));
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "ProformaInvoiceee.rpt"));
 
             DataSet ds = new DataSet();
             ds.Tables.Add("Head");
@@ -176,16 +180,33 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("ProformaInvoiceRefNo");
             ds.Tables["Head"].Columns.Add("ProformaInvoiceDate");
             ds.Tables["Head"].Columns.Add("CustomerName");
+            ds.Tables["Head"].Columns.Add("Address");
             ds.Tables["Head"].Columns.Add("CustomerAddress");
+            ds.Tables["Head"].Columns.Add("CustomerOrderRef");
             ds.Tables["Head"].Columns.Add("SaleOrderRefNo");
             ds.Tables["Head"].Columns.Add("PaymentTerms");
+            ds.Tables["Head"].Columns.Add("Image1");
+            ds.Tables["Head"].Columns.Add("OrganizationName");
+            ds.Tables["Head"].Columns.Add("OrganizationRefNo");
+            ds.Tables["Head"].Columns.Add("DoorNo");
+            ds.Tables["Head"].Columns.Add("Street");
+            ds.Tables["Head"].Columns.Add("State");
+            ds.Tables["Head"].Columns.Add("Country");
+            ds.Tables["Head"].Columns.Add("Currency");
+            ds.Tables["Head"].Columns.Add("Phone");
+            ds.Tables["Head"].Columns.Add("Fax");
+            ds.Tables["Head"].Columns.Add("Email");
+            ds.Tables["Head"].Columns.Add("ContactPerson");
+            ds.Tables["Head"].Columns.Add("Zip");
+            ds.Tables["Head"].Columns.Add("CreateUser");
+            ds.Tables["Head"].Columns.Add("CreateSig");
+            ds.Tables["Head"].Columns.Add("CreatedDes");
           
             //-------DT
+            ds.Tables["Items"].Columns.Add("PrintDescription");
             ds.Tables["Items"].Columns.Add("Quantity");
-            ds.Tables["Items"].Columns.Add("WorkDescriptionRefNo");
-            ds.Tables["Items"].Columns.Add("WorkDescription");
-            ds.Tables["Items"].Columns.Add("UnitName");
-            ds.Tables["Items"].Columns.Add("Rate");
+            ds.Tables["Items"].Columns.Add("UoM");
+            ds.Tables["Items"].Columns.Add("PriceEach");
             ds.Tables["Items"].Columns.Add("Amount");
 
             ProformaInvoiceRepository repo = new ProformaInvoiceRepository();
@@ -195,9 +216,27 @@ namespace ArabErp.Web.Controllers
             dr["ProformaInvoiceRefNo"] = Head.ProformaInvoiceRefNo;
             dr["ProformaInvoiceDate"] = Head.ProformaInvoiceDate.ToString("dd-MMM-yyyy");
             dr["CustomerName"] = Head.CustomerName;
+            dr["Address"] = Head.CustomerAddress;
             dr["CustomerAddress"] = Head.CustomerAddress;
+            dr["CustomerOrderRef"] = Head.CustomerOrderRef;
             dr["SaleOrderRefNo"] = Head.SaleOrderRefNo;
             dr["PaymentTerms"] = Head.PaymentTerms;
+            dr["OrganizationName"] = Head.OrganizationName;
+            dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+            dr["OrganizationRefNo"] = Head.OrganizationRefNo;
+            dr["DoorNo"] = Head.DoorNo;
+            dr["Street"] = Head.Street;
+            dr["State"] = Head.State;
+            dr["Country"] = Head.CountryName;
+            dr["Currency"] = Head.CurrencyName;
+            dr["Phone"] = Head.Phone;
+            dr["Fax"] = Head.Fax;
+            dr["Email"] = Head.Email;
+            dr["ContactPerson"] = Head.ContactPerson;
+            dr["Zip"] = Head.Zip;
+            dr["CreateUser"] = Head.CreateUser;
+            dr["CreateSig"] = Server.MapPath("~/App_images/") + Head.CreateSig;
+            dr["CreatedDes"] = Head.CreatedDes;
             ds.Tables["Head"].Rows.Add(dr);
 
 
@@ -205,27 +244,17 @@ namespace ArabErp.Web.Controllers
             var Items = repo1.GetProformaInvoiceItemDT(Id);
             foreach (var item in Items)
             {
-                var PIItem = new ProformaInvoiceItem
-                {
-                    Quantity = item.Quantity,
-                    WorkDescriptionRefNo = item.WorkDescriptionRefNo,
-                    WorkDescription = item.WorkDescription,
-                    UnitName = item.UnitName,
-                    Rate = item.Rate,
-                    Amount = item.Amount
-                };
-
+               
                 DataRow dri = ds.Tables["Items"].NewRow();
-                dri["Quantity"] = PIItem.Quantity;
-                dri["WorkDescriptionRefNo"] = PIItem.WorkDescriptionRefNo;
-                dri["WorkDescription"] = PIItem.WorkDescription;
-                dri["UnitName"] = PIItem.UnitName;
-                dri["Rate"] = PIItem.Rate;
-                dri["Amount"] = PIItem.Amount;
+                dri["PrintDescription"] = item.Description;
+                dri["Quantity"] = item.Quantity;
+                dri["PriceEach"] = item.PriceEach;
+                dri["Amount"] = item.Amount;
+                dri["UoM"] = item.UoM;
                 ds.Tables["Items"].Rows.Add(dri);
             }
 
-            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "ProformaInvoice.xml"), XmlWriteMode.WriteSchema);
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "ProformaInvoiceee.xml"), XmlWriteMode.WriteSchema);
 
             rd.SetDataSource(ds);
 

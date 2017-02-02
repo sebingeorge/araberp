@@ -26,9 +26,9 @@ namespace ArabErp.Web.Controllers
             return View();
         }
 
-        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int cusid = 0)
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int cusid = 0,int WR=0)
         {
-            return PartialView("_PreviousList", new PurchaseRequestRepository().GetPurchaseRequest(OrganizationId: OrganizationId, id: id, cusid: cusid, from: from, to: to));
+            return PartialView("_PreviousList", new PurchaseRequestRepository().GetPurchaseRequest(OrganizationId: OrganizationId, id: id, cusid: cusid, from: from, to: to,WR:WR));
         }
 
         public ActionResult Pending()

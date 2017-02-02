@@ -382,7 +382,7 @@ namespace ArabErp.DAL
         }
 
 
-        public IList<PurchaseRequest> GetPurchaseRequest(int OrganizationId, int id, int cusid, DateTime? from, DateTime? to)
+        public IList<PurchaseRequest> GetPurchaseRequest(int OrganizationId, int id, int cusid, DateTime? from, DateTime? to,int WR)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -411,7 +411,7 @@ namespace ArabErp.DAL
                                     ORDER BY P.PurchaseRequestDate DESC, P.CreatedDate DESC;
                                     DROP TABLE #SUPPLY;";
 
-                return connection.Query<PurchaseRequest>(sql, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from }).ToList<PurchaseRequest>();
+                return connection.Query<PurchaseRequest>(sql, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from,WR=WR }).ToList<PurchaseRequest>();
             }
         }
 

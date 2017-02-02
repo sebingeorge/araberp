@@ -96,6 +96,30 @@ namespace ArabErp.DAL
                         item.ProformaInvoiceId = id;
                         new ProformaInvoiceItemRepository().InsertProformaInvoiceItem(item, connection, txn);
                     }
+
+                    if (objProInvoice.isProjectBased==1)
+                    {
+                        #region delete and inserting print description
+                        try
+                        {
+                            sql = @"DELETE FROM PrintDescription WHERE SaleOrderId = " + objProInvoice.SaleOrderId;
+                            connection.Execute(sql, transaction: txn);
+                            sql = @"INSERT INTO PrintDescription (SaleOrderId, Description, UoM, Quantity, PriceEach, Amount, CreatedBy, CreatedDate, OrganizationId)
+                                    VALUES (@SaleOrderId, @Description, @UoM, @Quantity, @PriceEach, @Amount, @CreatedBy, GETDATE(), @OrganizationId)";
+                            foreach (var item in objProInvoice.PrintDescriptions)
+                            {
+                                if (item.Description == null) continue;
+                                item.SaleOrderId = objProInvoice.SaleOrderId;
+                                item.CreatedBy = int.Parse(objProInvoice.CreatedBy);
+                                item.OrganizationId = objProInvoice.OrganizationId;
+                                item.Amount = (item.Quantity ?? 0) * item.PriceEach;
+                                if (connection.Execute(sql, item, txn) <= 0) throw new Exception();
+                            }
+                        }
+                        catch (Exception) { throw new Exception(); }
+                        #endregion
+                    }
+
                     InsertLoginHistory(dataConnection, objProInvoice.CreatedBy, "Create", "Proforma Invoice", id.ToString(), "0");
                     txn.Commit();
 
@@ -208,14 +232,42 @@ namespace ArabErp.DAL
         public string UpdateProformaInvoiceHD(ProformaInvoice objProInvoice)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
-           
+         
             {
+                IDbTransaction txn = connection.BeginTransaction();
                 string sql = @" UPDATE ProformaInvoice SET ProformaInvoiceRefNo=@ProformaInvoiceRefNo,ProformaInvoiceDate = @ProformaInvoiceDate ,
                                 SaleOrderId =@SaleOrderId ,SpecialRemarks = @SpecialRemarks ,PaymentTerms=@PaymentTerms,CreatedBy = @CreatedBy,
                                 CreatedDate = @CreatedDate,OrganizationId=@OrganizationId,isProjectBased=@isProjectBased
                                 WHERE ProformaInvoiceId = @ProformaInvoiceId";
-                var id = connection.Execute(sql, objProInvoice);
+
+                var id = connection.Execute(sql, objProInvoice, txn);
+
+
+                if (objProInvoice.isProjectBased == 1)
+                {
+                    #region inserting print description
+                    try
+                    {
+                        sql = @"DELETE FROM PrintDescription WHERE SaleOrderId = " + objProInvoice.SaleOrderId;
+                        connection.Execute(sql, transaction: txn);
+                        sql = @"INSERT INTO PrintDescription (SaleOrderId, Description, UoM, Quantity, PriceEach, Amount, CreatedBy, CreatedDate, OrganizationId)
+                                    VALUES (@SaleOrderId, @Description, @UoM, @Quantity, @PriceEach, @Amount, @CreatedBy, GETDATE(), @OrganizationId)";
+                        foreach (var item in objProInvoice.PrintDescriptions)
+                        {
+                            if (item.Description == null) continue;
+                            item.SaleOrderId = objProInvoice.SaleOrderId;
+                            item.CreatedBy = int.Parse(objProInvoice.CreatedBy);
+                            item.OrganizationId = objProInvoice.OrganizationId;
+                            item.Amount = (item.Quantity ?? 0) * item.PriceEach;
+                            if (connection.Execute(sql, item, txn) <= 0) throw new Exception();
+                        }
+                    }
+                    catch (Exception) { throw new Exception(); }
+                    #endregion
+                }
                 //InsertLoginHistory(dataConnection, objSupplyOrder.CreatedBy, "Update", "LPO", id.ToString(), "0");
+                txn.Commit();
+                //return id;
                 return objProInvoice.ProformaInvoiceRefNo;
             }
         }
@@ -253,11 +305,16 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
 
-                string sql = @"SELECT C.CustomerName,S.CustomerOrderRef,Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)CustomerAddress,ProformaInvoiceId,ProformaInvoiceRefNo,
-                               ProformaInvoiceDate,P.SaleOrderId,P.SpecialRemarks,P.PaymentTerms,P.isProjectBased,S.SaleOrderRefNo 
+                string sql = @"SELECT O.*,C.CustomerName,Concat(C.DoorNo,',',C.Street,',',C.Phone)CustomerAddress,S.CustomerOrderRef,Concat(C.DoorNo,',',C.Street,',',C.State,',',C.Country,',',C.Zip)CustomerAddress,ProformaInvoiceId,ProformaInvoiceRefNo,
+                               ProformaInvoiceDate,P.SaleOrderId,P.SpecialRemarks,P.PaymentTerms,P.isProjectBased,S.SaleOrderRefNo,U.UserName CreateUser,U.Signature CreateSig,DS.DesignationName CreatedDes,CU.CurrencyName,ORR.CountryName
                                FROM  ProformaInvoice P
                                INNER JOIN SaleOrder S ON S.SaleOrderId=P.SaleOrderId
-                               INNER JOIN Customer C ON C.CustomerId=S.CustomerId where ProformaInvoiceId =@ProformaInvoiceId";
+                               INNER JOIN Customer C ON C.CustomerId=S.CustomerId
+							   left join Organization O ON P.OrganizationId=o.OrganizationId 
+							   left join [User] U ON U.UserId=P.CreatedBy
+							   	left JOIN Currency CU ON CU.CurrencyId=O.CurrencyId 
+								left  JOIN Country ORR ON ORR.CountryId=O.Country
+							   left join Designation DS ON DS.DesignationId=U.DesignationId where ProformaInvoiceId =@ProformaInvoiceId";
 
                 var objProInvoice = connection.Query<ProformaInvoice>(sql, new
                 {
@@ -267,6 +324,41 @@ namespace ArabErp.DAL
                 return objProInvoice;
             }
         }
+        public List<PrintDescription> GetPrintDescriptions(int? SaleOrderItemIds)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string sql = @"	SELECT
+	                            PD.*
+                                FROM PrintDescription PD 
+								inner join ProformaInvoice PF on PD.SaleOrderId=@ids";
+                    return connection.Query<PrintDescription>(sql, new { ids = SaleOrderItemIds }).ToList();
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
 
+        public List<PrintDescription> GetPrintDescription(int? SaleOrderItemIds)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string sql = @"	select * from PrintDescription PD
+                                    inner join  ProformaInvoice PI ON PI.SaleOrderId=PD.SaleOrderId
+                                    where ProformaInvoiceId=@ids";
+                    return connection.Query<PrintDescription>(sql, new { ids = SaleOrderItemIds }).ToList();
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
     }
 }

@@ -38,8 +38,9 @@
         var cusid = $("#cboCustomer").val();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
+        var WR = $("#cboWRNo").val();
         var url = '@Url.Action("PreviousList")';
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid;
+        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid+"&WR="+WR;
 
         $("#prlist").load(url, function () {
             $("#prlist").removeClass("fade");
@@ -64,6 +65,10 @@
             <div class="col-md-3">
                 <label for="cboCustomer">Customer</label>
                 @Html.DropDownList("cboCustomer", (SelectList)ViewBag.CustomerList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            </div>
+            <div class="col-md-2">
+                <label for="cboPRNo">WR.No.</label>
+                @Html.DropDownList("cboWRNo", (SelectList)ViewBag.WRNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
             </div>
             <div class="col-md-2">
                 <label>From</label>
