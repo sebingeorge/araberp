@@ -405,10 +405,293 @@ namespace ArabErp.DAL
                 //								DROP TABLE #RESERVED;"; 
                 #endregion
 
-                string query = @"SELECT
-									ISNULL(GI.ItemId, OS.ItemId) ItemId,
-									BT.SaleOrderItemId,
-									COUNT(BT.SaleOrderItemId) ReservedQuantity
+                #region old query (03.02.2017 12.01p)
+
+                //                string query = @"SELECT
+//									ISNULL(GI.ItemId, OS.ItemId) ItemId,
+//									BT.SaleOrderItemId,
+//									COUNT(BT.SaleOrderItemId) ReservedQuantity
+//								INTO #RESERVED1
+//								FROM ItemBatch BT
+//								LEFT JOIN GRNItem GI ON BT.GRNItemId = GI.GRNItemId
+//								LEFT JOIN OpeningStock OS ON BT.OpeningStockId = OS.OpeningStockId
+//								WHERE BT.SaleOrderItemId IS NOT NULL
+//								GROUP BY GI.ItemId, OS.ItemId, BT.SaleOrderItemId;
+//
+//                                SELECT 
+//                                    ItemId, 
+//                                    SaleOrderItemId, 
+//                                    SUM(ReservedQuantity) ReservedQuantity
+//								INTO #RESERVED
+//								FROM #RESERVED1 R1
+//								GROUP BY R1.ItemId, R1.SaleOrderItemId;
+//
+//								DROP TABLE #RESERVED1;
+//
+//								SELECT
+//	                                SOI.SaleOrderItemId,
+//	                                SO.SaleOrderRefNo,
+//	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+//									CUS.CustomerName,
+//									STUFF((SELECT ', '+T1.WorkShopRequestRefNo FROM WorkShopRequest T1 
+//									    WHERE T1.JobCardId = JC.JobCardId OR (T1.SaleOrderId = SO.SaleOrderId AND T1.JobCardId IS NULL) FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
+//									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
+//										WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')StoreIssueRefNo,
+//									JC.JobCardNo,
+//									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
+//										LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
+//										WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '')SerialNo,
+//	                                ISNULL(WI.Quantity, 0) Quantity,
+//	                                --WD.WorkDescriptionRefNo,
+//                                    I.ItemId,
+//									R.ReservedQuantity,
+//	                                I.ItemName,
+//									WD.WorkDescrShortName,
+//									SO.SaleOrderDate,
+//									VI.ChassisNo,
+//									VI.RegistrationNo,
+//									C.CustomerName
+//									
+//                                FROM SaleOrderItem SOI
+//                                INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+//                                INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+//                                INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId
+//                                INNER JOIN Item I ON WI.ItemId = I.ItemId
+//								LEFT JOIN #RESERVED R ON SOI.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
+//								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
+//								INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
+//								LEFT JOIN JobCard JC ON SOI.SaleOrderItemId = JC.SaleOrderItemId
+//                                LEFT JOIN VehicleInPass VI ON VI.VehicleInPassId=JC.InPassId
+//                                LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
+//                                WHERE ISNULL(SOI.isActive, 1) = 1
+//                                AND SO.isActive = 1 AND SOI.isActive = 1 AND SO.SaleOrderApproveStatus = 1
+//								--AND IB.SaleOrderItemId IS NULL
+//								AND ISNULL(ReservedQuantity, 0) < ISNULL(WI.Quantity, 0)
+//								AND SII.SaleOrderItemId IS NULL
+//                                AND I.BatchRequired = 1
+//                                AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+//                                AND I.ItemName LIKE '%'+@itemName+'%'
+//                                AND isnull(C.CustomerName,'') LIKE '%'+@Customer+'%'
+//                                AND (ISNULL(VI.RegistrationNo, '') LIKE '%'+@RegNo+'%'
+//			                    OR ISNULL(VI.ChassisNo, '') LIKE '%'+@RegNo+'%')
+//				                AND ISNULL(JC.JobCardNo, '') LIKE '%'+@Jobcard+'%'
+//								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
+//
+//								UNION ALL
+//                                ------------------------------------including freezer unit
+//								SELECT
+//									SOI.SaleOrderItemId,
+//									SO.SaleOrderRefNo,
+//									CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+//									CUS.CustomerName,
+//									STUFF((SELECT ', '+T1.WorkShopRequestRefNo FROM WorkShopRequest T1 
+//									    WHERE T1.JobCardId = JC.JobCardId OR (T1.SaleOrderId = SO.SaleOrderId AND T1.JobCardId IS NULL) FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
+//									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
+//										WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')StoreIssueRefNo,
+//									JC.JobCardNo,
+//									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
+//										LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
+//										WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '')SerialNo,
+//									SOI.Quantity,
+//									--WD.WorkDescriptionRefNo,
+//									I.ItemId,
+//									R.ReservedQuantity,
+//									I.ItemName,
+//									WD.WorkDescrShortName,
+//									SO.SaleOrderDate,
+//									VI.ChassisNo,
+//									VI.RegistrationNo,
+//									C.CustomerName
+//								FROM SaleOrder SO
+//								INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
+//								INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+//								INNER JOIN Item I ON WD.FreezerUnitId = I.ItemId
+//								LEFT JOIN #RESERVED R ON SOI.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
+//								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
+//								INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
+//								LEFT JOIN JobCard JC ON SOI.SaleOrderItemId = JC.SaleOrderItemId
+//                                LEFT JOIN VehicleInPass VI ON VI.VehicleInPassId=JC.InPassId
+//                                LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
+//								WHERE ISNULL(SOI.isActive, 1) = 1
+//                                AND SO.isActive = 1 AND SO.SaleOrderApproveStatus = 1
+//								--AND IB.SaleOrderItemId IS NULL
+//								AND ISNULL(ReservedQuantity, 0) < ISNULL(SOI.Quantity, 0)
+//								AND SII.SaleOrderItemId IS NULL
+//                                AND I.BatchRequired = 1
+//                                AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+//                                AND I.ItemName LIKE '%'+@itemName+'%'
+//                                AND isnull(C.CustomerName,'') LIKE '%'+@Customer+'%'
+//                                AND (ISNULL(VI.RegistrationNo, '') LIKE '%'+@RegNo+'%'
+//			                    OR ISNULL(VI.ChassisNo, '') LIKE '%'+@RegNo+'%')
+//				                AND ISNULL(JC.JobCardNo, '') LIKE '%'+@Jobcard+'%'
+//								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
+//
+//								UNION ALL
+//                                ------------------------------------including box
+//								SELECT
+//									SOI.SaleOrderItemId,
+//									SO.SaleOrderRefNo,
+//									CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
+//									CUS.CustomerName,
+//									STUFF((SELECT ', '+T1.WorkShopRequestRefNo FROM WorkShopRequest T1 
+//									    WHERE T1.JobCardId = JC.JobCardId OR (T1.SaleOrderId = SO.SaleOrderId AND T1.JobCardId IS NULL) FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
+//									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
+//										WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')StoreIssueRefNo,
+//									JC.JobCardNo,
+//									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
+//										LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
+//										WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '')SerialNo,
+//									SOI.Quantity,
+//									--WD.WorkDescriptionRefNo,
+//									I.ItemId,
+//									R.ReservedQuantity,
+//									I.ItemName,
+//									WD.WorkDescrShortName,
+//									SO.SaleOrderDate,
+//									VI.ChassisNo,
+//									VI.RegistrationNo,
+//									C.CustomerName
+//								FROM SaleOrder SO
+//								INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
+//								INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
+//								INNER JOIN Item I ON WD.BoxId = I.ItemId
+//								LEFT JOIN #RESERVED R ON SOI.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
+//								LEFT JOIN SalesInvoiceItem SII ON SOI.SaleOrderItemId = SII.SaleOrderItemId
+//								INNER JOIN Customer CUS ON SO.CustomerId = CUS.CustomerId
+//								LEFT JOIN JobCard JC ON SOI.SaleOrderItemId = JC.SaleOrderItemId
+//                                LEFT JOIN VehicleInPass VI ON VI.VehicleInPassId=JC.InPassId
+//                                LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
+//								WHERE ISNULL(SOI.isActive, 1) = 1
+//                                AND SO.isActive = 1 AND SO.SaleOrderApproveStatus = 1
+//								--AND IB.SaleOrderItemId IS NULL
+//								AND ISNULL(ReservedQuantity, 0) < ISNULL(SOI.Quantity, 0)
+//								AND SII.SaleOrderItemId IS NULL
+//                                AND I.BatchRequired = 1
+//                                AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+//                                AND I.ItemName LIKE '%'+@itemName+'%'
+//                                AND isnull(C.CustomerName,'') LIKE '%'+@Customer+'%'
+//                                AND (ISNULL(VI.RegistrationNo, '') LIKE '%'+@RegNo+'%'
+//			                    OR ISNULL(VI.ChassisNo, '') LIKE '%'+@RegNo+'%')
+//				                AND ISNULL(JC.JobCardNo, '') LIKE '%'+@Jobcard+'%'
+//								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
+//
+//								UNION ALL
+//
+//								-----------------------including accessories
+//								SELECT
+//	                                JC.SaleOrderItemId,
+//	                                SO.SaleOrderRefNo,
+//	                                SO.SaleOrderDate,
+//	                                C.CustomerName,
+//	                                WR.WorkShopRequestRefNo,
+//	                                STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
+//			                                WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '') StoreIssueRefNo,
+//	                                JC.JobCardNo,
+//	                                STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
+//			                                LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
+//			                                WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '') SerialNo,
+//	                                SOM.Quantity,
+//	                                I.ItemId,
+//	                                R.ReservedQuantity,
+//	                                I.ItemName,
+//	                                '' WorkDescrShortName,
+//	                                SO.SaleOrderDate,
+//	                                VIP.ChassisNo,
+//	                                VIP.RegistrationNo,
+//	                                C.CustomerName
+//                                FROM WorkShopRequest WR
+//                                INNER JOIN JobCard JC ON WR.JobCardId = JC.JobCardId OR WR.SaleOrderItemId = JC.SaleOrderItemId
+//                                INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
+//                                INNER JOIN (SELECT WorkShopRequestItemId, SUM(IssuedQuantity)Quantity FROM StoreIssueItem GROUP BY WorkShopRequestItemId) SI 
+//			                                ON WRI.WorkShopRequestItemId = SI.WorkShopRequestItemId
+//                                INNER JOIN Item I ON WRI.ItemId = I.ItemId
+//                                INNER JOIN SaleOrderMaterial SOM ON I.ItemId = SOM.ItemId AND SOM.SaleOrderId = JC.SaleOrderId
+//                                INNER JOIN SaleOrder SO ON JC.SaleOrderId = SO.SaleOrderId
+//                                INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+//								LEFT JOIN #RESERVED R ON JC.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
+//								INNER JOIN VehicleInPass VIP ON JC.InPassId = VIP.VehicleInPassId
+//                                WHERE ISNULL(I.BatchRequired, 0) = 1 AND SO.SaleOrderApproveStatus = 1
+//								AND SO.SaleOrderRefNo LIKE '%'+@saleOrder+'%'
+//								AND I.ItemName LIKE '%'+@itemName+'%'
+//								AND isnull(C.CustomerName,'') LIKE '%'+@Customer+'%'
+//                                AND ISNULL(JC.JobCardNo, '') LIKE '%'+@Jobcard+'%'
+//								AND ISNULL(SO.SaleOrderClosed, '') <> 'CLOSED'
+//								AND ISNULL(R.ReservedQuantity, 0) < ISNULL(SOM.Quantity, 0)
+//                                AND (ISNULL(VIP.RegistrationNo, '') LIKE '%'+@RegNo+'%'
+//			                    OR ISNULL(VIP.ChassisNo, '') LIKE '%'+@RegNo+'%')
+//                                --ORDER BY SO.SaleOrderDate DESC, SO.SaleOrderRefNo DESC;
+//                                
+//								---------------------------------------------------------------include project condensing units
+//								UNION ALL
+//								SELECT
+//									SOI.SaleOrderItemId,
+//									SO.SaleOrderRefNo,
+//									SaleOrderDate,
+//									C.CustomerName,
+//									WR.WorkShopRequestRefNo,
+//									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
+//			                                WHERE T2.WorkShopRequestId = WR.WorkShopRequestId FOR XML PATH('')), 1, 2, '') StoreIssueRefNo,
+//									JC.JobCardNo,
+//									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
+//			                                LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
+//			                                WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '') SerialNo,
+//	                                SU.Quantity,
+//									I.ItemId,
+//									R.ReservedQuantity,
+//									I.ItemName,
+//									'' WorkDescrShortName,
+//	                                SO.SaleOrderDate,
+//	                                '' ChassisNo,
+//	                                '' RegistrationNo,
+//	                                C.CustomerName
+//								FROM SaleOrderItem SOI
+//								INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+//								INNER JOIN SaleOrderItemUnit SU ON SOI.SaleOrderItemId = SU.SaleOrderItemId
+//								INNER JOIN Item I ON SU.CondenserUnitId = I.ItemId
+//								INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+//								LEFT JOIN WorkShopRequest WR ON SOI.SaleOrderItemId = WR.SaleOrderItemId 
+//									AND SU.CondenserUnitId = WR.EvaConUnitId 
+//									AND SU.SaleOrderItemUnitId = WR.SaleOrderItemUnitId
+//								LEFT JOIN JobCard JC ON SOI.SaleOrderItemId = JC.SaleOrderItemId
+//								LEFT JOIN #RESERVED R ON JC.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
+//
+//								UNION ALL
+//								SELECT
+//									SOI.SaleOrderItemId,
+//									SO.SaleOrderRefNo,
+//									SaleOrderDate,
+//									C.CustomerName,
+//									WR.WorkShopRequestRefNo,
+//									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
+//			                                WHERE T2.WorkShopRequestId = WR.WorkShopRequestId FOR XML PATH('')), 1, 2, '') StoreIssueRefNo,
+//									JC.JobCardNo,
+//									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
+//			                                LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
+//			                                WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '') SerialNo,
+//	                                SU.Quantity,
+//									I.ItemId,
+//									R.ReservedQuantity,
+//									I.ItemName,
+//									'' WorkDescrShortName,
+//	                                SO.SaleOrderDate,
+//	                                '' ChassisNo,
+//	                                '' RegistrationNo,
+//	                                C.CustomerName
+//								FROM SaleOrderItem SOI
+//								INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
+//								INNER JOIN SaleOrderItemUnit SU ON SOI.SaleOrderItemId = SU.SaleOrderItemId
+//								INNER JOIN Item I ON SU.EvaporatorUnitId = I.ItemId
+//								INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+//								LEFT JOIN WorkShopRequest WR ON SOI.SaleOrderItemId = WR.SaleOrderItemId 
+//									AND SU.CondenserUnitId = WR.EvaConUnitId 
+//									AND SU.SaleOrderItemUnitId = WR.SaleOrderItemUnitId
+//								LEFT JOIN JobCard JC ON SOI.SaleOrderItemId = JC.SaleOrderItemId
+//								LEFT JOIN #RESERVED R ON JC.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
+//
+                //								DROP TABLE #RESERVED;";
+                #endregion
+
+                string query = @"SELECT ISNULL(GI.ItemId, OS.ItemId) ItemId,BT.SaleOrderItemId,COUNT(BT.SaleOrderItemId) ReservedQuantity
 								INTO #RESERVED1
 								FROM ItemBatch BT
 								LEFT JOIN GRNItem GI ON BT.GRNItemId = GI.GRNItemId
@@ -416,41 +699,24 @@ namespace ArabErp.DAL
 								WHERE BT.SaleOrderItemId IS NOT NULL
 								GROUP BY GI.ItemId, OS.ItemId, BT.SaleOrderItemId;
 
-                                SELECT 
-                                    ItemId, 
-                                    SaleOrderItemId, 
-                                    SUM(ReservedQuantity) ReservedQuantity
+                                SELECT ItemId,SaleOrderItemId,SUM(ReservedQuantity) ReservedQuantity
 								INTO #RESERVED
 								FROM #RESERVED1 R1
 								GROUP BY R1.ItemId, R1.SaleOrderItemId;
 
 								DROP TABLE #RESERVED1;
 
-								SELECT
-	                                SOI.SaleOrderItemId,
-	                                SO.SaleOrderRefNo,
-	                                CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
-									CUS.CustomerName,
-									STUFF((SELECT ', '+T1.WorkShopRequestRefNo FROM WorkShopRequest T1 
-									    WHERE T1.JobCardId = JC.JobCardId OR (T1.SaleOrderId = SO.SaleOrderId AND T1.JobCardId IS NULL) FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
-									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
-										WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')StoreIssueRefNo,
-									JC.JobCardNo,
-									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
-										LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
-										WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '')SerialNo,
-	                                ISNULL(WI.Quantity, 0) Quantity,
-	                                --WD.WorkDescriptionRefNo,
-                                    I.ItemId,
-									R.ReservedQuantity,
-	                                I.ItemName,
-									WD.WorkDescrShortName,
-									SO.SaleOrderDate,
-									VI.ChassisNo,
-									VI.RegistrationNo,
-									C.CustomerName
-									
-                                FROM SaleOrderItem SOI
+								SELECT SOI.SaleOrderItemId,SO.SaleOrderRefNo,CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,CUS.CustomerName,
+								STUFF((SELECT ', '+T1.WorkShopRequestRefNo FROM WorkShopRequest T1 
+									WHERE T1.JobCardId = JC.JobCardId OR (T1.SaleOrderId = SO.SaleOrderId AND T1.JobCardId IS NULL) FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
+								STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
+									WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')StoreIssueRefNo,JC.JobCardNo,
+								STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
+								LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
+								WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '')SerialNo,
+	                            ISNULL(WI.Quantity, 0) Quantity,I.ItemId,R.ReservedQuantity,I.ItemName,WD.WorkDescrShortName,SO.SaleOrderDate,
+							    VI.ChassisNo,VI.RegistrationNo,C.CustomerName
+							    FROM SaleOrderItem SOI
                                 INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
                                 INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
                                 INNER JOIN WorkVsItem WI ON WD.WorkDescriptionId = WI.WorkDescriptionId
@@ -477,29 +743,15 @@ namespace ArabErp.DAL
 
 								UNION ALL
                                 ------------------------------------including freezer unit
-								SELECT
-									SOI.SaleOrderItemId,
-									SO.SaleOrderRefNo,
-									CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
-									CUS.CustomerName,
-									STUFF((SELECT ', '+T1.WorkShopRequestRefNo FROM WorkShopRequest T1 
-									    WHERE T1.JobCardId = JC.JobCardId OR (T1.SaleOrderId = SO.SaleOrderId AND T1.JobCardId IS NULL) FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
-									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
-										WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')StoreIssueRefNo,
-									JC.JobCardNo,
-									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
-										LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
-										WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '')SerialNo,
-									SOI.Quantity,
-									--WD.WorkDescriptionRefNo,
-									I.ItemId,
-									R.ReservedQuantity,
-									I.ItemName,
-									WD.WorkDescrShortName,
-									SO.SaleOrderDate,
-									VI.ChassisNo,
-									VI.RegistrationNo,
-									C.CustomerName
+								SELECT SOI.SaleOrderItemId,SO.SaleOrderRefNo,CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,CUS.CustomerName,
+								STUFF((SELECT ', '+T1.WorkShopRequestRefNo FROM WorkShopRequest T1 
+									WHERE T1.JobCardId = JC.JobCardId OR (T1.SaleOrderId = SO.SaleOrderId AND T1.JobCardId IS NULL) FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
+								STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
+									WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')StoreIssueRefNo,JC.JobCardNo,
+								STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
+									LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
+									WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '')SerialNo,
+								SOI.Quantity,I.ItemId,R.ReservedQuantity,I.ItemName,WD.WorkDescrShortName,SO.SaleOrderDate,VI.ChassisNo,VI.RegistrationNo,C.CustomerName
 								FROM SaleOrder SO
 								INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
 								INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
@@ -526,29 +778,15 @@ namespace ArabErp.DAL
 
 								UNION ALL
                                 ------------------------------------including box
-								SELECT
-									SOI.SaleOrderItemId,
-									SO.SaleOrderRefNo,
-									CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,
-									CUS.CustomerName,
-									STUFF((SELECT ', '+T1.WorkShopRequestRefNo FROM WorkShopRequest T1 
-									    WHERE T1.JobCardId = JC.JobCardId OR (T1.SaleOrderId = SO.SaleOrderId AND T1.JobCardId IS NULL) FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
-									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
-										WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')StoreIssueRefNo,
-									JC.JobCardNo,
-									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
-										LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
-										WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '')SerialNo,
-									SOI.Quantity,
-									--WD.WorkDescriptionRefNo,
-									I.ItemId,
-									R.ReservedQuantity,
-									I.ItemName,
-									WD.WorkDescrShortName,
-									SO.SaleOrderDate,
-									VI.ChassisNo,
-									VI.RegistrationNo,
-									C.CustomerName
+								SELECT SOI.SaleOrderItemId,SO.SaleOrderRefNo,CONVERT(VARCHAR, SO.SaleOrderDate, 106) SaleOrderDate,CUS.CustomerName,
+								STUFF((SELECT ', '+T1.WorkShopRequestRefNo FROM WorkShopRequest T1 
+									WHERE T1.JobCardId = JC.JobCardId OR (T1.SaleOrderId = SO.SaleOrderId AND T1.JobCardId IS NULL) FOR XML PATH('')), 1, 2, '')WorkShopRequestRefNo,
+								STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
+									WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '')StoreIssueRefNo,JC.JobCardNo,
+								STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
+									LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
+									WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '')SerialNo,
+								SOI.Quantity,I.ItemId,R.ReservedQuantity,I.ItemName,WD.WorkDescrShortName,SO.SaleOrderDate,VI.ChassisNo,VI.RegistrationNo,C.CustomerName
 								FROM SaleOrder SO
 								INNER JOIN SaleOrderItem SOI ON SO.SaleOrderId = SOI.SaleOrderId
 								INNER JOIN WorkDescription WD ON SOI.WorkDescriptionId = WD.WorkDescriptionId
@@ -576,27 +814,13 @@ namespace ArabErp.DAL
 								UNION ALL
 
 								-----------------------including accessories
-								SELECT
-	                                JC.SaleOrderItemId,
-	                                SO.SaleOrderRefNo,
-	                                SO.SaleOrderDate,
-	                                C.CustomerName,
-	                                WR.WorkShopRequestRefNo,
-	                                STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
-			                                WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '') StoreIssueRefNo,
-	                                JC.JobCardNo,
-	                                STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
-			                                LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
-			                                WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '') SerialNo,
-	                                SOM.Quantity,
-	                                I.ItemId,
-	                                R.ReservedQuantity,
-	                                I.ItemName,
-	                                '' WorkDescrShortName,
-	                                SO.SaleOrderDate,
-	                                VIP.ChassisNo,
-	                                VIP.RegistrationNo,
-	                                C.CustomerName
+								SELECT JC.SaleOrderItemId,SO.SaleOrderRefNo,SO.SaleOrderDate,C.CustomerName,WR.WorkShopRequestRefNo,
+	                            STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
+			                            WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '') StoreIssueRefNo,JC.JobCardNo,
+	                            STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
+			                            LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
+			                            WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '') SerialNo,
+	                            SOM.Quantity,I.ItemId,R.ReservedQuantity,I.ItemName,'' WorkDescrShortName,SO.SaleOrderDate,VIP.ChassisNo,VIP.RegistrationNo,C.CustomerName
                                 FROM WorkShopRequest WR
                                 INNER JOIN JobCard JC ON WR.JobCardId = JC.JobCardId OR WR.SaleOrderItemId = JC.SaleOrderItemId
                                 INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
@@ -621,27 +845,13 @@ namespace ArabErp.DAL
                                 
 								---------------------------------------------------------------include project condensing units
 								UNION ALL
-								SELECT
-									SOI.SaleOrderItemId,
-									SO.SaleOrderRefNo,
-									SaleOrderDate,
-									C.CustomerName,
-									WR.WorkShopRequestRefNo,
-									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
-			                                WHERE T2.WorkShopRequestId = WR.WorkShopRequestId FOR XML PATH('')), 1, 2, '') StoreIssueRefNo,
-									JC.JobCardNo,
-									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
-			                                LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
-			                                WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '') SerialNo,
-	                                SU.Quantity,
-									I.ItemId,
-									R.ReservedQuantity,
-									I.ItemName,
-									'' WorkDescrShortName,
-	                                SO.SaleOrderDate,
-	                                '' ChassisNo,
-	                                '' RegistrationNo,
-	                                C.CustomerName
+								SELECT SOI.SaleOrderItemId,SO.SaleOrderRefNo,SaleOrderDate,C.CustomerName,WR.WorkShopRequestRefNo,
+								STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
+			                            WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '') StoreIssueRefNo,JC.JobCardNo,
+								STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
+			                            LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
+			                            WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '') SerialNo,
+	                            SU.Quantity,I.ItemId,R.ReservedQuantity,I.ItemName,'' WorkDescrShortName,SO.SaleOrderDate,'' ChassisNo,'' RegistrationNo,C.CustomerName
 								FROM SaleOrderItem SOI
 								INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
 								INNER JOIN SaleOrderItemUnit SU ON SOI.SaleOrderItemId = SU.SaleOrderItemId
@@ -654,27 +864,14 @@ namespace ArabErp.DAL
 								LEFT JOIN #RESERVED R ON JC.SaleOrderItemId = R.SaleOrderItemId AND I.ItemId = R.ItemId
 
 								UNION ALL
-								SELECT
-									SOI.SaleOrderItemId,
-									SO.SaleOrderRefNo,
-									SaleOrderDate,
-									C.CustomerName,
-									WR.WorkShopRequestRefNo,
-									STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
-			                                WHERE T2.WorkShopRequestId = WR.WorkShopRequestId FOR XML PATH('')), 1, 2, '') StoreIssueRefNo,
-									JC.JobCardNo,
-									STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
-			                                LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
-			                                WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '') SerialNo,
-	                                SU.Quantity,
-									I.ItemId,
-									R.ReservedQuantity,
-									I.ItemName,
-									'' WorkDescrShortName,
-	                                SO.SaleOrderDate,
-	                                '' ChassisNo,
-	                                '' RegistrationNo,
-	                                C.CustomerName
+
+								SELECT SOI.SaleOrderItemId,SO.SaleOrderRefNo,SaleOrderDate,C.CustomerName,WR.WorkShopRequestRefNo,
+								STUFF((SELECT ', '+T1.StoreIssueRefNo FROM StoreIssue T1 LEFT JOIN WorkShopRequest T2 ON T1.WorkShopRequestId = T2.WorkShopRequestId
+			                            WHERE T2.SaleOrderId = SO.SaleOrderId FOR XML PATH('')), 1, 2, '') StoreIssueRefNo,JC.JobCardNo,
+								STUFF((SELECT ', '+T1.SerialNo FROM ItemBatch T1 LEFT JOIN GRNItem T2 ON T1.GRNItemId = T2.GRNItemId
+			                            LEFT JOIN OpeningStock T3 ON T1.OpeningStockId = T3.OpeningStockId
+			                            WHERE T1.SaleOrderItemId IS NULL AND (T2.ItemId = I.ItemId OR T3.ItemId = I.ItemId) FOR XML PATH('')), 1, 2, '') SerialNo,
+	                            SU.Quantity,I.ItemId,R.ReservedQuantity,I.ItemName,'' WorkDescrShortName,SO.SaleOrderDate,'' ChassisNo,'' RegistrationNo,C.CustomerName
 								FROM SaleOrderItem SOI
 								INNER JOIN SaleOrder SO ON SOI.SaleOrderId = SO.SaleOrderId
 								INNER JOIN SaleOrderItemUnit SU ON SOI.SaleOrderItemId = SU.SaleOrderItemId
