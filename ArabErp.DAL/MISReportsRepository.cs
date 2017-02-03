@@ -192,8 +192,8 @@ namespace ArabErp.DAL
                                     FROM #Result R
                                    
                                     WHERE OrganizationId = @org
-									AND MONTH(JobCardDate) = ISNULL(@month, MONTH(GETDATE())) 
-									AND YEAR(JobCardDate) = ISNULL(@year, YEAR(GETDATE()))
+									AND MONTH(DeliveryChallanDate) = ISNULL(@month, MONTH(GETDATE())) 
+									AND YEAR(DeliveryChallanDate) = ISNULL(@year, YEAR(GETDATE()))
                                     AND Concat(RegistrationNo,'/',ChassisNo) LIKE '%'+@ChassisNo+'%'
                                     AND isnull(UnitSerialNo,0)  LIKE '%'+@UnitSlNo+'%'
                                     AND isnull(CustomerName,'')  LIKE '%'+@Customer+'%'
