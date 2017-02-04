@@ -201,7 +201,7 @@ namespace ArabErp.DAL
         /// </summary>
         /// <returns></returns>
 
-        public IEnumerable<StoresIssuePreviousList> PreviousList(DateTime? from, DateTime? to, string StoreIssue = "", string Jobcard = "", string Customer = "", string RegNo = "", string Request = "")
+        public IEnumerable<StoresIssuePreviousList> PreviousList(DateTime? from, DateTime? to, string StoreIssue = "", string Jobcard = "", string Customer = "", string RegNo = "", string Request = "", string Type = "all")
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
 
@@ -223,6 +223,7 @@ namespace ArabErp.DAL
 									LEFT JOIN VehicleInPass V ON V.VehicleInPassId=J.InPassId
                                 WHERE SI.StoreIssueDate >= @from AND SI.StoreIssueDate <= @to 
                                 AND ISNULL(SI.isActive, 1) = 1
+                               AND ISNULL(J.isProjectBased, 0) = CASE @Type WHEN 'project' THEN 1 WHEN 'transport' THEN 0 WHEN 'all' THEN ISNULL(J.isProjectBased, 0) END
                                 AND  isnull(WR.WorkShopRequestRefNo,'') LIKE '%'+@Request+'%'
                                 AND isnull(CustomerName,'') LIKE '%'+@Customer+'%'
                                 AND (ISNULL(V.RegistrationNo, '') LIKE '%'+@RegNo+'%'
@@ -231,7 +232,7 @@ namespace ArabErp.DAL
 								AND (ISNULL(SI.StoreIssueRefNo, '') LIKE '%'+@StoreIssue+'%'
                                 OR ISNULL(SI.StoreIssueDate, '') LIKE '%'+@StoreIssue+'%')
                                 ORDER BY StoreIssueDate DESC, SI.CreatedDate DESC;";
-                return connection.Query<StoresIssuePreviousList>(query, new { from = from, to = to, StoreIssue = StoreIssue, Jobcard = Jobcard, Customer = Customer, RegNo = RegNo, Request = Request }).ToList();
+                return connection.Query<StoresIssuePreviousList>(query, new { from = from, to = to, StoreIssue = StoreIssue, Jobcard = Jobcard, Customer = Customer, RegNo = RegNo, Request = Request, Type = Type }).ToList();
             }
         }
 
