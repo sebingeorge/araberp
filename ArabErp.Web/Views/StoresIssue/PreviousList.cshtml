@@ -32,9 +32,10 @@
         var Customer = $("#txtCustomer").val().trim();
         var RegNo = $("#txtRegNo").val().trim();
         var Request = $("#txtRequest").val().trim();
+        var Type = $("#cboType").val().trim();
         var url = '@Url.Action("PreviousListGrid")';
 
-        url += "?from=" + from + "&to=" + to + "&StoreIssue=" + encodeURIComponent(StoreIssue) + "&Jobcard=" + encodeURIComponent(Jobcard) + "&Customer=" + encodeURIComponent(Customer) + "&RegNo=" + encodeURIComponent(RegNo) + "&Request=" + encodeURIComponent(Request);
+        url += "?from=" + from + "&to=" + to + "&StoreIssue=" + encodeURIComponent(StoreIssue) + "&Jobcard=" + encodeURIComponent(Jobcard) + "&Customer=" + encodeURIComponent(Customer) + "&RegNo=" + encodeURIComponent(RegNo) + "&Request=" + encodeURIComponent(Request) + "&Type=" + encodeURIComponent(Type);
         $("#previous_workshop").load(url, function () {
             $("#previous_workshop").removeClass("fade");
         });
@@ -78,6 +79,14 @@
                 <div class="col-md-2">
                     <label for="txtCustomer">Customer</label>
                     <input type="text" class="form_input" id="txtCustomer" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Customer" />
+                </div>
+                <div class="col-md-2">
+                    <label for="txtType">Project/Transport</label>
+                    <select id="cboType" class="form_input" onchange="Filter()">
+                        <option value="all" selected>All</option>
+                        <option value="project">Project</option>
+                        <option value="transport">Transport</option>
+                    </select>
                 </div>
             </div>
         </div>
