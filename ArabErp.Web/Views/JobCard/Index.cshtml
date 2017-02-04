@@ -2,6 +2,10 @@
     ViewBag.Title = "Job Card List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@*@{
+    int isProjectBased = Convert.ToInt32(Request.QueryString["isProjectBased"].ToString());
+
+}*@
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -17,14 +21,30 @@
         $("#jobcardlist").addClass("fade");
         var id = $("#cboJCNo").val();
         var cusid = $("#cboCustomer").val();
-        var RegNo = $("#txtRegNo").val().trim();
+        //var RegNo = $("#txtRegNo").val().trim();
         var from = $("#txtFrom").val();
         var to = $("#txtTo").val();
+        ProjectBased = @ViewBag.ProjectBased;
+        service = @ViewBag.service;
         var url = '@Url.Action("PreviousList")';
+        if((ProjectBased==0 && service==0) || (ProjectBased==0 && service==1))
+        {
+            var RegNo = $("#txtRegNo").val().trim();
+            url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&RegNo=" + encodeURIComponent(RegNo)
+           + "&ProjectBased=" + @ViewBag.ProjectBased
+           + "&service="+ @ViewBag.service;
+        }
+        else
+        {
+        
+            url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&ProjectBased=" + @ViewBag.ProjectBased
+           + "&service="+ @ViewBag.service;
+        }
 
-        url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&RegNo=" + encodeURIComponent(RegNo)
+
+        @*url += "?from=" + from + "&to=" + to + "&id=" + id + "&cusid=" + cusid + "&RegNo=" + encodeURIComponent(RegNo)
             + "&ProjectBased=" + @ViewBag.ProjectBased
-            + "&service="+@ViewBag.service;
+            + "&service="+@ViewBag.service;*@
         //alert(url);
         $("#jobcardlist").load(url, function () {
             $("#jobcardlist").removeClass("fade");
