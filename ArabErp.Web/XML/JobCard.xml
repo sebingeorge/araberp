@@ -8,6 +8,7 @@
             <xs:complexType>
               <xs:sequence>
                 <xs:element name="JobCardNo" type="xs:string" minOccurs="0" />
+                <xs:element name="InternalJobCardNo" type="xs:string" minOccurs="0" />
                 <xs:element name="JobCardDate" type="xs:string" minOccurs="0" />
                 <xs:element name="EDC" type="xs:string" minOccurs="0" />
                 <xs:element name="SaleOrderRefNo" type="xs:string" minOccurs="0" />
@@ -63,14 +64,14 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>AARC/17/JC-S/95</JobCardNo>
-    <JobCardDate>31-Jan-2017</JobCardDate>
-    <EDC>31-Jan-2017</EDC>
-    <SaleOrderRefNo>Reg. No.</SaleOrderRefNo>
-    <Unit />
-    <Customer>Abdul Asiz Trading Est</Customer>
-    <ChasisNo>Reg. No.</ChasisNo>
-    <VModel>ak</VModel>
+    <JobCardNo>AARC/JC/17/41</JobCardNo>
+    <JobCardDate>02-Feb-2017</JobCardDate>
+    <EDC>09-Feb-2017</EDC>
+    <SaleOrderRefNo>259203</SaleOrderRefNo>
+    <Unit>Thermal Matser T1400-R</Unit>
+    <Customer>M/s. GULF MEDICAL COMPANY ( Community Pharmacy WLL )</Customer>
+    <ChasisNo>259203</ChasisNo>
+    <VModel>Nissan Urvan STD</VModel>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -80,19 +81,20 @@
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
-    <Box />
-    <Complaints>tomer Compla</Complaints>
-    <CreatedUser>ihits</CreatedUser>
-    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\7301a3c4-7139-4adf-9dee-1e82b6066ae6.jpg</CreateSignature>
-    <CreatedDes>Asst.Sales Manager</CreatedDes>
+    <Complaints>1) 50mm Paneling Installation
+2) TM T1400</Complaints>
+    <Accessories> 50MM INSULATED PANEL STD -AL FURATH</Accessories>
+    <CreatedUser>safiq</CreatedUser>
+    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
+    <CreatedDes>Workshop Controller</CreatedDes>
     <isProjectBased>0</isProjectBased>
-    <isService>1</isService>
+    <isService>0</isService>
   </Head>
   <Items>
-    <TaskDate>31-Jan-2017</TaskDate>
-    <Employee>Mohamed Madum Mohamed Munsif</Employee>
-    <Description>Unit Fixing</Description>
-    <Hours>10.00</Hours>
+    <TaskDate>02-Feb-2017</TaskDate>
+    <Employee>Aung Tun Oo</Employee>
+    <Description>Box Fixing</Description>
+    <Hours>8.00</Hours>
   </Items>
   <Items>
     <TaskDate />

@@ -288,6 +288,7 @@ namespace ArabErp.Web.Controllers
 
             //-------HEAD
             ds.Tables["Head"].Columns.Add("JobCardNo");
+            ds.Tables["Head"].Columns.Add("InternalJobCardNo");
             ds.Tables["Head"].Columns.Add("JobCardDate");
             ds.Tables["Head"].Columns.Add("EDC");
             ds.Tables["Head"].Columns.Add("SaleOrderRefNo");
@@ -338,6 +339,7 @@ namespace ArabErp.Web.Controllers
 
             DataRow dr = ds.Tables["Head"].NewRow();
             dr["JobCardNo"] = Head.JobCardNo;
+            dr["InternalJobCardNo"] = Head.InternalJobCardNo;
             dr["JobCardDate"] = Head.JobCardDate.ToString("dd-MMM-yyyy");
             dr["EDC"] = Head.RequiredDate.ToString("dd-MMM-yyyy");
             dr["SaleOrderRefNo"] = Head.RegistrationNo;
