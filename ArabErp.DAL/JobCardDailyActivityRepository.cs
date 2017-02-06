@@ -170,32 +170,12 @@ namespace ArabErp.DAL
         }
 
         public IEnumerable<JobCardForDailyActivity> PendingJobcardTasks(int type, int OrganizationId, string RegNo = "", string jcno = "",string customer="")
-        {
+      {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 string sql = string.Empty;
-                if(type==0)
+                if(type==1)
                 {
-                sql = @" select J.JobCardId,J.JobCardNo, J.JobCardDate, E.EmployeeName,W.WorkDescr,J.RequiredDate,
-                                CustomerName,RegistrationNo,ChassisNo
-                                from JobCard J
-                                inner join SaleOrder S on S.SaleOrderId=J.SaleOrderId
-                                inner join Employee E on E.EmployeeId = J.EmployeeId
-                                LEFT join WorkDescription W on W.WorkDescriptionId = J.WorkDescriptionId
-                                LEFT join VehicleInPass on VehicleInPassId=InPassId
-                                inner join Customer C on C.CustomerId=S.CustomerId
-                                where J.JodCardCompleteStatus is null
-						        AND J.OrganizationId = @OrganizationId
-						        AND	J.isProjectBased = @type
-                                AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%'
-			                    OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')
-	                            AND ISNULL(J.JobCardNo,'') LIKE '%'+@jcno+'%'
-                                AND ISNULL(CustomerName,'') LIKE '%'+@customer+'%'
-						        AND J.isActive = 1";
-            }
-                else
-                {
-
                     sql = @" select J.JobCardId,J.JobCardNo, J.JobCardDate, E.EmployeeName,J.RequiredDate,
 											CustomerName,
 											STUFF((SELECT distinct ', ' + CAST(JTM.JobCardTaskName AS VARCHAR(MAX)) [text()]
@@ -216,6 +196,26 @@ namespace ArabErp.DAL
 											AND ISNULL(J.JobCardNo,'') LIKE '%'+@jcno+'%'
 	                                  AND ISNULL(CustomerName,'') LIKE '%'+@customer+'%'
 											AND J.isActive = 1";
+            }
+                else
+                {
+
+                    sql = @"select J.JobCardId,J.JobCardNo, J.JobCardDate, E.EmployeeName,W.WorkDescr,J.RequiredDate,
+                                CustomerName,RegistrationNo,ChassisNo
+                                from JobCard J
+                                inner join SaleOrder S on S.SaleOrderId=J.SaleOrderId
+                                inner join Employee E on E.EmployeeId = J.EmployeeId
+                                LEFT join WorkDescription W on W.WorkDescriptionId = J.WorkDescriptionId
+                                LEFT join VehicleInPass on VehicleInPassId=InPassId
+                                inner join Customer C on C.CustomerId=S.CustomerId
+                                where J.JodCardCompleteStatus is null
+						        AND J.OrganizationId = @OrganizationId
+						        AND	J.isProjectBased = @type
+                                AND (ISNULL(RegistrationNo, '') LIKE '%'+@RegNo+'%'
+			                    OR ISNULL(ChassisNo, '') LIKE '%'+@RegNo+'%')
+	                            AND ISNULL(J.JobCardNo,'') LIKE '%'+@jcno+'%'
+                                AND ISNULL(CustomerName,'') LIKE '%'+@customer+'%'
+						        AND J.isActive = 1 ";
                 }
                 return connection.Query<JobCardForDailyActivity>(sql, new { OrganizationId = OrganizationId, type = type, RegNo = RegNo, jcno = jcno,customer=customer});
             }
