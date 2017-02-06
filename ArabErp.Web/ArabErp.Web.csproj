@@ -280,6 +280,7 @@
     <Compile Include="Controllers\ProfitabilityReportController.cs" />
     <Compile Include="Controllers\ProformaInvoiceController.cs" />
     <Compile Include="Controllers\ProjectCompletionController.cs" />
+    <Compile Include="Controllers\ProjectStatusReportController.cs" />
     <Compile Include="Controllers\PurchaseBillController.cs" />
     <Compile Include="Controllers\PurchaseBillRegisterController.cs" />
     <Compile Include="Controllers\PurchaseMonthlyItemWiseRegisterController.cs" />
@@ -1430,6 +1431,7 @@
     <Content Include="Views\ProfitabilityReport\_LabourDetails.cshtml" />
     <Content Include="Views\DirectPurchase\Approve.cshtml" />
     <Content Include="Views\ProformaInvoice\_Printdescription.cshtml" />
+    <Content Include="Views\ProjectStatusReport\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
