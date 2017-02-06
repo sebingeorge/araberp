@@ -279,7 +279,7 @@ namespace ArabErp.DAL
 
 								DROP TABLE #TEMP1;";
 
-                return connection.Query<PendingWorkShopRequest>(query, new { OrganizationId = OrganizationId, cusid = cusid, WRNo = WRNo,Type=Type });
+                 return connection.Query<PendingWorkShopRequest>(query, new { OrganizationId = OrganizationId, cusid = cusid, WRNo = WRNo,Type=Type });
             }
         }
         /// <summary>
@@ -407,6 +407,7 @@ namespace ArabErp.DAL
                                     WHERE P.isActive= 1 and P.OrganizationId=@OrganizationId
                                     and P.PurchaseRequestId = ISNULL(NULLIF(@id, 0), P.PurchaseRequestId )
                                     and C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId)
+                                    and WRK.WorkShopRequestId = ISNULL(NULLIF(@WR, 0),WRK.WorkShopRequestId)
                                     and P.PurchaseRequestDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())  
                                     ORDER BY P.PurchaseRequestDate DESC, P.CreatedDate DESC;
                                     DROP TABLE #SUPPLY;";

@@ -891,6 +891,14 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT PurchaseRequestId Id, PurchaseRequestNo Name FROM PurchaseRequest").ToList();
             }
         }
+        
+            public List<Dropdown> WRRefNoDropdown()
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("select WorkShopRequestId Id,WorkShopRequestRefNo Name from WorkShopRequest ").ToList();
+            }
+        }
         public List<Dropdown> PurchaseReqCustomerDropdown()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

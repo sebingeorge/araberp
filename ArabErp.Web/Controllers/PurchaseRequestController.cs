@@ -23,6 +23,7 @@ namespace ArabErp.Web.Controllers
         {
             FillPRRefNo();
             FillPRCustomer();
+            FillWRRefNo();
             return View();
         }
 
@@ -269,6 +270,10 @@ namespace ArabErp.Web.Controllers
         public void FillPRRefNo()
         {
             ViewBag.PRNoList = new SelectList(new DropdownRepository().PRRefNoDropdown(), "Id", "Name");
+        }
+        public void FillWRRefNo()
+        {
+            ViewBag.WRNoList = new SelectList(new DropdownRepository().WRRefNoDropdown(), "Id", "Name");
         }
         public void FillPRCustomer()
         {
