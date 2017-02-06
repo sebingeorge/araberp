@@ -160,7 +160,32 @@
         return status;
     }
 
+    function OnTaskChanged(sender, row) {
+  
+        CheckDuplication(sender, row);
+
+        var id = $(sender).val();
+        
+        //alert(id);
+        if (id != '') {
+      
+            var url = '@Url.Action("GetActualHr")';
+            $.getJSON(url, { TaskId: id }, 
+                function (data) {
+                    $("#JobCardTasks_" + row + "__Hours").val(data);
+                });
+
+        }
+        else
+        {
+            $('#Hours').text(0);
+        }
+       
+        
+    }
+
     function CheckDuplication(sender, row) {
+        var id = $(sender).val();
         var jobcard = $("#JobCardTasks_" + row + "__JobCardTaskId");
         var employee = $("#JobCardTasks_" + row + "__EmployeeId");
         var date = $("#JobCardTasks_" + row + "__TaskDate").val();
@@ -177,6 +202,7 @@
             toastr.info("This task has already been selected for this employee for on this date.");
             $(sender).val('');
         }
+     
     }
 
 </script>
@@ -363,7 +389,7 @@
                                     </td>
 
                                     <td>
-                                        @Html.DropDownListFor(m => Model.JobCardTasks[row].JobCardTaskId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off", @onchange = "CheckDuplication(this," + row + ")" })
+                                        @Html.DropDownListFor(m => Model.JobCardTasks[row].JobCardTaskId, (SelectList)ViewBag.TaskList, "Select Task", new { @class = "form_input", autocomplete = "off", @onchange = "OnTaskChanged(this," + row + ")" })
                                     </td>
                                     @*@if (Model.isProjectBased == 0)
                                         {*@
@@ -375,10 +401,11 @@
                                     }
                                     @*}*@
                                     <td>
-                                        @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"), new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly", @onchange = "CheckDuplication(this," + row + ")" })
+                                        @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"), 
+                                        new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly", @onchange = "CheckDuplication(this," + row + ")" })
                                     </td>
                                     <td>
-                                        @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off" })
+                                        @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off", @readonly = "true" })
                                     </td>
                                     <td>
                                         <a id="add_@row" class="glyphicon glyphicon-plus" @*type="button" value="Add"*@ onclick="AddRowBelow(@row);" style="top:0;"></a>

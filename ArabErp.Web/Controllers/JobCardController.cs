@@ -46,6 +46,28 @@ namespace ArabErp.Web.Controllers
                 return View("ShowError");
             }
         }
+        public ActionResult PendingJobCard(int? isProjectBased, int? service)
+        {
+            try
+            {
+                IEnumerable<PendingSO> pendingSo = repo.GetPendingSO(isProjectBased ?? 0, OrganizationId, service ?? 0);
+                return View(pendingSo);
+            }
+
+            catch (Exception ex)
+            {
+                string ErrorMessage = ex.Message.ToString();
+                if (ex.InnerException != null)
+                {
+                    if (ex.InnerException.Message != null)
+                    {
+                        ErrorMessage = ErrorMessage + ex.InnerException.Message.ToString();
+                    }
+                }
+                ViewData["Error"] = ErrorMessage;
+                return View("ShowError");
+            }
+        }
         public ActionResult Create(int? Id, int? isProjectBased)//SaleOrderItemId is received here
         {
             try
@@ -92,39 +114,9 @@ namespace ArabErp.Web.Controllers
                 return View("ShowError");
             }
         }
-
-        private void FillTasks(int isProjectBased)
+        public JsonResult GetActualHr(int TaskId)
         {
-            var result = new DropdownRepository().TaskDropdown1(isProjectBased);
-            ViewBag.TaskList = new SelectList(result, "Id", "Name");
-        }
-
-        private void FillFreezerAndBoxTasks(int? SaleOrderItemId)
-        {
-            var result = new JobCardRepository().GetTasksForFreezerAndBox(SaleOrderItemId);
-            ViewBag.TaskList = new SelectList(result, "JobCardTaskMasterId", "JobCardTaskName");
-        }
-        public ActionResult PendingJobCard(int? isProjectBased, int? service)
-        {
-            try
-            {
-                IEnumerable<PendingSO> pendingSo = repo.GetPendingSO(isProjectBased ?? 0, OrganizationId, service ?? 0);
-                return View(pendingSo);
-            }
-
-            catch (Exception ex)
-            {
-                string ErrorMessage = ex.Message.ToString();
-                if (ex.InnerException != null)
-                {
-                    if (ex.InnerException.Message != null)
-                    {
-                        ErrorMessage = ErrorMessage + ex.InnerException.Message.ToString();
-                    }
-                }
-                ViewData["Error"] = ErrorMessage;
-                return View("ShowError");
-            }
+            return Json(new JobCardRepository().GetActualHr(TaskId), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult Create(JobCard model)
@@ -134,7 +126,7 @@ namespace ArabErp.Web.Controllers
                 model.OrganizationId = OrganizationId;
                 model.CreatedBy = UserID.ToString();
 
-                if (model.isProjectBased==1)
+                if (model.isProjectBased == 1)
                 {
                     bool isexists = repo.IsFieldExists(repo.ConnectionString(), "JobCard", "InternalJobCardNo", model.InternalJobCardNo, null, null);
                     if (!isexists)
@@ -164,7 +156,7 @@ namespace ArabErp.Web.Controllers
                     FillEmployee();
                     return View(model);
                 }
-               
+
                 else
                 {
                     var data = new JobCardRepository().SaveJobCard(model);
@@ -180,7 +172,7 @@ namespace ArabErp.Web.Controllers
                     FillEmployee();
                     return View(model);
                 }
-                
+
             }
 
             catch (Exception ex)
@@ -197,7 +189,16 @@ namespace ArabErp.Web.Controllers
                 return View("ShowError");
             }
         }
-
+        private void FillTasks(int isProjectBased)
+        {
+            var result = new DropdownRepository().TaskDropdown1(isProjectBased);
+            ViewBag.TaskList = new SelectList(result, "Id", "Name");
+        }
+        private void FillFreezerAndBoxTasks(int? SaleOrderItemId)
+        {
+            var result = new JobCardRepository().GetTasksForFreezerAndBox(SaleOrderItemId);
+            ViewBag.TaskList = new SelectList(result, "JobCardTaskMasterId", "JobCardTaskName");
+        }
         public void FillBay(int isService)
         {
             JobCardRepository repo = new JobCardRepository();
@@ -238,7 +239,6 @@ namespace ArabErp.Web.Controllers
         //{
         //    ViewBag.inpassList = new SelectList(new DropdownRepository().VehicleInPassDropdown(), "Id", "Name");
         //}
-
         public void FillJCNo(int isProjectBased, int service)
         {
             ViewBag.JCNoList = new SelectList(new DropdownRepository().JCNODropdown(OrganizationId, isProjectBased, service), "Id", "Name");
@@ -274,6 +274,87 @@ namespace ArabErp.Web.Controllers
                 }
                 ViewData["Error"] = ErrorMessage;
                 return View("ShowError");
+            }
+        }
+        public ActionResult Edit(int id = 0)//JobCardId is received here
+        {
+            if (id == 0) return RedirectToAction("Index", "Home");
+            JobCard model = new JobCardRepository().GetJobCardDetails2(id, OrganizationId);
+            FillBay1(model.JobCardId);
+            FillEmployee();
+            //FillAllTasks();
+            FillTasks(model.isProjectBased);
+            //FillTaks(model.WorkDescriptionId);
+            //if (model.isService == 1)
+            //    FillTaks(model.WorkDescriptionId);
+            //else
+            //    FillFreezerAndBoxTasks(model.SaleOrderItemId);
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult Edit(JobCard model)
+        {
+           
+
+            try
+            {
+                if(model.isProjectBased==1)
+                {
+                    //var repo = new JobCardRepository();
+
+                    bool isexists = repo.IsFieldExists(repo.ConnectionString(), "JobCard", "InternalJobCardNo", model.InternalJobCardNo, "JobCardId", model.JobCardId);
+                    if (!isexists)
+                    {
+                        new JobCardRepository().UpdateJobCard(model);
+                        TempData["success"] = "Updated Successfully (" + model.JobCardNo + ")";
+                        return RedirectToAction("Index", new { ProjectBased = model.isProjectBased, service = model.isService });
+                    }
+
+                    else
+                    {
+
+                        TempData["error"] = "This Internal JobCard No already exists!";
+                        FillBay1(model.JobCardId);
+                        FillEmployee();
+                        FillTasks(model.isProjectBased);
+                        //FillTaks(model.WorkDescriptionId);
+                        return View(model);
+                    }
+                }
+                
+
+
+                else
+                {
+                    new JobCardRepository().UpdateJobCard(model);
+                    TempData["success"] = "Updated Successfully (" + model.JobCardNo + ")";
+                    return RedirectToAction("Index", new { ProjectBased = model.isProjectBased, service = model.isService });
+                }
+
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+            FillBay1(model.JobCardId);
+            FillEmployee();
+            FillTaks(model.WorkDescriptionId);
+            return View(model);
+        }
+        public ActionResult Delete(int JobCardId = 0, int isProjectBased = 0)
+        {
+            try
+            {
+                if (JobCardId == 0) return RedirectToAction("Index", "Home");
+                //JobCard model = new JobCardRepository().GetJobCardDetails2(JobCardId, OrganizationId);
+                JobCard model = new JobCardRepository().DeleteJobCard(JobCardId);
+                TempData["success"] = "Deleted Successfully (" + model.JobCardNo + ")";
+                return RedirectToAction("Index", new { ProjectBased = model.isProjectBased, service = model.isService });
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured while deleting. Please try again.";
+                return RedirectToAction("Edit", new { id = JobCardId });
             }
         }
         public ActionResult JobCardReport(int Id)
@@ -378,7 +459,7 @@ namespace ArabErp.Web.Controllers
             dr["isProjectBased"] = Head.isProjectBased;
             dr["isService"] = Head.isService;
             dr["UnitDetails"] = Head.UnitDetails;
-            
+
             ds.Tables["Head"].Rows.Add(dr);
 
             JobCardTaskRepository repo1 = new JobCardTaskRepository();
@@ -442,90 +523,6 @@ namespace ArabErp.Web.Controllers
             catch (Exception ex)
             {
                 throw ex;
-            }
-        }
-
-        public ActionResult Edit(int id = 0)//JobCardId is received here
-        {
-            if (id == 0) return RedirectToAction("Index", "Home");
-            JobCard model = new JobCardRepository().GetJobCardDetails2(id, OrganizationId);
-            FillBay1(model.JobCardId);
-            FillEmployee();
-            //FillAllTasks();
-            FillTasks(model.isProjectBased);
-            //FillTaks(model.WorkDescriptionId);
-            //if (model.isService == 1)
-            //    FillTaks(model.WorkDescriptionId);
-            //else
-            //    FillFreezerAndBoxTasks(model.SaleOrderItemId);
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult Edit(JobCard model)
-        {
-           
-
-            try
-            {
-                if(model.isProjectBased==1)
-                {
-                    //var repo = new JobCardRepository();
-
-                    bool isexists = repo.IsFieldExists(repo.ConnectionString(), "JobCard", "InternalJobCardNo", model.InternalJobCardNo, "JobCardId", model.JobCardId);
-                    if (!isexists)
-                    {
-                        new JobCardRepository().UpdateJobCard(model);
-                        TempData["success"] = "Updated Successfully (" + model.JobCardNo + ")";
-                        return RedirectToAction("Index", new { ProjectBased = model.isProjectBased, service = model.isService });
-                    }
-
-                    else
-                    {
-
-                        TempData["error"] = "This Internal JobCard No already exists!";
-                        FillBay1(model.JobCardId);
-                        FillEmployee();
-                        FillTasks(model.isProjectBased);
-                        //FillTaks(model.WorkDescriptionId);
-                        return View(model);
-                    }
-                }
-                
-
-
-                else
-                {
-                    new JobCardRepository().UpdateJobCard(model);
-                    TempData["success"] = "Updated Successfully (" + model.JobCardNo + ")";
-                    return RedirectToAction("Index", new { ProjectBased = model.isProjectBased, service = model.isService });
-                }
-
-            }
-            catch (Exception)
-            {
-                TempData["error"] = "Some error occurred. Please try again.";
-            }
-            FillBay1(model.JobCardId);
-            FillEmployee();
-            FillTaks(model.WorkDescriptionId);
-            return View(model);
-        }
-
-        public ActionResult Delete(int JobCardId = 0, int isProjectBased = 0)
-        {
-            try
-            {
-                if (JobCardId == 0) return RedirectToAction("Index", "Home");
-                //JobCard model = new JobCardRepository().GetJobCardDetails2(JobCardId, OrganizationId);
-                JobCard model = new JobCardRepository().DeleteJobCard(JobCardId);
-                TempData["success"] = "Deleted Successfully (" + model.JobCardNo + ")";
-                return RedirectToAction("Index", new { ProjectBased = model.isProjectBased, service = model.isService });
-            }
-            catch (Exception)
-            {
-                TempData["error"] = "Some error occured while deleting. Please try again.";
-                return RedirectToAction("Edit", new { id = JobCardId });
             }
         }
     }

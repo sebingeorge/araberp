@@ -178,6 +178,15 @@ namespace ArabErp
             }
         }
 
+        public decimal GetActualHr(int TaskId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT ISNULL(ActualHrs,0.00)ActualHrs From JobCardTaskMaster WHERE JobCardTaskMasterId=@TaskId";
+                return connection.Query<decimal>(query, new { TaskId = TaskId }).First<decimal>();
+            }
+        }
+
         public string SaveJobCard(JobCard jc)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
