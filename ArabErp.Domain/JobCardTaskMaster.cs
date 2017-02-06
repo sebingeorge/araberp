@@ -15,6 +15,7 @@ namespace ArabErp.Domain
         public string JobCardTaskName { get; set; }
         [Required]
         public Decimal MinimumRate { get; set; }
+        public Decimal ActualHrs { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int OrganizationId { get; set; }

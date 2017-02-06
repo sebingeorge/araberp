@@ -81,10 +81,18 @@
                             @Html.TextBoxFor(m => m.JobCardTaskName, new { @class = "form_input", autocomplete = "off" })
                         </div>
 
-                        <div class="part4">
-                            <label for="MinimumRate">Minimum Rate</label>
-                            @Html.TextBoxFor(m => m.MinimumRate, new { @class = "form_input form_input-half form_input numbers-only", autocomplete = "off" })
+                        <div class="row">
+                            <div class="part4 col-md-6">
+                                <label for="MinimumRate">Minimum Rate</label>
+                                @Html.TextBoxFor(m => m.MinimumRate, new { @class = "form_input form_input-half form_input numbers-only", autocomplete = "off" })
+                            </div>
+
+                            <div class="part4 col-md-6">
+                                <label for="ActualHrs">Actual Hrs</label>
+                                @Html.TextBoxFor(m => m.ActualHrs, new { @class = "form_input form_input-half form_input numbers-only", autocomplete = "off" })
+                            </div>
                         </div>
+                        
 
                     </div>
 
