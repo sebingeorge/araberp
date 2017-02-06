@@ -28,14 +28,16 @@
         var url = '@Url.Action("PendingJobcards")';
         var JcNo = $("#txtJcNo").val().trim();
         var customer = $("#txtCustomer").val().trim();
-        if ("@Request.QueryString["type"]" == "1")
+        var type = "@Request.QueryString["type"]";
+        alert(type);
+        if (type == "1")
            
         {
-            url +="?jcno=" + encodeURIComponent(JcNo) + "&customer=" + encodeURIComponent(customer);
+            url += "?type=" + encodeURIComponent(type)+ "&jcno=" + encodeURIComponent(JcNo) + "&customer=" + encodeURIComponent(customer);
         }
         else {
             var RegNo = $("#txtRegNo").val().trim();
-            url += "?&RegNo=" + encodeURIComponent(RegNo) + "&jcno=" + encodeURIComponent(JcNo) + "&customer=" + encodeURIComponent(customer);
+            url += "?type=" + encodeURIComponent(type) + "&RegNo=" + encodeURIComponent(RegNo) + "&jcno=" + encodeURIComponent(JcNo) + "&customer=" + encodeURIComponent(customer);
 
         }
 
