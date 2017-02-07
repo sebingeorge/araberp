@@ -12,6 +12,7 @@
     function GoToPrint() {
       
         var id = $("#cboJCNo").val();
+        alert(id);
         var url = '@Url.Action("Print")';
         url += "?id=" + id;
         window.location = url;

@@ -880,7 +880,78 @@ namespace ArabErp
                 throw;
             }
         }
+        public ProjectStatusReport GetProjectDtls(int JobCardId)
+        {
+
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                 string sql = @"SELECT JC.JobCardId,JC.JobCardNo,JC.JobCardDate,QS.ProjectName,QS.ContactPerson,
+                                QS.ContactNumber,E.EmployeeName InCharge,QS.CostingAmount,QS.QuerySheetRefNo
+                                FROM JobCard JC
+                                INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
+                                INNER JOIN Employee E ON E.EmployeeId=JC.EmployeeId
+                                LEFT JOIN SalesQuotation SQ ON SQ.SalesQuotationId=SO.SalesQuotationId
+                                LEFT JOIN QuerySheet QS ON QS.QuerySheetId=SQ.QuerySheetId
+                                WHERE JC.isProjectBased=1 and JC.JobCardId=@JobCardId";
+
+                 var objOrganization = connection.Query<ProjectStatusReport>(sql, new
+                {
+                    JobCardId = JobCardId
+                }).First<ProjectStatusReport>();
+
+                return objOrganization;
+            }
+        }
+        public List<ProjectStatusReport> GetRoomDtls(int JobCardId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"SELECT JC.JobCardId,QSI.RoomDetails,ExternalRoomDimension RoomSize,
+                             TemperatureRequired TempRequired,DoorSizeTypeAndNumberOfDoor Door,FloorDetails Floor
+                             FROM JobCard JC
+                             INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
+                             LEFT JOIN SalesQuotation SQ ON SQ.SalesQuotationId=SO.SalesQuotationId
+                             LEFT JOIN QuerySheet QS ON QS.QuerySheetId=SQ.QuerySheetId
+                             LEFT JOIN QuerySheetItem QSI ON QSI.QuerySheetId=QS.QuerySheetId
+                             WHERE JC.isProjectBased=1 and JC.JobCardId=@JobCardId";
+                return connection.Query<ProjectStatusReport>(sql, new { JobCardId = JobCardId }).ToList();
 
 
+            }
+        }
+        public List<ProjectStatusReport> GetDailyActivityDtls(int JobCardId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+             string sql = @"SELECT JC.JobCardId,JDA.JobCardDailyActivityDate,JM.JobCardTaskName,
+                            E.EmployeeName,JDT.StartTime,JDT.EndTime,JDT.OverTime,JDT.ActualHours
+                            FROM JobCard JC 
+                            INNER JOIN JobCardDailyActivity JDA ON JDA.JobCardId=JC.JobCardId
+                            INNER JOIN JobCardDailyActivityTask JDT ON JDT.JobCardDailyActivityId=JDA.JobCardDailyActivityId
+                            INNER JOIN JobCardTask JT ON JT.JobCardTaskId=JDT.JobCardTaskId
+                            INNER JOIN JobCardTaskMaster JM ON JM.JobCardTaskMasterId=JT.JobCardTaskMasterId
+                            INNER JOIN Employee E ON E.EmployeeId=JDT.EmployeeId
+                            WHERE JC.isProjectBased=1 and JC.JobCardId=@JobCardId";
+                return connection.Query<ProjectStatusReport>(sql, new { JobCardId = JobCardId }).ToList();
+
+
+            }
+        }
+        public List<ProjectStatusReport> GetDelieveryStatusDtls(int JobCardId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                 string sql = @"SELECT I.ItemName,SII.IssuedQuantity FROM JobCard JC
+                                INNER JOIN WorkShopRequest WR ON WR.SaleOrderId=JC.SaleOrderId
+                                INNER JOIN WorkShopRequestItem WRI ON WRI.WorkShopRequestId=WR.WorkShopRequestId
+                                INNER JOIN StoreIssue SI ON SI.WorkShopRequestId=WRI.WorkShopRequestId
+                                INNER JOIN StoreIssueItem SII ON SII.StoreIssueId=SI.StoreIssueId AND SII.WorkShopRequestItemId=WRI.WorkShopRequestItemId
+                                INNER JOIN Item I ON I.ItemId=WRI.ItemId
+                                WHERE JC.isProjectBased=1 AND JC.JobCardId=@JobCardId";
+                return connection.Query<ProjectStatusReport>(sql, new { JobCardId = JobCardId }).ToList();
+
+
+            }
+        }
     }
 }
