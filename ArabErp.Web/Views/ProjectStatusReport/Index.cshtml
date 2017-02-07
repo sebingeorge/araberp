@@ -12,34 +12,36 @@
     function GoToPrint() {
       
         var id = $("#cboJCNo").val();
+        alert(id);
         var url = '@Url.Action("Print")';
         url += "?id=" + id;
         window.location = url;
     }
 </script>
+<div class="container">
+    <div class="row">
+        <div class="form-head1">
 
-<div class="row">
-    <div class="form-head1">
+            <h4>Project Status Report</h4>
 
-        <h4>Project Status Report</h4>
-
-    </div>
-    <div class="main-part pad1">
+        </div>
+        <div class="main-part pad1">
 
 
-        <div class="row">
-            <div class="col-md-3">
-                <label for="cboWork">JobCard No</label>
-                @Html.DropDownList("cboJCNo", (SelectList)ViewBag.JCList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            <div class="row">
+                <div class="col-md-3">
+                    <label for="cboWork">JobCard No</label>
+                    @Html.DropDownList("cboJCNo", (SelectList)ViewBag.JCList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                    <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
+                </div>
             </div>
         </div>
-        
-        <div class="row">
-            <div class="col-md-12 hrpart">
-                <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-                <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
-            </div>
-        </div>
     </div>
+
 </div>
-

@@ -16,14 +16,14 @@ namespace ArabErp.Web.Reports {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class CustomerWiseSalesRegister : ReportClass {
+    public class ProjectStatusReport : ReportClass {
         
-        public CustomerWiseSalesRegister() {
+        public ProjectStatusReport() {
         }
         
         public override string ResourceName {
             get {
-                return "CustomerWiseSalesRegister.rpt";
+                return "ProjectStatusReport.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace ArabErp.Web.Reports {
         
         public override string FullResourceName {
             get {
-                return "ArabErp.Web.Reports.CustomerWiseSalesRegister.rpt";
+                return "ArabErp.Web.Reports.ProjectStatusReport.rpt";
             }
             set {
                 // Do nothing
@@ -74,7 +74,7 @@ namespace ArabErp.Web.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection2 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -82,7 +82,7 @@ namespace ArabErp.Web.Reports {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
+        public CrystalDecisions.CrystalReports.Engine.Section ReportFooterSection1 {
             get {
                 return this.ReportDefinition.Sections[4];
             }
@@ -98,9 +98,9 @@ namespace ArabErp.Web.Reports {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedCustomerWiseSalesRegister : Component, ICachedReport {
+    public class CachedProjectStatusReport : Component, ICachedReport {
         
-        public CachedCustomerWiseSalesRegister() {
+        public CachedProjectStatusReport() {
         }
         
         [Browsable(false)]
@@ -137,7 +137,7 @@ namespace ArabErp.Web.Reports {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            CustomerWiseSalesRegister rpt = new CustomerWiseSalesRegister();
+            ProjectStatusReport rpt = new ProjectStatusReport();
             rpt.Site = this.Site;
             return rpt;
         }
