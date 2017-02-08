@@ -538,6 +538,12 @@
       <DependentUpon>ProjectCompletion.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\ProjectStatusReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProjectStatusReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\PurchaseBillRegister.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1593,6 +1599,10 @@
     <EmbeddedResource Include="Reports\ProjectCompletion.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProjectCompletion.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ProjectStatusReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ProjectStatusReport.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\PurchaseBillRegister.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
