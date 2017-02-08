@@ -308,7 +308,7 @@ namespace ArabErp.DAL
                                 AND OrganizationId = @org";
                 DirectPurchaseRequest model = connection.Query<DirectPurchaseRequest>(query, new { org = organizationId, @id = id }, txn).FirstOrDefault();
                 string sql = @"SELECT
-	                                PRI.PurchaseRequestItemId DirectPurchaseRequestItemId, PRI.*,
+	                                PRI.PurchaseRequestItemId DirectPurchaseRequestItemId, PRI.*,I.ItemName,I.PartNo,
 									U.UnitName UoM
                                 FROM PurchaseRequestItem PRI
 								INNER JOIN Item I ON PRI.ItemId = I.ItemId

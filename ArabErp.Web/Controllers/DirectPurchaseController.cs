@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Text;
 
 namespace ArabErp.Web.Controllers
 {
@@ -370,6 +371,7 @@ namespace ArabErp.Web.Controllers
                     return RedirectToAction("Index", "Home");
                 }
                 var model = new DirectPurchaseRepository().GetPurchaseIndent(id, OrganizationId);
+                Session["purchaseIndent"] = model;
                 if (model == null)
                 {
                     TempData["error"] = "Could not find the requested Purchase Indent. Please try again.";
@@ -438,6 +440,48 @@ namespace ArabErp.Web.Controllers
             {
                 return Json("Some error occurred while fetching the rates!", JsonRequestBehavior.AllowGet);
             }
+        }
+        public ActionResult ExportToExcel()
+        {
+            DirectPurchaseRequest model = (DirectPurchaseRequest)Session["purchaseIndent"];
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("<Table border={0}1{0}>", (Char)34);
+      
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Material/Spares</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Part No</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Remarks</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Qty</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>UoM</td>", (Char)34); ;
+       
+            sb.Append("</tr>");
+
+            foreach (var item in model.items)
+            {
+                sb.Append("<tr>");
+
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.ItemName);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.PartNo);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.Remarks);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.Quantity);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.UoM);
+
+                sb.Append("</tr>");
+            }
+        
+            sb.Append("</Table>");
+            string ExcelFileName;
+
+            ExcelFileName = "PurchaseIndent.xls";
+            Response.Clear();
+            Response.Charset = "";
+            Response.ContentType = "application/excel";
+            Response.AddHeader("Content-Disposition", "filename=" + ExcelFileName);
+            Response.Write(sb);
+            Response.End();
+            Response.Flush();
+            return View();
+
         }
     }
 }
