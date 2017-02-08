@@ -186,6 +186,23 @@
         window.location = url;
     }
 
+    function OnTaskChanged(sender, row) {
+        var id = $(sender).val();
+        if (id != '') {
+      
+            var url = '@Url.Action("GetActualHr")';
+            $.getJSON(url, { TaskId: id }, 
+                function (data) {
+                    $("#JobCardTasks_" + row + "__Hours").val(data);
+                });
+        }
+        else
+        {
+            $('#Hours').text(0);
+        }
+        CheckDuplication(sender, row);
+    }
+
     function CheckDuplication(sender, row) {
         var jobcard = $("#JobCardTasks_" + row + "__JobCardTaskMasterId");
         var employee = $("#JobCardTasks_" + row + "__EmployeeId");
@@ -407,7 +424,7 @@
                                         else
                                         {
                                             @Html.DropDownListFor(m => Model.JobCardTasks[row].JobCardTaskMasterId, new SelectList(ViewBag.TaskList, "Value", "Text", Model.JobCardTasks[row].JobCardTaskMasterId), "Select Task",
-                                             new { @class = "form_input", @autocomplete = "off", @onchange = "CheckDuplication(this," + row + ")" })
+                                                  new { @class = "form_input", @autocomplete = "off", @onchange = "OnTaskChanged(this," + row + ")" })
                                         }
                                     </td>
 
@@ -447,7 +464,7 @@
                                         }
                                         else
                                         {
-                                            @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off" })
+                                            @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off", @readonly = "true" })
                                         }
                                     </td>
 

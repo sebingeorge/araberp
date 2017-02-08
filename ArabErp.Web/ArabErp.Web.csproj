@@ -280,6 +280,7 @@
     <Compile Include="Controllers\ProfitabilityReportController.cs" />
     <Compile Include="Controllers\ProformaInvoiceController.cs" />
     <Compile Include="Controllers\ProjectCompletionController.cs" />
+    <Compile Include="Controllers\ProjectStatusReportController.cs" />
     <Compile Include="Controllers\PurchaseBillController.cs" />
     <Compile Include="Controllers\PurchaseBillRegisterController.cs" />
     <Compile Include="Controllers\PurchaseMonthlyItemWiseRegisterController.cs" />
@@ -541,6 +542,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ProjectCompletion.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\ProjectStatusReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProjectStatusReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\PurchaseBillRegister.cs">
@@ -1436,6 +1443,7 @@
     <Content Include="Views\ProfitabilityReport\_LabourDetails.cshtml" />
     <Content Include="Views\DirectPurchase\Approve.cshtml" />
     <Content Include="Views\ProformaInvoice\_Printdescription.cshtml" />
+    <Content Include="Views\ProjectStatusReport\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1601,6 +1609,10 @@
     <EmbeddedResource Include="Reports\ProjectCompletion.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProjectCompletion.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ProjectStatusReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ProjectStatusReport.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\PurchaseBillRegister.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

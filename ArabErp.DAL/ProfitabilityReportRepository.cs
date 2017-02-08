@@ -25,13 +25,13 @@ namespace ArabErp.DAL
             {
 
 
-                string sql = @"SELECT SO.SaleOrderId,WRI.ItemId,I.ItemName,(SII.IssuedQuantity)Quantity,0 Rate,0 Amount INTO #TEMP
+                string sql = @"SELECT SO.SaleOrderId,WRI.ItemId,I.ItemName,sum(SII.IssuedQuantity)Quantity,0 Rate,0 Amount INTO #TEMP
                                 FROM WorkShopRequest WR
                                 INNER JOIN SaleOrder SO ON WR.SaleOrderId = SO.SaleOrderId
                                 INNER JOIN WorkShopRequestItem WRI ON WR.WorkShopRequestId = WRI.WorkShopRequestId
                                 INNER JOIN StoreIssueItem SII ON WRI.WorkShopRequestItemId = SII.WorkShopRequestItemId
                                 INNER JOIN Item I ON I.ItemId=WRI.ItemId
-                                GROUP BY SO.SaleOrderId, WRI.ItemId,I.ItemName,SII.IssuedQuantity;
+                                GROUP BY SO.SaleOrderId, WRI.ItemId,I.ItemName;
                                 SELECT * into #A from 
                                 (
                                 SELECT MAX(GRNItemId)GRNItemId, ItemId, Rate FROM GRNItem GROUP BY ItemId, Rate

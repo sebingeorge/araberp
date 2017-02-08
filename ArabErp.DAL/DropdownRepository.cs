@@ -706,6 +706,15 @@ namespace ArabErp.DAL
                 return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(isActive, 1) = 1 and OrganizationId =" + OrganizationId.ToString() + " and isProjectBased=" + isProjectBased.ToString() + " and isService=" + service.ToString() + " ").ToList();
             }
         }
+
+        public List<Dropdown> JobCardDropdown(int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(isActive, 1) = 1 and OrganizationId =" + OrganizationId.ToString() + " and isProjectBased='1' ").ToList();
+            }
+        }
+
         public List<Dropdown> JCCustomerDropdown(int OrganizationId, int isProjectBased, int service)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
