@@ -10,6 +10,10 @@
     function Exit() {
         location.href = '@Url.Action("PendingPurchaseRequest")';
     }
+    
+    function ExporttoExcel() {
+        location.href = '@Url.Action("ExportToExcel")';
+    }
     $(function () {
         $("#PurchaseRequestDate").datepicker({
             dateFormat: "d-MM-yy"
@@ -125,6 +129,7 @@
                     }
                     else
                     {
+                        <input type="button" class="form-button right" value="ExporttoExcel" onclick="ExporttoExcel()" />
                         if (!Model.isUsed)
                         {
                             <input type="button" class="form-button left" value="Delete" onclick="DeletePurchase(@Model.DirectPurchaseRequestId)" />

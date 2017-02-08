@@ -65,17 +65,17 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>AARC/SI/17/110</SalesInvoiceRefNo>
+    <SalesInvoiceRefNo>AARC/SI/17/107</SalesInvoiceRefNo>
     <SalesInvoiceDate>30-Jan-2017</SalesInvoiceDate>
-    <VehicleOutPassNo>DV/17/122</VehicleOutPassNo>
-    <CustomerName>Construction Devolopment Co. L.L.C.</CustomerName>
-    <Address>P.O.Box: 8388, Doha-Qatar,,0</Address>
+    <VehicleOutPassNo>DV/17/119</VehicleOutPassNo>
+    <CustomerName>Opera Cafe LTD</CustomerName>
+    <Address>Doha , Qatar,Email:operarhico@hotmail.com,0</Address>
     <CustomerOrderRef />
-    <PaymentTerms>Cash Payment</PaymentTerms>
-    <RegistrationNo>175563</RegistrationNo>
-    <JobCardNo>AARC/17/JC-S/89</JobCardNo>
-    <TotalAmount>500.00</TotalAmount>
-    <Image1>E:\Asha\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <PaymentTerms>Due on Receipt</PaymentTerms>
+    <RegistrationNo>295355</RegistrationNo>
+    <JobCardNo>AARC/17/JC-S/87</JobCardNo>
+    <TotalAmount>640.00</TotalAmount>
+    <Image1>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
@@ -88,22 +88,27 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <CreateUser>safiq</CreateUser>
-    <CreateSig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSig>
+    <CreateSig>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSig>
     <CreatedDes>Workshop Controller</CreatedDes>
-    <ApproveSig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\</ApproveSig>
+    <ApproveSig>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\</ApproveSig>
   </Head>
   <Items>
-    <PrintDescription>Supply of Control Panel Assembly - Dhollandia
+    <PrintDescription>Replace Tail Lift Rotary Switch
+Electrical Fault Repair
 
+General Service of Tail Lift:
+Top-up Hydraulic Oil
+Tail Lift Greasing
+General Check-up &amp; Maintenance
 </PrintDescription>
     <Quantity>1.00</Quantity>
     <UoM>ea</UoM>
-    <PriceEach>500.00</PriceEach>
-    <Amount>500.00</Amount>
+    <PriceEach>640.00</PriceEach>
+    <Amount>640.00</Amount>
   </Items>
   <DeliveryChallans>
-    <DeliveryChallanRefNo>DV/17/122</DeliveryChallanRefNo>
-    <JobCardNo>AARC/17/JC-S/89</JobCardNo>
-    <Chassiss_RegNo>175563</Chassiss_RegNo>
+    <DeliveryChallanRefNo>DV/17/119</DeliveryChallanRefNo>
+    <JobCardNo>AARC/17/JC-S/87</JobCardNo>
+    <Chassiss_RegNo>295355</Chassiss_RegNo>
   </DeliveryChallans>
 </NewDataSet>
