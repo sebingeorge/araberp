@@ -288,7 +288,7 @@ namespace ArabErp.DAL
                                 FROM PurchaseRequest PR
                                 WHERE PR.OrganizationId = @org
                                 AND WorkShopRequestId IS NULL
-                                ORDER BY PurchaseRequestDate DESC, PurchaseRequestNo DESC";
+                                ORDER BY PurchaseRequestId DESC, PurchaseRequestNo DESC";
                 return connection.Query<DirectPurchaseRequest>(query, new { org = organizationId }).ToList();
             }
         }
