@@ -111,6 +111,9 @@ textarea {
     margin-left: 5px;
     margin-right: 5px;
 }
+.fwid {
+    width:120px;
+}
 
 .form-w {
     width: auto;
