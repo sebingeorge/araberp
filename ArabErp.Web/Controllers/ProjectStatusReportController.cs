@@ -28,7 +28,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.JCList = new SelectList(new DropdownRepository().JobCardDropdown(OrganizationId), "Id", "Name");
         }
 
-        public ActionResult Print(int id = 0)
+        public ActionResult ProjectStatusReport(int id = 0)
         {
 
             ReportDocument rd = new ReportDocument();
@@ -47,6 +47,7 @@ namespace ArabErp.Web.Controllers
             //-------Project Dtls
             ds.Tables["ProjectDtls"].Columns.Add("JobCardNo");
             ds.Tables["ProjectDtls"].Columns.Add("JobCardDate");
+            ds.Tables["ProjectDtls"].Columns.Add("Customer");
             ds.Tables["ProjectDtls"].Columns.Add("ProjectName");
             ds.Tables["ProjectDtls"].Columns.Add("ContactPerson");
             ds.Tables["ProjectDtls"].Columns.Add("ContactNumber");
@@ -65,6 +66,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["DailyActivityDtls"].Columns.Add("EmployeeName");
             ds.Tables["DailyActivityDtls"].Columns.Add("StartTime");
             ds.Tables["DailyActivityDtls"].Columns.Add("EndTime");
+            ds.Tables["DailyActivityDtls"].Columns.Add("EstHours");
             ds.Tables["DailyActivityDtls"].Columns.Add("OverTime");
             ds.Tables["DailyActivityDtls"].Columns.Add("ActualHours");
             //-------Material Delievery Status
@@ -87,7 +89,8 @@ namespace ArabErp.Web.Controllers
 
             DataRow dr1 = ds.Tables["ProjectDtls"].NewRow();
             dr1["JobCardNo"] = ProjectDtls.JobCardNo;
-            dr1["JobCardDate"] = ProjectDtls.JobCardDate;
+            dr1["JobCardDate"] = ProjectDtls.JobCardDate.ToString("dd-MMM-yyyy");
+            dr1["Customer"] = ProjectDtls.Customer;
             dr1["ProjectName"] = ProjectDtls.ProjectName;
             dr1["ContactPerson"] = ProjectDtls.ContactPerson;
             dr1["ContactNumber"] = ProjectDtls.ContactNumber;
@@ -133,16 +136,18 @@ namespace ArabErp.Web.Controllers
                     EmployeeName = item.EmployeeName,
                     StartTime = item.StartTime,
                     EndTime = item.EndTime,
+                    EstHours=item.EstHours,
                     OverTime = item.OverTime,
                     ActualHours = item.ActualHours,
                 };
 
                 DataRow dr3 = ds.Tables["DailyActivityDtls"].NewRow();
-                dr3["JobCardDailyActivityDate"] = DADtls.JobCardDailyActivityDate;
+                dr3["JobCardDailyActivityDate"] = DADtls.JobCardDailyActivityDate.ToString("dd-MMM-yyyy");
                 dr3["JobCardTaskName"] = DADtls.JobCardTaskName;
                 dr3["EmployeeName"] = DADtls.EmployeeName;
                 dr3["StartTime"] = DADtls.StartTime;
                 dr3["EndTime"] = DADtls.EndTime;
+                dr3["EstHours"] = DADtls.EstHours;
                 dr3["OverTime"] = DADtls.OverTime;
                 dr3["ActualHours"] = DADtls.ActualHours;
                 ds.Tables["DailyActivityDtls"].Rows.Add(dr3);

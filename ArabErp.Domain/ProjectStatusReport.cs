@@ -12,7 +12,8 @@ namespace ArabErp.Domain
     public class ProjectStatusReport
     {
         public string JobCardNo { get; set; }
-        public string JobCardDate { get; set; }
+        public DateTime JobCardDate { get; set; }
+        public string Customer { get; set; }
         public string ProjectName { get; set; }
         public string ContactPerson { get; set; }
         public string ContactNumber { get; set; }
@@ -23,12 +24,13 @@ namespace ArabErp.Domain
         public string TempRequired { get; set; }
         public string Door { get; set; }
         public string Floor { get; set; }
-        public string JobCardDailyActivityDate { get; set; }
+        public DateTime JobCardDailyActivityDate { get; set; }
         public string JobCardTaskName { get; set; }
         public string InCharge { get; set; }
         public string EmployeeName { get; set; }
         public string StartTime { get; set; }
         public string EndTime { get; set; }
+        public string EstHours { get; set; }
         public string OverTime { get; set; }
         public string ActualHours { get; set; }
         public string ItemName { get; set; }

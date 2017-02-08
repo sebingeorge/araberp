@@ -885,13 +885,14 @@ namespace ArabErp
 
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                 string sql = @"SELECT JC.JobCardId,JC.JobCardNo,JC.JobCardDate,QS.ProjectName,QS.ContactPerson,
+                string sql = @"SELECT JC.JobCardId,JC.JobCardNo,JC.JobCardDate,C.CustomerName Customer,QS.ProjectName,QS.ContactPerson,
                                 QS.ContactNumber,E.EmployeeName InCharge,QS.CostingAmount,QS.QuerySheetRefNo
                                 FROM JobCard JC
                                 INNER JOIN SaleOrder SO ON SO.SaleOrderId=JC.SaleOrderId
                                 INNER JOIN Employee E ON E.EmployeeId=JC.EmployeeId
                                 LEFT JOIN SalesQuotation SQ ON SQ.SalesQuotationId=SO.SalesQuotationId
                                 LEFT JOIN QuerySheet QS ON QS.QuerySheetId=SQ.QuerySheetId
+                                LEFT JOIN Customer C ON C.CustomerId=SQ.CustomerId
                                 WHERE JC.isProjectBased=1 and JC.JobCardId=@JobCardId";
 
                  var objOrganization = connection.Query<ProjectStatusReport>(sql, new
@@ -923,8 +924,8 @@ namespace ArabErp
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-             string sql = @"SELECT JC.JobCardId,JDA.JobCardDailyActivityDate,JM.JobCardTaskName,
-                            E.EmployeeName,JDT.StartTime,JDT.EndTime,JDT.OverTime,JDT.ActualHours
+             string sql = @"SELECT JC.JobCardId,JDA.JobCardDailyActivityDate,JM.JobCardTaskName,E.EmployeeName,
+                            JDT.StartTime,JDT.EndTime,JT.Hours EstHours,JDT.OverTime,JDT.ActualHours
                             FROM JobCard JC 
                             INNER JOIN JobCardDailyActivity JDA ON JDA.JobCardId=JC.JobCardId
                             INNER JOIN JobCardDailyActivityTask JDT ON JDT.JobCardDailyActivityId=JDA.JobCardDailyActivityId

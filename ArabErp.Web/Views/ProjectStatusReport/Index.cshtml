@@ -13,9 +13,9 @@
       
         var id = $("#cboJCNo").val();
         alert(id);
-        var url = '@Url.Action("Print")';
+        var url = '@Url.Action("ProjectStatusReport")';
         url += "?id=" + id;
-        window.location = url;
+        window.open(url);
     }
 </script>
 <div class="container">
