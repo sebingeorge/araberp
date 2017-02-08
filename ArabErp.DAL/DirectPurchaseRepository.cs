@@ -156,17 +156,15 @@ namespace ArabErp.DAL
         /// Return all un-approved direct purchase requests
         /// </summary>
         /// <returns></returns>
-        public List<DirectPurchaseRequest> GetUnApprovedRequests()
+        public List<DirectPurchaseRequest> GetUnApprovedRequests(int UserID)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 return connection.Query<DirectPurchaseRequest>(@"SELECT
-                                                DirectPurchaseRequestId,
-												PurchaseRequestDate,
-												CreatedDate,
+                                                DirectPurchaseRequestId,PurchaseRequestDate,CreatedDate,
 	                                            ISNULL(PurchaseRequestNo, '') + ' - ' + CONVERT(VARCHAR, PurchaseRequestDate, 106) PurchaseRequestNo,
 	                                            ISNULL(SpecialRemarks, '-')SpecialRemarks,
-	                                            TotalAmount
+	                                            TotalAmount,UserAmount=(SELECT Isnull(Amount,0) FROM [user] WHERE UserId=1015) 
                                             FROM DirectPurchaseRequest D
                                             WHERE ISNULL(D.isActive, 1) = 1
                                             AND ISNULL(isApproved, 0) = 0

@@ -39,7 +39,7 @@ namespace ArabErp.Domain
         public DateTime JobCardDate { get; set; }
         public int Ageing { get; set; }
         public int DaysLeft { get; set; }
-
+        public decimal? UserAmount { get; set; }
         public bool isUsed { get; set; }
         public bool isStockOrder { get; set; }
         public bool isApproved { get; set; }

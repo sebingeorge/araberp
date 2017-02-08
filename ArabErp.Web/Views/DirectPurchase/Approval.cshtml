@@ -70,11 +70,15 @@
 
                                                 <td>
                                                     <center>
-                                                        <button type="button" class="form-button5" onclick="Select(@item.DirectPurchaseRequestId)">Select </button>
-                                                        @*<button class="btn btn-xs btn-primary" onclick="Approve('@Model[i].DirectPurchaseRequestId')">*@
-                                                        @*<span class="glyphicon glyphicon-edit" style="top:2px">
-                                        </span>*@
-
+                                                        @if (item.UserAmount < item.TotalAmount)
+                                                        {
+                                                                <span class="perm">No Permission</span>
+                                                        }
+                                                        else
+                                                        {
+                                                           <button type="button" class="form-button5" onclick="Select(@item.DirectPurchaseRequestId)">Select </button> 
+                                                        }
+                                                        
                                                     </center>
                                                 </td>
                                             </tr>

@@ -26,8 +26,7 @@ namespace ArabErp.Domain
         public bool isActive { get; set; }
         public List<QuerySheetItem> QuerySheetItems { get; set; }
         public List<ProjectCost> Items { get; set; }
-       
-       
+        public string UserName { get; set; }
         //public List<QuerySheetUnit> QuerySheetUnits { get; set; }
         //public List<QuerySheetDoor> QuerySheetDoors { get; set; }
 
@@ -42,7 +41,7 @@ namespace ArabErp.Domain
         public decimal Amount { get; set; }
         public string Remarks { get; set; }
         public string Type { get; set; }
-
+        
     }
    
 }
