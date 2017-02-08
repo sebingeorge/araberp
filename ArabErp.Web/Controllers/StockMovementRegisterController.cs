@@ -26,6 +26,7 @@ namespace ArabErp.Web.Controllers
             cs.itmGrpId = 0;
             cs.itmSubGrpId = 0;
             cs.ItemId = 0;
+
             ViewBag.startdate = FYStartdate;
             return View("Index", cs);
         }
@@ -102,6 +103,13 @@ namespace ArabErp.Web.Controllers
             var List = Repo.FillMaterial(Id);
             ViewBag.ItemList = new SelectList(List, "Id", "Name");
         }
+
+        public void FillPartNo(int Id)
+        {
+            ItemRepository Repo = new ItemRepository();
+            var List = Repo.FillPartNo(Id);
+            ViewBag.Partnolist = new SelectList(List, "Id", "Name");
+        }
         public void InitDropdown()
         {
             var List = "";
@@ -127,6 +135,12 @@ namespace ArabErp.Web.Controllers
         {
             FillMaterial(Code);
             return PartialView("_ItemDropdown");
+        }
+
+        public ActionResult PartNo(int Code)
+        {
+            FillPartNo(Code);
+            return PartialView("_PartnoDropdown");
         }
         public JsonResult GetPartNo(int itemId)
         {

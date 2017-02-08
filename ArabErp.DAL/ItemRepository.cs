@@ -40,6 +40,22 @@ namespace ArabErp.DAL
             }
 
         }
+
+          public List<Dropdown> FillPartNo(int Id)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                var param = new DynamicParameters();
+
+                //return connection.Query<Dropdown>("x",
+                // return connection.Query<Dropdown>("dbo.usp_MvcGetDayClosingDetails", param, commandType: CommandType.StoredProcedure).ToList();
+                return connection.Query<Dropdown>("select ItemId Id,PartNo Name from Item WHERE isActive=1 AND ItemSubGroupId=ISNULL(NULLIF(@ID,0),ItemSubGroupId)", new { ID = Id }).ToList();
+            }
+
+        }
+
+
+        
         public List<Dropdown> FillItemCategory()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))

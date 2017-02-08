@@ -30,6 +30,8 @@ namespace ArabErp.Web.Controllers
             cs.itmGrpId = 0;
             cs.itmSubGrpId = 0;
             cs.ItemId = 0;
+            cs.cboPartNo = 0;
+
             return View("Index", cs);
         }
         public void InitDropdown()

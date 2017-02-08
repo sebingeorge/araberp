@@ -60,10 +60,10 @@ namespace ArabErp.DAL
 
                 string sql = @"insert  into Customer(CustomerRefNo,CustomerName,CustomerPrintName,CategoryId,LeadSourceId,CurrencyId,
                                                      DoorNo,Street,State,Country,Zip,Phone,Fax,Email,ContactPerson,CreditPeriod,
-                                                     CreditLimit,CreatedBy,CreatedDate,OrganizationId) 
+                                                     CreditLimit,CreatedBy,CreatedDate,OrganizationId,approve) 
                                                      Values (@CustomerRefNo,@CustomerName,@CustomerPrintName,@CategoryId,@LeadSourceId,
                                                      @CurrencyId,@DoorNo,@Street,@State,@Country,@Zip,@Phone,@Fax,@Email,@ContactPerson,
-                                                     @CreditPeriod,@CreditLimit,@CreatedBy,@CreatedDate,@OrganizationId);
+                                                     @CreditPeriod,@CreditLimit,@CreatedBy,@CreatedDate,@OrganizationId,0);
                                                      SELECT CAST(SCOPE_IDENTITY() as int)";
 
                 try
