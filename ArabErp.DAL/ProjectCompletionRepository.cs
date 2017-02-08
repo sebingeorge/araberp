@@ -447,26 +447,45 @@ namespace ArabErp.DAL
                 try
                 {
                     string query = string.Empty;
+                    #region
+                    //old query
+                    //                    query = @"  
+//                              SELECT O.*,PC.*,SO.SaleOrderId, SO.SaleOrderRefNo,SO.SaleOrderDate,
+//                                        C.CustomerName,QS.ProjectName,'' Location,ISNULL(SQ.ProjectCompletionId,0)IsUsed,
+//                                        QI.RoomDetails,ExternalRoomDimension FreezerDimension,Refrigerant FreezerRefrigerant,
+//                                        ISNULL(QI.Quantity, 1) FreezerQuantity ,QI.QuerySheetItemId,US.UserName CreatedUser,US.[Signature] CreatedUsersig,
+//										DI.DesignationName CreatedDes,
+//                                        STUFF((SELECT ', ' + T2.ItemName FROM QuerySheetItemUnit T1
+//                                        LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
+//                                        WHERE T1.QuerySheetItemId = QI.QuerySheetItemId FOR XML PATH('')), 1, 2, '') FreezerCondensingUnit,
+//                                        STUFF((SELECT ', ' + T2.ItemName FROM QuerySheetItemUnit T1
+//                                        LEFT JOIN Item T2 ON T1.EvaporatorUnitId = T2.ItemId
+//                                        WHERE T1.QuerySheetItemId = QI.QuerySheetItemId FOR XML PATH('')), 1, 2, '') FreezerEvaporator,
+//                                        QI.TemperatureRequired FreezerTemperature
+//                                FROM ProjectCompletion PC
+//                                        INNER JOIN SaleOrder SO ON PC.SaleOrderId = SO.SaleOrderId
+//                                        INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
+//                                        INNER JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
+//                                        INNER JOIN QuerySheet QS ON SQ.QuerySheetId = QS.QuerySheetId 
+//                                        INNER JOIN QuerySheetItem QI ON QI.QuerySheetId=SQ.QuerySheetId
+//                                        INNER JOIN Organization O ON O.OrganizationId=PC.OrganizationId
+//                                        left  JOIN Country ORR ON ORR.CountryId=O.Country
+//										left join [User] US ON US.[UserId]=PC.CreatedBy
+//								        left join Designation DI ON DI.DesignationId=US.DesignationId
+                    //                                WHERE PC.ProjectCompletionId =@ProjectCompletionId";
+                    #endregion
+
 
                     query = @"  
-                              SELECT O.*,PC.*,SO.SaleOrderId, SO.SaleOrderRefNo,SO.SaleOrderDate,
+                               SELECT O.*,PC.*,SO.SaleOrderId, SO.SaleOrderRefNo,SO.SaleOrderDate,
                                         C.CustomerName,QS.ProjectName,'' Location,ISNULL(SQ.ProjectCompletionId,0)IsUsed,
-                                        QI.RoomDetails,ExternalRoomDimension FreezerDimension,Refrigerant FreezerRefrigerant,
-                                        ISNULL(QI.Quantity, 1) FreezerQuantity ,QI.QuerySheetItemId,US.UserName CreatedUser,US.[Signature] CreatedUsersig,
-										DI.DesignationName CreatedDes,
-                                        STUFF((SELECT ', ' + T2.ItemName FROM QuerySheetItemUnit T1
-                                        LEFT JOIN Item T2 ON T1.CondenserUnitId = T2.ItemId
-                                        WHERE T1.QuerySheetItemId = QI.QuerySheetItemId FOR XML PATH('')), 1, 2, '') FreezerCondensingUnit,
-                                        STUFF((SELECT ', ' + T2.ItemName FROM QuerySheetItemUnit T1
-                                        LEFT JOIN Item T2 ON T1.EvaporatorUnitId = T2.ItemId
-                                        WHERE T1.QuerySheetItemId = QI.QuerySheetItemId FOR XML PATH('')), 1, 2, '') FreezerEvaporator,
-                                        QI.TemperatureRequired FreezerTemperature
+                                        US.UserName CreatedUser,US.[Signature] CreatedUsersig,
+										DI.DesignationName CreatedDes
                                 FROM ProjectCompletion PC
                                         INNER JOIN SaleOrder SO ON PC.SaleOrderId = SO.SaleOrderId
                                         INNER JOIN Customer C ON SO.CustomerId = C.CustomerId
                                         INNER JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
                                         INNER JOIN QuerySheet QS ON SQ.QuerySheetId = QS.QuerySheetId 
-                                        INNER JOIN QuerySheetItem QI ON QI.QuerySheetId=SQ.QuerySheetId
                                         INNER JOIN Organization O ON O.OrganizationId=PC.OrganizationId
                                         left  JOIN Country ORR ON ORR.CountryId=O.Country
 										left join [User] US ON US.[UserId]=PC.CreatedBy
@@ -485,6 +504,63 @@ namespace ArabErp.DAL
             }
         }
 
+        public List<ProjectRoomAndUnitDetails> GetProjectCompletionDT(int ProjectCompletionId, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT distinct I.ItemId,I.ItemName FreezerCondensingUnit,SU.CondenserUnitId,SU.SaleOrderItemId, SO.SaleOrderId,
+												ISNULL(QI.Quantity, 1) FreezerQuantity,
+												STUFF((SELECT distinct ', ' + QSI.Refrigerant FROM QuerySheetItem QSI
+												INNER JOIN QuerySheet QS ON QS.QuerySheetId = QSI.QuerySheetId
+												INNER JOIN SalesQuotation SQ ON SQ.QuerySheetId=QS.QuerySheetId
+												INNER JOIN SaleOrder SO ON SO.SalesQuotationId=SQ.SalesQuotationId
+												WHERE SO.SaleOrderId=PC.SaleOrderId
+												FOR XML PATH('')), 1, 2, '')FreezerRefrigerant,
+												STUFF((SELECT distinct ', ' + IB.SerialNo FROM ItemBatch IB
+												INNER JOIN JobCard JC ON JC.SaleOrderItemId = IB.SaleOrderItemId
+												INNER JOIN OpeningStock O ON O.OpeningStockId=IB.OpeningStockId
+												INNER JOIN SaleOrderItemUnit SIU ON SIU.CondenserUnitId=O.ItemId
+												WHERE SIU.CondenserUnitId=SU.CondenserUnitId
+												FOR XML PATH('')), 1, 2, '') SerialNo,'Condensing' type
+												FROM projectCompletion PC 
+												INNER JOIN SaleOrder SO  ON SO.SaleOrderId=PC.SaleOrderId
+												INNER JOIN SaleOrderItem SI ON SI.SaleOrderId=SO.SaleOrderId
+												INNER JOIN SaleOrderItemUnit SU ON SU.SaleOrderItemId=SI.SaleOrderItemId
+												INNER jOIN Item I ON I.ItemId=SU.CondenserUnitId 
+												INNER JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
+												INNER JOIN QuerySheet Q ON Q.QuerySheetId=SQ.QuerySheetId
+												INNER JOIN QuerySheetItem QI ON QI.QuerySheetId=Q.QuerySheetId
+												WHERE PC.ProjectCompletionId=@ProjectCompletionId
+
+                                  UNION
+
+                             SELECT distinct I.ItemId,I.ItemName FreezerEvaporator,SU.CondenserUnitId,SU.SaleOrderItemId, SO.SaleOrderId,
+												ISNULL(QI.Quantity, 1) FreezerQuantity,
+												STUFF((SELECT distinct ', ' + QSI.Refrigerant FROM QuerySheetItem QSI
+												INNER JOIN QuerySheet QS ON QS.QuerySheetId = QSI.QuerySheetId
+												INNER JOIN SalesQuotation SQ ON SQ.QuerySheetId=QS.QuerySheetId
+												INNER JOIN SaleOrder SO ON SO.SalesQuotationId=SQ.SalesQuotationId
+												WHERE SO.SaleOrderId=PC.SaleOrderId
+												FOR XML PATH('')), 1, 2, '')Refrigerant,
+												STUFF((SELECT distinct ', ' + IB.SerialNo FROM ItemBatch IB
+												INNER JOIN JobCard JC ON JC.SaleOrderItemId = IB.SaleOrderItemId
+												INNER JOIN OpeningStock O ON O.OpeningStockId=IB.OpeningStockId
+												INNER JOIN SaleOrderItemUnit SIU ON SIU.EvaporatorUnitId=O.ItemId
+												WHERE SIU.EvaporatorUnitId=SU.EvaporatorUnitId
+												FOR XML PATH('')), 1, 2, '') SerialNo,'Evaporator' type
+												FROM projectCompletion PC 
+												INNER JOIN SaleOrder SO  ON SO.SaleOrderId=PC.SaleOrderId
+												INNER JOIN SaleOrderItem SI ON SI.SaleOrderId=SO.SaleOrderId
+												INNER JOIN SaleOrderItemUnit SU ON SU.SaleOrderItemId=SI.SaleOrderItemId
+												INNER jOIN Item I ON I.ItemId=SU.EvaporatorUnitId 
+												INNER JOIN SalesQuotation SQ ON SO.SalesQuotationId = SQ.SalesQuotationId
+												INNER JOIN QuerySheet Q ON Q.QuerySheetId=SQ.QuerySheetId
+												INNER JOIN QuerySheetItem QI ON QI.QuerySheetId=Q.QuerySheetId
+												WHERE PC.ProjectCompletionId=@ProjectCompletionId
+												order by type";
+                return connection.Query<ProjectRoomAndUnitDetails>(query, new { ProjectCompletionId = ProjectCompletionId, OrganizationId = OrganizationId }).ToList();
+            }
+        }
 
 
     }

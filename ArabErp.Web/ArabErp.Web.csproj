@@ -531,6 +531,12 @@
       <DependentUpon>ProformaInvoiceee.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\ProjectCommissioning.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProjectCommissioning.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\ProjectCompletion.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1587,6 +1593,10 @@
     <EmbeddedResource Include="Reports\ProformaInvoiceee.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>ProformaInvoiceee.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ProjectCommissioning.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ProjectCommissioning.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProjectCompletion.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

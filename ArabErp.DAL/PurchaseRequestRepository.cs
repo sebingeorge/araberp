@@ -382,7 +382,7 @@ namespace ArabErp.DAL
         }
 
 
-        public IList<PurchaseRequest> GetPurchaseRequest(int OrganizationId, int id, int cusid, DateTime? from, DateTime? to,int WR)
+        public IList<PurchaseRequest> GetPurchaseRequest(int OrganizationId, int id, int cusid, DateTime? from, DateTime? to,int WR,int MR)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -408,11 +408,12 @@ namespace ArabErp.DAL
                                     and P.PurchaseRequestId = ISNULL(NULLIF(@id, 0), P.PurchaseRequestId )
                                     and C.CustomerId = ISNULL(NULLIF(@cusid, 0), C.CustomerId)
                                     and WRK.WorkShopRequestId = ISNULL(NULLIF(@WR, 0),WRK.WorkShopRequestId)
+                                    and WRK.WorkShopRequestId = ISNULL(NULLIF(@MR, 0),WRK.WorkShopRequestId)
                                     and P.PurchaseRequestDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())  
                                     ORDER BY P.PurchaseRequestDate DESC, P.CreatedDate DESC;
                                     DROP TABLE #SUPPLY;";
 
-                return connection.Query<PurchaseRequest>(sql, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from,WR=WR }).ToList<PurchaseRequest>();
+                return connection.Query<PurchaseRequest>(sql, new { OrganizationId = OrganizationId, id = id, cusid = cusid, to = to, from = from,WR=WR,MR=MR }).ToList<PurchaseRequest>();
             }
         }
 

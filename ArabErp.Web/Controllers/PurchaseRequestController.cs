@@ -24,12 +24,13 @@ namespace ArabErp.Web.Controllers
             FillPRRefNo();
             FillPRCustomer();
             FillWRRefNo();
+            FillMRRefNo();
             return View();
         }
 
-        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int cusid = 0,int WR=0)
+        public ActionResult PreviousList(DateTime? from, DateTime? to, int id = 0, int cusid = 0,int WR=0,int MR=0)
         {
-            return PartialView("_PreviousList", new PurchaseRequestRepository().GetPurchaseRequest(OrganizationId: OrganizationId, id: id, cusid: cusid, from: from, to: to,WR:WR));
+            return PartialView("_PreviousList", new PurchaseRequestRepository().GetPurchaseRequest(OrganizationId: OrganizationId, id: id, cusid: cusid, from: from, to: to,WR:WR,MR:MR));
         }
 
         public ActionResult Pending()
@@ -274,6 +275,10 @@ namespace ArabErp.Web.Controllers
         public void FillWRRefNo()
         {
             ViewBag.WRNoList = new SelectList(new DropdownRepository().WRRefNoDropdown(), "Id", "Name");
+        }
+        public void FillMRRefNo()
+        {
+            ViewBag.MRNoList = new SelectList(new DropdownRepository().MRRefNoDropdown(), "Id", "Name");
         }
         public void FillPRCustomer()
         {
