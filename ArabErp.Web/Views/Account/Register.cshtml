@@ -48,6 +48,10 @@
             LoadForms();
         });
 
+        $(".numbers-only").keypress(function (e) {
+            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
+        });
+
     })
 
     function LoadForms() {
@@ -123,6 +127,7 @@
                         <li class=""><a data-toggle="tab" href="#menu1" aria-expanded="false">Alert Permissions</a></li>
                         <li class=""><a data-toggle="tab" href="#menu2" aria-expanded="false">Graph Permissions</a></li>
                         <li class=""><a data-toggle="tab" href="#menu3" aria-expanded="false">Company Wise Permissions</a></li>
+                        <li class=""><a data-toggle="tab" href="#menu6" aria-expanded="false">Approve Amount Permissions</a></li>
                         <li class=""><a data-toggle="tab" href="#menu4" aria-expanded="false">Signature</a></li>
                         <li class="" style="display:none"><a data-toggle="tab" href="#menu5" aria-expanded="false">Form Permissions</a></li>
                     </ul>
@@ -256,6 +261,18 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div id="menu6" class="tab-pane fade ">
+                            <br />
+                            <div class="row form-group">
+                                <div class="col-md-2">
+                                    <label for="Amount">Amount Upto</label>
+                                    @Html.TextBoxFor(m => m.Amount, new { @class = "form_input numbers-only" })
+                                </div>
+                               
+                            </div>
+                        </div>
+
                         <div id="menu4" class="tab-pane fade ">
                             @*<h5>Signature</h5>*@
                             <br />

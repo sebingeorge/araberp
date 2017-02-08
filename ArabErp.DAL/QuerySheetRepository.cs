@@ -349,7 +349,9 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = String.Format(@"select * from QuerySheet where Type='RoomDetails'");
+                string sql = String.Format(@"SELECT *,U.UserName FROM QuerySheet QS
+                                             INNER JOIN [User] U ON U.UserId=QS.CreatedBy
+                                             WHERE Type='RoomDetails'");
 
 
                 var objQuerySheet = connection.Query<QuerySheet>(sql).ToList<QuerySheet>();
@@ -361,7 +363,9 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = String.Format(@"select * from QuerySheet where Type='Unit'");
+                string sql = String.Format(@"SELECT *,U.UserName FROM QuerySheet QS
+                                             INNER JOIN [User] U ON U.UserId=QS.CreatedBy
+                                             WHERE Type='Unit'");
 
 
                 var objQuerySheet = connection.Query<QuerySheet>(sql).ToList<QuerySheet>();

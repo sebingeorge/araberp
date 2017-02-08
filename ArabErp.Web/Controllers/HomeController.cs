@@ -112,7 +112,7 @@ namespace ArabErp.Web.Controllers
             }
             if (view.PendingDirectPurchaseRequests)
             {
-                var res = new DirectPurchaseRepository().GetUnApprovedRequests();
+                var res = new DirectPurchaseRepository().GetUnApprovedRequests(UserID);
                 view.NoOfPurchaseRequests = res.Count;
             }
             if (view.PendingWorkshopRequests)

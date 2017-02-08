@@ -103,7 +103,7 @@ namespace ArabErp.Web.Controllers
         }
         public ActionResult Approval()
         {
-            return View(new DirectPurchaseRepository().GetUnApprovedRequests());
+            return View(new DirectPurchaseRepository().GetUnApprovedRequests(UserID));
         }
 
         public ActionResult Approve(int id = 0)

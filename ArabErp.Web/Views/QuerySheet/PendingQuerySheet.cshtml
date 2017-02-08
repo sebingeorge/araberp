@@ -54,6 +54,7 @@
                             <th width="15%"><h1>Date</h1></th>
                             <th width="15%"><h1>Project Name</h1></th>
                             <th width="10%"><h1>Contact Person</h1></th>
+                            <th width="10%"><h1>Created By</h1></th>
                             <th width="10%"><center><h1></h1></center></th>
                         </tr>
                     </thead>
@@ -68,6 +69,7 @@
                                     <td class="grid-cell">@item.QuerySheetDate.ToString("dd/MMM/yyyy")</td>
                                     <td class="grid-cell">@item.ProjectName</td>
                                     <td class="grid-cell">@item.ContactPerson</td>
+                                    <td class="grid-cell">@item.UserName</td>
                                     <td><center>@Html.ActionLink("Select", "CreateQuerySheetUnit", "QuerySheet", new { QuerySheetid = @item.QuerySheetId, type = ViewBag.Type }, new { @class = "form-button5", @style = "text-align:center" })</center></td>
                                 </tr>
 
