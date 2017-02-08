@@ -158,14 +158,129 @@ namespace ArabErp.Web.Controllers
 
         }
 
+        //public ActionResult ProjectCompletionReport(int Id)
+        //{
+
+        //    ReportDocument rd = new ReportDocument();
+        //    rd.Load(Path.Combine(Server.MapPath("~/Reports"), "ProjectCompletion.rpt"));
+
+        //    DataSet ds = new DataSet();
+        //    ds.Tables.Add("Head");
+
+        //    //-------HEAD
+        //    ds.Tables["Head"].Columns.Add("ProjectCompletionRefNo");
+        //    ds.Tables["Head"].Columns.Add("ProjectCompletionDate");
+        //    ds.Tables["Head"].Columns.Add("ProjectName");
+        //    ds.Tables["Head"].Columns.Add("SaleOrderRefNo");
+        //    ds.Tables["Head"].Columns.Add("SaleOrderDate");
+        //    ds.Tables["Head"].Columns.Add("CustomerName");
+
+        //    ds.Tables["Head"].Columns.Add("ChillerTemperature");
+        //    ds.Tables["Head"].Columns.Add("ChillerDimension");
+        //    ds.Tables["Head"].Columns.Add("ChillerCondensingUnit");
+        //    ds.Tables["Head"].Columns.Add("ChillerEvaporator");
+        //    ds.Tables["Head"].Columns.Add("ChillerRefrigerant");
+        //    ds.Tables["Head"].Columns.Add("ChillerQuantity");
+
+        //    ds.Tables["Head"].Columns.Add("RoomDetails");
+        //    ds.Tables["Head"].Columns.Add("FreezerTemperature");
+        //    ds.Tables["Head"].Columns.Add("FreezerDimension");
+        //    ds.Tables["Head"].Columns.Add("FreezerCondensingUnit");
+        //    ds.Tables["Head"].Columns.Add("FreezerEvaporator");
+        //    ds.Tables["Head"].Columns.Add("FreezerRefrigerant");
+        //    ds.Tables["Head"].Columns.Add("FreezerQuantity");
+          
+        //    //Organization
+        //    ds.Tables["Head"].Columns.Add("DoorNo");
+        //    ds.Tables["Head"].Columns.Add("Street");
+        //    ds.Tables["Head"].Columns.Add("State");
+        //    ds.Tables["Head"].Columns.Add("Country");
+        //    ds.Tables["Head"].Columns.Add("Phone");
+        //    ds.Tables["Head"].Columns.Add("Fax");
+        //    ds.Tables["Head"].Columns.Add("Email");
+        //    ds.Tables["Head"].Columns.Add("ContactPerson");
+        //    ds.Tables["Head"].Columns.Add("Zip");
+        //    ds.Tables["Head"].Columns.Add("OrganizationName");
+        //    ds.Tables["Head"].Columns.Add("Image1");
+        //    ds.Tables["Head"].Columns.Add("CreatedUser");
+        //    ds.Tables["Head"].Columns.Add("CreateSignature");
+        //    ds.Tables["Head"].Columns.Add("CreatedDes");
+        //    ds.Tables["Head"].Columns.Add("SerialNo");
+
+        //    ProjectCompletionRepository repo = new ProjectCompletionRepository();
+        //    var Head = repo.GetProjectCompletionHD(Id, OrganizationId);
+
+        //    DataRow dr = ds.Tables["Head"].NewRow();
+        //    dr["ProjectCompletionRefNo"] = Head.ProjectCompletionRefNo;
+        //    dr["ProjectCompletionDate"] = Head.ProjectCompletionDate.ToString("dd-MMM-yyyy");
+        //    dr["ProjectName"] = Head.ProjectName;
+        //    dr["SaleOrderRefNo"] = Head.SaleOrderRefNo;
+        //    dr["SaleOrderDate"] = Head.SaleOrderDate;
+        //    dr["CustomerName"] = Head.CustomerName;
+
+        //    dr["ChillerTemperature"] = Head.ChillerTemperature;
+        //    dr["ChillerDimension"] = Head.ChillerDimension;
+        //    dr["ChillerCondensingUnit"] = Head.ChillerDimension;
+        //    dr["ChillerEvaporator"] = Head.ChillerEvaporator;
+        //    dr["ChillerRefrigerant"] = Head.ChillerRefrigerant;
+        //    dr["ChillerQuantity"] = Head.ChillerQuantity;
+
+        //    dr["RoomDetails"] = Head.RoomDetails;
+        //    dr["FreezerTemperature"] = Head.FreezerTemperature;
+        //    dr["FreezerDimension"] = Head.FreezerDimension;
+        //    dr["FreezerCondensingUnit"] = Head.FreezerCondensingUnit;
+        //    dr["FreezerEvaporator"] = Head.FreezerEvaporator;
+        //    dr["FreezerRefrigerant"] = Head.FreezerRefrigerant;
+        //    dr["FreezerQuantity"] = Head.FreezerQuantity;
+
+        //    dr["DoorNo"] = Head.DoorNo;
+        //    dr["Street"] = Head.Street;
+        //    dr["State"] = Head.State;
+        //    dr["Country"] = Head.CountryName;
+        //    dr["Phone"] = Head.Phone;
+        //    dr["Fax"] = Head.Fax;
+        //    dr["Email"] = Head.Email;
+        //    dr["ContactPerson"] = Head.ContactPerson;
+        //    dr["Zip"] = Head.Zip;
+        //    dr["OrganizationName"] = Head.OrganizationName;
+        //    dr["Image1"] = Server.MapPath("~/App_images/") + Head.Image1;
+        //    dr["CreatedUser"] = Head.CreatedUser;
+        //    dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
+        //    dr["CreatedDes"] = Head.CreatedDes;
+        //    dr["SerialNo"] = Head.CreatedDes;
+        //    ds.Tables["Head"].Rows.Add(dr);
+
+
+        //    ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "ProjectCompletion.xml"), XmlWriteMode.WriteSchema);
+
+        //    rd.SetDataSource(ds);
+
+        //    Response.Buffer = false;
+        //    Response.ClearContent();
+        //    Response.ClearHeaders();
+
+
+        //    try
+        //    {
+        //        Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+        //        stream.Seek(0, SeekOrigin.Begin);
+        //        return File(stream, "application/pdf");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw;
+        //    }
+        //}
+
         public ActionResult ProjectCompletionReport(int Id)
         {
 
             ReportDocument rd = new ReportDocument();
-            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "ProjectCompletion.rpt"));
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "ProjectCommissioning.rpt"));
 
             DataSet ds = new DataSet();
             ds.Tables.Add("Head");
+            ds.Tables.Add("Item");
 
             //-------HEAD
             ds.Tables["Head"].Columns.Add("ProjectCompletionRefNo");
@@ -182,14 +297,7 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("ChillerRefrigerant");
             ds.Tables["Head"].Columns.Add("ChillerQuantity");
 
-            ds.Tables["Head"].Columns.Add("RoomDetails");
-            ds.Tables["Head"].Columns.Add("FreezerTemperature");
-            ds.Tables["Head"].Columns.Add("FreezerDimension");
-            ds.Tables["Head"].Columns.Add("FreezerCondensingUnit");
-            ds.Tables["Head"].Columns.Add("FreezerEvaporator");
-            ds.Tables["Head"].Columns.Add("FreezerRefrigerant");
-            ds.Tables["Head"].Columns.Add("FreezerQuantity");
-          
+           
             //Organization
             ds.Tables["Head"].Columns.Add("DoorNo");
             ds.Tables["Head"].Columns.Add("Street");
@@ -205,6 +313,18 @@ namespace ArabErp.Web.Controllers
             ds.Tables["Head"].Columns.Add("CreatedUser");
             ds.Tables["Head"].Columns.Add("CreateSignature");
             ds.Tables["Head"].Columns.Add("CreatedDes");
+         
+            //-------DT
+            ds.Tables["Item"].Columns.Add("RoomDetails");
+            ds.Tables["Item"].Columns.Add("FreezerTemperature");
+            ds.Tables["Item"].Columns.Add("FreezerDimension");
+            ds.Tables["Item"].Columns.Add("FreezerCondensingUnit");
+            ds.Tables["Item"].Columns.Add("FreezerEvaporator");
+            ds.Tables["Item"].Columns.Add("FreezerRefrigerant");
+            ds.Tables["Item"].Columns.Add("FreezerQuantity");
+            ds.Tables["Item"].Columns.Add("SerialNo");
+
+
             ProjectCompletionRepository repo = new ProjectCompletionRepository();
             var Head = repo.GetProjectCompletionHD(Id, OrganizationId);
 
@@ -223,14 +343,6 @@ namespace ArabErp.Web.Controllers
             dr["ChillerRefrigerant"] = Head.ChillerRefrigerant;
             dr["ChillerQuantity"] = Head.ChillerQuantity;
 
-            dr["RoomDetails"] = Head.RoomDetails;
-            dr["FreezerTemperature"] = Head.FreezerTemperature;
-            dr["FreezerDimension"] = Head.FreezerDimension;
-            dr["FreezerCondensingUnit"] = Head.FreezerCondensingUnit;
-            dr["FreezerEvaporator"] = Head.FreezerEvaporator;
-            dr["FreezerRefrigerant"] = Head.FreezerRefrigerant;
-            dr["FreezerQuantity"] = Head.FreezerQuantity;
-
             dr["DoorNo"] = Head.DoorNo;
             dr["Street"] = Head.Street;
             dr["State"] = Head.State;
@@ -245,10 +357,26 @@ namespace ArabErp.Web.Controllers
             dr["CreatedUser"] = Head.CreatedUser;
             dr["CreateSignature"] = Server.MapPath("~/App_Images/") + Head.CreatedUsersig;
             dr["CreatedDes"] = Head.CreatedDes;
-            ds.Tables["Head"].Rows.Add(dr);
+             ds.Tables["Head"].Rows.Add(dr);
 
-
-            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "ProjectCompletion.xml"), XmlWriteMode.WriteSchema);
+            ProjectCompletionRepository repo1 = new ProjectCompletionRepository();
+            var Items = repo1.GetProjectCompletionDT(Id, OrganizationId);
+           
+             foreach (var item in Items)
+            {
+                DataRow dri = ds.Tables["Item"].NewRow();
+                dri["RoomDetails"] = item.RoomDetails;
+                dri["FreezerTemperature"] = item.FreezerTemperature;
+                dri["FreezerDimension"] = item.FreezerDimension;
+                dri["FreezerCondensingUnit"] = item.FreezerCondensingUnit;
+                dri["FreezerEvaporator"] = item.FreezerEvaporator;
+                dri["FreezerRefrigerant"] = item.FreezerRefrigerant;
+                dri["FreezerQuantity"] = item.FreezerQuantity;
+                dri["SerialNo"] = item.SerialNo;
+                ds.Tables["Item"].Rows.Add(dri);
+            }
+             
+            ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "ProjectCommissioning.xml"), XmlWriteMode.WriteSchema);
 
             rd.SetDataSource(ds);
 

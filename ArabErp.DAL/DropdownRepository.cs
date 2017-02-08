@@ -905,9 +905,16 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("select WorkShopRequestId Id,WorkShopRequestRefNo Name from WorkShopRequest ").ToList();
+                return connection.Query<Dropdown>("	select P.WorkShopRequestId Id,w.WorkShopRequestRefNo Name from PurchaseRequest P Left join WorkShopRequest W ON P.WorkShopRequestId=W.WorkShopRequestId Left join saleorder S ON S.SaleOrderId=W.SaleOrderId where S.isProjectBased=0 and P.isActive=1 ").ToList();
             }
         }
+            public List<Dropdown> MRRefNoDropdown()
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    return connection.Query<Dropdown>("select P.WorkShopRequestId Id,w.WorkShopRequestRefNo Name from PurchaseRequest P Left join WorkShopRequest W ON P.WorkShopRequestId=W.WorkShopRequestId Left join saleorder S ON S.SaleOrderId=W.SaleOrderId where S.isProjectBased=1 ").ToList();
+                }
+            }
         public List<Dropdown> PurchaseReqCustomerDropdown()
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
