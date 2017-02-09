@@ -47,7 +47,11 @@
                if (Model.PendingJobcardQC && alertPermissions.PendingJobcardQC)
                {
                    total += Model.NoOfJobcardQC;
-           }
+               }
+               if (Model.PendingMaterialReqPRS && alertPermissions.PendingMaterialReqPRS)
+               {
+                   total += Model.NoOfPendingMaterialReqPRS;
+               }
            }
 <ul class="nav navbar-nav">
     <li class="top6"> 
@@ -138,6 +142,13 @@
                         Pending JC for Delivery Note 
                     </a>
                 </li>
+            }
+            @if (Model.PendingMaterialReqPRS && alertPermissions.PendingMaterialReqPRS == true)
+            {
+                <li><a href="@Url.Action("Pending", "PurchaseRequest")" class="form_input">
+                    <span class="badge pull-right">
+                    @Model.NoOfPendingMaterialReqPRS
+                    </span>Pending Material Request For PRS</a></li>
             }
         </ul>
     </li>

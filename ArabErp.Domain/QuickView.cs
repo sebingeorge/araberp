@@ -30,6 +30,8 @@ namespace ArabErp.Domain
         public int NoOfWRForStoreIssue { get; set; }
         public bool PendingJobcardQC { get; set; }
         public int NoOfJobcardQC { get; set; }
+        public bool PendingMaterialReqPRS { get; set; }
+        public int NoOfPendingMaterialReqPRS { get; set; }
 
 
     }

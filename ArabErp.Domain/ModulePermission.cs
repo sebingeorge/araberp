@@ -30,6 +30,7 @@ namespace ArabErp.Domain
         public bool PendingVechicleInpass { get; set; }
         public bool PendingWRForStoreIssue { get; set; }
         public bool PendingJobcardQC { get; set; }
+        public bool PendingMaterialReqPRS { get; set; }
     }
     public class GraphPermission
     {
