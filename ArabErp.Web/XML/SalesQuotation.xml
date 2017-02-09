@@ -59,17 +59,19 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <QuotationRefNo>AARC/SQ/P/17/3</QuotationRefNo>
-    <QuotationDate>24-Jan-2017</QuotationDate>
-    <CustomerName>Abdul Asiz Trading Est</CustomerName>
-    <CustomerAddress>Salwa road, Doha -QatarDohaDoha</CustomerAddress>
-    <ContactPerson>-</ContactPerson>
-    <SalesExecutive>Anavarool Islam Ajimullah Ansari</SalesExecutive>
-    <PredictedClosingDate>24-Jan-2017 12:00:00 AM</PredictedClosingDate>
-    <QuotationValidToDate>24-Jan-2017</QuotationValidToDate>
-    <ExpectedDeliveryDate>24-Jan-2017 12:00:00 AM</ExpectedDeliveryDate>
+    <QuotationRefNo>AARC/SQ/P/17/11</QuotationRefNo>
+    <QuotationDate>08-Feb-2017</QuotationDate>
+    <CustomerName>Al Danah Trading &amp; Contracting Co.</CustomerName>
+    <CustomerAddress>Doha- QatarUAE</CustomerAddress>
+    <ContactPerson>0</ContactPerson>
+    <SalesExecutive>Aung Tun Oo</SalesExecutive>
+    <PredictedClosingDate>08-Feb-2017 12:00:00 AM</PredictedClosingDate>
+    <QuotationValidToDate>08-Feb-2017</QuotationValidToDate>
+    <ExpectedDeliveryDate>08-Feb-2017 12:00:00 AM</ExpectedDeliveryDate>
+    <Remarks>dsfdsssss</Remarks>
+    <PaymentTerms>gggggggggg</PaymentTerms>
     <SalesQuotationStatusName>Won</SalesQuotationStatusName>
-    <QuotationStage>2</QuotationStage>
+    <QuotationStage>4</QuotationStage>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -81,8 +83,8 @@
     <CurrencyName>QAR</CurrencyName>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <Designation>Asst.Sales Manager</Designation>
-    <Image1>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <Image1>E:\Asha\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
     <UserName>ihits</UserName>
-    <Sign>E:\ARAB\New folder\ArabErp\ArabErp.Web\App_images\</Sign>
+    <Sign>E:\Asha\ArabErp\ArabErp.Web\App_images\7301a3c4-7139-4adf-9dee-1e82b6066ae6.jpg</Sign>
   </Head>
 </NewDataSet>

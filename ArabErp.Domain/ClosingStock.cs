@@ -24,6 +24,7 @@ namespace ArabErp.Domain
       public string PartNo { get; set; }
       public int itmGrpId { get; set; }
       public int itmSubGrpId { get; set; }
+      public int cboPartNo { get; set; }
       public decimal AverageRate { get; set; }
       
     }

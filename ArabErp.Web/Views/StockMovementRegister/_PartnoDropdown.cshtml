@@ -1,0 +1,4 @@
+﻿
+@model ArabErp.Domain.ClosingStock
+@Html.DropDownListFor(m => Model.cboPartNo, (SelectList)ViewBag.Partnolist, "Any", new { @class = "form_input", @onchange = "Filter()" })
+@Html.HiddenFor(m => Model.cboPartNo)

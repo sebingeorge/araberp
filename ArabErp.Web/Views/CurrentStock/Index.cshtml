@@ -25,7 +25,6 @@
 
     }*@
     function Filter() {
-       
         $("#Current_stock").addClass("fade");
         var stkid = $("#cboStockpoint").val();
         var itmcatid = $("#ItemCategoryId").val();
@@ -213,14 +212,17 @@
             </div>
 
             <div class="col-md-2">
-                <label for="cboPart no">Part No.</label>
+                <label for="cboPartno">Part No.</label>
                 <div>
-                    @Html.DropDownList("cboPartNo", (SelectList)ViewBag.partNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
-                    @Html.HiddenFor(m => Model.ItemId)
-                </div>
+                    <div id="DivPartNo">
+                        @*@Html.DropDownList("cboPartNo", (SelectList)ViewBag.partNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
+            @Html.HiddenFor(m => Model.ItemId)*@
+                        @Html.Action("PartNo", "StockMovementRegister", new { Code = Model.itmSubGrpId })
+
+                    </div>
             </div>
         </div>
-      
+            <br />
         <br />
         <div class="row">
             <div class="main-grid main-grid-top scroll1">

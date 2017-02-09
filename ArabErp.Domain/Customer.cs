@@ -35,6 +35,7 @@ namespace ArabErp.Domain
         public string CountryName { get; set; }
         public int? CreditPeriod { get; set; }
         public decimal? CreditLimit { get; set; }
+        public int approve { get; set; }
        
     }
    public enum CategoryId
