@@ -1446,6 +1446,8 @@
     <Content Include="Views\ProjectStatusReport\Index.cshtml" />
     <Content Include="Views\StockMovementRegister\_PartnoDropdown.cshtml" />
     <Content Include="Views\SupplyOrder\PendingSOSettlement.cshtml" />
+    <Content Include="Views\SupplyOrder\Settle.cshtml" />
+    <Content Include="Views\SupplyOrder\PendingSOSettle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

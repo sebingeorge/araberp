@@ -1,0 +1,114 @@
+﻿@model ArabErp.Domain.SupplyOrderPreviousList
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Settle Supply Order / LPO";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#disabled-div').find('input[type="text"]').attr('readonly', 'readonly');
+        $('#disabled-div').find('input[type="combo"], select').attr('disabled', 'disabled');
+        calculateSummary();
+
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+    })
+
+
+    function Back() {
+        var url = '@Url.Action("PendingSOSettle")';
+        window.location = url;
+    }
+
+</script>
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Supply Order / LPO-Settlement</h4>
+    </div>
+    <div class="main-part pad1" id="disabled-div">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "createFrom", @id = "supplyorder_form" }))
+        {
+           @Html.HiddenFor(m => m.SupplyOrderItemId)
+         
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="SupplyOrderNo">LPO.No.</label>
+                    @Html.TextBoxFor(m => m.SupplyOrderNo, new { @class = "form_input", @readonly = "true" })
+                </div>
+                <div class="col-md-2">
+                    <label for="SupplyOrderDate">Date</label>
+                    @Html.TextBoxFor(m => m.SupplyOrderDate, Model.SupplyOrderDate.ToString("dd/MMMM/yyyy"), new { @class = "form_input ", autocomplete = "off", @required = "true" })
+                </div>
+
+            </div>
+            
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label for="SupplierId">Supplier</label>
+                    @Html.DropDownListFor(m => Model.SupplierId, (SelectList)ViewBag.SupplierList, "Select Supplier", new { @class = "form_input", autocomplete = "off", @required = "true" })
+                </div>
+            </div>
+            
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label for="ItemName">Material/Spares</label>
+                    @Html.TextBoxFor(m => m.ItemName, new { @class = "form_input" })
+                </div>
+
+                <div class="col-md-2">
+                    <label for="PartNo">Part No.</label>
+                    @Html.TextBoxFor(m => m.PartNo, new { @class = "form_input" })
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label for="SuppliedQuantity">SO Qty</label>
+                    @Html.TextBoxFor(m => m.SuppliedQuantity, new { @class = "form_input" })
+                </div>
+                <div class="col-md-2">
+                    <label for="GRNQty">GRN Qty</label>
+                    @Html.TextBoxFor(m => m.GRNQty, new { @class = "form_input" })
+                </div>
+                <div class="col-md-2">
+                    <label for="BalanceQuantity">Settle Qty</label>
+                    @Html.TextBoxFor(m => m.BalanceQuantity, new { @class = "form_input" })
+                </div>
+            </div>
+            
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <label for="SupplierId">Settled Reason</label>
+                    @Html.TextAreaFor(m => m.SettledReason, new { @class = "form_input" })
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button right" value="Exit" onclick="Back()" />
+                    <button type="submit" class="form-button right">Settle</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+

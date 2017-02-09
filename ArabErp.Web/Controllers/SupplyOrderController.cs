@@ -456,7 +456,7 @@ namespace ArabErp.Web.Controllers
             dr["CreatedDes"] = Head.CreatedDes;
             dr["ApproveDes"] = Head.ApprovedDes;
             dr["CountryName"] = Head.CountryName;
-           // dr["CurrencyName"] = Head.CurrencyName;
+            // dr["CurrencyName"] = Head.CurrencyName;
 
             dr["DoorNo"] = Head.DoorNo;
             dr["Street"] = Head.Street;
@@ -490,7 +490,7 @@ namespace ArabErp.Web.Controllers
                 var pritem = new SupplyOrderItem
                 {
                     PRNODATE = item.PRNODATE,
-                    PartNo=item.PartNo,
+                    PartNo = item.PartNo,
                     ItemName = item.ItemName,
                     BalQty = item.BalQty,
                     OrderedQty = item.OrderedQty,
@@ -499,7 +499,7 @@ namespace ArabErp.Web.Controllers
                     Amount = item.Amount,
                     ItemRefNo = item.ItemRefNo,
                     UnitName = item.UnitName,
-                    Description=item.Description
+                    Description = item.Description
 
 
                 };
@@ -577,21 +577,22 @@ namespace ArabErp.Web.Controllers
             return RedirectToAction("ApprovalCancellation");
         }
 
-        public ActionResult PendingSOSettlement()
+        public ActionResult PendingSOSettle()
         {
-
-            return View(new SupplyOrderRepository().GetPendingSOSettlement());
+            return View();
         }
-
+        public PartialViewResult PendingSOSettlement(string Supplier = "", string LPO = "", string Item = "", string PartNo = "")
+        {
+            return PartialView(new SupplyOrderRepository().GetPendingSOSettlement(Supplier, LPO, Item, PartNo));
+        }
         public ActionResult Settle(int id = 0)
         {
             try
             {
                 if (id != 0)
                 {
-                    SupplyOrder supplyorder = new SupplyOrder();
-                    supplyorder = new SupplyOrderRepository().GetSupplyOrder(id);
-                    supplyorder.SupplyOrderItems = new SupplyOrderItemRepository().GetSupplyOrderItems(id);
+                    SupplyOrderPreviousList supplyorder = new SupplyOrderPreviousList();
+                    supplyorder = new SupplyOrderRepository().GetSOSettlement(id);
                     FillDropdowns();
                     return View(supplyorder);
                 }
@@ -619,24 +620,35 @@ namespace ArabErp.Web.Controllers
             }
 
             TempData["success"] = "";
-            return RedirectToAction("PendingApproval");
+            return RedirectToAction("PendingSOSettle");
         }
         [HttpPost]
-        public ActionResult Settle(SupplyOrder model)
+        public ActionResult Settle(SupplyOrderPreviousList model)
         {
-            int id = new SupplyOrderRepository().Approve(model.SupplyOrderId, UserID);
-            if (id > 0)
+            model.SettledDate = System.DateTime.Now;
+            model.SettledBy = UserID.ToString();
+            try
             {
-                TempData["success"] = "Approved successfully";
+                string id = new SupplyOrderRepository().SOSettlement(model);
+
+                TempData["success"] = "Settled successfully. Supply Order LPO.No. is " + id;
                 TempData["error"] = "";
-                return RedirectToAction("PendingApproval");
+                return RedirectToAction("PendingSOSettle");
             }
-            else
+
+            catch (SqlException sx)
             {
-                TempData["success"] = "";
-                TempData["error"] = "Some error occured while approving the order. Please try again.";
-                return View(model);
+                TempData["error"] = "Some error occured while connecting to database. Please check your network connection and try again.|" + sx.Message;
             }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+            return View("Settle", model.SupplyOrderItemId);
         }
     }
 }

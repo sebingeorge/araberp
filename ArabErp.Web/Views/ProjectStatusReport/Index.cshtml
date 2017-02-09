@@ -12,7 +12,7 @@
     function GoToPrint() {
       
         var id = $("#cboJCNo").val();
-        alert(id);
+        //alert(id);
         var url = '@Url.Action("ProjectStatusReport")';
         url += "?id=" + id;
         window.open(url);

@@ -462,7 +462,7 @@ namespace ArabErp.DAL
                     SO.CreatedDate,SO.SupplyOrderNo,QuotaionNoAndDate,RequiredDate,SO.SpecialRemarks,S.SupplierId,
                     S.SupplierName,SO.SupplyOrderId
                     HAVING round((sum(SOI.OrderedQty) - (select isnull(sum(GI.Quantity),0) from GRNItem GI
-                    where SOI.SupplyOrderItemId = GI.SupplyOrderItemId)),2)>0
+                    where SOI.SupplyOrderItemId = GI.SupplyOrderItemId)),2)-Sum(isnull(SOI.SettledQty,0))>0
                     ORDER BY SO.RequiredDate, SO.SupplyOrderDate DESC";
 
                     return connection.Query<PendingForGRN>(qry, new { Supplier = Supplier, LPO = LPO });
