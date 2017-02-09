@@ -417,7 +417,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = @"SELECT  SO.SupplyOrderId,SO.SupplyOrderNo,SO.SupplyOrderDate,S.SupplierName,
+                string query = @"SELECT  SO.SupplyOrderId,SOI.SupplyOrderItemId,SO.SupplyOrderNo,SO.SupplyOrderDate,S.SupplierName,
                                 I.ItemName,I.PartNo,Sum(isnull(SOI.OrderedQty,0)) SuppliedQuantity,Sum(isnull(GI.ReceivedQty,0))GRNQty,
                                 (Sum(isnull(SOI.OrderedQty,0)) -Sum(isnull(GI.ReceivedQty,0)))BalanceQuantity
                                 FROM SupplyOrder SO
@@ -426,7 +426,7 @@ namespace ArabErp.DAL
                                 INNER JOIN PurchaseRequestItem PI ON PI.PurchaseRequestItemId=SOI.PurchaseRequestItemId
                                 INNER JOIN Item I ON I.ItemId=PI.ItemId
                                 LEFT JOIN GRNItem GI ON GI.SupplyOrderItemId=SOI.SupplyOrderItemId AND GI.ItemId=I.ItemId
-                                GROUP BY SO.SupplyOrderId,SO.SupplyOrderNo,SO.SupplyOrderDate,S.SupplierName,
+                                GROUP BY SO.SupplyOrderId,SOI.SupplyOrderItemId,SO.SupplyOrderNo,SO.SupplyOrderDate,S.SupplierName,
                                 I.ItemName,I.PartNo
                                 HAVING (Sum(isnull(SOI.OrderedQty,0)) -Sum(isnull(GI.ReceivedQty,0)))>0
                                 ORDER BY SO.SupplyOrderId DESC,I.ItemName ASC";

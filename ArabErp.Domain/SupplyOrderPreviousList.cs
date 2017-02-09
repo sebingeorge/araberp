@@ -9,6 +9,7 @@ namespace ArabErp.Domain
     public class SupplyOrderPreviousList
     {
         public int SupplyOrderId { get; set; }
+        public int SupplyOrderItemId { get; set; }
         public string SupplyOrderNo { get; set; }
         public string SupplierName { get; set; }
         public string QuotationNoAndDate { get; set; }
