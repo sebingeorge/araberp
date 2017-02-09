@@ -17,5 +17,8 @@ namespace ArabErp.Domain
         public int SuppliedQuantity { get; set; }
         public int BalanceQuantity { get; set; }
         public decimal Amount { get; set; }
+        public string ItemName { get; set; }
+        public string PartNo { get; set; }
+        public int GRNQty { get; set; }
     }
 }

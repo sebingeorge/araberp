@@ -28,9 +28,6 @@ namespace ArabErp.Web.Controllers
         {
             return PartialView("_PreviousList", new SupplyOrderRepository().GetPreviousList(OrganizationId: OrganizationId, id: id, supid: supid, from: from, to: to));
         }
-
-
-
         public ActionResult Create(IList<PendingPurchaseRequest> PendingPurchaseRequestItemsSelected)
         {
             FillDropdowns();
@@ -578,6 +575,12 @@ namespace ArabErp.Web.Controllers
             new SupplyOrderRepository().Approvalcancel(id);
             TempData["success"] = "Approval cancelled successfully";
             return RedirectToAction("ApprovalCancellation");
+        }
+
+        public ActionResult PendingSOSettlement()
+        {
+
+            return View(new SupplyOrderRepository().GetPendingSOSettlement());
         }
     }
 }
