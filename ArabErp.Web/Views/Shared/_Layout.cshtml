@@ -919,6 +919,10 @@
                                 {
                                     <li><a href="@Url.Action("Create","Consumption")">Consumption</a></li>
                                 }
+                                @if (formPermission.Find(x => x.FormId == 162) != null)
+                                {
+                                    <li><a href="@Url.Action("PendingSOSettlement", "SupplyOrder")">Lpo-Settlement</a></li>
+                                }
                             </ul>
                         </div>
                     </li>

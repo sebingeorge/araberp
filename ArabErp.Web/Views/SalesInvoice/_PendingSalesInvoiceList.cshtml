@@ -232,6 +232,7 @@
                             @Html.HiddenFor(model => Model[i].SaleOrderId)
                             @Html.HiddenFor(model => Model[i].SaleOrderItemId)
                             @Html.HiddenFor(model => Model[i].invType)
+                            @Html.HiddenFor(model=>Model[i].approve)
                         </td>
                         @*<input type="hidden" id="SaleOrderId_@i" value="" />*@
                         @* <td><a href="" onclick="OpenCustomerInvoice('@Model[i].SaleOrderId');">Select</a></td>*@

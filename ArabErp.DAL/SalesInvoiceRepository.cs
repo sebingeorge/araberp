@@ -372,7 +372,7 @@ namespace ArabErp.DAL
                             WHERE I.SaleOrderId IS NULL AND I.SaleOrderItemId IS NULL;
 
                             SELECT R.SaleOrderId SaleOrderId, R.SaleOrderRefNo, CONVERT(VARCHAR, R.SaleOrderDate, 106)SaleOrderDate, 
-							R.SaleOrderItemId SaleOrderItemId,R.Quantity Quantity,R.Rate Rate,r.Amount Amount,C.CustomerName,
+							R.SaleOrderItemId SaleOrderItemId,R.Quantity Quantity,R.Rate Rate,r.Amount Amount,C.CustomerName,isnull(C.approve,'')approve,
                             CONCAT(V.VehicleModelName,'',VehicleModelDescription)
 							VehicleModelName,R.WorkDescr WorkDescription,R.JobCardNo JobCardNo, 
 							CONVERT(VARCHAR, R.JobCardDate, 106)JobCardDate,isnull(VIP.RegistrationNo,'')RegistrationNo,isnull(VIP.ChassisNo,'')ChassisNo, DC.DeliveryChallanRefNo,

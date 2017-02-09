@@ -28,9 +28,6 @@ namespace ArabErp.Web.Controllers
         {
             return PartialView("_PreviousList", new SupplyOrderRepository().GetPreviousList(OrganizationId: OrganizationId, id: id, supid: supid, from: from, to: to));
         }
-
-
-
         public ActionResult Create(IList<PendingPurchaseRequest> PendingPurchaseRequestItemsSelected)
         {
             FillDropdowns();
@@ -578,6 +575,68 @@ namespace ArabErp.Web.Controllers
             new SupplyOrderRepository().Approvalcancel(id);
             TempData["success"] = "Approval cancelled successfully";
             return RedirectToAction("ApprovalCancellation");
+        }
+
+        public ActionResult PendingSOSettlement()
+        {
+
+            return View(new SupplyOrderRepository().GetPendingSOSettlement());
+        }
+
+        public ActionResult Settle(int id = 0)
+        {
+            try
+            {
+                if (id != 0)
+                {
+                    SupplyOrder supplyorder = new SupplyOrder();
+                    supplyorder = new SupplyOrderRepository().GetSupplyOrder(id);
+                    supplyorder.SupplyOrderItems = new SupplyOrderItemRepository().GetSupplyOrderItems(id);
+                    FillDropdowns();
+                    return View(supplyorder);
+                }
+                else
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    TempData["success"] = "";
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                TempData["error"] = "Sorry, we could not find the requested item. Please try again.|" + iox.Message;
+            }
+            catch (SqlException sx)
+            {
+                TempData["error"] = "Some error occured while connecting to database. Please try again after sometime.|" + sx.Message;
+            }
+            catch (NullReferenceException nx)
+            {
+                TempData["error"] = "Some required data was missing. Please try again.|" + nx.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Some error occured. Please try again.|" + ex.Message;
+            }
+
+            TempData["success"] = "";
+            return RedirectToAction("PendingApproval");
+        }
+        [HttpPost]
+        public ActionResult Settle(SupplyOrder model)
+        {
+            int id = new SupplyOrderRepository().Approve(model.SupplyOrderId, UserID);
+            if (id > 0)
+            {
+                TempData["success"] = "Approved successfully";
+                TempData["error"] = "";
+                return RedirectToAction("PendingApproval");
+            }
+            else
+            {
+                TempData["success"] = "";
+                TempData["error"] = "Some error occured while approving the order. Please try again.";
+                return View(model);
+            }
         }
     }
 }

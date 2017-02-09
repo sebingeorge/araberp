@@ -110,10 +110,11 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @" SELECT CustomerId,CustomerRefNo,CustomerName,CusCategoryName,CountryName FROM Customer C
+                string sql = @" SELECT CustomerId,CustomerRefNo,CustomerName,CusCategoryName,CountryName,isnull(approve,0)approve FROM Customer C
                                 INNER JOIN CustomerCategory ON CusCategoryId=C.CategoryId
                                 INNER JOIN Country ON CountryId=C.Country
-                                WHERE C.isActive=1 and CustomerName LIKE '%'+@customer+'%'";
+                                WHERE C.isActive=1 and CustomerName LIKE '%'+@customer+'%'
+                                order by CustomerId desc ";
 
                 var objCustomers = connection.Query<Customer>(sql, new
                 {
@@ -238,5 +239,18 @@ namespace ArabErp.DAL
                 }
             }
         }
+
+        public void ApproveCustomer(Customer objCustomer)
+             {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @"Update Customer  SET approve=1  OUTPUT INSERTED.CustomerId WHERE CustomerId=@CustomerId";
+
+
+                var id = connection.Query(sql, new { CustomerId = objCustomer.CustomerId });
+
+            }
+        }
+
     }
 }

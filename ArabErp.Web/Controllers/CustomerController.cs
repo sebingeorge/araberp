@@ -24,7 +24,7 @@ namespace ArabErp.Web.Controllers
 
         }
         public ActionResult CustomerList(int? page, string customer = "")
-        {
+         {
             int pageNumber = page ?? 1;
             return PartialView("_CustomerListView", new CustomerRepository().GetCustomers(customer));
         }
@@ -202,7 +202,38 @@ namespace ArabErp.Web.Controllers
 
         }
 
+        public ActionResult ApprovalList(int Id)
+        {
+            //int Id = 0;
+            FillCategoryDropdown();
+            FillCountryDropdown();
+            FillCurrencyDropdown();
+            ViewBag.Title = "Approve";
+            Customer objCustomer = new CustomerRepository().GetCustomer(Id);
+            return View("Approve", objCustomer);
 
+        }
 
+       
+         public ActionResult Approve(Customer model)
+        {
+            var repo = new CustomerRepository();
+            model.CreatedDate = System.DateTime.Now;
+            model.CreatedBy = UserID.ToString();
+           
+
+            try
+            {
+                new CustomerRepository().ApproveCustomer(model);
+                TempData["Success"] = "Approved Successfully (" + model.CustomerRefNo + ")";
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+
+            return RedirectToAction("Approve",model );
+        }
     }
 }

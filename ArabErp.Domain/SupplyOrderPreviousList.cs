@@ -9,6 +9,7 @@ namespace ArabErp.Domain
     public class SupplyOrderPreviousList
     {
         public int SupplyOrderId { get; set; }
+        public int SupplyOrderItemId { get; set; }
         public string SupplyOrderNo { get; set; }
         public string SupplierName { get; set; }
         public string QuotationNoAndDate { get; set; }
@@ -17,5 +18,8 @@ namespace ArabErp.Domain
         public int SuppliedQuantity { get; set; }
         public int BalanceQuantity { get; set; }
         public decimal Amount { get; set; }
+        public string ItemName { get; set; }
+        public string PartNo { get; set; }
+        public int GRNQty { get; set; }
     }
 }

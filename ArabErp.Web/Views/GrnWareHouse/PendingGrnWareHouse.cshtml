@@ -32,13 +32,16 @@
 
     function formValidation() {
         var i = 0;
+       
         var status = true;
         $('.check_box').each(function (index, object) {
             if ($(object).hasClass("CheckBoxClass") && $(object).is(":checked")) {
                 if (i == 0) {
                     i = $(object).next().next().val();
+                  
                 }
                 else {
+                   
                     if (i != $(object).next().next().val()) {
                         toastr.info("Select Same Supplier");
                         status = false;

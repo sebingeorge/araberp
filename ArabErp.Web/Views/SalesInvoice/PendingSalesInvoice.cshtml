@@ -51,6 +51,7 @@
         var i = 0;
         var status = true;
         $('.check_box').each(function (index, object) {
+           
             if ($(object).hasClass("CheckBoxClass") && $(object).is(":checked")) {
                 if (i == 0) {
                     i = $(object).next().next().val();
@@ -62,6 +63,10 @@
                     }
                 }
             }
+
+
+
+
         })
         return status;
     }
@@ -99,6 +104,23 @@
             $("#SalesInvoiceListDiv").removeClass("fade");
         });
 
+
+        function ApprovedCustomer(id)
+        {
+            if (Model.approve == 0)
+            {
+                alert();
+                toastr.info("The user is not Approved");
+         
+            }
+            else
+            {
+                var url = '@Url.Action("Create")';
+                url += "?Id=" + id;
+                window.location = url;  
+            }
+       
+        }
     }
 </script>
 <style>
@@ -197,6 +219,8 @@
                                 <input type="button" class="form-button left" value="Previous" onclick="PreviousList()" />
                                 <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
                                 <button type="submit" class="form-button right" id="BtnSubmit" disabled>Proceed</button>
+
+                                @*<center><input type="button" class="form-button right" id="BtnSubmit" onclick="ApprovedCustomer(@Model.SalesInvoiceId)" disabled>Proceed /></center>*@
                             </div>
                         </div>
                     </div>
