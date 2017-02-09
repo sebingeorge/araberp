@@ -1,0 +1,101 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Pending Settle Supply Order / LPO";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //---------------------toastr---------------------------//
+        toastr.options = {
+            "positionClass": "toast-bottom-full-width",
+            "timeOut": "5000",
+            "extendedTimeOut": "2000"
+        }
+        if ('@TempData["success"]' != '') {
+            toastr.success('@TempData["success"]');
+        }
+        else if ('@TempData["error"]' != '') {
+            toastr.error('@TempData["error"]'.split('|')[0]);
+            console.log('@TempData["error"]'.split('|')[1]);
+        }
+        @{ TempData["success"] = TempData["error"] = ""; }
+        //------------------------------------------------------//
+    })
+
+    function Filter() {
+        $("#pending-grid").addClass("fade");
+        var url = '@Url.Action("PendingSOSettlement")';
+
+        var Supplier = $("#txtSupplier").val().trim();
+        var LPO = $("#txtLPONo").val().trim();
+        var Item = $("#ItemName").val().trim();
+        var PartNo = $("#PartNo").val().trim();
+
+        url += "?Supplier=" + encodeURIComponent(Supplier) + "&LPO=" + encodeURIComponent(LPO) + "&Item=" + encodeURIComponent(Item) + "&PartNo=" + encodeURIComponent(PartNo);
+        $("#pending-grid").load(url, function () {
+            $("#pending-grid").removeClass("fade");
+        });
+    }
+
+    function Settle(id) {
+        var url = '@Url.Action("Settle")';
+        url += "?id=" + id;
+        window.location = url;
+    }
+
+    function Exit() {
+        var url = '@Url.Action("Index", "Home")';
+        window.location = url;
+    }
+
+</script>
+
+
+<div class="row">
+    <div class="form-head1">
+        <h4>Pending Supply Orders/LPO Settlement</h4>
+    </div>
+    <div class="main-part pad1">
+        <form role="form" method="post" action="Create" onsubmit="return formValidation()">
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="txtLPONo.">LPO No.</label>
+                        <input type="text" class="form_input" id="txtLPONo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for LPO No." />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="txtSupplier">Supplier</label>
+                        <input type="text" class="form_input" id="txtSupplier" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Supplier" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="ItemName">Material/Spares</label>
+                        <input type="text" class="form_input" id="ItemName" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Material/Spares" />
+                    </div>
+                    <div class="col-md-2">
+                        <label for="PartNo">Part No.</label>
+                        <input type="text" class="form_input" id="PartNo" onkeyup="Filter()" onchange="Filter()" placeholder="Search for Part No." />
+                    </div>
+                </div>
+            </div>
+
+            <div id="pending-grid">
+                @Html.Action("PendingSOSettlement")
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 hrpart">
+                    <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+
+
+
+

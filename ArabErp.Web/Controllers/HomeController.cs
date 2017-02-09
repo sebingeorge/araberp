@@ -153,6 +153,12 @@ namespace ArabErp.Web.Controllers
                 view.NoOfJobcardQC = list.Count();
             }
 
+            if (view.PendingMaterialReqPRS)
+            {
+                var list = new PurchaseRequestRepository().GetWorkShopRequestPending(OrganizationId, 0, "", "all");
+                view.NoOfPendingMaterialReqPRS = list.Count();
+                //view.NoOfMaterialStockBelowMinLevel = new ItemRepository().GetCriticalMaterialsBelowMinStock(OrganizationId);
+            }
 
             IEnumerable<ERPAlerts> Alerts;
             if (Session["alertpermissions"] == null)
@@ -206,6 +212,9 @@ namespace ArabErp.Web.Controllers
                             break;
                         case 9:
                             alertpermission.PendingJobcardQC = true;
+                            break;
+                        case 10:
+                            alertpermission.PendingMaterialReqPRS = true;
                             break;
                         default:
                             break;

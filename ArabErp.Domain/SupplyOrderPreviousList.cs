@@ -11,6 +11,7 @@ namespace ArabErp.Domain
         public int SupplyOrderId { get; set; }
         public int SupplyOrderItemId { get; set; }
         public string SupplyOrderNo { get; set; }
+        public int SupplierId { get; set; }
         public string SupplierName { get; set; }
         public string QuotationNoAndDate { get; set; }
         public DateTime SupplyOrderDate { get; set; }
@@ -21,5 +22,8 @@ namespace ArabErp.Domain
         public string ItemName { get; set; }
         public string PartNo { get; set; }
         public int GRNQty { get; set; }
+        public string SettledReason { get; set; }
+        public DateTime SettledDate { get; set; }
+        public string SettledBy { get; set; }
     }
 }

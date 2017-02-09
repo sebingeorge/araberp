@@ -169,7 +169,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = @"select distinct SI.PurchaseRequestItemId, SUM(SI.OrderedQty) SuppliedQuantity 
+                string sql = @"select distinct SI.PurchaseRequestItemId,SUM(SI.OrderedQty) SuppliedQuantity 
                                 INTO #SUPPLY
                                 from [dbo].[SupplyOrderItem] SI
                                 -- join [dbo].[PurchaseRequestItem] 
@@ -412,29 +412,7 @@ namespace ArabErp.DAL
                 return connection.Query<SupplyOrderPreviousList>(query).ToList<SupplyOrderPreviousList>();
             }
         }
-
-        public IEnumerable<SupplyOrderPreviousList> GetPendingSOSettlement()
-        {
-            using (IDbConnection connection = OpenConnection(dataConnection))
-            {
-                string query = @"SELECT  SO.SupplyOrderId,SOI.SupplyOrderItemId,SO.SupplyOrderNo,SO.SupplyOrderDate,S.SupplierName,
-                                I.ItemName,I.PartNo,Sum(isnull(SOI.OrderedQty,0)) SuppliedQuantity,Sum(isnull(GI.ReceivedQty,0))GRNQty,
-                                (Sum(isnull(SOI.OrderedQty,0)) -Sum(isnull(GI.ReceivedQty,0)))BalanceQuantity
-                                FROM SupplyOrder SO
-                                INNER JOIN SupplyOrderItem SOI ON SOI.SupplyOrderId=SO.SupplyOrderId
-                                INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId
-                                INNER JOIN PurchaseRequestItem PI ON PI.PurchaseRequestItemId=SOI.PurchaseRequestItemId
-                                INNER JOIN Item I ON I.ItemId=PI.ItemId
-                                LEFT JOIN GRNItem GI ON GI.SupplyOrderItemId=SOI.SupplyOrderItemId AND GI.ItemId=I.ItemId
-                                GROUP BY SO.SupplyOrderId,SOI.SupplyOrderItemId,SO.SupplyOrderNo,SO.SupplyOrderDate,S.SupplierName,
-                                I.ItemName,I.PartNo
-                                HAVING (Sum(isnull(SOI.OrderedQty,0)) -Sum(isnull(GI.ReceivedQty,0)))>0
-                                ORDER BY SO.SupplyOrderId DESC,I.ItemName ASC";
-
-                return connection.Query<SupplyOrderPreviousList>(query).ToList<SupplyOrderPreviousList>();
-            }
-        }
-
+     
         public int Approve(int supplyOrderId, int approvedBy)
         {
             try
@@ -694,5 +672,85 @@ namespace ArabErp.DAL
 
             }
         }
+
+        public IEnumerable<SupplyOrderPreviousList> GetPendingSOSettlement(string Supplier,string LPO ,string Item,string PartNo)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string query = @"SELECT  SO.SupplyOrderId,SOI.SupplyOrderItemId,SO.SupplyOrderNo,SO.SupplyOrderDate,S.SupplierName,
+                                I.ItemName,I.PartNo,Sum(isnull(SOI.OrderedQty,0)) SuppliedQuantity,Sum(isnull(GI.ReceivedQty,0))GRNQty,
+                                ((Sum(isnull(SOI.OrderedQty,0)) -Sum(isnull(GI.ReceivedQty,0)))-SUM(isnull(SOI.SettledQty,0)))BalanceQuantity
+                                FROM SupplyOrder SO
+                                INNER JOIN SupplyOrderItem SOI ON SOI.SupplyOrderId=SO.SupplyOrderId
+                                INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId
+                                INNER JOIN PurchaseRequestItem PI ON PI.PurchaseRequestItemId=SOI.PurchaseRequestItemId
+                                INNER JOIN Item I ON I.ItemId=PI.ItemId
+                                LEFT JOIN GRNItem GI ON GI.SupplyOrderItemId=SOI.SupplyOrderItemId AND GI.ItemId=I.ItemId
+                                WHERE ISNULL(S.SupplierName,'') like'%'+@Supplier+'%' AND ISNULL(SO.SupplyOrderNo,'') like '%'+@LPO+'%'
+                                AND ISNULL(I.ItemName,'') like '%'+@Item+'%' AND ISNULL(I.PartNo,'') like '%'+@PartNo+'%'
+                                GROUP BY SO.SupplyOrderId,SOI.SupplyOrderItemId,SO.SupplyOrderNo,SO.SupplyOrderDate,S.SupplierName,I.ItemName,I.PartNo
+                                HAVING ((Sum(isnull(SOI.OrderedQty,0)) -Sum(isnull(GI.ReceivedQty,0)))-SUM(isnull(SOI.SettledQty,0)))>0
+                                ORDER BY SO.SupplyOrderId DESC,I.ItemName ASC";
+
+                return connection.Query<SupplyOrderPreviousList>(query, new { Supplier = Supplier, LPO = LPO, Item = Item, PartNo = PartNo }).ToList<SupplyOrderPreviousList>();
+            }
+        }
+        public SupplyOrderPreviousList GetSOSettlement(int SupplyOrderItemId)
+        {
+            try
+            {
+                using (IDbConnection connection = OpenConnection(dataConnection))
+                {
+                    string query = @"SELECT  SO.SupplyOrderId,SOI.SupplyOrderItemId,SO.SupplyOrderNo,SO.SupplyOrderDate,SO.SupplierId,S.SupplierName,
+                                        I.ItemName,I.PartNo,Sum(isnull(SOI.OrderedQty,0)) SuppliedQuantity,Sum(isnull(GI.ReceivedQty,0))GRNQty,
+                                        (Sum(isnull(SOI.OrderedQty,0)) -Sum(isnull(GI.ReceivedQty,0)))BalanceQuantity
+                                        FROM SupplyOrder SO
+                                        INNER JOIN SupplyOrderItem SOI ON SOI.SupplyOrderId=SO.SupplyOrderId
+                                        INNER JOIN Supplier S ON S.SupplierId=SO.SupplierId
+                                        INNER JOIN PurchaseRequestItem PI ON PI.PurchaseRequestItemId=SOI.PurchaseRequestItemId
+                                        INNER JOIN Item I ON I.ItemId=PI.ItemId
+                                        LEFT JOIN GRNItem GI ON GI.SupplyOrderItemId=SOI.SupplyOrderItemId AND GI.ItemId=I.ItemId
+                                        WHERE  SOI.SupplyOrderItemId=@SupplyOrderItemId
+                                        GROUP BY SO.SupplyOrderId,SOI.SupplyOrderItemId,SO.SupplyOrderNo,SO.SupplyOrderDate,
+                                        SO.SupplierId,S.SupplierName,I.ItemName,I.PartNo";
+
+                    var objSupplyOrder = connection.Query<SupplyOrderPreviousList>(query, new
+                    {
+                        SupplyOrderItemId = SupplyOrderItemId
+                    }).First<SupplyOrderPreviousList>();
+
+                    return objSupplyOrder;
+                }
+            }
+            catch (InvalidOperationException iox)
+            {
+                throw iox;
+            }
+            catch (SqlException sx)
+            {
+                throw sx;
+            }
+            catch (NullReferenceException nx)
+            {
+                throw nx;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string SOSettlement(SupplyOrderPreviousList objSupplyOrder)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = @" UPDATE SupplyOrderItem SET SettledQty = @BalanceQuantity,SettledReason=@SettledReason,
+                                SettledDate=@SettledDate,SettledBy=@SettledBy   
+                                WHERE SupplyOrderItemId = @SupplyOrderItemId;";
+            var id = connection.Execute(sql, objSupplyOrder);
+                //InsertLoginHistory(dataConnection, objSupplyOrder.CreatedBy, "Update", "LPO", id.ToString(), "0");
+                return objSupplyOrder.SupplyOrderNo;
+            }
+        }
     }
 }
+
