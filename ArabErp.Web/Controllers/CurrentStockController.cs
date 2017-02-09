@@ -42,7 +42,7 @@ namespace ArabErp.Web.Controllers
             ViewBag.ItemSubGroupList = new SelectList(List, "Id", "Name");
 
         }
-        public ActionResult CurrentStockRegister(int stkid = 0, int itmcatid = 0, int itmid =0, string PartNo = "", int ItemGroupId = 0, int ItemSubGroupId = 0)
+        public ActionResult CurrentStockRegister(int stkid = 0, int itmcatid = 0, string itmid = "", string PartNo = "", int ItemGroupId = 0, int ItemSubGroupId = 0)
         {
 
             return PartialView("_CurrentStockRegister", new ClosingStockRepository().GetCurrentStockData(stkid, itmcatid, itmid, PartNo, ItemGroupId, ItemSubGroupId, OrganizationId));

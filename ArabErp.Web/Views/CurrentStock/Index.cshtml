@@ -5,8 +5,8 @@
 }
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#ItemId").combobox();
-        $("#cboPartNo").combobox();
+        //$("#ItemId").combobox();
+        //$("#cboPartNo").combobox();
     })
 
     @*function FillItem() {
@@ -30,8 +30,8 @@
         var itmcatid = $("#ItemCategoryId").val();
         var ItemGroupId = $("#ItemGroupId").val();
         var ItemSubGroupId = $("#ItemSubGroupId").val();
-        var itmid = $("#ItemId").val();
-        var PartNo = $("#cboPartNo").val().trim();
+        var itmid = $("#ItemId").val().trim();
+        var PartNo = $("#filter-PartNo").val().trim();
         var url = '@Url.Action("CurrentStockRegister")';
         url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid + "&PartNo=" + encodeURIComponent(PartNo) + "&ItemGroupId=" + ItemGroupId + "&ItemSubGroupId=" + ItemSubGroupId;
         $("#Current_stock").load(url, function () {
@@ -80,8 +80,8 @@
         var itmcatid = $("#ItemCategoryId").val();
         var ItemGroupId = $("#ItemGroupId").val();
         var ItemSubGroupId = $("#ItemSubGroupId").val();
-        var itmid = $("#ItemId").val();
-        var PartNo = $("#cboPartNo").val().trim();
+        var itmid = $("#ItemId").val().trim();
+        var PartNo = $("#filter-PartNo").val().trim();
         var url = '@Url.Action("CurrentStockRegister")';
         url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid + "&PartNo=" + encodeURIComponent(PartNo) + "&ItemGroupId=" + ItemGroupId + "&ItemSubGroupId=" + ItemSubGroupId; $("#Current_stock").load(url, function () {
             $("#Current_stock").removeClass("fade");
@@ -101,8 +101,8 @@
         var itmcatid = $("#ItemCategoryId").val();
         var ItemGroupId = $("#ItemGroupId").val();
         var ItemSubGroupId = $("#ItemSubGroupId").val();
-        var itmid = $("#ItemId").val();
-        var PartNo = $("#cboPartNo").val().trim();
+        var itmid = $("#ItemId").val().trim();
+        var PartNo = $("#filter-PartNo").val().trim();
         var url = '@Url.Action("CurrentStockRegister")';
         url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid + "&PartNo=" + encodeURIComponent(PartNo) + "&ItemGroupId=" + ItemGroupId + "&ItemSubGroupId=" + ItemSubGroupId; $("#Current_stock").load(url, function () {
             $("#Current_stock").removeClass("fade");
@@ -123,8 +123,8 @@
         var itmcatid = $("#ItemCategoryId").val();
         var ItemGroupId = $("#ItemGroupId").val();
         var ItemSubGroupId = $("#ItemSubGroupId").val();
-        var itmid = $("#ItemId").val();
-        var PartNo = $("#cboPartNo").val().trim();
+        var itmid = $("#ItemId").val().trim();
+        var PartNo = $("#filter-PartNo").val().trim();
         var url = '@Url.Action("CurrentStockRegister")';
         url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid + "&PartNo=" + encodeURIComponent(PartNo) + "&ItemGroupId=" + ItemGroupId + "&ItemSubGroupId=" + ItemSubGroupId; $("#Current_stock").load(url, function () {
             $("#Current_stock").removeClass("fade");
@@ -161,14 +161,16 @@
             var itmcatid = $("#ItemCategoryId").val();
             var ItemGroupId = $("#ItemGroupId").val();
             var ItemSubGroupId = $("#ItemSubGroupId").val();
-            var itmid = $("#ItemId").val();
-            var PartNo = $("#cboPartNo").val().trim();
+            var itmid = $("#ItemId").val().trim();
+            var PartNo = $("#filter-PartNo").val().trim();
             var url = '@Url.Action("CurrentStockRegister")';
             url += "?stkid=" + stkid + "&itmcatid=" + itmcatid + "&itmid=" + itmid + "&PartNo=" + encodeURIComponent(PartNo) + "&ItemGroupId=" + ItemGroupId + "&ItemSubGroupId=" + ItemSubGroupId; $("#Current_stock").load(url, function () {
                 $("#Current_stock").removeClass("fade");
             });
 
         }
+   
+
     
 </script>
 <div class="row">
@@ -203,25 +205,21 @@
                 </div>
             </div>
 
-
             <div class="col-md-2">
+                <label for="ItemId">Material/Spares</label>
+                <input id="ItemId" class="form_input" placeholder="Search for Material" onkeyup="Filter()" onchange="Filter()" />
+            </div>
+            <div class="col-md-2">
+                <label for="filter-PartNo">Part No.</label>
+                <input id="filter-PartNo" class="form_input" placeholder="Search for Part No." onkeyup="Filter()" onchange="Filter()" />
+            </div>
+
+            @*<div class="col-md-2">
                 <label for="code" class="label1">Material/Spares</label>
                 <div id="DivItem">
                     @Html.Action("Material", "StockMovementRegister", new { Code = Model.itmSubGrpId })
                 </div>
-            </div>
-
-            <div class="col-md-2">
-                <label for="cboPartno">Part No.</label>
-                <div>
-                    <div id="DivPartNo">
-                        @*@Html.DropDownList("cboPartNo", (SelectList)ViewBag.partNoList, "Any", new { @class = "form_input", @onchange = "Filter()" })
-            @Html.HiddenFor(m => Model.ItemId)*@
-                        @Html.Action("PartNo", "StockMovementRegister", new { Code = Model.itmSubGrpId })
-
-                    </div>
-            </div>
-        </div>
+            </div>*@        
             <br />
         <br />
         <div class="row">

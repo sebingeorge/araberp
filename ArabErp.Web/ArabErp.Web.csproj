@@ -1444,7 +1444,6 @@
     <Content Include="Views\DirectPurchase\Approve.cshtml" />
     <Content Include="Views\ProformaInvoice\_Printdescription.cshtml" />
     <Content Include="Views\ProjectStatusReport\Index.cshtml" />
-    <Content Include="Views\StockMovementRegister\_PartnoDropdown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
