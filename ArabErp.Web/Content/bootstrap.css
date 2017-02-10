@@ -3289,7 +3289,8 @@ input[type="button"].btn-block {
   clear: both;
   font-weight: normal;
   color: #333333;
-  white-space: nowrap;
+  min-width:280px;
+
 }
 
 /*.dropdown-menu > li > a:hover,
