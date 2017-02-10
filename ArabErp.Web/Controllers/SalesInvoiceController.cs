@@ -49,7 +49,9 @@ namespace ArabErp.Web.Controllers
             foreach (var item in List)
             {
                 item.invType = invType;
+                
             }
+           
             return PartialView("_PendingSalesInvoiceList", List);
 
         }

@@ -14,24 +14,31 @@
 
 
     function Filter() {
-        //$("#so_Reg").addClass("fade");
+        $("#customer-grid").addClass("fade");
         var customer = $("#cboCustomer").val().trim();
         var url = '@Url.Action("CustomerList")';
         url += "?customer=" + encodeURIComponent(customer);
-        $('#customer-grid').load(url);
+        //$('#customer-grid').load(url);
+        $("#customer-grid").load(url, function () {
+            $("#customer-grid").removeClass("fade");
+        });
     }
 
 </script>
 
-
+<style type="text/css">
+    .fade {
+        opacity: 0.6;
+    }
+</style>
 
 
 <div class="row">
 
-    <div class="form-head  form-head3">
+    <div class="form-head1">
         <h4>Customer List</h4>
     </div>
-    <div class="main-list pad1">
+    <div class="main-part pad1">
         @*<div class="row">
                 <div class="col-md-2">
                     <label>Customer</label>
@@ -40,27 +47,26 @@
                 </div>
             </div>*@
         <div class="row">
-            <div class="part">
+            
                 <div class="col-md-3">
                     <label for="txtName">Customer</label>
-                    <input type="text" class="form_input bluebox"  id="cboCustomer"  onchange="Filter()" onkeyup="Filter()" />
+                    <input type="text" class="form_input bluebox" id="cboCustomer" onchange="Filter()" onkeyup="Filter()" />
                 </div>
 
-            </div>
         </div>
         <br />
         <div class="row" id="customer-grid">
             @Html.Action("CustomerList")
         </div>
 
-     
+
 
         <div class="row">
             <div class="col-md-12 hrpart1">
                 <button type="submit" class="form-button" onclick="openPop();">Create</button>
                 <button type="button" class="form-button right" onclick="Exit();">Exit</button>
 
-              
+
             </div>
         </div>
 

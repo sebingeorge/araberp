@@ -43,5 +43,6 @@ namespace ArabErp.Domain
         public string CustomerName { get; set; }
         public bool isAccessory { get; set; }
         public int approve { get; set; }
+       
     }
 }

@@ -225,7 +225,7 @@ namespace ArabErp.Web.Controllers
             try
             {
                 new CustomerRepository().ApproveCustomer(model);
-                TempData["Success"] = "Approved Successfully (" + model.CustomerRefNo + ")";
+                TempData["Success"] = "Approved Successfully";
                 return RedirectToAction("Index");
             }
             catch (Exception)
