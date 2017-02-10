@@ -143,7 +143,7 @@
                     </a>
                 </li>
             }
-            @if (Model.PendingMaterialReqPRS && alertPermissions.PendingMaterialReqPRS == true)
+            @if (Model.PendingMaterialReqPRS && alertPermissions.PendingMaterialReqPRS)
             {
                 <li><a href="@Url.Action("Pending", "PurchaseRequest")" class="form_input">
                     <span class="badge pull-right">
