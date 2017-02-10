@@ -100,7 +100,7 @@
         <div class="form-head1">
             @if (ViewData["action"].ToString() == "Approval")
             {
-                <h4>Sale Order Approval</h4>
+                <h4>Sale Order Acceptance</h4>
             }
             else if (ViewData["action"].ToString() == "Hold")
             {
@@ -112,7 +112,7 @@
             }
             else if (ViewData["action"].ToString() == "ApprovalForTrn")
             {
-                <h4>Sale Order Approval</h4>
+                <h4>Sale Order Acceptance</h4>
             }
             else
             {
@@ -120,7 +120,11 @@
             }        
         </div>
         <div class="main-part pad1">
-          
+                @Html.HiddenFor(m => m.SalesQuotationId)
+                @Html.HiddenFor(m => m.SaleOrderId)
+                @Html.HiddenFor(m => m.isProjectBased)
+                @Html.HiddenFor(m => m.isAfterSales)
+
                 @Html.Partial("_SaleOrderHead",Model)
                 @Html.Partial("_DisplaySOList", Model)
                 <strong>Tail lift/accessories:</strong>
