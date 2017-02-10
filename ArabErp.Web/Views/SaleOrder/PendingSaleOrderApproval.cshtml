@@ -23,7 +23,7 @@
     <div class="form-head1">
         @if (actionName == "PendingSaleOrderApproval")
         {
-            <h4>Pending Sale Order Approval</h4>
+            <h4>Pending Sale Order Acceptance</h4>
         }
         else if (actionName == "PendingSaleOrderApprovalWR")
         {
@@ -63,6 +63,7 @@
                                 foreach (var item in Model)
                                 {
                                     <tr>
+                                        @Html.HiddenFor(m => @item.SaleOrderId)
                                         <td class="grid-cell">@item.SaleOrderRefNo - @item.SaleOrderDate.ToString("dd/MMMM/yyyy")</td>
                                         <td class="grid-cell">@item.CustomerName</td>
                                         <td class="grid-cell">@item.CustomerOrderRef</td>
@@ -72,10 +73,12 @@
                                         <td class="grid-cell">@item.Remaindays</td>
                                         <td>
                                             <center>
-                                                <input type="button" class="form-button4" onclick="OnSelected(@item.SaleOrderId)" value="Select" />
-                                                @*<button class="form-button4">@Html.ActionLink("Select", "Approval", "SaleOrder", new { SaleOrderId = @item.SaleOrderId }, null)</button>*@
+                                                <button class="form-button4">@Html.ActionLink("Select", "Approval", "SaleOrder", new { type = ViewBag.ProjectBased, SaleOrderId = @item.SaleOrderId }, null)</button>
+                                                @*<input type="button" class="form-button4" onclick="OnSelected(@item.SaleOrderId)" value="Select" />*@
+                                                
                                             </center>
                                         </td>
+
                                     </tr>
 
                                 }

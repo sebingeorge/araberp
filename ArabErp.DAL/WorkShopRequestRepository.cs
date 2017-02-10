@@ -798,8 +798,10 @@ namespace ArabErp.DAL
             {
                 string qry = @"Select * from WorkShopRequest WR INNER JOIN Customer C on C.CustomerId=WR.CustomerId 
                                INNER JOIN SaleOrder S on S.SaleOrderId=WR.SaleOrderId
-                               where  WR.WorkShopRequestRefNo LIKE '%'+@workshop+'%'
-                               and C.CustomerName LIKE '%'+@customer+'%' and   WR.isActive=1 and WR.OrganizationId=@OrganizationId AND S.isProjectBased=@isProjectBased AND WR.WorkShopRequestDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())";
+                               WHERE  WR.WorkShopRequestRefNo LIKE '%'+@workshop+'%'
+                               AND C.CustomerName LIKE '%'+@customer+'%' AND WR.isActive=1 AND WR.OrganizationId=@OrganizationId AND S.isProjectBased=@isProjectBased 
+                               AND WR.WorkShopRequestDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE())
+                               ORDER BY WR.WorkShopRequestDate Desc,WR.WorkShopRequestId DESC";
                 return connection.Query<WorkShopRequest>(qry, new { isProjectBased = isProjectBased, workshop = workshop, customer = customer, OrganizationId = OrganizationId, from = from, to = to }).ToList();
             }
         }

@@ -452,6 +452,8 @@ namespace ArabErp.Web.Controllers
         public ActionResult PendingSaleOrderApproval(int ProjectBased)
         {
             var repo = new SaleOrderRepository();
+          
+            ViewBag.ProjectBased = ProjectBased;
             IEnumerable<PendingSO> pendingSO = repo.GetSaleOrderPending(ProjectBased, OrganizationId);
             return View(pendingSO);
         }
@@ -563,22 +565,41 @@ namespace ArabErp.Web.Controllers
             }
             return RedirectToAction(view);
         }
-        public ActionResult Approval(int? SaleOrderId)
+        public ActionResult Approval(int type, int? SaleOrderId)
         {
-            FillCustomer();
-            FillCurrency();
-            FillCommissionAgent();
-            FillUnit();
-            FillEmployee();
+            if (SaleOrderId != 0)
+            {
+                FillCustomer();
+                FillCurrency();
+                FillCommissionAgent();
+                FillUnit();
+                FillEmployee();
+                FillWrkDesc();
+                FillVehicle();
+                var repo = new SaleOrderRepository();
+                SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
+                if (type == 0)
+                {
 
-            FillVehicle();
-            var repo = new SaleOrderRepository();
-            SaleOrder model = repo.GetSaleOrder(SaleOrderId ?? 0);
-            model.Items = repo.GetSaleOrderItem(SaleOrderId ?? 0);
+                    model.Items = repo.GetSaleOrderItem(SaleOrderId ?? 0);
+                    model.Materials = repo.GetSaleOrderMaterial(SaleOrderId ?? 0);
 
-            FillWrkDesc();
-            return View("Approval", model);
+                    return View("Approval", model);
+                }
+                else
+                {
+                    FillFreezerUnit();
+                    //model = repo.GetSaleOrderFrmQuotation(id);
+                    model.ProjectRooms = new SaleOrderRepository().GetRoomDetailsFromQuotation(model.SalesQuotationId ?? 0);
+                    return View("ApprovalProject", model);
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
+
         [HttpPost]
         public ActionResult UpdateApprovalStatus(int? SaleOrderId)
         {

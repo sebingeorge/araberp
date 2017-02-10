@@ -92,6 +92,7 @@ namespace ArabErp.Web.Controllers
             view.PendingVechicleInpass = true;
             view.PendingWRForStoreIssue = true;
             view.PendingJobcardQC = true;
+            view.PendingMaterialReqPRS = true;
             if (view.PendingProjectQuotations)
             {
                 SalesQuotationRepository repo = new SalesQuotationRepository();
@@ -157,7 +158,6 @@ namespace ArabErp.Web.Controllers
             {
                 var list = new PurchaseRequestRepository().GetWorkShopRequestPending(OrganizationId, 0, "", "all");
                 view.NoOfPendingMaterialReqPRS = list.Count();
-                //view.NoOfMaterialStockBelowMinLevel = new ItemRepository().GetCriticalMaterialsBelowMinStock(OrganizationId);
             }
 
             IEnumerable<ERPAlerts> Alerts;
