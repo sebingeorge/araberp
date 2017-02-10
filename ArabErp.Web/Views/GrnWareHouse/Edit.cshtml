@@ -376,9 +376,10 @@
             <table class="table table-bordered" id="tab_logic">
                 <thead>
                     <tr class="grid_heading">
+                        <th width="2%" style="vertical-align:middle"><h1>Serial No.</h1></th>
                         <th width="20%" style="vertical-align:middle"><h1>Material/Spares</h1></th>
                         <th width="10%" style="vertical-align:middle"><h1>Part No.</h1></th>
-                        <th width="25%" style="vertical-align:middle"><h1>Remarks</h1></th>
+                        <th width="20%" style="vertical-align:middle"><h1>Remarks</h1></th>
                         <th width="5%" class="text-right" style="vertical-align:middle"><h1>Pending Qty.</h1></th>
                         <th width="5%" class="text-right" style="vertical-align:middle"><h1>Received Qty.</h1></th>
                         <th width="5%" class="text-right" style="vertical-align:middle"><h1>Accepted Qty.</h1></th>
@@ -395,21 +396,26 @@
                             <tr>
                                 <td>
                                     @{
-                                if (Model.isDirectPurchaseGRN)
-                                {
-                                        @Html.HiddenFor(m => m.Items[i].DirectPurchaseRequestItemId)
-                                }
-                                else
-                                {
-                                        @Html.HiddenFor(m => m.Items[i].SupplyOrderItemId)
-                                }
+                                        if (Model.isDirectPurchaseGRN)
+                                        {
+                                                @Html.HiddenFor(m => m.Items[i].DirectPurchaseRequestItemId)
+                                        }
+                                        else
+                                        {
+                                                @Html.HiddenFor(m => m.Items[i].SupplyOrderItemId)
+                                        }
                                     }
 
                                     @Html.HiddenFor(m => m.Items[i].SlNo)
-                                    @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "true" })
+                                    @Html.TextBoxFor(m => m.Items[i].SlNo, new { @class = "form_input", autocomplete = "off", @readonly = "true" })
                                 </td>
+
                                 <td>
                                     @Html.HiddenFor(m => m.Items[i].ItemId)
+                                    @Html.TextBoxFor(m => m.Items[i].ItemName, new { @class = "form_input", autocomplete = "off", placeholder = "Material/Spares", @readonly = "true", @tabindex = "-1" })
+                                </td>
+
+                                <td>
                                     @Html.TextBoxFor(m => m.Items[i].PartNo, new { @class = "form_input", autocomplete = "off", placeholder = "Part No.", @readonly = "true" })
                                 </td>
                                 <td>@Html.TextBoxFor(m => m.Items[i].Remarks, new { @class = "form_input", autocomplete = "off", placeholder = "Remarks" })</td>
@@ -427,10 +433,10 @@
                 </tbody>
                 <tfoot>
                     <tr class="grid_heading">
-
+                        <th width="2%" class="text-center"><h1></h1></th>
                         <th width="20%" class="text-center"><h1></h1></th>
                         <th width="10%" class="text-center"><h1></h1></th>
-                        <th width="25%" class="text-center"><h1></h1></th>
+                        <th width="20%" class="text-center"><h1></h1></th>
                         <th width="5%" class="text-center"><h1></h1></th>
                         <th width="5%" class="text-center"><h1></h1></th>
                         <th width="5%" class="text-center"><h1></h1></th>

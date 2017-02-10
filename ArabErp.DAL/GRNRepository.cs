@@ -599,17 +599,17 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string query = "CREATE TABLE #TEMP(GRNId INT,SupplyOrderItemId INT,ItemId INT,";
+                string query = "CREATE TABLE #TEMP(GRNId INT,SlNo INT,SupplyOrderItemId INT,ItemId INT,";
                 query += " ItemName VARCHAR(500),PartNo  VARCHAR(500),";
                 query += " BALANCEQTY INT,AcceptedQuantity  INT,RejectedQuantity INT,";
                 query += " Unit VARCHAR(500),Rate DECIMAL(18,3),Discount DECIMAL(18,3),";
                 query += " Amount DECIMAL(18,3),Remarks VARCHAR(5000),GRNQTY INT,PendingQuantity INT,ReceivedQuantity INT)";
 
-                query += " INSERT INTO #TEMP (GRNId,SupplyOrderItemId, ItemId,ItemName ,PartNo,";
+                query += " INSERT INTO #TEMP (GRNId,SlNo,SupplyOrderItemId, ItemId,ItemName ,PartNo,";
                 query += " BALANCEQTY,AcceptedQuantity,RejectedQuantity,";
                 query += " Unit,Rate,Discount,Amount,Remarks,GRNQTY,PendingQuantity,ReceivedQuantity)";
 
-                query += " SELECT GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
+                query += " SELECT GRNId,G.SLNo,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
                 query += " sum(isnull(S.OrderedQty,0))-isnull((select sum(ISNULL(A.Quantity,0)) ";
                 query += " FROM GRNItem A where S.SupplyOrderItemId=A.SupplyOrderItemId),0) BALANCEQTY,";
                 query += " sum(Quantity) AcceptedQuantity,(isnull(G.ReceivedQty,0)-isnull(Quantity,0)) RejectedQuantity,";
@@ -619,7 +619,7 @@ namespace ArabErp.DAL
                 query += " INNER JOIN Item I ON I.ItemId=G.ItemId";
                 query += " INNER JOIN Unit U ON U.UnitId=I.ItemUnitId";
                 query += " WHERE G.GRNId = " + GRNId.ToString();
-                query += " GROUP BY GRNId,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
+                query += " GROUP BY GRNId,G.SLNo,G.SupplyOrderItemId,I.ItemId,I.ItemName,I.PartNo,";
                 query += " G.ReceivedQty,G.Quantity,U.UnitName,G.Rate,G.Discount,G.Amount,Remarks,S.SupplyOrderItemId";
                 query += " UPDATE #TEMP SET GRNQTY=(SELECT (SUM(G1.Quantity)) ";
                 query += " FROM GRNItem G1 where #TEMP.SupplyOrderItemId=G1.SupplyOrderItemId and G1.GRNId=" + GRNId.ToString();
