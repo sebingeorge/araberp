@@ -404,9 +404,20 @@
                                         @Html.TextBoxFor(m => m.JobCardTasks[row].TaskDate, Model.JobCardTasks[row].TaskDate.ToString("dd/MMMM/yyyy"), 
                                         new { @class = "taskdate form_input", autocomplete = "off", @readonly = "readonly", @onchange = "CheckDuplication(this," + row + ")" })
                                     </td>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off", @readonly = "true" })
-                                    </td>
+
+                                      @if(Model.isService==0)
+                                      {
+                                        <td>
+                                            @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off", @readonly = "true" })
+                                        </td>
+                                      }
+                                       else
+                                      {
+                                        <td>
+                                            @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off" })
+                                        </td>
+                                      }
+
                                     <td>
                                         <a id="add_@row" class="glyphicon glyphicon-plus" @*type="button" value="Add"*@ onclick="AddRowBelow(@row);" style="top:0;"></a>
                                     </td>
