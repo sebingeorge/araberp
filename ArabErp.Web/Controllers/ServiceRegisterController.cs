@@ -27,6 +27,17 @@ namespace ArabErp.Web.Controllers
 
             return PartialView("_ServiceRegister", new ServiceRegisterRepository().GetServiceRegister(Customer));
         }
-      
+
+        public ActionResult MaintenanceIndex()
+        {
+            ViewBag.startdate = FYStartdate;
+            return View();
+        }
+        public ActionResult MaintenanceRegister(DateTime? from, DateTime? to)
+        {
+            from = from ?? FYStartdate;
+            to = to ?? DateTime.Today;
+            return PartialView("_MaintenanceRegister", new ServiceRegisterRepository().GetMaintenanceRegisterData(from, to, OrganizationId));
+        }
     }
 }
