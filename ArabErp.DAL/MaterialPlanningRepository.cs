@@ -144,7 +144,7 @@ namespace ArabErp.DAL
                 ,ISNULL(sum(S.Quantity),0)CurrentStock,0SOQTY,0WRQTY,0PENWRQTY,0 WRPndIssQty ,0TotalQty,0InTransitQty,0PendingPRQty,0ShortorExcess,BatchRequired,0 Reserved INTO #TEMP FROM item I
                 INNER JOIN Unit U on U.UnitId =I.ItemUnitId
                 LEFT JOIN StockUpdate S ON I.ItemId=S.ItemId
-                WHERE I.BatchRequired=1 AND (I.FreezerUnit=1 OR I.Box=1)
+                WHERE I.BatchRequired=1 AND (I.FreezerUnit=1 OR I.Box=1 OR ISNULL(I.Door, 0) = 1)
                 GROUP BY I.ItemId,I.PartNo,ItemName,UnitName,MinLevel,BatchRequired;
                 
                 with S as (
