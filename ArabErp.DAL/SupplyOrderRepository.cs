@@ -352,6 +352,12 @@ namespace ArabErp.DAL
 	                                SO.SupplyOrderNo,
 	                                CONVERT(DATETIME, SO.SupplyOrderDate, 106) SupplyOrderDate,
 	                                SUP.SupplierName,
+                                    STUFF((SELECT DISTINCT ', ' + PR.PurchaseRequestNo
+                                    FROM SupplyOrderItem SOI1
+                                    INNER JOIN PurchaseRequestItem PRI ON PRI.PurchaseRequestItemId=SOI1.PurchaseRequestItemId
+                                    INNER JOIN PurchaseRequest PR ON PR.PurchaseRequestId=PRI.PurchaseRequestId
+                                    WHERE SOI1.SupplyOrderId=SO.SupplyOrderId
+                                    FOR XML PATH('')), 1, 1, '') AS PurchaseRequestNo,
 	                                ISNULL(SO.QuotaionNoAndDate, '-') QuotationNoAndDate,
 	                                SI.RequestedQuantity,
 	                                SI.SuppliedQuantity,

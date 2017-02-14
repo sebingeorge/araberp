@@ -1,4 +1,5 @@
-﻿    @model ArabErp.Domain.DirectPurchaseRequest
+﻿
+@model ArabErp.Domain.DirectPurchaseRequest
 
 @{
     ViewBag.Title = "Purchase Indent";
@@ -10,49 +11,30 @@
     function Exit() {
         location.href = '@Url.Action("PendingPurchaseRequest")';
     }
-    
-    function ExporttoExcel() {
-        location.href = '@Url.Action("ExportToExcel")';
-    }
-    $(function () {
-        $("#PurchaseRequestDate").datepicker({
-            dateFormat: "d-MM-yy"
-        });
-        $("#RequiredDate").datepicker({
-            dateFormat: "d-MM-yy"
-        });
+
+
+    //$(function () {
+    //    $("#PurchaseRequestDate").datepicker({
+    //        dateFormat: "d-MM-yy"
+    //    });
+    //    $("#RequiredDate").datepicker({
+    //        dateFormat: "d-MM-yy"
+    //    });
+    //});
+
+    $(document).ready (function()
+    {
+
+        $('input,textarea').attr('readonly','true');
     });
 
-    function formValidation() {
-        return true;
-    }
+    //function formValidation() {
+    //    return true;
+    //}
 
-    function PreviousList() {
-        var url = '@Url.Action("PurchaseIndents")';
-        window.location = url;
-    }
-    function DeletePurchase(id) {
-        var url = '@Url.Action("DeletePurchaseIndent")';
-        url += "?id=" + id;
-        window.location = url;
-    }
-
-    function View(id) {
-        var url = '@Url.Action("ViewPurchaseIndent")';
-        url += "?id=" + id;
-        window.location = url;
-    }
 
     function Exit() {
-        @if (new string[] { "EditPurchaseIndent" }.Contains(actionName))
-        {
-            @:var url = '@Url.Action("PurchaseIndents")';
-                                }
-        else if(new string[] { "PurchaseIndent" }.Contains(actionName))
-        {
-            @:var url = '@Url.Action("Index", "Home")';
-                                }
-        window.location = url;
+        location.href = '@Url.Action("Index","Home")';
     }
 
     function ShowLastPurchaseRate(index) {
@@ -89,20 +71,7 @@
                     <label for="PurchaseRequestDate">Date</label>
                     @Html.TextBoxFor(m => m.PurchaseRequestDate, Model.PurchaseRequestDate.Value.ToString("dd/MMMM/yyyy"), new { @class = "form_input", autocomplete = "off", @required = "true" })
                 </div>
-                @*<div class="col-md-2">
-                        <label>Sale Ord. / Job Card</label>
-                        @Html.HiddenFor(m => m.SoOrJc)
-                        <select class="form_input" id="JcOrSo" onchange="OptionChanged()">
-                            <option>Select</option>
-                            <option value="JC">Job Card</option>
-                            <option value="SO">Sale Order</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label id="againstId"></label>
-                        @Html.DropDownListFor(m => Model.SaleOrderId, (SelectList)ViewBag.SO, "Select S.O", new { @class = "form_input divHidden", autocomplete = "off" })
-                        @Html.DropDownListFor(m => Model.JobCardId, (SelectList)ViewBag.JC, "Select J.C", new { @class = "form_input divHidden against", autocomplete = "off" })
-                    </div>*@
+               
             </div>
             <div class="table-responsive">
                 @Html.Partial("_grid")
@@ -124,33 +93,9 @@
             </div>
 
             <div class="row">
-
                 <div class="col-md-12 hrpart">
                     <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
-                    @*<input type="button" class="form-button right" value="View" onclick="View(@Model.DirectPurchaseRequestId)" />*@
-                    @if (!new string[] { "EditPurchaseIndent" }.Contains(actionName))
-                    {
-                        <input type="button" class="form-button left" value="Previous" onclick="PreviousList()" />
-                        <input type="submit" class="form-button right" value="Save" />
-                    }
-                    else
-                    {
-                        <input type="button" class="form-button fwid right" value="Export to Excel" onclick="ExporttoExcel()" />
-                        if (!Model.isUsed)
-                        {
-                            <input type="button" class="form-button left" value="Delete" onclick="DeletePurchase(@Model.DirectPurchaseRequestId)" />
-                            <input type="submit" class="form-button right" value="Edit" />
-                        }
-                        else
-                        {
-                            <span class="perm">
-                                <em>**Cannot edit/delete this Purchase Indent, because it is either used in another process.</em>
-                            </span>
-                        }
-
-                    }
                 </div>
-
             </div>
 
             @*}*@

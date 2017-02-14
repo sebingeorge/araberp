@@ -444,5 +444,37 @@ namespace ArabErp.Web.Controllers
                 return Json("Some error occurred while fetching the rates!", JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult View(int? id)
+        {
+            var repo = new PurchaseRequestRepository();
+            PurchaseRequest model = repo.GetPurchaseRequestHDDetails(id ?? 0);
+
+            var PRList = repo.GetPurchaseRequestDTDetails(id ?? 0);
+            model.items = new List<PurchaseRequestItem>();
+            foreach (var item in PRList)
+            {
+                var pritem = new PurchaseRequestItem
+                {
+                    PartNo = item.PartNo,
+                    ItemName = item.ItemName,
+                    Quantity = item.Quantity,
+                    UnitName = item.UnitName,
+                    ItemId = item.ItemId,
+                    MinLevel = item.MinLevel,
+                    WRRequestQty = item.WRRequestQty,
+                    CurrentStock = item.CurrentStock,
+                    WRIssueQty = item.WRIssueQty,
+                    TotalQty = item.TotalQty,
+                    InTransitQty = item.InTransitQty,
+                    PendingPRQty = item.PendingPRQty,
+                    ShortorExcess = item.ShortorExcess,
+                    Remarks = item.Remarks
+                };
+                model.items.Add(pritem);
+
+            }
+            return View("View", model);
+        }
     }
 }

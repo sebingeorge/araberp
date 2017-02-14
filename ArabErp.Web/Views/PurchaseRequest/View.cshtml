@@ -1,63 +1,22 @@
-﻿@model ArabErp.Domain.PurchaseRequest
+﻿
+@model ArabErp.Domain.PurchaseRequest
 @{ViewBag.Title = "Edit Purchase Request"; Layout = "~/Views/Shared/_Layout.cshtml";}
 
 <script>
 
     function Exit() {
-        location.href = '@Url.Action("Index")';
+        location.href = '@Url.Action("Index","Home")';
     }
 
-    function Delete(id) {
-        //alert(id);
-        var url = '@Url.Action("Delete")';
-        url += "/" + id;
-        window.location = url;
-    }
+    //$(function () {
+    //    $("#PurchaseRequestDate").datepicker({ dateFormat: "dd-MM-yy" });
+    //    $("#RequiredDate").datepicker({ dateFormat: "dd-MM-yy" });
+    //});
 
-    function View(id) {
-        //alert(id);
-        var url = '@Url.Action("View")';
-        url += "/" + id;
-        window.location = url;
-    }
-
-    function GoToPrint(id) {
-        var url = '@Url.Action("Print")';
-        url += "?Id=" + id;
-        window.location = url;
-    }
-
-    $(function () {
-        $("#PurchaseRequestDate").datepicker({ dateFormat: "dd-MM-yy" });
-        $("#RequiredDate").datepicker({ dateFormat: "dd-MM-yy" });
-    });
     $(document).ready(function () {
-        //bind keypress event for new row inputs.
-        $(".numbers-only").keypress(function (e) {
-            if (e.which == 8 || (e.which == 46 && $(this).val().indexOf('.') == -1) || (e.which > 47 && e.which < 58)) { } else { return false; }
-        });
-
-        $('[data-icon="tooltip"]').tooltip();
-
-        toastr.options = {
-            "closeButton": true,
-            "positionClass": "toast-bottom-full-width",
-            "preventDuplicates": false,
-            "onclick": null,
-
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        }
-        if ('@TempData["success"]' != "" && '@TempData["PurchaseRequestNo"]' != "") {
-            toastr.success('@TempData["success"]' + '  Purchase Request No. is : ' + '@TempData["PurchaseRequestNo"]');
-        }
-        else if ('@TempData["error"]' != "") {
-            toastr.error('@TempData["error"]');
-        }
+       
+        $('input,textarea').attr('readonly', 'true');
+       
     });
 
     function ShowLastPurchaseRate(itemId) {
@@ -190,22 +149,6 @@
                 <div class="row">
                     <div class="col-md-12 hrpart">
                         <button type="button" class="form-button right" onclick="Exit()">Exit</button>
-                        @*<button type="button" class="form-button right" onclick="View('@Model.PurchaseRequestId')">View</button>*@
-                        @if (!Model.isUsed)
-                        {
-                            <button type="submit" class="form-button right">Edit</button>
-                        }
-                        <input type="button" value="Print" onclick="GoToPrint(@Model.PurchaseRequestId)" class="form-button right" />
-                        @if (!Model.isUsed)
-                        {
-                            <button type="button" class="form-button left" onclick="Delete('@Model.PurchaseRequestId')">Delete</button>
-                        }
-                        else
-                        {
-                            <span class="perm">
-                                **Cannot edit/delete, because it is already used.
-                            </span>
-                        }
                     </div>
 
                 </div>
