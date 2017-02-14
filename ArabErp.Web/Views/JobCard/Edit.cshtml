@@ -464,7 +464,20 @@
                                         }
                                         else
                                         {
-                                            @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off", @readonly = "true" })
+                                            
+                                              if(Model.isService==0)
+                                              {
+                                               
+                                                 @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off", @readonly = "true" })
+                                               
+                                              }
+                                               else
+                                              {
+                                              
+                                                 @Html.TextBoxFor(m => m.JobCardTasks[row].Hours, new { @class = "form_input validateqty", autocomplete = "off" })
+                                               
+                                              }
+                                            
                                         }
                                     </td>
 

@@ -41,5 +41,29 @@ namespace ArabErp.DAL
                 return connection.Query<ServiceRegister>(qry, new { Customer = Customer }).ToList();
             }
         }
+
+        public IEnumerable<ServiceRegister> GetMaintenanceRegisterData(DateTime? from, DateTime? to, int OrganizationId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+//              
+                string qry = @"SELECT ServiceEnquiryRefNo,CONVERT(VARCHAR(10),ServiceEnquiryDate,(105))ServiceEnquiryDate,
+                                CONVERT(Varchar(10),SE.CreatedDate,108)Time,CONCAT(OrganizationName,' & ',O.Street)CompanyAddress,
+                                CONCAT(C.CustomerName,' & ',C.Phone)CustomerName,SE.Complaints,U.UserName,
+                                CASE WHEN ISNULL(JC.JodCardCompleteStatus,0) =1 THEN 'JobCard Finished'
+                                ELSE 'JobCard Started' END AS Status
+                                FROM ServiceEnquiry SE
+                                INNER JOIN Organization O ON O.OrganizationId=SE.OrganizationId
+                                INNER JOIN Customer C ON C.CustomerId=SE.CustomerId
+                                INNER JOIN [User] U ON U.UserId=SE.CreatedBy
+                                LEFT JOIN SaleOrder SO ON SO.ServiceEnquiryId=SE.ServiceEnquiryId
+                                LEFT JOIN JobCard JC ON JC.SaleOrderId=SO.SaleOrderId
+                                WHERE ServiceEnquiryDate BETWEEN  @from  AND @to  AND SE.OrganizationId=@OrganizationId
+                                ORDER BY ServiceEnquiryDate";
+                return connection.Query<ServiceRegister>(qry, new { from = from, to = to, OrganizationId = OrganizationId }).ToList();
+            }
+        }
     }
-}
+
+  }
+

@@ -16,6 +16,12 @@ namespace ArabErp.Domain
         public string Unit { get; set; }
         public DateTime LASTSERVICE { get; set; }
         public DateTime NEXTESERVICE { get; set; }
-
+        public string ServiceEnquiryRefNo { get; set; }
+        public DateTime ServiceEnquiryDate { get; set; }
+        public string Time { get; set; }
+        public string CompanyAddress { get; set; }
+        public string Complaints { get; set; }
+        public string UserName { get; set; }
+        public string Status { get; set; }
     }
 }

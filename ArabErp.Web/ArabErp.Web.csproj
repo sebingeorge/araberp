@@ -1449,6 +1449,8 @@
     <Content Include="Views\SupplyOrder\PendingSOSettle.cshtml" />
     <Content Include="Views\Customer\Approve.cshtml" />
     <Content Include="Views\SaleOrder\ApprovalProject.cshtml" />
+    <Content Include="Views\ServiceRegister\MaintenanceIndex.cshtml" />
+    <Content Include="Views\ServiceRegister\_MaintenanceRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
