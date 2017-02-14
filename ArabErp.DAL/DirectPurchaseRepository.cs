@@ -274,7 +274,7 @@ namespace ArabErp.DAL
             }
         }
 
-        public object GetPurchaseIndentList(int organizationId)
+        public object GetPurchaseIndentList(DateTime? from, DateTime? to,string id, int organizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -288,8 +288,10 @@ namespace ArabErp.DAL
                                 FROM PurchaseRequest PR
                                 WHERE PR.OrganizationId = @org
                                 AND WorkShopRequestId IS NULL
+                                and ISNULL(PR.PurchaseRequestNo,'') like'%'+@id+'%'
+                                and PR.PurchaseRequestDate BETWEEN ISNULL(@from, DATEADD(MONTH, -1, GETDATE())) AND ISNULL(@to, GETDATE()) 
                                 ORDER BY PurchaseRequestId DESC, PurchaseRequestNo DESC";
-                return connection.Query<DirectPurchaseRequest>(query, new { org = organizationId }).ToList();
+                return connection.Query<DirectPurchaseRequest>(query, new { org = organizationId, from = from,to=to,id=id}).ToList();
             }
         }
 
