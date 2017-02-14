@@ -1,0 +1,32 @@
+﻿@model IList<ArabErp.Domain.ServiceRegister>
+<table class="table table-bordered">
+    <thead>
+        <tr class="grid_heading">
+            <th width="5%"><h1>Service Enquiry Ref. No.</h1></th>
+            <th width="10%"><h1>Date</h1></th>
+            <th width="5%"><h1>Time</h1></th>
+            <th width="20%"><h1>Company Name and Location</h1></th>
+            <th width="20%"><h1>Contact person & Number</h1></th>
+            <th width="20%"><h1>Complanit</h1></th>
+            <th width="5%"><h1>Registered By</h1></th>
+
+
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tbody class="grid_row">
+            <tr>
+                <td class="grid-cell">@item.ServiceEnquiryRefNo</td>
+                <td class="grid-cell">@item.ServiceEnquiryDate.ToString("dd/MMM/yyyy")</td>
+                <td class="grid-cell">@item.Time</td>
+                <td class="grid-cell">@item.CompanyAddress</td>
+                <td class="grid-cell">@item.CustomerName</td>
+                <td class="grid-cell">@item.Complaints</td>
+                <td class="grid-cell">@item.UserName</td>
+            </tr>
+
+        </tbody>
+    }
+</table>
+
