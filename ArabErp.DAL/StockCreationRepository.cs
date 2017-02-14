@@ -17,7 +17,7 @@ namespace ArabErp.DAL
             return dataConnection;
         }
 
-        public string CreateStock(StockCreation model)
+    public string CreateStock(StockCreation model)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
@@ -28,24 +28,24 @@ namespace ArabErp.DAL
 
                     string query = @"INSERT INTO StockCreation
                                 (
-	                                StockCreationRefNo,
-	                                StockCreationDate,
+                                StockCreationRefNo,
+                                StockCreationDate,
                                     CreatedBy,
                                     CreatedDate,
                                     OrganizationId,
                                     ConsumedStockpointId,
                                     FinishedStockpointId
-                                )
+                                
                                 VALUES
                                 (
                                     @StockCreationRefNo,
-	                                @StockCreationDate,
+                                @StockCreationDate,
                                     @CreatedBy,
                                     @CreatedDate,
                                     @OrganizationId,
                                     @ConsumedStockpointId,
                                     @FinishedStockpointId
-                                );
+                                ;
                                 SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
                     int id = connection.Query<int>(query, model, txn).First();
@@ -106,7 +106,6 @@ namespace ArabErp.DAL
                 return model.StockCreationRefNo;
             }
         }
-
         public IEnumerable<StockCreation> GetStockCreations(int organizationId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
