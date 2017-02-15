@@ -57,6 +57,13 @@
         url += "?date=" + date + "&Spname=" + (Spname == '' ? 0 : Spname) + "&Spid=" + Spid + "&ItmCatid=" + ItmCatid + "&ItmCatname=" + (ItmCatname == '' ? 0 : ItmCatname) + "&Itmid=" + Itmid + "&PartNo=" + encodeURIComponent(PartNo);
         window.location = url;
     }
+
+    function OpenDetail(id) {
+        var url = '@Url.Action("DrillDown")';
+        url += "?itemId=" + id;
+        window.open(url);
+    }
+
 </script>
 <div class="row">
 

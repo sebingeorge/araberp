@@ -39,6 +39,11 @@ namespace ArabErp.Web.Controllers
             Ason = Ason ?? DateTime.Today;
             return PartialView("_ClosingStockRegister", new ClosingStockRepository().GetClosingStockData1(Ason, stkid, itmcatid, itmid, OrganizationId,PartNo,itmGroup, itmSubGroup));
         }
+        public ActionResult DrillDown(int itemId)
+        {
+            ClosingStockRepository repo = new ClosingStockRepository();
+            return View(repo.GetItemWiseDetails(itemId));
+        }
         public ActionResult ClosingStockWithAvgRate()
         {
             InitDropdown();

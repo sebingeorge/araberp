@@ -17,7 +17,10 @@
             { 
                 @:class="report-highlight"
             }>
-            <td class="grid-cell">@item.ItemName</td>
+            <td class="grid-cell">
+                <a style="cursor:pointer;" onclick="OpenDetail(@item.ItemId)">@item.ItemName</a>
+            </td>
+
             <td class="grid-cell">@item.ItemRefNo</td>
             <td class="grid-cell">@item.PartNo</td>
             <td class="grid-cell text-right">@item.Quantity</td>

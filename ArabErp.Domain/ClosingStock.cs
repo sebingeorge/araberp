@@ -28,4 +28,15 @@ namespace ArabErp.Domain
       public decimal AverageRate { get; set; }
       
     }
+
+  public class ClosingStockDrillDown
+  {
+      public string ItemName { get; set; }
+      public string Type { get; set; }
+      public string RefNo { get; set; }
+      public DateTime Date { get; set; }
+      public decimal Quantity { get; set; }
+      public string UserName { get; set; }
+      
+  }
 }

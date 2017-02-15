@@ -1,0 +1,56 @@
+﻿@model IEnumerable<ArabErp.Domain.ClosingStockDrillDown>
+@{
+    ViewBag.Title = "DrillDown";
+    Layout = "~/Views/Shared/_LayoutPopup.cshtml";
+}
+@{
+    string itemName = "";
+    foreach (var item in Model)
+    {
+        itemName = item.ItemName;
+        break;
+    }
+}
+
+<div class="row">
+    <div class="form-head1">
+        <h4> Details - @itemName</h4>
+    </div>
+
+    <div class="main-part pad1">
+
+        <div class="main-list wid  scroll4">
+            <table class="table table-bordered">
+                <tr class="grid_heading">
+                    <td style="width:25%;"><h1>Trnansaction Type</h1></td>
+                    <td style="width:10%;"><h1>Trnansaction No</h1></td>
+                    <td style="width:5%;"><h1>Date</h1></td>
+                    <th width="5%" class="text-right"><h1>Quantity</h1></th>
+                    <td style="width:5%;"><h1>Done by</h1></td>
+                </tr>
+              
+                @foreach (var item in Model)
+                {
+                    <tr class="grid-row">
+                        <td class="grid-cell">@item.Type</td>
+                        <td class="grid-cell">@item.RefNo</td>
+                        <td class="grid-cell">@item.Date.ToString("dd/MMM/yyyy")</td>
+                        <td class="grid-cell text-right">@item.Quantity</td>
+                        <td class="grid-cell">@item.UserName</td>
+                    </tr>
+                  
+                }
+                <tr class="grid_heading">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+

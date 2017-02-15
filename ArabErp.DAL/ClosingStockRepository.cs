@@ -40,20 +40,29 @@ namespace ArabErp.DAL
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
                 //              
-                string qry = @"SELECT ItemRefNo,ISNULL(PartNo,'-')PartNo,ItemName,SUM(Quantity)Quantity,UnitName FROM StockUpdate SU INNER JOIN Item I ON I.ItemId=SU.ItemId
-                               INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
-                               INNER JOIN ItemGroup  IG ON IG.ItemGroupId=I.ItemGroupId
+                string qry = @"SELECT I.ItemId,ItemRefNo,ISNULL(PartNo,'-')PartNo,ItemName,SUM(Quantity)Quantity,UnitName 
+                                FROM StockUpdate SU 
+                                INNER JOIN Item I ON I.ItemId=SU.ItemId
+                                INNER JOIN Unit U ON U.UnitId=I.ItemUnitId
+                                INNER JOIN ItemGroup  IG ON IG.ItemGroupId=I.ItemGroupId
 								INNER JOIN ItemSubGroup IGS ON IGS.ItemSubGroupId=I.ItemSubGroupId
-                               WHERE  ISNULL(I.isConsumable,0)=0 and I.ItemName LIKE '%'+@itmid+'%' AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) 
-                               AND SU.OrganizationId=@OrganizationId AND SU.StockPointId = ISNULL(NULLIF(@stkid, 0), SU.StockPointId) AND 
-                               I.ItemGroupId=ISNULL(NULLIF(@itmGroup,0),I.ItemGroupId) and I.ItemSubGroupId=ISNULL(NULLIF(@itmSubgroup,0),I.ItemSubGroupId)
-                               AND CONVERT(DATE, SU.stocktrnDate, 106)<=CONVERT(DATE, @Ason, 106)
-                                 and isnull(I.PartNo,'') like '%'+@partno+'%'
-                               GROUP BY ItemRefNo,PartNo,ItemName,UnitName";
+                                WHERE  ISNULL(I.isConsumable,0)=0 and I.ItemName LIKE '%'+@itmid+'%' AND I.ItemCategoryId=ISNULL(NULLIF(@itmcatid, 0), I.ItemCategoryId) 
+                                AND SU.OrganizationId=@OrganizationId AND SU.StockPointId = ISNULL(NULLIF(@stkid, 0), SU.StockPointId) AND 
+                                I.ItemGroupId=ISNULL(NULLIF(@itmGroup,0),I.ItemGroupId) and I.ItemSubGroupId=ISNULL(NULLIF(@itmSubgroup,0),I.ItemSubGroupId)
+                                AND CONVERT(DATE, SU.stocktrnDate, 106)<=CONVERT(DATE, @Ason, 106)
+                                and isnull(I.PartNo,'') like '%'+@partno+'%'
+                                GROUP BY I.ItemId,ItemRefNo,PartNo,ItemName,UnitName";
                 return connection.Query<ClosingStock>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, OrganizationId = OrganizationId, Ason = asOn, partno = partno, itmGroup = itmGroup, itmSubgroup = itmSubgroup }).ToList();
             }
         }
-
+        public IEnumerable<ClosingStockDrillDown> GetItemWiseDetails(int itemId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                string sql = "exec ItemWiseDetails " + itemId.ToString();
+                return connection.Query<ClosingStockDrillDown>(sql, new { itemId = itemId }).ToList();
+            }
+        }
         public IEnumerable<ClosingStock> GetClosingStockWithAvgRate(DateTime? asOn, int stockPointId, string itemId, int OrganizationId, string partno)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
