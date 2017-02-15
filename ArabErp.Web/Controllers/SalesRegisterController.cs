@@ -10,6 +10,8 @@ using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using ArabErp.Web.Models;
 using System.Data;
+using System.Data.SqlClient;
+using System.Text;
 
 namespace ArabErp.Web.Controllers
 {
@@ -32,7 +34,15 @@ namespace ArabErp.Web.Controllers
         {
             from = from ?? Convert.ToDateTime("01/" + DateTime.Today.Month + "/" + DateTime.Today.Year);
             to = to ?? DateTime.Today;
-            return PartialView("_SaleRegister", new SalesRegisterRepository().GetSalesRegister(from, to, id, OrganizationId, project));
+
+            var list = new SalesRegisterRepository().GetSalesRegister(from, to, id, OrganizationId, project);
+
+            Session["SalesInvoiceRegister"] = list;
+
+            return PartialView("_SaleRegister", list);
+
+            //return PartialView("_SaleRegister", new SalesRegisterRepository().GetSalesRegister(from, to, id, OrganizationId, project));
+
         }
 
         public ActionResult Print(int? project,DateTime? from, DateTime? to, int id = 0, string name = "" )
@@ -132,6 +142,56 @@ namespace ArabErp.Web.Controllers
             {
                 throw;
             }
+        }
+
+        public ActionResult ExportToExcel()
+        {
+            //SalesRegister model = (SalesRegister)Session["SalesRegister"];
+
+            List<SalesRegister> model = (List<SalesRegister>)Session["SalesInvoiceRegister"];
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("<Table border={0}1{0}>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Invoice No.</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Date</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Customer</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Work Description</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Qty</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Amount (Qty x Rate)</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Discount</td>", (Char)34);
+            sb.AppendFormat("<td style={0}font-weight:bold;{0}>Net Amount</td>", (Char)34); ;
+            sb.Append("</tr>");
+
+            foreach (var item in model)
+            {
+                sb.Append("<tr>");
+
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.SalesInvoiceRefNo);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.SalesInvoiceDate.ToString("dd-MMM-yyyy"));
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.CustomerName);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.WorkDescr);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.Quantity);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.Amount);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.Discount);
+                sb.AppendFormat("<td>{1}</td>", (Char)34, item.TotalAmount);
+
+
+                sb.Append("</tr>");
+            }
+
+            sb.Append("</Table>");
+            string ExcelFileName;
+
+            ExcelFileName = "SalesInvoiceRegister.xls";
+            Response.Clear();
+            Response.Charset = "";
+            Response.ContentType = "application/excel";
+            Response.AddHeader("Content-Disposition", "filename=" + ExcelFileName);
+            Response.Write(sb);
+            Response.End();
+            Response.Flush();
+            return View();
+
         }
 
     }
