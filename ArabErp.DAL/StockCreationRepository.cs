@@ -54,7 +54,10 @@ namespace ArabErp.DAL
                     foreach (var item in model.FinishedGoods)
                     {
                         item.StockCreationId = id;
-                        var i = new StockCreationFinishedGoodsRepository().InsertFinishedGoods(item, connection, txn);
+                        if (item.Quantity > 0)
+                        {
+                            var i = new StockCreationFinishedGoodsRepository().InsertFinishedGoods(item, connection, txn);
+                        }
                         new StockUpdateRepository().InsertStockUpdate(new StockUpdate
                         {
                             OrganizationId = model.OrganizationId,
@@ -76,7 +79,10 @@ namespace ArabErp.DAL
                     foreach (var item in model.ConsumedItems)
                     {
                         item.StockCreationId = id;
-                        var i = new StockCreationConsumedItemsRepository().InsertConsumedItems(item, connection, txn);
+                        if (item.Quantity > 0)
+                        {
+                            var i = new StockCreationConsumedItemsRepository().InsertConsumedItems(item, connection, txn);
+                        }
                         new StockUpdateRepository().InsertStockUpdate(new StockUpdate
                         {
                             OrganizationId = model.OrganizationId,

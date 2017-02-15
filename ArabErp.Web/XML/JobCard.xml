@@ -64,14 +64,14 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <JobCardNo>AARC/JC/17/41</JobCardNo>
-    <JobCardDate>02-Feb-2017</JobCardDate>
-    <EDC>09-Feb-2017</EDC>
-    <SaleOrderRefNo>259203</SaleOrderRefNo>
-    <Unit>Thermal Matser T1400-R</Unit>
-    <Customer>M/s. GULF MEDICAL COMPANY ( Community Pharmacy WLL )</Customer>
-    <ChasisNo>259203</ChasisNo>
-    <VModel>Nissan Urvan STD</VModel>
+    <JobCardNo>AARC/JC/P/17/6</JobCardNo>
+    <InternalJobCardNo>2907</InternalJobCardNo>
+    <JobCardDate>07-Feb-2017</JobCardDate>
+    <EDC>23-Feb-2017</EDC>
+    <SaleOrderRefNo />
+    <Unit>Tecumseh Hermetic Condensing Unit-CAJ4517E, Carrier Evaporator Freezer CAB 3167, Carrier Condenser Freezer CRL-150-AY, Carrier Evaporator Freezer CAB 3167</Unit>
+    <Customer>Al Jassim Group - Burger King</Customer>
+    <ChasisNo />
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
     <State>Doha</State>
@@ -80,153 +80,128 @@
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
-    <Complaints>1) 50mm Paneling Installation
-2) TM T1400</Complaints>
-    <Accessories> 50MM INSULATED PANEL STD -AL FURATH</Accessories>
-    <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
-    <CreatedDes>Workshop Controller</CreatedDes>
-    <isProjectBased>0</isProjectBased>
+    <Image1>E:\Asha\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <Box>PFI Hinged Door 1900(H)X900(W)X90(T)MM-RHS Without Door Step, PFI Hinged Door 1900(H)X900(W)X90(T)MM-RHS Without Door Step</Box>
+    <CreatedUser>danet</CreatedUser>
+    <CreateSignature>E:\Asha\ArabErp\ArabErp.Web\App_Images\</CreateSignature>
+    <CreatedDes>Project- Engineer</CreatedDes>
+    <isProjectBased>1</isProjectBased>
     <isService>0</isService>
   </Head>
   <Items>
-    <TaskDate>02-Feb-2017</TaskDate>
-    <Employee>Aung Tun Oo</Employee>
-    <Description>Box Fixing</Description>
+    <TaskDate>11-Feb-2017</TaskDate>
+    <Description>Panel Cutting</Description>
     <Hours>8.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>12-Feb-2017</TaskDate>
+    <Description>Floor angle fixing </Description>
+    <Hours>2.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>12-Feb-2017</TaskDate>
+    <Description>Layout Marking </Description>
+    <Hours>2.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>12-Feb-2017</TaskDate>
+    <Description>Material Shifting</Description>
+    <Hours>4.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>12-Feb-2017</TaskDate>
+    <Description>Wall panelling</Description>
+    <Hours>16.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>13-Feb-2017</TaskDate>
+    <Description>Wall panelling</Description>
+    <Hours>16.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>14-Feb-2017</TaskDate>
+    <Description>Celing panel fixing  </Description>
+    <Hours>16.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>15-Feb-2017</TaskDate>
+    <Description>Floor angle fixing </Description>
+    <Hours>4.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>15-Feb-2017</TaskDate>
+    <Description>Floor Panel Fixing </Description>
+    <Hours>16.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>15-Feb-2017</TaskDate>
+    <Description>Silicon/ Puff Filling</Description>
+    <Hours>4.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>16-Feb-2017</TaskDate>
+    <Description>Door Opening &amp; Fixing</Description>
+    <Hours>16.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>16-Feb-2017</TaskDate>
+    <Description>Flashing/Angle Fixing</Description>
+    <Hours>4.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>16-Feb-2017</TaskDate>
+    <Description>Panel Board Making</Description>
+    <Hours>8.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>18-Feb-2017</TaskDate>
+    <Description>Condenser fixing</Description>
+    <Hours>16.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>18-Feb-2017</TaskDate>
+    <Description>Drainline Fixing</Description>
+    <Hours>8.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>18-Feb-2017</TaskDate>
+    <Description>Evaporator Fixing</Description>
+    <Hours>8.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>19-Feb-2017</TaskDate>
+    <Description>Electrical Works</Description>
+    <Hours>8.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>19-Feb-2017</TaskDate>
+    <Description>Piping </Description>
+    <Hours>16.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>20-Feb-2017</TaskDate>
+    <Description>Pressure test</Description>
+    <Hours>8.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>22-Feb-2017</TaskDate>
+    <Description>Flushing</Description>
+    <Hours>16.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>22-Feb-2017</TaskDate>
+    <Description>Vacuuming </Description>
+    <Hours>16.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>23-Feb-2017</TaskDate>
+    <Description>Commissioning </Description>
+    <Hours>16.00</Hours>
   </Items>
   <Items>
-    <TaskDate />
-    <Employee />
-    <Description />
-    <Hours />
+    <TaskDate>23-Feb-2017</TaskDate>
+    <Description>Gas charging </Description>
+    <Hours>8.00</Hours>
   </Items>
   <Items>
     <TaskDate />
