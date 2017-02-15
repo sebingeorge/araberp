@@ -345,6 +345,7 @@ namespace ArabErp.DAL
                                 WHERE DC.JobCardId IS NULL
 	                                AND ISNULL(DC.isActive, 1) = 1
 	                                AND ISNULL(SO.isActive, 1) = 1
+                                    AND ISNULL(JC.isProjectBased, 0) = 0
 									AND ISNULL(JC.JodCardCompleteStatus, 0) = 1
                                     AND DC.JobCardId IS NULL
 									AND JC.OrganizationId = @OrganizationId";
@@ -711,7 +712,7 @@ namespace ArabErp.DAL
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(isActive, 1) = 1 and OrganizationId =" + OrganizationId.ToString() + " and isProjectBased='1' ").ToList();
+                return connection.Query<Dropdown>("SELECT JobCardId Id, JobCardNo Name FROM JobCard WHERE ISNULL(isActive, 1) = 1 and OrganizationId =" + OrganizationId.ToString() + " and isProjectBased='1' and isService=0 ").ToList();
             }
         }
 

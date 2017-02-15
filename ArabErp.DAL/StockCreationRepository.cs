@@ -34,7 +34,7 @@ namespace ArabErp.DAL
                                     CreatedDate,
                                     OrganizationId,
                                     ConsumedStockpointId,
-                                    FinishedStockpointId
+                                    FinishedStockpointId)
                                 
                                 VALUES
                                 (
@@ -44,7 +44,7 @@ namespace ArabErp.DAL
                                     @CreatedDate,
                                     @OrganizationId,
                                     @ConsumedStockpointId,
-                                    @FinishedStockpointId
+                                    @FinishedStockpointId)
                                 ;
                                 SELECT CAST(SCOPE_IDENTITY() AS INT)";
 

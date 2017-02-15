@@ -1451,6 +1451,8 @@
     <Content Include="Views\SaleOrder\ApprovalProject.cshtml" />
     <Content Include="Views\ServiceRegister\MaintenanceIndex.cshtml" />
     <Content Include="Views\ServiceRegister\_MaintenanceRegister.cshtml" />
+    <Content Include="Views\PurchaseRequest\View.cshtml" />
+    <Content Include="Views\DirectPurchase\View.cshtml" />
     <Content Include="Views\DirectPurchase\_PreviousListPurchaseIndent.cshtml" />
     <Content Include="Views\DirectPurchase\_PurchaseIndentsList.cshtml" />
   </ItemGroup>

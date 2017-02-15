@@ -25,5 +25,6 @@ namespace ArabErp.Domain
         public string SettledReason { get; set; }
         public DateTime SettledDate { get; set; }
         public string SettledBy { get; set; }
+        public string PurchaseRequestNo { get; set; }
     }
 }

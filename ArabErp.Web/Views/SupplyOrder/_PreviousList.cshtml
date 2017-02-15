@@ -11,9 +11,10 @@
                         <th width="7%" nowrap><h1>Date</h1></th>
                         <th width="30%" nowrap><h1>Supplier</h1></th>
                         <th width="12%" nowrap><h1>Quotation No. &amp; Date</h1></th>
-                        <th width="7%" class="text-right" nowrap><h1>PRQ Qty.</h1></th>
+                        <th width="15%" nowrap><h1>Purchase Req. No</h1></th>
+                        @*<th width="7%" class="text-right" nowrap><h1>PRQ Qty.</h1></th>
                         <th width="7%" class="text-right" nowrap><h1>Ordered Qty.</h1></th>
-                        <th width="7%" class="text-right" nowrap><h1>Balance Qty.</h1></th>
+                        <th width="7%" class="text-right" nowrap><h1>Balance Qty.</h1></th>*@
                         <th width="10%" class="text-right" nowrap><h1>Total</h1></th>
                         <th width="1%"><center><h1></h1></center></th>
                     </tr>
@@ -29,9 +30,10 @@
                                 <td>@item.SupplyOrderDate.ToString("dd/MMM/yyyy")</td>
                                 <td>@item.SupplierName</td>
                                 <td>@item.QuotationNoAndDate</td>
-                                <td align="right">@item.RequestedQuantity</td>
+                                <td>@item.PurchaseRequestNo</td>
+                                @*<td align="right">@item.RequestedQuantity</td>
                                 <td align="right">@item.SuppliedQuantity</td>
-                                <td align="right">@item.BalanceQuantity</td>
+                                <td align="right">@item.BalanceQuantity</td>*@
                                 <td align="right">@item.Amount</td>
                                 <td>
                                     <center><input type="button" class="form-button4" onclick="OnSelected(@item.SupplyOrderId)" value="Select" title="Select to view details" /></center>

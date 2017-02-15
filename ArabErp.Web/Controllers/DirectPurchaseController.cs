@@ -396,7 +396,6 @@ namespace ArabErp.Web.Controllers
                 return RedirectToAction("PurchaseIndents");
             }
         }
-
         [HttpPost]
         public ActionResult EditPurchaseIndent(DirectPurchaseRequest model)
         {
@@ -417,7 +416,6 @@ namespace ArabErp.Web.Controllers
                 return View("PurchaseIndent", model);
             }
         }
-
         public ActionResult DeletePurchaseIndent(int id = 0)
         {
             try
@@ -437,7 +435,6 @@ namespace ArabErp.Web.Controllers
         {
             return Json(new DirectPurchaseRepository().GetStockQuantity(itemId), JsonRequestBehavior.AllowGet);
         }
-
         public ActionResult GetLastPurchaseRate(int itemId)
         {
             try
@@ -491,6 +488,33 @@ namespace ArabErp.Web.Controllers
             Response.Flush();
             return View();
 
+        }
+
+        public ActionResult ViewPurchaseIndent(int id = 0)
+        {
+            try
+            {
+                if (id == 0)
+                {
+                    TempData["error"] = "That was an invalid/unknown request. Please try again.";
+                    return RedirectToAction("Index", "Home");
+                }
+                var model = new DirectPurchaseRepository().GetPurchaseIndent(id, OrganizationId);
+                Session["purchaseIndent"] = model;
+                if (model == null)
+                {
+                    TempData["error"] = "Could not find the requested Purchase Indent. Please try again.";
+                    return RedirectToAction("Index", "Home");
+                }
+                FillPartNo();
+                GetMaterials();
+                return View("View", model);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occured. Please try again.";
+                return RedirectToAction("PurchaseIndents");
+            }
         }
     }
 }
