@@ -823,6 +823,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="XML\SalesInvoice.xml" />
+    <Content Include="ClassDiagram2.cd" />
     <None Include="Properties\PublishProfiles\Server.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

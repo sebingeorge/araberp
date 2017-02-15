@@ -46,6 +46,9 @@
 
     }
 
+    function ExporttoExcel() {
+        location.href = '@Url.Action("ExportToExcel")';
+    }
 </script>
 <div class="row">
     <div class="form-head1">
@@ -86,6 +89,7 @@
             <div class="col-md-12 hrpart">
                 <input type="button" class="form-button right" value="Exit" onclick="Exit()" />
                 <input type="button" value="Print" onclick="GoToPrint()" class="form-button right" />
+                <input type="button" class="form-button fwid right" value="Export to Excel" onclick="ExporttoExcel()" />
             </div>
         </div>
     </div>

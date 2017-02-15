@@ -44,7 +44,7 @@
                   "value",
                   "text", DateTime.Today.Month - 1), "Select Month", new { @class = "form_input", @onchange = "Filter()" })
             </div>
-            <div class="col-md-2">
+            <div class="col-md-1">
                 <label for="">Year</label>
                 @Html.DropDownList("year-filter", new SelectList(
                   new List<Object>{
@@ -52,10 +52,10 @@
                        new { value = ViewBag.EndYear, text = ViewBag.EndYear }
                     },
                   "value",
-                  "text", ViewBag.Year), "Select Year", new { @class = "form_input", @onchange = "Filter()" })
+                  "text", ViewBag.StartYear), "Select Year", new { @class = "form_input", @onchange = "Filter()" })
             </div>
             <div class="col-md-2">
-                <label for="">Year</label>
+                <label for="">Type</label>
                 @Html.DropDownList("type-filter", new SelectList(
                   new List<Object>{
                        new { value = 0, text = "Transport" },
@@ -64,17 +64,17 @@
                   "value",
                   "text", 0), new { @class = "form_input", @onchange = "Filter()" })
             </div>
-            <div class="col-md-3 col-md-offset-3">
+            @*<div class="col-md-3 col-md-offset-3">
                 <div class="col-md-4 pmtop">
                     <div class="reddot"></div>Project
                 </div>
                 <div class="col-md-7 pmtop">
                     <div class="greendot"></div>Transportation
                 </div>
-            </div>
+            </div>*@
         </div>
 
-        <div class="scroll6" id="employee-grid">
+        <div class="" style="width:1000px" id="employee-grid">
             @Html.Action("EmployeeGrid")
         </div>
 
