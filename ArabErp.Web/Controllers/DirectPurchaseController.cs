@@ -356,9 +356,18 @@ namespace ArabErp.Web.Controllers
             ViewBag.partNoList = new SelectList(new DropdownRepository().PartNoDropdown1(), "Id", "Name");
         }
 
+        //public ActionResult PurchaseIndents()
+        //{
+        //    return View(new DirectPurchaseRepository().GetPurchaseIndentList(OrganizationId));
+        //}
         public ActionResult PurchaseIndents()
         {
-            return View(new DirectPurchaseRepository().GetPurchaseIndentList(OrganizationId));
+            return View();
+        }
+        public ActionResult PurchaseIndentsList(DateTime? from,DateTime? to,string id="")
+        {
+            //return View(new DirectPurchaseRepository().GetPurchaseIndentList(OrganizationId));
+            return PartialView("_PurchaseIndentsList", new DirectPurchaseRepository().GetPurchaseIndentList(from: from, to: to, id: id, organizationId: OrganizationId));
         }
 
         public ActionResult EditPurchaseIndent(int id = 0)

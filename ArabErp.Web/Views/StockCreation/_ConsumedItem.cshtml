@@ -90,51 +90,58 @@
 
     function OnMaterialChanged(index) {
 
-   
+   debugger
         //check whether the material is already selected in any grid
         var item = $("#ConsumedItems_" + index + "__ItemId").val();
         if (item == '') {
             $("#ConsumedItems_" + index + "__StockQuantity").val(0);
             $("#ConsumedItems_" + index + "__Unit").val('');
-            return;
         }
         var count = 0;
         $("select[id$='__ItemId']").each(function (index, object) {
+            debugger
             if ($(object).val() == item) {
                 count++;
             }
+          
+            
         })
         if (count > 1) {
             toastr.info("This Material/Spare has already been added");
+            debugger
             $("#ConsumedItems_" + index + "__ItemId").val('');
             $("#ConsumedItems_" + index + "__StockQuantity").val(0);
             $("#ConsumedItems_" + index + "__Unit").val('');
             $("#ConsumedItems_" + index + "__ItemId").combobox("destroy");
             $("#ConsumedItems_" + index + "__ItemId").combobox();
             return;
+            
         }
 
         if ($("#ConsumedStockpointId").val() == '') {
             toastr.info("You have to select the Stock Point before selecting material/spare");
+            debugger
             $("#ConsumedItems_" + index + "__ItemId").val('');
             $("#ConsumedItems_" + index + "__ItemId").combobox("destroy");
             $("#ConsumedItems_" + index + "__ItemId").combobox();
-            return;
+            return; 
+          
         }
 
-
+        debugger
         var date = $("#StockCreationDate").val();
         var material = $("#ConsumedItems_" + index + "__ItemId").val();
         if (material == '') return;
 
 
         var url = '@Url.Action("GetStockQuantity")';
+        debugger
         $("#ConsumedItems_" + index + "__StockQuantity").val(0);
         $("#ConsumedItems_" + index + "__Unit").val('');
         $.getJSON(url, { date: date, id: material, stockpoint: $("#ConsumedStockpointId").val() }, function (data) {
 
             //var arr = data.split('|');
-
+            debugger
             $("#ConsumedItems_" + index + "__StockQuantity").val(data.Quantity);
             $("#ConsumedItems_" + index + "__Unit").val(data.UnitName);
         })

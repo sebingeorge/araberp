@@ -113,7 +113,7 @@ namespace ArabErp.DAL
                 string sql = @" SELECT CustomerId,CustomerRefNo,CustomerName,CusCategoryName,CountryName,isnull(approve,0)approve FROM Customer C
                                 INNER JOIN CustomerCategory ON CusCategoryId=C.CategoryId
                                 INNER JOIN Country ON CountryId=C.Country
-                                WHERE C.isActive=1 and CustomerName LIKE '%'+@customer+'%'
+                                WHERE C.isActive=1 and CustomerName LIKE @customer+'%'
                                 order by CustomerId desc ";
 
                 var objCustomers = connection.Query<Customer>(sql, new

@@ -1,0 +1,79 @@
+﻿@model IList<ArabErp.Domain.DirectPurchaseRequest>
+
+    @*@{
+        ViewBag.Title = "Direct Purchase Request List";
+        Layout = "~/Views/Shared/_Layout.cshtml";*@
+    @*}*@
+
+    @*<script type="text/javascript">
+
+        function OnItemSelected(id) {
+            var url = '@Url.Action("EditPurchaseIndent")';
+            url += "?id=" + id;
+            window.location = url;
+        }
+        function Exit() {
+            var url = '@Url.Action("PurchaseIndent")';
+            window.location = url;
+        }
+    </script>*@
+
+    <div class="row">
+
+        
+                <div class="main-grid main-grid-top scroll1">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr class="grid_heading">
+                                    <th width="2%"><h1>#</h1></th>
+                                    <th width="15%" nowrap><h1>Purchase Indent No. &amp; Date</h1></th>
+                                    <th width="20%" nowrap><h1>Remarks</h1></th>
+                                    <th width="10%" nowrap><h1>Required Date</h1></th>
+                                    <th width="1%"><center></center></th>
+                                </tr>
+                            </thead>
+                            <tbody class="grid_row">
+                                @if (Model.Count > 0)
+                                {
+                                    int i = 0;
+                                    foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td align="center">
+                                                @(++i)
+                                            </td>
+                                            <td>
+                                                @item.PurchaseRequestNo - @item.PurchaseRequestDate.Value.ToString("dd-MMMM-yyyy")
+                                            </td>
+                                            <td>
+                                                @item.SpecialRemarks
+                                            </td>
+                                            <td>
+                                                @item.RequiredDate.Value.ToString("dd-MMMM-yyyy")
+                                            </td>
+                                            <td>
+                                                <center><input type="button" value="Select" onclick="OnItemSelected(@item.DirectPurchaseRequestId)" class="form-button4" /></center>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="10" align="center">
+                                            <em>No items to show!</em>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        <div class="row-count1">
+            <h5>Row Count:- @Model.Count()</h5>
+        </div>
+                </div>
+         
+    
+    

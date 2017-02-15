@@ -345,6 +345,7 @@ namespace ArabErp.DAL
                                 WHERE DC.JobCardId IS NULL
 	                                AND ISNULL(DC.isActive, 1) = 1
 	                                AND ISNULL(SO.isActive, 1) = 1
+                                    AND ISNULL(JC.isProjectBased, 0) = 0
 									AND ISNULL(JC.JodCardCompleteStatus, 0) = 1
                                     AND DC.JobCardId IS NULL
 									AND JC.OrganizationId = @OrganizationId";

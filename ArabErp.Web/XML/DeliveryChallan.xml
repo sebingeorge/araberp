@@ -67,29 +67,23 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <DeliveryChallanRefNo>DV/17/146</DeliveryChallanRefNo>
-    <DeliveryChallanDate>02-Feb-2017</DeliveryChallanDate>
-    <Customer>Qatar Automobiles Company</Customer>
-    <CDoorNo>Salwa raod, Doha, Qatar</CDoorNo>
-    <CStreet>Tel: 974 44699685</CStreet>
+    <DeliveryChallanRefNo>DV/17/48</DeliveryChallanRefNo>
+    <DeliveryChallanDate>16-Jan-2017</DeliveryChallanDate>
+    <Customer>Al Danah Trading &amp; Contracting Co.</Customer>
+    <CDoorNo>Doha- Qatar</CDoorNo>
+    <CStreet />
     <CCountry>INDIA</CCountry>
-    <SaleRefNo>AARC/SO/TR/3</SaleRefNo>
-    <SONoDate>30 Nov 2016</SONoDate>
-    <JobcardNo>AARC/JC/17/3</JobcardNo>
-    <JCDate>03-Jan-2017 00:00:00</JCDate>
-    <RegistrationNo>NULL</RegistrationNo>
-    <ChassisNo>GK019917</ChassisNo>
-    <WorkDesc>Thermal Matser T2500 + 5500x2200x2200mm</WorkDesc>
-    <VehicleModel>MITSUBISHI FUSO CANTER</VehicleModel>
+    <SaleRefNo>AARC/SER/17/39</SaleRefNo>
+    <SONoDate>16 Jan 2017</SONoDate>
+    <JobcardNo>AARC/17/JC-S/39</JobcardNo>
+    <JCDate>16-Jan-2017 12:00:00 AM</JCDate>
+    <RegistrationNo>170090</RegistrationNo>
+    <WorkDesc>General Checkup &amp; Repair</WorkDesc>
+    <VehicleModel>Toyota Hiace Standard Van 3 seater</VehicleModel>
     <Employee>Mohammed Safiq</Employee>
-    <PaymentTerms>Net 30</PaymentTerms>
-    <QuotationRefNo>AARC/SQ/3</QuotationRefNo>
-    <FreezerName>Thermal Master T2500</FreezerName>
-    <FreezerPartNo>TH-24YP-15</FreezerPartNo>
-    <BoxName>2965</BoxName>
-    <BoxPartNo>2965</BoxPartNo>
-    <FreezerId>1242</FreezerId>
-    <Box>AARC NO.1262</Box>
+    <QuotationRefNo>AARC/SER/39/01/17</QuotationRefNo>
+    <FreezerName>Z30S</FreezerName>
+    <FreezerPartNo>PC012310</FreezerPartNo>
     <SupplyOrderDate>01-Jan-0001</SupplyOrderDate>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
     <Street>Hiteen Street, Muntazah </Street>
@@ -99,30 +93,18 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <Image1>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <Image1>E:\Asha\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
-    <LPONo>SQ3/QAC/30/11/2016</LPONo>
-    <LPODate>30-Nov-2016</LPODate>
+    <LPONo />
+    <LPODate>16-Jan-2017</LPODate>
     <CreatedUser>safiq</CreatedUser>
-    <CreateSignature>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSignature>
-    <ApprovedUsersig>F:\PROJECTS\ARAB ERP-MVC\ArabErp\ArabErp.Web\App_Images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</ApprovedUsersig>
+    <CreateSignature>E:\Asha\ArabErp\ArabErp.Web\App_Images\f61c28b0-f97c-4eb3-bcce-319a25e785f5.jpg</CreateSignature>
+    <ApprovedUsersig>E:\Asha\ArabErp\ArabErp.Web\App_Images\f61c28b0-f97c-4eb3-bcce-319a25e785f5.jpg</ApprovedUsersig>
   </Head>
   <Items>
-    <Description>Supply &amp; Installation of 100mm 5.5x2.2x2.2mtr PUB into
-Suitable Mit 5.4T Truck
+    <Description>Electrical Wiring
+Labor Charges
 </Description>
-    <UoM>ea</UoM>
-    <Quantity>1</Quantity>
-  </Items>
-  <Items>
-    <Description>Supply, Installation &amp; Commissioning of Thermal Master T2500
-(24V without Stand-by) into Mit 5.4T Truck
-</Description>
-    <UoM>ea</UoM>
-    <Quantity>1</Quantity>
-  </Items>
-  <Items>
-    <Description>Supply &amp; Fixing of Single Row Side Crash guard</Description>
     <UoM>ea</UoM>
     <Quantity>1</Quantity>
   </Items>
