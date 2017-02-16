@@ -55,12 +55,162 @@ namespace ArabErp.DAL
                 return connection.Query<ClosingStock>(qry, new { stkid = stockPointId, itmcatid = itemCategoryId, itmid = itemId, OrganizationId = OrganizationId, Ason = asOn, partno = partno, itmGroup = itmGroup, itmSubgroup = itmSubgroup }).ToList();
             }
         }
-        public IEnumerable<ClosingStockDrillDown> GetItemWiseDetails(int itemId)
+        public IEnumerable<ClosingStockDrillDown> GetItemWiseDetails(DateTime? from, DateTime? to, int itemId)
         {
             using (IDbConnection connection = OpenConnection(dataConnection))
             {
-                string sql = "exec ItemWiseDetails " + itemId.ToString();
-                return connection.Query<ClosingStockDrillDown>(sql, new { itemId = itemId }).ToList();
+                //string sql = "exec ItemWiseDetails " + itemId.ToString();
+                //string sql = "exec ItemWiseDetails " + from.Value + ',' + to.Value + ',' + itemId.ToString();
+               string qry = @" SELECT DISTINCT I.ItemName,PurchaseRequestNo RefNo,PurchaseRequestDate Date,Quantity,'Direct Purchase' Type,U.UserName
+                            FROM DirectPurchaseRequestItem DI
+                            INNER JOIN DirectPurchaseRequest D ON D.DirectPurchaseRequestId=DI.DirectPurchaseRequestId
+                            INNER JOIN Item I ON I.ItemId=DI.ItemId
+                            INNER JOIN [User] U ON U.UserId=D.CreatedBy
+                            WHERE I.ItemId=@itemId AND PurchaseRequestDate BETWEEN @from AND @to
+
+                            UNION ALL
+
+                            SELECT DISTINCT I.ItemName,PurchaseRequestNo,PurchaseRequestDate,Quantity,'Purchase Request'Type,U.UserName
+                            FROM PurchaseRequestItem PI
+                            INNER JOIN PurchaseRequest P ON P.PurchaseRequestId=PI.PurchaseRequestId
+                            INNER JOIN Item I ON I.ItemId=PI.ItemId
+                            INNER JOIN [User] U ON U.UserId=P.CreatedBy
+                            WHERE PI.ItemId=@itemId AND PurchaseRequestDate BETWEEN @from AND @to
+
+                            UNION ALL
+
+                            SELECT DISTINCT I.ItemName,S.SupplyOrderNo,S.SupplyOrderDate,SI.OrderedQty,'Supply Order'Type,U.UserName
+                            FROM SupplyOrderItem SI
+                            INNER JOIN SupplyOrder S ON S.SupplyOrderId=SI.SupplyOrderId
+                            INNER JOIN PurchaseRequestItem PI ON PI.PurchaseRequestItemId=SI.PurchaseRequestItemId
+                            INNER JOIN Item I ON I.ItemId=PI.ItemId
+                            INNER JOIN [User] U ON U.UserId=S.CreatedBy
+                            WHERE I.ItemId=@itemId AND S.SupplyOrderDate BETWEEN @from AND @to
+
+                            UNION ALL
+
+                            SELECT DISTINCT I.ItemName,P.PurchaseBillRefNo,P.PurchaseBillDate,PI.Quantity,'Purchase Bill'Type,U.UserName 
+                            FROM PurchaseBillItem PI
+                            INNER JOIN PurchaseBill P ON P.PurchaseBillId=PI.PurchaseBillId
+                            INNER JOIN GRNItem GI ON GI.GRNItemId=PI.GRNItemId
+                            INNER JOIN Item I ON I.ItemId=GI.ItemId
+                            INNER JOIN [User] U ON U.UserId=P.CreatedBy
+                            WHERE GI.ItemId=@itemId AND PurchaseBillDate BETWEEN @from AND @to
+
+                            UNION ALL
+
+                            SELECT DISTINCT I.ItemName,G.GRNNo,G.GRNDate,GI.Quantity,'GRN'Type,U.UserName 
+                            FROM GRNItem GI
+                            INNER JOIN GRN G ON G.GRNId=GI.GRNId
+                            INNER JOIN Item I ON I.ItemId=GI.ItemId
+                            INNER JOIN [User] U ON U.UserId=G.CreatedBy
+                            WHERE GI.ItemId=@itemId AND GRNDate BETWEEN @from AND @to
+
+                            UNION ALL
+
+                            SELECT DISTINCT I.ItemName,WorkShopRequestRefNo,WorkShopRequestDate,WI.Quantity,'WorkShop/Material-Request'Type,U.UserName
+                            FROM WorkShopRequest W
+                            INNER JOIN WorkShopRequestItem WI ON W.WorkShopRequestId=WI.WorkShopRequestId
+                            INNER JOIN Item I ON I.ItemId=WI.ItemId
+                            INNER JOIN [User] U ON U.UserId=W.CreatedBy
+                            WHERE WI.ItemId=@itemId AND WorkShopRequestDate BETWEEN @from AND @to
+
+                            UNION ALL
+
+                            SELECT DISTINCT I.ItemName,StoreIssueRefNo,StoreIssueDate,SI.IssuedQuantity,'Store Issue'Type,U.UserName
+                            FROM StoreIssue S
+                            INNER JOIN StoreIssueItem SI ON S.StoreIssueId=SI.StoreIssueId
+                            INNER JOIN WorkShopRequestItem WI ON WI.WorkShopRequestItemId=SI.WorkShopRequestItemId
+                            INNER JOIN Item I ON I.ItemId=WI.ItemId
+                            INNER JOIN [User] U ON U.UserId=S.CreatedBy
+                            WHERE WI.ItemId=@itemId AND StoreIssueDate BETWEEN @from AND @to
+
+                            UNION ALL
+
+                            SELECT DISTINCT I.ItemName,S.SaleOrderRefNo,S.SaleOrderDate,SI.Quantity,'Sale Order'Type ,U.UserName
+                            FROM SaleOrder S
+                            INNER JOIN SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
+                            INNER JOIN WorkDescription W ON W.WorkDescriptionId=SI.WorkDescriptionId
+                            INNER JOIN Item I ON I.ItemId=W.FreezerUnitId
+                            INNER JOIN [User] U ON U.UserId=S.CreatedBy 
+                            WHERE W.FreezerUnitId=@itemId AND SaleOrderDate BETWEEN @from AND @to
+
+                            UNION ALL
+
+                            SELECT DISTINCT I.ItemName,S.SaleOrderRefNo,S.SaleOrderDate,SI.Quantity,'Sale Order'Type ,U.UserName
+                            FROM SaleOrder S
+                            INNER JOIN SaleOrderItem SI ON S.SaleOrderId=SI.SaleOrderId
+                            INNER JOIN WorkDescription W ON W.WorkDescriptionId=SI.WorkDescriptionId
+                            INNER JOIN Item I ON  I.ItemId=W.BoxId
+                            INNER JOIN [User] U ON U.UserId=S.CreatedBy
+                            WHERE W.BoxId=@itemId AND SaleOrderDate BETWEEN @from AND @to
+                            
+                            UNION ALL
+
+                            SELECT DISTINCT U.ItemName,SalesInvoiceRefNo,SalesInvoiceDate,SI.Quantity,'Sales Invoice'Type ,U1.UserName
+                            FROM SalesInvoice S
+                            INNER JOIN SalesInvoiceItem SI ON S.SalesInvoiceId=SI.SalesInvoiceId
+                            INNER JOIN SaleOrderItem SOI ON SOI.SaleOrderItemId=SI.SaleOrderItemId
+                            INNER JOIN WorkDescription W ON W.WorkDescriptionId=SOI.WorkDescriptionId
+                            INNER JOIN Item U ON U.ItemId=W.FreezerUnitId 
+                            INNER JOIN [User] U1 ON U1.UserId=S.CreatedBy
+                            WHERE W.FreezerUnitId=@itemId AND SalesInvoiceDate BETWEEN @from AND @to 
+
+                            UNION ALL
+
+                            SELECT DISTINCT B.ItemName,SalesInvoiceRefNo,SalesInvoiceDate,SI.Quantity,'Sales Invoice'Type,U.UserName 
+                            FROM SalesInvoice S
+                            INNER JOIN SalesInvoiceItem SI ON S.SalesInvoiceId=SI.SalesInvoiceId
+                            INNER JOIN SaleOrderItem SOI ON SOI.SaleOrderItemId=SI.SaleOrderItemId
+                            INNER JOIN WorkDescription W ON W.WorkDescriptionId=SOI.WorkDescriptionId
+                            INNER JOIN Item B ON B.ItemId=W.BoxId 
+                            INNER JOIN [User] U ON U.UserId=S.CreatedBy
+                            WHERE W.BoxId=@itemId AND SalesInvoiceDate BETWEEN @from AND @to
+                         
+                            UNION ALL
+
+                            SELECT DISTINCT I.ItemName,DeliveryChallanRefNo,DeliveryChallanDate,1 Quantity,'Delivery Note'Type,U.UserName
+                            FROM DeliveryChallan D
+                            INNER JOIN JobCard J ON J.JobCardId=D.JobCardId
+                            INNER JOIN WorkDescription W ON W.WorkDescriptionId=J.WorkDescriptionId
+                            INNER JOIN Item I ON I.ItemId=W.FreezerUnitId 
+                            INNER JOIN [User] U ON U.UserId=D.CreatedBy
+                            WHERE W.FreezerUnitId=@itemId AND DeliveryChallanDate BETWEEN @from AND @to
+
+                            UNION ALL
+
+                            SELECT DISTINCT I.ItemName,DeliveryChallanRefNo,DeliveryChallanDate,1 Quantity,'Delivery Note'Type,U.UserName
+                            FROM DeliveryChallan D
+                            INNER JOIN JobCard J ON J.JobCardId=D.JobCardId
+                            INNER JOIN WorkDescription W ON W.WorkDescriptionId=J.WorkDescriptionId
+                            INNER JOIN Item I ON I.ItemId=W.BoxId
+                            INNER JOIN [User] U ON U.UserId=D.CreatedBy
+                            WHERE  W.BoxId=@itemId AND DeliveryChallanDate BETWEEN @from AND @to
+
+                            UNION ALL
+
+                            SELECT DISTINCT I.ItemName,QuotationRefNo,QuotationDate,SI.Quantity,'Sales Quotation'Type ,U.UserName
+                            FROM SalesQuotation S
+                            INNER JOIN SalesQuotationItem SI ON S.SalesQuotationId=SI.SalesQuotationId
+                            INNER JOIN WorkDescription W ON W.WorkDescriptionId=SI.WorkDescriptionId
+                            INNER JOIN Item I ON I.ItemId=W.FreezerUnitId
+                            INNER JOIN [User] U ON U.UserId=S.CreatedBy
+                            WHERE W.FreezerUnitId=@itemId AND QuotationDate BETWEEN @from AND @to
+
+                            UNION ALL
+
+                            SELECT DISTINCT I.ItemName,QuotationRefNo,QuotationDate,SI.Quantity,'Sales Quotation'Type ,U.UserName
+                            FROM SalesQuotation S
+                            INNER JOIN SalesQuotationItem SI ON S.SalesQuotationId=SI.SalesQuotationId
+                            INNER JOIN WorkDescription W ON W.WorkDescriptionId=SI.WorkDescriptionId
+                            INNER JOIN Item I ON I.ItemId=W.BoxId
+                            INNER JOIN [User] U ON U.UserId=S.CreatedBy
+                            WHERE  W.BoxId=@itemId AND QuotationDate BETWEEN @from AND @to
+
+                            ORDER BY Date Desc,Type";
+
+
+               return connection.Query<ClosingStockDrillDown>(qry, new { itemId = itemId, from = from, to = to }).ToList();
             }
         }
         public IEnumerable<ClosingStock> GetClosingStockWithAvgRate(DateTime? asOn, int stockPointId, string itemId, int OrganizationId, string partno)

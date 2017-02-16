@@ -1457,6 +1457,7 @@
     <Content Include="Views\DirectPurchase\_PreviousListPurchaseIndent.cshtml" />
     <Content Include="Views\DirectPurchase\_PurchaseIndentsList.cshtml" />
     <Content Include="Views\ClosingStock\DrillDown.cshtml" />
+    <Content Include="Views\ClosingStock\DrillDownIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
