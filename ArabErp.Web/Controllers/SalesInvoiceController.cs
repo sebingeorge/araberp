@@ -34,9 +34,9 @@ namespace ArabErp.Web.Controllers
         }
 
         public ActionResult PendingSalesInvoice(string invType, string InstallType = "all")
-        
+
         {
-         
+
             //ViewBag.saleOrderList = new SelectList(Repo.GetSalesInvoiceCustomerList(invType, OrganizationId), "SaleOrderId", "SaleOrderRefNoWithDate");
             //var List = Repo.GetSalesInvoiceCustomerList(invType);
             return View("PendingSalesInvoice");
@@ -49,10 +49,10 @@ namespace ArabErp.Web.Controllers
             foreach (var item in List)
             {
                 item.invType = invType;
-                
+
             }
-       
-           
+
+
             return PartialView("_PendingSalesInvoiceList", List);
 
         }
@@ -100,7 +100,21 @@ namespace ArabErp.Web.Controllers
                 //SalesInvoiceRepository SalesInvoiceRepo = new SalesInvoiceRepository();
                 //SalesInvoice saleinvoice = SalesInvoiceRepo.GetSelectedSalesInvoiceHD(SelectedSaleOrderItemId);
                 //int deliveryChallanId = new DeliveryChallanRepository().GetDeliveryChallanIdFromJobCardId()
-                saleinvoice.PrintDescriptions = new SalesInvoiceRepository().GetPrintDescriptions(SelectedSaleOrderItemId);
+                //saleinvoice.PrintDescriptions = new SalesInvoiceRepository().GetPrintDescriptions(SelectedSaleOrderItemId);
+                saleinvoice.PrintDescriptions = new List<PrintDescription>();
+                var PrintDescriptionsFromDB = new SalesInvoiceRepository().GetPrintDescriptions(SelectedSaleOrderItemId);
+
+                //combining same print descriptions
+                foreach (var item in PrintDescriptionsFromDB)
+                {
+                    if (!saleinvoice.PrintDescriptions.Select(x => x.Description.Trim()).Contains(item.Description.Trim()))
+                    {
+                        item.Quantity = PrintDescriptionsFromDB.Where(x => x.Description.Trim() == item.Description.Trim()).Count();
+                        item.Amount = (item.Quantity ?? 0) * item.PriceEach;
+                        saleinvoice.PrintDescriptions.Add(item);
+                    }
+                }
+                //
             }
             if (saleinvoice.InvoiceType == "Inter")
             {
@@ -108,7 +122,7 @@ namespace ArabErp.Web.Controllers
                 if (saleinvoice.PrintDescriptions == null || saleinvoice.PrintDescriptions.Count == 0)
                     saleinvoice.PrintDescriptions.Add(new PrintDescription());
             }
-            else if(saleinvoice.InvoiceType == "Final")
+            else if (saleinvoice.InvoiceType == "Final")
             {
                 saleinvoice.isProjectBased = 0;
             }
@@ -156,7 +170,10 @@ namespace ArabErp.Web.Controllers
                     saleinvoice.SaleInvoiceItems = new SalesInvoiceRepository().GetInvoiceItems(id);
                     saleinvoice.InvoiceType = type;
                     List<int> saleOrderItemIds = (from p in saleinvoice.SaleInvoiceItems select p.SaleOrderItemId).ToList();
-                    saleinvoice.PrintDescriptions = new SalesInvoiceRepository().GetPrintDescriptions(saleOrderItemIds);
+                    if (saleinvoice.InvoiceType == "Inter")
+                        saleinvoice.PrintDescriptions = new SalesInvoiceRepository().GetPrintDescriptions(saleOrderItemIds);
+                    else
+                        saleinvoice.PrintDescriptions = new SalesInvoiceRepository().GetPrintDescriptionsInvoice(saleinvoice.SalesInvoiceId);//print descriptions for inter invoice
                     return View(saleinvoice);
                 }
                 else
@@ -229,7 +246,7 @@ namespace ArabErp.Web.Controllers
             var repo = new SalesInvoiceRepository();
             SalesInvoice model = repo.GetInvoiceHd(id ?? 0, type);
             model.SaleInvoiceItems = repo.GetInvoiceItems(id ?? 0);
-           
+
             //var saleinvoice = new SalesInvoiceRepository().GetInvoiceHd(id, type);
             //model.Items = repo.GetSaleOrderItem(SaleOrderId ?? 0);
 
@@ -394,7 +411,7 @@ namespace ArabErp.Web.Controllers
                 rd.Load(Path.Combine(Server.MapPath("~/Reports"), "InterInvoice.rpt"));
                 ds.WriteXml(Path.Combine(Server.MapPath("~/XML"), "InterInvoice.xml"), XmlWriteMode.WriteSchema);
             }
-          
+
 
             rd.SetDataSource(ds);
 
@@ -443,6 +460,6 @@ namespace ArabErp.Web.Controllers
             if (list == null) list = new List<LabourCostForService>();
             return PartialView("_LabourCostGrid", list);
         }
-       
+
     }
 }

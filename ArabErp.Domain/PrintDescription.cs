@@ -19,6 +19,7 @@ namespace ArabErp.Domain
         public DateTime CreatedDate { get; set; }
         public int OrganizationId { get; set; }
         public int SaleOrderId { get; set; }
+        public int SalesInvoiceId { get; set; }
         public string InvoiceType { get; set; }
     }
 }

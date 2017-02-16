@@ -65,17 +65,16 @@
     </xs:element>
   </xs:schema>
   <Head>
-    <SalesInvoiceRefNo>AARC/SI/17/107</SalesInvoiceRefNo>
-    <SalesInvoiceDate>30-Jan-2017</SalesInvoiceDate>
-    <VehicleOutPassNo>DV/17/119</VehicleOutPassNo>
-    <CustomerName>Opera Cafe LTD</CustomerName>
-    <Address>Doha , Qatar,Email:operarhico@hotmail.com,0</Address>
-    <CustomerOrderRef />
-    <PaymentTerms>Due on Receipt</PaymentTerms>
-    <RegistrationNo>295355</RegistrationNo>
-    <JobCardNo>AARC/17/JC-S/87</JobCardNo>
-    <TotalAmount>640.00</TotalAmount>
-    <Image1>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
+    <SalesInvoiceRefNo>AARC17/158</SalesInvoiceRefNo>
+    <SalesInvoiceDate>16-Feb-2017</SalesInvoiceDate>
+    <VehicleOutPassNo>DV/17/132</VehicleOutPassNo>
+    <CustomerName>Jaida Motors &amp; Trading Co</CustomerName>
+    <Address>Doha- Qatar,,0</Address>
+    <CustomerOrderRef>Mail Confirmation</CustomerOrderRef>
+    <RegistrationNo />
+    <JobCardNo>AARC/JC/17/24</JobCardNo>
+    <TotalAmount>96000.00</TotalAmount>
+    <Image1>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\81c1fe83-5337-4e94-8aca-78bcb14eda03.jpg</Image1>
     <OrganizationName>Arab Air Conditioning &amp; Refrigeration Co. W.L.L</OrganizationName>
     <OrganizationRefNo>ORG/1</OrganizationRefNo>
     <DoorNo>Building No: 1, First Floor, Office No: 03,Al Muntazah Trading Centre</DoorNo>
@@ -87,28 +86,44 @@
     <Fax>974 4414 2910</Fax>
     <Email>info@arabrefrigeration.com</Email>
     <Zip>13037</Zip>
-    <CreateUser>safiq</CreateUser>
-    <CreateSig>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\555d6378-6d8a-44ce-bfe3-323f49f6672c.png</CreateSig>
-    <CreatedDes>Workshop Controller</CreatedDes>
-    <ApproveSig>E:\MIDHU\ARAB\ArabErp On Dec21\ArabErp\ArabErp.Web\App_images\</ApproveSig>
+    <CreateUser>ihits</CreateUser>
+    <CreateSig>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\</CreateSig>
+    <CreatedDes>Asst.Sales Manager</CreatedDes>
+    <ApproveSig>E:\PROJECTS\ARAB ERP\ArabErp\ArabErp.Web\App_images\</ApproveSig>
   </Head>
   <Items>
-    <PrintDescription>Replace Tail Lift Rotary Switch
-Electrical Fault Repair
-
-General Service of Tail Lift:
-Top-up Hydraulic Oil
-Tail Lift Greasing
-General Check-up &amp; Maintenance
+    <PrintDescription>Supply &amp; Installation of 100mm 5.0x2.1x2.1mtr PUB into
+Suitable Isuzu NPR Truck
 </PrintDescription>
-    <Quantity>1.00</Quantity>
+    <Quantity>2.00</Quantity>
     <UoM>ea</UoM>
-    <PriceEach>640.00</PriceEach>
-    <Amount>640.00</Amount>
+    <PriceEach>48000.00</PriceEach>
+    <Amount>96000.00</Amount>
+  </Items>
+  <Items>
+    <PrintDescription>Supply, Installation &amp; Commissioning of Thermal Master T2500
+(24V without Stand-by) into Isuzu NPR Truck
+</PrintDescription>
+    <Quantity>2.00</Quantity>
+    <UoM>ea</UoM>
+    <PriceEach>0.00</PriceEach>
+    <Amount>0.00</Amount>
+  </Items>
+  <Items>
+    <PrintDescription>Supply &amp; Fixing of Single Row Side Crash Guard</PrintDescription>
+    <Quantity>2.00</Quantity>
+    <UoM>ea</UoM>
+    <PriceEach>0.00</PriceEach>
+    <Amount>0.00</Amount>
   </Items>
   <DeliveryChallans>
-    <DeliveryChallanRefNo>DV/17/119</DeliveryChallanRefNo>
-    <JobCardNo>AARC/17/JC-S/87</JobCardNo>
-    <Chassiss_RegNo>295355</Chassiss_RegNo>
+    <DeliveryChallanRefNo>DV/17/132</DeliveryChallanRefNo>
+    <JobCardNo>AARC/JC/17/24</JobCardNo>
+    <Chassiss_RegNo>P21734</Chassiss_RegNo>
+  </DeliveryChallans>
+  <DeliveryChallans>
+    <DeliveryChallanRefNo>DV/17/148</DeliveryChallanRefNo>
+    <JobCardNo>AARC/JC/17/33</JobCardNo>
+    <Chassiss_RegNo>P21728</Chassiss_RegNo>
   </DeliveryChallans>
 </NewDataSet>

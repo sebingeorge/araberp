@@ -185,11 +185,20 @@ namespace ArabErp.DAL
 
                     if (objSalesInvoice.InvoiceType == "Final")
                     {
-                        sql = @"UPDATE PrintDescription SET PriceEach = @PriceEach, Amount = @Amount WHERE PrintDescriptionId = @PrintDescriptionId";
+                        #region old query 16.2.2017 12.29p
+                        //sql = @"UPDATE PrintDescription SET PriceEach = @PriceEach, Amount = @Amount WHERE PrintDescriptionId = @PrintDescriptionId"; 
+                        #endregion
+                        sql = @"DELETE FROM PrintDescriptionInvoice WHERE SalesInvoiceId = " + objSalesInvoice.SalesInvoiceId;
+                        if (connection.Execute(sql, transaction: txn) <= 0) throw new Exception();
+                        sql = @"INSERT INTO PrintDescriptionInvoice (SalesInvoiceId, Description, UoM, Quantity, PriceEach, Amount, CreatedBy, CreatedDate, OrganizationId)
+                                VALUES (@SalesInvoiceId, @Description, @UoM, @Quantity, @PriceEach, @Amount, @CreatedBy, GETDATE(), @OrganizationId)";
                         foreach (var item in objSalesInvoice.PrintDescriptions)
                         {
-                            if (item.PrintDescriptionId == null || item.PrintDescriptionId == 0) continue;
+                            //if (item.PrintDescriptionId == null || item.PrintDescriptionId == 0) continue;
                             item.Amount = (item.Quantity ?? 0) * item.PriceEach;
+                            item.SalesInvoiceId = objSalesInvoice.SalesInvoiceId;
+                            item.CreatedBy = int.Parse(objSalesInvoice.CreatedBy);
+                            item.OrganizationId = objSalesInvoice.OrganizationId;
                             if (connection.Execute(sql, item, txn) <= 0) throw new Exception();
                         }
                     }
@@ -228,6 +237,30 @@ namespace ArabErp.DAL
             }
         }
 
+        /// <summary>
+        /// Get print descriptions for inter invoice ([PrinDescriptionInvoice] table)
+        /// </summary>
+        /// <param name="saleOrderItemIds"></param>
+        /// <returns></returns>
+        public List<PrintDescription> GetPrintDescriptionsInvoice(int SalesInvoiceId)
+        {
+            using (IDbConnection connection = OpenConnection(dataConnection))
+            {
+                try
+                {
+                    string sql = @"SELECT
+	                                    PD.*
+                                    FROM PrintDescriptionInvoice PD
+                                    LEFT JOIN SalesInvoice SI ON PD.SalesInvoiceId = SI.SalesInvoiceId
+                                    WHERE SI.SalesInvoiceId = @id";
+                    return connection.Query<PrintDescription>(sql, new { id = SalesInvoiceId }).ToList();
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            }
+        }
 
         public int DeleteSalesInvoice(Unit objSalesInvoice)
         {
@@ -665,11 +698,18 @@ namespace ArabErp.DAL
 
                     if (model.InvoiceType == "Final")
                     {
-                        sql = @"UPDATE PrintDescription SET PriceEach = @PriceEach, Amount = @Amount WHERE PrintDescriptionId = @PrintDescriptionId";
+                        #region old query 16.2.2017 12.12p
+                        //sql = @"UPDATE PrintDescription SET PriceEach = @PriceEach, Amount = @Amount WHERE PrintDescriptionId = @PrintDescriptionId"; 
+                        #endregion
+                        sql = @"INSERT INTO PrintDescriptionInvoice (SalesInvoiceId, Description, UoM, Quantity, PriceEach, Amount, CreatedBy, CreatedDate, OrganizationId)
+                                VALUES (@SalesInvoiceId, @Description, @UoM, @Quantity, @PriceEach, @Amount, @CreatedBy, GETDATE(), @OrganizationId)";
                         foreach (var item in model.PrintDescriptions)
                         {
-                            if (item.PrintDescriptionId == null || item.PrintDescriptionId == 0) continue;
+                            //if (item.PrintDescriptionId == null || item.PrintDescriptionId == 0) continue;
                             item.Amount = (item.Quantity ?? 0) * item.PriceEach;
+                            item.SalesInvoiceId = result.SalesInvoiceId;
+                            item.CreatedBy = int.Parse(model.CreatedBy);
+                            item.OrganizationId = model.OrganizationId;
                             if (connection.Execute(sql, item, trn) <= 0) throw new Exception();
                         }
                     }
@@ -760,23 +800,24 @@ namespace ArabErp.DAL
 
                                 STUFF((SELECT ', ' +  isnull(V.RegistrationNo,'')+ CASE WHEN ISNULL(V.RegistrationNo, '') <> '' AND ISNULL(V.ChassisNo, '') <> '' THEN ' - ' ELSE '' END + ISNULL(V.ChassisNo, '') 
                                 FROM  VehicleInPass V
-                                WHERE V.SaleOrderItemId=INVI.SaleOrderItemId
+                                INNER JOIN SalesInvoiceItem T1 ON V.SaleOrderItemId = T1.SaleOrderItemId
+                                WHERE T1.SalesInvoiceId=INV.SalesInvoiceId
                                 FOR XML PATH('')), 1, 1, '') RegistrationNo,
 
-                              -- STUFF((SELECT ', ' + isnull(V.ChassisNo,'')
-                               --FROM  VehicleInPass V
-                              -- WHERE V.SaleOrderItemId=INVI.SaleOrderItemId
-                              -- FOR XML PATH('')), 1, 1, '')ChasisNo,
+                                -- STUFF((SELECT ', ' + isnull(V.ChassisNo,'')
+                                --FROM  VehicleInPass V
+                                -- WHERE V.SaleOrderItemId=INVI.SaleOrderItemId
+                                -- FOR XML PATH('')), 1, 1, '')ChasisNo,
 
                                 STUFF((SELECT DISTINCT ', ' + isnull(D.DeliveryChallanRefNo,'')
                                 FROM  DeliveryChallan D
-                                INNER JOIN JobCard J ON J.SaleOrderId=SO.SaleOrderId 
-                                WHERE D.JobCardId=INVI.JobCardId 
+                                INNER JOIN SalesInvoiceItem T1 ON D.JobCardId = T1.JobCardId
+                                WHERE T1.SalesInvoiceId = INV.SalesInvoiceId
                                 FOR XML PATH('')), 1, 1, '')DeliveryChallanRefNo,
 
                                 ISNULL(INV.SpecialRemarks, '-') SpecialRemarks,isnull(INV.TotalAmount,0)TotalAmount
                                 FROM SalesInvoice INV
-                                INNER JOIN SalesInvoiceItem INVI ON INV.SalesInvoiceId=INVI.SalesInvoiceId
+                                --INNER JOIN SalesInvoiceItem INVI ON INV.SalesInvoiceId=INVI.SalesInvoiceId
                                 INNER JOIN  SaleOrder SO ON INV.SaleOrderId = SO.SaleOrderId
                                 LEFT JOIN Customer C ON C.CustomerId=SO.CustomerId
 
